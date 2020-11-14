@@ -1,0 +1,16 @@
+#物品欄上方顯示訊息(支持 PlaceholderAPI)
+#Show message above the inventory(Support PlaceholderAPI)
+action-bar-disply:
+
+  #顯示內容
+  #不同種類的顯示,要用隔開
+  #如果不太理解，可以全部兩邊都加上,
+  #Display content
+  #Different types of displays should be separated by ,
+  #If you don’t understand, you can add on both sides ,
+  content: '%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&'
+  
+  #顯示刷新率(單位為tick，20tick=1秒，時間越短越消耗效能，但更新速度越快)
+  #Display refresh rate
+  #(unit is tick, 20tick=1 second, the shorter the time, the more efficient it is, but the faster the update speed)
+  refrsh: 30

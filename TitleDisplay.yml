@@ -1,0 +1,46 @@
+#中央顯示
+#Title display
+
+#判斷血量小於多少就執行，血量總數為1~10
+#Judge how much blood volume is less than execute
+#The total blood volume is 1~10
+Judge-Title:
+  scale: 3
+  #多久判斷一次
+  #How often to judge
+  period: 40
+  #判斷期間的顯示
+  #Display during judgment
+  title-display-top0: ''
+  title-display-down0: ''
+  #顯示持續時間
+  #Show duration
+  time0: 0
+
+#觸發血量判斷後顯示
+#Display after triggering HP judgment
+After-Judge-1:
+  #第一條顯示
+  #The first display
+  title-display-top1: ''
+  title-display-down1: '§0䂁'
+  #聲音
+  #sound
+  sound1: 'heartbeatin'
+  volume1: 1.0
+  pitch1: 1.0
+  #血量判斷觸發後，延遲多久後執行
+  #After the HP judgment is triggered, how long will it be delayed?
+  delay1: 1
+  time1: 1
+  
+After-Judge-2:
+  #第二條顯示
+  #The second display
+  title-display-top2: ''
+  title-display-down2: '§4䂁'
+  sound2: 'heartbeatout'
+  volume2: 1.0
+  pitch2: 1.0
+  delay2: 4
+  time2: 1

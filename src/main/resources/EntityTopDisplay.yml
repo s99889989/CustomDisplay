@@ -1,0 +1,80 @@
+#生物頭頂顯示
+#LivingEntity overhead display
+
+#玩家
+#Player
+player-top:
+  #是否開啟頭頂顯示
+  #Whether to turn on the blood volume display
+  enable: true
+  #頭頂顯示高度
+  #Overhead display height
+  hight: 1.0
+  #頭頂顯示刷新率(單位為tick，20tick=1秒，時間越短越消耗效能，但更新速度越快)
+  #Overhead display refresh rate(The unit is tick, 20tick=1 second, the shorter the time, the more efficient it is, but the faster the update speed)
+  refrsh: 40
+  #顯示內容，理論上可以無限增加
+  #Display content, theoretically can increase unlimitedly
+  content:
+  - '%player_health%/%player_max_health%,&player_health_proportion&,'
+  - '%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&,'
+
+#怪物
+#Monster
+monster-top:
+  #是否開啟頭頂顯示
+  #Whether to turn on the blood volume display
+  enable: true
+  #頭頂顯示高度
+  #Overhead display height
+  hight: 0.8
+  #頭頂顯示刷新率(單位為tick，20tick=1秒，時間越短越消耗效能，但更新速度越快)
+  #Overhead display refresh rate(The unit is tick, 20tick=1 second, the shorter the time, the more efficient it is, but the faster the update speed)
+  refrsh: 10
+  #顯示內容,{sad_monster_health_number}代表數字,{sad_monster_health}代表顯示字轉換血條
+  #Display content,{sad_monster_health_number}Representative number,,{sad_monster_health}Represents the display word conversion health bar
+  content: '{sad_monster_health_number}{sad_monster_health}'
+  #血量顯示字轉換
+  #HP display word conversion
+  health-material: 
+  - '10,䁩'
+  - '9,䁨'
+  - '8,䁧'
+  - '7,䁦'
+  - '6,䁥'
+  - '5,䁤'
+  - '4,䁣'
+  - '3,䁢'
+  - '2,䁡'
+  - '1,䁠'
+  - '0,䁠'
+  
+#動物
+#Animal
+animal-top:
+  #是否開啟頭頂顯示
+  #Whether to turn on the blood volume display
+  enable: true
+  #頭頂顯示高度
+  #Overhead display height
+  hight: 0.8
+  #頭頂顯示刷新率(單位為tick，20tick=1秒，時間越短越消耗效能，但更新速度越快)
+  #Overhead display refresh rate(The unit is tick, 20tick=1 second, the shorter the time, the more efficient it is, but the faster the update speed)
+  refrsh: 10
+  #顯示內容,{sad_animal_health_number}代表數字,{sad_animal_health}代表顯示字轉換血條
+  #Display content,{sad_animal_health_number}Representative number,{sad_animal_health}Represents the display word conversion health bar
+  content: '{sad_animal_health_number}{sad_animal_health}'
+  #血量顯示字轉換
+  #HP display word conversion
+  health-material: 
+  - '10,䁽'
+  - '9,䁼'
+  - '8,䁻'
+  - '7,䁺'
+  - '6,䁹'
+  - '5,䁸'
+  - '4,䁷'
+  - '3,䁶'
+  - '2,䁵'
+  - '1,䁴'
+  - '0,䁴'

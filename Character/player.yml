@@ -1,0 +1,20 @@
+#自訂字名稱，放在各個顯示區塊的內容裡
+#放在名稱內容必須前後必須加上&，例如&character55&
+player_health_proportion:
+  #訊息處理
+  message:
+  #數學運算
+  - 'math;#;%player_health%/%player_max_health%*10'
+  #位數處理，#字號當為小數後面為0時會自動去除，0為當需要自動補0時可以遞補
+  #範例為不顯示小數點後面的
+  #顯示字替換，從左至又替換
+  #10先判斷原因是因為，如果顯示10，0和1在前面就會先轉0和1。
+  - 'conver=10,䁩;9,䁨;8,䁧;7,䁦;6,䁥;5,䁤;4,䁣;3,䁢;2,䁡;1,䁠;0,䁠'
+#MMOCore範例
+player_mana_proportion:
+  message:
+  - 'math;#;%mmocore_mana%/%mmocore_stat_max_mana%*10'
+  - 'conver=10,䁳;9,䁲;8,䁱;7,䁰;6,䁯;5,䁮;4,䁭;3,䁬;2,䁫;1,䁪;0,䁪'
+player_name:
+  message:
+  - 'papi;%player_name%'

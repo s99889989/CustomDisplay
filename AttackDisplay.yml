@@ -1,0 +1,22 @@
+#玩家攻擊生物
+player-damage:
+  #是否開啟
+  enable: true
+  #顯示形式，up為往上，throw為拋物線
+  form: 'up'
+  #顯示內容
+  content: '{sad_damage}'
+  # 數字位數
+  decimal: "0.#"
+  #更改顯示數字字元
+  damage-conversion:
+  - '0,䀀'
+  - '1,䀁'
+  - '2,䀂'
+  - '3,䀃'
+  - '4,䀄'
+  - '5,䀅'
+  - '6,䀆'
+  - '7,䀇'
+  - '8,䀈'
+  - '9,䀉'

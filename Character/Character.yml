@@ -1,0 +1,4 @@
+#自訂字名稱
+character1:
+  #訊息
+  math: '%player_health%/%player_max_health%'

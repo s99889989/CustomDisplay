@@ -1,0 +1,33 @@
+#玩家攻擊生物顯示
+#Player attacking creature display
+player-damage:
+  #是否開啟
+  #Whether to openWhether
+  enable: true
+  #顯示形式，up為往上，throw為拋物線
+  #Display form, up means up, throw means parabola
+  form: 'up'
+  #傷害顯示出現高度
+  #Damage display appears height
+  hight: 0
+  #顯示內容，理論上可以無限增加
+  #{sad_damage}傷害數字
+  #Display content, theoretically can increase unlimitedly
+  #{sad_damage}damage number
+  content:
+  - '%player_name%'
+  - '{sad_damage}'
+  # 數字位數
+  decimal: "0.#"
+  #更改顯示數字字元
+  damage-conversion:
+  - '0,䀀'
+  - '1,䀁'
+  - '2,䀂'
+  - '3,䀃'
+  - '4,䀄'
+  - '5,䀅'
+  - '6,䀆'
+  - '7,䀇'
+  - '8,䀈'
+  - '9,䀉'
