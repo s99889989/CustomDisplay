@@ -5,6 +5,8 @@ import com.daxton.customdisplay.manager.HDMapManager;
 import com.daxton.customdisplay.util.ContentUtil;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,13 +31,17 @@ public class PlayerHD {
         double hight = p.getHeight();
 
         hologram = HologramsAPI.createHologram(cd, location.add(0,hight+cd.getConfigManager().player_top_display_hight,0));
+        if(!cd.getConfigManager().player_top_display_see_self){
+            VisibilityManager visiblityManager = hologram.getVisibilityManager();
+            visiblityManager.hideTo(p);
+        }
+
         hologram.appendTextLine("");
         bukkitRunnable = new BukkitRunnable() {
             int ticksRun;
             @Override
             public void run() {
                 ticksRun++;
-                //content = new ContentUtil(cd.getConfigManager().player_top_display_content,p,"Character").getOutputString();
                 hologram.clearLines();
                 for(String string : cd.getConfigManager().player_top_display_content){
                     string = new ContentUtil(string,p,"Character").getOutputString();

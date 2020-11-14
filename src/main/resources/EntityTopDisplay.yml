@@ -7,6 +7,9 @@ player-top:
   #是否開啟頭頂顯示
   #Whether to turn on the blood volume display
   enable: true
+  #是否看的到自己的顯示(需安裝ProtocolLib)
+  #Whether you can see your own display.(ProtocolLib needs to be installed)
+  seeforself: false
   #頭頂顯示高度
   #Overhead display height
   hight: 1.0

@@ -36,6 +36,7 @@ public class ConfigManager {
     public List<String> attack_display_player_conversion;
 
     public boolean player_top_display_enable;
+    public boolean player_top_display_see_self;
     public double player_top_display_hight;
     public int player_top_display_refrsh;
     public List<String> player_top_display_content;
@@ -169,6 +170,7 @@ public class ConfigManager {
 
     public void entityTopDisplayConfig(){
         player_top_display_enable = entity_top_config.getBoolean("player-top.enable");
+        player_top_display_see_self = entity_top_config.getBoolean("player-top.seeforself");
         player_top_display_hight = entity_top_config.getDouble("player-top.hight");
         player_top_display_refrsh = entity_top_config.getInt("player-top.refrsh");
         player_top_display_content = entity_top_config.getStringList("player-top.content");
