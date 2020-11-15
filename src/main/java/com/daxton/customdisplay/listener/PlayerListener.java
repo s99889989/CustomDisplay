@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -89,6 +90,9 @@ public class PlayerListener implements Listener {
             playerHD.getHologram().teleport(location.add(0,height+ cd.getConfigManager().player_top_display_hight,0));
         }
     }
+
+
+
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e){

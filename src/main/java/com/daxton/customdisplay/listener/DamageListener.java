@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener;
 
 import com.daxton.customdisplay.CustomDisplay;
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
+import static org.bukkit.entity.EntityType.CREEPER;
 
 import com.daxton.customdisplay.manager.BBDMapManager;
 import com.daxton.customdisplay.manager.HDMapManager;
@@ -10,12 +11,10 @@ import com.daxton.customdisplay.task.holographicdisplays.AnimalHD;
 import com.daxton.customdisplay.task.holographicdisplays.AttackHD;
 import com.daxton.customdisplay.task.holographicdisplays.MonsterHD;
 import com.daxton.customdisplay.task.holographicdisplays.PlayerHD;
-import org.bukkit.block.data.type.TNT;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -25,27 +24,17 @@ public class DamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
+        if(!(e.getEntity() instanceof LivingEntity) && e.getEntityType() == ARMOR_STAND){
+            return;
+        }
         LivingEntity target = (LivingEntity) e.getEntity();
         UUID targetUUID = target.getUniqueId();
-        Entity damager = e.getDamager();
-        UUID uuid = damager.getUniqueId();
-        EntityType entityType = e.getEntityType();
         double damageNumber = e.getFinalDamage();
+        if(e.getDamager() instanceof Player || e.getDamager() instanceof Projectile){ // || e.getDamager() instanceof TNTPrimed
 
-        if(entityType != ARMOR_STAND &&target instanceof LivingEntity && damager instanceof Player || damager instanceof Projectile || damager instanceof TNT){
-            Player p = (Player) damager;
+            Entity damager = e.getDamager();
 
-            AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(uuid);
-            if(cd.getConfigManager().config_boss_bar_display && cd.getConfigManager().boss_bar_enable){
-                if(attackBossBar != null){
-                    attackBossBar.getBossBar().removePlayer(p);
-                    attackBossBar.getBukkitRunnable().cancel();
-                    BBDMapManager.getAttackBossBarMap().remove(uuid);
-                    BBDMapManager.getAttackBossBarMap().put(uuid,new AttackBossBar(p,target));
-                }else{
-                    BBDMapManager.getAttackBossBarMap().put(uuid,new AttackBossBar(p,target));
-                }
-            }
+
 
             if(cd.getConfigManager().config_attack_display && cd.getConfigManager().attack_display_player_enable){
                 new AttackHD(target, damager, damageNumber);
@@ -53,8 +42,66 @@ public class DamageListener implements Listener {
             if(cd.getConfigManager().config_entity_top_display){
                 HDShow(targetUUID,target);
             }
+            if(e.getDamager() instanceof Player){
+                if(cd.getConfigManager().config_boss_bar_display && cd.getConfigManager().boss_bar_enable){
+                    Player player = (Player) damager;
+                    UUID playerUUID = player.getUniqueId();
+                    AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(playerUUID);
+                    if(attackBossBar != null){
+                        attackBossBar.getBossBar().removePlayer(player);
+                        attackBossBar.getBukkitRunnable().cancel();
+                        BBDMapManager.getAttackBossBarMap().remove(playerUUID);
+                        BBDMapManager.getAttackBossBarMap().put(playerUUID,new AttackBossBar(player,target));
+                    }else{
+                        BBDMapManager.getAttackBossBarMap().put(playerUUID,new AttackBossBar(player,target));
+                    }
+                }
+                return;
+            }
+
+            if(e.getDamager() instanceof Projectile){
+                if(cd.getConfigManager().config_boss_bar_display && cd.getConfigManager().boss_bar_enable && e.getEntityType() != CREEPER){
+                    Player player = ((Player) ((Projectile) damager).getShooter()).getPlayer();
+                    UUID playerUUID = player.getUniqueId();
+                    AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(playerUUID);
+                    if(attackBossBar != null){
+                        attackBossBar.getBossBar().removePlayer(player);
+                        attackBossBar.getBukkitRunnable().cancel();
+                        BBDMapManager.getAttackBossBarMap().remove(playerUUID);
+                        BBDMapManager.getAttackBossBarMap().put(playerUUID,new AttackBossBar(player,target));
+                    }else{
+                        BBDMapManager.getAttackBossBarMap().put(playerUUID,new AttackBossBar(player,target));
+                    }
+                }
+                return;
+            }
+
+
         }
+
+        if(e.getDamager() instanceof TNTPrimed){
+//            if(cd.getConfigManager().config_boss_bar_display && cd.getConfigManager().boss_bar_enable && e.getEntityType() != CREEPER){
+//                cd.getLogger().info("TNTPrimed");
+//                Player player = ((Player) ((TNTPrimed) damager).getSource()).getPlayer();
+//                UUID playerUUID = player.getUniqueId();
+//                AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(playerUUID);
+//                if(attackBossBar != null) {
+//                    attackBossBar.getBossBar().removePlayer(player);
+//                    attackBossBar.getBukkitRunnable().cancel();
+//                    BBDMapManager.getAttackBossBarMap().remove(playerUUID);
+//                    BBDMapManager.getAttackBossBarMap().put(playerUUID, new AttackBossBar(player, target));
+//                }else{
+//                    BBDMapManager.getAttackBossBarMap().put(playerUUID,new AttackBossBar(player,target));
+//                }
+//            }
+            return;
+        }
+
+
+
+
     }
+
 
     public void HDShow(UUID targetUUID,LivingEntity target){
 

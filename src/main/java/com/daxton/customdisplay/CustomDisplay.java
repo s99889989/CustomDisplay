@@ -25,11 +25,9 @@ public final class CustomDisplay extends JavaPlugin {
 
     public static CustomDisplay customDisplay;
 
-    private static ConfigManager configManager;
+    private ConfigManager configManager;
 
-    private static CharacterConversion characterConversion;
-
-    static ScriptEngine jse = new ScriptEngineManager().getEngineByName("JavaScript");
+    private CharacterConversion characterConversion;
 
     @Override
     public void onEnable() {
@@ -41,6 +39,7 @@ public final class CustomDisplay extends JavaPlugin {
             this.setEnabled(false);
             return;
         }
+
 //        if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
 //            getLogger().severe("*** ProtocolLib is not installed or not enabled. ***");
 //            getLogger().severe("*** This plugin will be disabled. ***");
@@ -103,7 +102,7 @@ public final class CustomDisplay extends JavaPlugin {
         return customDisplay;
     }
 
-    public static ConfigManager getConfigManager() {
+    public ConfigManager getConfigManager() {
         return configManager;
     }
 

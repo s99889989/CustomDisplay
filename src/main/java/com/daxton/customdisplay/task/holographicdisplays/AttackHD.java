@@ -5,10 +5,13 @@ import com.daxton.customdisplay.util.ContentUtil;
 import com.daxton.customdisplay.util.NumberUtil;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class AttackHD {
@@ -25,22 +28,25 @@ public class AttackHD {
 
     public AttackHD(LivingEntity target, Entity damager, double damageNumber){
 
-        Player p = (Player) damager;
+
+
         String snumber = new NumberUtil(damageNumber, cd.getConfigManager().attack_display_player_decimal).getDecimalString();
         snumber = new NumberUtil(snumber, cd.getConfigManager().attack_display_player_conversion).getNineString();
 
         Location location = target.getLocation();
         double targetHight = target.getHeight();
-
         Hologram hologram = HologramsAPI.createHologram(cd,location.add(0,targetHight+cd.getConfigManager().attack_display_player_hight,0));
 
-        for(String string : cd.getConfigManager().attack_display_player_content){
-            content = new ContentUtil(string,p,"Character").getOutputString();
-            content = content.replace("{sad_damage}",snumber);
-            hologram.appendTextLine(content);
+        if(damager instanceof Player){
+            Player player = (Player) damager;
+            for(String string : cd.getConfigManager().attack_display_player_content){
+                content = new ContentUtil(string,player,"Character").getOutputString();
+                content = content.replace("{sad_damage}",snumber);
+                hologram.appendTextLine(content);
+            }
+        }else {
+            hologram.appendTextLine(snumber);
         }
-
-        //String msg = cd.getConfigManager().attack_display_player_content.replace("{sad_damage}",snumber);
 
         if(cd.getConfigManager().attack_display_player_form.equalsIgnoreCase("up")){
 

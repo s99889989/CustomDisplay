@@ -43,10 +43,10 @@ public class AttackBossBar {
         return bossBar;
     }
 
-    public AttackBossBar(Player p, LivingEntity target){
-        player = p;
+    public AttackBossBar(Entity entity, LivingEntity target){
+        player = (Player) entity;
         UUID targetUUID = target.getUniqueId();
-        UUID uuid = p.getUniqueId();
+        UUID uuid = player.getUniqueId();
         UUID objectUUID = BBDMapManager.getTargetAttackBossBarMap().get(targetUUID);
         if(objectUUID == null){
             BBDMapManager.getTargetAttackBossBarMap().put(targetUUID,uuid);
@@ -70,7 +70,7 @@ public class AttackBossBar {
             bossBar.setProgress(progress);
             bossBar.setTitle(target.getName()+changeNowHealth+"/"+maxHealth);
             if(tickRun > cd.getConfigManager().boss_bar_time){
-                bossBar.removePlayer(p);
+                bossBar.removePlayer(player);
                 cancel();
                 BBDMapManager.getAttackBossBarMap().remove(uuid);
             }

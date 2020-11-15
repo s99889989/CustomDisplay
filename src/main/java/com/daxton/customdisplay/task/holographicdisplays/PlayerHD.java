@@ -36,6 +36,7 @@ public class PlayerHD {
             visiblityManager.hideTo(p);
         }
 
+
         hologram.appendTextLine("");
         bukkitRunnable = new BukkitRunnable() {
             int ticksRun;

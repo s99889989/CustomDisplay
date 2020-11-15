@@ -54,18 +54,6 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onEntityExplode(EntityExplodeEvent event){
-        UUID uuid = event.getEntity().getUniqueId();
-        MonsterHD monsterHD = HDMapManager.getMonsterHDMap().get(uuid);
-        if(monsterHD != null){
-            monsterHD.getHologram().delete();
-            monsterHD.getHealthMap().clear();
-            monsterHD.getLocationMap().clear();
-            monsterHD.getBukkitRunnable().cancel();
-            HDMapManager.getMonsterHDMap().remove(uuid);
-        }
-    }
 
     @EventHandler
     public void onExplosionPrime(ExplosionPrimeEvent event){
