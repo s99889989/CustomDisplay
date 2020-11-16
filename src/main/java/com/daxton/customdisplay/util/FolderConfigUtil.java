@@ -2,48 +2,74 @@ package com.daxton.customdisplay.util;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.FileUtil;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.io.*;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import static org.apache.commons.io.FileUtils.getFile;
+
 public class FolderConfigUtil{
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    public FolderConfigUtil() {
-    try{
-        cd.getLogger().info("文件讀取生成");
+    public static ScriptEngine jse = new ScriptEngineManager().getEngineByName("JavaScript");
+
+    public FolderConfigUtil(){
+        try{
         URI uri = getClass().getResource("/resource").toURI(); ///resource
         String uriString = uri.toString().replace("jar:file:/", "").replace(":/", ":\\").replace("/", "\\").replace("!", "").replace("\\resource", "");
         List<String> list = readZipFile(uriString);
         for (String st : list) {
-            cd.getLogger().info(st.replace("resource/","").replace("/", "_").replace(".yml",""));
                 File configFile = new File(cd.getDataFolder(), st);
                 if (!configFile.exists()) {
-                    cd.saveResource(st, false);
+                    cd.saveResource(st,false);
                 }
-                FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+                String stt = st.replace("resource/","");
+                File finalConfigFile = new File(cd.getDataFolder(), stt);
+                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
                 String fileMap = st.replace("resource/","").replace("/", "_");
                 ConfigMapManager.getFileConfigurationMap().put(fileMap, config);
                 ConfigMapManager.getStringStringMap().put(fileMap,fileMap);
+            }
+        }catch (Exception exception){
+        System.out.println(exception.toString());
         }
-    }catch (Exception exception){
-      System.out.println(exception.toString());
-    }
-        cd.getLogger().info("Map");
-    for(String string : ConfigMapManager.getStringStringMap().values()){
-        cd.getLogger().info(string);
-    }
+
+        for(String st : ConfigMapManager.getStringStringMap().values()){
+            cd.getLogger().info(st);
+        }
 
     }
+
+//    private void saveFiles() {
+//        try (var is = new ZipInputStream(new FileInputStream(getFile()))) {
+//            ZipEntry entry;
+//            while ((entry = is.getNextEntry()) != null) {
+//                if (entry.isDirectory() || !entry.getName().startsWith("resource")) continue;
+//                var input = getClass().getResourceAsStream("/"+entry.getName());
+//                var f = new File(cd.getDataFolder(), entry.getName().replace("\\resource", ""));
+//                cd.getLogger().info("copying "+entry.getName()+" into "+f.getPath());
+//                FileUtils.copyInputStreamToFile(input, f);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void test(){
 //        try{

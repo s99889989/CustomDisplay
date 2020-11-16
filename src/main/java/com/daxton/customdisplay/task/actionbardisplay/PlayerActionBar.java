@@ -21,7 +21,7 @@ public class PlayerActionBar extends PackListener{
         bukkitRunnable = new BukkitRunnable() {
             @Override
             public void run() {
-                finalString = new ContentUtil(cd.getConfigManager().action_bar_content,p,"resource\\Character").getOutputString();
+                finalString = new ContentUtil(cd.getConfigManager().action_bar_content,p,"Character").getOutputString();
 //                if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
 //                    sendPacket(p,change_health_content2,ACTIONBAR,1,1,1);
 //                }else {

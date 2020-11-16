@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ConfigManager {
 
-    CustomDisplay customDisplay;
+    CustomDisplay cd;
 
     public FileConfiguration config;
     public FileConfiguration attack_config;
@@ -94,7 +94,7 @@ public class ConfigManager {
     public ConfigurationSection title_section;
 
     public ConfigManager(CustomDisplay plugin){
-        customDisplay = plugin;
+        cd = plugin;
 
         readConfig();
         defaultConfig();
@@ -146,7 +146,6 @@ public class ConfigManager {
 
     public void readConfig(){
         new FolderConfigUtil();
-        //new ConfigUtil("resource\\Character\\Example.yml");
 
 
         config = ConfigMapManager.getFileConfigurationMap().get("config.yml");
@@ -163,6 +162,7 @@ public class ConfigManager {
 //        action_bar_config = new ConfigUtil("resource\\ActionBarDisplay.yml").get();
 //        boos_bar_config = new ConfigUtil("resource\\BoosBarDisplay.yml").get();
 //        title_config = new ConfigUtil("resource\\TitleDisplay.yml").get();
+//        new ConfigUtil("resource\\Character\\Example.yml");
 //        language = new ConfigUtil("resource\\Language\\"+config.getString("Language")+".yml").get();
 
     }
@@ -214,6 +214,7 @@ public class ConfigManager {
         config_boss_bar_display = config.getBoolean("BoosBarDisplay");
         config_title_display = config.getBoolean("TitleDisplay");
         config_action_bar_display = config.getBoolean("ActionBarDisplay");
+
     }
     public FileConfiguration getConfig() {
         return config;

@@ -45,7 +45,7 @@ public class PlayerHD {
                 ticksRun++;
                 hologram.clearLines();
                 for(String string : cd.getConfigManager().player_top_display_content){
-                    string = new ContentUtil(string,p,"resource\\Character").getOutputString();
+                    string = new ContentUtil(string,p,"Character").getOutputString();
                     hologram.appendTextLine(string);
                 }
 

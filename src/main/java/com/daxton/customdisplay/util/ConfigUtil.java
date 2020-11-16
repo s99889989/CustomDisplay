@@ -23,18 +23,16 @@ public class ConfigUtil {
 
     public ConfigUtil(String fileName){
         this.fileName = fileName;
-
             configFile = new File(cd.getDataFolder(), this.fileName);
-
         if (!configFile.exists()){
-            cd.saveResource(this.fileName.replace("resource/",""), false);
+            cd.saveResource(this.fileName, false);
         }
     }
-
     public FileConfiguration get(){
-        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        String st = fileName.replace("resource\\","");
 
+        File finalFile = new File(cd.getDataFolder(),st);
+        config = YamlConfiguration.loadConfiguration(finalFile);
         return config;
-
     }
 }
