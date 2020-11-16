@@ -19,19 +19,19 @@ public class CharacterConversion {
 
 
     public CharacterConversion() {
-        new ConfigUtil("Character\\Example.yml");
+        //new ConfigUtil("Character\\Example.yml");
         //if(file.isDirectory());
-        File loadFile = new File(cd.getDataFolder(),"Character");
-        String[] list1 = loadFile.list();
-        for (String key : list1) {
-            //cd.getLogger().info(key);
-            File filekey = new File(cd.getDataFolder(),"Character\\"+key);
-            FileConfiguration configkey = YamlConfiguration.loadConfiguration(filekey);
-            ConfigurationSection configSection = configkey.getConfigurationSection("");
-            for(String keySection : configSection.getKeys(false)){
-
-            }
-        }
+//        File loadFile = new File(cd.getDataFolder(),"Character");
+//        String[] list1 = loadFile.list();
+//        for (String key : list1) {
+//            //cd.getLogger().info(key);
+//            File filekey = new File(cd.getDataFolder(),"Character\\"+key);
+//            FileConfiguration configkey = YamlConfiguration.loadConfiguration(filekey);
+//            ConfigurationSection configSection = configkey.getConfigurationSection("");
+//            for(String keySection : configSection.getKeys(false)){
+//
+//            }
+//        }
 
 
     }

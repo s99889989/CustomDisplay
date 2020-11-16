@@ -1,12 +1,12 @@
 package com.daxton.customdisplay.config;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.util.ConfigUtil;
+import com.daxton.customdisplay.util.FolderConfigUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
 import java.util.List;
 
 public class ConfigManager {
@@ -145,14 +145,25 @@ public class ConfigManager {
     }
 
     public void readConfig(){
+        new FolderConfigUtil();
+        //new ConfigUtil("resource\\Character\\Example.yml");
 
-        config = new ConfigUtil("config.yml").get();
-        attack_config = new ConfigUtil("AttackDisplay.yml").get();
-        entity_top_config = new ConfigUtil("EntityTopDisplay.yml").get();
-        action_bar_config = new ConfigUtil("ActionBarDisplay.yml").get();
-        boos_bar_config = new ConfigUtil("BoosBarDisplay.yml").get();
-        title_config = new ConfigUtil("TitleDisplay.yml").get();
-        language = new ConfigUtil("Language\\"+config.getString("Language")+".yml").get();
+
+        config = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        attack_config = ConfigMapManager.getFileConfigurationMap().get("AttackDisplay.yml");
+        entity_top_config = ConfigMapManager.getFileConfigurationMap().get("EntityTopDisplay.yml");
+        action_bar_config = ConfigMapManager.getFileConfigurationMap().get("ActionBarDisplay.yml");
+        boos_bar_config = ConfigMapManager.getFileConfigurationMap().get("BoosBarDisplay.yml");
+        title_config = ConfigMapManager.getFileConfigurationMap().get("TitleDisplay.yml");
+        language = ConfigMapManager.getFileConfigurationMap().get("Language_"+config.getString("Language")+".yml");
+
+//        config = new ConfigUtil("resource\\config.yml").get();
+//        attack_config = new ConfigUtil("resource\\AttackDisplay.yml").get();
+//        entity_top_config = new ConfigUtil("resource\\EntityTopDisplay.yml").get();
+//        action_bar_config = new ConfigUtil("resource\\ActionBarDisplay.yml").get();
+//        boos_bar_config = new ConfigUtil("resource\\BoosBarDisplay.yml").get();
+//        title_config = new ConfigUtil("resource\\TitleDisplay.yml").get();
+//        language = new ConfigUtil("resource\\Language\\"+config.getString("Language")+".yml").get();
 
     }
 

@@ -16,11 +16,24 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.io.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class DamageListener implements Listener {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
+    private File configFile;
+
+    private File configFile2;
+
+
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
@@ -47,6 +60,7 @@ public class DamageListener implements Listener {
                     Player player = (Player) damager;
                     UUID playerUUID = player.getUniqueId();
                     AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(playerUUID);
+
                     if(attackBossBar != null){
                         attackBossBar.getBossBar().removePlayer(player);
                         attackBossBar.getBukkitRunnable().cancel();
@@ -101,7 +115,6 @@ public class DamageListener implements Listener {
 
 
     }
-
 
     public void HDShow(UUID targetUUID,LivingEntity target){
 

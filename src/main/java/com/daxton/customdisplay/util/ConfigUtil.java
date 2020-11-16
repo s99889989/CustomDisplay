@@ -27,12 +27,13 @@ public class ConfigUtil {
             configFile = new File(cd.getDataFolder(), this.fileName);
 
         if (!configFile.exists()){
-            cd.saveResource(this.fileName, false);
+            cd.saveResource(this.fileName.replace("resource/",""), false);
         }
     }
 
     public FileConfiguration get(){
         FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+
         return config;
 
     }
