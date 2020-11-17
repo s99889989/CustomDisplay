@@ -36,23 +36,21 @@ public class FolderConfigUtil{
         List<String> list = readZipFile(uriString);
         for (String st : list) {
                 File configFile = new File(cd.getDataFolder(), st);
-                if (!configFile.exists()) {
+            String stt = st.replace("resource/","");
+            File finalConfigFile = new File(cd.getDataFolder(), stt);
+                if (!finalConfigFile.exists()) {
                     cd.saveResource(st,false);
                 }
-                String stt = st.replace("resource/","");
-                File finalConfigFile = new File(cd.getDataFolder(), stt);
                 FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
                 String fileMap = st.replace("resource/","").replace("/", "_");
                 ConfigMapManager.getFileConfigurationMap().put(fileMap, config);
-                ConfigMapManager.getStringStringMap().put(fileMap,fileMap);
+
             }
         }catch (Exception exception){
         System.out.println(exception.toString());
         }
 
-        for(String st : ConfigMapManager.getStringStringMap().values()){
-            cd.getLogger().info(st);
-        }
+
 
     }
 

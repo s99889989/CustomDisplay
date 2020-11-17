@@ -11,6 +11,7 @@ import com.daxton.customdisplay.task.holographicdisplays.AnimalHD;
 import com.daxton.customdisplay.task.holographicdisplays.AttackHD;
 import com.daxton.customdisplay.task.holographicdisplays.MonsterHD;
 import com.daxton.customdisplay.task.holographicdisplays.PlayerHD;
+import com.daxton.customdisplay.util.FolderConfigKeyUtil;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,17 +38,15 @@ public class DamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
-        if(!(e.getEntity() instanceof LivingEntity) && e.getEntityType() == ARMOR_STAND){
+        if(!(e.getEntity() instanceof LivingEntity) && e.getEntityType() == ARMOR_STAND && e.getDamager().getName().equals(e.getEntity().getName())){
             return;
         }
         LivingEntity target = (LivingEntity) e.getEntity();
         UUID targetUUID = target.getUniqueId();
         double damageNumber = e.getFinalDamage();
-        if(e.getDamager() instanceof Player || e.getDamager() instanceof Projectile){ // || e.getDamager() instanceof TNTPrimed
+        if(e.getDamager() instanceof Player || e.getDamager() instanceof Projectile || e.getDamager() instanceof TNTPrimed){ // || e.getDamager() instanceof TNTPrimed
 
             Entity damager = e.getDamager();
-
-
 
             if(cd.getConfigManager().config_attack_display && cd.getConfigManager().attack_display_player_enable){
                 new AttackHD(target, damager, damageNumber);
@@ -73,7 +72,7 @@ public class DamageListener implements Listener {
                 return;
             }
 
-            if(e.getDamager() instanceof Projectile){
+            if(!(e.getDamager() instanceof TNTPrimed) && e.getDamager() instanceof Projectile){
                 if(cd.getConfigManager().config_boss_bar_display && cd.getConfigManager().boss_bar_enable && e.getEntityType() != CREEPER){
                     Player player = ((Player) ((Projectile) damager).getShooter()).getPlayer();
                     UUID playerUUID = player.getUniqueId();
@@ -91,25 +90,27 @@ public class DamageListener implements Listener {
             }
 
 
+            if(!(e.getDamager() instanceof Projectile) && e.getDamager() instanceof TNTPrimed){
+                if(cd.getConfigManager().config_boss_bar_display && cd.getConfigManager().boss_bar_enable && e.getEntityType() != CREEPER){
+                    Player player = ((Player) ((TNTPrimed) damager).getSource()).getPlayer();
+                    UUID playerUUID = player.getUniqueId();
+                    AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(playerUUID);
+                    if(attackBossBar != null) {
+                        attackBossBar.getBossBar().removePlayer(player);
+                        attackBossBar.getBukkitRunnable().cancel();
+                        BBDMapManager.getAttackBossBarMap().remove(playerUUID);
+                        BBDMapManager.getAttackBossBarMap().put(playerUUID, new AttackBossBar(player, target));
+                    }else{
+                        BBDMapManager.getAttackBossBarMap().put(playerUUID,new AttackBossBar(player,target));
+                    }
+                }
+                return;
+            }
+
+
         }
 
-        if(e.getDamager() instanceof TNTPrimed){
-//            if(cd.getConfigManager().config_boss_bar_display && cd.getConfigManager().boss_bar_enable && e.getEntityType() != CREEPER){
-//                cd.getLogger().info("TNTPrimed");
-//                Player player = ((Player) ((TNTPrimed) damager).getSource()).getPlayer();
-//                UUID playerUUID = player.getUniqueId();
-//                AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(playerUUID);
-//                if(attackBossBar != null) {
-//                    attackBossBar.getBossBar().removePlayer(player);
-//                    attackBossBar.getBukkitRunnable().cancel();
-//                    BBDMapManager.getAttackBossBarMap().remove(playerUUID);
-//                    BBDMapManager.getAttackBossBarMap().put(playerUUID, new AttackBossBar(player, target));
-//                }else{
-//                    BBDMapManager.getAttackBossBarMap().put(playerUUID,new AttackBossBar(player,target));
-//                }
-//            }
-            return;
-        }
+
 
 
 

@@ -148,6 +148,7 @@ public class ConfigManager {
         new FolderConfigUtil();
 
 
+
         config = ConfigMapManager.getFileConfigurationMap().get("config.yml");
         attack_config = ConfigMapManager.getFileConfigurationMap().get("AttackDisplay.yml");
         entity_top_config = ConfigMapManager.getFileConfigurationMap().get("EntityTopDisplay.yml");
