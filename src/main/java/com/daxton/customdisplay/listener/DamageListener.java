@@ -6,35 +6,22 @@ import static org.bukkit.entity.EntityType.CREEPER;
 
 import com.daxton.customdisplay.manager.BBDMapManager;
 import com.daxton.customdisplay.manager.HDMapManager;
+import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
 import com.daxton.customdisplay.task.holographicdisplays.AnimalHD;
 import com.daxton.customdisplay.task.holographicdisplays.AttackHD;
 import com.daxton.customdisplay.task.holographicdisplays.MonsterHD;
 import com.daxton.customdisplay.task.holographicdisplays.PlayerHD;
-import com.daxton.customdisplay.util.FolderConfigKeyUtil;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import java.io.*;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 public class DamageListener implements Listener {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private File configFile;
-
-    private File configFile2;
-
-
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
@@ -44,7 +31,7 @@ public class DamageListener implements Listener {
         LivingEntity target = (LivingEntity) e.getEntity();
         UUID targetUUID = target.getUniqueId();
         double damageNumber = e.getFinalDamage();
-        if(e.getDamager() instanceof Player || e.getDamager() instanceof Projectile || e.getDamager() instanceof TNTPrimed){ // || e.getDamager() instanceof TNTPrimed
+        if(e.getDamager() instanceof Player || e.getDamager() instanceof Projectile){ // || e.getDamager() instanceof TNTPrimed
 
             Entity damager = e.getDamager();
 

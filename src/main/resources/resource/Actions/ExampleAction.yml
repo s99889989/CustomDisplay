@@ -1,0 +1,16 @@
+Be_attacked:
+  Action:
+  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
+  - 'delay 60'
+  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
+attack:
+  Action:
+  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
+  - 'delay 60'
+  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
+hp:
+  Action:
+  - 'sendTitle;title=;subtitle=§0䂁;fadeIn=1;stay=5;fadeOut=1'
+  - 'delay 60'
+  - 'sendTitle;title=;subtitle=§4䂁;fadeIn=1;stay=5;fadeOut=1'
+  

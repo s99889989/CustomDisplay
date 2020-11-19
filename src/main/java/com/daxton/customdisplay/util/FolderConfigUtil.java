@@ -44,6 +44,7 @@ public class FolderConfigUtil{
                 FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
                 String fileMap = st.replace("resource/","").replace("/", "_");
                 ConfigMapManager.getFileConfigurationMap().put(fileMap, config);
+                ConfigMapManager.getFileConfigurationNameMap().put(fileMap,fileMap);
 
             }
         }catch (Exception exception){

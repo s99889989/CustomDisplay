@@ -1,34 +1,36 @@
 package com.daxton.customdisplay.listener;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.ABDMapManager;
-import com.daxton.customdisplay.manager.BBDMapManager;
-import com.daxton.customdisplay.manager.HDMapManager;
-import com.daxton.customdisplay.manager.TDMapManager;
-import com.daxton.customdisplay.manager.player.PlayerConfigMap;
+import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.manager.*;
+import com.daxton.customdisplay.manager.player.PlayerActionMap;
+import com.daxton.customdisplay.manager.player.PlayerDataMap;
+import com.daxton.customdisplay.manager.player.TriggerManager;
 import com.daxton.customdisplay.task.actionbardisplay.PlayerActionBar;
 import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
 import com.daxton.customdisplay.task.holographicdisplays.PlayerHD;
+import com.daxton.customdisplay.task.player.ActionDisplay;
+import com.daxton.customdisplay.task.player.OnTimer;
 import com.daxton.customdisplay.task.titledisply.JoinTitle;
-import com.daxton.customdisplay.util.FolderConfigKeyUtil;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class PlayerListener implements Listener {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
+    private static Map<UUID, TriggerManager> triggerManagerMap = new HashMap<>();
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
@@ -36,7 +38,28 @@ public class PlayerListener implements Listener {
         UUID uuid = e.getPlayer().getUniqueId();
         Player player = e.getPlayer();
 
-        new FolderConfigKeyUtil("Players",player);
+        /**一照讀取到的設定檔建立玩家資料**/
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        if(playerData == null){
+            PlayerDataMap.getPlayerDataMap().put(uuid,new PlayerData(player));
+        }
+
+
+
+
+        /**增加OnTimer**/
+        PlayerData playerDataUse = PlayerDataMap.getPlayerDataMap().get(uuid);
+        for(String string : playerDataUse.getPlayerActionList()){
+            if(string.contains("onTimer:")){
+                OnTimer onTimer = TriggerManager.getOnTimerMap().get(uuid);
+                if(onTimer == null){
+                    TriggerManager.getOnTimerMap().put(uuid,new OnTimer(player,string));
+                }
+            }
+        }
+
+        //new ActionControl(player);
+
 
         JoinTitle joinTitle = TDMapManager.getJoinTitleMap().get(uuid);
         if(cd.getConfigManager().config_title_display && joinTitle == null) {
@@ -62,28 +85,38 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        UUID uuid = ((Player) event.getEntity()).getPlayer().getUniqueId();
         Player player = ((Player) event.getEntity()).getPlayer();
-
-        for(FileConfiguration fileConfiguration : PlayerConfigMap.getStringStringMap().values()){
-            List<String> st = fileConfiguration.getKeys(false).contains(player.getName()) ? fileConfiguration.getStringList(player.getName()+".Action") : fileConfiguration.getStringList("Default.Action");
-            for(String stl : st){
-
-                if(stl.contains("trigger=attacked")){
-                    new FolderConfigKeyUtil("Players",player).titleShow(player);
-
-                }
-            }
-        }
-
 
 
 
     }
 
 
+
+
     @EventHandler
     public void onQuiz(PlayerQuitEvent e){
         UUID uuid = e.getPlayer().getUniqueId();
+        Player player = e.getPlayer();
+
+        /**移除OnTimer**/
+        OnTimer onTimer = TriggerManager.getOnTimerMap().get(uuid);
+        if(onTimer != null){
+            onTimer.getBukkitRunnable().cancel();
+            TriggerManager.getOnTimerMap().remove(uuid);
+        }
+
+        /**移除玩家資料**/
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        if(playerData != null){
+            PlayerDataMap.getPlayerDataMap().remove(uuid);
+        }
+
+        ActionDisplay actionDisplay = PlayerActionMap.getActionDisplayMap().get(uuid);
+        if(actionDisplay != null){
+            PlayerActionMap.getActionDisplayMap().remove(uuid);
+        }
 
         AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(uuid);
         if(attackBossBar != null){
@@ -93,13 +126,10 @@ public class PlayerListener implements Listener {
         JoinTitle joinTitle = TDMapManager.getJoinTitleMap().get(uuid);
         if(joinTitle != null){
             joinTitle.getBukkitRunnable().cancel();
-//            joinTitle.getBukkitRunnable1().cancel();
-//            joinTitle.getBukkitRunnable2().cancel();
             TDMapManager.getJoinTitleMap().remove(uuid);
         }
         PlayerHD playerHD = HDMapManager.getPlayerHDMap().get(uuid);
         if(playerHD != null){
-            cd.getLogger().info("玩家離開刪除HD");
             playerHD.getHologram().delete();
             playerHD.getBukkitRunnable().cancel();
             HDMapManager.getPlayerHDMap().remove(uuid);

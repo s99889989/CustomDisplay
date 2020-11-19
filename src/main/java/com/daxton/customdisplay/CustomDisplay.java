@@ -1,5 +1,6 @@
 package com.daxton.customdisplay;
 
+import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.listener.DamageListener;
 import com.daxton.customdisplay.listener.EntityListener;
@@ -8,11 +9,16 @@ import com.daxton.customdisplay.manager.ABDMapManager;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.HDMapManager;
 import com.daxton.customdisplay.manager.TDMapManager;
+import com.daxton.customdisplay.manager.player.PlayerActionMap;
+import com.daxton.customdisplay.manager.player.PlayerDataMap;
+import com.daxton.customdisplay.manager.player.TriggerManager;
 import com.daxton.customdisplay.task.actionbardisplay.PlayerActionBar;
 import com.daxton.customdisplay.config.CharacterConversion;
 import com.daxton.customdisplay.task.holographicdisplays.AnimalHD;
 import com.daxton.customdisplay.task.holographicdisplays.MonsterHD;
 import com.daxton.customdisplay.task.holographicdisplays.PlayerHD;
+import com.daxton.customdisplay.task.player.ActionDisplay;
+import com.daxton.customdisplay.task.player.OnTimer;
 import com.daxton.customdisplay.task.titledisply.JoinTitle;
 //import com.sun.istack.internal.NotNull;
 import org.bukkit.Bukkit;
@@ -22,6 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.*;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public final class CustomDisplay extends JavaPlugin {
@@ -70,6 +77,16 @@ public final class CustomDisplay extends JavaPlugin {
 //        }
     }
     public void mapReload(){
+
+        /**移除OnTimer**/
+        for(OnTimer onTimer : TriggerManager.getOnTimerMap().values()){
+            onTimer.getBukkitRunnable().cancel();
+            TriggerManager.getOnTimerMap().clear();
+        }
+        /**移除PlayerData**/
+        PlayerDataMap.getPlayerDataMap().clear();
+
+
         for(JoinTitle joinTitle : TDMapManager.getJoinTitleMap().values()){
             joinTitle.getBukkitRunnable().cancel();
             TDMapManager.getJoinTitleMap().clear();
@@ -98,6 +115,27 @@ public final class CustomDisplay extends JavaPlugin {
             playerActionBar.getBukkitRunnable().cancel();
             ABDMapManager.getPlayerActionBarHashMap().clear();
         }
+
+        /**讀取玩家自訂設定檔**/
+        for(Player player : Bukkit.getOnlinePlayers()){
+            UUID uuid = player.getUniqueId();
+            PlayerDataMap.getPlayerDataMap().put(uuid,new PlayerData(player));
+        }
+
+        /**增加OnTimer**/
+        for(PlayerData playerDataUse : PlayerDataMap.getPlayerDataMap().values()){
+            Player player = playerDataUse.getPlayer();
+            UUID uuid = player.getUniqueId();
+            for(String string : playerDataUse.getPlayerActionList()){
+                if(string.contains("onTimer:")){
+                    OnTimer onTimer = TriggerManager.getOnTimerMap().get(uuid);
+                    if(onTimer == null){
+                        TriggerManager.getOnTimerMap().put(uuid,new OnTimer(player,string));
+                    }
+                }
+            }
+        }
+
     }
 
 
