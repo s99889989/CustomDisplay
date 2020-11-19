@@ -10,9 +10,3 @@ EntityTopDisplay: true
 #是否開啟畫面上方顯示(BoosBar)
 #Whether to turn on the display at the top of the screen (BoosBar)
 BoosBarDisplay: true
-#是否開啟畫面中間顯示(Title)
-#Whether to turn on the display in the middle of the screen (Title)
-TitleDisplay: true
-#是否開啟物品攔上方顯示(ActionBar)
-#Whether to open the display above the item bar (ActionBar)
-ActionBarDisplay: true

@@ -37,3 +37,6 @@ player_name:
   #Only do papi conversion
   message:
   - 'papi;%player_name%'
+player_health_10:
+  message:
+  - 'math;#;%player_health%/%player_max_health%*10'

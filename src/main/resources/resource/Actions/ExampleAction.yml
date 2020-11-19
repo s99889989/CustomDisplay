@@ -1,16 +1,12 @@
-Be_attacked:
+TitleDisplay:
   Action:
-  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
-  - 'delay 60'
-  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
-attack:
+  - Condition[&player_health_10&<5]
+  - SendTitle[title=§0䂁,subtitle=§0䂁,fadeIn=1,duration=5,fadeOut=1]
+  - Sound[sound=heartbeatin,pitch=1,volume=1,soundcategory=PLAYERS]
+  - Delay 5
+  - SendTitle[title=§4䂁,subtitle=§4䂁,fadeIn=1,duration=5,fadeOut=1]
+  - Sound[sound=heartbeatout,pitch=1,volume=1,soundcategory=PLAYERS]
+ActionBarDisplay:
   Action:
-  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
-  - 'delay 60'
-  - 'sendTitle;title=§4䂁;subtitle=§4䂁;fadeIn=1;stay=1;fadeOut=1'
-hp:
-  Action:
-  - 'sendTitle;title=;subtitle=§0䂁;fadeIn=1;stay=5;fadeOut=1'
-  - 'delay 60'
-  - 'sendTitle;title=;subtitle=§4䂁;fadeIn=1;stay=5;fadeOut=1'
+  - SendActionBar[m=%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&]
   

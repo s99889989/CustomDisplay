@@ -53,36 +53,10 @@ public class ConfigManager {
     public String animal_top_display_content;
     public List<String> animal_top_display_health_material;
 
-    public String action_bar_content;
-    public int action_bar_refrsh;
-
     public String isOP;
     public String reload;
     public String help;
     public List<String> helpinfo;
-
-    public int title_scale;
-    public int title_delay;
-    public int title_period;
-    public String title_display_top0;
-    public String title_display_down0;
-    public int title_time0;
-
-    public String title_display_top1;
-    public String title_display_down1;
-    public String title_display_sound1;
-    public double title_sound_volume1;
-    public double title_sound_pitch1;
-    public long title_delay1;
-    public int title_time1;
-
-    public String title_display_top2;
-    public String title_display_down2;
-    public String title_display_sound2;
-    public double title_sound_volume2;
-    public double title_sound_pitch2;
-    public long title_delay2;
-    public int title_time2;
 
     public boolean boss_bar_enable;
     public String boss_bar_content;
@@ -91,8 +65,6 @@ public class ConfigManager {
     public String boss_bar_color;
     public String boss_bar_style;
 
-    public ConfigurationSection title_section;
-
     public ConfigManager(CustomDisplay plugin){
         cd = plugin;
 
@@ -100,9 +72,7 @@ public class ConfigManager {
         defaultConfig();
         attackDisplayConfig();
         entityTopDisplayConfig();
-        actionBarConfig();
         languageConfig();
-        titleDisplayConfig();
         boosBarConfig();
 
     }
@@ -116,34 +86,6 @@ public class ConfigManager {
         boss_bar_style = boos_bar_config.getString("damage-bossbar-display.style");
     }
 
-    public void titleDisplayConfig(){
-
-        title_scale = title_config.getInt("Judge-Title.scale");
-        title_delay = title_config.getInt("Judge-Title.delay");
-        title_period = title_config.getInt("Judge-Title.period");
-        title_display_top0 = title_config.getString("Judge-Title.title-display-top0");
-        title_display_down0 = title_config.getString("Judge-Title.title-display-down0");
-        title_time0 = title_config.getInt("Judge-Title.time0");
-
-        title_display_top1 = title_config.getString("After-Judge-1.title-display-top1");
-        title_display_down1 = title_config.getString("After-Judge-1.title-display-down1");
-        title_display_sound1 = title_config.getString("After-Judge-1.sound1");
-        title_sound_volume1 = title_config.getDouble("After-Judge-1.volume1");
-        title_sound_pitch1 = title_config.getDouble("After-Judge-1.pitch1");
-        title_delay1 = title_config.getLong("After-Judge-1.delay1");
-        title_time1 = title_config.getInt("After-Judge-1.time1");
-
-        title_display_top2 = title_config.getString("After-Judge-2.title-display-top2");
-        title_display_down2 = title_config.getString("After-Judge-2.title-display-down2");
-        title_display_sound2 = title_config.getString("After-Judge-2.sound2");
-        title_sound_volume2 = title_config.getDouble("After-Judge-2.volume2");
-        title_sound_pitch2 = title_config.getDouble("After-Judge-2.pitch2");
-        title_delay2 = title_config.getLong("After-Judge-2.delay2");
-        title_time2 = title_config.getInt("After-Judge-2.time2");
-
-        title_section = title_config.getConfigurationSection("");
-    }
-
     public void readConfig(){
         new FolderConfigUtil();
 
@@ -152,9 +94,7 @@ public class ConfigManager {
         config = ConfigMapManager.getFileConfigurationMap().get("config.yml");
         attack_config = ConfigMapManager.getFileConfigurationMap().get("AttackDisplay.yml");
         entity_top_config = ConfigMapManager.getFileConfigurationMap().get("EntityTopDisplay.yml");
-        action_bar_config = ConfigMapManager.getFileConfigurationMap().get("ActionBarDisplay.yml");
         boos_bar_config = ConfigMapManager.getFileConfigurationMap().get("BoosBarDisplay.yml");
-        title_config = ConfigMapManager.getFileConfigurationMap().get("TitleDisplay.yml");
         language = ConfigMapManager.getFileConfigurationMap().get("Language_"+config.getString("Language")+".yml");
 
 //        config = new ConfigUtil("resource\\config.yml").get();
@@ -173,11 +113,6 @@ public class ConfigManager {
         reload = language.getString("Language.Command.reload");
         help = language.getString("Language.Command.help.Description");
         helpinfo = language.getStringList("Language.Command.help.info");
-    }
-
-    public void actionBarConfig(){
-        action_bar_content = action_bar_config.getString("action-bar-disply.content");
-        action_bar_refrsh = action_bar_config.getInt("action-bar-disply.refrsh");
     }
 
     public void entityTopDisplayConfig(){

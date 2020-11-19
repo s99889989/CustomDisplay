@@ -3,15 +3,11 @@ package com.daxton.customdisplay.listener;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.*;
-import com.daxton.customdisplay.manager.player.PlayerActionMap;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.task.actionbardisplay.PlayerActionBar;
 import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
 import com.daxton.customdisplay.task.holographicdisplays.PlayerHD;
-import com.daxton.customdisplay.task.player.ActionDisplay;
 import com.daxton.customdisplay.task.player.OnTimer;
-import com.daxton.customdisplay.task.titledisply.JoinTitle;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,27 +45,22 @@ public class PlayerListener implements Listener {
 
         /**增加OnTimer**/
         PlayerData playerDataUse = PlayerDataMap.getPlayerDataMap().get(uuid);
-        for(String string : playerDataUse.getPlayerActionList()){
-            if(string.contains("onTimer:")){
-                OnTimer onTimer = TriggerManager.getOnTimerMap().get(uuid);
-                if(onTimer == null){
-                    TriggerManager.getOnTimerMap().put(uuid,new OnTimer(player,string));
+        int i = 0;
+        String playerName = player.getName();
+        if(playerDataUse != null){
+            for(String string : playerDataUse.getPlayerActionList()){
+                i++;
+                if(string.contains("onTimer:")){
+                    OnTimer onTimer = TriggerManager.getOnTimerMap().get(uuid);
+                    if(onTimer == null){
+                        playerName = playerName + i;
+                        TriggerManager.getOnTimerMap().put(playerName,new OnTimer(player,string));
+                    }
                 }
             }
         }
 
-        //new ActionControl(player);
 
-
-        JoinTitle joinTitle = TDMapManager.getJoinTitleMap().get(uuid);
-        if(cd.getConfigManager().config_title_display && joinTitle == null) {
-            TDMapManager.getJoinTitleMap().put(uuid,new JoinTitle(player));
-        }
-
-        PlayerActionBar playerActionBar = ABDMapManager.getPlayerActionBarHashMap().get(uuid);
-        if(cd.getConfigManager().config_action_bar_display && playerActionBar == null){
-            ABDMapManager.getPlayerActionBarHashMap().put(uuid,new PlayerActionBar(player));
-        }
 
         PlayerHD playerHD = HDMapManager.getPlayerHDMap().get(uuid);
         if(cd.getConfigManager().config_entity_top_display && cd.getConfigManager().player_top_display_enable && playerHD == null){
@@ -99,13 +90,22 @@ public class PlayerListener implements Listener {
     public void onQuiz(PlayerQuitEvent e){
         UUID uuid = e.getPlayer().getUniqueId();
         Player player = e.getPlayer();
-
+        String playerName = player.getName();
         /**移除OnTimer**/
-        OnTimer onTimer = TriggerManager.getOnTimerMap().get(uuid);
-        if(onTimer != null){
-            onTimer.getBukkitRunnable().cancel();
-            TriggerManager.getOnTimerMap().remove(uuid);
+        PlayerData playerDataUse = PlayerDataMap.getPlayerDataMap().get(uuid);
+        int i = 0;
+        if(playerDataUse != null){
+            for(String string : playerDataUse.getPlayerActionList()) {
+                i++;
+                playerName = playerName + i;
+                OnTimer onTimer = TriggerManager.getOnTimerMap().get(playerName);
+                if (onTimer != null) {
+                    onTimer.getBukkitRunnable().cancel();
+                    TriggerManager.getOnTimerMap().remove(playerName);
+                }
+            }
         }
+
 
         /**移除玩家資料**/
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
@@ -113,32 +113,18 @@ public class PlayerListener implements Listener {
             PlayerDataMap.getPlayerDataMap().remove(uuid);
         }
 
-        ActionDisplay actionDisplay = PlayerActionMap.getActionDisplayMap().get(uuid);
-        if(actionDisplay != null){
-            PlayerActionMap.getActionDisplayMap().remove(uuid);
-        }
-
         AttackBossBar attackBossBar = BBDMapManager.getAttackBossBarMap().get(uuid);
         if(attackBossBar != null){
             BBDMapManager.getAttackBossBarMap().remove(uuid);
         }
 
-        JoinTitle joinTitle = TDMapManager.getJoinTitleMap().get(uuid);
-        if(joinTitle != null){
-            joinTitle.getBukkitRunnable().cancel();
-            TDMapManager.getJoinTitleMap().remove(uuid);
-        }
         PlayerHD playerHD = HDMapManager.getPlayerHDMap().get(uuid);
         if(playerHD != null){
             playerHD.getHologram().delete();
             playerHD.getBukkitRunnable().cancel();
             HDMapManager.getPlayerHDMap().remove(uuid);
         }
-        PlayerActionBar playerActionBar = ABDMapManager.getPlayerActionBarHashMap().get(uuid);
-        if(playerActionBar != null){
-            playerActionBar.getBukkitRunnable().cancel();
-            ABDMapManager.getPlayerActionBarHashMap().remove(uuid);
-        }
+
     }
 
     @EventHandler

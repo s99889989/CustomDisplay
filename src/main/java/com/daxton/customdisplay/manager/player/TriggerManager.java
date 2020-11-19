@@ -11,10 +11,10 @@ import java.util.UUID;
 
 public class TriggerManager {
 
-    private static Map<UUID,OnTimer> onTimerMap = new HashMap<>();
+    private static Map<String,OnTimer> onTimerMap = new HashMap<>();
 
 
-    public static Map<UUID, OnTimer> getOnTimerMap() {
+    public static Map<String, OnTimer> getOnTimerMap() {
         return onTimerMap;
     }
 }

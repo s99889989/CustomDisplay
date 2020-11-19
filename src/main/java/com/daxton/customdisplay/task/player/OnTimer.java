@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.SendActionBar;
 import com.daxton.customdisplay.api.action.SendTitle;
 import com.daxton.customdisplay.api.action.Sound;
 import com.daxton.customdisplay.api.player.PlayerData;
@@ -21,6 +22,7 @@ public class OnTimer {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private BukkitRunnable bukkitRunnable;
+
 
     public OnTimer(Player player,String string){
         UUID uuid = player.getUniqueId();
@@ -71,6 +73,10 @@ public class OnTimer {
                                 }
                                 if (string.toLowerCase().contains("sound")) {
                                     new Sound(player, string).playSound();
+                                }
+
+                                if (string.toLowerCase().contains("sendactionbar")) {
+                                    new SendActionBar(player, string);
                                 }
                                 cancel();
                             }
