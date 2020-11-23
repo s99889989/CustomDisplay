@@ -35,7 +35,6 @@ public class FolderConfigUtil{
         String uriString = uri.toString().replace("jar:file:/", "").replace(":/", ":\\").replace("/", "\\").replace("!", "").replace("\\resource", "");
         List<String> list = readZipFile(uriString);
         for (String st : list) {
-                File configFile = new File(cd.getDataFolder(), st);
             String stt = st.replace("resource/","");
             File finalConfigFile = new File(cd.getDataFolder(), stt);
                 if (!finalConfigFile.exists()) {
@@ -50,44 +49,51 @@ public class FolderConfigUtil{
         }catch (Exception exception){
         System.out.println(exception.toString());
         }
-
-
+        playersConfig();
+        actionConfig();
+        characterConfig();
 
     }
 
-//    private void saveFiles() {
-//        try (var is = new ZipInputStream(new FileInputStream(getFile()))) {
-//            ZipEntry entry;
-//            while ((entry = is.getNextEntry()) != null) {
-//                if (entry.isDirectory() || !entry.getName().startsWith("resource")) continue;
-//                var input = getClass().getResourceAsStream("/"+entry.getName());
-//                var f = new File(cd.getDataFolder(), entry.getName().replace("\\resource", ""));
-//                cd.getLogger().info("copying "+entry.getName()+" into "+f.getPath());
-//                FileUtils.copyInputStreamToFile(input, f);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
-    public void test(){
-//        try{
-//
-//            URI uri = getClass().getResource("/resource").toURI();
-//            String uriString = uri.toString();
-//            player.sendMessage(uriString.replace(":/",":\\").replace("/","\\"));
-//            player.sendMessage( new File(cd.getDataFolder(),"").toString());
-//            //"jar:file:\\C:\\Users\\Gary\\Desktop\\1.16.4\\plugins\\CustomDisplay-1.9.1.jar!\\resource"
-//
-//            configFile = new File(uri);
-//            configFile2 = new File(cd.getDataFolder(),"");
-//            player.sendMessage(configFile.toString());
-//
-//            readZipFile("C:\\Users\\Gary\\Desktop\\1.16.4\\plugins\\CustomDisplay-1.9.1.jar",player);
-//
-//        }catch (Exception exception){
-//            player.sendMessage(exception.toString());
-//        }
+
+    public void actionConfig(){
+        File file = new File(cd.getDataFolder(),"Actions");
+        String[] strings = file.list();
+        for(String s : strings){
+            if(s.contains(".yml") && !(s.contains("ExampleAction.yml"))){
+                File finalConfigFile = new File(cd.getDataFolder(), "Actions_"+s);
+                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
+                ConfigMapManager.getFileConfigurationMap().put("Actions_"+s, config);
+                ConfigMapManager.getFileConfigurationNameMap().put("Actions_"+s,"Actions_"+s);
+            }
+        }
+    }
+
+    public void characterConfig(){
+        File file = new File(cd.getDataFolder(),"Character");
+        String[] strings = file.list();
+        for(String s : strings){
+            if(s.contains(".yml") && !(s.contains("ExampleCharacter.yml"))){
+                File finalConfigFile = new File(cd.getDataFolder(), "Character/"+s);
+                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
+                ConfigMapManager.getFileConfigurationMap().put("Character_"+s, config);
+                ConfigMapManager.getFileConfigurationNameMap().put("Character_"+s,"Character_"+s);
+            }
+        }
+    }
+
+    public void playersConfig(){
+        File file = new File(cd.getDataFolder(),"Players");
+        String[] strings = file.list();
+        for(String s : strings){
+            if(s.contains(".yml") && !(s.contains("Default.yml")) && !(s.contains("s99889989.yml"))){
+                File finalConfigFile = new File(cd.getDataFolder(), "Players_"+s);
+                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
+                ConfigMapManager.getFileConfigurationMap().put("Players_"+s, config);
+                ConfigMapManager.getFileConfigurationNameMap().put("Players_"+s,"Players_"+s);
+            }
+        }
     }
 
     public static List<String> readZipFile(String file) throws Exception {

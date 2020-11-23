@@ -1,0 +1,5 @@
+Action:
+- Action[a=TitleDisplay] ~onTimer=40
+- Action[a=ActionBarDisplay] ~onTimer=30
+- Action[a=AttackDisplayUp] ~onAttack
+#- Action[a=AttackDisplayThrow] ~onAttack

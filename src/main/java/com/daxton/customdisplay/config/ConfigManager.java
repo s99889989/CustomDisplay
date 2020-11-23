@@ -22,18 +22,8 @@ public class ConfigManager {
     public FileConfiguration language;
 
     public String config_language;
-    public boolean config_attack_display;
     public boolean config_entity_top_display;
     public boolean config_boss_bar_display;
-    public boolean config_title_display;
-    public boolean config_action_bar_display;
-
-    public boolean attack_display_player_enable;
-    public String attack_display_player_form;
-    public double attack_display_player_hight;
-    public List<String> attack_display_player_content;
-    public String attack_display_player_decimal;
-    public List<String> attack_display_player_conversion;
 
     public boolean player_top_display_enable;
     public boolean player_top_display_see_self;
@@ -70,7 +60,6 @@ public class ConfigManager {
 
         readConfig();
         defaultConfig();
-        attackDisplayConfig();
         entityTopDisplayConfig();
         languageConfig();
         boosBarConfig();
@@ -92,7 +81,6 @@ public class ConfigManager {
 
 
         config = ConfigMapManager.getFileConfigurationMap().get("config.yml");
-        attack_config = ConfigMapManager.getFileConfigurationMap().get("AttackDisplay.yml");
         entity_top_config = ConfigMapManager.getFileConfigurationMap().get("EntityTopDisplay.yml");
         boos_bar_config = ConfigMapManager.getFileConfigurationMap().get("BoosBarDisplay.yml");
         language = ConfigMapManager.getFileConfigurationMap().get("Language_"+config.getString("Language")+".yml");
@@ -135,21 +123,10 @@ public class ConfigManager {
         animal_top_display_health_material = entity_top_config.getStringList("animal-top.health-material");
     }
 
-    public void attackDisplayConfig(){
-        attack_display_player_enable = attack_config.getBoolean("player-damage.enable");
-        attack_display_player_form = attack_config.getString("player-damage.form");
-        attack_display_player_hight = attack_config.getDouble("player-damage.hight");
-        attack_display_player_content = attack_config.getStringList("player-damage.content");
-        attack_display_player_decimal = attack_config.getString("player-damage.decimal");
-        attack_display_player_conversion = attack_config.getStringList("player-damage.damage-conversion");
-    }
     public void defaultConfig(){
         config_language = config.getString("Language");
-        config_attack_display = config.getBoolean("AttackDisplay");
         config_entity_top_display = config.getBoolean("EntityTopDisplay");
         config_boss_bar_display = config.getBoolean("BoosBarDisplay");
-        config_title_display = config.getBoolean("TitleDisplay");
-        config_action_bar_display = config.getBoolean("ActionBarDisplay");
 
     }
     public FileConfiguration getConfig() {

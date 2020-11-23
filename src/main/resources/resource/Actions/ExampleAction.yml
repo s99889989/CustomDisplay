@@ -6,7 +6,28 @@ TitleDisplay:
   - Delay 5
   - SendTitle[title=§4䂁,subtitle=§4䂁,fadeIn=1,duration=5,fadeOut=1]
   - Sound[sound=heartbeatout,pitch=1,volume=1,soundcategory=PLAYERS]
+
 ActionBarDisplay:
   Action:
   - SendActionBar[m=%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&]
+
+AttackDisplayUp:
+  Action:
+  - createHD[m={cd_damage},x=0,y=0.5,z=0,period=1] @=targetLocation
+  - Delay 1
+  - teleportHD[type=loc,x=0,y=0.1,z=0] @=targetLocation
+  - Delay 10
+  - deleteHD
+  - ' '
   
+AttackDisplayThrow:
+  Action:
+  - createHD[m={cd_damage},x=0,y=0.0,z=0,period=3] @=targetLocation
+  - teleportHD[type=vec,x=0.4,y=1.0,z=0.4] @=selfLocation
+  - Delay 7
+  - teleportHD[type=vec,x=0.4,y=0,z=0.4] @=selfLocation
+  - Delay 3
+  - teleportHD[type=vec,x=0.4,y=-1.0,z=0.4] @=selfLocation
+  - Delay 10
+  - deleteHD
+  - ' '

@@ -2,10 +2,12 @@ package com.daxton.customdisplay;
 
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
-import com.daxton.customdisplay.listener.DamageListener;
 import com.daxton.customdisplay.listener.EntityListener;
 import com.daxton.customdisplay.listener.PlayerListener;
 import com.daxton.customdisplay.config.ConfigManager;
+import com.daxton.customdisplay.listener.player.AttackListener;
+import com.daxton.customdisplay.listener.player.JoinListener;
+import com.daxton.customdisplay.listener.player.QuizListener;
 import com.daxton.customdisplay.manager.HDMapManager;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
@@ -18,6 +20,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -49,15 +53,17 @@ public final class CustomDisplay extends JavaPlugin {
         customDisplay = this;
         load();
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
+        Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
 
     }
 
 
     public void load(){
         configManager = new ConfigManager(customDisplay);
-        Bukkit.getPluginManager().registerEvents(new DamageListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
         mapReload();
 //        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
 //            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
@@ -65,34 +71,51 @@ public final class CustomDisplay extends JavaPlugin {
     }
     public void mapReload(){
 
-        /**移除OnTimer**/
+        /**重新讀取玩家資料 和 OnTimer狀態**/
         for(Player player : Bukkit.getOnlinePlayers()){
-            String playerName = player.getName();
-            UUID uuid = player.getUniqueId();
-            PlayerData playerDataUse = PlayerDataMap.getPlayerDataMap().get(uuid);
-            int i = 0;
-            if(playerDataUse != null){
-                for(String string : playerDataUse.getPlayerActionList()) {
+            UUID playerUUID = player.getUniqueId();
+            PlayerData playerDate = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            if(playerDate != null){
+
+                /**OnTimer**/
+                for(String string : TriggerManager.getOnTimerNameMap().get(playerUUID)){
+                    TriggerManager.getOnTimerMap().get(string).getBukkitRunnable().cancel();
+                    TriggerManager.getOnTimerMap().remove(string);
+                }
+
+                /**玩家資料**/
+                PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+            }
+
+            PlayerData playerDate1 = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+
+            if(playerDate1 == null){
+
+
+                /**玩家資料**/
+                PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
+
+                /**OnTimer**/
+                List<String> stringList = new ArrayList<>();
+                int i = 0;
+                for(String string : playerDate.getPlayerActionList()){
                     i++;
-                    playerName = playerName + i;
-                    OnTimer onTimer = TriggerManager.getOnTimerMap().get(playerName);
-                    if (onTimer != null) {
-                        onTimer.getBukkitRunnable().cancel();
-                        TriggerManager.getOnTimerMap().remove(playerName);
+                    if(string.contains("~onTimer=")){
+                        String nameString = player.getName()+i;
+                        stringList.add(nameString);
+
+                        TriggerManager.getOnTimerMap().put(nameString,new OnTimer(player,string));
+
                     }
                 }
+                TriggerManager.getOnTimerNameMap().put(playerUUID,stringList);
+
+
             }
         }
 
-        /**移除玩家資料**/
 
-        for(Player player : Bukkit.getOnlinePlayers()){
-            UUID uuid = player.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
-            if(playerData != null){
-                PlayerDataMap.getPlayerDataMap().remove(uuid);
-            }
-        }
+
 
 
 
@@ -115,37 +138,6 @@ public final class CustomDisplay extends JavaPlugin {
             animalHD.getLocationMap().clear();
             animalHD.getBukkitRunnable().cancel();
             HDMapManager.getAnimalHDMap().clear();
-        }
-
-        /**讀取玩家自訂設定檔**/
-        for(Player player : Bukkit.getOnlinePlayers()){
-            UUID uuid = player.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
-            if(playerData == null){
-                PlayerDataMap.getPlayerDataMap().put(uuid,new PlayerData(player));
-            }
-        }
-
-
-        /**增加OnTimer**/
-        for(Player player : Bukkit.getOnlinePlayers()){
-            UUID uuid = player.getUniqueId();
-            PlayerData playerDataUse = PlayerDataMap.getPlayerDataMap().get(uuid);
-            int i = 0;
-            String playerName = player.getName();
-            if(playerDataUse != null){
-                for(String string : playerDataUse.getPlayerActionList()){
-                    i++;
-                    if(string.contains("onTimer:")){
-                        OnTimer onTimer = TriggerManager.getOnTimerMap().get(uuid);
-                        if(onTimer == null){
-                            playerName = playerName + i;
-                            TriggerManager.getOnTimerMap().put(playerName,new OnTimer(player,string));
-                        }
-                    }
-                }
-            }
-
         }
 
 

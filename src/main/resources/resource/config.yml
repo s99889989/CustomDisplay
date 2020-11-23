@@ -1,9 +1,6 @@
 #語言(英語,繁體中文,簡體中文)
 #Language (English,Chinese_TW,Chinese_TW)
 Language: English
-#是否開啟攻擊顯示
-#Whether to enable attack display
-AttackDisplay: true
 #是否開啟生物頭上顯示
 #Whether to turn on the display on the biological head
 EntityTopDisplay: true
