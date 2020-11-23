@@ -3,17 +3,12 @@ package com.daxton.customdisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.listener.EntityListener;
-import com.daxton.customdisplay.listener.PlayerListener;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.player.AttackListener;
 import com.daxton.customdisplay.listener.player.JoinListener;
 import com.daxton.customdisplay.listener.player.QuizListener;
-import com.daxton.customdisplay.manager.HDMapManager;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.task.holographicdisplays.AnimalHD;
-import com.daxton.customdisplay.task.holographicdisplays.MonsterHD;
-import com.daxton.customdisplay.task.holographicdisplays.PlayerHD;
 import com.daxton.customdisplay.task.player.OnTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -56,7 +51,6 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
 
     }
@@ -78,10 +72,10 @@ public final class CustomDisplay extends JavaPlugin {
             if(playerDate != null){
 
                 /**OnTimer**/
-                for(String string : TriggerManager.getOnTimerNameMap().get(playerUUID)){
-                    TriggerManager.getOnTimerMap().get(string).getBukkitRunnable().cancel();
-                    TriggerManager.getOnTimerMap().remove(string);
-                }
+//                for(String string : TriggerManager.getOnTimerNameMap().get(playerUUID)){
+//                    TriggerManager.getOnTimerMap().get(string).getBukkitRunnable().cancel();
+//                    TriggerManager.getOnTimerMap().remove(string);
+//                }
 
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
@@ -96,54 +90,27 @@ public final class CustomDisplay extends JavaPlugin {
                 PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
 
                 /**OnTimer**/
-                List<String> stringList = new ArrayList<>();
-                int i = 0;
-                for(String string : playerDate.getPlayerActionList()){
-                    i++;
-                    if(string.contains("~onTimer=")){
-                        String nameString = player.getName()+i;
-                        stringList.add(nameString);
-
-                        TriggerManager.getOnTimerMap().put(nameString,new OnTimer(player,string));
-
-                    }
-                }
-                TriggerManager.getOnTimerNameMap().put(playerUUID,stringList);
+//                List<String> stringList = new ArrayList<>();
+//                int i = 0;
+//                for(String string : playerDate.getPlayerActionList()){
+//                    i++;
+//                    if(string.contains("~onTimer=")){
+//                        String nameString = player.getName()+i;
+//                        stringList.add(nameString);
+//
+//                        TriggerManager.getOnTimerMap().put(nameString,new OnTimer(player,string));
+//
+//                    }
+//                }
+//                TriggerManager.getOnTimerNameMap().put(playerUUID,stringList);
 
 
             }
         }
 
-
-
-
-
-
-
-        for(PlayerHD playerHD : HDMapManager.getPlayerHDMap().values()){
-            playerHD.getHologram().delete();
-            playerHD.getBukkitRunnable().cancel();
-            HDMapManager.getPlayerHDMap().clear();
-        }
-        for(MonsterHD monsterHD : HDMapManager.getMonsterHDMap().values()){
-            monsterHD.getHologram().delete();
-            monsterHD.getHealthMap().clear();
-            monsterHD.getLocationMap().clear();
-            monsterHD.getBukkitRunnable().cancel();
-            HDMapManager.getMonsterHDMap().clear();
-        }
-        for(AnimalHD animalHD : HDMapManager.getAnimalHDMap().values()){
-            animalHD.getHologram().delete();
-            animalHD.getHealthMap().clear();
-            animalHD.getLocationMap().clear();
-            animalHD.getBukkitRunnable().cancel();
-            HDMapManager.getAnimalHDMap().clear();
-        }
-
-
     }
 
-
+    /**複寫saveResource的存檔位置，因為位置是讀取jar內的，所以要去除resource/**/
     @Override
     public void saveResource(String resourcePath, boolean replace) {
         if (resourcePath == null || resourcePath.equals("")) {
@@ -198,25 +165,6 @@ public final class CustomDisplay extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        for(PlayerHD playerHD : HDMapManager.getPlayerHDMap().values()){
-            playerHD.getHologram().delete();
-            playerHD.getBukkitRunnable().cancel();
-            HDMapManager.getPlayerHDMap().clear();
-        }
-        for(MonsterHD monsterHD : HDMapManager.getMonsterHDMap().values()){
-            monsterHD.getHologram().delete();
-            monsterHD.getHealthMap().clear();
-            monsterHD.getLocationMap().clear();
-            monsterHD.getBukkitRunnable().cancel();
-            HDMapManager.getMonsterHDMap().clear();
-        }
-        for(AnimalHD animalHD : HDMapManager.getAnimalHDMap().values()){
-            animalHD.getHologram().delete();
-            animalHD.getHealthMap().clear();
-            animalHD.getLocationMap().clear();
-            animalHD.getBukkitRunnable().cancel();
-            HDMapManager.getAnimalHDMap().clear();
-        }
 
         getLogger().info("Plugin disable");
         getLogger().info("插件卸載");

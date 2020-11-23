@@ -1,9 +1,3 @@
 #語言(英語,繁體中文,簡體中文)
 #Language (English,Chinese_TW,Chinese_TW)
 Language: English
-#是否開啟生物頭上顯示
-#Whether to turn on the display on the biological head
-EntityTopDisplay: true
-#是否開啟畫面上方顯示(BoosBar)
-#Whether to turn on the display at the top of the screen (BoosBar)
-BoosBarDisplay: true

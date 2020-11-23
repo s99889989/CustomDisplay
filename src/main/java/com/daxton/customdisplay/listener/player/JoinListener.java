@@ -31,7 +31,7 @@ public class JoinListener implements Listener {
         }
 
         /**觸發OnTime**/
-        onAtcion();
+        //onAtcion();
 
     }
 

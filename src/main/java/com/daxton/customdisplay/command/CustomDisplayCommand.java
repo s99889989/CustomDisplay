@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomDisplayCommand implements CommandExecutor, TabCompleter{
-// ,TabCompleter
+
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String[] subCommands = {"help", "reload"};
@@ -21,25 +21,25 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter{
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
         //sender.sendMessage(args.length > 0 ? args[0] : "nothing");
         if(!sender.isOp()){
-            sender.sendMessage(cd.getConfigManager().isOP);
+            sender.sendMessage(cd.getConfigManager().language.getString("Language.Command.isOp"));
             return false;
         }
         if(args.length == 1){
             if(args[0].equalsIgnoreCase("reload")){
                 cd.load();
-                sender.sendMessage(cd.getConfigManager().reload);
+                sender.sendMessage(cd.getConfigManager().language.getString("Language.Command.reload"));
                 return true;
             }
             if(args[0].equalsIgnoreCase("help")) {
-                sender.sendMessage(cd.getConfigManager().help);
-                for(String msg : cd.getConfigManager().helpinfo){
+                sender.sendMessage(cd.getConfigManager().language.getString("Language.Command.help.Description"));
+                for(String msg : cd.getConfigManager().language.getStringList("Language.Command.help.info")){
                     sender.sendMessage(msg);
                 }
                 return true;
             }
         }
-        sender.sendMessage(cd.getConfigManager().help);
-        for(String msg : cd.getConfigManager().helpinfo){
+        sender.sendMessage(cd.getConfigManager().language.getString("Language.Command.help.Description"));
+        for(String msg : cd.getConfigManager().language.getStringList("Language.Command.help.info")){
             sender.sendMessage(msg);
         }
         return true;

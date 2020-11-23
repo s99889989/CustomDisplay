@@ -1,16 +1,3 @@
-TitleDisplay:
-  Action:
-  - Condition[&player_health_10&<5]
-  - SendTitle[title=§0䂁,subtitle=§0䂁,fadeIn=1,duration=5,fadeOut=1]
-  - Sound[sound=heartbeatin,pitch=1,volume=1,soundcategory=PLAYERS]
-  - Delay 5
-  - SendTitle[title=§4䂁,subtitle=§4䂁,fadeIn=1,duration=5,fadeOut=1]
-  - Sound[sound=heartbeatout,pitch=1,volume=1,soundcategory=PLAYERS]
-
-ActionBarDisplay:
-  Action:
-  - SendActionBar[m=%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&]
-
 AttackDisplayUp:
   Action:
   - createHD[m={cd_damage},x=0,y=0.5,z=0,period=1] @=targetLocation
@@ -31,3 +18,47 @@ AttackDisplayThrow:
   - Delay 10
   - deleteHD
   - ' '
+
+TitleDisplay:
+  Action:
+  - Condition[&player_health_10&<5]
+  - SendTitle[title=§0䂁,subtitle=§0䂁,fadeIn=1,duration=5,fadeOut=1]
+  - Sound[sound=heartbeatin,pitch=1,volume=1,soundcategory=PLAYERS]
+  - Delay 5
+  - SendTitle[title=§4䂁,subtitle=§4䂁,fadeIn=1,duration=5,fadeOut=1]
+  - Sound[sound=heartbeatout,pitch=1,volume=1,soundcategory=PLAYERS]
+
+ActionBarDisplay:
+  Action:
+  - SendActionBar[m=%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&]
+
+
+EntityTopDisplayMonster:
+  Action:
+  - createHD[m={cd_health_conversion}{cd_health_number},x=0,y=1.0,z=0,period=20,mark=target,entityType=Monster,healthConver=health-monster] @=target
+  - teleportHD[type=loc,x=0,y=1.0,z=0,mark=target] @=target
+  - Delay 200
+  - deleteHD[mark=target]
+  - ' '
+  
+EntityTopDisplayAnimal:
+  Action:
+  - createHD[m={cd_health_conversion}{cd_health_number},x=0,y=1.0,z=0,period=20,mark=target,entityType=animal,healthConver=health-animal] @=target
+  - teleportHD[type=loc,x=0,y=1.0,z=0,mark=target] @=target
+  - Delay 200
+  - deleteHD[mark=target]
+  - ' '
+EntityTopDisplayPlayer:
+  Action:
+  - createHD[m=123%player_health%/%player_max_health%,&player_health_proportion&,,x=0,y=1.0,z=0,period=20,mark=target,entityType=player] @=target
+  - teleportHD[type=loc,x=0,y=1.0,z=0,mark=target] @=target
+  - Delay 200
+  - deleteHD[mark=target]
+  - ' '
+
+BoosBarDisplay:
+  Action:
+  - createBar[]
+  - setBar[]
+  - Delay 200
+  - removeBar[]

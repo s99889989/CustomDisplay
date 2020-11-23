@@ -44,39 +44,39 @@ public class AttackBossBar {
     }
 
     public AttackBossBar(Entity entity, LivingEntity target){
-        player = (Player) entity;
-        UUID targetUUID = target.getUniqueId();
-        UUID uuid = player.getUniqueId();
-        UUID objectUUID = BBDMapManager.getTargetAttackBossBarMap().get(targetUUID);
-        if(objectUUID == null){
-            BBDMapManager.getTargetAttackBossBarMap().put(targetUUID,uuid);
-        }
-        maxHealth = target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-        double nowHealth = target.getHealth();
-        double progress = nowHealth/maxHealth;
-        String changeNowHealth = new NumberUtil(nowHealth,"#.0").getDecimalString();
-
-        bossBar = Bukkit.createBossBar(target.getName()+changeNowHealth+"/"+maxHealth, Enum.valueOf(BarColor.class , cd.getConfigManager().boss_bar_color), Enum.valueOf(BarStyle.class , cd.getConfigManager().boss_bar_style));
-        bossBar.setProgress(progress);
-        bossBar.addPlayer(player);
-    bukkitRunnable = new BukkitRunnable() {
-        int tickRun;
-        @Override
-        public void run() {
-            tickRun = tickRun + cd.getConfigManager().boss_bar_refrsh;
-            double nowHealth = target.getHealth();
-            double progress = nowHealth/maxHealth;
-            String changeNowHealth = new NumberUtil(nowHealth,"#.0").getDecimalString();
-            bossBar.setProgress(progress);
-            bossBar.setTitle(target.getName()+changeNowHealth+"/"+maxHealth);
-            if(tickRun > cd.getConfigManager().boss_bar_time){
-                bossBar.removePlayer(player);
-                cancel();
-                BBDMapManager.getAttackBossBarMap().remove(uuid);
-            }
-        }
-    };
-    bukkitRunnable.runTaskTimer(cd,1,cd.getConfigManager().boss_bar_refrsh);
+//        player = (Player) entity;
+//        UUID targetUUID = target.getUniqueId();
+//        UUID uuid = player.getUniqueId();
+//        UUID objectUUID = BBDMapManager.getTargetAttackBossBarMap().get(targetUUID);
+//        if(objectUUID == null){
+//            BBDMapManager.getTargetAttackBossBarMap().put(targetUUID,uuid);
+//        }
+//        maxHealth = target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+//        double nowHealth = target.getHealth();
+//        double progress = nowHealth/maxHealth;
+//        String changeNowHealth = new NumberUtil(nowHealth,"#.0").getDecimalString();
+//
+//        bossBar = Bukkit.createBossBar(target.getName()+changeNowHealth+"/"+maxHealth, Enum.valueOf(BarColor.class , cd.getConfigManager().boss_bar_color), Enum.valueOf(BarStyle.class , cd.getConfigManager().boss_bar_style));
+//        bossBar.setProgress(progress);
+//        bossBar.addPlayer(player);
+//    bukkitRunnable = new BukkitRunnable() {
+//        int tickRun;
+//        @Override
+//        public void run() {
+//            tickRun = tickRun + cd.getConfigManager().boss_bar_refrsh;
+//            double nowHealth = target.getHealth();
+//            double progress = nowHealth/maxHealth;
+//            String changeNowHealth = new NumberUtil(nowHealth,"#.0").getDecimalString();
+//            bossBar.setProgress(progress);
+//            bossBar.setTitle(target.getName()+changeNowHealth+"/"+maxHealth);
+//            if(tickRun > cd.getConfigManager().boss_bar_time){
+//                bossBar.removePlayer(player);
+//                cancel();
+//                BBDMapManager.getAttackBossBarMap().remove(uuid);
+//            }
+//        }
+//    };
+//    bukkitRunnable.runTaskTimer(cd,1,cd.getConfigManager().boss_bar_refrsh);
 
     }
 
