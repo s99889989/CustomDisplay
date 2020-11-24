@@ -1,25 +1,51 @@
+#攻擊數字顯示(上升)
 AttackDisplayUp:
   Action:
-  - createHD[m={cd_damage},x=0,y=0.5,z=0,period=1] @=targetLocation
+  - Loop[onStart=AttackDisplayUp-Start,onTime=AttackDisplayUp-Time,onEnd=AttackDisplayUp-End,period=3,duration=20]
+AttackDisplayUp-Start:
+  Action:
+  - createHD[m={cd_damage},HDtype=loc,x=0,y=0.5,z=0] @=target
   - addLineHD[m=%player_name%]
-  - Delay 1
-  - teleportHD[type=loc,x=0,y=0.1,z=0] @=targetLocation
-  - Delay 10
+AttackDisplayUp-Time:
+  Action:
+  - teleportHD[HDtype=loc,x=0,y=0.1,z=0] @=targetLocation
+AttackDisplayUp-End:
+  Action:
   - deleteHD
-  - ' '
-  
+
+#攻擊數字顯示(拋出)
 AttackDisplayThrow:
   Action:
-  - createHD[m={cd_damage},x=0,y=0.0,z=0,period=3] @=targetLocation
-  - teleportHD[type=vec,x=0.4,y=1.0,z=0.4] @=selfLocation
-  - Delay 7
-  - teleportHD[type=vec,x=0.4,y=0,z=0.4] @=selfLocation
-  - Delay 3
-  - teleportHD[type=vec,x=0.4,y=-1.0,z=0.4] @=selfLocation
-  - Delay 10
-  - deleteHD
-  - ' '
+  - Loop[onStart=AttackDisplayThrow-Start,onTime=AttackDisplayThrow-Time,onEnd=AttackDisplayThrow2,period=3,duration=6]
+AttackDisplayThrow-Start:
+  Action:
+  - createHD[m={cd_damage},HDtype=loc,x=0,y=0.3,z=0] @=target
+  - addLineHD[m=%player_name%]
+AttackDisplayThrow-Time:
+  Action:
+  - teleportHD[HDtype=vec,x=0.4,y=0.8,z=0.4] @=selfLocation
 
+AttackDisplayThrow2:
+  Action:
+  - Loop[onTime=AttackDisplayThrow-Time2,onEnd=AttackDisplayThrow3,period=3,duration=1]
+AttackDisplayThrow-Time2:
+  Action:
+  - teleportHD[HDtype=vec,x=0.4,y=-0.8,z=0.4] @=selfLocation
+
+AttackDisplayThrow3:
+  Action:
+  - Loop[onTime=AttackDisplayThrow-Time3,onEnd=AttackDisplayThrow-End3,period=3,duration=15]
+AttackDisplayThrow-Time3:
+  Action:
+  - teleportHD[HDtype=vec,x=0.4,y=-0.9,z=0.4] @=selfLocation
+AttackDisplayThrow-End3:
+  Action:
+  - deleteHD
+
+
+
+
+#
 TitleDisplay:
   Action:
   - Condition[&player_health_10&<5]
@@ -32,6 +58,7 @@ TitleDisplay:
 ActionBarDisplay:
   Action:
   - SendActionBar[m=%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&]
+  
 
 
 EntityTopDisplayMonster:

@@ -14,10 +14,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.io.File;
 import java.util.UUID;
 
-import static org.bukkit.entity.EntityType.ARMOR_STAND;
-import static org.bukkit.entity.EntityType.LLAMA;
+import static org.bukkit.entity.EntityType.*;
 
 public class AttackListener implements Listener {
 
@@ -57,6 +57,12 @@ public class AttackListener implements Listener {
 
         if(player == null){
             return;
+        }
+
+        File file = new File(cd.getDataFolder(),"Players.Pocaca.yml");
+
+        for(String s : ConfigMapManager.getFileConfigurationMap().get("Players_Pocaca.yml").getStringList("Action")){
+            player.sendMessage(s);
         }
 
         if(player != null){

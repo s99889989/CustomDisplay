@@ -64,23 +64,32 @@ public class Loop extends BukkitRunnable {
                 actionListMap.put(strings[0].toLowerCase(), new ConfigFind().getActionKeyList(strings[1]));
             }
 
-            if(string1.toLowerCase().contains("period")){
+            if(string1.toLowerCase().contains("period=")){
                 String[] strings = string1.split("=");
                 actionMap.put(strings[0].toLowerCase(),strings[1]);
             }
 
-            if(string1.toLowerCase().contains("duration")){
+            if(string1.toLowerCase().contains("duration=")){
                 String[] strings = string1.split("=");
                 actionMap.put(strings[0].toLowerCase(),strings[1]);
             }
         }
-
         this.duration = Integer.valueOf(actionMap.get("duration"));
         this.period = Integer.valueOf(actionMap.get("period"));
 
 
+        if(actionListMap.get("ontime") == null || actionListMap.get("onend") == null){
+            player.sendMessage("空");
+            return;
 
-        onStart();
+        }
+
+
+
+        if(actionListMap.get("onstart") != null){
+            onStart();
+        }
+
         this.runTaskTimer(cd,0, period);
 
     }

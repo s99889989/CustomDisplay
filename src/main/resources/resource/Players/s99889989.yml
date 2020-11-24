@@ -1,9 +1,11 @@
 Action:
 - Action[a=AttackDisplayUp] ~onAttack
-- Action[a=TitleDisplay] ~onTimer=40
-- Action[a=ActionBarDisplay] ~onTimer=30
-- Action[a=AttackDisplayThrow] ~onAttack
-- Action[a=EntityTopDisplayMonster] ~onAttack
-- Action[a=EntityTopDisplayAnimal] ~onAttack
-- Action[a=EntityTopDisplayPlayer] ~onAttack
-- Action[a=BoosBarDisplay] ~onAttack
+#- Action[a=AttackDisplayThrow] ~onAttack
+
+
+#- Action[a=TitleDisplay] ~onTimer=40
+#- Action[a=ActionBarDisplay] ~onTimer=30
+#- Action[a=EntityTopDisplayMonster] ~onAttack
+#- Action[a=EntityTopDisplayAnimal] ~onAttack
+#- Action[a=EntityTopDisplayPlayer] ~onAttack
+#- Action[a=BoosBarDisplay] ~onAttack
