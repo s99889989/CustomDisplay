@@ -8,22 +8,17 @@ public class Test {
 
 
     public static void main(String[] args){
-        String firstString = "\uF80B,%player_health%/%player_max_health%,&player_health_proportion&,\uF80B";
+        String firstString = "createHD[m=\uF80B{cd_damage}\uF80B,x=0,y=0.5,z=0,period=1] @=targetLocation";
+
         List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,",");
-        while (stringTokenizer.hasMoreElements()){
-            //System.out.println(stringTokenizer.nextToken());
+        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[,] ");
+        int i = 0;
+        while(stringTokenizer.hasMoreElements()){
             stringList.add(stringTokenizer.nextToken());
         }
-        for(String string : stringList){
-            if(string.contains("%")){
-                System.out.println(string);
-            }
-            if(string.contains("&")){
-                System.out.println(string);
-            }
-        }
-
+        String[] toBeStored = stringList.toArray(new String[stringList.size()]);
+        System.out.println(toBeStored[0]);
+        System.out.println(stringList.size());
     }
 
 }

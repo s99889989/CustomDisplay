@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.action;
+package com.daxton.customdisplay.api.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -62,6 +62,7 @@ public class Holographic {
     private String healthConversion;
     private String healthNumber;
     private String health_conversion;
+
 
     public Holographic(Player player, LivingEntity target, String firstString, double damageNumber){
         this.player = player;

@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.listener.player;
 
+import com.daxton.customdisplay.api.action.list.Loop;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;

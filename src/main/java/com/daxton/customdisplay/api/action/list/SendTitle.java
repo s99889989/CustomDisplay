@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.action;
+package com.daxton.customdisplay.api.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import org.bukkit.entity.Player;

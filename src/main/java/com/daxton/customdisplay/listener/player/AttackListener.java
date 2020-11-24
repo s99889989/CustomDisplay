@@ -16,6 +16,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.UUID;
 
+import static org.bukkit.entity.EntityType.ARMOR_STAND;
+import static org.bukkit.entity.EntityType.LLAMA;
+
 public class AttackListener implements Listener {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
@@ -32,7 +35,7 @@ public class AttackListener implements Listener {
 
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event){
-        if(!(event.getEntity() instanceof LivingEntity)){
+        if(!(event.getEntity() instanceof LivingEntity) && event.getEntity().getType() == ARMOR_STAND){
             return;
         }
 
@@ -43,7 +46,9 @@ public class AttackListener implements Listener {
         }
 
         if(event.getDamager() instanceof Projectile){
-            player = (Player) ((Projectile) event.getDamager()).getShooter();
+            if(((Projectile) event.getDamager()).getShooter() instanceof Animals == false && ((Projectile) event.getDamager()).getShooter() instanceof Monster == false){
+                player = (Player) ((Projectile) event.getDamager()).getShooter();
+            }
         }
 
         if(event.getDamager() instanceof TNTPrimed){
@@ -54,12 +59,12 @@ public class AttackListener implements Listener {
             return;
         }
 
-        playerUUID = player.getUniqueId();
-        targetUUID = target.getUniqueId();
-        damageNumber = event.getFinalDamage();
-
-        //action();
-
+        if(player != null){
+            playerUUID = player.getUniqueId();
+            targetUUID = target.getUniqueId();
+            damageNumber = event.getFinalDamage();
+            action();
+        }
 
     }
 

@@ -1,6 +1,8 @@
 package com.daxton.customdisplay.manager.player;
 
-import com.daxton.customdisplay.api.action.Holographic;
+import com.daxton.customdisplay.api.action.JudgmentAction;
+import com.daxton.customdisplay.api.action.list.Holographic;
+import com.daxton.customdisplay.api.action.list.HolographicNew;
 import com.daxton.customdisplay.task.player.OnTimer;
 
 import java.util.HashMap;
@@ -16,6 +18,10 @@ public class TriggerManager {
 
     private static Map<UUID, Holographic> holographicMap = new HashMap<>();
 
+    private static Map<String, HolographicNew> holographicTaskMap = new HashMap<>();
+
+
+    private static Map<String, JudgmentAction> loopTaskMap = new HashMap<>();
 
     public static Map<String, OnTimer> getOnTimerMap() {
         return onTimerMap;
@@ -27,5 +33,13 @@ public class TriggerManager {
 
     public static Map<UUID, Holographic> getHolographicMap() {
         return holographicMap;
+    }
+
+    public static Map<String, HolographicNew> getHolographicTaskMap() {
+        return holographicTaskMap;
+    }
+
+    public static Map<String, JudgmentAction> getLoopTaskMap() {
+        return loopTaskMap;
     }
 }

@@ -8,15 +8,11 @@ import com.daxton.customdisplay.listener.player.AttackListener;
 import com.daxton.customdisplay.listener.player.JoinListener;
 import com.daxton.customdisplay.listener.player.QuizListener;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
-import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.task.player.OnTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 

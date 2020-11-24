@@ -13,6 +13,8 @@ public class StringConversion {
 
     private Player player;
 
+    private String finalString;
+
     /**丟入要比對的資料夾 字串 玩家資料**/
     public StringConversion(String folderName, String firstString, Player player){
         this.player = player;
@@ -32,6 +34,7 @@ public class StringConversion {
             }
             stringAdd = stringAdd + inputString;
         }
+        finalString = stringAdd;
     }
 
     /**對自訂字串進行關於Character資料夾內的設定處理**/
@@ -62,5 +65,7 @@ public class StringConversion {
         return outputString;
     }
 
-
+    public String getFinalString() {
+        return finalString;
+    }
 }

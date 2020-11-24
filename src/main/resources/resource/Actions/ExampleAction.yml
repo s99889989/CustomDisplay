@@ -1,6 +1,7 @@
 AttackDisplayUp:
   Action:
   - createHD[m={cd_damage},x=0,y=0.5,z=0,period=1] @=targetLocation
+  - addLineHD[m=%player_name%]
   - Delay 1
   - teleportHD[type=loc,x=0,y=0.1,z=0] @=targetLocation
   - Delay 10

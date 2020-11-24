@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.action;
+package com.daxton.customdisplay.api.action.list;
 
 import org.bukkit.SoundCategory;
 import org.bukkit.boss.BarColor;
