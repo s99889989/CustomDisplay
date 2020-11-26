@@ -267,7 +267,6 @@ public class Holographic {
 
         /**判斷如何移動HD**/
         if(targetString.toLowerCase().contains("target") && type.toLowerCase().contains("vec")){
-                player.sendMessage("target");
                 xx = vectorX(target)*Double.valueOf(x);
                 zz = vectorZ(target)*Double.valueOf(z);
 

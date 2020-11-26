@@ -59,12 +59,6 @@ public class AttackListener implements Listener {
             return;
         }
 
-        File file = new File(cd.getDataFolder(),"Players.Pocaca.yml");
-
-        for(String s : ConfigMapManager.getFileConfigurationMap().get("Players_Pocaca.yml").getStringList("Action")){
-            player.sendMessage(s);
-        }
-
         if(player != null){
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();

@@ -107,17 +107,19 @@ public final class CustomDisplay extends JavaPlugin {
     }
 
     /**複寫saveResource的存檔位置，因為位置是讀取jar內的，所以要去除resource/**/
-    @Override
-    public void saveResource(String resourcePath, boolean replace) {
+    public void saveResource(String resourcePath,String savePath, boolean replace) {
         if (resourcePath == null || resourcePath.equals("")) {
             throw new IllegalArgumentException("ResourcePath cannot be null or empty");
         }
 
         resourcePath = resourcePath.replace('\\', '/');
 
-        String res = resourcePath.replace("resource/","");
+        String res = savePath;
 
         InputStream in = getResource(resourcePath);
+
+        /****/
+        getLogger().info(""+resourcePath);
         if (in == null) {
             throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + super.getFile());
         }
