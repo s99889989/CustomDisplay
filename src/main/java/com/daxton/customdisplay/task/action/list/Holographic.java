@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.action.list;
+package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;

@@ -1,13 +1,11 @@
 package com.daxton.customdisplay.task.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.action.JudgmentAction;
-import com.daxton.customdisplay.api.action.list.*;
+import com.daxton.customdisplay.task.action.JudgmentAction;
+import com.daxton.customdisplay.task.action.list.*;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.player.TriggerManager;
 import com.daxton.customdisplay.util.ContentUtil;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 

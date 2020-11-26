@@ -1,7 +1,8 @@
-package com.daxton.customdisplay.api.action.list;
+package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringConversionNew;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.util.NumberUtil;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -127,12 +128,13 @@ public class HolographicNew {
         String attackNumber = damageNumber();
 
         hologram = HologramsAPI.createHologram(cd, createLocation);
-        hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player).getFinalString().replace("{cd_damage}", attackNumber));
+        //hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player).getFinalString().replace("{cd_damage}", attackNumber));
+        hologram.appendTextLine(new StringConversionNew().getString("Character",actionMap.get("m"),player).replace("{cd_damage}", attackNumber));
 
     }
 
     public void addLineHD(){
-        hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player).getFinalString());
+        hologram.appendTextLine(new StringConversionNew().getString("Character",actionMap.get("m"),player));
     }
 
     public void removeLineHD(){

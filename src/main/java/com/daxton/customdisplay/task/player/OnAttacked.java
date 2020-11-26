@@ -1,10 +1,10 @@
 package com.daxton.customdisplay.task.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.action.list.Holographic;
-import com.daxton.customdisplay.api.action.list.SendActionBar;
-import com.daxton.customdisplay.api.action.list.SendTitle;
-import com.daxton.customdisplay.api.action.list.Sound;
+import com.daxton.customdisplay.task.action.list.Holographic;
+import com.daxton.customdisplay.task.action.list.SendActionBar;
+import com.daxton.customdisplay.task.action.list.SendTitle;
+import com.daxton.customdisplay.task.action.list.Sound;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.util.ContentUtil;
 import org.bukkit.configuration.file.FileConfiguration;

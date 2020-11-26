@@ -1,10 +1,7 @@
-package com.daxton.customdisplay.api.action.list;
+package com.daxton.customdisplay.task.action.list;
 
 import org.bukkit.SoundCategory;
-import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
-
-import static org.bukkit.SoundCategory.PLAYERS;
 
 public class Sound {
 

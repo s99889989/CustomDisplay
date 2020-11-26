@@ -1,16 +1,14 @@
-package com.daxton.customdisplay.api.action.list;
+package com.daxton.customdisplay.task.action.list;
 
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.action.JudgmentAction;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.manager.player.TriggerManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
