@@ -1,11 +1,10 @@
 Action:
 - Action[a=AttackDisplayUp] ~onAttack
 #- Action[a=AttackDisplayThrow] ~onAttack
-
+- Action[a=EntityTopDisplayMonster;mark=target;entityType=Monster] ~onAttack
+- Action[a=EntityTopDisplayAnimal;mark=target;entityType=Animal] ~onAttack
+- Action[a=EntityTopDisplayPlayer;mark=target;entityType=Player] ~onAttack
 
 #- Action[a=TitleDisplay] ~onTimer=40
 #- Action[a=ActionBarDisplay] ~onTimer=30
-#- Action[a=EntityTopDisplayMonster] ~onAttack
-#- Action[a=EntityTopDisplayAnimal] ~onAttack
-#- Action[a=EntityTopDisplayPlayer] ~onAttack
 #- Action[a=BoosBarDisplay] ~onAttack

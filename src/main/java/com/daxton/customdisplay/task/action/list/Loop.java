@@ -36,13 +36,17 @@ public class Loop extends BukkitRunnable {
 
     private double damageNumber = 0;
 
-    public Loop(Player player, LivingEntity target,String firstString, double damageNumber,String taskID){
+    public Loop(){
+
+    }
+
+    public void onLoop(Player player, LivingEntity target,String firstString, double damageNumber,String taskID){
         this.taskID = taskID;
         this.player = player;
         this.target = target;
         this.damageNumber = damageNumber;
         List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[,]");
+        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;]");
         while (stringTokenizer.hasMoreElements()){
             stringList.add(stringTokenizer.nextToken());
         }
@@ -77,7 +81,6 @@ public class Loop extends BukkitRunnable {
 
 
         if(actionListMap.get("ontime") == null || actionListMap.get("onend") == null){
-            player.sendMessage("空");
             return;
 
         }
@@ -117,6 +120,10 @@ public class Loop extends BukkitRunnable {
         try{
             List<String> stringList = actionListMap.get("ontime");
             for(String actionString : stringList){
+                if(actionString.toLowerCase().contains("condition") && new Condition().getResuult(actionString,target,player)){
+                    return;
+                }
+                player.sendMessage(actionString+"判斷:"+new Condition().getResuult(actionString,target,player));
                 if(TriggerManager.getLoopTaskMap().get(taskID) != null){
                     TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                 }

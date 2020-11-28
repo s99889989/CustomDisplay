@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.BBDMapManager;
+import com.daxton.customdisplay.manager.player.TriggerManager;
 import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -19,6 +20,9 @@ public class EntityListener implements Listener {
     public void onDeath(EntityDeathEvent e) {
         UUID uuid = e.getEntity().getUniqueId();
 
+        if(TriggerManager.getHolographicTaskMap().get(uuid.toString()) != null){
+            TriggerManager.getHolographicTaskMap().get(uuid.toString()).deleteHD();
+        }
 
         UUID targetUUID = BBDMapManager.getTargetAttackBossBarMap().get(uuid);
         if (!(uuid.equals(targetUUID))) {

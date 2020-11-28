@@ -1,51 +1,103 @@
-#攻擊數字顯示(上升)
+#攻擊顯示傷害(向上) #Attack display damage (up)
 AttackDisplayUp:
   Action:
-  - Loop[onStart=AttackDisplayUp-Start,onTime=AttackDisplayUp-Time,onEnd=AttackDisplayUp-End,period=3,duration=20]
+  - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
 AttackDisplayUp-Start:
   Action:
-  - createHD[m={cd_damage},HDtype=loc,x=0,y=0.5,z=0] @=target
+  - createHD[m={cd_damage};HDtype=loc;x=0;y=0.5;z=0] @=target
   - addLineHD[m=%player_name%]
 AttackDisplayUp-Time:
   Action:
-  - teleportHD[HDtype=loc,x=0,y=0.1,z=0] @=targetLocation
+  - teleportHD[HDtype=loc;x=0;y=0.1;z=0] @=targetLocation
 AttackDisplayUp-End:
   Action:
   - deleteHD
 
-#攻擊數字顯示(拋出)
+#攻擊顯示傷害(拋出) #Attack display damage (throw)
 AttackDisplayThrow:
   Action:
-  - Loop[onStart=AttackDisplayThrow-Start,onTime=AttackDisplayThrow-Time,onEnd=AttackDisplayThrow2,period=3,duration=6]
+  - Loop[onStart=AttackDisplayThrow-Start;onTime=AttackDisplayThrow-Time;onEnd=AttackDisplayThrow2;period=3;duration=6]
 AttackDisplayThrow-Start:
   Action:
-  - createHD[m={cd_damage},HDtype=loc,x=0,y=0.3,z=0] @=target
+  - createHD[m={cd_damage};HDtype=loc;x=0;y=0.3;z=0] @=target
   - addLineHD[m=%player_name%]
 AttackDisplayThrow-Time:
   Action:
-  - teleportHD[HDtype=vec,x=0.4,y=0.8,z=0.4] @=selfLocation
+  - teleportHD[HDtype=vec;x=0.4;y=0.8;z=0.4] @=selfLocation
 
 AttackDisplayThrow2:
   Action:
-  - Loop[onTime=AttackDisplayThrow-Time2,onEnd=AttackDisplayThrow3,period=3,duration=1]
+  - Loop[onTime=AttackDisplayThrow-Time2;onEnd=AttackDisplayThrow3;period=3;duration=1]
 AttackDisplayThrow-Time2:
   Action:
-  - teleportHD[HDtype=vec,x=0.4,y=-0.8,z=0.4] @=selfLocation
+  - teleportHD[HDtype=vec;x=0.4;y=-0.8;z=0.4] @=selfLocation
 
 AttackDisplayThrow3:
   Action:
-  - Loop[onTime=AttackDisplayThrow-Time3,onEnd=AttackDisplayThrow-End3,period=3,duration=15]
+  - Loop[onTime=AttackDisplayThrow-Time3;onEnd=AttackDisplayThrow-End3;period=3;duration=15]
 AttackDisplayThrow-Time3:
   Action:
-  - teleportHD[HDtype=vec,x=0.4,y=-0.9,z=0.4] @=selfLocation
+  - teleportHD[HDtype=vec;x=0.4;y=-0.9;z=0.4] @=selfLocation
 AttackDisplayThrow-End3:
+  Action:
+  - deleteHD
+
+#攻擊怪物顯示血量 #Attacking monsters shows blood volume.
+EntityTopDisplayMonster:
+  Action:
+  - Loop[onStart=EntityTopDisplayMonster-Start;onTime=EntityTopDisplayMonster-Time;onEnd=EntityTopDisplayMonster-End;period=10;duration=200]
+EntityTopDisplayMonster-Start:
+  Action:
+  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=0.8;z=0;healthConver=health-monster] @=target
+EntityTopDisplayMonster-Time:
+  Action:
+  - teleportHD[HDtype=loc;x=0;y=0.8;z=0] @=target
+  - Condition[health=targetChange]
+  - removeLineHD[m=0]
+  - addLineHD[m={cd_health_number}{cd_health_conversion}]
+EntityTopDisplayMonster-End:
+  Action:
+  - deleteHD
+
+#攻擊動物顯示血量 #Attack animals show blood volume.
+EntityTopDisplayAnimal:
+  Action:
+  - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
+EntityTopDisplayAnimal-Start:
+  Action:
+  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=0.8;z=0;healthConver=health-animal] @=target
+EntityTopDisplayAnimal-Time:
+  Action:
+  - teleportHD[HDtype=loc;x=0;y=0.8;z=0] @=target
+  - removeLineHD[m=0]
+  - addLineHD[m={cd_health_number}{cd_health_conversion}]
+EntityTopDisplayAnimal-End:
+  Action:
+  - deleteHD
+
+#攻擊玩家顯示資訊 #The attacking player displays information.
+EntityTopDisplayPlayer:
+  Action:
+  - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
+EntityTopDisplayPlayer-Start:
+  Action:
+  - createHD[m=%player_health%/%player_max_health%&player_health_proportion&;HDtype=loc;x=0;y=0.8;z=0;healthConver=health-animal] @=target
+  - addLineHD[m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
+EntityTopDisplayPlayer-Time:
+  Action:
+  - teleportHD[HDtype=loc;x=0;y=0.8;z=0] @=target
+  - removeLineHD[m=0]
+  - removeLineHD[m=0]
+  - addLineHD[m=%player_health%/%player_max_health%&player_health_proportion&]
+  - addLineHD[m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
+EntityTopDisplayPlayer-End:
   Action:
   - deleteHD
 
 
 
+#以下還無法使用 #The following is not yet available.
 
-#
 TitleDisplay:
   Action:
   - Condition[&player_health_10&<5]
@@ -58,31 +110,7 @@ TitleDisplay:
 ActionBarDisplay:
   Action:
   - SendActionBar[m=%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&]
-  
 
-
-EntityTopDisplayMonster:
-  Action:
-  - createHD[m={cd_health_conversion}{cd_health_number},x=0,y=1.0,z=0,period=20,mark=target,entityType=Monster,healthConver=health-monster] @=target
-  - teleportHD[type=loc,x=0,y=1.0,z=0,mark=target] @=target
-  - Delay 200
-  - deleteHD[mark=target]
-  - ' '
-  
-EntityTopDisplayAnimal:
-  Action:
-  - createHD[m={cd_health_conversion}{cd_health_number},x=0,y=1.0,z=0,period=20,mark=target,entityType=animal,healthConver=health-animal] @=target
-  - teleportHD[type=loc,x=0,y=1.0,z=0,mark=target] @=target
-  - Delay 200
-  - deleteHD[mark=target]
-  - ' '
-EntityTopDisplayPlayer:
-  Action:
-  - createHD[m=123%player_health%/%player_max_health%,&player_health_proportion&,,x=0,y=1.0,z=0,period=20,mark=target,entityType=player] @=target
-  - teleportHD[type=loc,x=0,y=1.0,z=0,mark=target] @=target
-  - Delay 200
-  - deleteHD[mark=target]
-  - ' '
 
 BoosBarDisplay:
   Action:

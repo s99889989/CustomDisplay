@@ -24,12 +24,15 @@ public class QuizListener implements Listener {
         /**刪除玩家資料物件  和   刪除OnTime物件**/
         PlayerData playerDate = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerDate != null){
+            PlayerDataMap.getPlayerDataMap().remove(playerUUID);
 //            for(String string : TriggerManager.getOnTimerNameMap().get(playerUUID)){
 //                TriggerManager.getOnTimerMap().get(string).getBukkitRunnable().cancel();
 //                TriggerManager.getOnTimerMap().remove(string);
 //            }
+            if(TriggerManager.getHolographicTaskMap().get(playerUUID.toString()) != null){
+                TriggerManager.getHolographicTaskMap().get(playerUUID.toString()).deleteHD();
+            }
 
-            PlayerDataMap.getPlayerDataMap().remove(playerUUID);
         }
 
 

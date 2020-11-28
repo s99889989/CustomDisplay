@@ -14,6 +14,7 @@ public class NumberUtil {
 //    public NumberUtil(){
 //
 //    }
+
     /**位數轉換**/
     public NumberUtil(double number, String decimal){
         DecimalFormat decimalFormat = new DecimalFormat(decimal);

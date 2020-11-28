@@ -23,7 +23,7 @@ public class SendTitle {
     public SendTitle(Player player,String string){
         this.player = player;
         string = string.toLowerCase().replace("sendtitle[","").replace("]","");
-        String[] st1 = string.split(",");
+        String[] st1 = string.split(";");
         for(String stringList : st1){
             if(stringList.contains("title=")){
                 String[] stl = stringList.split("=");

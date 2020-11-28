@@ -6,7 +6,7 @@
 
     <groupId>com.daxton</groupId>
     <artifactId>CustomDisplay</artifactId>
-    <version>1.10.1</version>
+    <version>1.10.2</version>
     <packaging>jar</packaging>
 
     <name>CustomDisplay</name>

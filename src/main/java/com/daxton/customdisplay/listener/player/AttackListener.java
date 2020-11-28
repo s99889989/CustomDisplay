@@ -5,6 +5,8 @@ import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.BBDMapManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
+import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.task.action.list.Condition;
 import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
 import com.daxton.customdisplay.task.player.OnAttack;
 import org.bukkit.configuration.ConfigurationSection;
@@ -69,13 +71,34 @@ public class AttackListener implements Listener {
     }
 
     public void action(){
-
+//if(string.toLowerCase().contains("entitytype=")){
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             for(String string : playerData.getPlayerActionList()){
                 if(string.toLowerCase().contains("~onattack")){
-                    new OnAttack(player,target,string,damageNumber);
+                    if(string.toLowerCase().contains("mark=target")){
+                        if(string.toLowerCase().contains("entitytype=")){
+                            if(new Condition().getResuult(string,target,player)){
+                                if(TriggerManager.getAttackListenerTaskMap().get(targetUUID.toString()) == null){ //new Condition().getResuult(string,target,player)
+                                    TriggerManager.getAttackListenerTaskMap().put(targetUUID.toString(),new OnAttack(player,target,string,damageNumber));
+                                }
+                            }
+
+                        }else {
+                            if(TriggerManager.getAttackListenerTaskMap().get(targetUUID.toString()) == null){
+                                TriggerManager.getAttackListenerTaskMap().put(targetUUID.toString(),new OnAttack(player,target,string,damageNumber));
+                            }
+                        }
+                    }else if(string.toLowerCase().contains("mark=self")) {
+                        if(TriggerManager.getAttackListenerTaskMap().get(playerUUID.toString()) == null){
+                            TriggerManager.getAttackListenerTaskMap().put(playerUUID.toString(),new OnAttack(player,target,string,damageNumber));
+                        }
+
+                    }else {
+                        new OnAttack(player,target,string,damageNumber);
+                    }
                 }
+
             }
         }
     }

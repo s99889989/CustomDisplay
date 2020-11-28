@@ -1,0 +1,71 @@
+monster:
+  entityType:
+  - HUSK
+  - CREEPER
+  - SKELETON
+  - SPIDER
+  - GIANT
+  - ZOMBIE
+  - SLIME
+  - GHAST
+  - ZOMBIFIED_PIGLIN
+  - ENDERMAN
+  - CAVE_SPIDER
+  - SILVERFISH
+  - BLAZE
+  - MAGMA_CUBE
+  - ENDER_DRAGON
+  - WITHER
+  - BAT
+  - WITCH
+  - ENDERMITE
+  - GUARDIAN
+  - SHULKER
+  - PHANTOM
+  - DROWNED
+  - PILLAGER
+  - RAVAGER
+  - PIGLIN
+  - PIGLIN_BRUTE
+  
+  
+animal:
+  entityType:
+  - PIG
+  - SHEEP
+  - COW
+  - CHICKEN
+  - SQUID
+  - WOLF
+  - MUSHROOM_COW
+  - SNOWMAN
+  - OCELOT
+  - IRON_GOLEM
+  - HORSE
+  - RABBIT
+  - POLAR_BEAR
+  - LLAMA
+  - LLAMA_SPIT
+  - PARROT
+  - VILLAGER
+  - ENDER_CRYSTAL
+  - TURTLE
+  - TRIDENT
+  - COD
+  - SALMON
+  - PUFFERFISH
+  - TROPICAL_FISH
+  - DOLPHIN
+  - CAT
+  - PANDA
+  - TRADER_LLAMA
+  - WANDERING_TRADER
+  - FOX
+  - BEE
+  - HOGLIN
+  - STRIDER
+  - ZOGLIN
+
+player:
+  entityType:
+  - PLAYER

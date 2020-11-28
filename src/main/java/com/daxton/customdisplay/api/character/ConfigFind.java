@@ -40,7 +40,7 @@ public class ConfigFind {
         List<String> list = new ArrayList<>();
         List<String> actionList = new ArrayList<>();
         String key = "";
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[,] ");
+        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
         while (stringTokenizer.hasMoreElements()){
             list.add(stringTokenizer.nextToken());
         }
