@@ -2,21 +2,15 @@ package com.daxton.customdisplay.listener.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
-import com.daxton.customdisplay.manager.BBDMapManager;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.task.action.list.Condition;
-import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
+import com.daxton.customdisplay.task.condition.Condition;
 import com.daxton.customdisplay.task.player.OnAttack;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import java.io.File;
 import java.util.UUID;
 
 import static org.bukkit.entity.EntityType.*;
@@ -78,7 +72,7 @@ public class AttackListener implements Listener {
                 if(string.toLowerCase().contains("~onattack")){
                     if(string.toLowerCase().contains("mark=target")){
                         if(string.toLowerCase().contains("entitytype=")){
-                            if(new Condition().getResuult(string,target,player)){
+                            if(new Condition().getResuult(string,target,player,targetUUID.toString())){
                                 if(TriggerManager.getAttackListenerTaskMap().get(targetUUID.toString()) == null){ //new Condition().getResuult(string,target,player)
                                     TriggerManager.getAttackListenerTaskMap().put(targetUUID.toString(),new OnAttack(player,target,string,damageNumber));
                                 }

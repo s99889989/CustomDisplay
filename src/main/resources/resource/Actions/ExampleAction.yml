@@ -69,6 +69,7 @@ EntityTopDisplayAnimal-Start:
 EntityTopDisplayAnimal-Time:
   Action:
   - teleportHD[HDtype=loc;x=0;y=0.8;z=0] @=target
+  - Condition[health=targetChange]
   - removeLineHD[m=0]
   - addLineHD[m={cd_health_number}{cd_health_conversion}]
 EntityTopDisplayAnimal-End:

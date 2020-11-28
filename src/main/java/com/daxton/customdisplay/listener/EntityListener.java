@@ -3,7 +3,7 @@ package com.daxton.customdisplay.listener;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.BBDMapManager;
 import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
+import com.daxton.customdisplay.task.action.list.AttackBossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

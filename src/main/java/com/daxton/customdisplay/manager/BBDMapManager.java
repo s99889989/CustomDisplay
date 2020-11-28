@@ -1,6 +1,6 @@
 package com.daxton.customdisplay.manager;
 
-import com.daxton.customdisplay.task.bossbardisplay.AttackBossBar;
+import com.daxton.customdisplay.task.action.list.AttackBossBar;
 
 import java.util.HashMap;
 import java.util.Map;

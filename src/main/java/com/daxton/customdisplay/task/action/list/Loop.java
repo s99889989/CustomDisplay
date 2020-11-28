@@ -5,6 +5,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -35,6 +36,9 @@ public class Loop extends BukkitRunnable {
     private LivingEntity target;
 
     private double damageNumber = 0;
+
+    /**條件判斷**/
+    private static Map<String,Condition> conditionMap = new HashMap<>();
 
     public Loop(){
 
@@ -120,10 +124,18 @@ public class Loop extends BukkitRunnable {
         try{
             List<String> stringList = actionListMap.get("ontime");
             for(String actionString : stringList){
-                if(actionString.toLowerCase().contains("condition") && new Condition().getResuult(actionString,target,player)){
-                    return;
+                if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) == null){
+                    conditionMap.put(taskID,new Condition());
+                    if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
+                        return;
+                    }
+
                 }
-                player.sendMessage(actionString+"判斷:"+new Condition().getResuult(actionString,target,player));
+                if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) != null){
+                    if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
+                        return;
+                    }
+                }
                 if(TriggerManager.getLoopTaskMap().get(taskID) != null){
                     TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                 }

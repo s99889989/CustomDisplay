@@ -5,6 +5,7 @@ import com.daxton.customdisplay.manager.player.TriggerManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
 import com.daxton.customdisplay.api.character.ConfigFind;
+import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -64,7 +65,7 @@ public class OnAttack {
         for(String string : actionList){
             /**判斷條件**/
             if (string.toLowerCase().contains("condition")) {
-                if(!(new Condition().getResuult(string,target,player))){
+                if(!(new Condition().getResuult(string,target,player,taskID))){
                     break next;
                 }
             }

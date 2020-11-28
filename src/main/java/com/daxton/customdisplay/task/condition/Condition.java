@@ -1,7 +1,8 @@
-package com.daxton.customdisplay.task.action.list;
+package com.daxton.customdisplay.task.condition;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.task.condition.list.Health;
 import com.daxton.customdisplay.util.ContentUtil;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -12,36 +13,39 @@ public class Condition {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private Map<UUID,Double> targetUUIDMap = new HashMap<>();
-
     private Player player;
+
+    private static Map<String, Health> healthMap = new HashMap<>();
+
     /**條件判斷**/
     public Condition(){
 
     }
 
-    public boolean getResuult(String firstString, LivingEntity target, Player player){
+    public boolean getResuult(String firstString, LivingEntity target, Player player,String taskID){
         this.player = player;
         boolean b = false;
         if(firstString.toLowerCase().contains("entitytype=")){
             b = findSetEntityTypeList(firstString,target);
         }
-        if(firstString.toLowerCase().contains("health=targetchange")){
-            b = healthChange(firstString,target,player);
+        if(firstString.toLowerCase().contains("health=")){
+            if(healthMap.get(taskID) == null){
+                healthMap.put(taskID,new Health());
+                if(healthMap.get(taskID).judgment(firstString,target,player,taskID)){
+                    b = true;
+                }
+            }else {
+                if(healthMap.get(taskID).judgment(firstString,target,player,taskID)){
+                    b = true;
+                }
+            }
         }
 
         return b;
     }
 
 
-    public boolean healthChange(String string,LivingEntity target, Player player){
-        boolean b = false;
-        if(string.toLowerCase().contains("health=targetchange")){
-            b = true;
-        }
 
-        return b;
-    }
 
     /**判斷類型**/
     public boolean findSetEntityTypeList(String string,LivingEntity target){
