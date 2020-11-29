@@ -52,7 +52,7 @@ public class Loop extends BukkitRunnable {
         this.target = target;
         this.damageNumber = damageNumber;
         List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;]");
+        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
         while (stringTokenizer.hasMoreElements()){
             stringList.add(stringTokenizer.nextToken());
         }
@@ -97,7 +97,6 @@ public class Loop extends BukkitRunnable {
         }
 
 
-
         if(actionListMap.get("onstart") != null){
             onStart();
         }
@@ -139,13 +138,12 @@ public class Loop extends BukkitRunnable {
             List<String> stringList = actionListMap.get("ontime");
             if(stringList.size() > 0){
                 for(String actionString : stringList){
-                    player.sendMessage("loop"+actionString);
-//                    if(condition(actionString)){
-//                        return;
-//                    }
-//                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-//                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
-//                    }
+                    if(condition(actionString)){
+                        return;
+                    }
+                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
+                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                    }
                 }
             }
         }catch (NullPointerException exception){

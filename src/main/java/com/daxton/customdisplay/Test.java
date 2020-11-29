@@ -12,38 +12,22 @@ public class Test {
 
 
     public static void main(String[] args){
-        String firstString = "\uF80B&player_&%player_health%/&proportion&%player_max_health%&player_health_proportion&\uF80B";
+        String firstString = "Condition[Compare= &player_health_10& < 5 ]";
 
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[=]<> ");
+        while (stringTokenizer.hasMoreElements()){
+            stringList.add(stringTokenizer.nextToken());
 
-            if(firstString.contains("&")){
-                String findText = "&";
-                int num = appearNumber(firstString, findText);
-                int head;
-                int tail = 0;
-                for(int i = 0 ; i < num/2 ; i++){
-                    head = firstString.indexOf("&",tail+1);
-                    tail = firstString.indexOf("&",head+1);
-                    String change = changeString(firstString.substring(head,tail+1));
-                    firstString = firstString.replace(firstString.substring(head,tail+1),change);
-                }
-            }
-
-            System.out.println(firstString);
-    }
-
-    public static String changeString(String string){
-        string = "'改變'";
-
-        return string;
-    }
-
-    public static int appearNumber(String srcText, String findText) {
-        int count = 0;
-        Pattern p = Pattern.compile(findText);
-        Matcher m = p.matcher(srcText);
-        while (m.find()) {
-            count++;
         }
-        return count;
+        if(stringList.size() == 4){
+            //String[] strings = stringList.toArray(new String[stringList.size()]);
+            //System.out.print(strings[3]);
+        }
+        System.out.println(Math.min(0,2)+">");
+
+
+
+
     }
 }

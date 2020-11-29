@@ -3,7 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import org.bukkit.entity.Player;
 
-public class SendTitle {
+public class Title {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -20,7 +20,7 @@ public class SendTitle {
     private int fadeOut = 1;
 
 
-    public SendTitle(Player player,String string){
+    public Title(Player player, String string){
         this.player = player;
         string = string.toLowerCase().replace("sendtitle[","").replace("]","");
         String[] st1 = string.split(";");
@@ -49,6 +49,8 @@ public class SendTitle {
             }
         }
     }
+
+
 
     public void sendTitle(){
         player.sendTitle(title,subTitle,fadeIn,stay,fadeOut);

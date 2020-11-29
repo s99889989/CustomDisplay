@@ -3,7 +3,7 @@ package com.daxton.customdisplay.task.player;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.SendActionBar;
-import com.daxton.customdisplay.task.action.list.SendTitle;
+import com.daxton.customdisplay.task.action.list.Title;
 import com.daxton.customdisplay.task.action.list.Sound;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.util.ContentUtil;
@@ -67,7 +67,7 @@ public class OnAttacked {
     public void task(String string){
 
         if (string.toLowerCase().contains("sendtitle")) {
-            new SendTitle(player, string).sendTitle();
+            new Title(player, string).sendTitle();
             bukkitRunnable.cancel();
         }
         if (string.toLowerCase().contains("sound")) {

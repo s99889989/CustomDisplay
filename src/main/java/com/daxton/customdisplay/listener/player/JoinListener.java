@@ -47,8 +47,6 @@ public class JoinListener implements Listener {
                         TriggerManager.getPlayerActionTaskMap().put(uuidActionString,new JudgmentAction());
                         TriggerManager.getPlayerActionTaskMap().get(uuidActionString).executeOne(player,string,uuidActionString);
                     }
-
-
                 }
             }
         }

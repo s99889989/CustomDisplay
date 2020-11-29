@@ -29,6 +29,14 @@ public class Health {
         return bo;
     }
 
+    public boolean judgment(String firstString, Player player,String taskID){
+        boolean bo = false;
+        if(firstString.toLowerCase().contains("targetchange")){
+            bo = targetChange(player);
+        }
+        return bo;
+    }
+
     public boolean targetChange(LivingEntity target){
         boolean b = true;
         UUID targetUUID = target.getUniqueId();

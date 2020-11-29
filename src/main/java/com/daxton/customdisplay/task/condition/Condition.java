@@ -48,7 +48,30 @@ public class Condition {
         return b;
     }
 
+    public boolean getResuult(String firstString, Player player,String taskID){
+        this.player = player;
+        boolean b = false;
+//        if(firstString.toLowerCase().contains("entitytype=")){
+//            b = findSetEntityTypeList(firstString,player);
+//        }
+//        if(firstString.toLowerCase().contains("health=")){
+//            if(healthMap.get(taskID) == null){
+//                healthMap.put(taskID,new Health());
+//                if(healthMap.get(taskID).judgment(firstString,player,taskID)){
+//                    b = true;
+//                }
+//            }else {
+//                if(healthMap.get(taskID).judgment(firstString,player,taskID)){
+//                    b = true;
+//                }
+//            }
+//        }
+        if(firstString.toLowerCase().contains("compare=")){
+            b = new Compare().judgment(firstString,player);
+        }
 
+        return b;
+    }
 
 
     /**判斷類型**/

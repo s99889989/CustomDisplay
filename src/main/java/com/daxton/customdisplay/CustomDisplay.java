@@ -1,5 +1,6 @@
 package com.daxton.customdisplay;
 
+import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.listener.EntityListener;
@@ -8,6 +9,8 @@ import com.daxton.customdisplay.listener.player.AttackListener;
 import com.daxton.customdisplay.listener.player.JoinListener;
 import com.daxton.customdisplay.listener.player.QuizListener;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
+import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -64,43 +67,44 @@ public final class CustomDisplay extends JavaPlugin {
         /**重新讀取玩家資料 和 OnTimer狀態**/
         for(Player player : Bukkit.getOnlinePlayers()){
             UUID playerUUID = player.getUniqueId();
-            PlayerData playerDate = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            if(playerDate != null){
+            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            if(playerData != null){
 
-                /**OnTimer**/
-//                for(String string : TriggerManager.getOnTimerNameMap().get(playerUUID)){
-//                    TriggerManager.getOnTimerMap().get(string).getBukkitRunnable().cancel();
-//                    TriggerManager.getOnTimerMap().remove(string);
-//                }
+                /**OnQuiz**/
+                for(String string : playerData.getPlayerActionList()){
+                    if(string.toLowerCase().contains("~onjoin")){
+                        String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
+                        if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) != null){
+                            TriggerManager.getJudgmentActionTaskLoopOneMap().get(uuidActionString).cancel();
+                            TriggerManager.getJudgmentActionTaskLoopOneMap().remove(uuidActionString);
+                            TriggerManager.getPlayerActionTaskMap().remove(uuidActionString);
+                        }
+                    }
+                }
 
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+                if(TriggerManager.getHolographicTaskMap().get(playerUUID.toString()) != null){
+                    TriggerManager.getHolographicTaskMap().get(playerUUID.toString()).deleteHD();
+                }
             }
 
-            PlayerData playerDate1 = PlayerDataMap.getPlayerDataMap().get(playerUUID);
 
-            if(playerDate1 == null){
-
-
+            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) == null){
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
-
-                /**OnTimer**/
-//                List<String> stringList = new ArrayList<>();
-//                int i = 0;
-//                for(String string : playerDate.getPlayerActionList()){
-//                    i++;
-//                    if(string.contains("~onTimer=")){
-//                        String nameString = player.getName()+i;
-//                        stringList.add(nameString);
-//
-//                        TriggerManager.getOnTimerMap().put(nameString,new OnTimer(player,string));
-//
-//                    }
-//                }
-//                TriggerManager.getOnTimerNameMap().put(playerUUID,stringList);
-
-
+            }
+            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+                /**OnJoin**/
+                for(String string : PlayerDataMap.getPlayerDataMap().get(playerUUID).getPlayerActionList()){
+                    if(string.toLowerCase().contains("~onjoin")){
+                        String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
+                        if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) == null){
+                            TriggerManager.getPlayerActionTaskMap().put(uuidActionString,new JudgmentAction());
+                            TriggerManager.getPlayerActionTaskMap().get(uuidActionString).executeOne(player,string,uuidActionString);
+                        }
+                    }
+                }
             }
         }
 

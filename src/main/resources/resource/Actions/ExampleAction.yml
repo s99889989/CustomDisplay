@@ -1,4 +1,5 @@
-#攻擊顯示傷害(向上) #Attack display damage (up)
+#攻擊顯示傷害(向上)
+#Attack display damage (up)
 AttackDisplayUp:
   Action:
   - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
@@ -13,7 +14,8 @@ AttackDisplayUp-End:
   Action:
   - deleteHD
 
-#攻擊顯示傷害(拋出) #Attack display damage (throw)
+#攻擊顯示傷害(拋出)
+#Attack display damage (throw)
 AttackDisplayThrow:
   Action:
   - Loop[onStart=AttackDisplayThrow-Start;onTime=AttackDisplayThrow-Time;onEnd=AttackDisplayThrow2;period=3;duration=6]
@@ -42,7 +44,8 @@ AttackDisplayThrow-End3:
   Action:
   - deleteHD
 
-#攻擊怪物顯示血量 #Attacking monsters shows blood volume.
+#攻擊怪物顯示血量
+#Attacking monsters shows blood volume.
 EntityTopDisplayMonster:
   Action:
   - Loop[onStart=EntityTopDisplayMonster-Start;onTime=EntityTopDisplayMonster-Time;onEnd=EntityTopDisplayMonster-End;period=10;duration=200]
@@ -59,7 +62,8 @@ EntityTopDisplayMonster-End:
   Action:
   - deleteHD
 
-#攻擊動物顯示血量 #Attack animals show blood volume.
+#攻擊動物顯示血量
+#Attack animals show blood volume.
 EntityTopDisplayAnimal:
   Action:
   - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
@@ -76,7 +80,8 @@ EntityTopDisplayAnimal-End:
   Action:
   - deleteHD
 
-#攻擊玩家顯示資訊 #The attacking player displays information.
+#攻擊玩家顯示資訊
+#The attacking player displays information.
 EntityTopDisplayPlayer:
   Action:
   - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
@@ -95,19 +100,21 @@ EntityTopDisplayPlayer-End:
   Action:
   - deleteHD
 
-
+#血量低於設定量顯示標題和聲音;category=PLAEYERS
+#If the blood volume is lower than the set volume, the title and sound are displayed.
+TitleHealthDisplay:
+  Action:
+  - Loop[onTime=TitleHealthDisplay-Time;period=20;duration=unlimited]
+TitleHealthDisplay-Time:
+  Action:
+  - Condition[Compare=&player_health_10&<5]
+  - Title[title=§0䂁;subtitle=§0䂁;fadeIn=1;duration=5;fadeOut=1]
+  - Sound[sound=heartbeatin;pitch=1;volume=1]
+  - Delay 5
+  - Title[title=§4䂁;subtitle=§4䂁;fadeIn=1;duration=5;fadeOut=1]
+  - Sound[sound=heartbeatout;pitch=1;volume=1]
 
 #以下還無法使用 #The following is not yet available.
-
-TitleDisplay:
-  Action:
-  - Condition[&player_health_10&<5]
-  - SendTitle[title=§0䂁,subtitle=§0䂁,fadeIn=1,duration=5,fadeOut=1]
-  - Sound[sound=heartbeatin,pitch=1,volume=1,soundcategory=PLAYERS]
-  - Delay 5
-  - SendTitle[title=§4䂁,subtitle=§4䂁,fadeIn=1,duration=5,fadeOut=1]
-  - Sound[sound=heartbeatout,pitch=1,volume=1,soundcategory=PLAYERS]
-
 ActionBarDisplay:
   Action:
   - SendActionBar[m=%player_health%/%player_max_health%,&player_health_proportion&,%mmocore_mana%/%mmocore_stat_max_mana%,&player_mana_proportion&]

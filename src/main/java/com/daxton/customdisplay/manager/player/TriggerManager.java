@@ -4,6 +4,7 @@ import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.HolographicNew;
 import com.daxton.customdisplay.task.action.list.Loop;
+import com.daxton.customdisplay.task.action.list.LoopOne;
 import com.daxton.customdisplay.task.player.OnAttack;
 import com.daxton.customdisplay.task.player.OnSelf;
 import com.daxton.customdisplay.task.player.OnTimer;
@@ -30,6 +31,8 @@ public class TriggerManager {
     private static Map<String, HolographicNew> holographicTaskMap = new HashMap<>();
     /**JudgmentAction->Loop**/
     private static Map<String, Loop> judgmentActionTaskMap = new HashMap<>();
+    /**JudgmentAction->LoopOne**/
+    private static Map<String, LoopOne> judgmentActionTaskLoopOneMap = new HashMap<>();
     /**Loop->JudgmentAction**/
     private static Map<String, JudgmentAction> loopTaskMap = new HashMap<>();
 
@@ -67,5 +70,9 @@ public class TriggerManager {
     /**JudgmentAction->Loop**/
     public static Map<String, Loop> getJudgmentActionTaskMap() {
         return judgmentActionTaskMap;
+    }
+    /**JudgmentAction->LoopOne**/
+    public static Map<String, LoopOne> getJudgmentActionTaskLoopOneMap() {
+        return judgmentActionTaskLoopOneMap;
     }
 }

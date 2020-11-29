@@ -2,12 +2,13 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
+import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.task.action.JudgmentAction;
+import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class LoopOne extends BukkitRunnable {
 
@@ -25,6 +26,9 @@ public class LoopOne extends BukkitRunnable {
     private int period = 1;
     private int duration = 1;
 
+    /**條件判斷**/
+    private static Map<String, Condition> conditionMap = new HashMap<>();
+
     public LoopOne(){
 
     }
@@ -33,9 +37,6 @@ public class LoopOne extends BukkitRunnable {
         this.taskID = taskID;
         this.player = player;
         setLoop(firstString);
-
-        player.sendMessage("loopOne:"+firstString);
-
         onStart();
         this.runTaskTimer(cd,0, period);
     }
@@ -50,15 +51,21 @@ public class LoopOne extends BukkitRunnable {
                 cancel();
             }
         }
-
-
     }
 
     public void onStart(){
         List<String> stringList = new ConfigFind().getActionKeyList(onStart);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-
+                if(condition(actionString)){
+                    return;
+                }
+                if(TriggerManager.getLoopTaskMap().get(taskID) == null){
+                    TriggerManager.getLoopTaskMap().put(taskID,new JudgmentAction());
+                }
+                if(TriggerManager.getLoopTaskMap().get(taskID) != null){
+                    TriggerManager.getLoopTaskMap().get(taskID).executeOne(player,actionString,taskID);
+                }
             }
         }
     }
@@ -67,7 +74,15 @@ public class LoopOne extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onTime);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-                player.sendMessage("t:"+actionString);
+                if(condition(actionString)){
+                    return;
+                }
+                if(TriggerManager.getLoopTaskMap().get(taskID) == null){
+                    TriggerManager.getLoopTaskMap().put(taskID,new JudgmentAction());
+                }
+                if(TriggerManager.getLoopTaskMap().get(taskID) != null){
+                    TriggerManager.getLoopTaskMap().get(taskID).executeOne(player,actionString,taskID);
+                }
             }
         }
     }
@@ -76,14 +91,22 @@ public class LoopOne extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-
+                if(condition(actionString)){
+                    return;
+                }
+                if(TriggerManager.getLoopTaskMap().get(taskID) == null){
+                    TriggerManager.getLoopTaskMap().put(taskID,new JudgmentAction());
+                }
+                if(TriggerManager.getLoopTaskMap().get(taskID) != null){
+                    TriggerManager.getLoopTaskMap().get(taskID).executeOne(player,actionString,taskID);
+                }
             }
         }
     }
 
     public void setLoop(String firstString){
         List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;]");
+        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
         while (stringTokenizer.hasMoreElements()){
             stringList.add(stringTokenizer.nextToken());
         }
@@ -129,5 +152,22 @@ public class LoopOne extends BukkitRunnable {
             }
         }
     }
+
+    public boolean condition(String actionString){
+        boolean b = false;
+        if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) == null){
+            conditionMap.put(taskID,new Condition());
+            if(conditionMap.get(taskID).getResuult(actionString,player,taskID)){
+                b = true;
+            }
+        }
+        if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) != null){
+            if(conditionMap.get(taskID).getResuult(actionString,player,taskID)){
+                b = true;
+            }
+        }
+        return b;
+    }
+
 
 }

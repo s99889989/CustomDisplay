@@ -1,75 +1,71 @@
 package com.daxton.customdisplay.task.action.list;
 
+import org.bukkit.Location;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Sound {
 
     private Player player;
 
-    private String string;
+    private Location location;
+    private String sound = "";
+    private float volume = 1;
+    private float pitch = 1;
+    private String category = "MASTER";
 
-    public Sound(Player player,String string){
+    public Sound(Player player,String firstString){
         this.player = player;
-        this.string = string;
+        location = player.getLocation();
+        setSound(firstString);
 
     }
 
     public void playSound(){
-        player.getWorld().playSound(player.getLocation(), getSound(),Enum.valueOf(SoundCategory.class , getCategory()), getVolume(), getPitch()); //,Enum.valueOf(SoundCategory.class , getCategory())
-
+        player.getWorld().playSound(location, sound, Enum.valueOf(SoundCategory.class , category), volume, pitch);
+        //Enum.valueOf(SoundCategory.class , category);
     }
 
-    public String getSound(){
-        String string4 = "";
-        String string1 = string.toLowerCase().replace("sound[","").replace("]","");
-        String[] strings1 = string1.split(",");
-        for(String string2 : strings1){
-            if(string2.contains("sound=")){
-                String[] string3 = string2.split("=");
-                string4 = string3[1];
-            }
+    public void setSound(String firstString){
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
+        while (stringTokenizer.hasMoreElements()){
+            stringList.add(stringTokenizer.nextToken());
         }
-        return string4;
-    }
+        for(String string1 : stringList){
+            if(string1.toLowerCase().contains("sound=")){
+                String[] strings = string1.split("=");
+                if(strings.length == 2){
+                    sound = strings[1];
+                }
+            }
 
-    public String getCategory(){
-        String string4 = "";
-        String string1 = string.toUpperCase().replace("SOUND[","").replace("]","");
-        String[] strings1 = string1.split(",");
-        for(String string2 : strings1){
-            if(string2.contains("SOUNDCATEGORY")){
-                String[] string3 = string2.split("=");
-                string4 = string3[1];
+            if(string1.toLowerCase().contains("volume=")){
+                String[] strings = string1.split("=");
+                if(strings.length == 2){
+                    volume = Float.valueOf(strings[1]);
+                }
             }
-        }
-        return string4;
-    }
 
-    public int getVolume(){
-        int int1 = 0;
-        String string1 = string.toLowerCase().replace("sound[","").replace("]","");
-        String[] strings1 = string1.split(",");
-        for(String string2 : strings1){
-            if(string2.contains("volume=")){
-                String[] string3 = string2.split("=");
-                int1 = Integer.valueOf(string3[1]);
+            if(string1.toLowerCase().contains("pitch=")){
+                String[] strings = string1.split("=");
+                if(strings.length == 2){
+                    pitch = Float.valueOf(strings[1]);
+                }
             }
-        }
-        return int1;
-    }
 
-    public int getPitch(){
-        int int1 = 0;
-        String string1 = string.toLowerCase().replace("sound[","").replace("]","");
-        String[] strings1 = string1.split(",");
-        for(String string2 : strings1){
-            if(string2.contains("pitch=")){
-                String[] string3 = string2.split("=");
-                int1 = Integer.valueOf(string3[1]);
+            if(string1.toLowerCase().contains("category=")){
+                String[] strings = string1.split("=");
+                if(strings.length == 2){
+                    category = strings[1];
+                }
             }
+
         }
-        return int1;
     }
 
 }
