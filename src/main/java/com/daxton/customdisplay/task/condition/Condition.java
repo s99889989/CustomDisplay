@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.condition;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.task.condition.list.Compare;
 import com.daxton.customdisplay.task.condition.list.Health;
 import com.daxton.customdisplay.util.ContentUtil;
 import org.bukkit.entity.LivingEntity;
@@ -40,6 +41,9 @@ public class Condition {
                 }
             }
         }
+        if(firstString.toLowerCase().contains("compare=")){
+            b = new Compare().judgment(firstString,target,player);
+        }
 
         return b;
     }
@@ -76,33 +80,6 @@ public class Condition {
     }
 
     /**條件判斷**/
-    public boolean condition(String string){
-        boolean b = false;
-        String string1 = string.replace("Condition[","").replace("condition[","").replace("]","");
-        if(string1.contains("<")){
 
-            String[] strings1 = string1.split("<");
-            strings1[0] = new ContentUtil(strings1[0],player,"Character").getOutputString();
-            if(!(Double.valueOf(strings1[0]) < Double.valueOf(strings1[1]))){
-                b = true;
-            }
-        }
-        if(string1.contains(">")){
-            String[] strings1 = string1.split(">");
-            strings1[0] = new ContentUtil(strings1[0],player,"Character").getOutputString();
-            if(!(Double.valueOf(strings1[0]) > Double.valueOf(strings1[1]))){
-                b = true;
-            }
-        }
-        if(string1.contains("=")){
-            String[] strings1 = string1.split("=");
-            strings1[0] = new ContentUtil(strings1[0],player,"Character").getOutputString();
-            if(!(Double.valueOf(strings1[0]).equals(Double.valueOf(strings1[1])))){
-                b = true;
-            }
-        }
-
-        return b;
-    }
 
 }

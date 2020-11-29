@@ -54,6 +54,7 @@ public class AutoConfig {
     }
 
     public void characterConfig(){
+
         File file = new File(cd.getDataFolder(),"Character");
         String[] strings = file.list();
         for(String s : strings){
@@ -70,7 +71,6 @@ public class AutoConfig {
         File file = new File(cd.getDataFolder(),"Players");
         String[] strings = file.list();
         for(String s : strings){
-            cd.getLogger().info("playersConfig"+s);
             if(s.contains(".yml") && !(s.contains("Default.yml")) && !(s.contains("s99889989.yml"))){
                 File finalConfigFile = new File(cd.getDataFolder(), "Players/"+s);
                 FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);

@@ -5,6 +5,7 @@ import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.HolographicNew;
 import com.daxton.customdisplay.task.action.list.Loop;
 import com.daxton.customdisplay.task.player.OnAttack;
+import com.daxton.customdisplay.task.player.OnSelf;
 import com.daxton.customdisplay.task.player.OnTimer;
 
 import java.util.HashMap;
@@ -18,6 +19,8 @@ public class TriggerManager {
 
     private static Map<UUID, List<String>> onTimerNameMap = new HashMap<>();
 
+    /**玩家動作Map**/
+    private static Map<String, JudgmentAction> playerActionTaskMap = new HashMap<>();
 
     /**AttackListener->onAttack**/
     private static Map<String, OnAttack> AttackListenerTaskMap = new HashMap<>();
@@ -39,6 +42,10 @@ public class TriggerManager {
 
     public static Map<UUID, List<String>> getOnTimerNameMap() {
         return onTimerNameMap;
+    }
+    /**玩家動作Map**/
+    public static Map<String, JudgmentAction> getPlayerActionTaskMap() {
+        return playerActionTaskMap;
     }
 
     /**AttackListener->onAttack**/

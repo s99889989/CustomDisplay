@@ -63,6 +63,7 @@ public class OnAttack {
         int delay = 0;
         next:
         for(String string : actionList){
+
             /**判斷條件**/
             if (string.toLowerCase().contains("condition")) {
                 if(!(new Condition().getResuult(string,target,player,taskID))){

@@ -35,6 +35,8 @@ public class Loop extends BukkitRunnable {
 
     private LivingEntity target;
 
+    private boolean unlimited = true;
+
     private double damageNumber = 0;
 
     /**條件判斷**/
@@ -55,6 +57,10 @@ public class Loop extends BukkitRunnable {
             stringList.add(stringTokenizer.nextToken());
         }
         for(String string1 : stringList){
+            if(string1.toLowerCase().contains("onstart=")){
+
+            }
+
             if(string1.toLowerCase().contains("onstart=")){
                 String[] strings = string1.split("=");
                 actionListMap.put(strings[0].toLowerCase(), new ConfigFind().getActionKeyList(strings[1]));
@@ -77,7 +83,11 @@ public class Loop extends BukkitRunnable {
 
             if(string1.toLowerCase().contains("duration=")){
                 String[] strings = string1.split("=");
-                actionMap.put(strings[0].toLowerCase(),strings[1]);
+                if(strings[1].toLowerCase().contains("unlimited")){
+                    unlimited = false;
+                }else {
+                    actionMap.put(strings[0].toLowerCase(),strings[1]);
+                }
             }
         }
         this.duration = Integer.valueOf(actionMap.get("duration"));
@@ -104,10 +114,17 @@ public class Loop extends BukkitRunnable {
     public void onStart(){
         try{
             List<String> stringList = actionListMap.get("onstart");
-            for(String actionString : stringList){
-                TriggerManager.getLoopTaskMap().put(taskID,new JudgmentAction());
-                if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-                    TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+            if(stringList.size() > 0){
+                for(String actionString : stringList){
+                    if(condition(actionString)){
+                        return;
+                    }
+                    if(TriggerManager.getLoopTaskMap().get(taskID) == null){
+                        TriggerManager.getLoopTaskMap().put(taskID,new JudgmentAction());
+                    }
+                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
+                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                    }
                 }
             }
         }catch (NullPointerException exception){
@@ -123,21 +140,14 @@ public class Loop extends BukkitRunnable {
 
         try{
             List<String> stringList = actionListMap.get("ontime");
-            for(String actionString : stringList){
-                if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) == null){
-                    conditionMap.put(taskID,new Condition());
-                    if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
+            if(stringList.size() > 0){
+                for(String actionString : stringList){
+                    if(condition(actionString)){
                         return;
                     }
-
-                }
-                if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) != null){
-                    if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
-                        return;
+                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
+                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                     }
-                }
-                if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-                    TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                 }
             }
         }catch (NullPointerException exception){
@@ -148,15 +158,19 @@ public class Loop extends BukkitRunnable {
             cancel();
         }
 
-
     }
 
     public void onEnd(){
         try{
             List<String> stringList = actionListMap.get("onend");
-            for(String actionString : stringList){
-                if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-                    TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+            if(stringList.size() > 0){
+                for(String actionString : stringList){
+                    if(condition(actionString)){
+                        return;
+                    }
+                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
+                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                    }
                 }
             }
         }catch (NullPointerException exception){
@@ -172,11 +186,29 @@ public class Loop extends BukkitRunnable {
         ticksRun = ticksRun + period;
 
         onTime();
-
-        if(ticksRun > duration){
-            onEnd();
-            cancel();
+        if(unlimited){
+            if(ticksRun > duration){
+                onEnd();
+                cancel();
+            }
         }
+    }
+
+    public boolean condition(String actionString){
+        boolean b = false;
+        if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) == null){
+            conditionMap.put(taskID,new Condition());
+            if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
+                b = true;
+            }
+
+        }
+        if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) != null){
+            if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
+                b = true;
+            }
+        }
+        return b;
     }
 
 }

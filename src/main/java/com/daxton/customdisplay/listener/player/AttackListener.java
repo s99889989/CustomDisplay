@@ -65,7 +65,6 @@ public class AttackListener implements Listener {
     }
 
     public void action(){
-//if(string.toLowerCase().contains("entitytype=")){
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             for(String string : playerData.getPlayerActionList()){

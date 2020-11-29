@@ -15,13 +15,13 @@ public class ConfigManager {
     CustomDisplay cd;
 
     public FileConfiguration config;
-    //public FileConfiguration boos_bar_config;
+
     public FileConfiguration language;
 
 
     public ConfigManager(CustomDisplay plugin){
         cd = plugin;
-        //new FolderConfigUtil();
+
 
 
         config = new AutoConfig("resource/config.yml","config.yml").get();
@@ -36,11 +36,6 @@ public class ConfigManager {
         new AutoConfig().actionConfig();
         new AutoConfig().characterConfig();
         new AutoConfig().playersConfig();
-
-
-        //config = ConfigMapManager.getFileConfigurationMap().get("config.yml");
-        //boos_bar_config = ConfigMapManager.getFileConfigurationMap().get("BoosBarDisplay.yml");
-        //language = ConfigMapManager.getFileConfigurationMap().get("Language_"+config.getString("Language")+".yml");
 
     }
 

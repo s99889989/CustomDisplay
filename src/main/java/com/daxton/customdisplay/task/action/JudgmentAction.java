@@ -1,5 +1,7 @@
 package com.daxton.customdisplay.task.action;
 
+import com.daxton.customdisplay.api.character.ConfigFind;
+import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.task.action.list.HolographicNew;
 import com.daxton.customdisplay.task.action.list.Loop;
 import com.daxton.customdisplay.manager.player.TriggerManager;
@@ -17,8 +19,7 @@ public class JudgmentAction {
 
     public void execute(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
         /**動作第一個關鍵字**/
-        String judgMent = new JudgmentAction().getAction(firstString);
-
+        String judgMent = new StringFind().getAction(firstString);
 
         /**HolographicDisplays的相關判斷**/
         if(judgMent.toLowerCase().contains("createhd") || judgMent.toLowerCase().contains("addlinehd") || judgMent.toLowerCase().contains("removelinehd") || judgMent.toLowerCase().contains("teleporthd") || judgMent.toLowerCase().contains("deletehd")){
@@ -44,19 +45,26 @@ public class JudgmentAction {
 
     }
 
-    /**丟入整個動作 返回動作第一個關鍵字**/
-    public String getAction(String string){
-        String lastString = "";
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(string,"[;] ");
-        while(stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
+    public void executeOne(Player player, String firstString,String taskID){
+
+        /**動作第一個關鍵字**/
+        String judgMent = new StringFind().getAction(firstString);
+
+        /**Action的相關判斷**/
+        if(judgMent.toLowerCase().contains("action")){
+            List<String> actionList = new ConfigFind().getActionList(firstString);
+            for(String string : actionList){
+                new JudgmentAction().executeOne(player,string,taskID);
+            }
         }
-        if(stringList.size() > 0){
-            String[] strings = stringList.toArray(new String[stringList.size()]);
-            lastString = strings[0];
+
+        /**Loop的相關判斷**/
+        if(judgMent.toLowerCase().contains("loop")){
+
+
+
         }
-        return lastString;
+
     }
 
 
