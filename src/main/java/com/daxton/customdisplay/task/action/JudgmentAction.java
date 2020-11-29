@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.task.action.list.HolographicNew;
 import com.daxton.customdisplay.task.action.list.Loop;
 import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.task.action.list.LoopOne;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -61,7 +62,7 @@ public class JudgmentAction {
         /**Loop的相關判斷**/
         if(judgMent.toLowerCase().contains("loop")){
 
-
+            new LoopOne().onLoop(player,firstString,taskID);
 
         }
 
