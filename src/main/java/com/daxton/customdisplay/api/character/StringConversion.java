@@ -29,27 +29,9 @@ public class StringConversion {
                 firstString = firstString.replace(firstString.substring(head,tail+1),change);
             }
         }
-
         if(firstString.contains("%")){
             firstString = PlaceholderAPI.setPlaceholders(player,firstString);
         }
-
-//        if(firstString.contains("%")){
-//            firstString = PlaceholderAPI.setPlaceholders(player,firstString);
-//            if(firstString.contains("&")){
-//                String findText = "&";
-//                int num = appearNumber(firstString, findText);
-//                int head;
-//                int tail = 0;
-//                for(int i = 0; i < num/2;i++){
-//                    head = firstString.indexOf("&",tail+1);
-//                    tail = firstString.indexOf("&",head+1);
-//                    String change = customString(folderName,firstString.substring(head,tail+1),player);
-//                    firstString = firstString.replace(firstString.substring(head,tail+1),change);
-//                }
-//            }
-//        }
-
         return firstString;
 
     }

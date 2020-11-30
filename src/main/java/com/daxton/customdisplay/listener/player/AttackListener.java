@@ -1,9 +1,11 @@
 package com.daxton.customdisplay.listener.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
 import com.daxton.customdisplay.task.player.OnAttack;
 import org.bukkit.entity.*;
@@ -60,8 +62,24 @@ public class AttackListener implements Listener {
             targetUUID = target.getUniqueId();
             damageNumber = event.getFinalDamage();
             action();
+
         }
 
+    }
+
+    public void newAction(){
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        if(playerData != null){
+            for(String string : playerData.getPlayerActionList()){
+                if(string.toLowerCase().contains("~onattack")){
+                    String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
+                    if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) == null){
+                        TriggerManager.getPlayerActionTaskMap().put(uuidActionString,new JudgmentAction());
+                        TriggerManager.getPlayerActionTaskMap().get(uuidActionString).execute(player,target,string,damageNumber,uuidActionString);
+                    }
+                }
+            }
+        }
     }
 
     public void action(){

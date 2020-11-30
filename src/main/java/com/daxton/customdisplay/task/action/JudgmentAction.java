@@ -59,6 +59,15 @@ public class JudgmentAction {
             new Sound(player, firstString).playSound();
         }
 
+        if(judgMent.toLowerCase().contains("boosbar")){
+            if(TriggerManager.getJudgment_BossBar_Map().get(taskID) == null){
+                TriggerManager.getJudgment_BossBar_Map().put(taskID,new BossBar());
+            }
+            if(TriggerManager.getJudgment_BossBar_Map().get(taskID) != null){
+                TriggerManager.getJudgment_BossBar_Map().get(taskID).set(player,target,firstString,taskID);
+            }
+        }
+
     }
 
     public void executeOne(Player player, String firstString,String taskID){
