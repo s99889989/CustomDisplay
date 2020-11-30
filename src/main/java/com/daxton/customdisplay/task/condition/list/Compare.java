@@ -1,7 +1,6 @@
 package com.daxton.customdisplay.task.condition.list;
 
-import com.daxton.customdisplay.api.character.StringConversionNew;
-import com.daxton.customdisplay.util.ContentUtil;
+import com.daxton.customdisplay.api.character.StringConversion;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -47,7 +46,7 @@ public class Compare {
         }
         if(stringList.size() == 4){
             String[] strings = stringList.toArray(new String[stringList.size()]);
-            left = Double.valueOf(new StringConversionNew().customString("Character",strings[2],player));
+            left = Double.valueOf(new StringConversion().customString("Character",strings[2],player));
             right = Double.valueOf(strings[3]);
         }
     }

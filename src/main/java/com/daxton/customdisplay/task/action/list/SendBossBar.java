@@ -27,23 +27,23 @@ import java.util.UUID;
 import static org.bukkit.boss.BarColor.BLUE;
 import static org.bukkit.boss.BarStyle.SEGMENTED_10;
 
-public class AttackBossBar {
+public class SendBossBar {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private BukkitRunnable bukkitRunnable;
 
-    public BossBar bossBar;
+    public org.bukkit.boss.BossBar bossBar;
 
     private double maxHealth;
 
     private Player player;
 
-    public BossBar getBossBar() {
+    public org.bukkit.boss.BossBar getBossBar() {
         return bossBar;
     }
 
-    public AttackBossBar(Entity entity, LivingEntity target){
+    public SendBossBar(Entity entity, LivingEntity target){
 //        player = (Player) entity;
 //        UUID targetUUID = target.getUniqueId();
 //        UUID uuid = player.getUniqueId();

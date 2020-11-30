@@ -1,13 +1,10 @@
 package com.daxton.customdisplay.manager.player;
 
 import com.daxton.customdisplay.task.action.JudgmentAction;
-import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.HolographicNew;
 import com.daxton.customdisplay.task.action.list.Loop;
 import com.daxton.customdisplay.task.action.list.LoopOne;
 import com.daxton.customdisplay.task.player.OnAttack;
-import com.daxton.customdisplay.task.player.OnSelf;
-import com.daxton.customdisplay.task.player.OnTimer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +13,6 @@ import java.util.UUID;
 
 public class TriggerManager {
 
-    private static Map<String, OnTimer> onTimerMap = new HashMap<>();
 
     private static Map<UUID, List<String>> onTimerNameMap = new HashMap<>();
 
@@ -39,9 +35,7 @@ public class TriggerManager {
 
 
 
-    public static Map<String, OnTimer> getOnTimerMap() {
-        return onTimerMap;
-    }
+
 
     public static Map<UUID, List<String>> getOnTimerNameMap() {
         return onTimerNameMap;

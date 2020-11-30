@@ -2,11 +2,8 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
-import com.daxton.customdisplay.api.character.StringConversionNew;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.task.action.JudgmentAction;
-import com.daxton.customdisplay.task.player.OnAttack;
 import com.daxton.customdisplay.util.NumberUtil;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -148,9 +145,9 @@ public class HolographicNew {
         //hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player).getFinalString().replace("{cd_damage}", attackNumber));
         if(target.getType().toString().toLowerCase().equals("player")){
             Player targetPlayer = (Player) target;
-            hologram.appendTextLine(new StringConversionNew().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
         }else {
-            hologram.appendTextLine(new StringConversionNew().getString("Character",actionMap.get("m"),player).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),player).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
         }
 
 
@@ -161,9 +158,9 @@ public class HolographicNew {
         String healthNumber = targetHealthNumber();
         if(target.getType().toString().toLowerCase().equals("player")){
             Player targetPlayer = (Player) target;
-            hologram.appendTextLine(new StringConversionNew().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
         }else {
-            hologram.appendTextLine(new StringConversionNew().getString("Character",actionMap.get("m"),player).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),player).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
         }
 
     }

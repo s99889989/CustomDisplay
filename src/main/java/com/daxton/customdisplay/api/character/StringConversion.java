@@ -5,40 +5,58 @@ import com.daxton.customdisplay.util.NumberUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringConversion {
 
-    private Player player;
+    public StringConversion(){
 
-    private String finalString;
+    }
 
-    /**丟入要比對的資料夾 字串 玩家資料**/
-    public StringConversion(String folderName, String firstString, Player player){
-        this.player = player;
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,",");
-        while (stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
-        String stringAdd = "";
-        for(String inputString : stringList){
-            if(inputString.contains("%")){
-                inputString = PlaceholderAPI.setPlaceholders(player,inputString);
+    public String getString(String folderName, String firstString, Player player){
+
+        if(firstString.contains("&")){
+            String findText = "&";
+            int num = appearNumber(firstString, findText);
+            int head;
+            int tail = 0;
+            for(int i = 0; i < num/2;i++){
+                head = firstString.indexOf("&",tail+1);
+                tail = firstString.indexOf("&",head+1);
+                String change = customString(folderName,firstString.substring(head,tail+1),player);
+                firstString = firstString.replace(firstString.substring(head,tail+1),change);
             }
-            if(inputString.contains("&")){
-                /**自訂字串的處理**/
-                inputString = customString(folderName,inputString);
-            }
-            stringAdd = stringAdd + inputString;
         }
-        finalString = stringAdd;
+
+        if(firstString.contains("%")){
+            firstString = PlaceholderAPI.setPlaceholders(player,firstString);
+        }
+
+//        if(firstString.contains("%")){
+//            firstString = PlaceholderAPI.setPlaceholders(player,firstString);
+//            if(firstString.contains("&")){
+//                String findText = "&";
+//                int num = appearNumber(firstString, findText);
+//                int head;
+//                int tail = 0;
+//                for(int i = 0; i < num/2;i++){
+//                    head = firstString.indexOf("&",tail+1);
+//                    tail = firstString.indexOf("&",head+1);
+//                    String change = customString(folderName,firstString.substring(head,tail+1),player);
+//                    firstString = firstString.replace(firstString.substring(head,tail+1),change);
+//                }
+//            }
+//        }
+
+        return firstString;
+
     }
 
     /**對自訂字串進行關於Character資料夾內的設定處理**/
-    public String customString(String folderName, String firstString2){
+    public String customString(String folderName, String firstString2,Player player){
+        firstString2 = firstString2.replace("&","");
         String outputString = "";
         List<String> list = new ConfigFind().getCharacterMessageList(folderName,firstString2);
         for(String string : list){
@@ -65,7 +83,16 @@ public class StringConversion {
         return outputString;
     }
 
-    public String getFinalString() {
-        return finalString;
+    /**計算指定單字出現次數**/
+    public static int appearNumber(String srcText, String findText) {
+        int count = 0;
+        Pattern p = Pattern.compile(findText);
+        Matcher m = p.matcher(srcText);
+        while (m.find()) {
+            count++;
+        }
+        return count;
     }
+
+
 }

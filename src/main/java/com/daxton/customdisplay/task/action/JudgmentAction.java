@@ -101,6 +101,10 @@ public class JudgmentAction {
                 if (judgMent.toLowerCase().contains("sound")) {
                     new Sound(player, firstString).playSound();
                 }
+                /**ActionBar的相關判斷**/
+                if(judgMent.toLowerCase().contains("actionbar")){
+                    new ActionBar(player,firstString).sendActionBar();
+                }
 
             }
         };
