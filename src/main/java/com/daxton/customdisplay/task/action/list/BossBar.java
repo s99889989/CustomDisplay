@@ -94,7 +94,7 @@ public class BossBar {
             change();
         }
         if(function.toLowerCase().contains("delete")){
-            deleteBossBar();
+            remove();
         }
     }
 
