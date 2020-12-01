@@ -75,8 +75,8 @@ public final class CustomDisplay extends JavaPlugin {
                     if(string.toLowerCase().contains("~onjoin")){
                         String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
                         if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) != null){
-                            TriggerManager.getJudgmentActionTaskLoopOneMap().get(uuidActionString).cancel();
-                            TriggerManager.getJudgmentActionTaskLoopOneMap().remove(uuidActionString);
+                            TriggerManager.getJudgment_LoopOne_Map().get(uuidActionString).cancel();
+                            TriggerManager.getJudgment_LoopOne_Map().remove(uuidActionString);
                             TriggerManager.getPlayerActionTaskMap().remove(uuidActionString);
                         }
                     }
@@ -84,8 +84,8 @@ public final class CustomDisplay extends JavaPlugin {
 
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
-                if(TriggerManager.getHolographicTaskMap().get(playerUUID.toString()) != null){
-                    TriggerManager.getHolographicTaskMap().get(playerUUID.toString()).deleteHD();
+                if(TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
+                    TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
                 }
             }
 
@@ -101,7 +101,7 @@ public final class CustomDisplay extends JavaPlugin {
                         String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
                         if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) == null){
                             TriggerManager.getPlayerActionTaskMap().put(uuidActionString,new JudgmentAction());
-                            TriggerManager.getPlayerActionTaskMap().get(uuidActionString).executeOne(player,string,uuidActionString);
+                            TriggerManager.getPlayerActionTaskMap().get(uuidActionString).execute(player,string,uuidActionString);
                         }
                     }
                 }

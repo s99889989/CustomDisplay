@@ -142,7 +142,6 @@ public class HolographicNew {
         String healthNumber = targetHealthNumber();
 
         hologram = HologramsAPI.createHologram(cd, createLocation);
-        //hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player).getFinalString().replace("{cd_damage}", attackNumber));
         if(target.getType().toString().toLowerCase().equals("player")){
             Player targetPlayer = (Player) target;
             hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
@@ -205,20 +204,17 @@ public class HolographicNew {
     }
 
     public void deleteHD(){
-        if(TriggerManager.getAttackListenerTaskMap().get(taskID) != null){
-            TriggerManager.getAttackListenerTaskMap().remove(taskID);
+        if(TriggerManager.getAction_Judgment_Map().get(taskID) != null){
+            TriggerManager.getAction_Judgment_Map().remove(taskID);
         }
-        if(TriggerManager.getOnAttackTaskMap().get(taskID) != null){
-            TriggerManager.getOnAttackTaskMap().remove(taskID);
+        if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
+            TriggerManager.getJudgment_Loop_Map().remove(taskID);
         }
-        if(TriggerManager.getJudgmentActionTaskMap().get(taskID) != null){
-            TriggerManager.getJudgmentActionTaskMap().remove(taskID);
+        if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
+            TriggerManager.getJudgment_Holographic_Map().remove(taskID);
         }
-        if(TriggerManager.getHolographicTaskMap().get(taskID) != null){
-            TriggerManager.getHolographicTaskMap().remove(taskID);
-        }
-        if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-            TriggerManager.getLoopTaskMap().remove(taskID);
+        if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
+            TriggerManager.getLoop_Judgment_Map().remove(taskID);
         }
         hologram.delete();
     }

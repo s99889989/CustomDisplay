@@ -5,8 +5,6 @@ import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
-import com.daxton.customdisplay.task.player.OnAttack;
-import com.daxton.customdisplay.task.player.OnSelf;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,11 +40,7 @@ public class JoinListener implements Listener {
         if(playerData != null){
             for(String string : playerData.getPlayerActionList()){
                 if(string.toLowerCase().contains("~onjoin")){
-                    String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
-                    if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) == null){
-                        TriggerManager.getPlayerActionTaskMap().put(uuidActionString,new JudgmentAction());
-                        TriggerManager.getPlayerActionTaskMap().get(uuidActionString).executeOne(player,string,uuidActionString);
-                    }
+                    new JudgmentAction().execute(player,string,String.valueOf((int)(Math.random()*100000)));
                 }
             }
         }

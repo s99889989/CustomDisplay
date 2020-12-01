@@ -115,11 +115,11 @@ public class Loop extends BukkitRunnable {
                     if(condition(actionString)){
                         return;
                     }
-                    if(TriggerManager.getLoopTaskMap().get(taskID) == null){
-                        TriggerManager.getLoopTaskMap().put(taskID,new JudgmentAction());
+                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) == null){
+                        TriggerManager.getLoop_Judgment_Map().put(taskID,new JudgmentAction());
                     }
-                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
+                        TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                     }
                 }
             }
@@ -141,8 +141,8 @@ public class Loop extends BukkitRunnable {
                     if(condition(actionString)){
                         return;
                     }
-                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
+                        TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                     }
                 }
             }
@@ -164,8 +164,8 @@ public class Loop extends BukkitRunnable {
                     if(condition(actionString)){
                         return;
                     }
-                    if(TriggerManager.getLoopTaskMap().get(taskID) != null){
-                        TriggerManager.getLoopTaskMap().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
+                        TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                     }
                 }
             }

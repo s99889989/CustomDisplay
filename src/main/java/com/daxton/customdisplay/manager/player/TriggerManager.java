@@ -1,14 +1,11 @@
 package com.daxton.customdisplay.manager.player;
 
 import com.daxton.customdisplay.task.action.JudgmentAction;
-import com.daxton.customdisplay.task.action.list.BossBar;
-import com.daxton.customdisplay.task.action.list.HolographicNew;
-import com.daxton.customdisplay.task.action.list.Loop;
-import com.daxton.customdisplay.task.action.list.LoopOne;
-import com.daxton.customdisplay.task.player.OnAttack;
+import com.daxton.customdisplay.task.action.list.*;
+import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,20 +16,25 @@ public class TriggerManager {
     /**玩家動作Map**/
     private static Map<String, JudgmentAction> playerActionTaskMap = new HashMap<>();
 
-    /**AttackListener->onAttack**/
-    private static Map<String, OnAttack> AttackListenerTaskMap = new HashMap<>();
-    /**onAttack->JudgmentAction**/
-    private static Map<String, JudgmentAction> onAttackTaskMap = new HashMap<>();
+    /**目標紀錄攻擊者**/
+    public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
+
     /**JudgmentAction->HolographicNew**/
-    private static Map<String, HolographicNew> holographicTaskMap = new HashMap<>();
+    private static Map<String, HolographicNew> judgment_Holographic_Map = new HashMap<>();
     /**JudgmentAction->Loop**/
-    private static Map<String, Loop> judgmentActionTaskMap = new HashMap<>();
+    private static Map<String, Loop> judgment_Loop_Map = new HashMap<>();
     /**JudgmentAction->LoopOne**/
-    private static Map<String, LoopOne> judgmentActionTaskLoopOneMap = new HashMap<>();
+    private static Map<String, LoopOne> judgment_LoopOne_Map = new HashMap<>();
     /**JudgmentAction->BossBar**/
-    private static Map<String, BossBar> judgment_BossBar_Map = new HashMap<>();
+    private static Map<String, SendBossBar> judgment_BossBar_Map = new HashMap<>();
+    /**BossBar**/
+    private static Map<String, BossBar> BossBar_Map = new HashMap<>();
     /**Loop->JudgmentAction**/
-    private static Map<String, JudgmentAction> loopTaskMap = new HashMap<>();
+    private static Map<String, JudgmentAction> loop_Judgment_Map = new HashMap<>();
+    /**Action->JudgmentAction**/
+    private static Map<String, JudgmentAction> action_Judgment_Map = new HashMap<>();
+    /**JudgmentAction->Action**/
+    private static Map<String, Action> judgment_Action_Map = new HashMap<>();
 
 
 
@@ -45,33 +47,42 @@ public class TriggerManager {
         return playerActionTaskMap;
     }
 
-    /**AttackListener->onAttack**/
-    public static Map<String, OnAttack> getAttackListenerTaskMap() {
-        return AttackListenerTaskMap;
-    }
-    /**onAttack->JudgmentAction**/
-    public static Map<String, JudgmentAction> getOnAttackTaskMap() {
-        return onAttackTaskMap;
-    }
-    /**JudgmentAction->HolographicNew**/
-    public static Map<String, HolographicNew> getHolographicTaskMap() {
-        return holographicTaskMap;
-    }
-    /**Loop->JudgmentAction**/
-    public static Map<String, JudgmentAction> getLoopTaskMap() {
-        return loopTaskMap;
-    }
-    /**JudgmentAction->Loop**/
-    public static Map<String, Loop> getJudgmentActionTaskMap() {
-        return judgmentActionTaskMap;
-    }
-    /**JudgmentAction->BossBar**/
-    public static Map<String, BossBar> getJudgment_BossBar_Map() {
-        return judgment_BossBar_Map;
+    /**目標紀錄攻擊者的UUID**/
+    public static Map<UUID, Player> getTarget_getPlayer_Map() {
+        return target_getPlayer_Map;
     }
 
+
+    /**JudgmentAction->HolographicNew**/
+    public static Map<String, HolographicNew> getJudgment_Holographic_Map() {
+        return judgment_Holographic_Map;
+    }
+    /**Loop->JudgmentAction**/
+    public static Map<String, JudgmentAction> getLoop_Judgment_Map() {
+        return loop_Judgment_Map;
+    }
+    /**JudgmentAction->Loop**/
+    public static Map<String, Loop> getJudgment_Loop_Map() {
+        return judgment_Loop_Map;
+    }
+    /**JudgmentAction->BossBar**/
+    public static Map<String, SendBossBar> getJudgment_BossBar_Map() {
+        return judgment_BossBar_Map;
+    }
+    /**BossBar**/
+    public static Map<String, BossBar> getBossBar_Map() {
+        return BossBar_Map;
+    }
     /**JudgmentAction->LoopOne**/
-    public static Map<String, LoopOne> getJudgmentActionTaskLoopOneMap() {
-        return judgmentActionTaskLoopOneMap;
+    public static Map<String, LoopOne> getJudgment_LoopOne_Map() {
+        return judgment_LoopOne_Map;
+    }
+    /**Action->JudgmentAction**/
+    public static Map<String, JudgmentAction> getAction_Judgment_Map() {
+        return action_Judgment_Map;
+    }
+    /**JudgmentAction->Action**/
+    public static Map<String, Action> getJudgment_Action_Map() {
+        return judgment_Action_Map;
     }
 }

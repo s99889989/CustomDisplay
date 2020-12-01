@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.condition;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.task.condition.list.Compare;
+import com.daxton.customdisplay.task.condition.list.EntityTypeList;
 import com.daxton.customdisplay.task.condition.list.Health;
 import com.daxton.customdisplay.util.ContentUtil;
 import org.bukkit.entity.LivingEntity;
@@ -24,6 +25,7 @@ public class Condition {
     }
 
     public boolean getResuult(String firstString, LivingEntity target, Player player,String taskID){
+
         this.player = player;
         boolean b = false;
         if(firstString.toLowerCase().contains("entitytype=")){
@@ -43,6 +45,9 @@ public class Condition {
         }
         if(firstString.toLowerCase().contains("compare=")){
             b = new Compare().judgment(firstString,target,player);
+        }
+        if(firstString.toLowerCase().contains("entitytypelist=")){
+            b = !(new EntityTypeList().findSetEntityTypeList(firstString,target));
         }
 
         return b;

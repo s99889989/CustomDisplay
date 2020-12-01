@@ -1,10 +1,12 @@
 package com.daxton.customdisplay.listener;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.BBDMapManager;
+import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.task.action.list.SendBossBar;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,27 +21,29 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
         UUID uuid = e.getEntity().getUniqueId();
+        LivingEntity target = e.getEntity();
 
-        if(TriggerManager.getHolographicTaskMap().get(uuid.toString()) != null){
-            TriggerManager.getHolographicTaskMap().get(uuid.toString()).deleteHD();
+
+        if(TriggerManager.getJudgment_Holographic_Map().get(uuid.toString()) != null){
+            TriggerManager.getJudgment_Holographic_Map().get(uuid.toString()).deleteHD();
         }
-
-        UUID targetUUID = BBDMapManager.getTargetAttackBossBarMap().get(uuid);
-        if (!(uuid.equals(targetUUID))) {
-        if (targetUUID != null) {
-            SendBossBar sendBossBar = BBDMapManager.getAttackBossBarMap().get(targetUUID);
-            Player player = sendBossBar.getPlayer();
-            sendBossBar.getBossBar().removePlayer(player);
-            sendBossBar.getBukkitRunnable().cancel();
-            BBDMapManager.getAttackBossBarMap().remove(targetUUID);
-            BBDMapManager.getTargetAttackBossBarMap().remove(uuid);
-
-            }
-        }
-
-
+        action(uuid,target);
     }
 
+    public void action(UUID uuid,LivingEntity target){
+        if(TriggerManager.target_getPlayer_Map.get(uuid) != null){
+            Player player = TriggerManager.target_getPlayer_Map.get(uuid);
+            UUID playerUUID = player.getUniqueId();
+            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            if(playerData != null){
+                for(String string : playerData.getPlayerActionList()){
+                    if(string.toLowerCase().contains("~ondeath")){
+                        new JudgmentAction().executeOneTwo(player,target,string,String.valueOf((int)(Math.random()*100000)));
+                    }
+                }
+            }
+        }
+    }
 
     @EventHandler
     public void onExplosionPrime(ExplosionPrimeEvent event){

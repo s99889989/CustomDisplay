@@ -1,6 +1,5 @@
 package com.daxton.customdisplay.listener.player;
 
-import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
@@ -27,18 +26,13 @@ public class QuizListener implements Listener {
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             for(String string : playerData.getPlayerActionList()){
-                if(string.toLowerCase().contains("~onjoin")){
-                    String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
-                    if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) != null){
-                        TriggerManager.getJudgmentActionTaskLoopOneMap().get(uuidActionString).cancel();
-                        TriggerManager.getJudgmentActionTaskLoopOneMap().remove(uuidActionString);
-                        TriggerManager.getPlayerActionTaskMap().remove(uuidActionString);
-                    }
+                if(string.toLowerCase().contains("~onquiz")){
+                    new JudgmentAction().execute(player,string,String.valueOf((int)(Math.random()*100000)));
                 }
             }
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
-            if(TriggerManager.getHolographicTaskMap().get(playerUUID.toString()) != null){
-                TriggerManager.getHolographicTaskMap().get(playerUUID.toString()).deleteHD();
+            if(TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
+                TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
             }
         }
 
