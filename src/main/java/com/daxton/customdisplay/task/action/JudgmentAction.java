@@ -29,6 +29,16 @@ public class JudgmentAction {
         bukkitRun(player,firstString,taskID);
     }
 
+    /**只有玩家**/
+    public void execute(Player player, String firstString,String taskID){
+        bukkitRun(player,firstString,taskID);
+    }
+
+    public void executeOneTwo(Player player,LivingEntity target, String firstString,String taskID){
+        this.target = target;
+        bukkitRun(player,firstString,taskID);
+    }
+
     public void bukkitRun(Player player,String firstString,String taskID){
         if (firstString.toLowerCase().contains("delay ")) {
             String[] slt = firstString.split(" ");
@@ -111,16 +121,6 @@ public class JudgmentAction {
             }
         };
         bukkitRunnable.runTaskLater(cd, delay);
-    }
-
-    /**只有玩家**/
-    public void execute(Player player, String firstString,String taskID){
-        bukkitRun(player,firstString,taskID);
-    }
-
-    public void executeOneTwo(Player player,LivingEntity target, String firstString,String taskID){
-        this.target = target;
-        bukkitRun(player,firstString,taskID);
     }
 
     public BukkitRunnable getBukkitRunnable() {
