@@ -12,7 +12,6 @@ import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.Loop;
-import com.daxton.customdisplay.task.action.list.LoopOne;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
@@ -71,10 +70,6 @@ public final class CustomDisplay extends JavaPlugin {
             loop.cancel();
         }
         TriggerManager.getJudgment_Loop_Map().clear();
-        for(LoopOne loopOne : TriggerManager.getJudgment_LoopOne_Map().values()){
-            loopOne.cancel();
-        }
-        TriggerManager.getJudgment_LoopOne_Map().clear();
 
         for(Holographic holographic : TriggerManager.getJudgment_Holographic_Map().values()){
             holographic.deleteHD();

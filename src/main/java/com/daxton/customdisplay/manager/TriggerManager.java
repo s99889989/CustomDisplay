@@ -23,8 +23,7 @@ public class TriggerManager {
     private static Map<String, Holographic> judgment_Holographic_Map = new HashMap<>();
     /**JudgmentAction->Loop**/
     private static Map<String, Loop> judgment_Loop_Map = new HashMap<>();
-    /**JudgmentAction->LoopOne**/
-    private static Map<String, LoopOne> judgment_LoopOne_Map = new HashMap<>();
+
     /**JudgmentAction->BossBar**/
     private static Map<String, SendBossBar> judgment_BossBar_Map = new HashMap<>();
     /**BossBar**/
@@ -73,10 +72,7 @@ public class TriggerManager {
     public static Map<String, BossBar> getBossBar_Map() {
         return BossBar_Map;
     }
-    /**JudgmentAction->LoopOne**/
-    public static Map<String, LoopOne> getJudgment_LoopOne_Map() {
-        return judgment_LoopOne_Map;
-    }
+
     /**Action->JudgmentAction**/
     public static Map<String, JudgmentAction> getAction_Judgment_Map() {
         return action_Judgment_Map;

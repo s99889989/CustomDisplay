@@ -15,10 +15,6 @@ public class ClearAction {
             TriggerManager.getJudgment_Loop_Map().remove(taskID);
         }
 
-        if(TriggerManager.getJudgment_LoopOne_Map().get(taskID) != null){
-            TriggerManager.getJudgment_LoopOne_Map().get(taskID).cancel();
-            TriggerManager.getJudgment_LoopOne_Map().remove(taskID);
-        }
 
         if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
             TriggerManager.getJudgment_Holographic_Map().get(taskID).deleteHD();

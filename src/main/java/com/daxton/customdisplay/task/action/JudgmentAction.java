@@ -80,24 +80,16 @@ public class JudgmentAction {
                 }
                 /**Loop的相關判斷**/
                 if(judgMent.toLowerCase().contains("loop")){
-                    if(firstString.toLowerCase().contains("unlimited")){
-                        if(TriggerManager.getJudgment_LoopOne_Map().get(taskID) == null){
-                            TriggerManager.getJudgment_LoopOne_Map().put(taskID,new LoopOne());
-                            TriggerManager.getJudgment_LoopOne_Map().get(taskID).onLoop(player,firstString,taskID);
-                        }
-                    }else {
                         if(TriggerManager.getJudgment_Loop_Map().get(taskID) == null){
                             TriggerManager.getJudgment_Loop_Map().put(taskID,new Loop());
                         }
                         if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
-//                            if(target == null){
-//                                TriggerManager.getJudgment_LoopOne_Map().get(taskID).onLoop(player,firstString,taskID);
-//                            }else {
+                            if(target == null){
+                                TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,firstString,taskID);
+                            }else {
                                 TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,target,firstString,damageNumber,taskID);
-//                            }
+                            }
                         }
-                    }
-
                 }
 
                 /**Title的相關判斷**/
