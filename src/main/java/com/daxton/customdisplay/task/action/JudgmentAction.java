@@ -15,6 +15,8 @@ public class JudgmentAction {
     private BukkitRunnable bukkitRunnable;
 
     int delay = 0;
+    private LivingEntity target;
+    private double damageNumber = 0;
 
     public JudgmentAction(){
 
@@ -22,7 +24,12 @@ public class JudgmentAction {
 
 
     public void execute(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
+        this.target = target;
+        this.damageNumber = damageNumber;
+        bukkitRun(player,firstString,taskID);
+    }
 
+    public void bukkitRun(Player player,String firstString,String taskID){
         if (firstString.toLowerCase().contains("delay ")) {
             String[] slt = firstString.split(" ");
             if (slt.length == 2) {
@@ -41,7 +48,13 @@ public class JudgmentAction {
                         TriggerManager.getJudgment_Action_Map().put(taskID,new Action());
                     }
                     if(TriggerManager.getJudgment_Action_Map().get(taskID) != null){
-                        TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,damageNumber,taskID);
+                        if(target == null){
+                            TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,firstString,taskID);
+                        }else if(damageNumber == 0){
+                            TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,taskID);
+                        }else {
+                            TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,damageNumber,taskID);
+                        }
                     }
 
                 }
@@ -57,12 +70,21 @@ public class JudgmentAction {
                 }
                 /**Loop的相關判斷**/
                 if(judgMent.toLowerCase().contains("loop")){
-                    if(TriggerManager.getJudgment_Loop_Map().get(taskID) == null){
-                        TriggerManager.getJudgment_Loop_Map().put(taskID,new Loop());
+                    if(firstString.toLowerCase().contains("unlimited")){
+                        if(TriggerManager.getJudgment_LoopOne_Map().get(taskID) == null){
+                            TriggerManager.getJudgment_LoopOne_Map().put(taskID,new LoopOne());
+                            TriggerManager.getJudgment_LoopOne_Map().get(taskID).onLoop(player,firstString,taskID);
+                        }
+                    }else {
+                        if(TriggerManager.getJudgment_Loop_Map().get(taskID) == null){
+                            TriggerManager.getJudgment_Loop_Map().put(taskID,new Loop());
+                        }
+                        if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
+                            TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,target,firstString,damageNumber,taskID);
+                        }
+                        //new LoopOne().onLoop(player,firstString,taskID);
                     }
-                    if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
-                        TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,target,firstString,damageNumber,taskID);
-                    }
+
                 }
 
                 /**Title的相關判斷**/
@@ -72,6 +94,10 @@ public class JudgmentAction {
                 /**Sound的相關判斷**/
                 if (judgMent.toLowerCase().contains("sound")) {
                     new Sound(player, firstString).playSound();
+                }
+                /**ActionBar的相關判斷**/
+                if(judgMent.toLowerCase().contains("actionbar")){
+                    new ActionBar(player,firstString).sendActionBar();
                 }
 
                 if(judgMent.toLowerCase().contains("boosbar")){
@@ -82,8 +108,6 @@ public class JudgmentAction {
                         TriggerManager.getJudgment_BossBar_Map().get(taskID).set(player,target,firstString,taskID);
                     }
                 }
-
-
             }
         };
         bukkitRunnable.runTaskLater(cd, delay);
@@ -91,111 +115,12 @@ public class JudgmentAction {
 
     /**只有玩家**/
     public void execute(Player player, String firstString,String taskID){
-
-        if (firstString.toLowerCase().contains("delay ")) {
-            String[] slt = firstString.split(" ");
-            if (slt.length == 2) {
-                delay = delay + Integer.valueOf(slt[1]);
-            }
-        }
-        bukkitRunnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                /**動作第一個關鍵字**/
-                String judgMent = new StringFind().getAction(firstString);
-                /**Action的相關判斷**/
-                /**Action的相關判斷**/
-                if (judgMent.toLowerCase().contains("action")) {
-
-                    if(TriggerManager.getJudgment_Action_Map().get(taskID) == null){
-                        TriggerManager.getJudgment_Action_Map().put(taskID,new Action());
-                    }
-                    if(TriggerManager.getJudgment_Action_Map().get(taskID) != null){
-                        TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,firstString,taskID);
-                    }
-                }
-                /**LoopOne的相關判斷**/
-                if(judgMent.toLowerCase().contains("loop")){
-                    if(firstString.toLowerCase().contains("unlimited")){
-                        if(TriggerManager.getJudgment_LoopOne_Map().get(taskID) == null){
-                            TriggerManager.getJudgment_LoopOne_Map().put(taskID,new LoopOne());
-                            TriggerManager.getJudgment_LoopOne_Map().get(taskID).onLoop(player,firstString,taskID);
-                        }
-                    }else {
-                        new LoopOne().onLoop(player,firstString,taskID);
-                    }
-                }
-                /**Title的相關判斷**/
-                if(judgMent.toLowerCase().contains("title")){
-                    new Title(player,firstString).sendTitle();
-                }
-                /**Sound的相關判斷**/
-                if (judgMent.toLowerCase().contains("sound")) {
-                    new Sound(player, firstString).playSound();
-                }
-                /**ActionBar的相關判斷**/
-                if(judgMent.toLowerCase().contains("actionbar")){
-                    new ActionBar(player,firstString).sendActionBar();
-                }
-
-            }
-        };
-        bukkitRunnable.runTaskLater(cd, delay);
-
+        bukkitRun(player,firstString,taskID);
     }
 
     public void executeOneTwo(Player player,LivingEntity target, String firstString,String taskID){
-
-        if (firstString.toLowerCase().contains("delay ")) {
-            String[] slt = firstString.split(" ");
-            if (slt.length == 2) {
-                delay = delay + Integer.valueOf(slt[1]);
-            }
-        }
-        bukkitRunnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                /**動作第一個關鍵字**/
-                String judgMent = new StringFind().getAction(firstString);
-                /**Action的相關判斷**/
-                /**Action的相關判斷**/
-                if (judgMent.toLowerCase().contains("action")) {
-                    if(TriggerManager.getJudgment_Action_Map().get(taskID) == null){
-                        TriggerManager.getJudgment_Action_Map().put(taskID,new Action());
-                    }
-                    if(TriggerManager.getJudgment_Action_Map().get(taskID) != null){
-                        TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,taskID);
-                    }
-
-                }
-                /**LoopOne的相關判斷**/
-                if(judgMent.toLowerCase().contains("loop")){
-                    if(firstString.toLowerCase().contains("unlimited")){
-                        if(TriggerManager.getJudgment_LoopOne_Map().get(taskID) == null){
-                            TriggerManager.getJudgment_LoopOne_Map().put(taskID,new LoopOne());
-                            TriggerManager.getJudgment_LoopOne_Map().get(taskID).onLoop(player,firstString,taskID);
-                        }
-                    }else {
-                        new LoopOne().onLoop(player,firstString,taskID);
-                    }
-                }
-                /**Title的相關判斷**/
-                if(judgMent.toLowerCase().contains("title")){
-                    new Title(player,firstString).sendTitle();
-                }
-                /**Sound的相關判斷**/
-                if (judgMent.toLowerCase().contains("sound")) {
-                    new Sound(player, firstString).playSound();
-                }
-                /**ActionBar的相關判斷**/
-                if(judgMent.toLowerCase().contains("actionbar")){
-                    new ActionBar(player,firstString).sendActionBar();
-                }
-
-            }
-        };
-        bukkitRunnable.runTaskLater(cd, delay);
-
+        this.target = target;
+        bukkitRun(player,firstString,taskID);
     }
 
     public BukkitRunnable getBukkitRunnable() {
