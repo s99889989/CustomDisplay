@@ -18,27 +18,19 @@ public class Loop extends BukkitRunnable {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private String taskID;
-
-    private Location location;
-
-    private Map<String,String> actionMap = new HashMap<>();
-
-    private Map<String,List<String>> actionListMap = new HashMap<>();
-
     private int ticksRun = 0;
 
-    private int period = 1;
-
-    private int duration = 1;
-
     private Player player;
-
     private LivingEntity target;
-
-    private boolean unlimited = true;
-
+    private String taskID;
     private double damageNumber = 0;
+
+    private String onStart = "";
+    private String onTime = "";
+    private String onEnd = "";
+    private boolean unlimited = true;
+    private int period = 1;
+    private int duration = 1;
 
     /**條件判斷**/
     private static Map<String,Condition> conditionMap = new HashMap<>();
@@ -52,27 +44,41 @@ public class Loop extends BukkitRunnable {
         this.player = player;
         this.target = target;
         this.damageNumber = damageNumber;
+        setLoop(firstString);
+        onStart();
+        this.runTaskTimer(cd,0, period);
+    }
+
+    public void onLoop(Player player,String firstString ,String taskID){
+        this.taskID = taskID;
+        this.player = player;
+        setLoop(firstString);
+        onStart();
+        this.runTaskTimer(cd,0, period);
+    }
+
+    public void setLoop(String firstString){
         List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
 
             if(string1.toLowerCase().contains("onstart=")){
                 String[] strings = string1.split("=");
-                actionListMap.put(strings[0].toLowerCase(), new ConfigFind().getActionKeyList(strings[1]));
+                onStart = strings[1];
             }
 
             if(string1.toLowerCase().contains("ontime=")){
                 String[] strings = string1.split("=");
-                actionListMap.put(strings[0].toLowerCase(), new ConfigFind().getActionKeyList(strings[1]));
+                onTime = strings[1];
             }
 
             if(string1.toLowerCase().contains("onend=")){
                 String[] strings = string1.split("=");
-                actionListMap.put(strings[0].toLowerCase(), new ConfigFind().getActionKeyList(strings[1]));
+                onEnd = strings[1];
             }
 
             if(string1.toLowerCase().contains("period=")){
                 String[] strings = string1.split("=");
-                actionMap.put(strings[0].toLowerCase(),strings[1]);
+                period = Integer.valueOf(strings[1]);
             }
 
             if(string1.toLowerCase().contains("duration=")){
@@ -80,98 +86,61 @@ public class Loop extends BukkitRunnable {
                 if(strings[1].toLowerCase().contains("unlimited")){
                     unlimited = false;
                 }else {
-                    actionMap.put(strings[0].toLowerCase(),strings[1]);
+                    if(strings.length == 2){
+                        duration = Integer.valueOf(strings[1]);
+                    }
                 }
             }
         }
-        this.duration = Integer.valueOf(actionMap.get("duration"));
-        this.period = Integer.valueOf(actionMap.get("period"));
-
-
-        if(actionListMap.get("ontime") == null || actionListMap.get("onend") == null){
-            return;
-
-        }
-
-
-        if(actionListMap.get("onstart") != null){
-            onStart();
-        }
-
-        this.runTaskTimer(cd,0, period);
 
     }
 
-
-
     public void onStart(){
-        try{
-            List<String> stringList = actionListMap.get("onstart");
-            if(stringList.size() > 0){
-                for(String actionString : stringList){
-                    if(condition(actionString)){
-                        return;
-                    }
-                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) == null){
-                        TriggerManager.getLoop_Judgment_Map().put(taskID,new JudgmentAction());
-                    }
-                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
-                        TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
-                    }
+        List<String> stringList = new ConfigFind().getActionKeyList(onStart);
+        if(stringList.size() > 0){
+            for(String actionString : stringList){
+                if(condition(actionString)){
+                    return;
                 }
+                gogo(actionString);
             }
-        }catch (NullPointerException exception){
-            if(player.isOnline()){
-                player.sendMessage("onStart=不能為空或設定錯誤");
-            }
-            cd.getLogger().info(actionMap.get("onStart=不能為空或設定錯誤"));
-            cancel();
         }
     }
 
     public void onTime(){
-
-        try{
-            List<String> stringList = actionListMap.get("ontime");
-            if(stringList.size() > 0){
-                for(String actionString : stringList){
-                    if(condition(actionString)){
-                        return;
-                    }
-                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
-                        TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
-                    }
+        List<String> stringList = new ConfigFind().getActionKeyList(onTime);
+        if(stringList.size() > 0){
+            for(String actionString : stringList){
+                if(condition(actionString)){
+                    return;
                 }
+                gogo(actionString);
             }
-        }catch (NullPointerException exception){
-            if(player.isOnline()){
-                player.sendMessage("onTime=不能為空或設定錯誤");
-            }
-            cd.getLogger().info(actionMap.get("onTime=不能為空或設定錯誤"));
-            cancel();
         }
-
     }
 
     public void onEnd(){
-        try{
-            List<String> stringList = actionListMap.get("onend");
-            if(stringList.size() > 0){
-                for(String actionString : stringList){
-                    if(condition(actionString)){
-                        return;
-                    }
-                    if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
-                        TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
-                    }
+        List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
+        if(stringList.size() > 0){
+            for(String actionString : stringList){
+                if(condition(actionString)){
+                    return;
                 }
+                gogo(actionString);
             }
-        }catch (NullPointerException exception){
-            if(player.isOnline()){
-                player.sendMessage("onEnd=不能為空或設定錯誤");
+        }
+    }
+
+    public void gogo(String actionString){
+        if(TriggerManager.getLoop_Judgment_Map().get(taskID) == null){
+            TriggerManager.getLoop_Judgment_Map().put(taskID,new JudgmentAction());
+        }
+        if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
+            if(target == null){
+                TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,actionString,taskID);
+            }else {
+                TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
             }
-            cd.getLogger().info(actionMap.get("onEnd=不能為空或設定錯誤"));
-            cancel();
         }
     }
 
@@ -191,14 +160,25 @@ public class Loop extends BukkitRunnable {
         boolean b = false;
         if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) == null){
             conditionMap.put(taskID,new Condition());
-            if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
-                b = true;
+            if(target == null){
+                if(conditionMap.get(taskID).getResuult(actionString,player,taskID)){
+                    b = true;
+                }
+            }else {
+                if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
+                    b = true;
+                }
             }
-
         }
         if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) != null){
-            if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
-                b = true;
+            if(target == null){
+                if(conditionMap.get(taskID).getResuult(actionString,player,taskID)){
+                    b = true;
+                }
+            }else {
+                if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
+                    b = true;
+                }
             }
         }
         return b;

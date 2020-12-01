@@ -90,9 +90,12 @@ public class JudgmentAction {
                             TriggerManager.getJudgment_Loop_Map().put(taskID,new Loop());
                         }
                         if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
-                            TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,target,firstString,damageNumber,taskID);
+//                            if(target == null){
+//                                TriggerManager.getJudgment_LoopOne_Map().get(taskID).onLoop(player,firstString,taskID);
+//                            }else {
+                                TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,target,firstString,damageNumber,taskID);
+//                            }
                         }
-                        //new LoopOne().onLoop(player,firstString,taskID);
                     }
 
                 }
