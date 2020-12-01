@@ -3,7 +3,9 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.LivingEntity;
@@ -11,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 
 public class Action {
@@ -39,56 +40,26 @@ public class Action {
         this.target = target;
         this.damageNumber = damageNumber;
         this.taskID = taskID;
-        String targetUUID = target.getUniqueId().toString();
-
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
-        while(stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
-        for(String allString : stringList){
-            if(allString.toLowerCase().contains("action=") || allString.toLowerCase().contains("a=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    action = strings[1];
-                    actionList = new ConfigFind().getActionKeyList(action);
-                }
-            }
-            if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    mark = new StringConversion().getString("Character",strings[1],player);
-                    mark = mark.replace("{target_uuid}",targetUUID);
-                    this.taskID = mark;
-                }
-            }
-
-            if(allString.toLowerCase().contains("stop=") || allString.toLowerCase().contains("s=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    stop = Boolean.valueOf(strings[1]);
-                }
-            }
-        }
-        if(stop){
-            removeOldAction();
-        }else {
-            startAction();
-        }
-
-
+        stringSetting(firstString);
+    }
+    /**沒有攻擊**/
+    public void setAction(Player player, LivingEntity target, String firstString, String taskID){
+        this.firstString = firstString;
+        this.player = player;
+        this.target = target;
+        this.taskID = taskID;
+        stringSetting(firstString);
     }
     /**只有玩家**/
     public void setAction(Player player, String firstString,String taskID){
         this.firstString = firstString;
         this.player = player;
         this.taskID = taskID;
+        stringSetting(firstString);
+    }
 
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
-        while(stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
+    public void stringSetting(String firstString){
+        List<String> stringList = new StringFind().getStringList(firstString);
         for(String allString : stringList){
             if(allString.toLowerCase().contains("action=") || allString.toLowerCase().contains("a=")){
                 String[] strings = allString.split("=");
@@ -101,50 +72,9 @@ public class Action {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     mark = new StringConversion().getString("Character",strings[1],player);
-                    this.taskID = mark;
-                }
-            }
-
-            if(allString.toLowerCase().contains("stop=") || allString.toLowerCase().contains("s=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    stop = Boolean.valueOf(strings[1]);
-                }
-            }
-        }
-
-        if(stop){
-            removeOldAction();
-        }else {
-            startActionOne();
-        }
-
-    }
-
-    public void setActionOneTwo(Player player,LivingEntity target, String firstString,String taskID){
-        this.firstString = firstString;
-        this.player = player;
-        this.taskID = taskID;
-        String targetUUID = target.getUniqueId().toString();
-
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
-        while(stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
-        for(String allString : stringList){
-            if(allString.toLowerCase().contains("action=") || allString.toLowerCase().contains("a=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    action = strings[1];
-                    actionList = new ConfigFind().getActionKeyList(action);
-                }
-            }
-            if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    mark = new StringConversion().getString("Character",strings[1],player);
-                    mark = mark.replace("{target_uuid}",targetUUID);
+                    if(target != null){
+                        mark = mark.replace("{target_uuid}",target.getUniqueId().toString());
+                    }
                     this.taskID = mark;
                 }
             }
@@ -157,16 +87,18 @@ public class Action {
             }
         }
         if(stop){
-            removeOldAction();
+            new ClearAction().clearPlayer(this.player,this.taskID);
         }else {
-            startAction();
+            if(target == null){
+                startActionOne();
+            }else {
+                startAction();
+            }
         }
-
-
     }
+
     /**只有玩家**/
     public void startActionOne(){
-        //removeOldAction();
         if(actionList.size() > 0){
             for(String actionString : actionList){
 //                if(new Condition().getResuult(actionString,target,player,taskID)){
@@ -185,7 +117,7 @@ public class Action {
     }
 
     public void startAction(){
-        removeOldAction();
+        new ClearAction().clearPlayer(player,taskID);
         if(actionList.size() > 0){
             for(String actionString : actionList){
                 if(new Condition().getResuult(actionString,target,player,taskID)){
@@ -200,44 +132,6 @@ public class Action {
                 }
 
             }
-        }
-
-    }
-
-    public void removeOldAction(){
-
-        if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
-            TriggerManager.getJudgment_Loop_Map().get(taskID).cancel();
-            TriggerManager.getJudgment_Loop_Map().remove(taskID);
-        }
-
-        if(TriggerManager.getJudgment_LoopOne_Map().get(taskID) != null){
-            TriggerManager.getJudgment_LoopOne_Map().get(taskID).cancel();
-            TriggerManager.getJudgment_LoopOne_Map().remove(taskID);
-        }
-
-        if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
-            TriggerManager.getJudgment_Holographic_Map().get(taskID).deleteHD();
-            TriggerManager.getJudgment_Holographic_Map().remove(taskID);
-        }
-
-        if(TriggerManager.getJudgment_Action_Map().get(taskID) != null){
-            TriggerManager.getJudgment_Action_Map().remove(taskID);
-        }
-        if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
-            TriggerManager.getLoop_Judgment_Map().get(taskID).getBukkitRunnable().cancel();
-            TriggerManager.getLoop_Judgment_Map().remove(taskID);
-        }
-        if(TriggerManager.getAction_Judgment_Map().get(taskID) != null){
-            TriggerManager.getAction_Judgment_Map().get(taskID).getBukkitRunnable().cancel();
-            TriggerManager.getAction_Judgment_Map().remove(taskID);
-        }
-        if(TriggerManager.getJudgment_BossBar_Map().get(taskID) != null){
-            TriggerManager.getJudgment_BossBar_Map().remove(taskID);
-        }
-        if(TriggerManager.getBossBar_Map().get(taskID) != null){
-            TriggerManager.getBossBar_Map().get(taskID).removePlayer(player);
-            TriggerManager.getBossBar_Map().remove(taskID);
         }
 
     }

@@ -164,7 +164,7 @@ public class JudgmentAction {
                         TriggerManager.getJudgment_Action_Map().put(taskID,new Action());
                     }
                     if(TriggerManager.getJudgment_Action_Map().get(taskID) != null){
-                        TriggerManager.getJudgment_Action_Map().get(taskID).setActionOneTwo(player,target,firstString,taskID);
+                        TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,taskID);
                     }
 
                 }

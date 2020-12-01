@@ -21,11 +21,12 @@ public class StringFind {
     /**丟入整個動作 返回動作第一個關鍵字**/
     public String getAction(String string){
         String lastString = "";
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(string,"[;] ");
-        while(stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
+        List<String> stringList = getStringList(string);
+//        List<String> stringList = new ArrayList<>();
+//        StringTokenizer stringTokenizer = new StringTokenizer(string,"[;] ");
+//        while(stringTokenizer.hasMoreElements()){
+//            stringList.add(stringTokenizer.nextToken());
+//        }
         if(stringList.size() > 0){
             String[] strings = stringList.toArray(new String[stringList.size()]);
             lastString = strings[0];
@@ -58,5 +59,14 @@ public class StringFind {
         return triggerActionName;
     }
 
+    /**丟入字串按照[;] 轉成List**/
+    public List<String> getStringList(String string){
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(string,"[;] ");
+        while(stringTokenizer.hasMoreElements()){
+            stringList.add(stringTokenizer.nextToken());
+        }
+        return stringList;
+    }
 
 }
