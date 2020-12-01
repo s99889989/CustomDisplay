@@ -47,7 +47,9 @@ public class StringConversion {
             if(string.contains("math;")){
                 String[] stl = string.split(";");
                 outputString = PlaceholderAPI.setPlaceholders(player,stl[2]);
-                outputString = new ArithmeticUtil().valueof(outputString);
+                double result = Calculator.conversion(outputString);
+                outputString = String.valueOf(result);
+                //outputString = new ArithmeticUtil().valueof(outputString);
                 double number = Double.valueOf(outputString);
                 outputString = new NumberUtil(number,stl[1]).getDecimalString();
             }

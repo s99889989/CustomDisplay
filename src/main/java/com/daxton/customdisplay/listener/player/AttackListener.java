@@ -29,7 +29,7 @@ public class AttackListener implements Listener {
 
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event){
-        if(!(event.getEntity() instanceof LivingEntity) && event.getEntity().getType() == ARMOR_STAND){
+        if(!(event.getEntity() instanceof LivingEntity) || !(event.getDamager() instanceof Player) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
 

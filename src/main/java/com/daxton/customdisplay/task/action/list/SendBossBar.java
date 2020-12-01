@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.Calculator;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.TriggerManager;
@@ -82,8 +83,9 @@ public class SendBossBar {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     strings[1] = strings[1].replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
-                    strings[1] = new ArithmeticUtil().valueof(strings[1]);
-                    progress = Double.valueOf(strings[1]);
+                    //strings[1] = new ArithmeticUtil().valueof(strings[1]);
+                    progress = Calculator.conversion(strings[1]);
+                    //progress = Double.valueOf(strings[1]);
                 }
             }
         }
