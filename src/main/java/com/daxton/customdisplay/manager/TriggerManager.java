@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.manager.player;
+package com.daxton.customdisplay.manager;
 
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
@@ -20,7 +20,7 @@ public class TriggerManager {
     public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
 
     /**JudgmentAction->HolographicNew**/
-    private static Map<String, HolographicNew> judgment_Holographic_Map = new HashMap<>();
+    private static Map<String, Holographic> judgment_Holographic_Map = new HashMap<>();
     /**JudgmentAction->Loop**/
     private static Map<String, Loop> judgment_Loop_Map = new HashMap<>();
     /**JudgmentAction->LoopOne**/
@@ -54,7 +54,7 @@ public class TriggerManager {
 
 
     /**JudgmentAction->HolographicNew**/
-    public static Map<String, HolographicNew> getJudgment_Holographic_Map() {
+    public static Map<String, Holographic> getJudgment_Holographic_Map() {
         return judgment_Holographic_Map;
     }
     /**Loop->JudgmentAction**/

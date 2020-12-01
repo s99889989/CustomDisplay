@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.task.action.list;
 
+import com.daxton.customdisplay.api.character.StringFind;
 import org.bukkit.Location;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
@@ -31,11 +32,7 @@ public class Sound {
     }
 
     public void setSound(String firstString){
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
-        while (stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
+        List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
             if(string1.toLowerCase().contains("sound=")){
                 String[] strings = string1.split("=");

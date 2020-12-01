@@ -1,8 +1,8 @@
 package com.daxton.customdisplay.listener.player;
 
 import com.daxton.customdisplay.api.player.PlayerData;
-import com.daxton.customdisplay.manager.player.PlayerDataMap;
-import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,7 +1,5 @@
 package com.daxton.customdisplay.api.character;
 
-import com.daxton.customdisplay.util.ArithmeticUtil;
-import com.daxton.customdisplay.util.NumberUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 

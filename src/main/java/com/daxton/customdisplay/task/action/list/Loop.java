@@ -2,9 +2,10 @@ package com.daxton.customdisplay.task.action.list;
 
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
-import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -51,11 +52,7 @@ public class Loop extends BukkitRunnable {
         this.player = player;
         this.target = target;
         this.damageNumber = damageNumber;
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
-        while (stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
+        List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
 
             if(string1.toLowerCase().contains("onstart=")){

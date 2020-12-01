@@ -4,7 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;

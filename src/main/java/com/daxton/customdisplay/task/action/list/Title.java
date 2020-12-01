@@ -1,7 +1,10 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringFind;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class Title {
 
@@ -20,31 +23,30 @@ public class Title {
     private int fadeOut = 1;
 
 
-    public Title(Player player, String string){
+    public Title(Player player, String firstString){
         this.player = player;
-        string = string.toLowerCase().replace("[","").replace("sendtitle","").replace("]","");
-        String[] st1 = string.split(";");
-        for(String stringList : st1){
-            if(stringList.contains("title=")){
-                String[] stl = stringList.split("=");
+        List<String> stringList = new StringFind().getStringList(firstString);
+        for(String strings : stringList){
+            if(strings.contains("title=")){
+                String[] stl = strings.split("=");
                 if(stl.length == 2){
                     setTitle(stl[1]);
                 }
             }
-            if(stringList.contains("subtitle=")){
-                String[] stl = stringList.split("=");
+            if(strings.contains("subtitle=")){
+                String[] stl = strings.split("=");
                 setSubTitle(stl[1]);
             }
-            if(stringList.contains("fadeIn=")){
-                String[] stl = stringList.split("=");
+            if(strings.contains("fadeIn=")){
+                String[] stl = strings.split("=");
                 setFadeIn(Integer.valueOf(stl[1]));
             }
-            if(stringList.contains("stay=")){
-                String[] stl = stringList.split("=");
+            if(strings.contains("stay=")){
+                String[] stl = strings.split("=");
                 setStay(Integer.valueOf(stl[1]));
             }
-            if(stringList.contains("fadeOut=")){
-                String[] stl = stringList.split("=");
+            if(strings.contains("fadeOut=")){
+                String[] stl = strings.split("=");
                 setFadeOut(Integer.valueOf(stl[1]));
             }
         }

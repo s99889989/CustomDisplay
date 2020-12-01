@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.util;
+package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;

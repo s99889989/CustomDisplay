@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringFind;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -28,13 +29,8 @@ public class ActionBar {
 
     public void setActionBar(Player player, String firstString){
         this.player = player;
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
-        while(stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
+        List<String> stringList = new StringFind().getStringList(firstString);
         for(String allString : stringList){
-
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){

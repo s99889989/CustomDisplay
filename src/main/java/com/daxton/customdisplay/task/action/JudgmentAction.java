@@ -3,7 +3,7 @@ package com.daxton.customdisplay.task.action;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.task.action.list.*;
-import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.manager.TriggerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -49,7 +49,7 @@ public class JudgmentAction {
                 /**HolographicDisplays的相關判斷**/
                 if(judgMent.toLowerCase().contains("createhd") || judgMent.toLowerCase().contains("addlinehd") || judgMent.toLowerCase().contains("removelinehd") || judgMent.toLowerCase().contains("teleporthd") || judgMent.toLowerCase().contains("deletehd")){
                     if(TriggerManager.getJudgment_Holographic_Map().get(taskID) == null){
-                        TriggerManager.getJudgment_Holographic_Map().put(taskID,new HolographicNew());
+                        TriggerManager.getJudgment_Holographic_Map().put(taskID,new Holographic());
                     }
                     if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
                         TriggerManager.getJudgment_Holographic_Map().get(taskID).setHD(player,target,firstString,damageNumber,taskID);

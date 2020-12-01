@@ -2,13 +2,7 @@ package com.daxton.customdisplay.config;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.AutoConfig;
-import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.util.ConfigUtil;
-import com.daxton.customdisplay.util.FolderConfigUtil;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import java.util.List;
 
 public class ConfigManager {
 

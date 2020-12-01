@@ -5,7 +5,6 @@ import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.task.condition.list.Compare;
 import com.daxton.customdisplay.task.condition.list.EntityTypeList;
 import com.daxton.customdisplay.task.condition.list.Health;
-import com.daxton.customdisplay.util.ContentUtil;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 

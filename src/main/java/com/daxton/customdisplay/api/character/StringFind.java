@@ -22,11 +22,6 @@ public class StringFind {
     public String getAction(String string){
         String lastString = "";
         List<String> stringList = getStringList(string);
-//        List<String> stringList = new ArrayList<>();
-//        StringTokenizer stringTokenizer = new StringTokenizer(string,"[;] ");
-//        while(stringTokenizer.hasMoreElements()){
-//            stringList.add(stringTokenizer.nextToken());
-//        }
         if(stringList.size() > 0){
             String[] strings = stringList.toArray(new String[stringList.size()]);
             lastString = strings[0];

@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.util;
+package com.daxton.customdisplay.api.character;
 
 import java.text.DecimalFormat;
 import java.util.List;

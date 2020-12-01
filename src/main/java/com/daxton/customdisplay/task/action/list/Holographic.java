@@ -1,33 +1,27 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.util.ContentUtil;
-import com.daxton.customdisplay.util.NumberUtil;
+import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.api.character.NumberUtil;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 
 public class Holographic {
 
+    private static final Random random = new Random();
+
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    protected static final Random random = new Random();
-
-    private BukkitRunnable bukkitRunnable;
-
-    private Hologram hologram;
 
     private Player player;
 
@@ -35,249 +29,197 @@ public class Holographic {
 
     private double damageNumber;
 
-    private Location location;
+    private Map<String,String> actionMap = new HashMap<>();
 
-    private double relativeX;
+    public Hologram hologram;
 
-    private double relativeZ;
+    Location createLocation;
 
-    private String firstString;
-
-    private List<String> stringList = new ArrayList<>();
-    private String actionString = "";
-    private String type = "";
-    private String cx = "";
-    private String cy = "";
-    private String cz = "";
-    private String x = "";
-    private double xx = 0;
-    private String y = "";
-    private String z = "";
-    private double zz = 0;
-    private String message = "";
-    private String targetString = "";
-    private Double hight = 0.0;
-    private int period = 1;
-
-    private String healthConversion;
-    private String healthNumber;
     private String health_conversion;
 
+    private String taskID;
 
-    public Holographic(Player player, LivingEntity target, String firstString, double damageNumber){
+    public Holographic(){
+
+    }
+
+    public void setHD(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
+        this.taskID = taskID;
         this.player = player;
         this.target = target;
         this.damageNumber = damageNumber;
-        this.firstString = firstString;
-        /**抓取資料**/
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString, "[,] ");
-        while (stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
-        for(String string : stringList){
-            if(string.toLowerCase().contains("createhd")){
-                actionString = string;
+        List<String> stringList = new StringFind().getStringList(firstString);
+        for(String string1 : stringList){
+            if(string1.toLowerCase().contains("createhd") || string1.toLowerCase().contains("addlinehd") || string1.toLowerCase().contains("removelinehd") || string1.toLowerCase().contains("teleporthd") || string1.toLowerCase().contains("deletehd")){
+                actionMap.put("actionname",string1.toLowerCase());
             }
-            if(string.toLowerCase().contains("m=")){
-                String[] strings1 = string.split("=");
-                message = strings1[1];
+
+            if(string1.toLowerCase().contains("m=")){
+                String[] strings = string1.split("=");
+                actionMap.put(strings[0].toLowerCase(),strings[1]);
             }
-            if(string.toLowerCase().contains("x=")){
-                String[] strings1 = string.split("=");
-                cx = strings1[1];
+
+            if(string1.toLowerCase().contains("x=")){
+                String[] strings = string1.split("=");
+                actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
             }
-            if(string.toLowerCase().contains("y=")){
-                String[] strings1 = string.split("=");
-                cy = strings1[1];
+
+            if(string1.toLowerCase().contains("y=")){
+                String[] strings = string1.split("=");
+                actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
             }
-            if(string.toLowerCase().contains("z=")){
-                String[] strings1 = string.split("=");
-                cz = strings1[1];
+
+            if(string1.toLowerCase().contains("z=")){
+                String[] strings = string1.split("=");
+                actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
             }
-            if(string.toLowerCase().contains("period=")){
-                String[] strings1 = string.split("=");
-                period = Integer.valueOf(strings1[1]);
+
+            if(string1.toLowerCase().contains("@=")){
+                String[] strings = string1.split("=");
+                actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
             }
-            if(string.toLowerCase().contains("healthconver=")){
-                String[] strings1 = string.split("=");
+
+            if(string1.toLowerCase().contains("healthconver=")){
+                String[] strings1 = string1.split("=");
                 health_conversion = strings1[1];
             }
-            if(string.toLowerCase().contains("@=")){
-                String[] strings1 = string.split("=");
-                targetString = strings1[1];
+
+            if(string1.toLowerCase().contains("hdtype=")){
+                String[] strings = string1.split("=");
+                actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
             }
-        }
-        if(targetString.toLowerCase().contains("self") || targetString.toLowerCase().contains("selflocation")){
-            hight = player.getHeight();
-        }
-        if(targetString.toLowerCase().contains("target") || targetString.toLowerCase().contains("targetlocation")){
-            hight = target.getHeight();
+
         }
 
-
+        if(actionMap.get("actionname").contains("createhd") && hologram == null){
+            createHD();
+        }
+        if(actionMap.get("actionname").contains("addlinehd") && hologram != null){
+            addLineHD();
+        }
+        if(actionMap.get("actionname").contains("removelinehd") && hologram != null){
+            removeLineHD();
+        }
+        if(actionMap.get("actionname").contains("teleporthd") && hologram != null){
+            teleportHD();
+        }
+        if(actionMap.get("actionname").contains("deletehd") && hologram != null){
+            deleteHD();
+        }
 
     }
-    /**創造HD**/
+
     public void createHD(){
+
+        createLocation = new Location(player.getWorld(),Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),Double.valueOf(actionMap.get("z")));
+        /**座標**/
+        if(actionMap.get("hdtype").contains("loc")){
+            if(actionMap.get("@").contains("targetlocation")){
+                createLocation = target.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("selflocation")){
+                createLocation = player.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("target")){
+                createLocation = target.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+target.getHeight(),Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("self")){
+                createLocation = player.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+player.getHeight(),Double.valueOf(actionMap.get("z")));
+            }
+        }
+
+        /**向量**/
+        if(actionMap.get("hdtype").contains("vec")){
+            if(actionMap.get("@").contains("targetlocation")){
+                createLocation = target.getLocation().add(vectorX(target)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),vectorZ(target)*Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("selflocation")){
+                createLocation = player.getLocation().add(vectorX(player)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),vectorZ(player)*Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("target")){
+                createLocation = target.getLocation().add(vectorX(target)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+target.getHeight(),vectorZ(target)*Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("self")){
+                createLocation = player.getLocation().add(vectorX(player)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+player.getHeight(),vectorZ(player)*Double.valueOf(actionMap.get("z")));
+            }
+        }
         String attackNumber = damageNumber();
-        healthConversion = targetHealth();
-        healthNumber = targetHealthNumber();
-        message = new ContentUtil(message, player, "Character").getOutputString();
-        message = message.replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber);
+        String healthConversion = targetHealth();
+        String healthNumber = targetHealthNumber();
 
-        if(targetString.toLowerCase().contains("targetlocation")){
-            location = target.getLocation().add(Double.valueOf(cx),Double.valueOf(cy),Double.valueOf(cz));
+        hologram = HologramsAPI.createHologram(cd, createLocation);
+        if(target.getType().toString().toLowerCase().equals("player")){
+            Player targetPlayer = (Player) target;
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+        }else {
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),player).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
         }
-        if(targetString.toLowerCase().contains("selflocation")){
-            location = player.getLocation().add(Double.valueOf(cx),Double.valueOf(cy),Double.valueOf(cz));
-        }
-        if(targetString.toLowerCase().contains("target")){
-            location = target.getLocation().add(Double.valueOf(cx),Double.valueOf(cy)+hight,Double.valueOf(cz));
-        }
-        if(targetString.toLowerCase().contains("self")){
-            location = player.getLocation().add(Double.valueOf(cx),Double.valueOf(cy)+hight,Double.valueOf(cz));
-        }
-        if(targetString == null){
-            location = new Location(player.getWorld(), Double.valueOf(cx),Double.valueOf(cy)+hight,Double.valueOf(cz));
-        }
-        hologram = HologramsAPI.createHologram(cd, location);
-
-        hologram.appendTextLine(message);
-        //hologram.appendTextLine("");
 
 
     }
 
-    public void bukkitRun(){
-        bukkitRunnable = new BukkitRunnable() {
-            @Override
-            public void run() {
+    public void addLineHD(){
+        String healthConversion = targetHealth();
+        String healthNumber = targetHealthNumber();
+        if(target.getType().toString().toLowerCase().equals("player")){
+            Player targetPlayer = (Player) target;
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+        }else {
+            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),player).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+        }
 
-                hologram.removeLine(0);
-
-                /**返回傷害**/
-                healthConversion = targetHealth();
-                healthNumber = targetHealthNumber();
-                message = new ContentUtil(message, player, "Character").getOutputString();
-                message = message.replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber);
-
-                hologram.appendTextLine(message);
-
-                if(targetString.toLowerCase().contains("targetlocation") && type.toLowerCase().contains("loc")){
-                    hologram.teleport(location.add(Double.valueOf(x),Double.valueOf(y),Double.valueOf(z)));
-                }else if(targetString.toLowerCase().contains("selflocation") && type.toLowerCase().contains("loc")){
-                    hologram.teleport(location.add(Double.valueOf(x),Double.valueOf(y),Double.valueOf(z)));
-                }else if(targetString.toLowerCase().contains("target") && type.toLowerCase().contains("loc")){
-                    hologram.teleport(target.getLocation().add(Double.valueOf(x),Double.valueOf(y)+hight,Double.valueOf(z)));
-                }else if(targetString.toLowerCase().contains("self") && type.toLowerCase().contains("loc")){
-                    hologram.teleport(player.getLocation().add(Double.valueOf(x),Double.valueOf(y)+hight,Double.valueOf(z)));
-                }
-
-                if(targetString.toLowerCase().contains("targetlocation") && type.toLowerCase().contains("vec")){
-                    hologram.teleport(location.add(xx,Double.valueOf(y),zz));
-                }else if(targetString.toLowerCase().contains("selflocation") && type.toLowerCase().contains("vec")){
-                    hologram.teleport(location.add(xx,Double.valueOf(y),zz));
-                } else if(targetString.toLowerCase().contains("target") && type.toLowerCase().contains("vec")){
-                    hologram.teleport(target.getLocation().add(xx,Double.valueOf(y)+hight,zz));
-                } else if(targetString.toLowerCase().contains("self") && type.toLowerCase().contains("vec")){
-                    hologram.teleport(player.getLocation().add(xx,Double.valueOf(y)+hight,zz));
-                }
-
-
-            }
-        };
-        bukkitRunnable.runTaskTimer(cd , 1,period);
     }
 
-    /**設定傷害**/
-    public String damageNumber(){
-        String snumber = new NumberUtil(damageNumber, ConfigMapManager.getFileConfigurationMap().get("Character_CustomDisplay.yml").getString("player-damage.decimal")).getDecimalString();
-        snumber = new NumberUtil(snumber, ConfigMapManager.getFileConfigurationMap().get("Character_CustomDisplay.yml").getStringList("player-damage.conversion")).getNineString();
-        return snumber;
+    public void removeLineHD(){
+
+        hologram.removeLine(Integer.valueOf(actionMap.get("m")));
     }
 
-    /**設定怪物血量顯示**/
-    public String targetHealth(){
-        double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
-        double nowhealth = target.getHealth();
-        int counthealth = (int) nowhealth*10/(int) maxhealth;
-        String mhealth = new NumberUtil(counthealth, ConfigMapManager.getFileConfigurationMap().get("Character_CustomDisplay.yml").getStringList(health_conversion+".conversion")).getTenString();
-        return mhealth;
-    }
-    /**設定怪物血量顯示數字**/
-    public String targetHealthNumber(){
-        double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
-        double nowhealth = target.getHealth();
-        String mhealthNumber = nowhealth +"/"+maxhealth;
-        return mhealthNumber;
-    }
+    public void teleportHD(){
 
-    /**移動HD**/
-    public void teleportHD(String firstString){
 
-        /**抓取資料**/
-        this.firstString = firstString;
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString, "[,] ");
-        while (stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
-        for(String string : stringList){
-            if( string.toLowerCase().contains("teleporthd") || string.toLowerCase().contains("teleporthdthrow")){
-                actionString = string;
+        /**座標**/
+        if(actionMap.get("hdtype").contains("loc")){
+            if(actionMap.get("@").contains("targetlocation")){
+                createLocation = createLocation.add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("selflocation")){
+                createLocation = createLocation.add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("target")){
+                createLocation = target.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+target.getHeight(),Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("self")){
+                createLocation = player.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+player.getHeight(),Double.valueOf(actionMap.get("z")));
             }
-            if(string.toLowerCase().contains("m=")){
-                String[] strings1 = string.split("=");
-                message = strings1[1];
-            }
-            if(string.toLowerCase().contains("type=")){
-                String[] strings1 = string.split("=");
-                type = strings1[1];
-            }
-            if(string.toLowerCase().contains("x=")){
-                String[] strings1 = string.split("=");
-                x = strings1[1];
-            }
-            if(string.toLowerCase().contains("y=")){
-                String[] strings1 = string.split("=");
-                y = strings1[1];
-            }
-            if(string.toLowerCase().contains("z=")){
-                String[] strings1 = string.split("=");
-                z = strings1[1];
-            }
-            if(string.toLowerCase().contains("period=")){
-                String[] strings1 = string.split("=");
-                period = Integer.valueOf(strings1[1]);
-            }
-            if(string.toLowerCase().contains("healthConver=")){
-                String[] strings1 = string.split("=");
-                health_conversion = strings1[1];
-            }
-            if(string.toLowerCase().contains("@=")){
-                String[] strings1 = string.split("=");
-                targetString = strings1[1];
-            }
-        }
-        if(targetString.toLowerCase().contains("self")){
-            hight = player.getHeight();
-        }
-        if(targetString.toLowerCase().contains("target")){
-            hight = target.getHeight();
         }
 
-        /**判斷如何移動HD**/
-        if(targetString.toLowerCase().contains("target") && type.toLowerCase().contains("vec")){
-                xx = vectorX(target)*Double.valueOf(x);
-                zz = vectorZ(target)*Double.valueOf(z);
+        /**向量**/
+        if(actionMap.get("hdtype").contains("vec")){
+            if(actionMap.get("@").contains("targetlocation")){
+                createLocation = createLocation.add(vectorX(target)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),vectorZ(target)*Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("selflocation")){
+                createLocation = createLocation.add(vectorX(player)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),vectorZ(player)*Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("target")){
+                createLocation = target.getLocation().add(vectorX(target)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+target.getHeight(),vectorZ(target)*Double.valueOf(actionMap.get("z")));
+            }else if(actionMap.get("@").contains("self")){
+                createLocation = player.getLocation().add(vectorX(player)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+player.getHeight(),vectorZ(player)*Double.valueOf(actionMap.get("z")));
+            }
+        }
 
-        }
-        if(targetString.toLowerCase().contains("self") && type.toLowerCase().contains("vec")){
-                xx = vectorX(player)*Double.valueOf(x);
-                zz = vectorZ(player)*Double.valueOf(z);
-        }
+
+        hologram.teleport(createLocation);
+
     }
 
-    private double vectorX(LivingEntity livingEntity){
+    public void deleteHD(){
+        if(TriggerManager.getAction_Judgment_Map().get(taskID) != null){
+            TriggerManager.getAction_Judgment_Map().remove(taskID);
+        }
+        if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
+            TriggerManager.getJudgment_Loop_Map().remove(taskID);
+        }
+        if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
+            TriggerManager.getJudgment_Holographic_Map().remove(taskID);
+        }
+        if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
+            TriggerManager.getLoop_Judgment_Map().remove(taskID);
+        }
+        hologram.delete();
+    }
+
+    public double vectorX(LivingEntity livingEntity){
         double xVector = livingEntity.getLocation().getDirection().getX();
         double rxVector = 0;
         if(xVector > 0){
@@ -298,17 +240,33 @@ public class Holographic {
         return rzVector;
     }
 
+    /**設定傷害**/
+    public String damageNumber(){
+        String snumber = new NumberUtil(damageNumber, ConfigMapManager.getFileConfigurationMap().get("Character_System_AttackNumber.yml").getString("player-damage.decimal")).getDecimalString();
+        snumber = new NumberUtil(snumber, ConfigMapManager.getFileConfigurationMap().get("Character_System_AttackNumber.yml").getStringList("player-damage.conversion")).getNineString();
+        return snumber;
+    }
+
+    /**設定怪物血量顯示**/
+    public String targetHealth(){
+        double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
+        double nowhealth = target.getHealth();
+        int counthealth = (int) nowhealth*10/(int) maxhealth;
+        String mhealth = new NumberUtil(counthealth, ConfigMapManager.getFileConfigurationMap().get("Character_System_Health.yml").getStringList(health_conversion+".conversion")).getTenString();
+        return mhealth;
+    }
+    /**設定怪物血量顯示數字**/
+    public String targetHealthNumber(){
+        double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
+        String nowhealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
+        String mhealthNumber = nowhealth +"/"+maxhealth;
+        return mhealthNumber;
+    }
+
     private Vector randomVector(LivingEntity player) {
         double a = Math.toRadians((double)(player.getEyeLocation().getYaw() + 90.0F));
         a += (double)(random.nextBoolean() ? 1 : -1) * (random.nextDouble() * 2.0D + 1.0D) * 3.141592653589793D / 6.0D;
         return (new Vector(Math.cos(a), 0.8D, Math.sin(a))).normalize().multiply(0.4D);
     }
 
-    public BukkitRunnable getBukkitRunnable() {
-        return bukkitRunnable;
-    }
-
-    public Hologram getHologram() {
-        return hologram;
-    }
 }

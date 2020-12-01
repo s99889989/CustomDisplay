@@ -1,6 +1,5 @@
 package com.daxton.customdisplay;
 
-import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.listener.EntityListener;
@@ -8,11 +7,10 @@ import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.player.AttackListener;
 import com.daxton.customdisplay.listener.player.JoinListener;
 import com.daxton.customdisplay.listener.player.QuizListener;
-import com.daxton.customdisplay.manager.player.PlayerDataMap;
-import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.Holographic;
-import com.daxton.customdisplay.task.action.list.HolographicNew;
 import com.daxton.customdisplay.task.action.list.Loop;
 import com.daxton.customdisplay.task.action.list.LoopOne;
 import org.bukkit.Bukkit;
@@ -78,7 +76,7 @@ public final class CustomDisplay extends JavaPlugin {
         }
         TriggerManager.getJudgment_LoopOne_Map().clear();
 
-        for(HolographicNew holographic : TriggerManager.getJudgment_Holographic_Map().values()){
+        for(Holographic holographic : TriggerManager.getJudgment_Holographic_Map().values()){
             holographic.deleteHD();
         }
         TriggerManager.getJudgment_Holographic_Map().clear();

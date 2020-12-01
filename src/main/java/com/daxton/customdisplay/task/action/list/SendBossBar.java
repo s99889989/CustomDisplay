@@ -2,10 +2,10 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
-import com.daxton.customdisplay.manager.player.TriggerManager;
-import com.daxton.customdisplay.util.ArithmeticUtil;
+import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.api.character.ArithmeticUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
@@ -42,14 +42,10 @@ public class SendBossBar {
     public void set(Player player, LivingEntity target, String firstString, String taskID){
         this.taskID = taskID;
         this.player = player;
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[;] ");
+        List<String> stringList = new StringFind().getStringList(firstString);
         String targetName = target.getName();
         String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
         String nowHealth = String.valueOf(target.getHealth());
-        while(stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
         for(String allString : stringList){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
                 String[] strings = allString.split("=");

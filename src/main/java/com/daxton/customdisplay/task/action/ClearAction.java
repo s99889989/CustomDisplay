@@ -1,6 +1,6 @@
 package com.daxton.customdisplay.task.action;
 
-import com.daxton.customdisplay.manager.player.TriggerManager;
+import com.daxton.customdisplay.manager.TriggerManager;
 import org.bukkit.entity.Player;
 
 public class ClearAction {
