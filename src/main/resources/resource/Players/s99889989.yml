@@ -9,23 +9,29 @@ Action:
 
 #攻擊怪物顯示血量
 #Attacking monsters shows blood volume.
-#實體類型可以到Character/System/EntityType.yml自行增加
-#The entity type can be added to Character/System/EntityType.yml.
-- Action[a=EntityTopDisplayMonster;mark=target;entityType=Monster] ~onAttack
+- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
+- Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
 
 #攻擊動物顯示血量
 #Attack animals show blood volume.
-- Action[a=EntityTopDisplayAnimal;mark=target;entityType=Animal] ~onAttack
+- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
+- Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
 
 #攻擊玩家顯示資訊
 #The attacking player displays information.
-- Action[a=EntityTopDisplayPlayer;mark=target;entityType=Player] ~onAttack
+- Action[a=EntityTopDisplayPlayer;mark={target_uuid}EntityTopDisplayPlayer] ~onAttack
+- Action[mark={target_uuid}EntityTopDisplayPlayer;stop=true] ~onDeath
 
 #血量低於設定量顯示標題和聲音
 #If the blood volume is lower than the set volume, the title and sound are displayed.
 - Action[a=TitleHealthDisplay] ~onJoin
 
-#以下還無法使用 #The following is not yet available.
+#持續顯示動態欄
+#The dynamic bar is continuously displayed.
+- Action[a=ActionBarDisplay;mark=%player_name%ActionBarDisplay] ~onJoin
+- Action[mark=%player_name%ActionBarDisplay;stop=true] ~onQuiz
 
-#- Action[a=ActionBarDisplay] ~onTimer=30
-#- Action[a=BoosBarDisplay] ~onAttack
+#攻擊顯示BossBar
+#The attack shows BossBar.
+- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onAttack
+- Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath

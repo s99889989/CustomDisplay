@@ -11,7 +11,12 @@ import com.daxton.customdisplay.listener.player.QuizListener;
 import com.daxton.customdisplay.manager.player.PlayerDataMap;
 import com.daxton.customdisplay.manager.player.TriggerManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import com.daxton.customdisplay.task.action.list.Holographic;
+import com.daxton.customdisplay.task.action.list.HolographicNew;
+import com.daxton.customdisplay.task.action.list.Loop;
+import com.daxton.customdisplay.task.action.list.LoopOne;
 import org.bukkit.Bukkit;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -64,6 +69,37 @@ public final class CustomDisplay extends JavaPlugin {
     }
     public void mapReload(){
 
+        for(Loop loop : TriggerManager.getJudgment_Loop_Map().values()){
+            loop.cancel();
+        }
+        TriggerManager.getJudgment_Loop_Map().clear();
+        for(LoopOne loopOne : TriggerManager.getJudgment_LoopOne_Map().values()){
+            loopOne.cancel();
+        }
+        TriggerManager.getJudgment_LoopOne_Map().clear();
+
+        for(HolographicNew holographic : TriggerManager.getJudgment_Holographic_Map().values()){
+            holographic.deleteHD();
+        }
+        TriggerManager.getJudgment_Holographic_Map().clear();
+        TriggerManager.getJudgment_Action_Map().clear();
+
+        for(JudgmentAction judgmentAction : TriggerManager.getLoop_Judgment_Map().values()){
+            judgmentAction.getBukkitRunnable().cancel();
+        }
+        TriggerManager.getLoop_Judgment_Map().clear();
+
+        for(JudgmentAction judgmentAction : TriggerManager.getAction_Judgment_Map().values()){
+            judgmentAction.getBukkitRunnable().cancel();
+        }
+        TriggerManager.getAction_Judgment_Map().clear();
+        TriggerManager.getJudgment_BossBar_Map().clear();
+        for(BossBar bossBar : TriggerManager.getBossBar_Map().values()){
+            bossBar.removeAll();
+        }
+        TriggerManager.getBossBar_Map().clear();
+
+
         /**重新讀取玩家資料 和 OnTimer狀態**/
         for(Player player : Bukkit.getOnlinePlayers()){
             UUID playerUUID = player.getUniqueId();
@@ -72,14 +108,7 @@ public final class CustomDisplay extends JavaPlugin {
 
                 /**OnQuiz**/
                 for(String string : playerData.getPlayerActionList()){
-                    if(string.toLowerCase().contains("~onjoin")){
-                        String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
-                        if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) != null){
-                            TriggerManager.getJudgment_LoopOne_Map().get(uuidActionString).cancel();
-                            TriggerManager.getJudgment_LoopOne_Map().remove(uuidActionString);
-                            TriggerManager.getPlayerActionTaskMap().remove(uuidActionString);
-                        }
-                    }
+
                 }
 
                 /**玩家資料**/
@@ -89,7 +118,6 @@ public final class CustomDisplay extends JavaPlugin {
                 }
             }
 
-
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) == null){
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
@@ -98,15 +126,14 @@ public final class CustomDisplay extends JavaPlugin {
                 /**OnJoin**/
                 for(String string : PlayerDataMap.getPlayerDataMap().get(playerUUID).getPlayerActionList()){
                     if(string.toLowerCase().contains("~onjoin")){
-                        String uuidActionString = playerUUID.toString()+new StringFind().findActionName(string);
-                        if(TriggerManager.getPlayerActionTaskMap().get(uuidActionString) == null){
-                            TriggerManager.getPlayerActionTaskMap().put(uuidActionString,new JudgmentAction());
-                            TriggerManager.getPlayerActionTaskMap().get(uuidActionString).execute(player,string,uuidActionString);
-                        }
+                        new JudgmentAction().execute(player,string,String.valueOf((int)(Math.random()*100000)));
                     }
                 }
             }
         }
+
+
+
 
     }
 
