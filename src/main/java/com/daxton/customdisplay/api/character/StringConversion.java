@@ -24,7 +24,11 @@ public class StringConversion {
             int head;
             int tail = 0;
             for(int i = 0; i < num/2;i++){
-                head = firstString.indexOf("&",tail+1);
+                if(i == 0){
+                    head = firstString.indexOf("&",0);
+                }else {
+                    head = firstString.indexOf("&",tail+1);
+                }
                 tail = firstString.indexOf("&",head+1);
                 String change = customString(folderName,firstString.substring(head,tail+1),player);
                 firstString = firstString.replace(firstString.substring(head,tail+1),change);

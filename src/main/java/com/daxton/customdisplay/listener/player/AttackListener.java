@@ -37,6 +37,7 @@ public class AttackListener implements Listener {
         damageNumber = event.getFinalDamage();
 
         if(event.getDamager() instanceof Player){
+
             player = ((Player) event.getDamager()).getPlayer();
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();

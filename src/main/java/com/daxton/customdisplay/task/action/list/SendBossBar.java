@@ -43,6 +43,9 @@ public class SendBossBar {
     public void set(Player player, LivingEntity target, String firstString, String taskID){
         this.taskID = taskID;
         this.player = player;
+        if(target.getHealth() < 1){
+            return;
+        }
         List<String> stringList = new StringFind().getStringList(firstString);
         String targetName = target.getName();
         String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());

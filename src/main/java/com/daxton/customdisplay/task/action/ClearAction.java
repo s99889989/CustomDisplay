@@ -10,12 +10,12 @@ public class ClearAction {
     }
     /**清除當下的任務**/
     public void clearPlayer(Player player,String taskID){
+
+
         if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
             TriggerManager.getJudgment_Loop_Map().get(taskID).cancel();
             TriggerManager.getJudgment_Loop_Map().remove(taskID);
         }
-
-
         if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
             TriggerManager.getJudgment_Holographic_Map().get(taskID).deleteHD();
             TriggerManager.getJudgment_Holographic_Map().remove(taskID);

@@ -13,24 +13,33 @@ public class Test {
     private static Map<String,Double> doubleMap = new HashMap<>();
 
     public static void main(String[] args){
-        String stringNumber = "54328";
-        char[] c = stringNumber.toCharArray();
-        String[] strings = new String[c.length];
-        for(int i = 0 ; i < c.length; i++){
+        String firstString = "&player_health_now&/%player_max_health%\uF839\uF80B&player_health_proportion&\uF839%mmocore_mana%/%mmocore_stat_max_mana%\uF80A&player_mana_proportion&";
+        String findText = "&";
+        int num = appearNumber(firstString, findText);
+        int head;
+        int tail = 0;
+        for(int i = 0; i < num/2;i++){
             if(i == 0){
-                strings[i] = "head:" + c[i];
-            }else if((i+1)%2 == 0){
-                strings[i] = "two:" + c[i];
+                head = firstString.indexOf("&",0);
             }else {
-                strings[i] = "one:" + c[i];
+                head = firstString.indexOf("&",tail+1);
             }
+            tail = firstString.indexOf("&",head+1);
+            System.out.println(firstString.substring(head,tail+1));
+//            firstString = firstString.replace(firstString.substring(head,tail+1),"轉換");
         }
-        for(String ss : strings){
-            System.out.println(ss);
-        }
-
+        //System.out.println(firstString+":"+num);
 
     }
 
+    public static int appearNumber(String srcText, String findText) {
+        int count = 0;
+        Pattern p = Pattern.compile(findText);
+        Matcher m = p.matcher(srcText);
+        while (m.find()) {
+            count++;
+        }
+        return count;
+    }
 
 }

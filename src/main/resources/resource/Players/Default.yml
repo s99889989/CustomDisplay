@@ -35,3 +35,7 @@ Action:
 #The attack shows BossBar.
 - Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onAttack
 - Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
+
+#被攻擊顯示標題
+#The title is displayed when attacked.
+- Action[a=TitleDisplayAttacked] ~onDamaged

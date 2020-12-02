@@ -6,7 +6,7 @@ AttackDisplayUp:
 AttackDisplayUp-Start:
   Action:
   - createHD[m={cd_damage};HDtype=loc;x=0;y=0.5;z=0] @=target
-  - addLineHD[m=%player_name%]
+  #- addLineHD[m=%player_name%]
 AttackDisplayUp-Time:
   Action:
   - teleportHD[HDtype=loc;x=0;y=0.1;z=0] @=targetLocation
@@ -52,10 +52,10 @@ EntityTopDisplayMonster:
   - Loop[onStart=EntityTopDisplayMonster-Start;onTime=EntityTopDisplayMonster-Time;onEnd=EntityTopDisplayMonster-End;period=10;duration=200]
 EntityTopDisplayMonster-Start:
   Action:
-  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=0.8;z=0;healthConver=health-monster] @=target
+  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=1.2;z=0;healthConver=health-monster] @=target
 EntityTopDisplayMonster-Time:
   Action:
-  - teleportHD[HDtype=loc;x=0;y=0.8;z=0] @=target
+  - teleportHD[HDtype=loc;x=0;y=1.2;z=0] @=target
   - Condition[health=targetChange]
   - removeLineHD[m=0]
   - addLineHD[m={cd_health_number}{cd_health_conversion}]
@@ -71,10 +71,10 @@ EntityTopDisplayAnimal:
   - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
 EntityTopDisplayAnimal-Start:
   Action:
-  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=0.8;z=0;healthConver=health-animal] @=target
+  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=1.0;z=0;healthConver=health-animal] @=target
 EntityTopDisplayAnimal-Time:
   Action:
-  - teleportHD[HDtype=loc;x=0;y=0.8;z=0] @=target
+  - teleportHD[HDtype=loc;x=0;y=1.0;z=0] @=target
   - Condition[health=targetChange]
   - removeLineHD[m=0]
   - addLineHD[m={cd_health_number}{cd_health_conversion}]
@@ -90,15 +90,15 @@ EntityTopDisplayPlayer:
   - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
 EntityTopDisplayPlayer-Start:
   Action:
-  - createHD[m=%player_health%/%player_max_health%&player_health_proportion&;HDtype=loc;x=0;y=0.8;z=0;healthConver=health-animal] @=target
-  - addLineHD[m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
+  - createHD[m=&player_health_now&/%player_max_health%&player_health_proportion2&;HDtype=loc;x=0;y=0.8;z=0;healthConver=health-animal] @=target
+  - addLineHD[m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion2&]
 EntityTopDisplayPlayer-Time:
   Action:
   - teleportHD[HDtype=loc;x=0;y=0.8;z=0] @=target
   - removeLineHD[m=0]
   - removeLineHD[m=0]
-  - addLineHD[m=%player_health%/%player_max_health%&player_health_proportion&]
-  - addLineHD[m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
+  - addLineHD[m=&player_health_now&/%player_max_health%&player_health_proportion2&]
+  - addLineHD[m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion2&]
 EntityTopDisplayPlayer-End:
   Action:
   - deleteHD
@@ -111,10 +111,10 @@ TitleHealthDisplay:
 TitleHealthDisplay-Time:
   Action:
   - Condition[Compare=&player_health_10&<5]
-  - Title[title=§0䂁;subtitle=§0䂁;fadeIn=1;duration=5;fadeOut=1]
+  - Title[title=§0;subtitle=§0䁾;fadeIn=1;duration=5;fadeOut=1]
   - Sound[sound=heartbeatin;pitch=1;volume=1]
   - Delay 5
-  - Title[title=§4䂁;subtitle=§4䂁;fadeIn=1;duration=5;fadeOut=1]
+  - Title[title=§4;subtitle=§4䁾;fadeIn=1;duration=5;fadeOut=1]
   - Sound[sound=heartbeatout;pitch=1;volume=1]
 
 #持續顯示動態欄
@@ -124,8 +124,8 @@ ActionBarDisplay:
   - Loop[onTime=ActionBarDisplay-Time;period=40;duration=unlimited]
 ActionBarDisplay-Time:
   Action:
-  - ActionBar[m=%player_health%/%player_max_health%&player_health_proportion&-%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
-
+  #- ActionBar[m= &dfsfd& &dfsfd& &dfsfd& ]
+  - ActionBar[m=&player_health_now&/%player_max_health%&player_health_proportion&%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
 
 #攻擊顯示BossBar
 #The attack shows BossBar.
@@ -141,3 +141,11 @@ BoosBarDisplay-Time:
 BoosBarDisplay-End:
   Action:
   - BoosBar[Function=delete]
+
+#被攻擊顯示標題
+#The title is displayed when attacked.
+TitleDisplayAttacked:
+  Action:
+  - Title[title=§4;subtitle=§4䁿;fadeIn=1;duration=10;fadeOut=8]
+
+  

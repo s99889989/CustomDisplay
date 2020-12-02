@@ -5,6 +5,7 @@ import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.listener.EntityListener;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.player.AttackListener;
+import com.daxton.customdisplay.listener.player.AttackedListener;
 import com.daxton.customdisplay.listener.player.JoinListener;
 import com.daxton.customdisplay.listener.player.QuizListener;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -49,7 +50,12 @@ public final class CustomDisplay extends JavaPlugin {
         customDisplay = this;
         load();
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
-        Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+//        if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+//
+//        }else {
+            Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+//        }
+        Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);

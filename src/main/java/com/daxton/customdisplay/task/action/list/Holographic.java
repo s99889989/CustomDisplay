@@ -48,11 +48,13 @@ public class Holographic {
     }
 
     public void setHD(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
+
         this.test = firstString;
         this.taskID = taskID;
         this.player = player;
         this.target = target;
         this.damageNumber = damageNumber;
+
         List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
             if(string1.toLowerCase().contains("createhd") || string1.toLowerCase().contains("addlinehd") || string1.toLowerCase().contains("removelinehd") || string1.toLowerCase().contains("teleporthd") || string1.toLowerCase().contains("deletehd")){
@@ -95,6 +97,8 @@ public class Holographic {
             }
 
         }
+
+
 
         if(actionMap.get("actionname").contains("createhd") && hologram == null){
             createHD();
@@ -185,6 +189,10 @@ public class Holographic {
             }else if(actionMap.get("@").contains("selflocation")){
                 createLocation = createLocation.add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),Double.valueOf(actionMap.get("z")));
             }else if(actionMap.get("@").contains("target")){
+                if(target.getHealth() < 1){
+                    deleteHD();
+                    return;
+                }
                 createLocation = target.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+target.getHeight(),Double.valueOf(actionMap.get("z")));
             }else if(actionMap.get("@").contains("self")){
                 createLocation = player.getLocation().add(Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+player.getHeight(),Double.valueOf(actionMap.get("z")));
@@ -198,6 +206,10 @@ public class Holographic {
             }else if(actionMap.get("@").contains("selflocation")){
                 createLocation = createLocation.add(vectorX(player)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y")),vectorZ(player)*Double.valueOf(actionMap.get("z")));
             }else if(actionMap.get("@").contains("target")){
+                if(target.getHealth() < 1){
+                    deleteHD();
+                    return;
+                }
                 createLocation = target.getLocation().add(vectorX(target)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+target.getHeight(),vectorZ(target)*Double.valueOf(actionMap.get("z")));
             }else if(actionMap.get("@").contains("self")){
                 createLocation = player.getLocation().add(vectorX(player)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+player.getHeight(),vectorZ(player)*Double.valueOf(actionMap.get("z")));
@@ -259,6 +271,7 @@ public class Holographic {
 
     /**設定怪物血量顯示**/
     public String targetHealth(){
+
         double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
         double nowhealth = target.getHealth();
         int counthealth = (int) nowhealth*10/(int) maxhealth;
@@ -270,6 +283,7 @@ public class Holographic {
         double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
         String nowhealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
         String mhealthNumber = nowhealth +"/"+maxhealth;
+
         return mhealthNumber;
     }
 

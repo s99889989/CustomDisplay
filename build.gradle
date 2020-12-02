@@ -28,10 +28,11 @@ dependencies {
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.5.0'
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.4'
+
 }
 
 group = 'com.daxton'
-version = '1.10.6'
+version = '1.10.7'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 

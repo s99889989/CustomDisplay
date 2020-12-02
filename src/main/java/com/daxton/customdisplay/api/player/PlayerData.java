@@ -7,10 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class PlayerData {
     private List<String> playerActionList;
 
     private List<String> onAttakList = new ArrayList<>();
-
+    private List<String> onDamagedList = new ArrayList<>();
     private List<String> onJoinList = new ArrayList<>();
 
     public PlayerData(Player player){
@@ -51,6 +48,9 @@ public class PlayerData {
                 if(actionString.toLowerCase().contains("~onattack")){
                     onAttakList.add(actionString);
                 }
+                if(actionString.toLowerCase().contains("~ondamaged")){
+                    onDamagedList.add(actionString);
+                }
                 if(actionString.toLowerCase().contains("~onjoin")){
                     onJoinList.add(actionString);
                 }
@@ -65,6 +65,11 @@ public class PlayerData {
                 LivingEntity target = (LivingEntity) entityDamageByEntityEvent.getEntity();
                 double damageNumber = entityDamageByEntityEvent.getFinalDamage();
                 new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+            }
+        }
+        if(type.toLowerCase().contains("~ondamaged") && onDamagedList.size() > 0){
+            for(String actionString : onDamagedList){
+                new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
             }
         }
         if(type.toLowerCase().contains("~onjoin") && onJoinList.size() > 0){
