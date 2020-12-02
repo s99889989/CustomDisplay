@@ -4,7 +4,7 @@
 
 plugins {
     id 'java'
-    id 'maven-publish'
+    id "de.undercouch.download" version "4.1.1"
 }
 
 repositories {
@@ -28,7 +28,7 @@ dependencies {
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.5.0'
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.4'
-
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 group = 'com.daxton'
@@ -39,3 +39,13 @@ sourceCompatibility = '1.8'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+def mmoLibVersion = '1.5.1'
+
+task downloadMMOLib(type: Download) {
+    src "https://github.com/mmopluginteam/mmolib/releases/download/${mmoLibVersion}/MMOLib-${mmoLibVersion}.jar"
+    dest "libs/MMOLib-${mmoLibVersion}.jar"
+    overwrite false
+}
+
+compileJava.dependsOn(downloadMMOLib)
