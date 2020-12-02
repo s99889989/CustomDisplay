@@ -3,22 +3,31 @@ package com.daxton.customdisplay;
 import com.daxton.customdisplay.api.character.Calculator;
 import me.clip.placeholderapi.PlaceholderAPI;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Iterator;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Test {
 
+    private static Map<String,Double> doubleMap = new HashMap<>();
 
     public static void main(String[] args){
-
-        //String expression = "(0*1--3)-5/-4-(3*(-2.13))";
-        String expression = "100*10";
-        double result = Calculator.conversion(expression);
-        System.out.println(expression +  " = " +  result);
-        System.out.println("----------");
+        String stringNumber = "54328";
+        char[] c = stringNumber.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if(i == 0){
+                strings[i] = "head:" + c[i];
+            }else if((i+1)%2 == 0){
+                strings[i] = "two:" + c[i];
+            }else {
+                strings[i] = "one:" + c[i];
+            }
+        }
+        for(String ss : strings){
+            System.out.println(ss);
+        }
 
 
     }

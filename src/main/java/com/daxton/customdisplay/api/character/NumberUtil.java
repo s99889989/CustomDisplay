@@ -1,13 +1,19 @@
 package com.daxton.customdisplay.api.character;
 
+import com.daxton.customdisplay.CustomDisplay;
+
 import java.text.DecimalFormat;
 import java.util.List;
 
 public class NumberUtil {
 
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
     private String decimalString;
 
     private String nineString;
+
+    private String nineThreeString;
 
     private String tenString;
 
@@ -23,6 +29,35 @@ public class NumberUtil {
             string = string.replace(".0","");
         }
         decimalString = string;
+    }
+
+
+    /**單數字轉換三種版**/
+    public NumberUtil(String string, List<String> stringHead, List<String> stringDouble, List<String> stringUnits){
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if(i == 0){
+                strings[i] = getString(String.valueOf(c[i]),stringHead);
+            }else if((i+1)%2 == 0){
+                strings[i] = getString(String.valueOf(c[i]),stringDouble);
+            }else {
+                strings[i] = getString(String.valueOf(c[i]),stringUnits);
+            }
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+        nineThreeString = lastString;
+    }
+
+    public String getString(String string, List<String> stringList){
+        for(String value : stringList){
+            String[] sv = value.split(",");
+            string = string.replace(sv[0],sv[1]);
+        }
+        return string;
     }
 
     /**單數字轉換**/
@@ -55,6 +90,10 @@ public class NumberUtil {
 
     public String getNineString() {
         return nineString;
+    }
+
+    public String getNineThreeString() {
+        return nineThreeString;
     }
 
     public String getTenString() {

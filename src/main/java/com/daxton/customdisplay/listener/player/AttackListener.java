@@ -29,48 +29,37 @@ public class AttackListener implements Listener {
 
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event){
-        if(!(event.getEntity() instanceof LivingEntity) || !(event.getDamager() instanceof Player) || event.getEntity().getType() == ARMOR_STAND){
+        if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
 
         target = (LivingEntity) event.getEntity();
+        damageNumber = event.getFinalDamage();
 
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
-        }
-
-        if(event.getDamager() instanceof Projectile){
+            playerUUID = player.getUniqueId();
+            targetUUID = target.getUniqueId();
+            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            playerData.runAction("~onattack",event);
+        }else if(event.getDamager() instanceof Projectile){
             if(((Projectile) event.getDamager()).getShooter() instanceof Animals == false && ((Projectile) event.getDamager()).getShooter() instanceof Monster == false){
                 player = (Player) ((Projectile) event.getDamager()).getShooter();
+                playerUUID = player.getUniqueId();
+                targetUUID = target.getUniqueId();
+                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+                playerData.runAction("~onattack",event);
             }
-        }
-
-        if(event.getDamager() instanceof TNTPrimed){
+        }else if(event.getDamager() instanceof TNTPrimed){
             player = (Player) ((TNTPrimed) event.getDamager()).getSource();
-        }
-
-        if(player == null){
+            playerUUID = player.getUniqueId();
+            targetUUID = target.getUniqueId();
+            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            playerData.runAction("~onattack",event);
+        }else {
             return;
         }
 
-        if(player != null){
-            playerUUID = player.getUniqueId();
-            targetUUID = target.getUniqueId();
-            damageNumber = event.getFinalDamage();
-            newAction();
-        }
-
-    }
-
-    public void newAction(){
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-        if(playerData != null){
-            for(String string : playerData.getPlayerActionList()){
-                if(string.toLowerCase().contains("~onattack")){
-                    new JudgmentAction().execute(player,target,string,damageNumber,String.valueOf((int)(Math.random()*100000)));
-                }
-            }
-        }
     }
 
 

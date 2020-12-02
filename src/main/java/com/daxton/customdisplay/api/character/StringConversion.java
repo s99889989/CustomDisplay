@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.api.character;
 
+import com.daxton.customdisplay.CustomDisplay;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -8,6 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringConversion {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public StringConversion(){
 
@@ -47,7 +50,12 @@ public class StringConversion {
             if(string.contains("math;")){
                 String[] stl = string.split(";");
                 outputString = PlaceholderAPI.setPlaceholders(player,stl[2]);
-                double result = Calculator.conversion(outputString);
+                double result = 0;
+                try{
+                    result = Calculator.conversion(outputString);
+                }catch (Exception exception){
+                    cd.getLogger().info("錯誤"+exception.toString());
+                }
                 outputString = String.valueOf(result);
                 //outputString = new ArithmeticUtil().valueof(outputString);
                 double number = Double.valueOf(outputString);

@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.task.condition.list;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Compare {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private double left = 0;
     private double right = 0;
@@ -46,7 +49,12 @@ public class Compare {
         }
         if(stringList.size() == 4){
             String[] strings = stringList.toArray(new String[stringList.size()]);
-            left = Double.valueOf(new StringConversion().customString("Character",strings[2],player));
+            try{
+                left = Double.valueOf(new StringConversion().customString("Character",strings[2],player));
+            }catch (Exception exception){
+                //cd.getLogger().info("The setting of '"+strings[2]+"' in '"+firstString+"' is wrong.");
+                //cd.getLogger().info("It may be that the corresponding PlaceholderAPI is not installed, or there is a syntax error.");
+            }
             right = Double.valueOf(strings[3]);
         }
     }

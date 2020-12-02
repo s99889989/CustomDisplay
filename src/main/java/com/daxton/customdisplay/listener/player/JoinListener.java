@@ -21,13 +21,16 @@ public class JoinListener implements Listener {
         this.player = event.getPlayer();
         this.playerUUID = player.getUniqueId();
 
-        PlayerData playerDate = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-        if(playerDate == null){
-            PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
+        PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
+
+        if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            playerData.runAction("~onjoin",event);
         }
 
+
         /**觸發OnTime**/
-        onAtcion();
+        //onAtcion();
 
     }
 

@@ -3,12 +3,14 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.api.character.NumberUtil;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -39,11 +41,14 @@ public class Holographic {
 
     private String taskID;
 
+    private String test = "";
+
     public Holographic(){
 
     }
 
     public void setHD(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
+        this.test = firstString;
         this.taskID = taskID;
         this.player = player;
         this.target = target;
@@ -137,7 +142,8 @@ public class Holographic {
                 createLocation = player.getLocation().add(vectorX(player)*Double.valueOf(actionMap.get("x")),Double.valueOf(actionMap.get("y"))+player.getHeight(),vectorZ(player)*Double.valueOf(actionMap.get("z")));
             }
         }
-        String attackNumber = damageNumber();
+
+        String attackNumber = damageNumberAction();
         String healthConversion = targetHealth();
         String healthNumber = targetHealthNumber();
 
@@ -241,10 +247,14 @@ public class Holographic {
     }
 
     /**設定傷害**/
-    public String damageNumber(){
-        String snumber = new NumberUtil(damageNumber, ConfigMapManager.getFileConfigurationMap().get("Character_System_AttackNumber.yml").getString("player-damage.decimal")).getDecimalString();
-        snumber = new NumberUtil(snumber, ConfigMapManager.getFileConfigurationMap().get("Character_System_AttackNumber.yml").getStringList("player-damage.conversion")).getNineString();
-        return snumber;
+    public String damageNumberAction(){
+        FileConfiguration config = ConfigMapManager.getFileConfigurationMap().get("Character_System_AttackNumber.yml");
+        List<String> headList = config.getStringList("player-damage.head_conversion");
+        List<String> doubleList = config.getStringList("player-damage.double_conversion");
+        List<String> unitsList = config.getStringList("player-damage.units_conversion");
+        String snumber = new NumberUtil(damageNumber, config.getString("player-damage.decimal")).getDecimalString();
+        String lastSnumber = new NumberUtil(snumber, headList,doubleList,unitsList).getNineThreeString();
+        return lastSnumber;
     }
 
     /**設定怪物血量顯示**/
