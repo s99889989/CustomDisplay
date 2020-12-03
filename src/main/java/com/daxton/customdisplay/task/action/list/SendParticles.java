@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.task.action.ClearAction;
+import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -27,6 +28,10 @@ public class SendParticles {
 
 
 
+    }
+
+    public void sendParticle(){
+        target.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
     }
 
     public void setParticles(Player player, String firstString, String taskID){

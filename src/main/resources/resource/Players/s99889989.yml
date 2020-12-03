@@ -39,3 +39,7 @@ Action:
 #被攻擊顯示標題
 #The title is displayed when attacked.
 - Action[a=TitleDisplayAttacked] ~onDamaged
+
+#移除攻擊顯示的愛心效果.
+#Removed the love effect displayed by the attack.
+- Action[a=Particle-Remove] ~onJoin

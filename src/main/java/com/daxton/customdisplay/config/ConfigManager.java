@@ -23,6 +23,7 @@ public class ConfigManager {
         new AutoConfig("resource/Players/Default.yml","Players/Default.yml").get();
         new AutoConfig("resource/Players/Default.yml","Players/s99889989.yml").get();
         new AutoConfig("resource/Actions/ExampleAction.yml","Actions/ExampleAction.yml").get();
+        new AutoConfig("resource/Actions/ExampleAction2.yml","Actions/ExampleAction2.yml").get();
         new AutoConfig("resource/Character/ExampleCharacter.yml","Character/ExampleCharacter.yml").get();
         new AutoConfig("resource/Character/System/AttackNumber.yml","Character/System/AttackNumber.yml").get();
         new AutoConfig("resource/Character/System/EntityType.yml","Character/System/EntityType.yml").get();
