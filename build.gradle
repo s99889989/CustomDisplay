@@ -28,7 +28,7 @@ dependencies {
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.5.0'
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.4'
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.5.1.jar'])
 }
 
 group = 'com.daxton'

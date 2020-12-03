@@ -25,8 +25,6 @@ public class AttackListener implements Listener {
 
     private UUID targetUUID;
 
-    private double damageNumber;
-
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event){
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
@@ -34,7 +32,6 @@ public class AttackListener implements Listener {
         }
 
         target = (LivingEntity) event.getEntity();
-        damageNumber = event.getFinalDamage();
 
         if(event.getDamager() instanceof Player){
 

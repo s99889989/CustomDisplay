@@ -1,7 +1,11 @@
 package com.daxton.customdisplay.api.player;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -12,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerData {
+
+    CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Player player;
 
@@ -60,10 +66,20 @@ public class PlayerData {
 
     public void runAction(String type, Event event){
         if(type.toLowerCase().contains("~onattack") && onAttakList.size() > 0){
+
             for(String actionString : onAttakList){
-                EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
-                LivingEntity target = (LivingEntity) entityDamageByEntityEvent.getEntity();
-                double damageNumber = entityDamageByEntityEvent.getFinalDamage();
+                LivingEntity target = null;
+                double damageNumber = 0;
+                if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                    PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
+                    target = playerAttackEvent.getEntity();
+                    damageNumber = playerAttackEvent.getAttack().getDamage();
+                }else {
+                    EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
+                    target = (LivingEntity) entityDamageByEntityEvent.getEntity();
+                    damageNumber = entityDamageByEntityEvent.getFinalDamage();
+                }
+                //target.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
                 new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
             }
         }

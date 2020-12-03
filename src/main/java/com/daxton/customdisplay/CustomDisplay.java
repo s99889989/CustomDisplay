@@ -4,10 +4,8 @@ import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.listener.EntityListener;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.listener.player.AttackListener;
-import com.daxton.customdisplay.listener.player.AttackedListener;
-import com.daxton.customdisplay.listener.player.JoinListener;
-import com.daxton.customdisplay.listener.player.QuizListener;
+import com.daxton.customdisplay.listener.PackListener;
+import com.daxton.customdisplay.listener.player.*;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
@@ -50,16 +48,16 @@ public final class CustomDisplay extends JavaPlugin {
         customDisplay = this;
         load();
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
-//        if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
-//
-//        }else {
+        if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+            Bukkit.getPluginManager().registerEvents(new MMOAttackListener(),customDisplay);
+        }else {
             Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-//        }
+        }
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
-
+        Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
     }
 
 

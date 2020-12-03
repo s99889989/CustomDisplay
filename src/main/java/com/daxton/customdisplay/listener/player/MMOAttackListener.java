@@ -1,27 +1,56 @@
 package com.daxton.customdisplay.listener.player;
 
+import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.manager.PlayerDataMap;
+import net.mmogroup.mmolib.MMOLib;
+import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
 
-public class MMOAttackListener {
+import java.util.UUID;
 
-//    @EventHandler
-//    public void a(PlayerAttackEvent event) {
-//        if (event.getPlayer().equals((Object)this.player.getPlayer()) && event.isWeapon()) {
-//            this.close();
-//            LivingEntity target = event.getEntity();
-//            target.getWorld().playSound(target.getLocation(), "_archer_hit", 1.0f, 1.0f);
-//            target.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 32, 0.0, 0.0, 0.0, 0.2);
-//            double sweep = event.getAttack().getDamage() * this.c;
-//            MMOLib.plugin.getDamage().damage(this.player.getPlayer(), target, new AttackResult(sweep - event.getAttack().getDamage(), new DamageType[]{DamageType.SKILL, DamageType.PHYSICAL}));
-//            Location locuser = this.player.getPlayer().getEyeLocation();
-//            Location loctarget = target.getEyeLocation();
-//            Vector vec = loctarget.subtract(locuser).toVector().normalize();
-//            target.setVelocity(vec.multiply(5));
-//        }
-//    }
+import static org.bukkit.entity.EntityType.ARMOR_STAND;
+
+public class MMOAttackListener implements Listener {
+
+    CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
+    private Player player;
+
+    private LivingEntity target;
+
+    private UUID playerUUID;
+
+    private UUID targetUUID;
+
+    @EventHandler
+    public void onAttack(PlayerAttackEvent event) {
+
+        if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
+            return;
+        }
+        target = event.getEntity();
+        String st = event.getData().getPlayer().toString();
+        double damageNumber = event.getAttack().getDamage();
+
+
+
+        if(event.getData().getPlayer() instanceof Player){
+            player = event.getData().getPlayer();
+            playerUUID = player.getUniqueId();
+            targetUUID = target.getUniqueId();
+            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            playerData.runAction("~onattack",event);
+        }else {
+            return;
+        }
+
+        //MMOLib.plugin.getDamage().damage(this.player.getPlayer(), target, new AttackResult(sweep - event.getAttack().getDamage(), new DamageType[]{DamageType.SKILL, DamageType.PHYSICAL}));
+    }
 
 }
