@@ -69,7 +69,7 @@ public final class CustomDisplay extends JavaPlugin {
 //        }
     }
     public void mapReload(){
-
+        TriggerManager.getParticles_Map().clear();
         for(Loop loop : TriggerManager.getJudgment_Loop_Map().values()){
             loop.cancel();
         }

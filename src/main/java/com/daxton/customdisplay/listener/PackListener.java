@@ -5,25 +5,18 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.injector.GamePhase;
-import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import com.daxton.customdisplay.CustomDisplay;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.task.action.list.SendParticles;
 import org.bukkit.entity.Player;
 
 import org.bukkit.event.Listener;
 
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
-import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
 
 
 public class PackListener implements Listener{
@@ -89,9 +82,18 @@ public class PackListener implements Listener{
                 public void onPacketSending(PacketEvent event) {
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
+
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
-                        cd.getLogger().info("粒子");
-                        //packetType.getPacketClass().get;
+                        if(packet.getEntityModifier(event).read(0) instanceof Player){
+                            Player player = event.getPlayer();
+                            //player.sendMessage("類型:"+packet.getIntegers().getValues().get(0));
+                            if(TriggerManager.getParticles_Map().get(player.getUniqueId()) == null){
+                                TriggerManager.getParticles_Map().put(player.getUniqueId(),new SendParticles());
+                                event.setCancelled(TriggerManager.getParticles_Map().get(player.getUniqueId()).getResult(packet.getIntegers().getValues().get(0)));
+                            }else{
+                                event.setCancelled(TriggerManager.getParticles_Map().get(player.getUniqueId()).getResult(packet.getIntegers().getValues().get(0)));
+                            }
+                        }
                     }
                 }
 

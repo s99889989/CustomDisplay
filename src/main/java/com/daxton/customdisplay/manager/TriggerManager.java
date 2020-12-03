@@ -18,6 +18,8 @@ public class TriggerManager {
 
     /**目標紀錄攻擊者**/
     public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
+    /**Particles**/
+    public static Map<UUID ,SendParticles> particles_Map = new HashMap<>();
 
     /**JudgmentAction->HolographicNew**/
     private static Map<String, Holographic> judgment_Holographic_Map = new HashMap<>();
@@ -51,6 +53,9 @@ public class TriggerManager {
         return target_getPlayer_Map;
     }
 
+    public static Map<UUID, SendParticles> getParticles_Map() {
+        return particles_Map;
+    }
 
     /**JudgmentAction->HolographicNew**/
     public static Map<String, Holographic> getJudgment_Holographic_Map() {
@@ -72,7 +77,6 @@ public class TriggerManager {
     public static Map<String, BossBar> getBossBar_Map() {
         return BossBar_Map;
     }
-
     /**Action->JudgmentAction**/
     public static Map<String, JudgmentAction> getAction_Judgment_Map() {
         return action_Judgment_Map;

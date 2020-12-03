@@ -35,10 +35,6 @@ public class MMOAttackListener implements Listener {
             return;
         }
         target = event.getEntity();
-        String st = event.getData().getPlayer().toString();
-        double damageNumber = event.getAttack().getDamage();
-
-
 
         if(event.getData().getPlayer() instanceof Player){
             player = event.getData().getPlayer();

@@ -104,7 +104,7 @@ public class JudgmentAction {
                 if(judgMent.toLowerCase().contains("actionbar")){
                     new ActionBar(player,firstString).sendActionBar();
                 }
-
+                /**BossBar的相關判斷**/
                 if(judgMent.toLowerCase().contains("boosbar")){
                     if(TriggerManager.getJudgment_BossBar_Map().get(taskID) == null){
                         TriggerManager.getJudgment_BossBar_Map().put(taskID,new SendBossBar());
@@ -113,6 +113,21 @@ public class JudgmentAction {
                         TriggerManager.getJudgment_BossBar_Map().get(taskID).set(player,target,firstString,taskID);
                     }
                 }
+
+                /**Particle的相關判斷**/
+                if(judgMent.toLowerCase().contains("particle")){
+                    if(TriggerManager.getParticles_Map().get(player.getUniqueId()) == null){
+                        TriggerManager.getParticles_Map().put(player.getUniqueId(),new SendParticles());
+                    }
+                    if(TriggerManager.getParticles_Map().get(player.getUniqueId()) != null){
+                        if(target == null){
+                            TriggerManager.getParticles_Map().get(player.getUniqueId()).setParticles(player,firstString,taskID);
+                        }else {
+                            TriggerManager.getParticles_Map().get(player.getUniqueId()).setParticles(player,target,firstString,taskID);
+                        }
+                    }
+                }
+
             }
         };
         bukkitRunnable.runTaskLater(cd, delay);
