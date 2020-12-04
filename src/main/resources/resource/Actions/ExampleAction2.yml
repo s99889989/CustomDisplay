@@ -1,0 +1,7 @@
+#移除攻擊顯示的愛心效果.
+#Removed the love effect displayed by the attack.
+Particle-Remove:
+  Action:
+  - Particle[Function=remove;particle=60]
+  - Particle[Function=remove;particle=6]
+  - Particle[Function=remove;particle=2]
