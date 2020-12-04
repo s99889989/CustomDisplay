@@ -1,0 +1,6 @@
+#顯示攻擊出現的效果ID.
+#Display the effect ID of the attack.
+Particle-Show:
+  Action:
+  - Message[m=%player_name% > Particle-ID:{Particle_ID}]
+  

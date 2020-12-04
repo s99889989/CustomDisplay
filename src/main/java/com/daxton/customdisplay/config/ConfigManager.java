@@ -22,8 +22,12 @@ public class ConfigManager {
         language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
         new AutoConfig("resource/Players/Default.yml","Players/Default.yml").get();
         new AutoConfig("resource/Players/Default.yml","Players/s99889989.yml").get();
-        new AutoConfig("resource/Actions/ExampleAction.yml","Actions/ExampleAction.yml").get();
-        new AutoConfig("resource/Actions/ExampleAction2.yml","Actions/ExampleAction2.yml").get();
+        new AutoConfig("resource/Actions/ExampleActionBar.yml","Actions/ExampleActionBar.yml").get();
+        new AutoConfig("resource/Actions/ExampleBossBar.yml","Actions/ExampleBossBar.yml").get();
+        new AutoConfig("resource/Actions/ExampleHD.yml","Actions/ExampleHD.yml").get();
+        new AutoConfig("resource/Actions/ExampleMessage.yml","Actions/ExampleMessage.yml").get();
+        new AutoConfig("resource/Actions/ExampleParticle.yml","Actions/ExampleParticle.yml").get();
+        new AutoConfig("resource/Actions/ExampleTitle.yml","Actions/ExampleTitle.yml").get();
         new AutoConfig("resource/Character/ExampleCharacter.yml","Character/ExampleCharacter.yml").get();
         new AutoConfig("resource/Character/System/AttackNumber.yml","Character/System/AttackNumber.yml").get();
         new AutoConfig("resource/Character/System/EntityTypeList.yml","Character/System/EntityTypeList.yml").get();

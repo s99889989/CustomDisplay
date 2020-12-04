@@ -13,6 +13,22 @@ AttackDisplayUp-Time:
 AttackDisplayUp-End:
   Action:
   - deleteHD
+  
+#攻擊顯示傷害(向上)(爆擊)
+#Attack display damage (up)(Critical)
+AttackCritDisplayUp:
+  Action:
+  - Loop[onStart=AttackCritDisplayUp-Start;onTime=AttackCritDisplayUp-Time;onEnd=AttackCritDisplayUp-End;period=3;duration=20]
+AttackCritDisplayUp-Start:
+  Action:
+  - createHD[m={cd_damage};HDtype=loc;x=0;y=0.5;z=0] @=target
+  #- addLineHD[m=%player_name%]
+AttackCritDisplayUp-Time:
+  Action:
+  - teleportHD[HDtype=loc;x=0;y=0.1;z=0] @=targetLocation
+AttackCritDisplayUp-End:
+  Action:
+  - deleteHD
 
 #攻擊顯示傷害(拋出)
 #Attack display damage (throw)
@@ -86,7 +102,7 @@ EntityTopDisplayAnimal-End:
 #The attacking player displays information.
 EntityTopDisplayPlayer:
   Action:
-  - Condition[entityTypeList=Player]
+  - Condition[entityType=Player]
   - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
 EntityTopDisplayPlayer-Start:
   Action:
@@ -102,49 +118,5 @@ EntityTopDisplayPlayer-Time:
 EntityTopDisplayPlayer-End:
   Action:
   - deleteHD
-
-#血量低於設定量顯示標題和聲音;category=PLAEYERS
-#If the blood volume is lower than the set volume, the title and sound are displayed.
-TitleHealthDisplay:
-  Action:
-  - Loop[onTime=TitleHealthDisplay-Time;period=20;duration=unlimited]
-TitleHealthDisplay-Time:
-  Action:
-  - Condition[Compare=&player_health_10&<5]
-  - Title[title=§0;subtitle=§0䁾;fadeIn=1;duration=5;fadeOut=1]
-  - Sound[sound=heartbeatin;pitch=1;volume=1]
-  - Delay 5
-  - Title[title=§4;subtitle=§4䁾;fadeIn=1;duration=5;fadeOut=1]
-  - Sound[sound=heartbeatout;pitch=1;volume=1]
-
-#持續顯示動態欄
-#The dynamic bar is continuously displayed.
-ActionBarDisplay:
-  Action:
-  - Loop[onTime=ActionBarDisplay-Time;period=40;duration=unlimited]
-ActionBarDisplay-Time:
-  Action:
-  - ActionBar[m=&player_health_now&/%player_max_health%&player_health_proportion&%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
-
-#攻擊顯示BossBar
-#The attack shows BossBar.
-BoosBarDisplay:
-  Action:
-  - Loop[onStart=BoosBarDisplay-Start;onTime=BoosBarDisplay-Time;onEnd=BoosBarDisplay-End;period=10;duration=200]
-BoosBarDisplay-Start:
-  Action:
-  - BoosBar[Function=create;message={target_name}-{target_nhp}/{target_mhp};Style=SEGMENTED_10;Color=RED;Progress={target_nhp}/{target_mhp}]
-BoosBarDisplay-Time:
-  Action:
-  - BoosBar[Function=set;message={target_name}-{target_nhp}/{target_mhp};Style=SEGMENTED_10;Color=RED;Progress={target_nhp}/{target_mhp}]
-BoosBarDisplay-End:
-  Action:
-  - BoosBar[Function=delete]
-
-#被攻擊顯示標題
-#The title is displayed when attacked.
-TitleDisplayAttacked:
-  Action:
-  - Title[title=§4;subtitle=§4䁿;fadeIn=1;duration=10;fadeOut=8]
 
   

@@ -1,0 +1,12 @@
+#移除攻擊顯示的愛心效果.
+#傷害愛心顯示有多個ID，範例只有使用其中幾個.
+#Removed the love effect displayed by the attack.
+#There are multiple IDs for Hurt Love, and only a few of them are used in the example.
+Particle-Remove:
+  Action:
+  - Particle[Function=remove;particle=61]
+  - Particle[Function=remove;particle=60]
+  - Particle[Function=remove;particle=33]
+  - Particle[Function=remove;particle=30]
+  - Particle[Function=remove;particle=2]
+  
