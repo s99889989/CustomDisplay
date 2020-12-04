@@ -14,16 +14,19 @@ Action:
 #攻擊怪物顯示血量
 #Attacking monsters shows blood volume.
 - Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
+- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onCrit
 - Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
 
 #攻擊動物顯示血量
 #Attack animals show blood volume.
 - Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
+- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
 - Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
 
 #攻擊玩家顯示資訊
 #The attacking player displays information.
 - Action[a=EntityTopDisplayPlayer;mark={target_uuid}EntityTopDisplayPlayer] ~onAttack
+- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
 - Action[mark={target_uuid}EntityTopDisplayPlayer;stop=true] ~onDeath
 
 #血量低於設定量顯示標題和聲音
@@ -50,4 +53,4 @@ Action:
 
 #顯示攻擊出現的效果ID.
 #Display the effect ID of the attack.
-- Action[a=Particle-Show;mark=%player_name%] ~onAttack
+#- Action[a=Particle-Show;mark=%player_name%] ~onAttack
