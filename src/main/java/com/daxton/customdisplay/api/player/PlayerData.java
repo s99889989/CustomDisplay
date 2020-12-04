@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,10 @@ public class PlayerData {
                     PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
                     target = playerAttackEvent.getEntity();
                     damageNumber = playerAttackEvent.getAttack().getDamage();
+                }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+                    AttrEntityDamageEvent attrEntityDamageEvent = (AttrEntityDamageEvent) event;
+                    target = (LivingEntity) attrEntityDamageEvent.getEntity();
+                    damageNumber = attrEntityDamageEvent.getDamage();
                 }else {
                     EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
                     target = (LivingEntity) entityDamageByEntityEvent.getEntity();

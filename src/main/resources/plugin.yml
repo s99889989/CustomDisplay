@@ -1,9 +1,9 @@
 name: CustomDisplay
-version: ${project.version}
+version: 1.10.9
 main: com.daxton.customdisplay.CustomDisplay
 api-version: 1.13
 prefix: CustomDisplay
-softdepend: [HolographicDisplays, PlaceholderAPI, MMOLib, MMOCore ,ProtocolLib]
+softdepend: [HolographicDisplays, PlaceholderAPI, MMOLib, MMOCore ,ProtocolLib ,AttributePlus]
 authors: [ s99889989 ]
 description: Custom display and character conversion
 commands:

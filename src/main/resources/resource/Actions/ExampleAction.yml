@@ -124,7 +124,6 @@ ActionBarDisplay:
   - Loop[onTime=ActionBarDisplay-Time;period=40;duration=unlimited]
 ActionBarDisplay-Time:
   Action:
-  #- ActionBar[m= &dfsfd& &dfsfd& &dfsfd& ]
   - ActionBar[m=&player_health_now&/%player_max_health%&player_health_proportion&%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
 
 #攻擊顯示BossBar

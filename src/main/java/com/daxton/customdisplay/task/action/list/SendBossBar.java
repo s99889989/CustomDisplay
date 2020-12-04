@@ -1,11 +1,8 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.Calculator;
-import com.daxton.customdisplay.api.character.StringConversion;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.*;
 import com.daxton.customdisplay.manager.TriggerManager;
-import com.daxton.customdisplay.api.character.ArithmeticUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -49,19 +46,12 @@ public class SendBossBar {
         List<String> stringList = new StringFind().getStringList(firstString);
         String targetName = target.getName();
         String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
-        String nowHealth = String.valueOf(target.getHealth());
+        String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
         for(String allString : stringList){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     function = strings[1];
-                }
-            }
-            if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    strings[1] = strings[1].replace("{target_name}",targetName).replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
-                    message = new StringConversion().getString("Character",strings[1],player);
                 }
             }
             if(allString.toLowerCase().contains("style=")){
@@ -89,6 +79,17 @@ public class SendBossBar {
                     //strings[1] = new ArithmeticUtil().valueof(strings[1]);
                     progress = Calculator.conversion(strings[1]);
                     //progress = Double.valueOf(strings[1]);
+                }
+            }
+        }
+
+        List<String> stringList2 = new StringFind().getStringMessageList(firstString);
+        for(String string2 : stringList2){
+            if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
+                String[] strings2 = string2.split("=");
+                if(strings2.length == 2){
+                    strings2[1] = strings2[1].replace("{target_name}",targetName).replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
+                    message = new StringConversion().getString("Character",strings2[1],player);
                 }
             }
         }

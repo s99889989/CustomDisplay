@@ -12,6 +12,7 @@ import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.Loop;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +29,7 @@ public final class CustomDisplay extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
             getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
@@ -35,6 +37,8 @@ public final class CustomDisplay extends JavaPlugin {
             getLogger().severe("*** CustomDisplay將被卸載。 ***");
             this.setEnabled(false);
             return;
+        }else {
+            getLogger().info(ChatColor.GREEN+"Loaded HolographicDisplays");
         }
 
         if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
@@ -44,12 +48,24 @@ public final class CustomDisplay extends JavaPlugin {
             getLogger().severe("*** CustomDisplay將被卸載。 ***");
             this.setEnabled(false);
             return;
+        }else {
+            getLogger().info(ChatColor.GREEN+"Loaded PlaceholderAPI");
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
+            getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
+            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
+        }else {
+            getLogger().info(ChatColor.RED+"NotLoaded ProtocolLib");
         }
         customDisplay = this;
         load();
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
         if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
             Bukkit.getPluginManager().registerEvents(new MMOAttackListener(),customDisplay);
+            getLogger().info(ChatColor.GREEN+"Loaded MMOLib");
+        }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+            Bukkit.getPluginManager().registerEvents(new AttrAttackListener(),customDisplay);
+            getLogger().info(ChatColor.GREEN+"Loaded AttributePlus");
         }else {
             Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
         }
@@ -57,7 +73,8 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
+
+
     }
 
 

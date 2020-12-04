@@ -27,7 +27,7 @@ public class ActionBar {
 
     public void setActionBar(Player player, String firstString){
         this.player = player;
-        List<String> stringList = new StringFind().getStringList(firstString);
+        List<String> stringList = new StringFind().getStringMessageList(firstString);
         for(String allString : stringList){
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");

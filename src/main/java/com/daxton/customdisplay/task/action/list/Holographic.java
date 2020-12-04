@@ -61,11 +61,6 @@ public class Holographic {
                 actionMap.put("actionname",string1.toLowerCase());
             }
 
-            if(string1.toLowerCase().contains("m=")){
-                String[] strings = string1.split("=");
-                actionMap.put(strings[0].toLowerCase(),strings[1]);
-            }
-
             if(string1.toLowerCase().contains("x=")){
                 String[] strings = string1.split("=");
                 actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
@@ -82,6 +77,7 @@ public class Holographic {
             }
 
             if(string1.toLowerCase().contains("@=")){
+                string1 = string1.replace(" ","");
                 String[] strings = string1.split("=");
                 actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
             }
@@ -98,7 +94,15 @@ public class Holographic {
 
         }
 
-
+        List<String> stringList2 = new StringFind().getStringMessageList(firstString);
+        for(String string2 : stringList2){
+            if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
+                String[] strings2 = string2.split("=");
+                if(strings2.length == 2){
+                    actionMap.put(strings2[0].toLowerCase(),strings2[1]);
+                }
+            }
+        }
 
         if(actionMap.get("actionname").contains("createhd") && hologram == null){
             createHD();

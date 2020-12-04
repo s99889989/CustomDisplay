@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import org.bukkit.entity.Player;
 
@@ -27,16 +28,6 @@ public class Title {
         this.player = player;
         List<String> stringList = new StringFind().getStringList(firstString);
         for(String strings : stringList){
-            if(strings.contains("title=")){
-                String[] stl = strings.split("=");
-                if(stl.length == 2){
-                    setTitle(stl[1]);
-                }
-            }
-            if(strings.contains("subtitle=")){
-                String[] stl = strings.split("=");
-                setSubTitle(stl[1]);
-            }
             if(strings.contains("fadeIn=")){
                 String[] stl = strings.split("=");
                 setFadeIn(Integer.valueOf(stl[1]));
@@ -50,6 +41,27 @@ public class Title {
                 setFadeOut(Integer.valueOf(stl[1]));
             }
         }
+
+        List<String> stringList2 = new StringFind().getStringMessageList(firstString);
+        for(String string : stringList2){
+            if(string.toLowerCase().contains("title=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    setTitle(strings[1]);
+                }
+            }
+
+            if(string.contains("subtitle=") || string.contains("subt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    setSubTitle(strings[1]);
+                }
+
+            }
+
+        }
+
+
     }
 
 
