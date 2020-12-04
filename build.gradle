@@ -56,3 +56,7 @@ task downloadMMOLib(type: Download) {
 }
 
 compileJava.dependsOn(downloadMMOLib)
+
+processResources {
+    expand(project.properties)
+}
