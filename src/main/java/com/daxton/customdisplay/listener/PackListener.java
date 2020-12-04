@@ -84,18 +84,16 @@ public class PackListener implements Listener{
                     PacketType packetType = event.getPacketType();
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
-                       // if(packet.getEntityModifier(event).read(0) instanceof Player){
                             Player player = event.getPlayer();
-//                            if(player.isOp()){
-//                                player.sendMessage("Particle-ID:"+packet.getIntegers().getValues().get(0));
-//                            }
+                            if(player.isOp()){
+                                player.sendMessage("Particle-ID:"+packet.getIntegers().getValues().get(0));
+                            }
                             if(TriggerManager.getParticles_Map().get(player.getUniqueId()) == null){
                                 TriggerManager.getParticles_Map().put(player.getUniqueId(),new SendParticles());
                                 event.setCancelled(TriggerManager.getParticles_Map().get(player.getUniqueId()).getResult(packet.getIntegers().getValues().get(0)));
                             }else{
                                 event.setCancelled(TriggerManager.getParticles_Map().get(player.getUniqueId()).getResult(packet.getIntegers().getValues().get(0)));
                             }
-                      //  }
                     }
                 }
 

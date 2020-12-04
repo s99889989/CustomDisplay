@@ -78,7 +78,7 @@ public class Compare {
                 }
             }
         }catch (NumberFormatException exception){
-            cd.getLogger().info("錯誤");
+
         }
 
     }
@@ -90,23 +90,22 @@ public class Compare {
                 b = true;
 
             }
-            player.sendMessage("<對錯"+b);
+
         }
         if(symbol.contains(">")){
             if(left > right){
                 b = true;
 
             }
-            player.sendMessage(">對錯"+b);
+
         }
         if(symbol.contains("=")){
             if(left == right){
                 b = true;
 
             }
-            player.sendMessage("=對錯"+b);
+
         }
-        player.sendMessage("左:"+ stringLeft +" 符號:"+symbol+" 右:"+ stringRight+"對錯"+b);
         return b;
     }
 

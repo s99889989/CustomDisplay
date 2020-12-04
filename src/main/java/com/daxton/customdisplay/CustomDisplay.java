@@ -51,12 +51,7 @@ public final class CustomDisplay extends JavaPlugin {
         }else {
             getLogger().info(ChatColor.GREEN+"Loaded PlaceholderAPI");
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
-            getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
-            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
-        }else {
-            getLogger().info(ChatColor.RED+"NotLoaded ProtocolLib");
-        }
+
         customDisplay = this;
         load();
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
@@ -73,7 +68,12 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
-
+        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
+            getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
+            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
+        }else {
+            getLogger().info(ChatColor.RED+"NotLoaded ProtocolLib");
+        }
 
     }
 

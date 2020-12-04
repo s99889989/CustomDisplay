@@ -15,30 +15,48 @@ public class Health {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
+    private Player player;
+
+    private LivingEntity target;
+
+    private String firstString = "";
+
+    private String taskID = "";
+
     private static Map<UUID,Double> healthMap = new HashMap<>();
 
     public Health(){
 
     }
 
-    public boolean judgment(String firstString, LivingEntity target, Player player,String taskID){
-        boolean bo = false;
-        if(firstString.toLowerCase().contains("targetchange")){
-            bo = targetChange(target);
-        }
-        return bo;
+    public void setHealth(Player player,LivingEntity target, String firstString, String taskID){
+        this.player = player;
+        this.target = target;
+        this.firstString = firstString;
+        this.taskID = taskID;
+
     }
 
-    public boolean judgment(String firstString, Player player,String taskID){
-        boolean bo = false;
+    public void setHealth(Player player, String taskID, String firstString){
+        this.player = player;
+        this.firstString = firstString;
+        this.taskID = taskID;
+
+    }
+
+
+    public boolean get(){
+        boolean b = false;
         if(firstString.toLowerCase().contains("targetchange")){
-            bo = targetChange(player);
+            b = targetChange(target);
         }
-        return bo;
+
+
+        return b;
     }
 
     public boolean targetChange(LivingEntity target){
-        boolean b = true;
+        boolean b = false;
         UUID targetUUID = target.getUniqueId();
         double maxHealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
         double nowHealth = target.getHealth();
@@ -46,11 +64,10 @@ public class Health {
             healthMap.put(targetUUID,maxHealth);
         }
         if(healthMap.get(targetUUID) != null && healthMap.get(targetUUID) != nowHealth){
-            b = false;
+            b = true;
+
             healthMap.put(targetUUID,nowHealth);
         }
-
-
         return b;
     }
 

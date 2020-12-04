@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
@@ -101,9 +102,11 @@ public class Action {
     public void startActionOne(){
         if(actionList.size() > 0){
             for(String actionString : actionList){
-//                if(new Condition().getResuult(actionString,target,player,taskID)){
-//                    break;
-//                }
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
+                }
                 if(TriggerManager.getAction_Judgment_Map().get(taskID) == null){
                     TriggerManager.getAction_Judgment_Map().put(taskID,new JudgmentAction());
                 }
@@ -120,9 +123,11 @@ public class Action {
         new ClearAction().clearPlayer(player,taskID);
         if(actionList.size() > 0){
             for(String actionString : actionList){
-//                if(new Condition().getResuult(actionString,target,player,taskID)){
-//                    break;
-//                }
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
+                }
                 if(TriggerManager.getAction_Judgment_Map().get(taskID) == null){
                     TriggerManager.getTarget_getPlayer_Map().put(target.getUniqueId(),player);
                     TriggerManager.getAction_Judgment_Map().put(taskID,new JudgmentAction());
@@ -134,6 +139,22 @@ public class Action {
             }
         }
 
+    }
+
+    public boolean condition(String actionString){
+        boolean b = false;
+        if(ConditionManager.getAction_Condition_Map().get(taskID) == null){
+            ConditionManager.getAction_Condition_Map().put(taskID,new Condition());
+        }
+        if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
+            if(target == null){
+                ConditionManager.getAction_Condition_Map().get(taskID).setCondition(player,actionString,taskID);
+            }else {
+                ConditionManager.getAction_Condition_Map().get(taskID).setCondition(player,target,actionString,taskID);
+            }
+            b = ConditionManager.getAction_Condition_Map().get(taskID).getResult();
+        }
+        return b;
     }
 
 }

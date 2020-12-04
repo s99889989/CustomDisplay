@@ -1,8 +1,10 @@
 package com.daxton.customdisplay.task.condition;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.task.condition.list.Compare;
+import com.daxton.customdisplay.task.condition.list.EntityType;
 import com.daxton.customdisplay.task.condition.list.EntityTypeList;
 import com.daxton.customdisplay.task.condition.list.Health;
 import org.bukkit.entity.LivingEntity;
@@ -31,18 +33,20 @@ public class Condition {
 
 
     /**有目標的判斷**/
-    public Condition(Player player,LivingEntity target,String firstString,String taskID){
+    public void setCondition(Player player,LivingEntity target,String firstString,String taskID){
         this.player = player;
         this.target = target;
         this.firstString = firstString;
         this.taskID = taskID;
     }
+
     /**沒有目標的判斷**/
-    public Condition(Player player,String firstString,String taskID){
+    public void setCondition(Player player,String firstString,String taskID){
         this.player = player;
         this.firstString = firstString;
         this.taskID = taskID;
     }
+
 
     public boolean getResult(){
         boolean b = false;
@@ -51,6 +55,25 @@ public class Condition {
                 b = new Compare(player,firstString).get();
             }else {
                 b = new Compare(player,target,firstString).get();
+            }
+        }
+        if(firstString.toLowerCase().contains("entitytypelist=")){
+            b = new EntityTypeList(target,firstString).get();
+        }
+        if(firstString.toLowerCase().contains("entitytype=")){
+            b = new EntityType(target,firstString).get();
+        }
+        if(firstString.toLowerCase().contains("health=")){
+            if(ConditionManager.getCondition_Health_Map().get(taskID) == null){
+                ConditionManager.getCondition_Health_Map().put(taskID,new Health());
+            }
+            if(ConditionManager.getCondition_Health_Map().get(taskID) != null){
+                if(target == null){
+                    ConditionManager.getCondition_Health_Map().get(taskID).setHealth(player,firstString,taskID);
+                }else {
+                    ConditionManager.getCondition_Health_Map().get(taskID).setHealth(player,target,firstString,taskID);
+                }
+                b = ConditionManager.getCondition_Health_Map().get(taskID).get();
             }
         }
         return b;

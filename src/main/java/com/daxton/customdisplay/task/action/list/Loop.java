@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.manager.TriggerManager;
@@ -165,10 +166,16 @@ public class Loop extends BukkitRunnable {
 
     public boolean condition(String actionString){
         boolean b = false;
-        if(target == null){
-            b = new Condition(player,actionString,taskID).getResult();
-        }else {
-            b = new Condition(player,target,actionString,taskID).getResult();
+        if(ConditionManager.getAction_Condition_Map().get(taskID) == null){
+            ConditionManager.getAction_Condition_Map().put(taskID,new Condition());
+        }
+        if(ConditionManager.getLoop_Condition_Map().get(taskID) != null){
+            if(target == null){
+                ConditionManager.getLoop_Condition_Map().get(taskID).setCondition(player,actionString,taskID);
+            }else {
+                ConditionManager.getLoop_Condition_Map().get(taskID).setCondition(player,target,actionString,taskID);
+            }
+            b = ConditionManager.getLoop_Condition_Map().get(taskID).getResult();
         }
         return b;
     }
