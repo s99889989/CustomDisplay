@@ -101,6 +101,7 @@ public class PlayerData {
                 if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
                     PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
                     target = playerAttackEvent.getEntity();
+
                     damageNumber = playerAttackEvent.getAttack().getDamage();
                 }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
                     AttrEntityCritEvent attrEntityDamageEvent = (AttrEntityCritEvent) event;
