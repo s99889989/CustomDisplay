@@ -6,10 +6,8 @@ import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.condition.Condition;
-import com.daxton.customdisplay.task.condition.list.Compare;
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -140,14 +138,14 @@ public class Loop extends BukkitRunnable {
     }
 
     public void gogo(String actionString){
-        if(TriggerManager.getLoop_Judgment_Map().get(taskID) == null){
-            TriggerManager.getLoop_Judgment_Map().put(taskID,new JudgmentAction());
+        if(ActionManager.getLoop_Judgment_Map().get(taskID) == null){
+            ActionManager.getLoop_Judgment_Map().put(taskID,new JudgmentAction());
         }
-        if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
+        if(ActionManager.getLoop_Judgment_Map().get(taskID) != null){
             if(target == null){
-                TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,actionString,taskID);
+                ActionManager.getLoop_Judgment_Map().get(taskID).execute(player,actionString,taskID);
             }else {
-                TriggerManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                ActionManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
             }
         }
     }

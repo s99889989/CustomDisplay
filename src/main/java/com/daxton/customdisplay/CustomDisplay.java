@@ -7,7 +7,7 @@ import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.PackListener;
 import com.daxton.customdisplay.listener.player.*;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.Loop;
@@ -86,32 +86,32 @@ public final class CustomDisplay extends JavaPlugin {
 //        }
     }
     public void mapReload(){
-        TriggerManager.getParticles_Map().clear();
-        for(Loop loop : TriggerManager.getJudgment_Loop_Map().values()){
+        ActionManager.getParticles_Map().clear();
+        for(Loop loop : ActionManager.getJudgment_Loop_Map().values()){
             loop.cancel();
         }
-        TriggerManager.getJudgment_Loop_Map().clear();
+        ActionManager.getJudgment_Loop_Map().clear();
 
-        for(Holographic holographic : TriggerManager.getJudgment_Holographic_Map().values()){
+        for(Holographic holographic : ActionManager.getJudgment_Holographic_Map().values()){
             holographic.deleteHD();
         }
-        TriggerManager.getJudgment_Holographic_Map().clear();
-        TriggerManager.getJudgment_Action_Map().clear();
+        ActionManager.getJudgment_Holographic_Map().clear();
+        ActionManager.getJudgment_Action_Map().clear();
 
-        for(JudgmentAction judgmentAction : TriggerManager.getLoop_Judgment_Map().values()){
+        for(JudgmentAction judgmentAction : ActionManager.getLoop_Judgment_Map().values()){
             judgmentAction.getBukkitRunnable().cancel();
         }
-        TriggerManager.getLoop_Judgment_Map().clear();
+        ActionManager.getLoop_Judgment_Map().clear();
 
-        for(JudgmentAction judgmentAction : TriggerManager.getAction_Judgment_Map().values()){
+        for(JudgmentAction judgmentAction : ActionManager.getAction_Judgment_Map().values()){
             judgmentAction.getBukkitRunnable().cancel();
         }
-        TriggerManager.getAction_Judgment_Map().clear();
-        TriggerManager.getJudgment_BossBar_Map().clear();
-        for(BossBar bossBar : TriggerManager.getBossBar_Map().values()){
+        ActionManager.getAction_Judgment_Map().clear();
+        ActionManager.getJudgment_BossBar_Map().clear();
+        for(BossBar bossBar : ActionManager.getBossBar_Map().values()){
             bossBar.removeAll();
         }
-        TriggerManager.getBossBar_Map().clear();
+        ActionManager.getBossBar_Map().clear();
 
 
         /**重新讀取玩家資料 和 OnTimer狀態**/
@@ -127,8 +127,8 @@ public final class CustomDisplay extends JavaPlugin {
 
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
-                if(TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
-                    TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
+                if(ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
+                    ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
                 }
             }
 

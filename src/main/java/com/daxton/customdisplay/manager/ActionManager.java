@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class TriggerManager {
+public class ActionManager {
 
 
 
@@ -19,7 +19,7 @@ public class TriggerManager {
     /**目標紀錄攻擊者**/
     public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
     /**Particles**/
-    public static Map<UUID ,SendParticles> particles_Map = new HashMap<>();
+    public static Map<String ,SendParticles> particles_Map = new HashMap<>();
 
     /**JudgmentAction->HolographicNew**/
     private static Map<String, Holographic> judgment_Holographic_Map = new HashMap<>();
@@ -36,6 +36,8 @@ public class TriggerManager {
     private static Map<String, JudgmentAction> action_Judgment_Map = new HashMap<>();
     /**JudgmentAction->Action**/
     private static Map<String, Action> judgment_Action_Map = new HashMap<>();
+    /**JudgmentAction->Message**/
+    private static Map<String, Message> judgment_Message_Map = new HashMap<>();
 
 
 
@@ -53,7 +55,7 @@ public class TriggerManager {
         return target_getPlayer_Map;
     }
 
-    public static Map<UUID, SendParticles> getParticles_Map() {
+    public static Map<String, SendParticles> getParticles_Map() {
         return particles_Map;
     }
 
@@ -84,5 +86,9 @@ public class TriggerManager {
     /**JudgmentAction->Action**/
     public static Map<String, Action> getJudgment_Action_Map() {
         return judgment_Action_Map;
+    }
+    /**JudgmentAction->Message**/
+    public static Map<String, Message> getJudgment_Message_Map() {
+        return judgment_Message_Map;
     }
 }

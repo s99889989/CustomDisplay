@@ -3,7 +3,7 @@ package com.daxton.customdisplay.listener;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -24,15 +24,15 @@ public class EntityListener implements Listener {
         LivingEntity target = e.getEntity();
 
 
-        if(TriggerManager.getJudgment_Holographic_Map().get(uuid.toString()) != null){
-            TriggerManager.getJudgment_Holographic_Map().get(uuid.toString()).deleteHD();
+        if(ActionManager.getJudgment_Holographic_Map().get(uuid.toString()) != null){
+            ActionManager.getJudgment_Holographic_Map().get(uuid.toString()).deleteHD();
         }
         action(uuid,target);
     }
 
     public void action(UUID uuid,LivingEntity target){
-        if(TriggerManager.target_getPlayer_Map.get(uuid) != null){
-            Player player = TriggerManager.target_getPlayer_Map.get(uuid);
+        if(ActionManager.target_getPlayer_Map.get(uuid) != null){
+            Player player = ActionManager.target_getPlayer_Map.get(uuid);
             UUID playerUUID = player.getUniqueId();
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             if(playerData != null){

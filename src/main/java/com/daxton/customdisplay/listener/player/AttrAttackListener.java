@@ -56,7 +56,7 @@ public class AttrAttackListener implements Listener {
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~onattack",event);
+            playerData.runAction("~oncrit",event);
         }else {
             return;
         }

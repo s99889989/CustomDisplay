@@ -2,7 +2,7 @@ package com.daxton.customdisplay.listener.player;
 
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,8 +31,8 @@ public class QuizListener implements Listener {
                 }
             }
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
-            if(TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
-                TriggerManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
+            if(ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
+                ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
             }
         }
 

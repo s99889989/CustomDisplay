@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConditionManager;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
@@ -107,11 +107,11 @@ public class Action {
                         return;
                     }
                 }
-                if(TriggerManager.getAction_Judgment_Map().get(taskID) == null){
-                    TriggerManager.getAction_Judgment_Map().put(taskID,new JudgmentAction());
+                if(ActionManager.getAction_Judgment_Map().get(taskID) == null){
+                    ActionManager.getAction_Judgment_Map().put(taskID,new JudgmentAction());
                 }
-                if(TriggerManager.getAction_Judgment_Map().get(taskID) != null){
-                    TriggerManager.getAction_Judgment_Map().get(taskID).execute(player,actionString,taskID);
+                if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
+                    ActionManager.getAction_Judgment_Map().get(taskID).execute(player,actionString,taskID);
                 }
 
             }
@@ -128,12 +128,12 @@ public class Action {
                         return;
                     }
                 }
-                if(TriggerManager.getAction_Judgment_Map().get(taskID) == null){
-                    TriggerManager.getTarget_getPlayer_Map().put(target.getUniqueId(),player);
-                    TriggerManager.getAction_Judgment_Map().put(taskID,new JudgmentAction());
+                if(ActionManager.getAction_Judgment_Map().get(taskID) == null){
+                    ActionManager.getTarget_getPlayer_Map().put(target.getUniqueId(),player);
+                    ActionManager.getAction_Judgment_Map().put(taskID,new JudgmentAction());
                 }
-                if(TriggerManager.getAction_Judgment_Map().get(taskID) != null){
-                    TriggerManager.getAction_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
+                if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
+                    ActionManager.getAction_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
                 }
 
             }

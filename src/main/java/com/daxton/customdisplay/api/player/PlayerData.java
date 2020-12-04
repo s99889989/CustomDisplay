@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.serverct.ersha.jd.event.AttrEntityCritEvent;
 import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class PlayerData {
     private List<String> playerActionList;
 
     private List<String> onAttakList = new ArrayList<>();
+    private List<String> onCrit = new ArrayList<>();
     private List<String> onDamagedList = new ArrayList<>();
     private List<String> onJoinList = new ArrayList<>();
 
@@ -61,6 +63,9 @@ public class PlayerData {
                 if(actionString.toLowerCase().contains("~onjoin")){
                     onJoinList.add(actionString);
                 }
+                if(actionString.toLowerCase().contains("~oncrit")){
+                    onCrit.add(actionString);
+                }
             }
         }
     }
@@ -86,6 +91,28 @@ public class PlayerData {
                 }
                 //target.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
                 new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+            }
+        }
+        if(type.toLowerCase().contains("~oncrit") && onCrit.size() > 0){
+
+            for(String actionString : onCrit){
+                LivingEntity target = null;
+                double damageNumber = 0;
+                if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                    PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
+                    target = playerAttackEvent.getEntity();
+                    damageNumber = playerAttackEvent.getAttack().getDamage();
+                }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+                    AttrEntityCritEvent attrEntityDamageEvent = (AttrEntityCritEvent) event;
+                    target = (LivingEntity) attrEntityDamageEvent.getEntity();
+                    damageNumber = attrEntityDamageEvent.getCritDamage();
+                }else {
+                    EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
+                    target = (LivingEntity) entityDamageByEntityEvent.getEntity();
+                    damageNumber = entityDamageByEntityEvent.getFinalDamage();
+                }
+                //target.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
+                new JudgmentAction().execute(player,target,actionString,damageNumber,"~oncrit"+(int)(Math.random()*100000));
             }
         }
         if(type.toLowerCase().contains("~ondamaged") && onDamagedList.size() > 0){

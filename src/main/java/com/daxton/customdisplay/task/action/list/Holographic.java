@@ -3,9 +3,8 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.api.character.NumberUtil;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -226,17 +225,17 @@ public class Holographic {
     }
 
     public void deleteHD(){
-        if(TriggerManager.getAction_Judgment_Map().get(taskID) != null){
-            TriggerManager.getAction_Judgment_Map().remove(taskID);
+        if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
+            ActionManager.getAction_Judgment_Map().remove(taskID);
         }
-        if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
-            TriggerManager.getJudgment_Loop_Map().remove(taskID);
+        if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
+            ActionManager.getJudgment_Loop_Map().remove(taskID);
         }
-        if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
-            TriggerManager.getJudgment_Holographic_Map().remove(taskID);
+        if(ActionManager.getJudgment_Holographic_Map().get(taskID) != null){
+            ActionManager.getJudgment_Holographic_Map().remove(taskID);
         }
-        if(TriggerManager.getLoop_Judgment_Map().get(taskID) != null){
-            TriggerManager.getLoop_Judgment_Map().remove(taskID);
+        if(ActionManager.getLoop_Judgment_Map().get(taskID) != null){
+            ActionManager.getLoop_Judgment_Map().remove(taskID);
         }
         hologram.delete();
     }
@@ -265,9 +264,18 @@ public class Holographic {
     /**設定傷害**/
     public String damageNumberAction(){
         FileConfiguration config = ConfigMapManager.getFileConfigurationMap().get("Character_System_AttackNumber.yml");
-        List<String> headList = config.getStringList("player-damage.head_conversion");
-        List<String> doubleList = config.getStringList("player-damage.double_conversion");
-        List<String> unitsList = config.getStringList("player-damage.units_conversion");
+        List<String> headList = new ArrayList<>();
+        List<String> doubleList = new ArrayList<>();
+        List<String> unitsList = new ArrayList<>();
+        if(taskID.toLowerCase().contains("~oncrit")){
+            headList = config.getStringList("player-damage-crit.head_conversion");
+            doubleList = config.getStringList("player-damage-crit.double_conversion");
+            unitsList = config.getStringList("player-damage-crit.units_conversion");
+        }else {
+            headList = config.getStringList("player-damage.head_conversion");
+            doubleList = config.getStringList("player-damage.double_conversion");
+            unitsList = config.getStringList("player-damage.units_conversion");
+        }
         String snumber = new NumberUtil(damageNumber, config.getString("player-damage.decimal")).getDecimalString();
         String lastSnumber = new NumberUtil(snumber, headList,doubleList,unitsList).getNineThreeString();
         return lastSnumber;

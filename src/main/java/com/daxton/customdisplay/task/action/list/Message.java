@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class ActionBar {
+public class Message {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -17,20 +17,21 @@ public class ActionBar {
 
     private Player player;
 
-    public ActionBar(Player player, String firstString){
-        setActionBar(player,firstString);
+    private int particle = 0;
+
+    public Message(){
+
+
     }
 
-
-
-    public void setActionBar(Player player, String firstString){
+    public void setMessage(Player player, String firstString){
         this.player = player;
         List<String> stringList = new StringFind().getStringMessageList(firstString);
         for(String allString : stringList){
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion().getString("Character",strings[1],player);
+                    message = new StringConversion().getString("Character",strings[1],this.player);
                 }
             }
 
@@ -38,8 +39,12 @@ public class ActionBar {
 
     }
 
-    public void sendActionBar(){
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+    public void sendMessage(){
+        message = message.replace("{Particle_ID}",String.valueOf(particle));
+        player.sendMessage(message);
     }
 
+    public void setParticle(int particle) {
+        this.particle = particle;
+    }
 }

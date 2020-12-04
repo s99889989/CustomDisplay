@@ -3,7 +3,7 @@ package com.daxton.customdisplay.task.action;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.task.action.list.*;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,16 +54,16 @@ public class JudgmentAction {
 
                 /**Action的相關判斷**/
                 if (judgMent.toLowerCase().contains("action")) {
-                    if(TriggerManager.getJudgment_Action_Map().get(taskID) == null){
-                        TriggerManager.getJudgment_Action_Map().put(taskID,new Action());
+                    if(ActionManager.getJudgment_Action_Map().get(taskID) == null){
+                        ActionManager.getJudgment_Action_Map().put(taskID,new Action());
                     }
-                    if(TriggerManager.getJudgment_Action_Map().get(taskID) != null){
+                    if(ActionManager.getJudgment_Action_Map().get(taskID) != null){
                         if(target == null){
-                            TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,firstString,taskID);
+                            ActionManager.getJudgment_Action_Map().get(taskID).setAction(player,firstString,taskID);
                         }else if(damageNumber == 0){
-                            TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,taskID);
+                            ActionManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,taskID);
                         }else {
-                            TriggerManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,damageNumber,taskID);
+                            ActionManager.getJudgment_Action_Map().get(taskID).setAction(player,target,firstString,damageNumber,taskID);
                         }
                     }
 
@@ -71,23 +71,23 @@ public class JudgmentAction {
 
                 /**HolographicDisplays的相關判斷**/
                 if(judgMent.toLowerCase().contains("createhd") || judgMent.toLowerCase().contains("addlinehd") || judgMent.toLowerCase().contains("removelinehd") || judgMent.toLowerCase().contains("teleporthd") || judgMent.toLowerCase().contains("deletehd")){
-                    if(TriggerManager.getJudgment_Holographic_Map().get(taskID) == null){
-                        TriggerManager.getJudgment_Holographic_Map().put(taskID,new Holographic());
+                    if(ActionManager.getJudgment_Holographic_Map().get(taskID) == null){
+                        ActionManager.getJudgment_Holographic_Map().put(taskID,new Holographic());
                     }
-                    if(TriggerManager.getJudgment_Holographic_Map().get(taskID) != null){
-                        TriggerManager.getJudgment_Holographic_Map().get(taskID).setHD(player,target,firstString,damageNumber,taskID);
+                    if(ActionManager.getJudgment_Holographic_Map().get(taskID) != null){
+                        ActionManager.getJudgment_Holographic_Map().get(taskID).setHD(player,target,firstString,damageNumber,taskID);
                     }
                 }
                 /**Loop的相關判斷**/
                 if(judgMent.toLowerCase().contains("loop")){
-                        if(TriggerManager.getJudgment_Loop_Map().get(taskID) == null){
-                            TriggerManager.getJudgment_Loop_Map().put(taskID,new Loop());
+                        if(ActionManager.getJudgment_Loop_Map().get(taskID) == null){
+                            ActionManager.getJudgment_Loop_Map().put(taskID,new Loop());
                         }
-                        if(TriggerManager.getJudgment_Loop_Map().get(taskID) != null){
+                        if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
                             if(target == null){
-                                TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,firstString,taskID);
+                                ActionManager.getJudgment_Loop_Map().get(taskID).onLoop(player,firstString,taskID);
                             }else {
-                                TriggerManager.getJudgment_Loop_Map().get(taskID).onLoop(player,target,firstString,damageNumber,taskID);
+                                ActionManager.getJudgment_Loop_Map().get(taskID).onLoop(player,target,firstString,damageNumber,taskID);
                             }
                         }
                 }
@@ -104,28 +104,42 @@ public class JudgmentAction {
                 if(judgMent.toLowerCase().contains("actionbar")){
                     new ActionBar(player,firstString).sendActionBar();
                 }
+
                 /**BossBar的相關判斷**/
                 if(judgMent.toLowerCase().contains("boosbar")){
-                    if(TriggerManager.getJudgment_BossBar_Map().get(taskID) == null){
-                        TriggerManager.getJudgment_BossBar_Map().put(taskID,new SendBossBar());
+                    if(ActionManager.getJudgment_BossBar_Map().get(taskID) == null){
+                        ActionManager.getJudgment_BossBar_Map().put(taskID,new SendBossBar());
                     }
-                    if(TriggerManager.getJudgment_BossBar_Map().get(taskID) != null){
-                        TriggerManager.getJudgment_BossBar_Map().get(taskID).set(player,target,firstString,taskID);
+                    if(ActionManager.getJudgment_BossBar_Map().get(taskID) != null){
+                        ActionManager.getJudgment_BossBar_Map().get(taskID).set(player,target,firstString,taskID);
                     }
                 }
 
                 /**Particle的相關判斷**/
                 if(judgMent.toLowerCase().contains("particle")){
-                    if(TriggerManager.getParticles_Map().get(player.getUniqueId()) == null){
-                        TriggerManager.getParticles_Map().put(player.getUniqueId(),new SendParticles());
+                    if(ActionManager.getParticles_Map().get(taskID) == null){
+                        ActionManager.getParticles_Map().put(taskID,new SendParticles());
                     }
-                    if(TriggerManager.getParticles_Map().get(player.getUniqueId()) != null){
+                    if(ActionManager.getParticles_Map().get(taskID) != null){
                         if(target == null){
-                            TriggerManager.getParticles_Map().get(player.getUniqueId()).setParticles(player,firstString,taskID);
+                            ActionManager.getParticles_Map().get(taskID).setParticles(player,firstString,taskID);
                         }else {
-                            TriggerManager.getParticles_Map().get(player.getUniqueId()).setParticles(player,target,firstString,taskID);
+                            ActionManager.getParticles_Map().get(taskID).setParticles(player,target,firstString,taskID);
                         }
                     }
+                }
+
+                /**Message的相關判斷**/
+                if(judgMent.toLowerCase().contains("message")){
+                    if(ActionManager.getJudgment_Message_Map().get(taskID) == null){
+                        ActionManager.getJudgment_Message_Map().put(taskID,new Message());
+                    }
+                    if(ActionManager.getJudgment_Message_Map().get(taskID) != null){
+                        ActionManager.getJudgment_Message_Map().get(taskID).setMessage(player,firstString);
+                        ActionManager.getJudgment_Message_Map().get(taskID).sendMessage();
+                    }
+
+
                 }
 
             }

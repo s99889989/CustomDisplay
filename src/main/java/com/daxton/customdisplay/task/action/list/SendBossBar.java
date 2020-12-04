@@ -2,7 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.*;
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -106,10 +106,10 @@ public class SendBossBar {
     }
 
     public void create(){
-        if(TriggerManager.getBossBar_Map().get(taskID) == null){
-            TriggerManager.getBossBar_Map().put(taskID, Bukkit.createBossBar(message, color, style, flag));
-            TriggerManager.getBossBar_Map().get(taskID).setProgress(progress);
-            TriggerManager.getBossBar_Map().get(taskID).addPlayer(player);
+        if(ActionManager.getBossBar_Map().get(taskID) == null){
+            ActionManager.getBossBar_Map().put(taskID, Bukkit.createBossBar(message, color, style, flag));
+            ActionManager.getBossBar_Map().get(taskID).setProgress(progress);
+            ActionManager.getBossBar_Map().get(taskID).addPlayer(player);
         }
 //        if(bossBarMap.get(taskID) == null){
 //            bossBarMap.put(taskID, Bukkit.createBossBar(message, color, style, flag));
@@ -119,11 +119,11 @@ public class SendBossBar {
     }
 
     public void change(){
-        if(TriggerManager.getBossBar_Map().get(taskID) != null){
-            TriggerManager.getBossBar_Map().get(taskID).setProgress(progress);
-            TriggerManager.getBossBar_Map().get(taskID).setTitle(message);
-            TriggerManager.getBossBar_Map().get(taskID).setStyle(style);
-            TriggerManager.getBossBar_Map().get(taskID).setColor(color);
+        if(ActionManager.getBossBar_Map().get(taskID) != null){
+            ActionManager.getBossBar_Map().get(taskID).setProgress(progress);
+            ActionManager.getBossBar_Map().get(taskID).setTitle(message);
+            ActionManager.getBossBar_Map().get(taskID).setStyle(style);
+            ActionManager.getBossBar_Map().get(taskID).setColor(color);
         }
 //        if(bossBarMap.get(taskID) != null){
 //            bossBarMap.get(taskID).setProgress(progress);
@@ -134,15 +134,15 @@ public class SendBossBar {
     }
 
     public void remove(){
-        if(TriggerManager.getAction_Judgment_Map().get(taskID) != null){
-            TriggerManager.getAction_Judgment_Map().remove(taskID);
+        if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
+            ActionManager.getAction_Judgment_Map().remove(taskID);
         }
-        if(TriggerManager.getJudgment_BossBar_Map().get(taskID) != null){
-            TriggerManager.getJudgment_BossBar_Map().remove(taskID);
+        if(ActionManager.getJudgment_BossBar_Map().get(taskID) != null){
+            ActionManager.getJudgment_BossBar_Map().remove(taskID);
         }
-        if(TriggerManager.getBossBar_Map().get(taskID) != null){
-            TriggerManager.getBossBar_Map().get(taskID).removePlayer(player);
-            TriggerManager.getBossBar_Map().remove(taskID);
+        if(ActionManager.getBossBar_Map().get(taskID) != null){
+            ActionManager.getBossBar_Map().get(taskID).removePlayer(player);
+            ActionManager.getBossBar_Map().remove(taskID);
         }
 //        if(bossBarMap.get(taskID) != null){
 //            bossBarMap.get(taskID).removePlayer(player);
@@ -151,12 +151,12 @@ public class SendBossBar {
     }
 
     public void removeOldAction(){
-        if(TriggerManager.getBossBar_Map().get(taskID) != null){
-            TriggerManager.getBossBar_Map().get(taskID).removePlayer(player);
-            TriggerManager.getBossBar_Map().remove(taskID);
+        if(ActionManager.getBossBar_Map().get(taskID) != null){
+            ActionManager.getBossBar_Map().get(taskID).removePlayer(player);
+            ActionManager.getBossBar_Map().remove(taskID);
         }
-        if(TriggerManager.getJudgment_BossBar_Map().get(taskID) != null){
-            TriggerManager.getJudgment_BossBar_Map().remove(taskID);
+        if(ActionManager.getJudgment_BossBar_Map().get(taskID) != null){
+            ActionManager.getJudgment_BossBar_Map().remove(taskID);
         }
     }
 

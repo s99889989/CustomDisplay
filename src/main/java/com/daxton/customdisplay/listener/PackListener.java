@@ -9,7 +9,8 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.daxton.customdisplay.CustomDisplay;
 
-import com.daxton.customdisplay.manager.TriggerManager;
+import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.task.action.list.Message;
 import com.daxton.customdisplay.task.action.list.SendParticles;
 import org.bukkit.entity.Player;
 
@@ -84,16 +85,19 @@ public class PackListener implements Listener{
                     PacketType packetType = event.getPacketType();
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
-                            Player player = event.getPlayer();
-                            if(player.isOp()){
-                                player.sendMessage("Particle-ID:"+packet.getIntegers().getValues().get(0));
-                            }
-                            if(TriggerManager.getParticles_Map().get(player.getUniqueId()) == null){
-                                TriggerManager.getParticles_Map().put(player.getUniqueId(),new SendParticles());
-                                event.setCancelled(TriggerManager.getParticles_Map().get(player.getUniqueId()).getResult(packet.getIntegers().getValues().get(0)));
-                            }else{
-                                event.setCancelled(TriggerManager.getParticles_Map().get(player.getUniqueId()).getResult(packet.getIntegers().getValues().get(0)));
-                            }
+                        Player player = event.getPlayer();
+                        if(ActionManager.getJudgment_Message_Map().get(player.getName()) == null){
+                            ActionManager.getJudgment_Message_Map().put(player.getName(),new Message());
+                        }
+                        if(ActionManager.getJudgment_Message_Map().get(player.getName()) != null){
+                            ActionManager.getJudgment_Message_Map().get(player.getName()).setParticle(packet.getIntegers().getValues().get(0));
+                        }
+                        if(ActionManager.getParticles_Map().get(player.getName()) == null){
+                            ActionManager.getParticles_Map().put(player.getName(),new SendParticles());
+                            event.setCancelled(ActionManager.getParticles_Map().get(player.getName()).getResult(packet.getIntegers().getValues().get(0)));
+                        }else{
+                            event.setCancelled(ActionManager.getParticles_Map().get(player.getName()).getResult(packet.getIntegers().getValues().get(0)));
+                        }
                     }
                 }
 
