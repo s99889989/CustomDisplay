@@ -7,6 +7,7 @@ import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.manager.TriggerManager;
 import com.daxton.customdisplay.task.condition.Condition;
+import com.daxton.customdisplay.task.condition.list.Compare;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -99,8 +100,10 @@ public class Loop extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onStart);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-                if(condition(actionString)){
-                    return;
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
                 }
                 gogo(actionString);
             }
@@ -111,8 +114,10 @@ public class Loop extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onTime);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-                if(condition(actionString)){
-                    return;
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
                 }
                 gogo(actionString);
             }
@@ -123,8 +128,10 @@ public class Loop extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-                if(condition(actionString)){
-                    return;
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
                 }
                 gogo(actionString);
             }
@@ -158,28 +165,10 @@ public class Loop extends BukkitRunnable {
 
     public boolean condition(String actionString){
         boolean b = false;
-        if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) == null){
-            conditionMap.put(taskID,new Condition());
-            if(target == null){
-                if(conditionMap.get(taskID).getResuult(actionString,player,taskID)){
-                    b = true;
-                }
-            }else {
-                if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
-                    b = true;
-                }
-            }
-        }
-        if(actionString.toLowerCase().contains("condition") && conditionMap.get(taskID) != null){
-            if(target == null){
-                if(conditionMap.get(taskID).getResuult(actionString,player,taskID)){
-                    b = true;
-                }
-            }else {
-                if(conditionMap.get(taskID).getResuult(actionString,target,player,taskID)){
-                    b = true;
-                }
-            }
+        if(target == null){
+            b = new Condition(player,actionString,taskID).getResult();
+        }else {
+            b = new Condition(player,target,actionString,taskID).getResult();
         }
         return b;
     }

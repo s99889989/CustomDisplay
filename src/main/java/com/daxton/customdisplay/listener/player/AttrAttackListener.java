@@ -7,7 +7,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.serverct.ersha.jd.event.AttrEntityCritEvent;
 import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
 
@@ -46,7 +45,7 @@ public class AttrAttackListener implements Listener {
     }
 
     @EventHandler
-    public void onAttack(AttrEntityCritEvent event){
+    public void onAttackCrit(AttrEntityCritEvent event){
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }

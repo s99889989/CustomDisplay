@@ -120,9 +120,9 @@ public class Action {
         new ClearAction().clearPlayer(player,taskID);
         if(actionList.size() > 0){
             for(String actionString : actionList){
-                if(new Condition().getResuult(actionString,target,player,taskID)){
-                    break;
-                }
+//                if(new Condition().getResuult(actionString,target,player,taskID)){
+//                    break;
+//                }
                 if(TriggerManager.getAction_Judgment_Map().get(taskID) == null){
                     TriggerManager.getTarget_getPlayer_Map().put(target.getUniqueId(),player);
                     TriggerManager.getAction_Judgment_Map().put(taskID,new JudgmentAction());

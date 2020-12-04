@@ -16,6 +16,12 @@ public class Condition {
 
     private Player player;
 
+    private LivingEntity target;
+
+    private String firstString = "";
+
+    private String taskID = "";
+
     private static Map<String, Health> healthMap = new HashMap<>();
 
     /**條件判斷**/
@@ -23,90 +29,32 @@ public class Condition {
 
     }
 
-    public boolean getResuult(String firstString, LivingEntity target, Player player,String taskID){
 
+    /**有目標的判斷**/
+    public Condition(Player player,LivingEntity target,String firstString,String taskID){
         this.player = player;
+        this.target = target;
+        this.firstString = firstString;
+        this.taskID = taskID;
+    }
+    /**沒有目標的判斷**/
+    public Condition(Player player,String firstString,String taskID){
+        this.player = player;
+        this.firstString = firstString;
+        this.taskID = taskID;
+    }
+
+    public boolean getResult(){
         boolean b = false;
-        if(firstString.toLowerCase().contains("entitytype=")){
-            b = findSetEntityTypeList(firstString,target);
-        }
-        if(firstString.toLowerCase().contains("health=")){
-            if(healthMap.get(taskID) == null){
-                healthMap.put(taskID,new Health());
-                if(healthMap.get(taskID).judgment(firstString,target,player,taskID)){
-                    b = true;
-                }
+        if(firstString.toLowerCase().contains("compare=")){
+            if(target == null){
+                b = new Compare(player,firstString).get();
             }else {
-                if(healthMap.get(taskID).judgment(firstString,target,player,taskID)){
-                    b = true;
-                }
+                b = new Compare(player,target,firstString).get();
             }
         }
-        if(firstString.toLowerCase().contains("compare=")){
-            b = new Compare().judgment(firstString,target,player);
-        }
-        if(firstString.toLowerCase().contains("entitytypelist=")){
-            b = !(new EntityTypeList().findSetEntityTypeList(firstString,target));
-        }
-
         return b;
     }
-
-    public boolean getResuult(String firstString, Player player,String taskID){
-        this.player = player;
-        boolean b = false;
-//        if(firstString.toLowerCase().contains("entitytype=")){
-//            b = findSetEntityTypeList(firstString,player);
-//        }
-//        if(firstString.toLowerCase().contains("health=")){
-//            if(healthMap.get(taskID) == null){
-//                healthMap.put(taskID,new Health());
-//                if(healthMap.get(taskID).judgment(firstString,player,taskID)){
-//                    b = true;
-//                }
-//            }else {
-//                if(healthMap.get(taskID).judgment(firstString,player,taskID)){
-//                    b = true;
-//                }
-//            }
-//        }
-        if(firstString.toLowerCase().contains("compare=")){
-            b = new Compare().judgment(firstString,player);
-        }
-
-        return b;
-    }
-
-
-    /**判斷類型**/
-    public boolean findSetEntityTypeList(String string,LivingEntity target){
-        boolean b = false;
-        List<String> stringList = new ArrayList<>();
-        String entityType = "";
-        StringTokenizer stringTokenizer = new StringTokenizer(string,"[;] ");
-        while (stringTokenizer.hasMoreElements()){
-            stringList.add(stringTokenizer.nextToken());
-        }
-
-
-        for(String string1 : stringList){
-            if(string1.toLowerCase().contains("entitytype=")){
-                String[] strings = string1.split("=");
-                entityType = strings[1];
-            }
-        }
-
-        List<String> stringList2 = ConfigMapManager.getFileConfigurationMap().get("Character_System_EntityType.yml").getStringList(entityType.toLowerCase()+".entityType");
-        for(String s : stringList2){
-            if(s.toLowerCase().contains(target.getType().toString().toLowerCase())){
-                b = true;
-            }
-        }
-
-        return b;
-    }
-
-    /**條件判斷**/
 
 
 }

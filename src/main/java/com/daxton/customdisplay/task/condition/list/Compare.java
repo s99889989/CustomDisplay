@@ -2,80 +2,111 @@ package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Compare {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
+    private Player player;
+
+    private LivingEntity target;
+
+    private String firstString = "";
+
+    private String taskID = "";
+
     private double left = 0;
     private double right = 0;
     private String symbol = "";
+    private String stringLeft = "";
+    private String stringRight = "";
+
+    private static Map<String, Health> healthMap = new HashMap<>();
 
     public Compare(){
 
     }
 
-    public boolean judgment(String firstString, LivingEntity target, Player player){
-        setCompare(firstString,player);
-        boolean bo = false;
-
-        bo = condition();
-
-        return bo;
+    public Compare(Player player, LivingEntity target ,String firstString){
+        this.player = player;
+        this.target = target;
+        this.firstString = firstString;
+        this.taskID = taskID;
+        setOther();
     }
 
-    public boolean judgment(String firstString, Player player){
-        setCompare(firstString,player);
-        boolean bo = false;
-
-        bo = condition();
-
-        return bo;
+    public Compare(Player player ,String firstString){
+        this.player = player;
+        this.firstString = firstString;
+        this.taskID = taskID;
+        setOther();
     }
 
-    public void setCompare(String firstString,Player player){
-        symbol = firstString.toLowerCase().replace("compare=","").replace("[","").replace("]","");
-        List<String> stringList = new ArrayList<>();
-        StringTokenizer stringTokenizer = new StringTokenizer(firstString,"[=]<> ");
-        while (stringTokenizer.hasMoreElements()){
-
-            stringList.add(stringTokenizer.nextToken());
-        }
-        if(stringList.size() == 4){
-            String[] strings = stringList.toArray(new String[stringList.size()]);
-            try{
-                left = Double.valueOf(new StringConversion().customString("Character",strings[2],player));
-            }catch (Exception exception){
-                //cd.getLogger().info("The setting of '"+strings[2]+"' in '"+firstString+"' is wrong.");
-                //cd.getLogger().info("It may be that the corresponding PlaceholderAPI is not installed, or there is a syntax error.");
+    public void setOther(){
+        try{
+            List<String> stringList = new StringFind().getStringMessageList(firstString);
+            for(String string1 : stringList){
+                if(string1.toLowerCase().contains("compare=")){
+                    String[] strings = string1.split("=");
+                    if(strings[1].toLowerCase().contains(">")){
+                        symbol = ">";
+                        String[] strings1 = strings[1].replace(" ","").split(">");
+                        stringLeft = new StringConversion().getString("Character",strings1[0],player);
+                        stringRight = new StringConversion().getString("Character",strings1[1],player);
+                        left = Double.valueOf(stringLeft);
+                        right = Double.valueOf(stringRight);
+                    }else if(strings[1].toLowerCase().contains("<")){
+                        symbol = "<";
+                        String[] strings1 = strings[1].replace(" ","").split("<");
+                        stringLeft = new StringConversion().getString("Character",strings1[0],player);
+                        stringRight = new StringConversion().getString("Character",strings1[1],player);
+                        left = Double.valueOf(stringLeft);
+                        right = Double.valueOf(stringRight);
+                    }else if(strings[1].toLowerCase().contains("=")){
+                        symbol = "=";
+                        String[] strings1 = strings[1].replace(" ","").split("=");
+                        stringLeft = new StringConversion().getString("Character",strings1[0],player);
+                        stringRight = new StringConversion().getString("Character",strings1[1],player);
+                        left = Double.valueOf(stringLeft);
+                        right = Double.valueOf(stringRight);
+                    }
+                }
             }
-            right = Double.valueOf(strings[3]);
+        }catch (NumberFormatException exception){
+            cd.getLogger().info("錯誤");
         }
+
     }
 
-    public boolean condition(){
-        boolean b = true;
+    public boolean get(){
+        boolean b = false;
         if(symbol.contains("<")){
             if(left < right){
-                b = false;
+                b = true;
+
             }
+            player.sendMessage("<對錯"+b);
         }
         if(symbol.contains(">")){
             if(left > right){
-                b = false;
+                b = true;
+
             }
+            player.sendMessage(">對錯"+b);
         }
         if(symbol.contains("=")){
             if(left == right){
-                b = false;
+                b = true;
+
             }
+            player.sendMessage("=對錯"+b);
         }
+        player.sendMessage("左:"+ stringLeft +" 符號:"+symbol+" 右:"+ stringRight+"對錯"+b);
         return b;
     }
 
