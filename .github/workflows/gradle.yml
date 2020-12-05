@@ -24,3 +24,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Save the artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: CustomDisplay
+        path: build/libs/CustomDisplay-*.jar
