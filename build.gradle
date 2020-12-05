@@ -57,6 +57,8 @@ task downloadMMOLib(type: Download) {
 
 compileJava.dependsOn(downloadMMOLib)
 
-//processResources {
-//    expand(project.properties)
-//}
+processResources {
+    // force utf-8 encoding
+    filteringCharset = "UTF-8"
+    expand(project.properties)
+}
