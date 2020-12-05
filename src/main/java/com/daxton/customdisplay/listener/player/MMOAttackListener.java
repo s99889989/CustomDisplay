@@ -22,7 +22,10 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.UUID;
 
+import static net.mmogroup.mmolib.api.stat.SharedStat.*;
+import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE;
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
+import static org.bukkit.entity.EntityType.MAGMA_CUBE;
 
 public class MMOAttackListener extends AttackEffects implements Listener {
 
@@ -61,20 +64,39 @@ public class MMOAttackListener extends AttackEffects implements Listener {
             return;
         }
 
-        //MMOLib.plugin.getDamage().damage(this.player.getPlayer(), target, new AttackResult(sweep - event.getAttack().getDamage(), new DamageType[]{DamageType.SKILL, DamageType.PHYSICAL}));
-
-        StatMap stats = event.getData().getStatMap();
-
-        if (event.getAttack().hasType(DamageType.WEAPON) && random.nextDouble() <= stats.getStat("CRITICAL_STRIKE_CHANCE") / 100.0D) {
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~oncrit",event);
-        }else if (event.getAttack().hasType(DamageType.SKILL) && random.nextDouble() <= stats.getStat("SPELL_CRITICAL_STRIKE_CHANCE") / 100.0D) {
+//        player.sendMessage("自身WEAPON_DAMAGE:"+event.getData().getStatMap().getStat(WEAPON_DAMAGE));
+//        player.sendMessage("自身UNDEAD_DAMAGE:"+event.getData().getStatMap().getStat(UNDEAD_DAMAGE));
+//        player.sendMessage("自身PVP:"+event.getData().getStatMap().getStat(PVP_DAMAGE));
+//        player.sendMessage("自身PVE:"+event.getData().getStatMap().getStat(PVE_DAMAGE));
+        /**基礎傷害**/
+        double attack_damage = event.getData().getStatMap().getStat(ATTACK_DAMAGE);
+        /**而外物理攻擊**/
+        double physical_damage = event.getData().getStatMap().getStat(PHYSICAL_DAMAGE);
+        /**最終傷害**/
+        double final_damage = attack_damage+physical_damage+5;
+        //player.sendMessage("自身攻擊:"+(final_damage));
+        //player.sendMessage("傷害數字:"+event.getAttack().getDamage());
+        if(event.getAttack().getDamage() > final_damage){
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             playerData.runAction("~oncrit",event);
         }else {
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             playerData.runAction("~onattack",event);
         }
+        //MMOLib.plugin.getDamage().damage(this.player.getPlayer(), target, new AttackResult(sweep - event.getAttack().getDamage(), new DamageType[]{DamageType.SKILL, DamageType.PHYSICAL}));
+
+//        StatMap stats = event.getData().getStatMap();
+//
+//        if (event.getAttack().hasType(DamageType.WEAPON) && random.nextDouble() <= stats.getStat("CRITICAL_STRIKE_CHANCE") / 100.0D) {
+//            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+//            playerData.runAction("~oncrit",event);
+//        }else if (event.getAttack().hasType(DamageType.SKILL) && random.nextDouble() <= stats.getStat("SPELL_CRITICAL_STRIKE_CHANCE") / 100.0D) {
+//            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+//            playerData.runAction("~oncrit",event);
+//        }else {
+//            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+//            playerData.runAction("~onattack",event);
+//        }
 
     }
 

@@ -89,7 +89,6 @@ public class PlayerData {
                     target = (LivingEntity) entityDamageByEntityEvent.getEntity();
                     damageNumber = entityDamageByEntityEvent.getFinalDamage();
                 }
-                //target.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
                 new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
             }
         }
@@ -112,7 +111,6 @@ public class PlayerData {
                     target = (LivingEntity) entityDamageByEntityEvent.getEntity();
                     damageNumber = entityDamageByEntityEvent.getFinalDamage();
                 }
-                //target.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
                 new JudgmentAction().execute(player,target,actionString,damageNumber,"~oncrit"+(int)(Math.random()*100000));
             }
         }

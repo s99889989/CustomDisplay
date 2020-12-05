@@ -1,5 +1,5 @@
-monster:
-  entityType:
+Monster:
+  entityTypeList:
   - HUSK
   - CREEPER
   - SKELETON
@@ -29,8 +29,8 @@ monster:
   - PIGLIN_BRUTE
   
   
-animal:
-  entityType:
+Animal:
+  entityTypeList:
   - PIG
   - SHEEP
   - COW
@@ -66,6 +66,6 @@ animal:
   - STRIDER
   - ZOGLIN
 
-player:
-  entityType:
+Player:
+  entityTypeList:
   - PLAYER
