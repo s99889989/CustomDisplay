@@ -39,7 +39,7 @@ dependencies {
 }
 
 group = 'com.daxton'
-version = '1.10.9.1'
+version = '1.10.10'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 
@@ -57,6 +57,10 @@ task downloadMMOLib(type: Download) {
 
 compileJava.dependsOn(downloadMMOLib)
 
-//processResources {
-//    expand(project.properties)
-//}
+processResources {
+    // force utf-8 encoding
+    filteringCharset = "UTF-8"
+    expand(project.properties)
+    // re-run the task if the version changed
+    inputs.property("version", version)
+}
