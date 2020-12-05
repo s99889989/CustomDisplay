@@ -7,17 +7,24 @@ import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.injector.GamePhase;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedParticle;
 import com.daxton.customdisplay.CustomDisplay;
 
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.list.Message;
 import com.daxton.customdisplay.task.action.list.SendParticles;
+
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import org.bukkit.event.Listener;
 
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Random;
+
+import static org.bukkit.Particle.DAMAGE_INDICATOR;
 
 
 public class PackListener implements Listener{
@@ -81,24 +88,44 @@ public class PackListener implements Listener{
 
                 @Override
                 public void onPacketSending(PacketEvent event) {
+                    Player player = event.getPlayer();
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
 
+//                    List particles = packet.getNewParticles().getValues();
+//                    if(type == DAMAGE_INDICATOR){
+//
+//                        event.setCancelled(true);
+//                        int index = particles.indexOf(DAMAGE_INDICATOR);
+//                        int max = 10;
+//                        int min = 1;
+//                        if(false){
+//                            Random randomno = new Random();
+//                            int rand = randomno.nextInt(max - min +1)+min;
+//                            packet.getIntegers().write(index,rand);
+//                        }else {
+//                            event.setCancelled(true);
+//                        }
+//
+//                    }
+
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
-                        Player player = event.getPlayer();
+
+                        Particle type = packet.getNewParticles().read(0).getParticle();
                         if(ActionManager.getJudgment_Message_Map().get(player.getName()) == null){
                             ActionManager.getJudgment_Message_Map().put(player.getName(),new Message());
                         }
                         if(ActionManager.getJudgment_Message_Map().get(player.getName()) != null){
-                            ActionManager.getJudgment_Message_Map().get(player.getName()).setParticle(packet.getIntegers().getValues().get(0));
+                            ActionManager.getJudgment_Message_Map().get(player.getName()).setParticle(type);
                         }
                         if(ActionManager.getParticles_Map().get(player.getName()) == null){
                             ActionManager.getParticles_Map().put(player.getName(),new SendParticles());
-                            event.setCancelled(ActionManager.getParticles_Map().get(player.getName()).getResult(packet.getIntegers().getValues().get(0)));
+                            event.setCancelled(ActionManager.getParticles_Map().get(player.getName()).getResult(type));
                         }else{
-                            event.setCancelled(ActionManager.getParticles_Map().get(player.getName()).getResult(packet.getIntegers().getValues().get(0)));
+                            event.setCancelled(ActionManager.getParticles_Map().get(player.getName()).getResult(type));
                         }
                     }
+
                 }
 
             });

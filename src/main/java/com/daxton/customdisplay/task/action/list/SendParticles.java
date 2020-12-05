@@ -19,9 +19,8 @@ public class SendParticles {
     private LivingEntity target;
 
     private String function = "";
-    private int particle = 0;
 
-    private List<Integer> particleList = new ArrayList<>();
+    private String putParticle = "";
 
     public SendParticles(){
 
@@ -58,8 +57,7 @@ public class SendParticles {
             if (allString.toLowerCase().contains("particle=")) {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
-                    particleList.add(Integer.valueOf(strings[1]));
-                    particle = Integer.valueOf(strings[1]);
+                    putParticle = strings[1];
                 }
             }
 
@@ -74,20 +72,13 @@ public class SendParticles {
 
 
 
-    public boolean getResult(int packet){
+    public boolean getResult(Particle inParticle){
         boolean b = false;
 
-        if(particleList.size() > 0){
-            for(int p : particleList){
-                if(p == packet){
-                    b = true;
-                }
-            }
-        }
 
-//        if(packet == particle){
-//            b = true;
-//        }
+        if(Enum.valueOf(Particle.class,putParticle) == inParticle){
+            b = true;
+        }
         return b;
     }
 

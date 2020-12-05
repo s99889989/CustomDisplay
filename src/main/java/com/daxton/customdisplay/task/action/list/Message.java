@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class Message {
 
     private Player player;
 
-    private int particle = 0;
+    private Particle particle; // = Enum.valueOf(Particle.class,"")
 
     public Message(){
 
@@ -40,11 +41,11 @@ public class Message {
     }
 
     public void sendMessage(){
-        message = message.replace("{Particle_ID}",String.valueOf(particle));
+        message = message.replace("{Particle_ID}",particle.toString());
         player.sendMessage(message);
     }
 
-    public void setParticle(int particle) {
+    public void setParticle(Particle particle) {
         this.particle = particle;
     }
 }
