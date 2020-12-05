@@ -45,12 +45,14 @@ public class Condition {
         this.player = player;
         this.firstString = firstString;
         this.taskID = taskID;
+
     }
 
 
     public boolean getResult(){
         boolean b = false;
         if(firstString.toLowerCase().contains("compare=")){
+
             if(target == null){
                 b = new Compare(player,firstString).get();
             }else {

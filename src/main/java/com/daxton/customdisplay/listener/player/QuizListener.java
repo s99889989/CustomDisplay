@@ -30,6 +30,7 @@ public class QuizListener implements Listener {
                     new JudgmentAction().execute(player,string,String.valueOf((int)(Math.random()*100000)));
                 }
             }
+
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
             if(ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
                 ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();

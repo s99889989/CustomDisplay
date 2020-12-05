@@ -164,8 +164,9 @@ public class Loop extends BukkitRunnable {
 
     public boolean condition(String actionString){
         boolean b = false;
-        if(ConditionManager.getAction_Condition_Map().get(taskID) == null){
-            ConditionManager.getAction_Condition_Map().put(taskID,new Condition());
+
+        if(ConditionManager.getLoop_Condition_Map().get(taskID) == null){
+            ConditionManager.getLoop_Condition_Map().put(taskID,new Condition());
         }
         if(ConditionManager.getLoop_Condition_Map().get(taskID) != null){
             if(target == null){
@@ -174,7 +175,9 @@ public class Loop extends BukkitRunnable {
                 ConditionManager.getLoop_Condition_Map().get(taskID).setCondition(player,target,actionString,taskID);
             }
             b = ConditionManager.getLoop_Condition_Map().get(taskID).getResult();
+
         }
+
         return b;
     }
 
