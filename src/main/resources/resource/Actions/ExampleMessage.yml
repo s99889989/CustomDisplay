@@ -2,5 +2,5 @@
 #Display the effect ID of the attack.
 Particle-Show:
   Action:
-  - Message[m=<%player_name%> Particle-ID:{Particle_ID}]
+  - Message[m=%player_name%> Particle-ID:{Particle_ID}]
   

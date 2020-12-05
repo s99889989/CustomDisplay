@@ -1,5 +1,5 @@
 name: CustomDisplay
-version: ${version}
+version: 1.10.10
 main: com.daxton.customdisplay.CustomDisplay
 api-version: 1.13
 prefix: CustomDisplay
