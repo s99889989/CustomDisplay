@@ -31,6 +31,7 @@ public class PlayerData {
     private List<String> onCrit = new ArrayList<>();
     private List<String> onDamagedList = new ArrayList<>();
     private List<String> onJoinList = new ArrayList<>();
+    private List<String> onQuitList = new ArrayList<>();
 
     public PlayerData(Player player){
         this.player = player;
@@ -62,6 +63,9 @@ public class PlayerData {
                 }
                 if(actionString.toLowerCase().contains("~onjoin")){
                     onJoinList.add(actionString);
+                }
+                if(actionString.toLowerCase().contains("~onquit")){
+                    onQuitList.add(actionString);
                 }
                 if(actionString.toLowerCase().contains("~oncrit")){
                     onCrit.add(actionString);
@@ -121,6 +125,11 @@ public class PlayerData {
         }
         if(type.toLowerCase().contains("~onjoin") && onJoinList.size() > 0){
             for(String actionString : onJoinList){
+                new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+            }
+        }
+        if(type.toLowerCase().contains("~onquit") && onJoinList.size() > 0){
+            for(String actionString : onQuitList){
                 new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
             }
         }
