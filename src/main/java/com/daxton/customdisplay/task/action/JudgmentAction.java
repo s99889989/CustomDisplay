@@ -116,7 +116,11 @@ public class JudgmentAction {
                         ActionManager.getJudgment_BossBar_Map().put(taskID,new SendBossBar());
                     }
                     if(ActionManager.getJudgment_BossBar_Map().get(taskID) != null){
-                        ActionManager.getJudgment_BossBar_Map().get(taskID).set(player,target,firstString,taskID);
+                        if(target == null){
+                            ActionManager.getJudgment_BossBar_Map().get(taskID).set(player,firstString,taskID);
+                        }else {
+                            ActionManager.getJudgment_BossBar_Map().get(taskID).set(player,target,firstString,taskID);
+                        }
                     }
                 }
 

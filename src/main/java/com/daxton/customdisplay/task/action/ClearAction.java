@@ -1,9 +1,12 @@
 package com.daxton.customdisplay.task.action;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.Player;
 
 public class ClearAction {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public ClearAction(){
 

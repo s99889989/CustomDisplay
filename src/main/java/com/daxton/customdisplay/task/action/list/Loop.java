@@ -4,6 +4,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConditionManager;
+import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -19,6 +20,8 @@ public class Loop extends BukkitRunnable {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private int ticksRun = 0;
+    private int period = 1;
+    private int duration = 0;
 
     private Player player;
     private LivingEntity target;
@@ -29,8 +32,7 @@ public class Loop extends BukkitRunnable {
     private String onTime = "";
     private String onEnd = "";
     private boolean unlimited = true;
-    private int period = 1;
-    private int duration = 1;
+
 
     /**條件判斷**/
     private static Map<String,Condition> conditionMap = new HashMap<>();
@@ -118,6 +120,7 @@ public class Loop extends BukkitRunnable {
                         return;
                     }
                 }
+                cd.getLogger().info(actionString);
                 gogo(actionString);
             }
         }
@@ -134,6 +137,8 @@ public class Loop extends BukkitRunnable {
                 }
                 gogo(actionString);
             }
+            //new ClearAction().clearPlayer(player,taskID);
+
         }
     }
 

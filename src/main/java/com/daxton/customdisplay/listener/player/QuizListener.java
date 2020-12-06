@@ -26,7 +26,6 @@ public class QuizListener implements Listener {
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             playerData.runAction("~onquit",event);
-
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
             if(ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
                 ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();

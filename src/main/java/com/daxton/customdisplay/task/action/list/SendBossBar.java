@@ -30,6 +30,11 @@ public class SendBossBar {
     private double progress = 0.0;
 
     private Player player;
+    private LivingEntity target;
+
+    String targetName = "";
+    String maxHealth = "";
+    String nowHealth = "";
 
     private static Map<String, BossBar> bossBarMap = new HashMap<>();
     private String taskID = "";
@@ -38,16 +43,30 @@ public class SendBossBar {
 
     }
 
+    public void set(Player player, String firstString, String taskID){
+        this.taskID = taskID;
+        this.player = player;
+        setOther(firstString);
+    }
+
     public void set(Player player, LivingEntity target, String firstString, String taskID){
         this.taskID = taskID;
         this.player = player;
+        this.target = target;
         if(target.getHealth() < 1){
             return;
         }
+        setOther(firstString);
+    }
+
+
+    public void setOther(String firstString){
         List<String> stringList = new StringFind().getStringList(firstString);
-        String targetName = target.getName();
-        String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
-        String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
+        if(target != null){
+            String targetName = target.getName();
+            String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
+            String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
+        }
         for(String allString : stringList){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
                 String[] strings = allString.split("=");
@@ -105,6 +124,7 @@ public class SendBossBar {
             remove();
         }
     }
+
 
     public void create(){
         try{
