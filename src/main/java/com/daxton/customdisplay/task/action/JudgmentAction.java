@@ -92,6 +92,11 @@ public class JudgmentAction {
                         }
                 }
 
+                /**Name的相關判斷**/
+                if(judgMent.toLowerCase().contains("name")){
+                    new SetName(player,target);
+                }
+
                 /**Title的相關判斷**/
                 if(judgMent.toLowerCase().contains("title")){
                     new Title(player,firstString).sendTitle();
@@ -117,6 +122,7 @@ public class JudgmentAction {
 
                 /**Particle的相關判斷**/
                 if(judgMent.toLowerCase().contains("particle")){
+
                     if(ActionManager.getParticles_Map().get(taskID) == null){
                         ActionManager.getParticles_Map().put(taskID,new SendParticles());
                     }
@@ -141,6 +147,7 @@ public class JudgmentAction {
 
 
                 }
+
 
             }
         };

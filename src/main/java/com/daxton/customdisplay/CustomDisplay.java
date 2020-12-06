@@ -1,5 +1,6 @@
 package com.daxton.customdisplay;
 
+import com.comphenix.protocol.ProtocolLibrary;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.listener.EntityListener;
@@ -74,6 +75,8 @@ public final class CustomDisplay extends JavaPlugin {
         }else {
             getLogger().info(ChatColor.RED+"NotLoaded ProtocolLib");
         }
+
+        ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
 
     }
 

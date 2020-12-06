@@ -11,6 +11,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
@@ -106,31 +107,30 @@ public class SendBossBar {
     }
 
     public void create(){
-        if(ActionManager.getBossBar_Map().get(taskID) == null){
-            ActionManager.getBossBar_Map().put(taskID, Bukkit.createBossBar(message, color, style, flag));
-            ActionManager.getBossBar_Map().get(taskID).setProgress(progress);
-            ActionManager.getBossBar_Map().get(taskID).addPlayer(player);
+        try{
+            if(ActionManager.getBossBar_Map().get(taskID) == null){
+                ActionManager.getBossBar_Map().put(taskID, Bukkit.createBossBar(message, color, style, flag));
+                ActionManager.getBossBar_Map().get(taskID).setProgress(progress);
+                ActionManager.getBossBar_Map().get(taskID).addPlayer(player);
+            }
+        }catch (Exception exception){
+            exception.printStackTrace();
         }
-//        if(bossBarMap.get(taskID) == null){
-//            bossBarMap.put(taskID, Bukkit.createBossBar(message, color, style, flag));
-//            bossBarMap.get(taskID).setProgress(progress);
-//            bossBarMap.get(taskID).addPlayer(player);
-//        }
+
+
     }
 
     public void change(){
-        if(ActionManager.getBossBar_Map().get(taskID) != null){
-            ActionManager.getBossBar_Map().get(taskID).setProgress(progress);
-            ActionManager.getBossBar_Map().get(taskID).setTitle(message);
-            ActionManager.getBossBar_Map().get(taskID).setStyle(style);
-            ActionManager.getBossBar_Map().get(taskID).setColor(color);
+        try{
+            if(ActionManager.getBossBar_Map().get(taskID) != null){
+                ActionManager.getBossBar_Map().get(taskID).setProgress(progress);
+                ActionManager.getBossBar_Map().get(taskID).setTitle(message);
+                ActionManager.getBossBar_Map().get(taskID).setStyle(style);
+                ActionManager.getBossBar_Map().get(taskID).setColor(color);
+            }
+        }catch (Exception exception){
+            exception.printStackTrace();
         }
-//        if(bossBarMap.get(taskID) != null){
-//            bossBarMap.get(taskID).setProgress(progress);
-//            bossBarMap.get(taskID).setTitle(message);
-//            bossBarMap.get(taskID).setStyle(style);
-//            bossBarMap.get(taskID).setColor(color);
-//        }
     }
 
     public void remove(){
@@ -144,10 +144,6 @@ public class SendBossBar {
             ActionManager.getBossBar_Map().get(taskID).removePlayer(player);
             ActionManager.getBossBar_Map().remove(taskID);
         }
-//        if(bossBarMap.get(taskID) != null){
-//            bossBarMap.get(taskID).removePlayer(player);
-//            bossBarMap.remove(taskID);
-//        }
     }
 
     public void removeOldAction(){

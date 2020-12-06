@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.manager;
 
+import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.boss.BossBar;
@@ -40,7 +41,7 @@ public class ActionManager {
     private static Map<String, Message> judgment_Message_Map = new HashMap<>();
 
 
-
+    public static ProtocolManager protocolManager;
 
 
 

@@ -18,7 +18,7 @@ public class Message {
 
     private Player player;
 
-    private Particle particle; // = Enum.valueOf(Particle.class,"")
+    private Particle particle;
 
     public Message(){
 

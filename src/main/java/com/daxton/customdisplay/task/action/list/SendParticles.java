@@ -1,10 +1,12 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.comphenix.protocol.events.PacketContainer;
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.task.action.ClearAction;
+import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -12,7 +14,12 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.bukkit.Color.*;
+import static org.bukkit.Particle.REDSTONE;
+
 public class SendParticles {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String taskID;
     private Player player;
@@ -20,7 +27,9 @@ public class SendParticles {
 
     private String function = "";
 
-    private String putParticle = "";
+    private boolean remove = false;
+
+    private Particle putParticle;
 
     public SendParticles(){
 
@@ -28,9 +37,7 @@ public class SendParticles {
 
     }
 
-    public void sendParticle(){
-        target.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
-    }
+
 
     public void setParticles(Player player, String firstString, String taskID){
         this.player = player;
@@ -57,7 +64,12 @@ public class SendParticles {
             if (allString.toLowerCase().contains("particle=")) {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
-                    putParticle = strings[1];
+                    try{
+                        putParticle = Enum.valueOf(Particle.class,strings[1].toUpperCase());
+                    }catch (Exception exception){
+
+                    }
+
                 }
             }
 
@@ -67,19 +79,36 @@ public class SendParticles {
 
         if(function.toLowerCase().contains("remove")){
 
+        }else {
+            sendParticle();
         }
     }
+    public void sendParticle(){
+        try{
+            if(putParticle == REDSTONE){
+                Particle.DustOptions dustOptions = new Particle.DustOptions(fromRGB(0x808080), 1);
+                target.getWorld().spawnParticle(putParticle, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15,dustOptions);
+            }else {
+                target.getWorld().spawnParticle(putParticle, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
+            }
+        }catch (Exception e){
+            //cd.getLogger().info(e.toString());
+        }
 
 
+    }
 
+    /**是否取消遇到的粒子類型**/
     public boolean getResult(Particle inParticle){
-        boolean b = false;
-
-
-        if(Enum.valueOf(Particle.class,putParticle) == inParticle){
-            b = true;
+        if(function.toLowerCase().contains("remove")){
+            if(inParticle == putParticle){
+                remove = true;
+            }
         }
-        return b;
+        return remove;
     }
 
+    public Particle getPutParticle() {
+        return putParticle;
+    }
 }
