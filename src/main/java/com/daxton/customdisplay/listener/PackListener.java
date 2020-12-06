@@ -18,9 +18,12 @@ import com.daxton.customdisplay.task.action.list.SendParticles;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import net.md_5.bungee.chat.ComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -29,10 +32,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 
+import javax.naming.Name;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static org.bukkit.Particle.DAMAGE_INDICATOR;
 
@@ -42,6 +44,8 @@ public class PackListener implements Listener{
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public ProtocolManager pm;
+
+
 
     private static final int CUSTOM_NAME_INDEX = 5;
 
@@ -113,20 +117,27 @@ public class PackListener implements Listener{
                     watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, booleanSerializer), true);
 
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+
                     packet.getIntegers().write(0, target.getEntityId());
                     packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
-                    try {
-                        pm.sendServerPacket(player, packet, false);
-                    } catch (InvocationTargetException ex) {
-                        ex.printStackTrace();
+                    for(Player p : Bukkit.getOnlinePlayers()){
+                        try {
+                            pm.sendServerPacket(p, packet, false);
+                        } catch (InvocationTargetException ex) {
+                            ex.printStackTrace();
+                        }
                     }
+//                    try {
+//                        pm.sendServerPacket(player, packet, false);
+//                    } catch (InvocationTargetException ex) {
+//                        ex.printStackTrace();
+//                    }
                 }
 
                 /**發送名稱數據包2**/
                 public void sendNamePacket2(Player player, LivingEntity target) {
                     //player.sendMessage("怪物出生"+target.getName());
                     WrappedDataWatcher watcher = new WrappedDataWatcher();
-                    //watcher.setEntity(target);
 
                     WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(String.class);
                     WrappedDataWatcher.WrappedDataWatcherObject object = new WrappedDataWatcher.WrappedDataWatcherObject(2, serializer);
@@ -134,53 +145,96 @@ public class PackListener implements Listener{
                     watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), true);
 
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+
                     packet.getIntegers().write(0, target.getEntityId());
                     packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
+                    for(Player p : Bukkit.getOnlinePlayers()){
+                        try {
+                            pm.sendServerPacket(p, packet, false);
+                        } catch (InvocationTargetException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                }
+
+                public void sendNamePacket3(Player player) {
+                    Location loc = player.getLocation();
+                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.SPAWN_ENTITY);
+                    packet.getModifier().writeDefaults();
+                    int entityID = (int)(Math.random() * Integer.MAX_VALUE);
+                    packet.getIntegers().write(0, entityID);
+                    packet.getUUIDs().write(0, UUID.randomUUID());
+                    packet.getEntityTypeModifier().write(0, EntityType.ARMOR_STAND);
+                    packet.getDoubles().write(0, loc.getX());
+                    packet.getDoubles().write(1, loc.getY());
+                    packet.getDoubles().write(2, loc.getZ());
+
                     try {
-                        pm.sendServerPacket(player, packet, false);
-                    } catch (InvocationTargetException ex) {
-                        ex.printStackTrace();
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+
+                    PacketContainer packet2 = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+                    packet2.getModifier().writeDefaults();
+                    packet2.getIntegers().write(0, entityID);
+
+                    WrappedDataWatcher metadata = new WrappedDataWatcher();
+                    Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage("displayName")[0].getHandle());
+                    metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true)), opt);
+                    metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), true);
+
+                    packet2.getWatchableCollectionModifier().write(0, metadata.getWatchableObjects());
+                    try {
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet2);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
                     }
                 }
+
+
+
 
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     Player player = event.getPlayer();
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
-                    if (packetType == PacketType.Play.Server.ENTITY_METADATA){
-                        final Entity entity = packet.getEntityModifier(event.getPlayer().getWorld()).read(0);
-                        final String name = entity.getName();
-                        //cd.getLogger().info("元數據");
-                    }
-                    if(packetType.equals(PacketType.Play.Server.SPAWN_ENTITY_LIVING)){
-                        final Entity entity = packet.getEntityModifier(event.getPlayer().getWorld()).read(0);
-                        final LivingEntity target = (LivingEntity) entity;
-                        final String name = entity.getName();
-                        sendNamePacket2(player,target);
+                    if (packetType == PacketType.Play.Server.SPAWN_ENTITY_LIVING) {
 
-                        //entity.setCustomName(name);
-                        //entity.setCustomNameVisible(true);
-                        //entityName.put(entity.getUniqueId(), "aadnk", ChatColor.RED + name);
-                        //entityName.put(entity.getUniqueId(), "Acirium", ChatColor.GREEN + name);
-                        //cd.getLogger().info("怪物出生"+entity.getName());
-                        if (name != null) {
-                            // Clone the packet!
-                            //event.setPacket(packet = packet.deepClone());
-                            // This comes down to a difference in what the packets store in memory
-                            if (packetType == PacketType.Play.Server.ENTITY_METADATA) {
-                                cd.getLogger().info("有");
-                                //WrappedDataWatcher watcher = new WrappedDataWatcher(packet.getWatchableCollectionModifier().read(0));
-                                //cd.getLogger().info("Set entity name1 " + name + " for " + event.getPlayer());
-                                //processDataWatcher(watcher, name);
-                                //packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
-                            } else {
-                                //cd.getLogger().info("Set entity name2 " + name + " for " + event.getPlayer());
-                                //processDataWatcher(packet.getDataWatcherModifier().read(0), name);
-                            }
-                        }
 
                     }
+//                    if(packetType.equals(PacketType.Play.Server.SPAWN_ENTITY_LIVING)){
+//                        final Entity entity = packet.getEntityModifier(event.getPlayer().getWorld()).read(0);
+//                        final LivingEntity target = (LivingEntity) entity;
+//                        final String name = entity.getName();
+//                        packet.getIntegers().write(0, entity.getEntityId());
+//                        packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(entity).getWatchableObjects());
+//                        try {
+//                            pm.sendServerPacket(player, packet);
+//                        } catch (InvocationTargetException e) {
+//                            e.printStackTrace();
+//                        }
+//                        if (name != null) {
+//                            PacketContainer packet2 = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+//                            packet2.getModifier().writeDefaults();
+//                            packet2.getIntegers().write(0, target.getEntityId());
+//
+//                            WrappedDataWatcher metadata = new WrappedDataWatcher();
+//                            Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage("displayName")[0].getHandle());
+//                            metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true)), opt);
+//                            metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), true);
+//
+//                            packet2.getWatchableCollectionModifier().write(0, metadata.getWatchableObjects());
+//                            try {
+//                                pm.sendServerPacket(player, packet2);
+//                            } catch (InvocationTargetException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    }
 
 
 
