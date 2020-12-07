@@ -14,15 +14,15 @@ Action:
 
 #攻擊怪物顯示血量
 #-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
-- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onCrit
-- Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
+#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
+#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onCrit
+#- Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
 
 #攻擊動物顯示血量
 #-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
-- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
-- Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
+#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
+#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
+#- Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
 
 #攻擊玩家顯示資訊
 #-------------------------------------------------------------------------#
@@ -53,6 +53,23 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=Particle-Remove;mark=%player_name%] ~onJoin
 
-#顯示攻擊出現的效果ID.
+#顯示攻擊的效果名稱。
 #-------------------------------------------------------------------------#
 #- Action[a=Particle-Show;mark=%player_name%] ~onAttack
+
+#攻擊的顯示效果。
+#-------------------------------------------------------------------------#
+#- Action[a=Particle-Lava] ~onAttack
+#- Action[a=Particle-Lava] ~onCrit
+
+#攻擊改變顯示名稱(怪物)
+#-------------------------------------------------------------------------#
+- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onAttack
+- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onCrit
+- Action[mark={target_uuid}NameDisplayAttackMonster;stop=true] ~onDeath
+
+#攻擊改變顯示名稱(動物)
+#-------------------------------------------------------------------------#
+- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onAttack
+- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onCrit
+- Action[mark={target_uuid}NameDisplayAttackAnimal;stop=true] ~onDeath

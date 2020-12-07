@@ -1,0 +1,18 @@
+#
+NameDisplayAttackMonster:
+  Action:
+  - Condition[entityTypeList=Monster]
+  - Loop[onTime=NameDisplayAttackMonster-Time;period=40;duration=unlimited]
+NameDisplayAttackMonster-Time:
+  Action:
+   - Name[m={cd_health_conversion}{target_name}{cd_target_health};Always=true;healthConver=health-monster-name]
+
+#
+NameDisplayAttackAnimal:
+  Action:
+  - Condition[entityTypeList=Animal]
+  - Loop[onTime=NameDisplayAttackAnimal-Time;period=40;duration=unlimited]
+NameDisplayAttackAnimal-Time:
+  Action:
+   - Name[m={cd_health_conversion}{target_name}{cd_target_health};Always=true;healthConver=health-animal-name]
+

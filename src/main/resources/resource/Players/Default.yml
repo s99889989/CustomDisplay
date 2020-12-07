@@ -14,15 +14,15 @@ Action:
 
 #Attacking monsters shows blood volume.
 #-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
-- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onCrit
-- Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
+#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
+#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onCrit
+#- Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
 
 #Attack animals show blood volume.
 #-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
-- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
-- Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
+#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
+#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
+#- Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
 
 #The attacking player displays information.
 #-------------------------------------------------------------------------#
@@ -53,6 +53,18 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=Particle-Remove;mark=%player_name%] ~onJoin
 
-#Display the effect ID of the attack.
+#Display the name of the attack's effect.
 #-------------------------------------------------------------------------#
 #- Action[a=Particle-Show;mark=%player_name%] ~onAttack
+
+#Attack change display name (monster)
+#-------------------------------------------------------------------------#
+- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onAttack
+- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onCrit
+- Action[mark={target_uuid}NameDisplayAttackMonster;stop=true] ~onDeath
+
+#Attack change display name (animal)
+#-------------------------------------------------------------------------#
+- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onAttack
+- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onCrit
+- Action[mark={target_uuid}NameDisplayAttackAnimal;stop=true] ~onDeath

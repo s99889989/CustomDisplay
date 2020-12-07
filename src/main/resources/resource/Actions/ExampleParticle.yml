@@ -4,29 +4,9 @@
 #There are multiple IDs for Hurt Love, and only a few of them are used in the example.
 Particle-Remove:
   Action:
-  - Particle[Function=remove;particle=272]
-  - Particle[Function=remove;particle=205]
-  - Particle[Function=remove;particle=201]
-  - Particle[Function=remove;particle=192]
-  - Particle[Function=remove;particle=184]
-  - Particle[Function=remove;particle=181]
-  - Particle[Function=remove;particle=180]
-  - Particle[Function=remove;particle=150]
-  - Particle[Function=remove;particle=138]
-  - Particle[Function=remove;particle=125]
-  - Particle[Function=remove;particle=102]
-  - Particle[Function=remove;particle=90]
-  - Particle[Function=remove;particle=75]
-  - Particle[Function=remove;particle=68]
-  - Particle[Function=remove;particle=67]
-  - Particle[Function=remove;particle=61]
-  - Particle[Function=remove;particle=60]
-  - Particle[Function=remove;particle=57]
-  - Particle[Function=remove;particle=54]
-  - Particle[Function=remove;particle=33]
-  - Particle[Function=remove;particle=31]
-  - Particle[Function=remove;particle=30]
-  - Particle[Function=remove;particle=14]
-  - Particle[Function=remove;particle=10]
-  - Particle[Function=remove;particle=2]
-  
+  - Particle[Function=remove;particle=DAMAGE_INDICATOR]
+
+
+Particle-Lava:
+  Action:
+  - Particle[particle=redston]
