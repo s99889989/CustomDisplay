@@ -120,7 +120,6 @@ public class Loop extends BukkitRunnable {
                         return;
                     }
                 }
-                cd.getLogger().info(actionString);
                 gogo(actionString);
             }
         }
@@ -137,7 +136,6 @@ public class Loop extends BukkitRunnable {
                 }
                 gogo(actionString);
             }
-            //new ClearAction().clearPlayer(player,taskID);
 
         }
     }

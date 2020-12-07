@@ -46,7 +46,7 @@ public class SendBossBar {
     public void set(Player player, String firstString, String taskID){
         this.taskID = taskID;
         this.player = player;
-        setOther(firstString);
+        setSelfOther(firstString);
     }
 
     public void set(Player player, LivingEntity target, String firstString, String taskID){
@@ -59,14 +59,9 @@ public class SendBossBar {
         setOther(firstString);
     }
 
-
-    public void setOther(String firstString){
+    public void setSelfOther(String firstString){
         List<String> stringList = new StringFind().getStringList(firstString);
-        if(target != null){
-            String targetName = target.getName();
-            String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
-            String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
-        }
+
         for(String allString : stringList){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
                 String[] strings = allString.split("=");
@@ -95,10 +90,7 @@ public class SendBossBar {
             if(allString.toLowerCase().contains("progress=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    strings[1] = strings[1].replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
-                    //strings[1] = new ArithmeticUtil().valueof(strings[1]);
                     progress = Calculator.conversion(strings[1]);
-                    //progress = Double.valueOf(strings[1]);
                 }
             }
         }
@@ -108,7 +100,78 @@ public class SendBossBar {
             if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
                 String[] strings2 = string2.split("=");
                 if(strings2.length == 2){
-                    strings2[1] = strings2[1].replace("{target_name}",targetName).replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
+                    message = new StringConversion().getString("Character",strings2[1],player);
+                }
+            }
+        }
+
+        if(function.toLowerCase().contains("create")){
+            create();
+        }
+        if(function.toLowerCase().contains("set")){
+            change();
+        }
+        if(function.toLowerCase().contains("delete")){
+            remove();
+        }
+    }
+
+
+    public void setOther(String firstString){
+        List<String> stringList = new StringFind().getStringList(firstString);
+
+        String targetName = target.getName();
+        String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
+        String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
+
+
+        for(String allString : stringList){
+            if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    function = strings[1];
+                }
+            }
+            if(allString.toLowerCase().contains("style=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    style = Enum.valueOf(BarStyle.class , strings[1]);
+                }
+            }
+            if(allString.toLowerCase().contains("color=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    color = Enum.valueOf(BarColor.class , strings[1]);
+                }
+            }
+            if(allString.toLowerCase().contains("flag=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    flag = Enum.valueOf(BarFlag.class , strings[1]);
+                }
+            }
+            if(allString.toLowerCase().contains("progress=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+
+                    if(target != null){
+                        strings[1] = strings[1].replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
+                    }
+
+                    progress = Calculator.conversion(strings[1]);
+                }
+            }
+        }
+
+        List<String> stringList2 = new StringFind().getStringMessageList(firstString);
+        for(String string2 : stringList2){
+            if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
+                String[] strings2 = string2.split("=");
+                if(strings2.length == 2){
+
+                        strings2[1] = strings2[1].replace("{target_name}",targetName).replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
+
+
                     message = new StringConversion().getString("Character",strings2[1],player);
                 }
             }

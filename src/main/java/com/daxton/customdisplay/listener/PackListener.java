@@ -45,10 +45,6 @@ public class PackListener implements Listener{
 
     public ProtocolManager pm;
 
-
-
-    private static final int CUSTOM_NAME_INDEX = 5;
-
     private Table<UUID, String, String> entityName = HashBasedTable.create();
 
     public PackListener(){
@@ -201,59 +197,7 @@ public class PackListener implements Listener{
                     Player player = event.getPlayer();
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
-                    if (packetType == PacketType.Play.Server.SPAWN_ENTITY_LIVING) {
 
-
-                    }
-//                    if(packetType.equals(PacketType.Play.Server.SPAWN_ENTITY_LIVING)){
-//                        final Entity entity = packet.getEntityModifier(event.getPlayer().getWorld()).read(0);
-//                        final LivingEntity target = (LivingEntity) entity;
-//                        final String name = entity.getName();
-//                        packet.getIntegers().write(0, entity.getEntityId());
-//                        packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(entity).getWatchableObjects());
-//                        try {
-//                            pm.sendServerPacket(player, packet);
-//                        } catch (InvocationTargetException e) {
-//                            e.printStackTrace();
-//                        }
-//                        if (name != null) {
-//                            PacketContainer packet2 = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
-//                            packet2.getModifier().writeDefaults();
-//                            packet2.getIntegers().write(0, target.getEntityId());
-//
-//                            WrappedDataWatcher metadata = new WrappedDataWatcher();
-//                            Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage("displayName")[0].getHandle());
-//                            metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true)), opt);
-//                            metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), true);
-//
-//                            packet2.getWatchableCollectionModifier().write(0, metadata.getWatchableObjects());
-//                            try {
-//                                pm.sendServerPacket(player, packet2);
-//                            } catch (InvocationTargetException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                        }
-//                    }
-
-
-
-//                    List particles = packet.getNewParticles().getValues();
-//                    if(type == DAMAGE_INDICATOR){
-//
-//                        event.setCancelled(true);
-//                        int index = particles.indexOf(DAMAGE_INDICATOR);
-//                        int max = 10;
-//                        int min = 1;
-//                        if(false){
-//                            Random randomno = new Random();
-//                            int rand = randomno.nextInt(max - min +1)+min;
-//                            packet.getIntegers().write(index,rand);
-//                        }else {
-//                            event.setCancelled(true);
-//                        }
-//
-//                    }
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
 
@@ -281,13 +225,6 @@ public class PackListener implements Listener{
 
             });
 
-    }
-
-    private void processDataWatcher(WrappedDataWatcher watcher, String name) {
-        // If it's being updated, change it!
-        if (watcher.getObject(CUSTOM_NAME_INDEX) != null) {
-            watcher.setObject(CUSTOM_NAME_INDEX, name);
-        }
     }
 
 

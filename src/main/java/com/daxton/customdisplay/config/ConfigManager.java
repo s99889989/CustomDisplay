@@ -26,6 +26,7 @@ public class ConfigManager {
         new AutoConfig("resource/Actions/ExampleBossBar.yml","Actions/ExampleBossBar.yml").get();
         new AutoConfig("resource/Actions/ExampleHD.yml","Actions/ExampleHD.yml").get();
         new AutoConfig("resource/Actions/ExampleMessage.yml","Actions/ExampleMessage.yml").get();
+        new AutoConfig("resource/Actions/ExampleName.yml","Actions/ExampleName.yml").get();
         new AutoConfig("resource/Actions/ExampleParticle.yml","Actions/ExampleParticle.yml").get();
         new AutoConfig("resource/Actions/ExampleTitle.yml","Actions/ExampleTitle.yml").get();
         new AutoConfig("resource/Character/ExampleCharacter.yml","Character/ExampleCharacter.yml").get();

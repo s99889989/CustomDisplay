@@ -94,7 +94,16 @@ public class JudgmentAction {
 
                 /**Name的相關判斷**/
                 if(judgMent.toLowerCase().contains("name")){
-                    new SetName(player,target);
+                    if(ActionManager.getJudgment_SetName_Map().get(taskID) == null){
+                        ActionManager.getJudgment_SetName_Map().put(taskID,new SetName());
+                    }
+                    if(ActionManager.getJudgment_SetName_Map().get(taskID) != null){
+                        if(target == null){
+                            ActionManager.getJudgment_SetName_Map().get(taskID).setName(player,firstString,taskID);
+                        }else {
+                            ActionManager.getJudgment_SetName_Map().get(taskID).setName(player,target,firstString,taskID);
+                        }
+                    }
                 }
 
                 /**Title的相關判斷**/
