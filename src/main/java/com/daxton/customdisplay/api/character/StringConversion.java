@@ -64,7 +64,12 @@ public class StringConversion {
                 String[] stl2 = stl1[1].split(";");
                 for(String stringList2 : stl2){
                     String[] stl3 = stringList2.split(",");
-                    outputString = outputString.replaceAll(stl3[0],stl3[1]);
+                    if(outputString.replace(stl3[0],"").length() == 0){
+                        outputString = outputString.replace(stl3[0],stl3[1]);
+                        if(outputString.equals(stl3[1])){
+                            break;
+                        }
+                    }
                 }
             }
         }

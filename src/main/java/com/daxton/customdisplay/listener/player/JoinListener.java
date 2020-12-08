@@ -1,16 +1,23 @@
 package com.daxton.customdisplay.listener.player;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDespawnEvent;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.UUID;
 
 public class JoinListener implements Listener {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Player player;
 
@@ -28,24 +35,21 @@ public class JoinListener implements Listener {
             playerData.runAction("~onjoin",event);
         }
 
+    }
+    @EventHandler
+    public void de(MythicMobSpawnEvent event){
 
-        /**觸發OnTime**/
-        //onAtcion();
+        //cd.getLogger().info("MythicMobSpawnEvent");
+    }
+
+
+    @EventHandler
+    public void onItemHeld(PlayerMoveEvent event){
+
+
 
     }
 
-    /**觸發OnTime**/
-    public void onAtcion(){
-
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-        if(playerData != null){
-            for(String string : playerData.getPlayerActionList()){
-                if(string.toLowerCase().contains("~onjoin")){
-                    new JudgmentAction().execute(player,string,String.valueOf((int)(Math.random()*100000)));
-                }
-            }
-        }
-    }
 
 
 }

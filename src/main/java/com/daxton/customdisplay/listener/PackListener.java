@@ -15,6 +15,7 @@ import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.list.Message;
 import com.daxton.customdisplay.task.action.list.SendParticles;
 
+import com.daxton.customdisplay.task.action.list.Title;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -34,8 +35,10 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import javax.naming.Name;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.GAME_INFO;
 import static org.bukkit.Particle.DAMAGE_INDICATOR;
 
 
@@ -50,13 +53,18 @@ public class PackListener implements Listener{
     public PackListener(){
 
             pm = ProtocolLibrary.getProtocolManager();
-            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE, PacketType.Play.Client.FLYING,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA)) {
+            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE, PacketType.Play.Client.FLYING,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.CHAT, PacketType.Play.Client.CHAT)) {
                 @Override
                 public void onPacketReceiving(PacketEvent event) {
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
                     Player player = event.getPlayer();
 
+                    if(packetType.equals(PacketType.Play.Server.TITLE)){
+                        cd.getLogger().info("TITLE");
+                        player.sendMessage("TITLE");
+                        //player.sendMessage(packet.getTitleActions().read(0).toString());
+                    }
 
                     if (packetType.equals(PacketType.Play.Client.FLYING)) {
                         //player.sendMessage("玩家移動");
@@ -83,21 +91,6 @@ public class PackListener implements Listener{
 
                     }
 
-                }
-
-                public void sendPacket(Player player, String text, EnumWrappers.TitleAction action, int fadeIn, int time, int fadeOut) {
-                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.TITLE);
-
-                    packet.getTitleActions().write(0, action);
-                    packet.getChatComponents().write(0, WrappedChatComponent.fromText(text));
-                    packet.getIntegers().write(0, fadeIn);
-                    packet.getIntegers().write(1, time);
-                    packet.getIntegers().write(2, fadeOut);
-                    try {
-                        pm.sendServerPacket(player, packet, false);
-                    } catch (InvocationTargetException ex) {
-                        ex.printStackTrace();
-                    }
                 }
 
                 /**發送名稱數據包**/
@@ -190,7 +183,20 @@ public class PackListener implements Listener{
                 }
 
 
+                public void sendPacket(Player player, String text, EnumWrappers.TitleAction action, int fadeIn, int time, int fadeOut) {
+                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.TITLE);
 
+                    packet.getTitleActions().write(0, action);
+                    packet.getChatComponents().write(0, WrappedChatComponent.fromText(text));
+                    packet.getIntegers().write(0, fadeIn);
+                    packet.getIntegers().write(1, time);
+                    packet.getIntegers().write(2, fadeOut);
+                    try {
+                        pm.sendServerPacket(player, packet, false);
+                    } catch (InvocationTargetException ex) {
+                        ex.printStackTrace();
+                    }
+                }
 
                 @Override
                 public void onPacketSending(PacketEvent event) {
@@ -198,9 +204,18 @@ public class PackListener implements Listener{
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
 
+                    if(packetType.equals(PacketType.Play.Server.CHAT)){
+                        if(packet.getChatTypes().read(0) == GAME_INFO){
+                            //player.sendMessage("CHAT內容:"+packet.getChatComponents().read(0).toString());
+
+                        }
+                    }
+
+//                    if(packetType.equals(PacketType.Play.Server.TITLE)){
+//                            player.sendMessage("TITLE內容:"+packet.getChatComponents().read(0));
+//                    }
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
-
                         Particle type = packet.getNewParticles().read(0).getParticle();
                         if(ActionManager.getJudgment_Message_Map().get(player.getName()) == null){
                             ActionManager.getJudgment_Message_Map().put(player.getName(),new Message());

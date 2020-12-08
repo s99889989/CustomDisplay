@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class Message {
+public class Message{
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -24,6 +24,8 @@ public class Message {
 
 
     }
+
+
 
     public void setMessage(Player player, String firstString){
         this.player = player;

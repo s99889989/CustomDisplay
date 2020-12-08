@@ -15,6 +15,7 @@ import org.serverct.ersha.jd.event.AttrEntityCritEvent;
 import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PlayerData {

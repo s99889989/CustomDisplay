@@ -27,6 +27,9 @@ repositories {
             artifact()
         }
     }
+    maven {
+        url = uri('https://mvn.lumine.io/repository/maven-public/')
+    }
 }
 
 dependencies {
@@ -35,11 +38,12 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.4'
     compileOnly 'org.serverct.ersha.jd:AttributePlus:2.2.5'
+    compileOnly 'io.lumine.xikage:MythicMobs:4.9.1'
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 group = 'com.daxton'
-version = '1.11'
+version = '1.11.2'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 
