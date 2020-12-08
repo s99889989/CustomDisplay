@@ -2,6 +2,7 @@ package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -48,16 +49,14 @@ public class StringConversion {
             if(string.contains("math;")){
                 String[] stl = string.split(";");
                 outputString = PlaceholderAPI.setPlaceholders(player,stl[2]);
-                double result = 0;
-                try{
-                    result = Calculator.conversion(outputString);
+                double number = 0;
+                try {
+                    number = Arithmetic.eval(outputString);
+                    outputString = new NumberUtil(number,stl[1]).getDecimalString();
                 }catch (Exception exception){
-                    cd.getLogger().info("錯誤"+exception.toString());
+                    outputString = ChatColor.RED+ "'&"+ firstString2 + "& has a problem in computing.'" + ChatColor.WHITE;
                 }
-                outputString = String.valueOf(result);
-                //outputString = new ArithmeticUtil().valueof(outputString);
-                double number = Double.valueOf(outputString);
-                outputString = new NumberUtil(number,stl[1]).getDecimalString();
+
             }
             if(string.contains("conver=")){
                 String[] stl1 = string.split("=");

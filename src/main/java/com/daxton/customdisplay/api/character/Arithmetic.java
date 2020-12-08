@@ -1,23 +1,6 @@
-package com.daxton.customdisplay;
+package com.daxton.customdisplay.api.character;
 
-import com.daxton.customdisplay.api.character.Calculator;
-import me.clip.placeholderapi.PlaceholderAPI;
-
-import java.util.Iterator;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class Test {
-
-    private static Map<String,Double> doubleMap = new HashMap<>();
-
-    public static void main(String[] args){
-        String s = "((4 - 2^3 + 1) * -sqrt(3*3+4*4)) / 2";
-        double d = eval(s);
-        System.out.println(""+d);
-
-    }
+public class Arithmetic {
 
     public static double eval(final String str) {
         return new Object() {
@@ -98,7 +81,5 @@ public class Test {
             }
         }.parse();
     }
-
-
 
 }

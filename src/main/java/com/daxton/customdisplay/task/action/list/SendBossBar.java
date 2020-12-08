@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.*;
 import com.daxton.customdisplay.manager.ActionManager;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -100,11 +101,11 @@ public class SendBossBar {
             if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
                 String[] strings2 = string2.split("=");
                 if(strings2.length == 2){
+                    //message = PlaceholderAPI.setPlaceholders(player,strings2[1]);
                     message = new StringConversion().getString("Character",strings2[1],player);
                 }
             }
         }
-
         if(function.toLowerCase().contains("create")){
             create();
         }
