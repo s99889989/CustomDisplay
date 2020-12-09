@@ -91,7 +91,11 @@ public class SendBossBar {
             if(allString.toLowerCase().contains("progress=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    progress = Calculator.conversion(strings[1]);
+                    if(target != null){
+                        strings[1] = strings[1].replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
+                    }
+                    //strings[1] = new StringConversion().getString("Character",strings[1],player);
+                    progress = Arithmetic.eval(strings[1]);
                 }
             }
         }
@@ -154,12 +158,12 @@ public class SendBossBar {
             if(allString.toLowerCase().contains("progress=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-
                     if(target != null){
                         strings[1] = strings[1].replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
                     }
+                    //strings[1] = new StringConversion().getString("Character",strings[1],player);
 
-                    progress = Calculator.conversion(strings[1]);
+                    progress = Arithmetic.eval(strings[1]);
                 }
             }
         }

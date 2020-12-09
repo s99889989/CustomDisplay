@@ -1,12 +1,6 @@
 package com.daxton.customdisplay;
 
-import com.daxton.customdisplay.api.character.Calculator;
-import me.clip.placeholderapi.PlaceholderAPI;
-
-import java.util.Iterator;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Test {
 

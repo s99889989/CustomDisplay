@@ -161,6 +161,13 @@ public class JudgmentAction {
 
                 }
 
+                /**Mythic的相關判斷**/
+                if(judgMent.toLowerCase().contains("mythic")){
+
+                    new MythicAction(player,target,firstString).useMythicAction();
+
+                }
+
 
             }
         };

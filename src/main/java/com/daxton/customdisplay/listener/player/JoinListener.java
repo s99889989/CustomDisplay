@@ -4,8 +4,10 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDespawnEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
+import io.lumine.xikage.mythicmobs.skills.placeholders.GenericPlaceholderMeta;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import net.Indyuce.mmocore.listener.SpellCast;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public class JoinListener implements Listener {
@@ -39,9 +42,10 @@ public class JoinListener implements Listener {
 
     }
     @EventHandler
-    public void de(MythicMobSpawnEvent event){
-
+    public void onMythicMobSpawn(MythicMobSpawnEvent event){
+        //GenericPlaceholderMeta();
         //cd.getLogger().info("MythicMobSpawnEvent");
+
     }
 
 }
