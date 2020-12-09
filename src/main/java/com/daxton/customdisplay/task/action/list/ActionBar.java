@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.manager.ActionManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -31,6 +32,13 @@ public class ActionBar {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     message = new StringConversion().getString("Character",strings[1],player);
+                    String ac = ActionManager.getActionBar_String_Map().get(player.getUniqueId());
+                    if(ac != null){
+                        message = message.replace("{cd_mmocore_actionbar}",ac);
+                    }else {
+                        message = message.replace("{cd_mmocore_actionbar}","");
+                    }
+
                 }
             }
 

@@ -42,11 +42,11 @@ public class StringConversion {
         String outputString = "";
         List<String> list = new ConfigFind().getCharacterMessageList(folderName,firstString2);
         for(String string : list){
-            if(string.contains("papi;")){
+            if(string.toLowerCase().contains("papi;")){
                 String[] stl = string.split(";");
                 outputString = PlaceholderAPI.setPlaceholders(player,stl[1]);
             }
-            if(string.contains("math;")){
+            if(string.toLowerCase().contains("math;")){
                 String[] stl = string.split(";");
                 outputString = PlaceholderAPI.setPlaceholders(player,stl[2]);
                 double number = 0;
@@ -58,7 +58,7 @@ public class StringConversion {
                 }
 
             }
-            if(string.contains("conver=")){
+            if(string.toLowerCase().contains("converall=")){
                 String[] stl1 = string.split("=");
                 String[] stl2 = stl1[1].split(";");
                 for(String stringList2 : stl2){
@@ -69,6 +69,14 @@ public class StringConversion {
                             break;
                         }
                     }
+                }
+            }
+            if(string.toLowerCase().contains("conver=")){
+                String[] stl1 = string.split("=");
+                String[] stl2 = stl1[1].split(";");
+                for(String stringList2 : stl2){
+                    String[] stl3 = stringList2.split(",");
+                    outputString = outputString.replace(stl3[0],stl3[1]);
                 }
             }
         }

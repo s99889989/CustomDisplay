@@ -75,7 +75,10 @@ public final class CustomDisplay extends JavaPlugin {
         }else {
             getLogger().info(ChatColor.RED+"NotLoaded ProtocolLib");
         }
-
+        if (Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
+            getLogger().info(ChatColor.GREEN+"Loaded MMOCore");
+            Bukkit.getPluginManager().registerEvents(new SpellCastListener(),customDisplay);
+        }
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
 
     }
@@ -84,9 +87,6 @@ public final class CustomDisplay extends JavaPlugin {
     public void load(){
         configManager = new ConfigManager(customDisplay);
         mapReload();
-//        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
-//            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
-//        }
     }
     public void mapReload(){
         ActionManager.getParticles_Map().clear();
@@ -117,35 +117,20 @@ public final class CustomDisplay extends JavaPlugin {
         ActionManager.getBossBar_Map().clear();
 
 
-        /**重新讀取玩家資料 和 OnTimer狀態**/
+        /**重新讀取玩家資料**/
         for(Player player : Bukkit.getOnlinePlayers()){
             UUID playerUUID = player.getUniqueId();
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             if(playerData != null){
-
-                /**OnQuiz**/
-                for(String string : playerData.getPlayerActionList()){
-
-                }
-
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
                 if(ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
                     ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
                 }
             }
-
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) == null){
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
-            }
-            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                /**OnJoin**/
-                for(String string : PlayerDataMap.getPlayerDataMap().get(playerUUID).getPlayerActionList()){
-                    if(string.toLowerCase().contains("~onjoin")){
-                        new JudgmentAction().execute(player,string,String.valueOf((int)(Math.random()*100000)));
-                    }
-                }
             }
         }
 
@@ -211,7 +196,6 @@ public final class CustomDisplay extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
         getLogger().info("Plugin disable");
         getLogger().info("插件卸載");
     }

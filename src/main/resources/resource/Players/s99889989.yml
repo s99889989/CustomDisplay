@@ -32,12 +32,14 @@ Action:
 
 #血量低於設定量顯示標題和聲音
 #-------------------------------------------------------------------------#
-- Action[a=TitleHealthDisplay;mark=%player_name%TitleHealthDisplay] ~onJoin
-- Action[mark=%player_name%TitleHealthDisplay;stop=true] ~onQuit
+#- Action[a=TitleHealthDisplay;mark=%player_name%TitleHealthDisplay] ~onJoin
+#- Action[mark=%player_name%TitleHealthDisplay;stop=true] ~onQuit
 
 #持續顯示動態欄
 #-------------------------------------------------------------------------#
 - Action[a=ActionBarDisplay;mark=%player_name%ActionBarDisplay] ~onJoin
+- Action[a=ActionBarDisplay;mark=%player_name%ActionBarDisplay] ~onSkillCastStop
+- Action[mark=%player_name%ActionBarDisplay;stop=true] ~onSkillCastStart
 - Action[mark=%player_name%ActionBarDisplay;stop=true] ~onQuit
 
 #攻擊顯示BossBar
@@ -73,3 +75,9 @@ Action:
 - Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onAttack
 - Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onCrit
 - Action[mark={target_uuid}NameDisplayAttackAnimal;stop=true] ~onDeath
+
+#顯示MMOCore技能狀態攔.
+#-------------------------------------------------------------------------#
+- Action[a=MMOCoreActionBarDisplay;mark=%player_name%MMOCoreActionBarDisplay] ~onSkillCastStart
+- Action[mark=%player_name%MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
+

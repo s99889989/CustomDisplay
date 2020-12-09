@@ -9,9 +9,11 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntitySpellCastEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import net.Indyuce.mmocore.listener.SpellCast;
 
 import java.util.UUID;
 
@@ -41,15 +43,5 @@ public class JoinListener implements Listener {
 
         //cd.getLogger().info("MythicMobSpawnEvent");
     }
-
-
-    @EventHandler
-    public void onItemHeld(PlayerMoveEvent event){
-
-
-
-    }
-
-
 
 }

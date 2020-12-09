@@ -33,6 +33,8 @@ public class PlayerData {
     private List<String> onDamagedList = new ArrayList<>();
     private List<String> onJoinList = new ArrayList<>();
     private List<String> onQuitList = new ArrayList<>();
+    private List<String> onSkillCastStart = new ArrayList<>();
+    private List<String> onSkillCastStop = new ArrayList<>();
 
     public PlayerData(Player player){
         this.player = player;
@@ -71,70 +73,128 @@ public class PlayerData {
                 if(actionString.toLowerCase().contains("~oncrit")){
                     onCrit.add(actionString);
                 }
+                if(actionString.toLowerCase().contains("~onskillcaststart")){
+                    onSkillCastStart.add(actionString);
+                }
+                if(actionString.toLowerCase().contains("~onskillcaststop")){
+                    onSkillCastStop.add(actionString);
+                }
             }
         }
     }
 
     public void runAction(String type, Event event){
         if(type.toLowerCase().contains("~onattack") && onAttakList.size() > 0){
-
-            for(String actionString : onAttakList){
-                LivingEntity target = null;
-                double damageNumber = 0;
-                if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
-                    PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
-                    target = playerAttackEvent.getEntity();
-                    damageNumber = playerAttackEvent.getAttack().getDamage();
-                }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
-                    AttrEntityDamageEvent attrEntityDamageEvent = (AttrEntityDamageEvent) event;
-                    target = (LivingEntity) attrEntityDamageEvent.getEntity();
-                    damageNumber = attrEntityDamageEvent.getDamage();
-                }else {
-                    EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
-                    target = (LivingEntity) entityDamageByEntityEvent.getEntity();
-                    damageNumber = entityDamageByEntityEvent.getFinalDamage();
-                }
-
-                new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
-            }
+            onAttack(event);
         }
         if(type.toLowerCase().contains("~oncrit") && onCrit.size() > 0){
-
-            for(String actionString : onCrit){
-                LivingEntity target = null;
-                double damageNumber = 0;
-                if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
-                    PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
-                    target = playerAttackEvent.getEntity();
-
-                    damageNumber = playerAttackEvent.getAttack().getDamage();
-                }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
-                    AttrEntityCritEvent attrEntityDamageEvent = (AttrEntityCritEvent) event;
-                    target = (LivingEntity) attrEntityDamageEvent.getEntity();
-                    damageNumber = attrEntityDamageEvent.getCritDamage();
-                }else {
-                    EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
-                    target = (LivingEntity) entityDamageByEntityEvent.getEntity();
-                    damageNumber = entityDamageByEntityEvent.getFinalDamage();
-                }
-
-                new JudgmentAction().execute(player,target,actionString,damageNumber,"~oncrit"+(int)(Math.random()*100000));
-            }
+            onCrit(event);
         }
         if(type.toLowerCase().contains("~ondamaged") && onDamagedList.size() > 0){
-            for(String actionString : onDamagedList){
-                new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
-            }
+            onDamaged(event);
         }
         if(type.toLowerCase().contains("~onjoin") && onJoinList.size() > 0){
-            for(String actionString : onJoinList){
-                new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
-            }
+            onJoin(event);
         }
-        if(type.toLowerCase().contains("~onquit") && onJoinList.size() > 0){
-            for(String actionString : onQuitList){
-                new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+        if(type.toLowerCase().contains("~onquit") && onQuitList.size() > 0){
+            onQuit(event);
+        }
+        if(type.toLowerCase().contains("~onskillcaststart") && onSkillCastStart.size() > 0){
+            onSkillCastStart(event);
+        }
+        if(type.toLowerCase().contains("~onskillcaststop") && onSkillCastStop.size() > 0){
+            onSkillCastStop(event);
+        }
+    }
+
+    public void onAttack(Event event){
+        for(String actionString : onAttakList){
+            LivingEntity target = null;
+            double damageNumber = 0;
+            if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
+                target = playerAttackEvent.getEntity();
+                damageNumber = playerAttackEvent.getAttack().getDamage();
+            }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+                AttrEntityDamageEvent attrEntityDamageEvent = (AttrEntityDamageEvent) event;
+                target = (LivingEntity) attrEntityDamageEvent.getEntity();
+                damageNumber = attrEntityDamageEvent.getDamage();
+            }else {
+                EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
+                target = (LivingEntity) entityDamageByEntityEvent.getEntity();
+                damageNumber = entityDamageByEntityEvent.getFinalDamage();
             }
+
+            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+        }
+    }
+
+    public void onCrit(Event event){
+        for(String actionString : onCrit){
+            LivingEntity target = null;
+            double damageNumber = 0;
+            if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                PlayerAttackEvent playerAttackEvent = (PlayerAttackEvent) event;
+                target = playerAttackEvent.getEntity();
+
+                damageNumber = playerAttackEvent.getAttack().getDamage();
+            }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+                AttrEntityCritEvent attrEntityDamageEvent = (AttrEntityCritEvent) event;
+                target = (LivingEntity) attrEntityDamageEvent.getEntity();
+                damageNumber = attrEntityDamageEvent.getCritDamage();
+            }else {
+                EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) event;
+                target = (LivingEntity) entityDamageByEntityEvent.getEntity();
+                damageNumber = entityDamageByEntityEvent.getFinalDamage();
+            }
+
+            new JudgmentAction().execute(player,target,actionString,damageNumber,"~oncrit"+(int)(Math.random()*100000));
+        }
+    }
+
+    public void onDamaged(Event event){
+        for(String actionString : onDamagedList){
+            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+        }
+    }
+
+    public void onRegainHealth(Event event){
+
+    }
+
+    public void onJoin(Event event){
+        for(String actionString : onJoinList){
+            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+        }
+    }
+
+    public void onQuit(Event event){
+        for(String actionString : onQuitList){
+            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+        }
+    }
+
+    public void onMove(Event event){
+
+    }
+
+    public void onSneak(Event event){
+
+    }
+
+    public void onDeath(Event event){
+
+    }
+
+    public void onSkillCastStart(Event event){
+        for(String actionString : onSkillCastStart){
+            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+        }
+    }
+
+    public void onSkillCastStop(Event event){
+        for(String actionString : onSkillCastStop){
+            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
         }
     }
 

@@ -5,19 +5,20 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.injector.GamePhase;
-import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedParticle;
+import com.comphenix.protocol.reflect.StructureModifier;
+import com.comphenix.protocol.wrappers.*;
 import com.daxton.customdisplay.CustomDisplay;
 
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.task.action.list.ActionBar;
 import com.daxton.customdisplay.task.action.list.Message;
 import com.daxton.customdisplay.task.action.list.SendParticles;
 
 import com.daxton.customdisplay.task.action.list.Title;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import jdk.nashorn.internal.parser.JSONParser;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,14 +32,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.json.simple.JSONObject;
 
 
 import javax.naming.Name;
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.*;
+import java.util.List;
+import java.util.logging.Level;
 
-import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.GAME_INFO;
+import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.*;
+import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
 import static org.bukkit.Particle.DAMAGE_INDICATOR;
 
 
@@ -53,7 +61,7 @@ public class PackListener implements Listener{
     public PackListener(){
 
             pm = ProtocolLibrary.getProtocolManager();
-            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE, PacketType.Play.Client.FLYING,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.CHAT, PacketType.Play.Client.CHAT)) {
+            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE, PacketType.Play.Client.FLYING,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.CHAT)) {
                 @Override
                 public void onPacketReceiving(PacketEvent event) {
                     PacketContainer packet = event.getPacket();
@@ -64,6 +72,10 @@ public class PackListener implements Listener{
                         cd.getLogger().info("TITLE");
                         player.sendMessage("TITLE");
                         //player.sendMessage(packet.getTitleActions().read(0).toString());
+                    }
+
+                    if(packetType == PacketType.Play.Client.CHAT){
+                        cd.getLogger().info("PlayerChat");
                     }
 
                     if (packetType.equals(PacketType.Play.Client.FLYING)) {
@@ -200,13 +212,44 @@ public class PackListener implements Listener{
 
                 @Override
                 public void onPacketSending(PacketEvent event) {
+
                     Player player = event.getPlayer();
+
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
 
                     if(packetType.equals(PacketType.Play.Server.CHAT)){
+                        if(packet.getChatTypes().read(0) == CHAT){
+
+                        }
                         if(packet.getChatTypes().read(0) == GAME_INFO){
-                            //player.sendMessage("CHAT內容:"+packet.getChatComponents().read(0).toString());
+                            BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
+                            try{
+                                ((Object) null).hashCode();
+                            }catch (Exception exception){
+                                StackTraceElement[] traces = exception.getStackTrace();
+                                for(StackTraceElement trace : traces){
+                                    if(trace.getClassName().contains("net.Indyuce.mmocore")){
+                                        ActionManager.getActionBar_String_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
+                                        event.setCancelled(true);
+                                    }
+                                    //cd.getLogger().info(trace.getClassName());
+                                }
+                            }
+
+
+//                            if(b.length > 0 && !(BaseComponent.toLegacyText(b).contains("customdisplay"))){
+//                                ActionManager.getActionBar_String_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
+//                                event.setCancelled(true);
+//                            }
+//                            if(BaseComponent.toLegacyText(b).contains("customdisplay")){
+//                                event.setCancelled(true);
+//                                sendPacket(player,BaseComponent.toLegacyText(b).replace("customdisplay",""), ACTIONBAR,0,0,0);
+//
+//                            }
+
+
+
 
                         }
                     }

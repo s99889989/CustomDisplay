@@ -40,10 +40,11 @@ dependencies {
     compileOnly 'org.serverct.ersha.jd:AttributePlus:2.2.5'
     compileOnly 'io.lumine.xikage:MythicMobs:4.9.1'
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6-283.jar'])
 }
 
 group = 'com.daxton'
-version = '1.11.2'
+version = '1.11.3'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 

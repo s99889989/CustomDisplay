@@ -23,6 +23,8 @@ public class ActionManager {
     public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
     /**Particles**/
     public static Map<String ,SendParticles> particles_Map = new HashMap<>();
+    /**其他插件的ActionBar顯示**/
+    private static Map<UUID , String> ActionBar_String_Map = new HashMap<>();
 
     /**JudgmentAction->HolographicNew**/
     private static Map<String, Holographic> judgment_Holographic_Map = new HashMap<>();
@@ -61,6 +63,10 @@ public class ActionManager {
 
     public static Map<String, SendParticles> getParticles_Map() {
         return particles_Map;
+    }
+    /**其他插件的ActionBar顯示**/
+    public static Map<UUID, String> getActionBar_String_Map() {
+        return ActionBar_String_Map;
     }
 
     /**JudgmentAction->HolographicNew**/
