@@ -29,9 +29,6 @@ public class SetName {
     private Player player;
     private LivingEntity target;
     private String targetName = "";
-    private String healthNumber = "";
-    private String health_conversion = "health-monster";
-    private String healthConversion = "";
     private boolean always = false;
 
     public SetName(){
@@ -78,12 +75,6 @@ public class SetName {
 
             }
 
-            if(allString.toLowerCase().contains("healthconver=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    health_conversion = strings[1];
-                }
-            }
 
         }
         updateEntity();
@@ -108,13 +99,10 @@ public class SetName {
     public void sendMetadataPacket() {
 
 
-        //Bukkit.getScheduler().runTask(CustomDisplay.getCustomDisplay(), () -> {
 
-            String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
-            String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
-            healthNumber = nowHealth +"/"+ maxHealth;
-            healthConversion = targetHealth();
-            message = new StringConversion("Character",message,this.player,target).getResultString().replace("{target_name}", targetName).replace("{cd_health_conversion}", healthConversion).replace("{cd_target_health}", healthNumber);
+
+
+            message = new StringConversion("Character",message,this.player,target).getResultString();
             PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
             packet.getIntegers().write(0, target.getEntityId());
             WrappedDataWatcher watcher = new WrappedDataWatcher();
@@ -131,7 +119,7 @@ public class SetName {
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-        //});
+
     }
 
     public void colse(){
@@ -141,14 +129,6 @@ public class SetName {
     }
 
 
-    /**設定怪物血量顯示**/
-    public String targetHealth(){
 
-        double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
-        double nowhealth = target.getHealth();
-        int counthealth = (int) nowhealth*10/(int) maxhealth;
-        String mhealth = new NumberUtil(counthealth, ConfigMapManager.getFileConfigurationMap().get("Character_System_Health.yml").getStringList(health_conversion+".conversion")).getTenString();
-        return mhealth;
-    }
 
 }
