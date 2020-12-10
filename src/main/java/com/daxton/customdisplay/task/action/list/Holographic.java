@@ -157,9 +157,9 @@ public class Holographic {
         hologram = HologramsAPI.createHologram(cd, createLocation);
         if(target.getType().toString().toLowerCase().equals("player")){
             Player targetPlayer = (Player) target;
-            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),targetPlayer,target,healthConversion).getResultString().replace("{cd_damage}", attackNumber));
         }else {
-            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),player).replace("{cd_damage}", attackNumber).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player,target,healthConversion).getResultString().replace("{cd_damage}", attackNumber));
         }
 
 
@@ -170,9 +170,9 @@ public class Holographic {
         String healthNumber = targetHealthNumber();
         if(target.getType().toString().toLowerCase().equals("player")){
             Player targetPlayer = (Player) target;
-            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),targetPlayer).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),targetPlayer,target,healthConversion).getResultString());
         }else {
-            hologram.appendTextLine(new StringConversion().getString("Character",actionMap.get("m"),player).replace("{cd_health_conversion}", healthConversion).replace("{cd_health_number}", healthNumber));
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player,target,healthConversion).getResultString());
         }
 
     }

@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import net.Indyuce.mmocore.listener.SpellCast;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -41,6 +42,25 @@ public class JoinListener implements Listener {
         }
 
     }
+
+    @EventHandler
+    public void onSneak(PlayerToggleSneakEvent event){
+        if(event.isSneaking()){
+            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+                playerData.runAction("~onsneak",event);
+            }
+        }else {
+            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+                playerData.runAction("~onstandup",event);
+            }
+        }
+
+
+    }
+
+
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
         //GenericPlaceholderMeta();

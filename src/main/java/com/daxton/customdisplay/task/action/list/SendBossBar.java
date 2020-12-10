@@ -3,7 +3,6 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.*;
 import com.daxton.customdisplay.manager.ActionManager;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -12,7 +11,6 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
@@ -106,7 +104,7 @@ public class SendBossBar {
                 String[] strings2 = string2.split("=");
                 if(strings2.length == 2){
                     //message = PlaceholderAPI.setPlaceholders(player,strings2[1]);
-                    message = new StringConversion().getString("Character",strings2[1],player);
+                    message = new StringConversion("Character",strings2[1],player,target).getResultString();
                 }
             }
         }
@@ -177,7 +175,7 @@ public class SendBossBar {
                         strings2[1] = strings2[1].replace("{target_name}",targetName).replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
 
 
-                    message = new StringConversion().getString("Character",strings2[1],player);
+                    message = new StringConversion("Character",strings2[1],player,target).getResultString();
                 }
             }
         }

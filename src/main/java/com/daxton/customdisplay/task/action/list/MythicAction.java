@@ -32,6 +32,7 @@ public class MythicAction {
     private Optional<Skill> opt;
 
     public MythicAction( Player player, LivingEntity target, String firstString){
+        cd.getLogger().info(firstString);
         this.target = target;
         this.player = player;
         setOther(firstString);
@@ -40,8 +41,7 @@ public class MythicAction {
         if(!(opt.isPresent())){
             return;
         }
-        Validate.isTrue(opt.isPresent(), "找不到 " + skillName);
-        this.skill = (Skill)opt.get();
+        this.skill = opt.get();
 
 
 
@@ -68,7 +68,7 @@ public class MythicAction {
         if(!(opt.isPresent())){
             return;
         }
-        MythicMobs.inst().getAPIHelper().castSkill(player, skill.getInternalName(), player, player.getEyeLocation(), targets, (Collection)null, 1.0F);
+        MythicMobs.inst().getAPIHelper().castSkill(player, skill.getInternalName(), player, player.getEyeLocation(), targets, null, 1.0F);
     }
 
 

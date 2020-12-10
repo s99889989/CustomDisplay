@@ -72,7 +72,7 @@ public class Action {
             if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    mark = new StringConversion().getString("Character",strings[1],player);
+                    mark = new StringConversion("Character",strings[1],player,target).getResultString();
                     if(target != null){
                         mark = mark.replace("{target_uuid}",target.getUniqueId().toString());
                     }

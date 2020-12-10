@@ -3,9 +3,8 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Particle;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -17,6 +16,8 @@ public class Message{
     private String message = "";
 
     private Player player;
+
+    private LivingEntity target = null;
 
     private Particle particle;
 
@@ -34,7 +35,7 @@ public class Message{
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion().getString("Character",strings[1],this.player);
+                    message = new StringConversion("Character",strings[1],this.player,target).getResultString();
                 }
             }
 

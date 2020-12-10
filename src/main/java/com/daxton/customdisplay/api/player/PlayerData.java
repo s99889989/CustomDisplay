@@ -35,6 +35,8 @@ public class PlayerData {
     private List<String> onQuitList = new ArrayList<>();
     private List<String> onSkillCastStart = new ArrayList<>();
     private List<String> onSkillCastStop = new ArrayList<>();
+    private List<String> onSneak = new ArrayList<>();
+    private List<String> onStandup = new ArrayList<>();
 
     public PlayerData(Player player){
         this.player = player;
@@ -79,6 +81,13 @@ public class PlayerData {
                 if(actionString.toLowerCase().contains("~onskillcaststop")){
                     onSkillCastStop.add(actionString);
                 }
+                if(actionString.toLowerCase().contains("~onsneak")){
+                    onSneak.add(actionString);
+                }
+                if(actionString.toLowerCase().contains("~onstandup")){
+                    onStandup.add(actionString);
+                }
+
             }
         }
     }
@@ -104,6 +113,12 @@ public class PlayerData {
         }
         if(type.toLowerCase().contains("~onskillcaststop") && onSkillCastStop.size() > 0){
             onSkillCastStop(event);
+        }
+        if(type.toLowerCase().contains("~onsneak") && onSneak.size() > 0){
+            onSneak(event);
+        }
+        if(type.toLowerCase().contains("~onstandup") && onStandup.size() > 0){
+            onStandup(event);
         }
     }
 
@@ -179,7 +194,15 @@ public class PlayerData {
     }
 
     public void onSneak(Event event){
+        for(String actionString : onSneak){
+            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+        }
+    }
 
+    public void onStandup(Event event){
+        for(String actionString : onStandup){
+            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+        }
     }
 
     public void onDeath(Event event){

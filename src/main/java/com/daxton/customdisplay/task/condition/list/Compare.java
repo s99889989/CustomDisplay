@@ -56,22 +56,22 @@ public class Compare {
                     if(strings[1].toLowerCase().contains(">")){
                         symbol = ">";
                         String[] strings1 = strings[1].replace(" ","").split(">");
-                        stringLeft = new StringConversion().getString("Character",strings1[0],player);
-                        stringRight = new StringConversion().getString("Character",strings1[1],player);
+                        stringLeft = new StringConversion("Character",strings1[0],player,target).getResultString();
+                        stringRight = new StringConversion("Character",strings1[1],player,target).getResultString();
                         left = Double.valueOf(stringLeft);
                         right = Double.valueOf(stringRight);
                     }else if(strings[1].toLowerCase().contains("<")){
                         symbol = "<";
                         String[] strings1 = strings[1].replace(" ","").split("<");
-                        stringLeft = new StringConversion().getString("Character",strings1[0],player);
-                        stringRight = new StringConversion().getString("Character",strings1[1],player);
+                        stringLeft = new StringConversion("Character",strings1[0],player,target).getResultString();
+                        stringRight = new StringConversion("Character",strings1[0],player,target).getResultString();
                         left = Double.valueOf(stringLeft);
                         right = Double.valueOf(stringRight);
                     }else if(strings[1].toLowerCase().contains("=")){
                         symbol = "=";
                         String[] strings1 = strings[1].replace(" ","").split("=");
-                        stringLeft = new StringConversion().getString("Character",strings1[0],player);
-                        stringRight = new StringConversion().getString("Character",strings1[1],player);
+                        stringLeft = new StringConversion("Character",strings1[0],player,target).getResultString();
+                        stringRight = new StringConversion("Character",strings1[0],player,target).getResultString();
                         left = Double.valueOf(stringLeft);
                         right = Double.valueOf(stringRight);
                     }

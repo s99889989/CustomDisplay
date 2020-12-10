@@ -24,7 +24,7 @@ public class StringFind {
         List<String> stringList = getStringList(string);
         if(stringList.size() > 0){
             String[] strings = stringList.toArray(new String[stringList.size()]);
-            lastString = strings[0];
+            lastString = strings[0].replace(" ","");
         }
         return lastString;
     }

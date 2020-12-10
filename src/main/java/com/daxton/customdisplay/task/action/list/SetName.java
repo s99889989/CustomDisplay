@@ -1,8 +1,6 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
@@ -12,8 +10,6 @@ import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -118,7 +114,7 @@ public class SetName {
             String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
             healthNumber = nowHealth +"/"+ maxHealth;
             healthConversion = targetHealth();
-            message = new StringConversion().getString("Character",message,this.player).replace("{target_name}", targetName).replace("{cd_health_conversion}", healthConversion).replace("{cd_target_health}", healthNumber);
+            message = new StringConversion("Character",message,this.player,target).getResultString().replace("{target_name}", targetName).replace("{cd_health_conversion}", healthConversion).replace("{cd_target_health}", healthNumber);
             PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
             packet.getIntegers().write(0, target.getEntityId());
             WrappedDataWatcher watcher = new WrappedDataWatcher();

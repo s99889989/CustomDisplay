@@ -6,6 +6,7 @@ import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class ActionBar {
     private String message = "";
 
     private Player player;
+    private LivingEntity target = null;
 
     public ActionBar(Player player, String firstString){
         setActionBar(player,firstString);
@@ -31,7 +33,7 @@ public class ActionBar {
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion().getString("Character",strings[1],player);
+                    message = new StringConversion("Character",strings[1],player,target).getResultString();
                     String ac = ActionManager.getActionBar_String_Map().get(player.getUniqueId());
                     if(ac != null){
                         message = message.replace("{cd_mmocore_actionbar}",ac);
