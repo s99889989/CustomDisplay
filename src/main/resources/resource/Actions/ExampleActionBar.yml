@@ -7,6 +7,7 @@ ActionBarDisplay:
 ActionBarDisplay-Time:
   Action:
   - ActionBar[m=&player_health_now&/%player_max_health%&player_health_proportion&%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion&]
+  
 
 #顯示MMOCore技能狀態攔.
 #Display the MMOCore skill status bar.
@@ -16,4 +17,4 @@ MMOCoreActionBarDisplay:
   - Loop[onTime=MMOCoreActionBarDisplay-Time;period=40;duration=unlimited]
 MMOCoreActionBarDisplay-Time:
   Action:
-  - ActionBar[m={cd_mmocore_actionbar}]
+  - ActionBar[m=&self_mmocore_actionbar&]

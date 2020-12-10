@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,25 +64,25 @@ public class StringConversion {
     }
 
 
-    /**對伺服器內的{}盡情處理**/
-    public String pluginString(String firstString3){
-        firstString3 = firstString3.replace("{","").replace("}","");
+    /**對伺服器內的<>盡情處理**/
+    public String pluginString(String content){
         String outputString = "";
-        if(firstString3.toLowerCase().contains("cd_target")){
-            if(firstString3.toLowerCase().contains("_nowhealth")){
-                outputString = String.valueOf(target.getHealth());
-            }
-            if(firstString3.toLowerCase().contains("_maxhealth")){
-                outputString = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
-            }
-            if(firstString3.toLowerCase().contains("_healthconversion")){
-
+        int numHead = appearNumber(content, "<");
+        int numTail = appearNumber(content, ">");
+        if(numHead == numTail){
+            for(int i = 0; i < numHead ; i++){
+                int head = content.indexOf("<");
+                int tail = content.indexOf(">");
+                if(content.substring(head,tail+1).toLowerCase().contains("cd_target_") && target != null){
+                    content = content.replace(content.substring(head,tail+1),new Placeholder(target,content.substring(head,tail+1)).getString());
+                }else if(content.substring(head,tail+1).toLowerCase().contains("cd_self_") && player != null){
+                    content = content.replace(content.substring(head,tail+1),new Placeholder(player,content.substring(head,tail+1)).getString());
+                }else {
+                    continue;
+                }
             }
         }
-        if(firstString3.toLowerCase().contains("cd_self")){
-
-        }
-
+        outputString = content;
         return outputString;
     }
 
@@ -90,37 +91,53 @@ public class StringConversion {
         firstString2 = firstString2.replace("&","");
         String outputString = "";
         List<String> list = new ConfigFind().getCharacterMessageList(folderName,firstString2);
+
         for(String string : list){
             String headString = new StringFind().getAction(string);
             String content = string.replace(headString,"").replace("[","").replace("]","");
-            cd.getLogger().info(headString);
-            if(headString.toLowerCase().contains("message")){
-                if(content.contains("{") && content.contains("}")){
 
+            if(headString.toLowerCase().contains("customcharacter") || headString.toLowerCase().contains("cc")){
+                if(content.contains("<") && content.contains(">")){
+                    outputString = pluginString(content);
                 }
+                continue;
             }
+
             if(headString.toLowerCase().contains("papi") || headString.toLowerCase().contains("placeholder")){
-                String[] stl = string.split(";");
-                outputString = PlaceholderAPI.setPlaceholders(player,stl[1]);
+                outputString = PlaceholderAPI.setPlaceholders(player,content);
+                continue;
             }
+
             if(headString.toLowerCase().contains("math")){
-                String[] stl = string.split(";");
-                outputString = PlaceholderAPI.setPlaceholders(player,stl[2]);
-                double number = 0;
+                if(content.toLowerCase().contains("%")){
+                    outputString = PlaceholderAPI.setPlaceholders(player,content);
+                    if(outputString.contains("<") && outputString.contains(">")){
+                        outputString = pluginString(outputString);
+                    }
+                }else {
+                    if(content.contains("<") && content.contains(">")){
+                        outputString = pluginString(content);
+                    }
+                }
+
+
                 try {
-                    number = Arithmetic.eval(outputString);
-                    outputString = new NumberUtil(number,stl[1]).getDecimalString();
+                    double number = Arithmetic.eval(outputString);
+                    outputString = String.valueOf(number);
                 }catch (Exception exception){
                     outputString = ChatColor.RED+ "'&"+ firstString2 + "& has a problem in computing.'" + ChatColor.WHITE;
                 }
-
+                continue;
             }
+
             if(headString.toLowerCase().contains("decimal") || headString.toLowerCase().contains("dec")){
-
+                double number = Double.valueOf(outputString);
+                outputString = new NumberUtil(number,content).getDecimalString();
+                continue;
             }
-            if(headString.toLowerCase().contains("converall=")){
-                String[] stl1 = string.split("=");
-                String[] stl2 = stl1[1].split(";");
+
+            if(headString.toLowerCase().contains("converall")){
+                String[] stl2 = content.split(";");
                 for(String stringList2 : stl2){
                     String[] stl3 = stringList2.split(",");
                     if(outputString.replace(stl3[0],"").length() == 0){
@@ -130,14 +147,16 @@ public class StringConversion {
                         }
                     }
                 }
+                continue;
             }
-            if(headString.toLowerCase().contains("conver=")){
-                String[] stl1 = string.split("=");
-                String[] stl2 = stl1[1].split(";");
+
+            if(headString.toLowerCase().contains("conver")){
+                String[] stl2 = content.split(";");
                 for(String stringList2 : stl2){
                     String[] stl3 = stringList2.split(",");
                     outputString = outputString.replace(stl3[0],stl3[1]);
                 }
+                continue;
             }
         }
         return outputString;

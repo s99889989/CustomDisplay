@@ -81,3 +81,7 @@ Action:
 - Action[a=MMOCoreActionBarDisplay;mark=%player_name%MMOCoreActionBarDisplay] ~onSkillCastStart
 - Action[mark=%player_name%MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
 
+#使用MM技能.
+#-------------------------------------------------------------------------#
+- Action[a=MythicSkillSmashAttack] ~onSneak
+

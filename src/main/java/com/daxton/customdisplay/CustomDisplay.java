@@ -3,10 +3,14 @@ package com.daxton.customdisplay;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
-import com.daxton.customdisplay.listener.EntityListener;
+import com.daxton.customdisplay.listener.customdisplay.EntityListener;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.listener.PackListener;
-import com.daxton.customdisplay.listener.player.*;
+import com.daxton.customdisplay.listener.customdisplay.PackListener;
+import com.daxton.customdisplay.listener.attributeplus.AttrAttackListener;
+import com.daxton.customdisplay.listener.mmocore.SpellCastListener;
+import com.daxton.customdisplay.listener.mmolib.MMOAttackListener;
+import com.daxton.customdisplay.listener.customdisplay.*;
+import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
@@ -30,7 +34,7 @@ public final class CustomDisplay extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        customDisplay = this;
         if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
             getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
@@ -53,9 +57,9 @@ public final class CustomDisplay extends JavaPlugin {
             getLogger().info(ChatColor.GREEN+"Loaded PlaceholderAPI");
         }
 
-        customDisplay = this;
         load();
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
+
         if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
             Bukkit.getPluginManager().registerEvents(new MMOAttackListener(),customDisplay);
             getLogger().info(ChatColor.GREEN+"Loaded MMOLib");
@@ -72,12 +76,14 @@ public final class CustomDisplay extends JavaPlugin {
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
             getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
             Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
-        }else {
-            getLogger().info(ChatColor.RED+"NotLoaded ProtocolLib");
         }
         if (Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
             getLogger().info(ChatColor.GREEN+"Loaded MMOCore");
             Bukkit.getPluginManager().registerEvents(new SpellCastListener(),customDisplay);
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")){
+            getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
+            Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
         }
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
 

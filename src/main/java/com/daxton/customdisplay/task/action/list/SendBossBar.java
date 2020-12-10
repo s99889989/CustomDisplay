@@ -31,10 +31,6 @@ public class SendBossBar {
     private Player player;
     private LivingEntity target;
 
-    String targetName = "";
-    String maxHealth = "";
-    String nowHealth = "";
-
     private static Map<String, BossBar> bossBarMap = new HashMap<>();
     private String taskID = "";
 
@@ -90,10 +86,13 @@ public class SendBossBar {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     if(target != null){
-                        strings[1] = strings[1].replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
+                        try {
+                            progress = Double.valueOf(new StringConversion("Character",strings[1],player,target).getResultString());
+                        }catch (NumberFormatException exception){
+                            //cd.getLogger().info("不是數字");
+                        }
                     }
-                    //strings[1] = new StringConversion().getString("Character",strings[1],player);
-                    progress = Arithmetic.eval(strings[1]);
+
                 }
             }
         }
@@ -103,7 +102,6 @@ public class SendBossBar {
             if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
                 String[] strings2 = string2.split("=");
                 if(strings2.length == 2){
-                    //message = PlaceholderAPI.setPlaceholders(player,strings2[1]);
                     message = new StringConversion("Character",strings2[1],player,target).getResultString();
                 }
             }
@@ -122,11 +120,6 @@ public class SendBossBar {
 
     public void setOther(String firstString){
         List<String> stringList = new StringFind().getStringList(firstString);
-
-        String targetName = target.getName();
-        String maxHealth = String.valueOf(target.getAttribute(GENERIC_MAX_HEALTH).getValue());
-        String nowHealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
-
 
         for(String allString : stringList){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
@@ -157,11 +150,13 @@ public class SendBossBar {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     if(target != null){
-                        strings[1] = strings[1].replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
+                        try {
+                            progress = Double.valueOf(new StringConversion("Character",strings[1],player,target).getResultString());
+                        }catch (NumberFormatException exception){
+                            //cd.getLogger().info("不是數字");
+                        }
                     }
-                    //strings[1] = new StringConversion().getString("Character",strings[1],player);
 
-                    progress = Arithmetic.eval(strings[1]);
                 }
             }
         }
@@ -171,10 +166,6 @@ public class SendBossBar {
             if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
                 String[] strings2 = string2.split("=");
                 if(strings2.length == 2){
-
-                        strings2[1] = strings2[1].replace("{target_name}",targetName).replace("{target_nhp}",nowHealth).replace("{target_mhp}",maxHealth);
-
-
                     message = new StringConversion("Character",strings2[1],player,target).getResultString();
                 }
             }
@@ -229,16 +220,6 @@ public class SendBossBar {
         if(ActionManager.getBossBar_Map().get(taskID) != null){
             ActionManager.getBossBar_Map().get(taskID).removePlayer(player);
             ActionManager.getBossBar_Map().remove(taskID);
-        }
-    }
-
-    public void removeOldAction(){
-        if(ActionManager.getBossBar_Map().get(taskID) != null){
-            ActionManager.getBossBar_Map().get(taskID).removePlayer(player);
-            ActionManager.getBossBar_Map().remove(taskID);
-        }
-        if(ActionManager.getJudgment_BossBar_Map().get(taskID) != null){
-            ActionManager.getJudgment_BossBar_Map().remove(taskID);
         }
     }
 

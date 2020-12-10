@@ -1,53 +1,35 @@
-package com.daxton.customdisplay.listener;
+package com.daxton.customdisplay.listener.customdisplay;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.injector.GamePhase;
-import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.*;
 import com.daxton.customdisplay.CustomDisplay;
 
 import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.task.action.list.ActionBar;
 import com.daxton.customdisplay.task.action.list.Message;
 import com.daxton.customdisplay.task.action.list.SendParticles;
 
-import com.daxton.customdisplay.task.action.list.Title;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import jdk.nashorn.internal.parser.JSONParser;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.json.simple.JSONObject;
 
 
-import javax.naming.Name;
-import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.util.*;
-import java.util.List;
-import java.util.logging.Level;
 
 import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.*;
-import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
-import static org.bukkit.Particle.DAMAGE_INDICATOR;
 
 
 public class PackListener implements Listener{
@@ -230,7 +212,7 @@ public class PackListener implements Listener{
                                 StackTraceElement[] traces = exception.getStackTrace();
                                 for(StackTraceElement trace : traces){
                                     if(trace.getClassName().contains("net.Indyuce.mmocore")){
-                                        ActionManager.getActionBar_String_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
+                                        ActionManager.getMmocore_ActionBar_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
                                         event.setCancelled(true);
                                     }
                                     //cd.getLogger().info(trace.getClassName());

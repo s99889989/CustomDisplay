@@ -33,14 +33,7 @@ public class ActionBar {
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion("Character",strings[1],player,target).getResultString();
-                    String ac = ActionManager.getActionBar_String_Map().get(player.getUniqueId());
-                    if(ac != null){
-                        message = message.replace("{cd_mmocore_actionbar}",ac);
-                    }else {
-                        message = message.replace("{cd_mmocore_actionbar}","");
-                    }
-
+                    message = new StringConversion("Character",strings[1],this.player,target).getResultString();
                 }
             }
 

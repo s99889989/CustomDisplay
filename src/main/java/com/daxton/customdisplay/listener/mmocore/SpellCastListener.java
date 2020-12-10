@@ -1,15 +1,11 @@
-package com.daxton.customdisplay.listener.player;
+package com.daxton.customdisplay.listener.mmocore;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import net.Indyuce.mmocore.MMOCore;
 import net.Indyuce.mmocore.listener.SpellCast;
-import net.mmogroup.mmolib.api.player.MMOPlayerData;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 import java.util.HashMap;

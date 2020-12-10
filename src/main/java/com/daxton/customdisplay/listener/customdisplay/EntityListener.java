@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.listener;
+package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;

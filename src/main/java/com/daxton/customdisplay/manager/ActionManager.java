@@ -1,8 +1,6 @@
 package com.daxton.customdisplay.manager;
 
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.boss.BossBar;
@@ -23,8 +21,10 @@ public class ActionManager {
     public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
     /**Particles**/
     public static Map<String ,SendParticles> particles_Map = new HashMap<>();
-    /**其他插件的ActionBar顯示**/
-    private static Map<UUID , String> ActionBar_String_Map = new HashMap<>();
+    /**MMOcore插件的ActionBar顯示**/
+    private static Map<UUID , String> mmocore_ActionBar_Map = new HashMap<>();
+    /**MythicMobs插件的Mod_Level顯示**/
+    private static Map<UUID,String> mythicMobs_Level_Map = new HashMap<>();
 
     /**JudgmentAction->HolographicNew**/
     private static Map<String, Holographic> judgment_Holographic_Map = new HashMap<>();
@@ -64,9 +64,13 @@ public class ActionManager {
     public static Map<String, SendParticles> getParticles_Map() {
         return particles_Map;
     }
-    /**其他插件的ActionBar顯示**/
-    public static Map<UUID, String> getActionBar_String_Map() {
-        return ActionBar_String_Map;
+    /**MMOcore插件的ActionBar顯示**/
+    public static Map<UUID, String> getMmocore_ActionBar_Map() {
+        return mmocore_ActionBar_Map;
+    }
+    /**MythicMobs插件的Mod_Level顯示**/
+    public static Map<UUID, String> getMythicMobs_Level_Map() {
+        return mythicMobs_Level_Map;
     }
 
     /**JudgmentAction->HolographicNew**/

@@ -68,13 +68,13 @@ EntityTopDisplayMonster:
   - Loop[onStart=EntityTopDisplayMonster-Start;onTime=EntityTopDisplayMonster-Time;onEnd=EntityTopDisplayMonster-End;period=10;duration=200]
 EntityTopDisplayMonster-Start:
   Action:
-  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=1.2;z=0;healthConver=health-monster] @=target
+  - createHD[m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_monster_hd&;HDtype=loc;x=0;y=1.2;z=0;healthConver=health-monster] @=target
 EntityTopDisplayMonster-Time:
   Action:
   - teleportHD[HDtype=loc;x=0;y=1.2;z=0] @=target
   - Condition[health=targetChange]
   - removeLineHD[m=0]
-  - addLineHD[m={cd_health_number}{cd_health_conversion}]
+  - addLineHD[m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_monster_hd&]
 EntityTopDisplayMonster-End:
   Action:
   - deleteHD
@@ -87,13 +87,13 @@ EntityTopDisplayAnimal:
   - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
 EntityTopDisplayAnimal-Start:
   Action:
-  - createHD[m={cd_health_number}{cd_health_conversion};HDtype=loc;x=0;y=1.0;z=0;healthConver=health-animal] @=target
+  - createHD[m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_animal_hd&;HDtype=loc;x=0;y=1.0;z=0;healthConver=health-animal] @=target
 EntityTopDisplayAnimal-Time:
   Action:
   - teleportHD[HDtype=loc;x=0;y=1.0;z=0] @=target
   - Condition[health=targetChange]
   - removeLineHD[m=0]
-  - addLineHD[m={cd_health_number}{cd_health_conversion}]
+  - addLineHD[m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_animal_hd&]
 EntityTopDisplayAnimal-End:
   Action:
   - deleteHD

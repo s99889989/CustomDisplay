@@ -1,0 +1,42 @@
+target_name:
+  message:
+  - CC[<cd_target_name>]
+
+target_nowhealth:
+  message:
+  - CC[<cd_target_nowhealth>]
+  - Decimal[#.0]
+
+target_maxhealth:
+  message:
+  - CC[<cd_target_maxhealth>]
+
+target_health_proportion_bossbar:
+  message:
+  - Math[<cd_target_nowhealth>/<cd_target_maxhealth>]
+
+target_health_proportion_monster_name:
+  message:
+  - Math[<cd_target_nowhealth>/<cd_target_maxhealth>*10]
+  - DEC[#]
+  - converAll[10,䂉;9,䂈;8,䂇;7,䂆;6,䂅;5,䂄;4,䂃;3,䂂;2,䂁;1,䂀;0,䂀]
+
+target_health_proportion_animal_name:
+  message:
+  - Math[<cd_target_nowhealth>/<cd_target_maxhealth>*10]
+  - DEC[#]
+  - converAll[10,䂝;9,䂜;8,䂛;7,䂚;6,䂙;5,䂘;4,䂗;3,䂖;2,䂕;1,䂔;0,䂔]
+  
+target_health_proportion_monster_hd:
+  message:
+  - Math[<cd_target_nowhealth>/<cd_target_maxhealth>*10]
+  - DEC[#]
+  - converAll[10,䁩;9,䁨;8,䁧;7,䁦;6,䁥;5,䁤;4,䁣;3,䁢;2,䁡;1,䁠;0,䁠]
+
+target_health_proportion_animal_hd:
+  message:
+  - Math[<cd_target_nowhealth>/<cd_target_maxhealth>*10]
+  - DEC[#]
+  - converAll[10,䁽;9,䁼;8,䁻;7,䁺;6,䁹;5,䁸;4,䁷;3,䁶;2,䁵;1,䁴;0,䁴]
+
+
