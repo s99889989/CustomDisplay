@@ -77,6 +77,8 @@ public class StringConversion {
                     content = content.replace(content.substring(head,tail+1),new Placeholder(target,content.substring(head,tail+1)).getString());
                 }else if(content.substring(head,tail+1).toLowerCase().contains("cd_self_") && player != null){
                     content = content.replace(content.substring(head,tail+1),new Placeholder(player,content.substring(head,tail+1)).getString());
+                }else if(content.substring(head,tail+1).toLowerCase().contains("<cd_other_")){
+                    content = content.replace(content.substring(head,tail+1),new Placeholder(content.substring(head,tail+1)).getString());
                 }else {
                     continue;
                 }

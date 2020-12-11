@@ -158,7 +158,6 @@ public final class CustomDisplay extends JavaPlugin {
         InputStream in = getResource(resourcePath);
 
         /****/
-        getLogger().info(""+resourcePath);
         if (in == null) {
             throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + super.getFile());
         }
