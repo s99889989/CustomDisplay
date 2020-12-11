@@ -37,52 +37,7 @@ public class FolderConfigUtil{
         }catch (Exception exception){
         System.out.println(exception.toString());
         }
-        playersConfig();
-        actionConfig();
-        characterConfig();
 
-    }
-
-
-
-    public void actionConfig(){
-        File file = new File(cd.getDataFolder(),"Actions");
-        String[] strings = file.list();
-        for(String s : strings){
-            if(s.contains(".yml") && !(s.contains("ExampleAction.yml"))){
-                File finalConfigFile = new File(cd.getDataFolder(), "Actions/"+s);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
-                ConfigMapManager.getFileConfigurationMap().put("Actions_"+s, config);
-                ConfigMapManager.getFileConfigurationNameMap().put("Actions_"+s,"Actions_"+s);
-            }
-        }
-    }
-
-    public void characterConfig(){
-        File file = new File(cd.getDataFolder(),"Character");
-        String[] strings = file.list();
-        for(String s : strings){
-            if(s.contains(".yml") && !(s.contains("ExampleCharacter.yml"))){
-                File finalConfigFile = new File(cd.getDataFolder(), "Character/"+s);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
-                ConfigMapManager.getFileConfigurationMap().put("Character_"+s, config);
-                ConfigMapManager.getFileConfigurationNameMap().put("Character_"+s,"Character_"+s);
-            }
-        }
-    }
-
-    public void playersConfig(){
-        File file = new File(cd.getDataFolder(),"Players");
-        String[] strings = file.list();
-        for(String s : strings){
-            cd.getLogger().info("playersConfig"+s);
-            if(s.contains(".yml") && !(s.contains("Default.yml")) && !(s.contains("s99889989.yml"))){
-                File finalConfigFile = new File(cd.getDataFolder(), "Players/"+s);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
-                ConfigMapManager.getFileConfigurationMap().put("Players_"+s, config);
-                ConfigMapManager.getFileConfigurationNameMap().put("Players_"+s,"Players_"+s);
-            }
-        }
     }
 
     public static List<String> readZipFile(String file) throws Exception {

@@ -19,9 +19,26 @@ public class Placeholder {
 
     public String notChange = "";
 
+    public Placeholder(String change){
+
+        this.notChange = change;
+        this.change = change.replace("cd_target_","").replace("cd_self_","").replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
+
+        if(change.toLowerCase().contains("_math_random_")){
+
+            String randomString = change.replace("<cd_other_math_random_","").replace(">","").replace(" ","");
+            int randomNumber = Integer.valueOf(randomString);
+            String randomString1 = String.valueOf((int)(Math.random()*randomNumber));
+            entity_Map.put("random_"+randomString,randomString1);
+
+        }
+
+
+    }
+
     public Placeholder(LivingEntity entity,String change){
         this.notChange = change;
-        this.change = change.replace("cd_target_","").replace("cd_self_","").replace("<","").replace(">","").replace(" ","");
+        this.change = change.replace("cd_target_","").replace("cd_self_","").replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
         entity_Map.put("name",entity.getName());
         entity_Map.put("uuid",entity.getUniqueId().toString());
         entity_Map.put("nowhealth",String.valueOf(entity.getHealth()));
@@ -39,6 +56,7 @@ public class Placeholder {
         entity_Map.put("mythic_level",ActionManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
 
         entity_Map.put("mmocore_actionbar",ActionManager.getMmocore_ActionBar_Map().get(entity.getUniqueId()));
+
 
     }
 
