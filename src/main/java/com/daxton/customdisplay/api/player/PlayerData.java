@@ -2,6 +2,7 @@ package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.manager.PermissionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import org.bukkit.Bukkit;
@@ -55,6 +56,21 @@ public class PlayerData {
             }
         }
         playerActionList = fileConfiguration.getStringList("Action");
+
+        for(String stringConfig : PermissionManager.getPermission_String_Map().values()){
+
+            if(player.hasPermission(stringConfig)){
+                for(String list : PermissionManager.getPermission_FileConfiguration_Map().get(stringConfig).getStringList("Action")){
+                    playerActionList.add(list);
+                }
+            }
+
+        }
+
+        for(String s : playerActionList){
+            player.sendMessage(s);
+        }
+
     }
 
     public void setActionList(){
