@@ -24,6 +24,8 @@ public class ConfigManager {
         new AutoConfig("resource/Players/Default.yml","Players/Default.yml").get();
         new AutoConfig("resource/Players/s99889989.yml","Players/s99889989.yml").get();
 
+        new AutoConfig("resource/Permission/ExamplePermission.yml","Permission/ExamplePermission.yml").get();
+
         new AutoConfig("resource/Actions/ExampleActionBar.yml","Actions/ExampleActionBar.yml").get();
         new AutoConfig("resource/Actions/ExampleBossBar.yml","Actions/ExampleBossBar.yml").get();
         new AutoConfig("resource/Actions/ExampleHD.yml","Actions/ExampleHD.yml").get();
@@ -41,7 +43,7 @@ public class ConfigManager {
         new AutoConfig().actionConfig();
         new AutoConfig().characterConfig();
         new AutoConfig().playersConfig();
-
+        new AutoConfig().permissionConfig();
     }
 
 }
