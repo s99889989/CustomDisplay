@@ -67,10 +67,6 @@ public class PlayerData {
 
         }
 
-        for(String s : playerActionList){
-            player.sendMessage(s);
-        }
-
     }
 
     public void setActionList(){
