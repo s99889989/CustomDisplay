@@ -70,7 +70,7 @@ public class JudgmentAction {
                 }
 
                 /**HolographicDisplays的相關判斷**/
-                if(judgMent.toLowerCase().contains("createhd") || judgMent.toLowerCase().contains("addlinehd") || judgMent.toLowerCase().contains("removelinehd") || judgMent.toLowerCase().contains("teleporthd") || judgMent.toLowerCase().contains("deletehd")){
+                if(judgMent.toLowerCase().contains("hologram")){
                     if(ActionManager.getJudgment_Holographic_Map().get(taskID) == null){
                         ActionManager.getJudgment_Holographic_Map().put(taskID,new Holographic());
                     }

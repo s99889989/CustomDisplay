@@ -41,6 +41,7 @@ public class Placeholder {
         this.change = change.replace("cd_target_","").replace("cd_self_","").replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
         entity_Map.put("name",entity.getName());
         entity_Map.put("uuid",entity.getUniqueId().toString());
+        entity_Map.put("hight",String.valueOf(entity.getHeight()));
         entity_Map.put("nowhealth",String.valueOf(entity.getHealth()));
         entity_Map.put("maxhealth",String.valueOf(entity.getAttribute(GENERIC_MAX_HEALTH).getValue()));
         entity_Map.put("type",entity.getType().toString());
