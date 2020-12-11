@@ -37,6 +37,7 @@ public class ConfigManager {
 
         new AutoConfig("resource/Character/ExampleCharacter.yml","Character/ExampleCharacter.yml").get();
         new AutoConfig("resource/Character/ExampleTarget.yml","Character/ExampleTarget.yml").get();
+        new AutoConfig("resource/Character/ExampleSelf.yml","Character/ExampleSelf.yml").get();
         new AutoConfig("resource/Character/System/AttackNumber.yml","Character/System/AttackNumber.yml").get();
         new AutoConfig("resource/Character/System/EntityTypeList.yml","Character/System/EntityTypeList.yml").get();
 
