@@ -22,7 +22,7 @@ public class Placeholder {
     public Placeholder(String change){
 
         this.notChange = change;
-        this.change = change.replace("cd_target_","").replace("cd_self_","").replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
+        this.change = change.replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
 
         if(change.toLowerCase().contains("_math_random_")){
 
@@ -38,7 +38,7 @@ public class Placeholder {
 
     public Placeholder(LivingEntity entity,String change){
         this.notChange = change;
-        this.change = change.replace("cd_target_","").replace("cd_self_","").replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
+        this.change = change.replace("cd_","").replace("<","").replace(">","").replace(" ","");
         entity_Map.put("name",entity.getName());
         entity_Map.put("uuid",entity.getUniqueId().toString());
         entity_Map.put("hight",String.valueOf(entity.getHeight()));

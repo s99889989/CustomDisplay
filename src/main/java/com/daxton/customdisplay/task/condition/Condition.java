@@ -51,6 +51,7 @@ public class Condition {
 
     public boolean getResult(){
         boolean b = false;
+
         if(firstString.toLowerCase().contains("compare=")){
 
             if(target == null){

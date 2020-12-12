@@ -16,6 +16,7 @@ public class ActionBar {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String message = "";
+    private String messageTarge = "self";
 
     private Player player;
     private LivingEntity target = null;
@@ -28,12 +29,30 @@ public class ActionBar {
 
     public void setActionBar(Player player, String firstString){
         this.player = player;
-        List<String> stringList = new StringFind().getStringMessageList(firstString);
-        for(String allString : stringList){
+        messageTarge = "self";
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    if(strings[1].toLowerCase().contains("target")){
+                        messageTarge = "target";
+                    }else {
+                        messageTarge = "self";
+                    }
+                }
+            }
+        }
+
+
+        for(String allString : new StringFind().getStringMessageList(firstString)){
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion("Character",strings[1],this.player,target).getResultString();
+                    if(messageTarge.toLowerCase().contains("target")){
+                        message = new StringConversion("Character",strings[1],target).getResultString();
+                    }else {
+                        message = new StringConversion("Character",strings[1],player).getResultString();
+                    }
                 }
             }
 

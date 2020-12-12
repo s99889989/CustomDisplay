@@ -24,6 +24,7 @@ public class SetName {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String message = "";
+    private String messageTarge = "self";
 
     private String taskID = "";
     private Player player;
@@ -54,8 +55,22 @@ public class SetName {
     }
 
     public void setOther(String firstString){
-        List<String> stringList = new StringFind().getStringMessageList(firstString);
-        for(String allString : stringList){
+        messageTarge = "self";
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    if(strings[1].toLowerCase().contains("target")){
+                        messageTarge = "target";
+                    }else {
+                        messageTarge = "self";
+                    }
+                }
+            }
+        }
+
+
+        for(String allString : new StringFind().getStringMessageList(firstString)){
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
@@ -99,26 +114,28 @@ public class SetName {
     public void sendMetadataPacket() {
 
 
+        if(messageTarge.toLowerCase().contains("target")){
+            message = new StringConversion("Character",message,target).getResultString();
+        }else {
+            message = new StringConversion("Character",message,player).getResultString();
+        }
 
+        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+        packet.getIntegers().write(0, target.getEntityId());
+        WrappedDataWatcher watcher = new WrappedDataWatcher();
 
+        Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage(message)[0].getHandle());
+        watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true)), opt);
 
-            message = new StringConversion("Character",message,this.player,target).getResultString();
-            PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
-            packet.getIntegers().write(0, target.getEntityId());
-            WrappedDataWatcher watcher = new WrappedDataWatcher();
+        watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), always);
 
-            Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage(message)[0].getHandle());
-            watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true)), opt);
+        packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
 
-            watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), always);
-
-            packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
-
-            try {
-                 ActionManager.protocolManager.sendServerPacket(player, packet,false);
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
+        try {
+            ActionManager.protocolManager.sendServerPacket(player, packet,false);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
     }
 

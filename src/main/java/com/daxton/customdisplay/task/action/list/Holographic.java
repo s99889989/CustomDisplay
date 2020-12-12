@@ -36,6 +36,7 @@ public class Holographic {
 
     private String function = "";
     private String message = "";
+    private String messageTarge = "self";
     private String aims = "";
     private double x = 0;
     private double y = 0;
@@ -64,14 +65,36 @@ public class Holographic {
         aims = "";
         function = "";
         message = "";
+        messageTarge = "self";
         x = 0;
         y = 0;
         z = 0;
+
+
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    if(strings[1].toLowerCase().contains("target")){
+                        messageTarge = "target";
+                    }else {
+                        messageTarge = "self";
+                    }
+                }
+            }
+
+
+        }
+
         for(String string : new StringFind().getStringMessageList(firstString)){
             if(string.toLowerCase().contains("message=") || string.toLowerCase().contains("m=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion("Character",strings[1],player,target).getResultString();
+                    if(messageTarge.toLowerCase().contains("target")){
+                        message = new StringConversion("Character",strings[1],target).getResultString();
+                    }else {
+                        message = new StringConversion("Character",strings[1],player).getResultString();
+                    }
                 }
             }
         }
@@ -97,7 +120,11 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        x = Double.valueOf(new StringConversion("Character",strings[1],player,target).getResultString());
+                        if(messageTarge.toLowerCase().contains("target")){
+                            x = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
+                        }else {
+                            x = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
+                        }
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("x不是數字");
                     }
@@ -108,7 +135,11 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        y = Double.valueOf(new StringConversion("Character",strings[1],player,target).getResultString());
+                        if(messageTarge.toLowerCase().contains("target")){
+                            y = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
+                        }else {
+                            y = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
+                        }
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("y不是數字");
                     }
@@ -119,7 +150,11 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        z = Double.valueOf(new StringConversion("Character",strings[1],player,target).getResultString());
+                        if(messageTarge.toLowerCase().contains("target")){
+                            z = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
+                        }else {
+                            z = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
+                        }
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("z不是數字");
                     }

@@ -3,7 +3,7 @@
 TitleHealthDisplay:
   Action:
   - Loop[onTime=TitleHealthDisplay-Time;period=20;duration=unlimited]
-TitleHealthDisplay-Time:
+TitleHealthDisplay-Time: #&player_health_10&
   Action:
   - Condition[Compare=&player_health_10&<3]
   - Title[title=§0;subtitle=§0䁾;fadeIn=1;duration=5;fadeOut=1]
