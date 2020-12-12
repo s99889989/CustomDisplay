@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import org.bukkit.entity.Player;
@@ -27,24 +28,23 @@ public class JoinListener implements Listener {
 
         PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
 
-        if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~onjoin",event);
+        if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onjoin") != null){
+            new PlayerTrigger(player).onJoin(player);
         }
+
+
 
     }
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event){
         if(event.isSneaking()){
-            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-                playerData.runAction("~onsneak",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onsneak") != null){
+                new PlayerTrigger(player).onSneak(player);
             }
         }else {
-            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-                playerData.runAction("~onstandup",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onstandup") != null){
+                new PlayerTrigger(player).onStandup(player);
             }
         }
 

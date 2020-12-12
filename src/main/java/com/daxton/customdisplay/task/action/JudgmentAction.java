@@ -15,6 +15,7 @@ public class JudgmentAction {
     private BukkitRunnable bukkitRunnable;
 
     int delay = 0;
+    private Player player = null;
     private LivingEntity target = null;
     private double damageNumber = 0;
 
@@ -24,6 +25,7 @@ public class JudgmentAction {
 
 
     public void execute(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
+        this.player = player;
         this.target = target;
         this.damageNumber = damageNumber;
         bukkitRun(player,firstString,taskID);

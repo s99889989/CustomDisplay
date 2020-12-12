@@ -32,7 +32,6 @@ public class MythicAction {
     private Optional<Skill> opt;
 
     public MythicAction( Player player, LivingEntity target, String firstString){
-        cd.getLogger().info(firstString);
         this.target = target;
         this.player = player;
         setOther(firstString);

@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import net.mmogroup.mmolib.MMOLib;
 import net.mmogroup.mmolib.api.DamageType;
@@ -55,7 +56,7 @@ public class MMOAttackListener extends AttackEffects implements Listener {
             return;
         }
         target = event.getEntity();
-
+        double damageNumber = event.getAttack().getDamage();
         if(event.getData().getPlayer() instanceof Player){
             player = event.getData().getPlayer();
             playerUUID = player.getUniqueId();
@@ -77,11 +78,14 @@ public class MMOAttackListener extends AttackEffects implements Listener {
         //player.sendMessage("自身攻擊:"+(final_damage));
         //player.sendMessage("傷害數字:"+event.getAttack().getDamage());
         if(event.getAttack().getDamage() > final_damage){
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~oncrit",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~oncrit") != null){
+                new PlayerTrigger(player).onCrit(player,target,damageNumber);
+            }
+
         }else {
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~onattack",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
+                new PlayerTrigger(player).onAttack(player,target,damageNumber);
+            }
         }
         //MMOLib.plugin.getDamage().damage(this.player.getPlayer(), target, new AttackResult(sweep - event.getAttack().getDamage(), new DamageType[]{DamageType.SKILL, DamageType.PHYSICAL}));
 

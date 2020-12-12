@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -29,30 +30,28 @@ public class AttackListener implements Listener {
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
-
+        double damageNumber = event.getFinalDamage();
         target = (LivingEntity) event.getEntity();
 
         if(event.getDamager() instanceof Player){
-
             player = ((Player) event.getDamager()).getPlayer();
-            playerUUID = player.getUniqueId();
-            targetUUID = target.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~onattack",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
+                new PlayerTrigger(player).onAttack(player,target,damageNumber);
+            }
+
+
         }else if(event.getDamager() instanceof Projectile){
             if(((Projectile) event.getDamager()).getShooter() instanceof Animals == false && ((Projectile) event.getDamager()).getShooter() instanceof Monster == false){
-                player = (Player) ((Projectile) event.getDamager()).getShooter();
-                playerUUID = player.getUniqueId();
-                targetUUID = target.getUniqueId();
-                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-                playerData.runAction("~onattack",event);
+                player = ((Player) event.getDamager()).getPlayer();
+                if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
+                    new PlayerTrigger(player).onAttack(player,target,damageNumber);
+                }
             }
         }else if(event.getDamager() instanceof TNTPrimed){
-            player = (Player) ((TNTPrimed) event.getDamager()).getSource();
-            playerUUID = player.getUniqueId();
-            targetUUID = target.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~onattack",event);
+            player = ((Player) event.getDamager()).getPlayer();
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
+                new PlayerTrigger(player).onAttack(player,target,damageNumber);
+            }
         }else {
             return;
         }

@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.Player;
@@ -24,7 +25,9 @@ public class QuizListener implements Listener {
         /**刪除玩家資料物件  和   刪除OnTime物件**/
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
-            playerData.runAction("~onquit",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onquit") != null){
+                new PlayerTrigger(player).onQuit(player);
+            }
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
             if(ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
                 ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();

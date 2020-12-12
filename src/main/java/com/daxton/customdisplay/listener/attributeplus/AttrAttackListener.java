@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.attributeplus;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -32,13 +33,12 @@ public class AttrAttackListener implements Listener {
             return;
         }
         target = (LivingEntity) event.getEntity();
-
+        double damageNumber = event.getDamage();
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
-            playerUUID = player.getUniqueId();
-            targetUUID = target.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~onattack",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
+                new PlayerTrigger(player).onAttack(player,target,damageNumber);
+            }
         }else {
             return;
         }
@@ -50,13 +50,13 @@ public class AttrAttackListener implements Listener {
             return;
         }
         target = (LivingEntity) event.getEntity();
-
+        double damageNumber = event.getCritDamage();
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
-            playerUUID = player.getUniqueId();
-            targetUUID = target.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-            playerData.runAction("~oncrit",event);
+            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~oncrit") != null){
+                new PlayerTrigger(player).onCrit(player,target,damageNumber);
+            }
+
         }else {
             return;
         }

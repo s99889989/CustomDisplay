@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.mmocore;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import net.Indyuce.mmocore.listener.SpellCast;
 import org.bukkit.entity.Player;
@@ -26,20 +27,24 @@ public class SpellCastListener extends SpellCast {
         if(CastOnStop.get(playerUUID) == null){
             CastOnStop.put(playerUUID,true);
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-                playerData.runAction("~onskillcaststart",event);
+                if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststart") != null){
+                    new PlayerTrigger(player).onSkillCastStart(player);
+                }
+
             }
         }else {
             if(CastOnStop.get(playerUUID) == true){
                 if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                    PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-                    playerData.runAction("~onskillcaststop",event);
+                    if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststop") != null){
+                        new PlayerTrigger(player).onSkillCastStop(player);
+                    }
                 }
                 CastOnStop.put(playerUUID,false);
             }else {
                 if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                    PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-                    playerData.runAction("~onskillcaststart",event);
+                    if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststart") != null){
+                        new PlayerTrigger(player).onSkillCastStart(player);
+                    }
                 }
                 CastOnStop.put(playerUUID,true);
             }
