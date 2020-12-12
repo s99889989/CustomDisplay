@@ -25,6 +25,7 @@ public class Action {
     private LivingEntity target;
     private double damageNumber;
     private String firstString;
+    private String messageTarge = "self";
 
     private String action = "";
     private List<String> actionList = new ArrayList<>();
@@ -60,8 +61,21 @@ public class Action {
     }
 
     public void stringSetting(String firstString){
-        List<String> stringList = new StringFind().getStringList(firstString);
-        for(String allString : stringList){
+        messageTarge = "self";
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    if(strings[1].toLowerCase().contains("target")){
+                        messageTarge = "target";
+                    }else {
+                        messageTarge = "self";
+                    }
+                }
+            }
+        }
+
+        for(String allString : new StringFind().getStringList(firstString)){
             if(allString.toLowerCase().contains("action=") || allString.toLowerCase().contains("a=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
@@ -72,9 +86,10 @@ public class Action {
             if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    mark = new StringConversion("Character",strings[1],player,target).getResultString();
-                    if(target != null){
-                        mark = mark.replace("{target_uuid}",target.getUniqueId().toString());
+                    if(messageTarge.toLowerCase().contains("target")){
+                        mark = new StringConversion("Character",strings[1],target).getResultString();
+                    }else {
+                        mark = new StringConversion("Character",strings[1],player).getResultString();
                     }
                     this.taskID = mark;
                 }

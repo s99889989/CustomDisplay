@@ -40,7 +40,7 @@ player_health_proportion2:
   - converAll[10,䁋;9,䁊;8,䁉;7,䁈;6,䁇;5,䁆;4,䁅;3,䁄;2,䁃;1,䁂;0,䁂]
 player_mana_proportion2:
   message:
-  - math[%mmocore_mana%/%mmocore_stat_max_mana%*10']
+  - math[%mmocore_mana%/%mmocore_stat_max_mana%*10]
   - Decimal[#]
   - converAll[10,䁕;9,䁔;8,䁓;7,䁒;6,䁑;5,䁐;4,䁏;3,䁎;2,䁍;1,䁌;0,䁌]
 player_health_now:
@@ -59,4 +59,4 @@ player_health_10:
 
 self_mmocore_actionbar:
   message:
-  - CC[<cd_self_mmocore_actionbar>]
+  - CC[<cd_mmocore_actionbar>]

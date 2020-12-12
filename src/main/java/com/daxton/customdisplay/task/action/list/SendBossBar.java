@@ -23,6 +23,7 @@ public class SendBossBar {
 
     private String function = "";
     private String message = "";
+    private String messageTarge = "self";
     private BarStyle style = Enum.valueOf(BarStyle.class , "SOLID");
     private BarColor color = Enum.valueOf(BarColor.class , "BLUE");
     private BarFlag flag;
@@ -55,9 +56,22 @@ public class SendBossBar {
     }
 
     public void setSelfOther(String firstString){
-        List<String> stringList = new StringFind().getStringList(firstString);
+        messageTarge = "self";
 
-        for(String allString : stringList){
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    if(strings[1].toLowerCase().contains("target")){
+                        messageTarge = "target";
+                    }else {
+                        messageTarge = "self";
+                    }
+                }
+            }
+        }
+
+        for(String allString : new StringFind().getStringList(firstString)){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
@@ -87,7 +101,11 @@ public class SendBossBar {
                 if(strings.length == 2){
                     if(target != null){
                         try {
-                            progress = Double.valueOf(new StringConversion("Character",strings[1],player,target).getResultString());
+                            if(messageTarge.toLowerCase().contains("target")){
+                                progress = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
+                            }else {
+                                progress = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
+                            }
                         }catch (NumberFormatException exception){
                             //cd.getLogger().info("不是數字");
                         }
@@ -97,12 +115,16 @@ public class SendBossBar {
             }
         }
 
-        List<String> stringList2 = new StringFind().getStringMessageList(firstString);
-        for(String string2 : stringList2){
-            if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
-                String[] strings2 = string2.split("=");
-                if(strings2.length == 2){
-                    message = new StringConversion("Character",strings2[1],player,target).getResultString();
+
+        for(String allString: new StringFind().getStringMessageList(firstString)){
+            if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    if(messageTarge.toLowerCase().contains("target")){
+                        message = "strings[1]";//new StringConversion("Character",strings[1],target).getResultString();
+                    }else {
+                        message = "strings[1]";//new StringConversion("Character",strings[1],player).getResultString();
+                    }
                 }
             }
         }
@@ -119,9 +141,21 @@ public class SendBossBar {
 
 
     public void setOther(String firstString){
-        List<String> stringList = new StringFind().getStringList(firstString);
+        messageTarge = "self";
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    if(strings[1].toLowerCase().contains("target")){
+                        messageTarge = "target";
+                    }else {
+                        messageTarge = "self";
+                    }
+                }
+            }
+        }
 
-        for(String allString : stringList){
+        for(String allString : new StringFind().getStringList(firstString)){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
@@ -151,7 +185,11 @@ public class SendBossBar {
                 if(strings.length == 2){
                     if(target != null){
                         try {
-                            progress = Double.valueOf(new StringConversion("Character",strings[1],player,target).getResultString());
+                            if(messageTarge.toLowerCase().contains("target")){
+                                progress = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
+                            }else {
+                                progress = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
+                            }
                         }catch (NumberFormatException exception){
                             //cd.getLogger().info("不是數字");
                         }
@@ -161,12 +199,16 @@ public class SendBossBar {
             }
         }
 
-        List<String> stringList2 = new StringFind().getStringMessageList(firstString);
-        for(String string2 : stringList2){
+
+        for(String string2 : new StringFind().getStringMessageList(firstString)){
             if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
                 String[] strings2 = string2.split("=");
                 if(strings2.length == 2){
-                    message = new StringConversion("Character",strings2[1],player,target).getResultString();
+                    if(messageTarge.toLowerCase().contains("target")){
+                        message = new StringConversion("Character",strings2[1],target).getResultString();
+                    }else {
+                        message = new StringConversion("Character",strings2[1],player).getResultString();
+                    }
                 }
             }
         }

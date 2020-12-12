@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -12,6 +13,10 @@ public class Title {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Player player;
+
+    private LivingEntity target = null;
+
+    private String messageTarge = "self";
 
     private String title = "";
 
@@ -26,8 +31,21 @@ public class Title {
 
     public Title(Player player, String firstString){
         this.player = player;
-        List<String> stringList = new StringFind().getStringList(firstString);
-        for(String strings : stringList){
+        messageTarge = "self";
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    if(strings[1].toLowerCase().contains("target")){
+                        messageTarge = "target";
+                    }else {
+                        messageTarge = "self";
+                    }
+                }
+            }
+        }
+
+        for(String strings : new StringFind().getStringList(firstString)){
             if(strings.contains("fadeIn=")){
                 String[] stl = strings.split("=");
                 setFadeIn(Integer.valueOf(stl[1]));
@@ -42,19 +60,30 @@ public class Title {
             }
         }
 
-        List<String> stringList2 = new StringFind().getStringMessageList(firstString);
-        for(String string : stringList2){
+
+        for(String string : new StringFind().getStringMessageList(firstString)){
             if(string.toLowerCase().contains("title=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    setTitle(strings[1]);
+                    if(strings.length == 2){
+                        if(messageTarge.toLowerCase().contains("target")){
+                            setTitle(new StringConversion("Character",strings[1],target).getResultString());
+                        }else {
+                            setTitle(new StringConversion("Character",strings[1],player).getResultString());
+                        }
+                    }
+
                 }
             }
 
             if(string.contains("subtitle=") || string.contains("subt=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    setSubTitle(strings[1]);
+                    if(messageTarge.toLowerCase().contains("target")){
+                        setSubTitle(new StringConversion("Character",strings[1],target).getResultString());
+                    }else {
+                        setSubTitle(new StringConversion("Character",strings[1],player).getResultString());
+                    }
                 }
 
             }
