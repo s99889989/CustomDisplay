@@ -134,7 +134,12 @@ public class Loop extends BukkitRunnable {
                         return;
                     }
                 }
+
+                if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
+                    ActionManager.getJudgment_Loop_Map().remove(taskID);
+                }
                 gogo(actionString);
+
             }
 
         }

@@ -1,6 +1,6 @@
 Language:
   Command:
-    isOp: '§e[CustomDisplay] §aSomente jogadores com OP pode usar este comando'
+    isOP: '§e[CustomDisplay] §aSomente jogadores com OP podem usar este comando'
     reload: '§e[CustomDisplay] §aPlugin reiniciado com sucesso'
     help:
       Description: '§e[CustomDisplay]'
