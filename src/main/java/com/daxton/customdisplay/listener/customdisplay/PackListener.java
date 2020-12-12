@@ -60,11 +60,36 @@ public class PackListener implements Listener{
                         cd.getLogger().info("PlayerChat");
                     }
 
+                    if (packetType.equals(PacketType.Play.Client.FLYING)) {
+                        //player.sendMessage("玩家移動");
+                        //customDisplay.getLogger().info("玩家移動");
+                        //sendPacket(player, "玩家移動", ACTIONBAR, 1, 1, 1);
+//                    double x = packet.getDoubles().getValues().get(0);
+//                    double y = packet.getDoubles().getValues().get(1);
+//                    double z = packet.getDoubles().getValues().get(2);
+//
+//                    float yaw = packet.getFloat().getValues().get(0);
+//                    float pitch = packet.getFloat().getValues().get(1);
+//
+//                    boolean onGround = packet.getBooleans().getValues().get(0);
+//                    boolean hasPos = packet.getBooleans().getValues().get(1);
+//                    boolean hasLook = packet.getBooleans().getValues().get(2);
+//
+//                    packet.getDoubles().write(0, Double.NaN);
+//                    packet.getDoubles().write(1, Double.NaN);
+//                    packet.getDoubles().write(2, Double.NaN);
+//
+//                    packet.getFloat().writeSafely(0, 0f);
+//                    packet.getFloat().writeSafely(1, 0f);
+
+
+                    }
 
                 }
 
                 /**發送名稱數據包**/
                 public void sendNamePacket(Player player, LivingEntity target) {
+                    //player.sendMessage("怪物出生"+target.getName());
                     WrappedDataWatcher watcher = new WrappedDataWatcher();
                     watcher.setEntity(target);
 
@@ -85,10 +110,16 @@ public class PackListener implements Listener{
                             ex.printStackTrace();
                         }
                     }
+//                    try {
+//                        pm.sendServerPacket(player, packet, false);
+//                    } catch (InvocationTargetException ex) {
+//                        ex.printStackTrace();
+//                    }
                 }
 
                 /**發送名稱數據包2**/
                 public void sendNamePacket2(Player player, LivingEntity target) {
+                    //player.sendMessage("怪物出生"+target.getName());
                     WrappedDataWatcher watcher = new WrappedDataWatcher();
 
                     WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(String.class);
@@ -184,11 +215,30 @@ public class PackListener implements Listener{
                                         ActionManager.getMmocore_ActionBar_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
                                         event.setCancelled(true);
                                     }
+                                    //cd.getLogger().info(trace.getClassName());
                                 }
                             }
+
+
+//                            if(b.length > 0 && !(BaseComponent.toLegacyText(b).contains("customdisplay"))){
+//                                ActionManager.getActionBar_String_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
+//                                event.setCancelled(true);
+//                            }
+//                            if(BaseComponent.toLegacyText(b).contains("customdisplay")){
+//                                event.setCancelled(true);
+//                                sendPacket(player,BaseComponent.toLegacyText(b).replace("customdisplay",""), ACTIONBAR,0,0,0);
+//
+//                            }
+
+
+
+
                         }
                     }
 
+//                    if(packetType.equals(PacketType.Play.Server.TITLE)){
+//                            player.sendMessage("TITLE內容:"+packet.getChatComponents().read(0));
+//                    }
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
                         Particle type = packet.getNewParticles().read(0).getParticle();

@@ -36,6 +36,8 @@ public class Holographic {
 
     Location createLocation;
 
+    private String health_conversion;
+
     private String taskID;
 
     private String test = "";
@@ -79,6 +81,10 @@ public class Holographic {
                 actionMap.put(strings[0].toLowerCase(),strings[1].toLowerCase());
             }
 
+            if(string1.toLowerCase().contains("healthconver=")){
+                String[] strings1 = string1.split("=");
+                health_conversion = strings1[1];
+            }
 
             if(string1.toLowerCase().contains("hdtype=")){
                 String[] strings = string1.split("=");
@@ -145,26 +151,28 @@ public class Holographic {
         }
 
         String attackNumber = damageNumberAction();
-
+        String healthConversion = targetHealth();
+        String healthNumber = targetHealthNumber();
 
         hologram = HologramsAPI.createHologram(cd, createLocation);
         if(target.getType().toString().toLowerCase().equals("player")){
             Player targetPlayer = (Player) target;
-            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),targetPlayer,target).getResultString().replace("{cd_damage}", attackNumber));
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),targetPlayer,target,healthConversion).getResultString().replace("{cd_damage}", attackNumber));
         }else {
-            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player,target).getResultString().replace("{cd_damage}", attackNumber));
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player,target,healthConversion).getResultString().replace("{cd_damage}", attackNumber));
         }
 
 
     }
 
     public void addLineHD(){
-
+        String healthConversion = targetHealth();
+        String healthNumber = targetHealthNumber();
         if(target.getType().toString().toLowerCase().equals("player")){
             Player targetPlayer = (Player) target;
-            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),targetPlayer,target).getResultString());
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),targetPlayer,target,healthConversion).getResultString());
         }else {
-            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player,target).getResultString());
+            hologram.appendTextLine(new StringConversion("Character",actionMap.get("m"),player,target,healthConversion).getResultString());
         }
 
     }
@@ -273,6 +281,23 @@ public class Holographic {
         return lastSnumber;
     }
 
+    /**設定怪物血量顯示**/
+    public String targetHealth(){
+
+        double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
+        double nowhealth = target.getHealth();
+        int counthealth = (int) nowhealth*10/(int) maxhealth;
+        String mhealth = new NumberUtil(counthealth, ConfigMapManager.getFileConfigurationMap().get("Character_System_Health.yml").getStringList(health_conversion+".conversion")).getTenString();
+        return mhealth;
+    }
+    /**設定怪物血量顯示數字**/
+    public String targetHealthNumber(){
+        double maxhealth = target.getAttribute(GENERIC_MAX_HEALTH).getValue();
+        String nowhealth = new NumberUtil(target.getHealth(),"0.#").getDecimalString();
+        String mhealthNumber = nowhealth +"/"+maxhealth;
+
+        return mhealthNumber;
+    }
 
     private Vector randomVector(LivingEntity player) {
         double a = Math.toRadians((double)(player.getEyeLocation().getYaw() + 90.0F));

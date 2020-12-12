@@ -44,7 +44,7 @@ public class AutoConfig {
         File file = new File(cd.getDataFolder(),"Actions");
         String[] strings = file.list();
         for(String s : strings){
-            if(s.contains(".yml") && !(s.contains("Example"))){
+            if(s.contains(".yml") && !(s.contains("ExampleAction.yml"))){
                 File finalConfigFile = new File(cd.getDataFolder(), "Actions/"+s);
                 FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
                 ConfigMapManager.getFileConfigurationMap().put("Actions_"+s, config);
@@ -58,7 +58,7 @@ public class AutoConfig {
         File file = new File(cd.getDataFolder(),"Character");
         String[] strings = file.list();
         for(String s : strings){
-            if(s.contains(".yml") && !(s.contains("Example"))){
+            if(s.contains(".yml") && !(s.contains("ExampleCharacter.yml"))){
                 File finalConfigFile = new File(cd.getDataFolder(), "Character/"+s);
                 FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
                 ConfigMapManager.getFileConfigurationMap().put("Character_"+s, config);
