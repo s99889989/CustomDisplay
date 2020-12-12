@@ -15,7 +15,7 @@ public class JudgmentAction {
     private BukkitRunnable bukkitRunnable;
 
     int delay = 0;
-    private LivingEntity target;
+    private LivingEntity target = null;
     private double damageNumber = 0;
 
     public JudgmentAction(){
@@ -71,6 +71,7 @@ public class JudgmentAction {
 
                 /**HolographicDisplays的相關判斷**/
                 if(judgMent.toLowerCase().contains("hologram")){
+                    //cd.getLogger().info("H:"+firstString+" ID:"+taskID);
                     if(ActionManager.getJudgment_Holographic_Map().get(taskID) == null){
                         ActionManager.getJudgment_Holographic_Map().put(taskID,new Holographic());
                     }
@@ -80,6 +81,8 @@ public class JudgmentAction {
                 }
                 /**Loop的相關判斷**/
                 if(judgMent.toLowerCase().contains("loop")){
+                    //cd.getLogger().info("Loop:"+firstString+" ID:"+taskID);
+                    //new Loop().onLoop(player,target,firstString,damageNumber,taskID);
                         if(ActionManager.getJudgment_Loop_Map().get(taskID) == null){
                             ActionManager.getJudgment_Loop_Map().put(taskID,new Loop());
                         }
