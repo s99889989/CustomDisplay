@@ -36,6 +36,15 @@ public class Action {
 
     }
 
+    public void setAction(LivingEntity self, LivingEntity target, String firstString, double damageNumber,String taskID){
+        cd.getLogger().info("123"+firstString);
+//        this.firstString = firstString;
+//        this.target = target;
+//        this.damageNumber = damageNumber;
+//        this.taskID = taskID;
+//        stringSetting(firstString);
+    }
+
     public void setAction(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
         this.firstString = firstString;
         this.player = player;

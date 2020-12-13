@@ -2,6 +2,7 @@ package com.daxton.customdisplay.config;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.AutoConfig;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class ConfigManager {
@@ -24,6 +25,8 @@ public class ConfigManager {
         new AutoConfig("resource/Players/Default.yml","Players/Default.yml").get();
         new AutoConfig("resource/Players/s99889989.yml","Players/s99889989.yml").get();
 
+        new AutoConfig("resource/Mobs/Default.yml","Mobs/Default.yml").get();
+
         new AutoConfig("resource/Permission/ExamplePermission.yml","Permission/ExamplePermission.yml").get();
 
         new AutoConfig("resource/Actions/ExampleActionBar.yml","Actions/ExampleActionBar.yml").get();
@@ -44,6 +47,8 @@ public class ConfigManager {
         new AutoConfig().characterConfig();
         new AutoConfig().playersConfig();
         new AutoConfig().permissionConfig();
+
+
     }
 
 }

@@ -45,11 +45,6 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onExplosionPrime(ExplosionPrimeEvent event){
-        final Entity entity = event.getEntity();
 
-
-    }
 
 }

@@ -14,8 +14,12 @@ public class JudgmentAction {
 
     private BukkitRunnable bukkitRunnable;
 
+    private String taskID = "";
+    private String firstString = "";
+
     int delay = 0;
     private Player player = null;
+    private LivingEntity self = null;
     private LivingEntity target = null;
     private double damageNumber = 0;
 
@@ -23,6 +27,15 @@ public class JudgmentAction {
 
     }
 
+    /**新版**/
+    public void execute(LivingEntity self, LivingEntity target, String firstString, double damageNumber,String taskID){
+        this.self = self;
+        this.target = target;
+        this.damageNumber = damageNumber;
+        this.firstString = firstString;
+        this.taskID = taskID;
+        bukkitRun();
+    }
 
     public void execute(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
         this.player = player;
@@ -39,6 +52,21 @@ public class JudgmentAction {
     public void executeOneTwo(Player player,LivingEntity target, String firstString,String taskID){
         this.target = target;
         bukkitRun(player,firstString,taskID);
+    }
+
+    public void bukkitRun(){
+
+        String judgMent = new StringFind().getAction(firstString);
+        /**Action的相關判斷**/
+        if (judgMent.toLowerCase().contains("action")) {
+            if(ActionManager.getJudgment_Action_Map().get(taskID) == null){
+                ActionManager.getJudgment_Action_Map().put(taskID,new Action());
+            }
+            if(ActionManager.getJudgment_Action_Map().get(taskID) != null){
+                ActionManager.getJudgment_Action_Map().get(taskID).setAction(self,target,firstString,damageNumber,taskID);
+            }
+
+        }
     }
 
     public void bukkitRun(Player player,String firstString,String taskID){

@@ -72,7 +72,8 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
+        //Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
             getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
             Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
