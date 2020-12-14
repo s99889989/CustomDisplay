@@ -132,17 +132,12 @@ public class Action2 {
     public boolean condition(String actionString){
         boolean b = false;
         if(self instanceof Player){
-            Player player = (Player) self;
             if(ConditionManager.getAction_Condition_Map().get(taskID) == null){
                 ConditionManager.getAction_Condition_Map().put(taskID,new Condition());
             }
             if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
-                if(target == null){
-                    ConditionManager.getAction_Condition_Map().get(taskID).setCondition(player,actionString,taskID);
-                }else {
-                    ConditionManager.getAction_Condition_Map().get(taskID).setCondition(player,target,actionString,taskID);
-                }
-                b = ConditionManager.getAction_Condition_Map().get(taskID).getResult();
+                ConditionManager.getAction_Condition_Map().get(taskID).setCondition(self,target,actionString,damageNumber,taskID);
+                b = ConditionManager.getAction_Condition_Map().get(taskID).getResult2();
             }
         }
         return b;

@@ -68,3 +68,10 @@ target_health_proportion_player_hd:
   - Math[<cd_nowhealth>/<cd_maxhealth>*10]
   - DEC[#]
   - converAll[10,䁋;9,䁊;8,䁉;7,䁈;6,䁇;5,䁆;4,䁅;3,䁄;2,䁃;1,䁂;0,䁂]
+
+
+player_oxigen_proportion:
+  message:
+  - math[%player_remaining_air%/3]
+  - Decimal[#]
+  - converContains[-,0]

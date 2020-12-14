@@ -16,12 +16,12 @@ public class Condition {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private Player player;
+    private Player player = null;
 
-    private LivingEntity target;
-
+    private LivingEntity self = null;
+    private LivingEntity target = null;
     private String firstString = "";
-
+    private double damageNumber = 0;
     private String taskID = "";
 
     private static Map<String, Health> healthMap = new HashMap<>();
@@ -31,6 +31,16 @@ public class Condition {
 
     }
 
+    public void setCondition(LivingEntity self,LivingEntity target,String firstString,double damageNumber,String taskID){
+        this.self = self;
+        this.target = target;
+        this.firstString = firstString;
+        this.damageNumber = damageNumber;
+        this.taskID = taskID;
+        if(self instanceof Player){
+            player = (Player) self;
+        }
+    }
 
     /**有目標的判斷**/
     public void setCondition(Player player,LivingEntity target,String firstString,String taskID){
@@ -46,6 +56,24 @@ public class Condition {
         this.firstString = firstString;
         this.taskID = taskID;
 
+    }
+
+    public boolean getResult2(){
+        boolean b = false;
+
+        if(firstString.toLowerCase().contains("compare=")){
+            b = new Compare(self,target,firstString,damageNumber,taskID).get();
+        }
+
+        if(firstString.toLowerCase().contains("entitytypelist=")){
+            b = new EntityTypeList(self,target,firstString,damageNumber,taskID).get();
+        }
+
+        if(firstString.toLowerCase().contains("entitytype=")){
+            b = new EntityType(self,target,firstString,damageNumber,taskID).get();
+        }
+
+        return b;
     }
 
 

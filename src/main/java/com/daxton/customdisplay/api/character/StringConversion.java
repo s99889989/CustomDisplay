@@ -116,6 +116,14 @@ public class StringConversion {
                     continue;
                 }
 
+                if(headString.toLowerCase().contains("convercontains")){
+                    String[] stl2 = content.split(",");
+                    if(outputString.contains(stl2[0])){
+                        outputString = stl2[1];
+                    }
+                    continue;
+                }
+
                 if(headString.toLowerCase().contains("converall")){
                     String[] stl2 = content.split(";");
                     for(String stringList2 : stl2){
@@ -138,6 +146,10 @@ public class StringConversion {
                     }
                     continue;
                 }
+
+
+
+
             }
         }else {
             for(String string : list){
@@ -175,6 +187,14 @@ public class StringConversion {
                     continue;
                 }
 
+                if(headString.toLowerCase().contains("convercontains")){
+                    String[] stl2 = content.split(",");
+                    if(outputString.contains(stl2[0])){
+                        outputString = stl2[1];
+                    }
+                    continue;
+                }
+
                 if(headString.toLowerCase().contains("converall")){
                     String[] stl2 = content.split(";");
                     for(String stringList2 : stl2){
@@ -198,13 +218,6 @@ public class StringConversion {
                     continue;
                 }
 
-                if(headString.toLowerCase().contains("converContains")){
-                    String[] stl2 = content.split(",");
-                    if(outputString.contains(stl2[0])){
-                        outputString = stl2[1];
-                    }
-                    continue;
-                }
 
             }
         }

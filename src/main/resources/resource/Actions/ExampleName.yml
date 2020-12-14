@@ -1,7 +1,7 @@
 #
 NameDisplayAttackMonster:
   Action:
-  - Condition[entityTypeList=Monster]
+  - Condition[mt=target;entityTypeList=Monster]
   - Loop[onTime=NameDisplayAttackMonster-Time;period=40;duration=unlimited]
 NameDisplayAttackMonster-Time:
   Action:
@@ -10,7 +10,7 @@ NameDisplayAttackMonster-Time:
 #
 NameDisplayAttackAnimal:
   Action:
-  - Condition[entityTypeList=Animal]
+  - Condition[mt=target;entityTypeList=Animal]
   - Loop[onTime=NameDisplayAttackAnimal-Time;period=40;duration=unlimited]
 NameDisplayAttackAnimal-Time:
   Action:

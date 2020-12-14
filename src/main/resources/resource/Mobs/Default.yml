@@ -10,8 +10,6 @@ Action:
 
 - Action[mark=&target_uuid&EntityTopDisplayPlayer;stop=true] ~onDeath
 
-- Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
-
 - Action[mark=&target_uuid&NameDisplayAttackMonster;stop=true] ~onDeath
 
 - Action[mark=&target_uuid&NameDisplayAttackAnimal;stop=true] ~onDeath

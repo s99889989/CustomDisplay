@@ -62,7 +62,7 @@ AttackDisplayThrow-End3:
 #Attacking monsters shows blood volume.
 EntityTopDisplayMonster:
   Action:
-  - Condition[entityTypeList=Monster]
+  - Condition[mt=target;entityTypeList=Monster]
   - Loop[onStart=EntityTopDisplayMonster-Start;onTime=EntityTopDisplayMonster-Time;onEnd=EntityTopDisplayMonster-End;period=10;duration=200]
 EntityTopDisplayMonster-Start:
   Action:
@@ -81,7 +81,7 @@ EntityTopDisplayMonster-End:
 #Attack animals show blood volume.
 EntityTopDisplayAnimal:
   Action:
-  - Condition[entityTypeList=Animal]
+  - Condition[mt=target;entityTypeList=Animal]
   - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
 EntityTopDisplayAnimal-Start:
   Action:
@@ -100,7 +100,7 @@ EntityTopDisplayAnimal-End:
 #The attacking player displays information.
 EntityTopDisplayPlayer:
   Action:
-  - Condition[entityType=Player]
+  - Condition[mt=target;entityType=Player]
   - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
 EntityTopDisplayPlayer-Start: #&player_mana_proportion2&
   Action:
