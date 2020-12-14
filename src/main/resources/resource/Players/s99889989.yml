@@ -14,21 +14,18 @@ Action:
 
 #攻擊怪物顯示血量
 #-------------------------------------------------------------------------#
-#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
-#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onCrit
-#- Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
+#- Action[MT=target;a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onAttack
+#- Action[MT=target;a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onCrit
 
 #攻擊動物顯示血量
 #-------------------------------------------------------------------------#
-#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
-#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
-#- Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
+#- Action[MT=target;a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onAttack
+#- Action[MT=target;a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onCrit
 
 #攻擊玩家顯示資訊
 #-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayPlayer;mark={target_uuid}EntityTopDisplayPlayer] ~onAttack
-- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
-- Action[mark={target_uuid}EntityTopDisplayPlayer;stop=true] ~onDeath
+- Action[MT=target;a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onAttack
+- Action[MT=target;a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onCrit
 
 #血量低於設定量顯示標題和聲音
 #-------------------------------------------------------------------------#
@@ -45,7 +42,6 @@ Action:
 #攻擊顯示BossBar
 #-------------------------------------------------------------------------#
 - Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onAttack
-- Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
 
 #被攻擊顯示標題
 #-------------------------------------------------------------------------#
@@ -66,15 +62,15 @@ Action:
 
 #攻擊改變顯示名稱(怪物)
 #-------------------------------------------------------------------------#
-- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onAttack
-- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onCrit
-- Action[mark={target_uuid}NameDisplayAttackMonster;stop=true] ~onDeath
+- Action[MT=target;a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onAttack
+- Action[MT=target;a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onCrit
+
 
 #攻擊改變顯示名稱(動物)
 #-------------------------------------------------------------------------#
-- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onAttack
-- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onCrit
-- Action[mark={target_uuid}NameDisplayAttackAnimal;stop=true] ~onDeath
+- Action[MT=target;a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onAttack
+- Action[MT=target;a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onCrit
+
 
 #顯示MMOCore技能狀態攔.
 #-------------------------------------------------------------------------#

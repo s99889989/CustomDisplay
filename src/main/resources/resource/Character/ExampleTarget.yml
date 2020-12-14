@@ -1,6 +1,10 @@
 target_name:
   message:
   - CC[<cd_name>]
+  
+target_uuid:
+  message:
+  - CC[<cd_uuid>]
 
 target_hight:
   message:

@@ -5,5 +5,13 @@ Action:
 #攻擊顯示傷害(向上)
 #-------------------------------------------------------------------------#
 - Action[mark=&target_uuid&EntityTopDisplayMonster;stop=true] ~onDeath
+
 - Action[mark=&target_uuid&EntityTopDisplayAnimal;stop=true] ~onDeath
+
 - Action[mark=&target_uuid&EntityTopDisplayPlayer;stop=true] ~onDeath
+
+- Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
+
+- Action[mark=&target_uuid&NameDisplayAttackMonster;stop=true] ~onDeath
+
+- Action[mark=&target_uuid&NameDisplayAttackAnimal;stop=true] ~onDeath

@@ -43,7 +43,6 @@ public class Compare {
     }
 
     public Compare(Player player ,String firstString){
-        cd.getLogger().info("c:"+firstString);
         this.player = player;
         this.firstString = firstString;
         this.taskID = taskID;
@@ -51,7 +50,6 @@ public class Compare {
     }
 
     public void setOther(){
-
         for(String string : new StringFind().getStringList(firstString)){
             if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
                 String[] strings = string.split("=");

@@ -44,20 +44,6 @@ public class JudgmentAction {
         bukkitRun(player,firstString,taskID);
     }
 
-    public void bukkitRun(){
-
-        String judgMent = new StringFind().getAction(firstString);
-        /**Action的相關判斷**/
-        if (judgMent.toLowerCase().contains("action")) {
-            if(ActionManager.getJudgment_Action_Map().get(taskID) == null){
-                ActionManager.getJudgment_Action_Map().put(taskID,new Action());
-            }
-            if(ActionManager.getJudgment_Action_Map().get(taskID) != null){
-                ActionManager.getJudgment_Action_Map().get(taskID).setAction(self,target,firstString,damageNumber,taskID);
-            }
-
-        }
-    }
 
     public void bukkitRun(Player player,String firstString,String taskID){
         if (firstString.toLowerCase().contains("delay ")) {
@@ -91,7 +77,7 @@ public class JudgmentAction {
 
                 /**HolographicDisplays的相關判斷**/
                 if(judgMent.toLowerCase().contains("hologram")){
-                    //cd.getLogger().info("H:"+firstString+" ID:"+taskID);
+
                     if(ActionManager.getJudgment_Holographic_Map().get(taskID) == null){
                         ActionManager.getJudgment_Holographic_Map().put(taskID,new Holographic());
                     }
@@ -101,8 +87,6 @@ public class JudgmentAction {
                 }
                 /**Loop的相關判斷**/
                 if(judgMent.toLowerCase().contains("loop")){
-                    //cd.getLogger().info("Loop:"+firstString+" ID:"+taskID);
-                    //new Loop().onLoop(player,target,firstString,damageNumber,taskID);
                         if(ActionManager.getJudgment_Loop_Map().get(taskID) == null){
                             ActionManager.getJudgment_Loop_Map().put(taskID,new Loop());
                         }

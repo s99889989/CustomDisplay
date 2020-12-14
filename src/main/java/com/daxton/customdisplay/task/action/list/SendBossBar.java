@@ -49,7 +49,7 @@ public class SendBossBar {
         this.taskID = taskID;
         this.player = player;
         this.target = target;
-        if(target.getHealth() < 1){
+        if(target != null && target.getHealth() < 1){
             return;
         }
         setOther(firstString);

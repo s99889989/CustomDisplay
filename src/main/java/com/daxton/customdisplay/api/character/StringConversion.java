@@ -23,24 +23,9 @@ public class StringConversion {
     private String folderName = "";
     private String firstString = "";
 
-    /**血條轉換**/
-    private String health_conversion = "health-monster";
-
-
-
-    public StringConversion(String folderName, String firstString, Player player,LivingEntity target){
-//        this.folderName = folderName;
-//        this.firstString = firstString;
-//        this.player = player;
-//        this.target = target;
-//        setString();
-    }
-
     public StringConversion(String folderName, String firstString, LivingEntity target){
         this.folderName = folderName;
         this.firstString = firstString;
-
-
         setString(target);
     }
 
@@ -185,7 +170,6 @@ public class StringConversion {
                         double number = Double.valueOf(outputString);
                         outputString = new NumberUtil(number,content).getDecimalString();
                     }catch (NumberFormatException exception){
-                        //cd.getLogger().info("");
                     }
 
                     continue;
@@ -210,6 +194,14 @@ public class StringConversion {
                     for(String stringList2 : stl2){
                         String[] stl3 = stringList2.split(",");
                         outputString = outputString.replace(stl3[0],stl3[1]);
+                    }
+                    continue;
+                }
+
+                if(headString.toLowerCase().contains("converContains")){
+                    String[] stl2 = content.split(",");
+                    if(outputString.contains(stl2[0])){
+                        outputString = stl2[1];
                     }
                     continue;
                 }
