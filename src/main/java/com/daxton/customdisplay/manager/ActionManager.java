@@ -2,6 +2,7 @@ package com.daxton.customdisplay.manager;
 
 import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import com.daxton.customdisplay.task.action.JudgmentAction2;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
@@ -41,10 +42,17 @@ public class ActionManager {
     private static Map<String, JudgmentAction> action_Judgment_Map = new HashMap<>();
     /**JudgmentAction->Action**/
     private static Map<String, Action> judgment_Action_Map = new HashMap<>();
+
     /**JudgmentAction->Message**/
     private static Map<String, Message> judgment_Message_Map = new HashMap<>();
     /**JudgmentAction->Name**/
     private static Map<String, SetName> judgment_SetName_Map = new HashMap<>();
+
+    /**JudgmentAction2->Action2**/
+    private static Map<String, Action2> judgment2_Action2_Map = new HashMap<>();
+    /**Action2->JudgmentAction2**/
+    private static Map<String, JudgmentAction2> action2_Judgment2_Map = new HashMap<>();
+
     /**ProtocolManager**/
     public static ProtocolManager protocolManager;
 
@@ -108,5 +116,15 @@ public class ActionManager {
     /**JudgmentAction->Name**/
     public static Map<String, SetName> getJudgment_SetName_Map() {
         return judgment_SetName_Map;
+    }
+
+
+    /**JudgmentAction2->Action2**/
+    public static Map<String, Action2> getJudgment2_Action2_Map() {
+        return judgment2_Action2_Map;
+    }
+    /**Action2->JudgmentAction2**/
+    public static Map<String, JudgmentAction2> getAction2_Judgment2_Map() {
+        return action2_Judgment2_Map;
     }
 }

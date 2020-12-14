@@ -3,6 +3,7 @@ package com.daxton.customdisplay.api.mobs;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import com.daxton.customdisplay.task.action.JudgmentAction2;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -34,13 +35,14 @@ public class MobTrigger {
 
     public void onDamaged(){
         for(String actionString : action_Trigger_Map.get("~ondamaged")){
-            new JudgmentAction().execute(self,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+            new JudgmentAction2().execute(self,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
         }
     }
 
     public void onDeath(){
         for(String actionString : action_Trigger_Map.get("~ondeath")){
-            new JudgmentAction().execute(self,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+            //cd.getLogger().info("~ondeath"+actionString);
+            new JudgmentAction2().execute(self,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
         }
     }
 

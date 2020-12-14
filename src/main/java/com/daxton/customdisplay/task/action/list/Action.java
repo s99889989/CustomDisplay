@@ -114,6 +114,7 @@ public class Action {
         if(stop){
             new ClearAction().clearPlayer(this.player,this.taskID);
         }else {
+            cd.getLogger().info("A: "+taskID);
             if(target == null){
                 startActionOne();
             }else {
@@ -124,6 +125,7 @@ public class Action {
 
     /**只有玩家**/
     public void startActionOne(){
+        new ClearAction().clearPlayer(player,taskID);
         if(actionList.size() > 0){
             for(String actionString : actionList){
                 if(actionString.toLowerCase().contains("condition")){

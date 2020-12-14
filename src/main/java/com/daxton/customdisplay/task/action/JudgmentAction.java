@@ -27,16 +27,6 @@ public class JudgmentAction {
 
     }
 
-    /**新版**/
-    public void execute(LivingEntity self, LivingEntity target, String firstString, double damageNumber,String taskID){
-        this.self = self;
-        this.target = target;
-        this.damageNumber = damageNumber;
-        this.firstString = firstString;
-        this.taskID = taskID;
-        bukkitRun();
-    }
-
     public void execute(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
         this.player = player;
         this.target = target;
