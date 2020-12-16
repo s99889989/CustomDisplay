@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -14,9 +15,9 @@ public class Title {
 
     private Player player;
 
-    private LivingEntity target = null;
+    private LivingEntity self = null;
 
-    private String messageTarge = "self";
+    private LivingEntity target = null;
 
     private String title = "";
 
@@ -31,19 +32,7 @@ public class Title {
 
     public Title(Player player, String firstString){
         this.player = player;
-        messageTarge = "self";
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("target")){
-                        messageTarge = "target";
-                    }else {
-                        messageTarge = "self";
-                    }
-                }
-            }
-        }
+        this.self = player;
 
         for(String strings : new StringFind().getStringList(firstString)){
             if(strings.contains("fadeIn=")){
@@ -60,17 +49,12 @@ public class Title {
             }
         }
 
-
         for(String string : new StringFind().getStringMessageList(firstString)){
             if(string.toLowerCase().contains("title=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     if(strings.length == 2){
-                        if(messageTarge.toLowerCase().contains("target")){
-                            setTitle(new StringConversion("Character",strings[1],target).getResultString());
-                        }else {
-                            setTitle(new StringConversion("Character",strings[1],player).getResultString());
-                        }
+                        setTitle(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }
 
                 }
@@ -79,11 +63,7 @@ public class Title {
             if(string.contains("subtitle=") || string.contains("subt=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    if(messageTarge.toLowerCase().contains("target")){
-                        setSubTitle(new StringConversion("Character",strings[1],target).getResultString());
-                    }else {
-                        setSubTitle(new StringConversion("Character",strings[1],player).getResultString());
-                    }
+                    setSubTitle(new StringConversion2(self,target,strings[1],"Character").valueConv());
                 }
 
             }

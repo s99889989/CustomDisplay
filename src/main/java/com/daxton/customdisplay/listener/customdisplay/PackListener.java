@@ -39,8 +39,6 @@ public class PackListener implements Listener{
 
     public ProtocolManager pm;
 
-    private Table<UUID, String, String> entityName = HashBasedTable.create();
-
     public PackListener(){
 
             pm = ProtocolLibrary.getProtocolManager();
@@ -214,17 +212,18 @@ public class PackListener implements Listener{
                                         ActionManager.getMmocore_ActionBar_Stats_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
                                         event.setCancelled(true);
                                         break;
-                                    }else if(trace.getClassName().contains("customdisplay.PackListener")){
+                                    }else if(trace.getClassName().contains("customdisplay.PackListener") || trace.getClassName().contains("com.comphenix.protocol") || trace.getClassName().contains("NetworkManager") || trace.getClassName().contains("PlayerConnection") || trace.getClassName().contains("CraftPlayer") || trace.getClassName().contains("mmocore.api.player.PlayerData")){
                                         //player.sendMessage("Other"+BaseComponent.toLegacyText(b));
                                         event.setCancelled(true);
                                         continue;
                                     }else {
                                         //player.sendMessage("Other"+BaseComponent.toLegacyText(b));
                                         //cd.getLogger().info(trace.getClassName());
+                                        //player.sendMessage(BaseComponent.toLegacyText(b));
                                     }
                                 }
                             }
-                            //sendPacket(player, "String text", ACTIONBAR, 1, 1, 1);
+
 
                         }
                     }

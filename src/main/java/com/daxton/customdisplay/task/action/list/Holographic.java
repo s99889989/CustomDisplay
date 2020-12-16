@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -27,6 +28,7 @@ public class Holographic {
 
     private String taskID = "";
     private Player player = null;
+    private LivingEntity self = null;
     private LivingEntity target = null;
     private double damageNumber = 0;
 
@@ -36,7 +38,6 @@ public class Holographic {
 
     private String function = "";
     private String message = "";
-    private String messageTarge = "self";
     private String aims = "";
     private double x = 0;
     private double y = 0;
@@ -48,7 +49,7 @@ public class Holographic {
     }
 
     public void setHD(Player player, LivingEntity target, String firstString, double damageNumber,String taskID) {
-
+        this.self = player;
         this.taskID = taskID;
         this.player = player;
         if (target != null) {
@@ -65,36 +66,16 @@ public class Holographic {
         aims = "";
         function = "";
         message = "";
-        messageTarge = "self";
         x = 0;
         y = 0;
         z = 0;
 
 
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("target")){
-                        messageTarge = "target";
-                    }else {
-                        messageTarge = "self";
-                    }
-                }
-            }
-
-
-        }
-
         for(String string : new StringFind().getStringMessageList(firstString)){
             if(string.toLowerCase().contains("message=") || string.toLowerCase().contains("m=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    if(messageTarge.toLowerCase().contains("target")){
-                        message = new StringConversion("Character",strings[1],target).getResultString();
-                    }else {
-                        message = new StringConversion("Character",strings[1],player).getResultString();
-                    }
+                    message = new StringConversion2(self,target,strings[1],"Character").valueConv();
                 }
             }
         }
@@ -120,11 +101,7 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        if(messageTarge.toLowerCase().contains("target")){
-                            x = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
-                        }else {
-                            x = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
-                        }
+                        x = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("x不是數字");
                     }
@@ -135,13 +112,9 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        if(messageTarge.toLowerCase().contains("target")){
-                            y = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
-                        }else {
-                            y = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
-                        }
+                        y = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
-                        cd.getLogger().info("y不是數字");
+                        cd.getLogger().info("y不是數字"+y);
                     }
                 }
             }
@@ -150,11 +123,7 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        if(messageTarge.toLowerCase().contains("target")){
-                            z = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
-                        }else {
-                            z = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
-                        }
+                        z = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("z不是數字");
                     }
@@ -172,13 +141,6 @@ public class Holographic {
             createLocation = createLocation.add(x,y,z);
         }
 
-//        cd.getLogger().info("訊息:"+message);
-//        cd.getLogger().info("功能:"+function);
-//        cd.getLogger().info("位置類型:"+locationType);
-//        cd.getLogger().info("目標:"+aims);
-//        cd.getLogger().info("x:"+x);
-//        cd.getLogger().info("y:"+y);
-//        cd.getLogger().info("z:"+z);
 
         if(function.toLowerCase().contains("create") && hologram == null){
             createHD();
@@ -201,10 +163,10 @@ public class Holographic {
 
     public void createHD(){
 
-        String attackNumber = damageNumberAction();
+
 
         hologram = HologramsAPI.createHologram(cd, createLocation);
-        hologram.appendTextLine(message.replace("{cd_damage}", attackNumber));
+        hologram.appendTextLine(message);
 
 
     }
@@ -243,34 +205,6 @@ public class Holographic {
             ActionManager.getLoop_Judgment_Map().remove(taskID);
         }
         hologram.delete();
-    }
-
-    /**設定傷害**/
-    public String damageNumberAction(){
-        FileConfiguration config = ConfigMapManager.getFileConfigurationMap().get("Character_System_AttackNumber.yml");
-        List<String> headList = new ArrayList<>();
-        List<String> doubleList = new ArrayList<>();
-        List<String> unitsList = new ArrayList<>();
-        if(taskID.toLowerCase().contains("~oncrit")){
-            headList = config.getStringList("player-damage-crit.head_conversion");
-            doubleList = config.getStringList("player-damage-crit.double_conversion");
-            unitsList = config.getStringList("player-damage-crit.units_conversion");
-        }else if(taskID.toLowerCase().contains("~onmagic")){
-            headList = config.getStringList("player-damage-magic.head_conversion");
-            doubleList = config.getStringList("player-damage-magic.double_conversion");
-            unitsList = config.getStringList("player-damage-magic.units_conversion");
-        }else if(taskID.toLowerCase().contains("~onmcrit")){
-            headList = config.getStringList("player-damage-magic-crit.head_conversion");
-            doubleList = config.getStringList("player-damage-magic-crit.double_conversion");
-            unitsList = config.getStringList("player-damage-magic-crit.units_conversion");
-        }else {
-            headList = config.getStringList("player-damage.head_conversion");
-            doubleList = config.getStringList("player-damage.double_conversion");
-            unitsList = config.getStringList("player-damage.units_conversion");
-        }
-        String snumber = new NumberUtil(damageNumber, config.getString("player-damage.decimal")).getDecimalString();
-        String lastSnumber = new NumberUtil(snumber, headList,doubleList,unitsList).getNineThreeString();
-        return lastSnumber;
     }
 
     private Vector randomVector(LivingEntity player) {

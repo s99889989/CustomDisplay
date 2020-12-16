@@ -53,6 +53,7 @@ public class Placeholder {
         entity_Map.put("vec_x",String.valueOf(vectorX(entity)));
         entity_Map.put("vec_y",String.valueOf(vectorY(entity)));
         entity_Map.put("vec_z",String.valueOf(vectorZ(entity)));
+        entity_Map.put("attack_number",ActionManager.getDamage_Number_Map().get(entity.getUniqueId()));
 
         entity_Map.put("mythic_level",ActionManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
 

@@ -7,6 +7,7 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.NumberUtil;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -24,11 +25,11 @@ public class SetName {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String message = "";
-    private String messageTarge = "self";
 
     private String taskID = "";
-    private Player player;
-    private LivingEntity target;
+    private Player player = null;
+    private LivingEntity self = null;
+    private LivingEntity target = null;
     private String targetName = "";
     private boolean always = false;
 
@@ -47,7 +48,7 @@ public class SetName {
         this.taskID = taskID;
         this.player = player;
         this.target = target;
-
+        this.self = player;
         targetName = target.getName();
         message = targetName;
         setOther(firstString);
@@ -55,20 +56,6 @@ public class SetName {
     }
 
     public void setOther(String firstString){
-        messageTarge = "self";
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("target")){
-                        messageTarge = "target";
-                    }else {
-                        messageTarge = "self";
-                    }
-                }
-            }
-        }
-
 
         for(String allString : new StringFind().getStringMessageList(firstString)){
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
@@ -114,11 +101,7 @@ public class SetName {
     public void sendMetadataPacket() {
 
 
-        if(messageTarge.toLowerCase().contains("target")){
-            message = new StringConversion("Character",message,target).getResultString();
-        }else {
-            message = new StringConversion("Character",message,player).getResultString();
-        }
+        message = new StringConversion2(self,target,message,"Character").valueConv();
 
         PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());

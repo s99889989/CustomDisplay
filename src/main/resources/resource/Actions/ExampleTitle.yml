@@ -3,9 +3,9 @@
 TitleHealthDisplay:
   Action:
   - Loop[onTime=TitleHealthDisplay-Time;period=20;duration=unlimited]
-TitleHealthDisplay-Time: #&player_health_10&
+TitleHealthDisplay-Time: 
   Action:
-  - Condition[Compare=&player_health_10&<3]
+  - Condition[Compare=&self_health_10&<3]
   - Title[title=§0;subtitle=§0䁾;fadeIn=1;duration=5;fadeOut=1]
   - Sound[sound=heartbeatin;pitch=1;volume=1;category=PLAYERS]
   - Delay 5

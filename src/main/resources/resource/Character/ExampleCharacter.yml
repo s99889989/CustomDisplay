@@ -57,6 +57,4 @@ player_health_10:
   - math[%player_health%/%player_max_health%*10]
   - Decimal[#]
 
-self_mmocore_actionbar_spell:
-  message:
-  - CC[<cd_mmocore_actionbar_spell>]
+

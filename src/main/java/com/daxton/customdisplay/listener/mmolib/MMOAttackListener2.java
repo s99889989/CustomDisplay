@@ -2,6 +2,9 @@ package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.ActionManager;
+import net.Indyuce.mmocore.api.player.PlayerData;
+import net.Indyuce.mmocore.api.player.stats.StatType;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.comp.holograms.HologramSupport;
 import net.mmogroup.mmolib.MMOLib;
@@ -60,6 +63,7 @@ public class MMOAttackListener2 implements Listener{
         }
         target = (LivingEntity) event.getEntity();
         double damageNumber = event.getFinalDamage();
+        ActionManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
         if(event.getDamager() instanceof Player){
             player = (Player) event.getDamager();
             playerUUID = player.getUniqueId();
@@ -83,7 +87,10 @@ public class MMOAttackListener2 implements Listener{
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+200)/100);
 
             /**額外魔法攻擊**/
-            double magical_damage = MMOPlayerData.get(playerUUID).getStatMap().getStat(MAGICAL_DAMAGE);
+            PlayerData data = PlayerData.get(player);
+            double magical_damage = data.getStats().getStat(StatType.MAGIC_DAMAGE);
+            magical_damage = (magical_damage/100);
+
             /**額外粒子攻擊**/
             double projectile_DAMAGE = MMOPlayerData.get(playerUUID).getStatMap().getStat(PROJECTILE_DAMAGE);
             /**額外技能攻擊**/
@@ -91,7 +98,7 @@ public class MMOAttackListener2 implements Listener{
 
             /**魔法爆擊增幅**/
             double spell_CRITICAL_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(SPELL_CRITICAL_STRIKE_POWER);
-            spell_CRITICAL_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+200)/100);
+            spell_CRITICAL_STRIKE_POWER = (spell_CRITICAL_STRIKE_POWER/100) + 1.5;
 
             /**最終傷害**/
             double final_damage = attack_damage+physical_damage;
@@ -100,21 +107,23 @@ public class MMOAttackListener2 implements Listener{
 //            player.sendMessage("爆擊增幅"+physical_STRIKE_POWER);
 
             if(damageType.contains("WEAPON")){
-                //player.sendMessage("WEAPON： "+damageType);
-                if(damageNumber > (physical_STRIKE_POWER-2) & damageNumber > 2){
+                //player.sendMessage("WEAPON： "+damageType); damageNumber > (physical_STRIKE_POWER-2)
+                if(damageNumber > 2 & damageNumber > (physical_STRIKE_POWER-50) ){
                     if(new PlayerTrigger(player).getAction_Trigger_Map().get("~oncrit") != null){
                         new PlayerTrigger(player).onCrit(player,target,damageNumber);
                     }
                 }else {
+
                     if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
                         new PlayerTrigger(player).onAttack(player,target,damageNumber);
                     }
                 }
             }
             if(damageType.contains("MAGIC")){
-                //player.sendMessage("顯示傷害: "+damageNumber);
-                //player.sendMessage("估算傷害: "+(damageNumberPAE*(1.5+spell_CRITICAL_STRIKE_POWER)));
-                if(damageNumber > (damageNumberPAE*(1.5+spell_CRITICAL_STRIKE_POWER))){
+//                player.sendMessage("顯示傷害: "+damageNumber);
+//                player.sendMessage("估算傷害: "+((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER));
+
+                if(damageNumber > ((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER)){
                     if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onmcrit") != null){
                         new PlayerTrigger(player).onMCrit(player,target,damageNumber);
                     }

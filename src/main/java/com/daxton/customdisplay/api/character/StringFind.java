@@ -29,6 +29,37 @@ public class StringFind {
         return lastString;
     }
 
+    /**丟入整個自訂字 返回動作第一個關鍵字**/
+    public String getHead(String string){
+        String lastString = "";
+        List<String> stringList = getStringList2(string);
+        if(stringList.size() > 0){
+            String[] strings = stringList.toArray(new String[stringList.size()]);
+            lastString = strings[0].replace(" ","");
+        }
+        return lastString;
+    }
+
+    /**丟入整個自訂字 返回自訂字內容**/
+    public String getContent(String string){
+        String lastString = "";
+        List<String> stringList = getStringList2(string);
+        if(stringList.size() > 1){
+            String[] strings = stringList.toArray(new String[stringList.size()]);
+            lastString = strings[1];
+        }
+        return lastString;
+    }
+    /**丟入整個自訂字 返回自訂字目標**/
+    public String getTarget(String string){
+        String lastString = "";
+        List<String> stringList = getStringList2(string);
+        if(stringList.size() == 3){
+            String[] strings = stringList.toArray(new String[stringList.size()]);
+            lastString = strings[2].replace(" ","");
+        }
+        return lastString;
+    }
 
     /**找尋動作內的觸發動作名稱**/
     public String findActionName(String firstString){
@@ -54,10 +85,20 @@ public class StringFind {
         return triggerActionName;
     }
 
+
     /**丟入字串按照[;]轉成List**/
     public List<String> getStringList(String string){
         List<String> stringList = new ArrayList<>();
         StringTokenizer stringTokenizer = new StringTokenizer(string,"[;] ");
+        while(stringTokenizer.hasMoreElements()){
+            stringList.add(stringTokenizer.nextToken());
+        }
+        return stringList;
+    }
+    /**丟入字串按照[]轉成List**/
+    public List<String> getStringList2(String string){
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(string,"[]");
         while(stringTokenizer.hasMoreElements()){
             stringList.add(stringTokenizer.nextToken());
         }

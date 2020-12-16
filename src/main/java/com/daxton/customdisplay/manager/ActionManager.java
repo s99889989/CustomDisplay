@@ -28,6 +28,8 @@ public class ActionManager {
     private static Map<UUID , String> mmocore_ActionBar_Spell_Map = new HashMap<>();
     /**MMOcore插件的Stats-ActionBar顯示**/
     private static Map<UUID , String> mmocore_ActionBar_Stats_Map = new HashMap<>();
+    /**攻擊傷害**/
+    private static Map<UUID , String> damage_Number_Map = new HashMap<>();
 
     /**MythicMobs插件的Mod_Level顯示**/
     private static Map<UUID,String> mythicMobs_Level_Map = new HashMap<>();
@@ -84,6 +86,10 @@ public class ActionManager {
     /**MMOcore插件的Stats-ActionBar顯示**/
     public static Map<UUID, String> getMmocore_ActionBar_Stats_Map() {
         return mmocore_ActionBar_Stats_Map;
+    }
+    /**攻擊傷害**/
+    public static Map<UUID, String> getDamage_Number_Map() {
+        return damage_Number_Map;
     }
 
     /**MythicMobs插件的Mod_Level顯示**/

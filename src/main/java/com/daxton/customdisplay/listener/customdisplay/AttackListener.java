@@ -3,6 +3,7 @@ package com.daxton.customdisplay.listener.customdisplay;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -35,6 +36,7 @@ public class AttackListener implements Listener {
             return;
         }
         double damageNumber = event.getFinalDamage();
+        ActionManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
         target = (LivingEntity) event.getEntity();
 
         if(event.getDamager() instanceof Player){

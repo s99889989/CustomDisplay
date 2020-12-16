@@ -46,19 +46,19 @@ public class PlayerTrigger {
 
     public void onCrit(Player player,LivingEntity target,double damageNumber){
         for(String actionString : action_Trigger_Map.get("~oncrit")){
-            new JudgmentAction().execute(player,target,actionString,damageNumber,"~oncrit"+(int)(Math.random()*100000));
+            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
         }
     }
 
     public void onMagic(Player player,LivingEntity target,double damageNumber){
         for(String actionString : action_Trigger_Map.get("~onmagic")){
-            new JudgmentAction().execute(player,target,actionString,damageNumber,"~onmagic"+(int)(Math.random()*100000));
+            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
         }
     }
 
     public void onMCrit(Player player,LivingEntity target,double damageNumber){
         for(String actionString : action_Trigger_Map.get("~onmcrit")){
-            new JudgmentAction().execute(player,target,actionString,damageNumber,"~onmcrit"+(int)(Math.random()*100000));
+            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
         }
     }
 

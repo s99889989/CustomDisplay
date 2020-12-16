@@ -4,6 +4,8 @@ import com.daxton.customdisplay.CustomDisplay;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NumberUtil {
 
@@ -11,15 +13,11 @@ public class NumberUtil {
 
     private String decimalString;
 
-    private String nineString;
-
     private String nineThreeString;
 
-    private String tenString;
+    public NumberUtil(){
 
-//    public NumberUtil(){
-//
-//    }
+    }
 
     /**位數轉換**/
     public NumberUtil(double number, String decimal){
@@ -31,6 +29,75 @@ public class NumberUtil {
         decimalString = string;
     }
 
+
+    /**對首位字做處理**/
+    public String NumberHead(String string, String content){
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if(i == 0){
+                strings[i] = NumberChange(String.valueOf(c[i]),content);
+            }else {
+                strings[i] = String.valueOf(c[i]);
+            }
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+        return lastString;
+    }
+
+    /**對單位字做處理，不包括首位字**/
+    public String NumberUnits(String string, String content){
+        String lastString = "";
+
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if(i != 0 & (i+1)%2 != 0){
+                strings[i] = NumberChange(String.valueOf(c[i]),content);
+            }else {
+                strings[i] = String.valueOf(c[i]);
+            }
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+
+        return lastString;
+    }
+
+    /**對雙位字做處理，不包括首位字**/
+    public String NumberDouble(String string, String content){
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if( i != 0 & (i+1)%2 == 0 ){
+                strings[i] = NumberChange(String.valueOf(c[i]),content);
+            }else {
+                strings[i] = String.valueOf(c[i]);
+            }
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+        return lastString;
+    }
+
+    public String NumberChange(String string,String content){
+
+        String[] stl2 = content.split(";");
+        for(String stringList2 : stl2){
+            String[] stl3 = stringList2.split(",");
+            if(string.replace(stl3[0],"").length() == 0){
+                string = string.replace(stl3[0],stl3[1]);
+
+            }
+        }
+        return string;
+    }
 
     /**單數字轉換三種版**/
     public NumberUtil(String string, List<String> stringHead, List<String> stringDouble, List<String> stringUnits){
@@ -60,43 +127,25 @@ public class NumberUtil {
         return string;
     }
 
-    /**單數字轉換**/
-    public NumberUtil(String string, List<String> stringList){
-        for(String value : stringList){
-            String[] sv = value.split(",");
-            string = string.replaceAll(sv[0],sv[1]);
+    /**計算指定單字出現次數**/
+    public static int appearNumber(String srcText, String findText) {
+        int count = 0;
+        Pattern p = Pattern.compile(findText);
+        Matcher m = p.matcher(srcText);
+        while (m.find()) {
+            count++;
         }
-        nineString = string;
+        return count;
     }
-
-    /**數字1~10轉換**/
-    public NumberUtil(int number, List<String> stringList){
-        String first = String.valueOf(number);
-        for(String value : stringList){
-            String[] sv = value.split(",");
-            if(number == 10){
-                first = first.replaceAll(sv[0],sv[1]);
-                break;
-            }
-            first = first.replaceAll(sv[0],sv[1]);
-        }
-        tenString = first;
-    }
-
 
     public String getDecimalString() {
         return decimalString;
     }
 
-    public String getNineString() {
-        return nineString;
-    }
 
     public String getNineThreeString() {
         return nineThreeString;
     }
 
-    public String getTenString() {
-        return tenString;
-    }
+
 }

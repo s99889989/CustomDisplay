@@ -1,33 +1,34 @@
 package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 
 public class StringConversion {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String ResultString = "";
+
     private String folderName = "";
     private String firstString = "";
+    private LivingEntity target = null;
+    private LivingEntity self = null;
+
+
 
     public StringConversion(String folderName, String firstString, LivingEntity target){
         this.folderName = folderName;
         this.firstString = firstString;
         setString(target);
     }
+
 
 
     public void setString(LivingEntity target){

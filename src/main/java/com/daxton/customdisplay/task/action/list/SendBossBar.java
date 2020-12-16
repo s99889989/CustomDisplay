@@ -23,14 +23,14 @@ public class SendBossBar {
 
     private String function = "";
     private String message = "";
-    private String messageTarge = "self";
     private BarStyle style = Enum.valueOf(BarStyle.class , "SOLID");
     private BarColor color = Enum.valueOf(BarColor.class , "BLUE");
     private BarFlag flag;
     private double progress = 0.0;
 
-    private Player player;
-    private LivingEntity target;
+    private Player player = null;
+    private LivingEntity self = null;
+    private LivingEntity target = null;
 
     private static Map<String, BossBar> bossBarMap = new HashMap<>();
     private String taskID = "";
@@ -42,12 +42,14 @@ public class SendBossBar {
     public void set(Player player, String firstString, String taskID){
         this.taskID = taskID;
         this.player = player;
+        this.self = player;
         setSelfOther(firstString);
     }
 
     public void set(Player player, LivingEntity target, String firstString, String taskID){
         this.taskID = taskID;
         this.player = player;
+        this.self = player;
         this.target = target;
         if(target != null && target.getHealth() < 1){
             return;
@@ -56,20 +58,6 @@ public class SendBossBar {
     }
 
     public void setSelfOther(String firstString){
-        messageTarge = "self";
-
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("target")){
-                        messageTarge = "target";
-                    }else {
-                        messageTarge = "self";
-                    }
-                }
-            }
-        }
 
         for(String allString : new StringFind().getStringList(firstString)){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
@@ -101,11 +89,7 @@ public class SendBossBar {
                 if(strings.length == 2){
                     if(target != null){
                         try {
-                            if(messageTarge.toLowerCase().contains("target")){
-                                progress = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
-                            }else {
-                                progress = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
-                            }
+                            progress = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                         }catch (NumberFormatException exception){
                             //cd.getLogger().info("不是數字");
                         }
@@ -120,11 +104,7 @@ public class SendBossBar {
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    if(messageTarge.toLowerCase().contains("target")){
-                        message = "strings[1]";//new StringConversion("Character",strings[1],target).getResultString();
-                    }else {
-                        message = "strings[1]";//new StringConversion("Character",strings[1],player).getResultString();
-                    }
+                    message = new StringConversion2(self,target,strings[1],"Character").valueConv();
                 }
             }
         }
@@ -141,19 +121,6 @@ public class SendBossBar {
 
 
     public void setOther(String firstString){
-        messageTarge = "self";
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("target")){
-                        messageTarge = "target";
-                    }else {
-                        messageTarge = "self";
-                    }
-                }
-            }
-        }
 
         for(String allString : new StringFind().getStringList(firstString)){
             if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
@@ -185,11 +152,7 @@ public class SendBossBar {
                 if(strings.length == 2){
                     if(target != null){
                         try {
-                            if(messageTarge.toLowerCase().contains("target")){
-                                progress = Double.valueOf(new StringConversion("Character",strings[1],target).getResultString());
-                            }else {
-                                progress = Double.valueOf(new StringConversion("Character",strings[1],player).getResultString());
-                            }
+                            progress = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                         }catch (NumberFormatException exception){
                             //cd.getLogger().info("不是數字");
                         }
@@ -204,11 +167,7 @@ public class SendBossBar {
             if(string2.toLowerCase().contains("message=") || string2.toLowerCase().contains("m=")){
                 String[] strings2 = string2.split("=");
                 if(strings2.length == 2){
-                    if(messageTarge.toLowerCase().contains("target")){
-                        message = new StringConversion("Character",strings2[1],target).getResultString();
-                    }else {
-                        message = new StringConversion("Character",strings2[1],player).getResultString();
-                    }
+                    message = new StringConversion2(self,target,strings2[1],"Character").valueConv();
                 }
             }
         }

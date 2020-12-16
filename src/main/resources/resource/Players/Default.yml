@@ -10,7 +10,7 @@ Action:
 
 #Attack display damage (up)(Magic)
 #-------------------------------------------------------------------------#
-- Action[a=AttackCritDisplayUp] ~onMagic
+- Action[a=AttackDisplayUp] ~onMagic
 
 #Attack display damage (up)(Magic Critical)
 #-------------------------------------------------------------------------#
@@ -22,40 +22,40 @@ Action:
 
 #Attacking monsters shows blood volume.
 #-------------------------------------------------------------------------#
-#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onAttack
-#- Action[a=EntityTopDisplayMonster;mark={target_uuid}EntityTopDisplayMonster] ~onCrit
-#- Action[mark={target_uuid}EntityTopDisplayMonster;stop=true] ~onDeath
+#- Action[a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onAttack
+#- Action[a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onCrit
 
 #Attack animals show blood volume.
 #-------------------------------------------------------------------------#
-#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onAttack
-#- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
-#- Action[mark={target_uuid}EntityTopDisplayAnimal;stop=true] ~onDeath
+#- Action[a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onAttack
+#- Action[a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onCrit
 
 #The attacking player displays information.
 #-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayPlayer;mark={target_uuid}EntityTopDisplayPlayer] ~onAttack
-- Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onAttack
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onCrit
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMagic
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMCrit
 
 #If the blood volume is lower than the set volume, the title and sound are displayed.
 #-------------------------------------------------------------------------#
-- Action[a=TitleHealthDisplay;mark=%player_name%TitleHealthDisplay] ~onJoin
-- Action[mark=%player_name%TitleHealthDisplay;stop=true] ~onQuit
+- Action[a=TitleHealthDisplay;mark=&self_name&TitleHealthDisplay] ~onJoin
+- Action[mark=&self_name&TitleHealthDisplay;stop=true] ~onQuit
 
 #The dynamic bar is continuously displayed.
 #-------------------------------------------------------------------------#
-- Action[a=ActionBarDisplay;mark=%player_name%ActionBarDisplay] ~onJoin
-- Action[a=ActionBarDisplay;mark=%player_name%ActionBarDisplay] ~onSkillCastStop
-- Action[mark=%player_name%ActionBarDisplay;stop=true] ~onSkillCastStart
-- Action[mark=%player_name%ActionBarDisplay;stop=true] ~onQuit
+- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onJoin
+- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onSkillCastStop
+- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onSkillCastStart
+- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onQuit
 
 #The attack shows BossBar.
 #-------------------------------------------------------------------------#
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onAttack
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onCrit
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMagic
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMCrit
-- Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onAttack
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onCrit
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMagic
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMCrit
+- Action[mark=&self_name&BoosBarDisplay;stop=true] ~onDeath
 
 #The title is displayed when attacked.
 #-------------------------------------------------------------------------#
@@ -63,23 +63,28 @@ Action:
 
 #Removed the love effect displayed by the attack.
 #-------------------------------------------------------------------------#
-- Action[a=Particle-Remove;mark=%player_name%] ~onJoin
+- Action[a=Particle-Remove;mark=&self_name&] ~onJoin
 
 #Display the name of the attack's effect.
 #-------------------------------------------------------------------------#
-#- Action[a=Particle-Show;mark=%player_name%] ~onAttack
+#- Action[a=Particle-Show;mark=&self_name&] ~onAttack
 
 #Attack change display name (monster)
 #-------------------------------------------------------------------------#
-- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onAttack
-- Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onCrit
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onAttack
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onCrit
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onMagic
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onMCrit
 
 #Attack change display name (animal)
 #-------------------------------------------------------------------------#
-- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onAttack
-- Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onCrit
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onAttack
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onCrit
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMagic
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMCrit
 
 #Display the MMOCore skill status bar.
 #-------------------------------------------------------------------------#
-- Action[a=MMOCoreActionBarDisplay;mark=%player_name%MMOCoreActionBarDisplay] ~onSkillCastStart
-- Action[mark=%player_name%MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
+- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
+- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
+

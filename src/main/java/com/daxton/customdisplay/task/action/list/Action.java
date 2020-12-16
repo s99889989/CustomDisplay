@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -22,10 +23,10 @@ public class Action {
 
     private String taskID;
     private Player player;
+    private LivingEntity self;
     private LivingEntity target;
     private double damageNumber;
     private String firstString;
-    private String messageTarge = "self";
 
     private String action = "";
     private List<String> actionList = new ArrayList<>();
@@ -39,6 +40,7 @@ public class Action {
     public void setAction(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
         this.firstString = firstString;
         this.player = player;
+        this.self = player;
         this.target = target;
         this.damageNumber = damageNumber;
         this.taskID = taskID;
@@ -48,6 +50,7 @@ public class Action {
     public void setAction(Player player, LivingEntity target, String firstString, String taskID){
         this.firstString = firstString;
         this.player = player;
+        this.self = player;
         this.target = target;
         this.taskID = taskID;
         stringSetting(firstString);
@@ -56,24 +59,13 @@ public class Action {
     public void setAction(Player player, String firstString,String taskID){
         this.firstString = firstString;
         this.player = player;
+        this.self = player;
         this.taskID = taskID;
         stringSetting(firstString);
     }
 
     public void stringSetting(String firstString){
-        messageTarge = "self";
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("messagetarge=") || string.toLowerCase().contains("mt=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("target")){
-                        messageTarge = "target";
-                    }else {
-                        messageTarge = "self";
-                    }
-                }
-            }
-        }
+
 
         for(String allString : new StringFind().getStringList(firstString)){
             if(allString.toLowerCase().contains("action=") || allString.toLowerCase().contains("a=")){
@@ -86,11 +78,7 @@ public class Action {
             if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    if(messageTarge.toLowerCase().contains("target")){
-                        mark = new StringConversion("Character",strings[1],target).getResultString();
-                    }else {
-                        mark = new StringConversion("Character",strings[1],player).getResultString();
-                    }
+                    mark = new StringConversion2(self,target,strings[1],"Character").valueConv();
                     this.taskID = mark;
                 }
             }

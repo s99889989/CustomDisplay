@@ -6,8 +6,7 @@ AttackDisplayUp:
   - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
 AttackDisplayUp-Start:
   Action:
-  - Hologram[Function=create;mt=target;m={cd_damage};x=0;y=&target_hight&;z=0] @=target
-  - Hologram[Function=addTextLine;m=%player_name%] 
+  - Hologram[Function=create;m=&self_attack_number&;x=0;y=&target_hight&;z=0] @=target
 AttackDisplayUp-Time:
   Action:
   - Hologram[Function=teleport;x=0;y=0.1;z=0]
@@ -22,41 +21,11 @@ AttackCritDisplayUp:
   - Loop[onStart=AttackCritDisplayUp-Start;onTime=AttackCritDisplayUp-Time;onEnd=AttackCritDisplayUp-End;period=3;duration=20]
 AttackCritDisplayUp-Start:
   Action:
-  - Hologram[Function=create;mt=target;m={cd_damage};x=0;y=&target_hight&;z=0] @=target
+  - Hologram[Function=create;m=&self_attack_number_crit&;x=0;y=&target_hight&;z=0] @=target
 AttackCritDisplayUp-Time:
   Action:
   - Hologram[Function=teleport;x=0;y=0.1;z=0]
 AttackCritDisplayUp-End:
-  Action:
-  - Hologram[Function=delete]
-
-#攻擊顯示傷害(向上)(魔法)
-#Attack display damage (up)(Magic)
-MagicDisplayUp:
-  Action:
-  - Loop[onStart=MagicDisplayUp-Start;onTime=MagicDisplayUp-Time;onEnd=MagicDisplayUp-End;period=3;duration=20]
-MagicDisplayUp-Start:
-  Action:
-  - Hologram[Function=create;mt=target;m=MM{cd_damage};x=0;y=&target_hight&;z=0] @=target
-MagicDisplayUp-Time:
-  Action:
-  - Hologram[Function=teleport;x=0;y=0.1;z=0]
-MagicDisplayUp-End:
-  Action:
-  - Hologram[Function=delete]
-
-#攻擊顯示傷害(向上)(魔法爆擊)
-#Attack display damage (up)(Magic Crit)
-MagicCritDisplayUp:
-  Action:
-  - Loop[onStart=MagicCritDisplayUp-Start;onTime=MagicCritDisplayUp-Time;onEnd=MagicCritDisplayUp-End;period=3;duration=20]
-MagicCritDisplayUp-Start:
-  Action:
-  - Hologram[Function=create;mt=target;m=MC{cd_damage};x=0;y=&target_hight&;z=0] @=target
-MagicCritDisplayUp-Time:
-  Action:
-  - Hologram[Function=teleport;x=0;y=0.1;z=0]
-MagicCritDisplayUp-End:
   Action:
   - Hologram[Function=delete]
 
@@ -68,24 +37,24 @@ AttackDisplayThrow:
   - Loop[onStart=AttackDisplayThrow-Start;onTime=AttackDisplayThrow-Time;onEnd=AttackDisplayThrow2;period=3;duration=6]
 AttackDisplayThrow-Start:
   Action:
-  - Hologram[Function=create;mt=target;m={cd_damage};x=0;y=&target_hight&;z=0] @=target
+  - Hologram[Function=create;m=&self_attack_number&;x=0;y=&target_hight&;z=0] @=target
 AttackDisplayThrow-Time:
   Action:
-  - Hologram[Function=teleport;mt=self;x=&target_vec_x&;y=0.8;z=&target_vec_z&]
+  - Hologram[Function=teleport;x=&self_vec_x&;y=0.8;z=&self_vec_z&]
 
 AttackDisplayThrow2:
   Action:
   - Loop[onTime=AttackDisplayThrow-Time2;onEnd=AttackDisplayThrow3;period=3;duration=1]
 AttackDisplayThrow-Time2:
   Action:
-  - Hologram[Function=teleport;mt=self;x=&target_vec_x&;y=-0.8;z=&target_vec_z&]
+  - Hologram[Function=teleport;mt=self;x=&self_vec_x&;y=-0.8;z=&self_vec_z&]
 
 AttackDisplayThrow3:
   Action:
   - Loop[onTime=AttackDisplayThrow-Time3;onEnd=AttackDisplayThrow-End3;period=3;duration=15]
 AttackDisplayThrow-Time3:
   Action:
-  - Hologram[Function=teleport;mt=self;x=&target_vec_x&;y=-0.9;z=&target_vec_z&]
+  - Hologram[Function=teleport;mt=self;x=&self_vec_x&;y=-0.9;z=&self_vec_z&]
 AttackDisplayThrow-End3:
   Action:
   - Hologram[Function=delete]
@@ -98,13 +67,13 @@ EntityTopDisplayMonster:
   - Loop[onStart=EntityTopDisplayMonster-Start;onTime=EntityTopDisplayMonster-Time;onEnd=EntityTopDisplayMonster-End;period=10;duration=200]
 EntityTopDisplayMonster-Start:
   Action:
-  - Hologram[Function=create;mt=target;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_monster_hd&;x=0;y=&target_hight_show&;z=0] @=target
+  - Hologram[Function=create;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_monster_hd&;x=0;y=&target_hight_show&;z=0] @=target
 EntityTopDisplayMonster-Time:
   Action:
-  - Hologram[Function=teleport;mt=target;x=0;y=&target_hight_show&;z=0] @=target
+  - Hologram[Function=teleport;x=0;y=&target_hight_show&;z=0] @=target
   - Condition[health=targetChange]
   - Hologram[Function=removeTextLine;m=0]
-  - Hologram[Function=addTextLine;mt=target;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_monster_hd&]
+  - Hologram[Function=addTextLine;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_monster_hd&]
 EntityTopDisplayMonster-End:
   Action:
   - Hologram[Function=delete]
@@ -117,13 +86,13 @@ EntityTopDisplayAnimal:
   - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
 EntityTopDisplayAnimal-Start:
   Action:
-  - Hologram[Function=create;mt=target;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_animal_hd&;x=0;y=&target_hight_show&;z=0] @=target
+  - Hologram[Function=create;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_animal_hd&;x=0;y=&target_hight_show&;z=0] @=target
 EntityTopDisplayAnimal-Time:
   Action:
-  - Hologram[Function=teleport;mt=target;x=0;y=&target_hight_show&;z=0] @=target
+  - Hologram[Function=teleport;x=0;y=&target_hight_show&;z=0] @=target
   - Condition[health=targetChange]
   - Hologram[Function=removeTextLine;m=0]
-  - Hologram[Function=addTextLine;mt=target;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_animal_hd&]
+  - Hologram[Function=addTextLine;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_animal_hd&]
 EntityTopDisplayAnimal-End:
   Action:
   - Hologram[Function=delete]
@@ -134,17 +103,17 @@ EntityTopDisplayPlayer:
   Action:
   - Condition[mt=target;entityType=Player]
   - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
-EntityTopDisplayPlayer-Start: #&player_mana_proportion2&
+EntityTopDisplayPlayer-Start:
   Action:
-  - Hologram[Function=create;mt=target;m=&target_nowhealth&/&target_maxhealth&&player_health_proportion2&;x=0;y=&target_hight_show2&;z=0] @=target
-  - Hologram[Function=addTextLine;mt=target;m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion2&]
+  - Hologram[Function=create;m=&target_nowhealth&/&target_maxhealth&&player_health_proportion2&;x=0;y=&target_hight_show2&;z=0] @=target
+  - Hologram[Function=addTextLine;m=&target_nowmana&/&target_maxmana&&player_mana_proportion2&]
 EntityTopDisplayPlayer-Time:
   Action:
-  - Hologram[Function=teleport;mt=target;x=0;y=&target_hight_show2&;z=0] @=target
+  - Hologram[Function=teleport;x=0;y=&target_hight_show2&;z=0] @=target
   - Hologram[Function=removeTextLine;m=0]
   - Hologram[Function=removeTextLine;m=0]
-  - Hologram[Function=addTextLine;mt=target;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_player_hd&]
-  - Hologram[Function=addTextLine;mt=target;m=%mmocore_mana%/%mmocore_stat_max_mana%&player_mana_proportion2&]
+  - Hologram[Function=addTextLine;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_player_hd&]
+  - Hologram[Function=addTextLine;m=&target_nowmana&/&target_maxmana&&player_mana_proportion2&]
 EntityTopDisplayPlayer-End:
   Action:
   - Hologram[Function=delete]

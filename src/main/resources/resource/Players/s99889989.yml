@@ -10,7 +10,7 @@ Action:
 
 #攻擊顯示傷害(向上)(魔法)
 #-------------------------------------------------------------------------#
-- Action[a=AttackCritDisplayUp] ~onMagic
+- Action[a=AttackDisplayUp] ~onMagic
 
 #攻擊顯示傷害(向上)(魔法爆擊)
 #-------------------------------------------------------------------------#
@@ -22,38 +22,40 @@ Action:
 
 #攻擊怪物顯示血量
 #-------------------------------------------------------------------------#
-#- Action[MT=target;a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onAttack
-#- Action[MT=target;a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onCrit
+#- Action[a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onAttack
+#- Action[a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onCrit
 
 #攻擊動物顯示血量
 #-------------------------------------------------------------------------#
-#- Action[MT=target;a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onAttack
-#- Action[MT=target;a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onCrit
+#- Action[a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onAttack
+#- Action[a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onCrit
 
 #攻擊玩家顯示資訊
 #-------------------------------------------------------------------------#
-- Action[MT=target;a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onAttack
-- Action[MT=target;a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onCrit
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onAttack
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onCrit
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMagic
+- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMCrit
 
 #血量低於設定量顯示標題和聲音
 #-------------------------------------------------------------------------#
-- Action[a=TitleHealthDisplay;mark=%player_name%TitleHealthDisplay] ~onJoin
-- Action[mark=%player_name%TitleHealthDisplay;stop=true] ~onQuit
+- Action[a=TitleHealthDisplay;mark=&self_name&TitleHealthDisplay] ~onJoin
+- Action[mark=&self_name&TitleHealthDisplay;stop=true] ~onQuit
 
 #持續顯示動態欄
 #-------------------------------------------------------------------------#
-- Action[a=ActionBarDisplay;mark=%player_name%ActionBarDisplay] ~onJoin
-- Action[a=ActionBarDisplay;mark=%player_name%ActionBarDisplay] ~onSkillCastStop
-- Action[mark=%player_name%ActionBarDisplay;stop=true] ~onSkillCastStart
-- Action[mark=%player_name%ActionBarDisplay;stop=true] ~onQuit
+- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onJoin
+- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onSkillCastStop
+- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onSkillCastStart
+- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onQuit
 
 #攻擊顯示BossBar
 #-------------------------------------------------------------------------#
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onAttack
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onCrit
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMagic
-- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMCrit
-- Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onAttack
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onCrit
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMagic
+- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMCrit
+- Action[mark=&self_name&BoosBarDisplay;stop=true] ~onDeath
 
 #被攻擊顯示標題
 #-------------------------------------------------------------------------#
@@ -61,11 +63,11 @@ Action:
 
 #移除攻擊顯示的愛心效果.
 #-------------------------------------------------------------------------#
-- Action[a=Particle-Remove;mark=%player_name%] ~onJoin
+- Action[a=Particle-Remove;mark=&self_name&] ~onJoin
 
 #顯示攻擊的效果名稱。
 #-------------------------------------------------------------------------#
-#- Action[a=Particle-Show;mark=%player_name%] ~onAttack
+#- Action[a=Particle-Show;mark=&self_name&] ~onAttack
 
 #攻擊的顯示效果。
 #-------------------------------------------------------------------------#
@@ -74,20 +76,24 @@ Action:
 
 #攻擊改變顯示名稱(怪物)
 #-------------------------------------------------------------------------#
-- Action[MT=target;a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onAttack
-- Action[MT=target;a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onCrit
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onAttack
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onCrit
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onMagic
+- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onMCrit
 
 
 #攻擊改變顯示名稱(動物)
 #-------------------------------------------------------------------------#
-- Action[MT=target;a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onAttack
-- Action[MT=target;a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onCrit
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onAttack
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onCrit
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMagic
+- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMCrit
 
 
 #顯示MMOCore技能狀態攔.
 #-------------------------------------------------------------------------#
-- Action[a=MMOCoreActionBarDisplay;mark=%player_name%MMOCoreActionBarDisplay] ~onSkillCastStart
-- Action[mark=%player_name%MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
+- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
+- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
 
 #使用MM技能.
 #-------------------------------------------------------------------------#
