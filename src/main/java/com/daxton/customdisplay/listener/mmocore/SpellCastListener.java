@@ -3,6 +3,7 @@ package com.daxton.customdisplay.listener.mmocore;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import net.Indyuce.mmocore.listener.SpellCast;
 import org.bukkit.entity.Player;
@@ -24,8 +25,8 @@ public class SpellCastListener extends SpellCast {
 
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
-        if(CastOnStop.get(playerUUID) == null){
-            CastOnStop.put(playerUUID,true);
+        if(ListenerManager.getCast_On_Stop().get(playerUUID) == null){
+            ListenerManager.getCast_On_Stop().put(playerUUID,true);
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
                 if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststart") != null){
                     new PlayerTrigger(player).onSkillCastStart(player);
@@ -33,20 +34,20 @@ public class SpellCastListener extends SpellCast {
 
             }
         }else {
-            if(CastOnStop.get(playerUUID) == true){
+            if(ListenerManager.getCast_On_Stop().get(playerUUID) == true){
                 if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
                     if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststop") != null){
                         new PlayerTrigger(player).onSkillCastStop(player);
                     }
                 }
-                CastOnStop.put(playerUUID,false);
+                ListenerManager.getCast_On_Stop().put(playerUUID,false);
             }else {
                 if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
                     if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststart") != null){
                         new PlayerTrigger(player).onSkillCastStart(player);
                     }
                 }
-                CastOnStop.put(playerUUID,true);
+                ListenerManager.getCast_On_Stop().put(playerUUID,true);
             }
         }
 

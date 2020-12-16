@@ -2,6 +2,7 @@
 #Attack display damage (up)
 AttackDisplayUp:
   Action:
+  - Condition[Compare=%mmocore_stamina%>Item stamina]
   - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
 AttackDisplayUp-Start:
   Action:
@@ -28,6 +29,37 @@ AttackCritDisplayUp-Time:
 AttackCritDisplayUp-End:
   Action:
   - Hologram[Function=delete]
+
+#攻擊顯示傷害(向上)(魔法)
+#Attack display damage (up)(Magic)
+MagicDisplayUp:
+  Action:
+  - Loop[onStart=MagicDisplayUp-Start;onTime=MagicDisplayUp-Time;onEnd=MagicDisplayUp-End;period=3;duration=20]
+MagicDisplayUp-Start:
+  Action:
+  - Hologram[Function=create;mt=target;m=MM{cd_damage};x=0;y=&target_hight&;z=0] @=target
+MagicDisplayUp-Time:
+  Action:
+  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+MagicDisplayUp-End:
+  Action:
+  - Hologram[Function=delete]
+
+#攻擊顯示傷害(向上)(魔法爆擊)
+#Attack display damage (up)(Magic Crit)
+MagicCritDisplayUp:
+  Action:
+  - Loop[onStart=MagicCritDisplayUp-Start;onTime=MagicCritDisplayUp-Time;onEnd=MagicCritDisplayUp-End;period=3;duration=20]
+MagicCritDisplayUp-Start:
+  Action:
+  - Hologram[Function=create;mt=target;m=MC{cd_damage};x=0;y=&target_hight&;z=0] @=target
+MagicCritDisplayUp-Time:
+  Action:
+  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+MagicCritDisplayUp-End:
+  Action:
+  - Hologram[Function=delete]
+
 
 #攻擊顯示傷害(拋出)
 #Attack display damage (throw)

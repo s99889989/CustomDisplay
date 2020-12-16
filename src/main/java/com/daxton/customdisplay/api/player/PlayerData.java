@@ -121,10 +121,27 @@ public class PlayerData {
                 }
                 if(actionString.toLowerCase().contains("~onstandup")){
                     if(action_Trigger_Map.get("~onstandup") == null){
-                        action_Trigger_Map.put("",new ArrayList<>());
+                        action_Trigger_Map.put("~onstandup",new ArrayList<>());
                     }
                     if(action_Trigger_Map.get("~onstandup") != null){
                         action_Trigger_Map.get("~onstandup").add(actionString);
+                    }
+                }
+                if(actionString.toLowerCase().contains("~onmagic")){
+                    if(action_Trigger_Map.get("~onmagic") == null){
+                        action_Trigger_Map.put("~onmagic",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onmagic") != null){
+                        action_Trigger_Map.get("~onmagic").add(actionString);
+                    }
+                }
+
+                if(actionString.toLowerCase().contains("~onmcrit")){
+                    if(action_Trigger_Map.get("~onmcrit") == null){
+                        action_Trigger_Map.put("~onmcrit",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onmcrit") != null){
+                        action_Trigger_Map.get("~onmcrit").add(actionString);
                     }
                 }
 

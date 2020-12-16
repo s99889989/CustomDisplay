@@ -8,6 +8,14 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=AttackCritDisplayUp] ~onCrit
 
+#攻擊顯示傷害(向上)(魔法)
+#-------------------------------------------------------------------------#
+- Action[a=AttackCritDisplayUp] ~onMagic
+
+#攻擊顯示傷害(向上)(魔法爆擊)
+#-------------------------------------------------------------------------#
+- Action[a=AttackCritDisplayUp] ~onMCrit
+
 #攻擊顯示傷害(拋出)
 #-------------------------------------------------------------------------#
 #- Action[a=AttackDisplayThrow] ~onAttack
@@ -29,8 +37,8 @@ Action:
 
 #血量低於設定量顯示標題和聲音
 #-------------------------------------------------------------------------#
-#- Action[a=TitleHealthDisplay;mark=%player_name%TitleHealthDisplay] ~onJoin
-#- Action[mark=%player_name%TitleHealthDisplay;stop=true] ~onQuit
+- Action[a=TitleHealthDisplay;mark=%player_name%TitleHealthDisplay] ~onJoin
+- Action[mark=%player_name%TitleHealthDisplay;stop=true] ~onQuit
 
 #持續顯示動態欄
 #-------------------------------------------------------------------------#
@@ -42,6 +50,10 @@ Action:
 #攻擊顯示BossBar
 #-------------------------------------------------------------------------#
 - Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onAttack
+- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onCrit
+- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMagic
+- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMCrit
+- Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
 
 #被攻擊顯示標題
 #-------------------------------------------------------------------------#

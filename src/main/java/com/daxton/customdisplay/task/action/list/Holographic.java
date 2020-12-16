@@ -255,6 +255,14 @@ public class Holographic {
             headList = config.getStringList("player-damage-crit.head_conversion");
             doubleList = config.getStringList("player-damage-crit.double_conversion");
             unitsList = config.getStringList("player-damage-crit.units_conversion");
+        }else if(taskID.toLowerCase().contains("~onmagic")){
+            headList = config.getStringList("player-damage-magic.head_conversion");
+            doubleList = config.getStringList("player-damage-magic.double_conversion");
+            unitsList = config.getStringList("player-damage-magic.units_conversion");
+        }else if(taskID.toLowerCase().contains("~onmcrit")){
+            headList = config.getStringList("player-damage-magic-crit.head_conversion");
+            doubleList = config.getStringList("player-damage-magic-crit.double_conversion");
+            unitsList = config.getStringList("player-damage-magic-crit.units_conversion");
         }else {
             headList = config.getStringList("player-damage.head_conversion");
             doubleList = config.getStringList("player-damage.double_conversion");

@@ -18,12 +18,17 @@ public class ActionManager {
     /**玩家動作Map**/
     private static Map<String, JudgmentAction> playerActionTaskMap = new HashMap<>();
 
+
+
     /**目標紀錄攻擊者**/
     public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
     /**Particles**/
     public static Map<String ,SendParticles> particles_Map = new HashMap<>();
-    /**MMOcore插件的ActionBar顯示**/
-    private static Map<UUID , String> mmocore_ActionBar_Map = new HashMap<>();
+    /**MMOcore插件的Spell-ActionBar顯示**/
+    private static Map<UUID , String> mmocore_ActionBar_Spell_Map = new HashMap<>();
+    /**MMOcore插件的Stats-ActionBar顯示**/
+    private static Map<UUID , String> mmocore_ActionBar_Stats_Map = new HashMap<>();
+
     /**MythicMobs插件的Mod_Level顯示**/
     private static Map<UUID,String> mythicMobs_Level_Map = new HashMap<>();
 
@@ -72,10 +77,15 @@ public class ActionManager {
     public static Map<String, SendParticles> getParticles_Map() {
         return particles_Map;
     }
-    /**MMOcore插件的ActionBar顯示**/
-    public static Map<UUID, String> getMmocore_ActionBar_Map() {
-        return mmocore_ActionBar_Map;
+    /**MMOcore插件的Spell-ActionBar顯示**/
+    public static Map<UUID, String> getMmocore_ActionBar_Spell_Map() {
+        return mmocore_ActionBar_Spell_Map;
     }
+    /**MMOcore插件的Stats-ActionBar顯示**/
+    public static Map<UUID, String> getMmocore_ActionBar_Stats_Map() {
+        return mmocore_ActionBar_Stats_Map;
+    }
+
     /**MythicMobs插件的Mod_Level顯示**/
     public static Map<UUID, String> getMythicMobs_Level_Map() {
         return mythicMobs_Level_Map;

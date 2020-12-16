@@ -30,6 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.*;
+import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
 
 
 public class PackListener implements Listener{
@@ -50,15 +51,6 @@ public class PackListener implements Listener{
                     PacketType packetType = event.getPacketType();
                     Player player = event.getPlayer();
 
-                    if(packetType.equals(PacketType.Play.Server.TITLE)){
-                        cd.getLogger().info("TITLE");
-                        player.sendMessage("TITLE");
-                        //player.sendMessage(packet.getTitleActions().read(0).toString());
-                    }
-
-                    if(packetType == PacketType.Play.Client.CHAT){
-                        cd.getLogger().info("PlayerChat");
-                    }
 
                     if (packetType.equals(PacketType.Play.Client.FLYING)) {
                         //player.sendMessage("玩家移動");
@@ -205,40 +197,39 @@ public class PackListener implements Listener{
 
                         }
                         if(packet.getChatTypes().read(0) == GAME_INFO){
-                            BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
                             try{
                                 ((Object) null).hashCode();
                             }catch (Exception exception){
+                                BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
                                 StackTraceElement[] traces = exception.getStackTrace();
                                 for(StackTraceElement trace : traces){
-                                    if(trace.getClassName().contains("net.Indyuce.mmocore")){
-                                        ActionManager.getMmocore_ActionBar_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
+                                    if(trace.getClassName().contains("mmocore.listener.SpellCast")){
+                                        //cd.getLogger().info(BaseComponent.toLegacyText(b));
+                                        //player.sendMessage("mmocore"+BaseComponent.toLegacyText(b));
+                                        ActionManager.getMmocore_ActionBar_Spell_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
                                         event.setCancelled(true);
+                                        break;
+                                    }else if(trace.getClassName().contains("mmocore.api.PlayerActionBar")){
+                                        //player.sendMessage("mmocore"+BaseComponent.toLegacyText(b));
+                                        ActionManager.getMmocore_ActionBar_Stats_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
+                                        event.setCancelled(true);
+                                        break;
+                                    }else if(trace.getClassName().contains("customdisplay.PackListener")){
+                                        //player.sendMessage("Other"+BaseComponent.toLegacyText(b));
+                                        event.setCancelled(true);
+                                        continue;
+                                    }else {
+                                        //player.sendMessage("Other"+BaseComponent.toLegacyText(b));
+                                        //cd.getLogger().info(trace.getClassName());
                                     }
-                                    //cd.getLogger().info(trace.getClassName());
                                 }
                             }
-
-
-//                            if(b.length > 0 && !(BaseComponent.toLegacyText(b).contains("customdisplay"))){
-//                                ActionManager.getActionBar_String_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
-//                                event.setCancelled(true);
-//                            }
-//                            if(BaseComponent.toLegacyText(b).contains("customdisplay")){
-//                                event.setCancelled(true);
-//                                sendPacket(player,BaseComponent.toLegacyText(b).replace("customdisplay",""), ACTIONBAR,0,0,0);
-//
-//                            }
-
-
-
+                            //sendPacket(player, "String text", ACTIONBAR, 1, 1, 1);
 
                         }
                     }
 
-//                    if(packetType.equals(PacketType.Play.Server.TITLE)){
-//                            player.sendMessage("TITLE內容:"+packet.getChatComponents().read(0));
-//                    }
+
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
                         Particle type = packet.getNewParticles().read(0).getParticle();

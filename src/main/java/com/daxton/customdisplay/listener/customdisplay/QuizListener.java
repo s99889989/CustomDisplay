@@ -2,6 +2,8 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.listener.mmocore.SpellCastListener;
+import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.Player;
@@ -33,7 +35,9 @@ public class QuizListener implements Listener {
                 ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
             }
         }
-
+        if(ListenerManager.getCast_On_Stop().get(playerUUID) != null){
+            ListenerManager.getCast_On_Stop().put(playerUUID,false);
+        }
 
     }
 

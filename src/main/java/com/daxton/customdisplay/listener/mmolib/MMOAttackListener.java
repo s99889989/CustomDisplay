@@ -4,6 +4,9 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
+import net.Indyuce.mmoitems.MMOItems;
+import net.Indyuce.mmoitems.api.ability.Ability;
+import net.Indyuce.mmoitems.comp.holograms.HologramSupport;
 import net.mmogroup.mmolib.MMOLib;
 import net.mmogroup.mmolib.api.DamageType;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
@@ -17,6 +20,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
 import java.util.Iterator;
@@ -45,10 +49,12 @@ public class MMOAttackListener extends AttackEffects implements Listener {
     private UUID targetUUID;
 
 
+
+
     @Override
     @EventHandler(
             ignoreCancelled = true,
-            priority = EventPriority.HIGHEST
+            priority = EventPriority.MONITOR
     )
     public void c(PlayerAttackEvent event) {
 
@@ -57,6 +63,7 @@ public class MMOAttackListener extends AttackEffects implements Listener {
         }
         target = event.getEntity();
         double damageNumber = event.getAttack().getDamage();
+
         if(event.getData().getPlayer() instanceof Player){
             player = event.getData().getPlayer();
             playerUUID = player.getUniqueId();
@@ -69,19 +76,22 @@ public class MMOAttackListener extends AttackEffects implements Listener {
 //        player.sendMessage("自身UNDEAD_DAMAGE:"+event.getData().getStatMap().getStat(UNDEAD_DAMAGE));
 //        player.sendMessage("自身PVP:"+event.getData().getStatMap().getStat(PVP_DAMAGE));
 //        player.sendMessage("自身PVE:"+event.getData().getStatMap().getStat(PVE_DAMAGE));
+
         /**基礎傷害**/
         double attack_damage = event.getData().getStatMap().getStat(ATTACK_DAMAGE);
         /**而外物理攻擊**/
         double physical_damage = event.getData().getStatMap().getStat(PHYSICAL_DAMAGE);
         /**最終傷害**/
         double final_damage = attack_damage+physical_damage+5;
+
+        //Ability ability = MMOItems.plugin.getAbilities().get("FIREBOLT");
+
         //player.sendMessage("自身攻擊:"+(final_damage));
         //player.sendMessage("傷害數字:"+event.getAttack().getDamage());
         if(event.getAttack().getDamage() > final_damage){
             if(new PlayerTrigger(player).getAction_Trigger_Map().get("~oncrit") != null){
                 new PlayerTrigger(player).onCrit(player,target,damageNumber);
             }
-
         }else {
             if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
                 new PlayerTrigger(player).onAttack(player,target,damageNumber);

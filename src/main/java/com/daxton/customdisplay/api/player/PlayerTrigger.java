@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.api.player;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
@@ -17,6 +18,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class PlayerTrigger {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Player player = null;
     private LivingEntity target = null;
@@ -44,6 +47,18 @@ public class PlayerTrigger {
     public void onCrit(Player player,LivingEntity target,double damageNumber){
         for(String actionString : action_Trigger_Map.get("~oncrit")){
             new JudgmentAction().execute(player,target,actionString,damageNumber,"~oncrit"+(int)(Math.random()*100000));
+        }
+    }
+
+    public void onMagic(Player player,LivingEntity target,double damageNumber){
+        for(String actionString : action_Trigger_Map.get("~onmagic")){
+            new JudgmentAction().execute(player,target,actionString,damageNumber,"~onmagic"+(int)(Math.random()*100000));
+        }
+    }
+
+    public void onMCrit(Player player,LivingEntity target,double damageNumber){
+        for(String actionString : action_Trigger_Map.get("~onmcrit")){
+            new JudgmentAction().execute(player,target,actionString,damageNumber,"~onmcrit"+(int)(Math.random()*100000));
         }
     }
 

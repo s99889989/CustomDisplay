@@ -56,8 +56,8 @@ public class Placeholder {
 
         entity_Map.put("mythic_level",ActionManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
 
-        entity_Map.put("mmocore_actionbar",ActionManager.getMmocore_ActionBar_Map().get(entity.getUniqueId()));
-
+        entity_Map.put("mmocore_actionbar_spell",ActionManager.getMmocore_ActionBar_Spell_Map().get(entity.getUniqueId()));
+        entity_Map.put("mmocore_actionbar_stats",ActionManager.getMmocore_ActionBar_Stats_Map().get(entity.getUniqueId()));
 
     }
 

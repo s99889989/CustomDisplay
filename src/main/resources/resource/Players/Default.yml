@@ -8,6 +8,14 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=AttackCritDisplayUp] ~onCrit
 
+#Attack display damage (up)(Magic)
+#-------------------------------------------------------------------------#
+- Action[a=AttackCritDisplayUp] ~onMagic
+
+#Attack display damage (up)(Magic Critical)
+#-------------------------------------------------------------------------#
+- Action[a=AttackCritDisplayUp] ~onMCrit
+
 #Attack display damage (throw)
 #-------------------------------------------------------------------------#
 #- Action[a=AttackDisplayThrow] ~onAttack
@@ -28,7 +36,6 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=EntityTopDisplayPlayer;mark={target_uuid}EntityTopDisplayPlayer] ~onAttack
 - Action[a=EntityTopDisplayAnimal;mark={target_uuid}EntityTopDisplayAnimal] ~onCrit
-- Action[mark={target_uuid}EntityTopDisplayPlayer;stop=true] ~onDeath
 
 #If the blood volume is lower than the set volume, the title and sound are displayed.
 #-------------------------------------------------------------------------#
@@ -45,6 +52,9 @@ Action:
 #The attack shows BossBar.
 #-------------------------------------------------------------------------#
 - Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onAttack
+- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onCrit
+- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMagic
+- Action[a=BoosBarDisplay;mark=%player_name%BoosBarDisplay] ~onMCrit
 - Action[mark=%player_name%BoosBarDisplay;stop=true] ~onDeath
 
 #The title is displayed when attacked.
@@ -63,13 +73,11 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onAttack
 - Action[a=NameDisplayAttackMonster;mark={target_uuid}NameDisplayAttackMonster] ~onCrit
-- Action[mark={target_uuid}NameDisplayAttackMonster;stop=true] ~onDeath
 
 #Attack change display name (animal)
 #-------------------------------------------------------------------------#
 - Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onAttack
 - Action[a=NameDisplayAttackAnimal;mark={target_uuid}NameDisplayAttackAnimal] ~onCrit
-- Action[mark={target_uuid}NameDisplayAttackAnimal;stop=true] ~onDeath
 
 #Display the MMOCore skill status bar.
 #-------------------------------------------------------------------------#
