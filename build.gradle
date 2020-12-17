@@ -42,6 +42,7 @@ dependencies {
     compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.1.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6-284.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOItems-6.5.1-582.jar'])
+    compileOnly fileTree(dir: 'lib', include: ['SkillAPI-v3.108.jar'])
 }
 
 group = 'com.daxton'

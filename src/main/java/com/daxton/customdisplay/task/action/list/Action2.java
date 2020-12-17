@@ -25,9 +25,9 @@ public class Action2 {
     private LivingEntity self = null;
     private LivingEntity target = null;
     private String firstString = "";
-    private double damageNumber = 0;
     private String taskID = "";
 
+    private double damageNumber = 0;
     private String messageTarge = "self";
     private String action = "";
     private List<String> actionList = new ArrayList<>();
@@ -40,11 +40,10 @@ public class Action2 {
 
     }
 
-    public void setAction(LivingEntity self, LivingEntity target, String firstString, double damageNumber,String taskID){
+    public void setAction(LivingEntity self, LivingEntity target, String firstString,String taskID){
         this.self = self;
         this.target = target;
         this.firstString = firstString;
-        this.damageNumber = damageNumber;
         this.taskID = taskID;
         stringSetting();
     }
@@ -103,6 +102,7 @@ public class Action2 {
             bukkitRunnable.runTaskLater(cd,1);
 
         }else {
+
             startAction();
         }
 
@@ -112,16 +112,18 @@ public class Action2 {
         new ClearAction().clearPlayer(self,taskID);
         if(actionList.size() > 0){
             for(String actionString : actionList){
+                cd.getLogger().info("開始"+actionString);
                 if(actionString.toLowerCase().contains("condition")){
                     if(!(condition(actionString))){
                         return;
                     }
                 }
+
                 if(ActionManager.getAction_Judgment_Map().get(taskID) == null){
                     ActionManager.getAction2_Judgment2_Map().put(taskID,new JudgmentAction2());
                 }
                 if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
-                    ActionManager.getAction2_Judgment2_Map().get(taskID).execute(self,target,actionString,damageNumber,taskID);
+                    ActionManager.getAction2_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
                 }
 
             }

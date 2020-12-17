@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.entity.LivingEntity;
 
@@ -18,6 +19,14 @@ public class JudgmentAction2 {
 
     public JudgmentAction2(){
 
+    }
+
+    public void execute(LivingEntity self, LivingEntity target, String firstString,String taskID){
+        this.self = self;
+        this.target = target;
+        this.firstString = firstString;
+        this.taskID = taskID;
+        bukkitRun();
     }
 
     public void execute(LivingEntity self, LivingEntity target, String firstString, double damageNumber,String taskID){
@@ -39,10 +48,21 @@ public class JudgmentAction2 {
                 ActionManager.getJudgment2_Action2_Map().put(taskID,new Action2());
             }
             if(ActionManager.getJudgment2_Action2_Map().get(taskID) != null){
-                ActionManager.getJudgment2_Action2_Map().get(taskID).setAction(self,target,firstString,damageNumber,taskID);
+                ActionManager.getJudgment2_Action2_Map().get(taskID).setAction(self,target,firstString,taskID);
             }
-
         }
+
+        /**HolographicDisplays的相關判斷**/
+        if(judgMent.toLowerCase().contains("hologram")){
+            //cd.getLogger().info(firstString);
+            if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) == null){
+                ActionManager2.getJudgment2_Holographic2_Map().put(taskID,new Holographic2());
+            }
+            if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) != null){
+                ActionManager2.getJudgment2_Holographic2_Map().get(taskID).setHD(self,target,firstString,taskID);
+            }
+        }
+
     }
 
 

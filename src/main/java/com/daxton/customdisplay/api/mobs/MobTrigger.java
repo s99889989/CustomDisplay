@@ -23,6 +23,15 @@ public class MobTrigger {
 
     private Map<String, List<String>> action_Trigger_Map = new HashMap<>();
 
+    public MobTrigger(LivingEntity self){
+        this.self =self;
+        UUID uuid = self.getUniqueId();
+        if(MobManager.getMob_Data_Map().get(uuid) != null){
+            action_Trigger_Map = MobManager.getMob_Data_Map().get(uuid).getAction_Trigger_Map();
+        }
+
+    }
+
     public MobTrigger(LivingEntity self,double damageNumber){
         this.self =self;
         this.damageNumber = damageNumber;
@@ -35,13 +44,12 @@ public class MobTrigger {
 
     public void onDamaged(){
         for(String actionString : action_Trigger_Map.get("~ondamaged")){
-            new JudgmentAction2().execute(self,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+            new JudgmentAction2().execute(self,target,actionString,String.valueOf((int)(Math.random()*100000)));
         }
     }
 
     public void onDeath(){
         for(String actionString : action_Trigger_Map.get("~ondeath")){
-            //cd.getLogger().info("~ondeath"+actionString);
             new JudgmentAction2().execute(self,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
         }
     }

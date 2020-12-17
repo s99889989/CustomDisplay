@@ -33,6 +33,11 @@ public class ActionManager {
     private static Map<UUID , String> mmocore_ActionBar_Stats_Map = new HashMap<>();
     /**攻擊傷害**/
     private static Map<UUID , String> damage_Number_Map = new HashMap<>();
+    /**被攻擊傷害**/
+    private static Map<UUID , String> damaged_Number_Map = new HashMap<>();
+
+    /**發送給玩家的ActionBarClass**/
+    private static Map<String , String> action_Bar_Class_Map = new HashMap<>();
 
     /**MythicMobs插件的Mod_Level顯示**/
     private static Map<UUID,String> mythicMobs_Level_Map = new HashMap<>();
@@ -52,7 +57,8 @@ public class ActionManager {
     private static Map<String, JudgmentAction> action_Judgment_Map = new HashMap<>();
     /**JudgmentAction->Action**/
     private static Map<String, Action> judgment_Action_Map = new HashMap<>();
-
+    /**JudgmentAction->ActionBar**/
+    private static Map<String, ActionBar> judgment_ActionBar_Map = new HashMap<>();
     /**JudgmentAction->Message**/
     private static Map<String, Message> judgment_Message_Map = new HashMap<>();
     /**JudgmentAction->Name**/
@@ -95,9 +101,19 @@ public class ActionManager {
     public static Map<UUID, String> getMmocore_ActionBar_Stats_Map() {
         return mmocore_ActionBar_Stats_Map;
     }
+
     /**攻擊傷害**/
     public static Map<UUID, String> getDamage_Number_Map() {
         return damage_Number_Map;
+    }
+    /**被攻擊傷害**/
+    public static Map<UUID, String> getDamaged_Number_Map() {
+        return damaged_Number_Map;
+    }
+
+    /**發送給玩家的ActionBarClass**/
+    public static Map<String, String> getAction_Bar_Class_Map() {
+        return action_Bar_Class_Map;
     }
 
     /**MythicMobs插件的Mod_Level顯示**/
@@ -132,6 +148,10 @@ public class ActionManager {
     /**JudgmentAction->Action**/
     public static Map<String, Action> getJudgment_Action_Map() {
         return judgment_Action_Map;
+    }
+    /**JudgmentAction->ActionBar**/
+    public static Map<String, ActionBar> getJudgment_ActionBar_Map() {
+        return judgment_ActionBar_Map;
     }
     /**JudgmentAction->Message**/
     public static Map<String, Message> getJudgment_Message_Map() {

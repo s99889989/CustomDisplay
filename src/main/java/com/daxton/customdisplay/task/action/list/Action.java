@@ -12,6 +12,7 @@ import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,8 @@ public class Action {
     private LivingEntity target;
     private double damageNumber;
     private String firstString;
+
+    private BukkitRunnable bukkitRunnable;
 
     private String action = "";
     private List<String> actionList = new ArrayList<>();
@@ -91,6 +94,13 @@ public class Action {
             }
         }
         if(stop){
+            bukkitRunnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    new ClearAction().clearPlayer(player,taskID);
+                }
+            };
+            bukkitRunnable.runTaskLater(cd,1);
             new ClearAction().clearPlayer(this.player,this.taskID);
         }else {
             if(target == null){

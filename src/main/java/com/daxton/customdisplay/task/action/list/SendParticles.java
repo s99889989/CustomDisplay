@@ -234,9 +234,7 @@ public class SendParticles {
     public void sendParticle(){
         try{
             if(putParticle == REDSTONE){
-                //self.getWorld().spawnParticle(Particle.LAVA, target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0), 8, 0.0, 0.0, 0.0, 0.15);
                 self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,color);
-                //target.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,color);
             }else {
                 target.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra);
             }

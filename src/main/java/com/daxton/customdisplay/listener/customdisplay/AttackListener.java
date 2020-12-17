@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.UUID;
 
@@ -26,6 +27,17 @@ public class AttackListener implements Listener {
     private UUID playerUUID;
 
     private UUID targetUUID;
+
+    @EventHandler(
+            ignoreCancelled = true,
+            priority = EventPriority.MONITOR
+    )
+    public void onDamage(EntityDamageEvent event){
+        String name = event.getEntity().getName();
+        double d = event.getFinalDamage();
+        cd.getLogger().info(name+"數字: "+d);
+    }
+
 
     @EventHandler(
             ignoreCancelled = true,

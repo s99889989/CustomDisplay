@@ -53,6 +53,8 @@ public class MMOAttackListener2 implements Listener{
 
     private String damageType = "";
 
+
+
     @EventHandler(
             priority = EventPriority.MONITOR,
             ignoreCancelled = true
@@ -134,9 +136,6 @@ public class MMOAttackListener2 implements Listener{
                 }
 
             }
-
-
-
 
         }else {
             return;

@@ -27,6 +27,13 @@ public class JudgmentAction {
 
     }
 
+    public void execute(LivingEntity self, LivingEntity target, String firstString, double damageNumber,String taskID){
+        this.self = self;
+        this.target = target;
+        this.damageNumber = damageNumber;
+        bukkitRun(player,firstString,taskID);
+    }
+
     public void execute(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
         this.self = player;
         this.player = player;
@@ -48,7 +55,8 @@ public class JudgmentAction {
     }
 
 
-    public void bukkitRun(Player player,String firstString,String taskID){
+    public void bukkitRun(LivingEntity self,String firstString,String taskID){
+        Player player = (Player) self;
         if (firstString.toLowerCase().contains("delay ")) {
             String[] slt = firstString.split(" ");
             if (slt.length == 2) {
@@ -126,7 +134,14 @@ public class JudgmentAction {
                 }
                 /**ActionBar的相關判斷**/
                 if(judgMent.toLowerCase().contains("actionbar")){
-                    new ActionBar(player,firstString).sendActionBar();
+                    new ActionBar().setActionBar(player,firstString,taskID);
+//                    if(ActionManager.getJudgment_ActionBar_Map().get(taskID) == null){
+//                        ActionManager.getJudgment_ActionBar_Map().put(taskID,new ActionBar());
+//                    }
+//                    if(ActionManager.getJudgment_ActionBar_Map().get(taskID) != null){
+//
+//                        ActionManager.getJudgment_ActionBar_Map().get(taskID).setActionBar(player,firstString,taskID);
+//                    }
                 }
 
                 /**BossBar的相關判斷**/
@@ -172,6 +187,11 @@ public class JudgmentAction {
 
                     new MythicAction(player,target,firstString).useMythicAction();
 
+                }
+
+                /**ActionBar的相關判斷**/
+                if(judgMent.toLowerCase().contains("loggerinfo")){
+                    new LoggerInfo().setLoggerInfo(self,target,firstString,taskID);
                 }
 
 

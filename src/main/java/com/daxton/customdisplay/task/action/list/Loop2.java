@@ -2,20 +2,21 @@ package com.daxton.customdisplay.task.action.list;
 
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ConditionManager;
-import com.daxton.customdisplay.task.action.ClearAction;
-import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.api.character.ConfigFind;
+import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ConditionManager;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Loop extends BukkitRunnable {
+public class Loop2 extends BukkitRunnable {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -23,11 +24,11 @@ public class Loop extends BukkitRunnable {
     private int period = 1;
     private int duration = 0;
 
-    private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
-    private String taskID;
-    private double damageNumber = 0;
+    private String firstString = "";
+    private String taskID = "";
+
 
     private String onStart = "";
     private String onTime = "";
@@ -38,29 +39,20 @@ public class Loop extends BukkitRunnable {
     /**條件判斷**/
     private static Map<String,Condition> conditionMap = new HashMap<>();
 
-    public Loop(){
+    public Loop2(){
 
     }
 
-    public void onLoop(Player player, LivingEntity target,String firstString, double damageNumber,String taskID){
+    public void onLoop(LivingEntity self, LivingEntity target,String firstString,String taskID){
         this.taskID = taskID;
-        this.self = player;
-        this.player = player;
+        this.self = self;
+        this.firstString = firstString;
         this.target = target;
-        this.damageNumber = damageNumber;
         setLoop(firstString);
         onStart();
         this.runTaskTimer(cd,0, period);
     }
 
-    public void onLoop(Player player,String firstString ,String taskID){
-        this.taskID = taskID;
-        this.player = player;
-        this.self = player;
-        setLoop(firstString);
-        onStart();
-        this.runTaskTimer(cd,0, period);
-    }
 
     public void setLoop(String firstString){
         List<String> stringList = new StringFind().getStringList(firstString);
@@ -104,11 +96,7 @@ public class Loop extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onStart);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-                if(actionString.toLowerCase().contains("condition")){
-                    if(!(condition(actionString))){
-                        return;
-                    }
-                }
+
                 gogo(actionString);
             }
         }
@@ -119,11 +107,7 @@ public class Loop extends BukkitRunnable {
         if(stringList.size() > 0){
             for(String actionString : stringList){
 
-                if(actionString.toLowerCase().contains("condition")){
-                    if(!(condition(actionString))){
-                        return;
-                    }
-                }
+
                 gogo(actionString);
             }
         }
@@ -133,11 +117,7 @@ public class Loop extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-                if(actionString.toLowerCase().contains("condition")){
-                    if(!(condition(actionString))){
-                        return;
-                    }
-                }
+
 
                 if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
                     ActionManager.getJudgment_Loop_Map().remove(taskID);
@@ -154,12 +134,7 @@ public class Loop extends BukkitRunnable {
             ActionManager.getLoop_Judgment_Map().put(taskID,new JudgmentAction());
         }
         if(ActionManager.getLoop_Judgment_Map().get(taskID) != null){
-            //ActionManager.getLoop_Judgment_Map().get(taskID).execute(self,target,actionString,damageNumber,taskID);
-            if(target == null){
-                ActionManager.getLoop_Judgment_Map().get(taskID).execute(player,actionString,taskID);
-            }else {
-                ActionManager.getLoop_Judgment_Map().get(taskID).execute(player,target,actionString,damageNumber,taskID);
-            }
+
         }
     }
 
@@ -175,23 +150,6 @@ public class Loop extends BukkitRunnable {
         }
     }
 
-    public boolean condition(String actionString){
-        boolean b = false;
 
-        if(ConditionManager.getLoop_Condition_Map().get(taskID) == null){
-            ConditionManager.getLoop_Condition_Map().put(taskID,new Condition());
-        }
-        if(ConditionManager.getLoop_Condition_Map().get(taskID) != null){
-            if(target == null){
-                ConditionManager.getLoop_Condition_Map().get(taskID).setCondition(player,actionString,taskID);
-            }else {
-                ConditionManager.getLoop_Condition_Map().get(taskID).setCondition(player,target,actionString,taskID);
-            }
-            b = ConditionManager.getLoop_Condition_Map().get(taskID).getResult();
-
-        }
-
-        return b;
-    }
 
 }

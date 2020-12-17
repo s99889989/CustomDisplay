@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.task.action;
 
+import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.LivingEntity;
@@ -14,6 +15,16 @@ public class ClearAction {
     }
     /**清除當下的任務**/
     public void clearPlayer(Player player,String taskID){
+
+        for(ProtocolManager protocolManager : ActionManager.getSendParticles_ProtocolManager_Map().values()){
+            protocolManager.removePacketListeners(cd);
+        }
+        if(ActionManager.getJudgment_ActionBar_Map().get(taskID) != null){
+            ActionManager.getJudgment_ActionBar_Map().remove(taskID);
+            ActionManager.getSendParticles_ProtocolManager_Map().remove(taskID);
+        }
+        ActionManager.getSendParticles_ProtocolManager_Map().clear();
+
         if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
             ActionManager.getJudgment_Loop_Map().get(taskID).cancel();
             ActionManager.getJudgment_Loop_Map().remove(taskID);

@@ -22,6 +22,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.CHAT;
@@ -33,23 +35,32 @@ public class ActionBar {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String message = "";
+    private String function = "";
 
     private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
 
-    ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+    private String taskID = "";
 
-    public ActionBar(Player player, String firstString){
-        setActionBar(player,firstString);
+    private List<String> classList = new ArrayList();
+
+    public ActionBar(){
+
     }
 
-
-
-    public void setActionBar(Player player, String firstString){
+    public void setActionBar(Player player, String firstString,String taskID){
         this.player = player;
         this.self = player;
+        this.taskID = taskID;
         for(String allString : new StringFind().getStringMessageList(firstString)){
+            if (allString.toLowerCase().contains("function=")) {
+                String[] strings = allString.split("=");
+                if (strings.length == 2) {
+                    function = strings[1];
+                }
+            }
+
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
@@ -57,6 +68,24 @@ public class ActionBar {
                 }
             }
 
+            if (allString.toLowerCase().contains("class=")) {
+                String[] strings = allString.split("=");
+                if (strings.length == 2) {
+                    classList = new StringFind().getStringListClass(strings[1]);
+                    //function = strings[1];
+                }
+            }
+
+        }
+        if(function.toLowerCase().contains("remove") || function.toLowerCase().contains("log")){
+            if(ActionManager.getSendParticles_ProtocolManager_Map().get(taskID) == null){
+                ActionManager.getSendParticles_ProtocolManager_Map().put(taskID,ProtocolLibrary.getProtocolManager());
+            }
+            if(ActionManager.getSendParticles_ProtocolManager_Map().get(taskID) != null){
+                Packet();
+            }
+        }else {
+            sendActionBar();
         }
 
     }
@@ -87,48 +116,53 @@ public class ActionBar {
 
     public void Packet(){
 
-        pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.CHAT)) {
-
+        ActionManager.getSendParticles_ProtocolManager_Map().get(taskID).addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.CHAT)) {
 
             @Override
             public void onPacketSending(PacketEvent event) {
 
                 Player player = event.getPlayer();
-
                 PacketContainer packet = event.getPacket();
                 PacketType packetType = event.getPacketType();
 
                 if(packetType.equals(PacketType.Play.Server.CHAT)){
-                    if(packet.getChatTypes().read(0) == CHAT){
-
-                    }
                     if(packet.getChatTypes().read(0) == GAME_INFO){
-                        boolean stats = ConfigMapManager.getFileConfigurationMap().get("config.yml").getBoolean("MMOcoreActionBarStats");
-                        boolean spell = ConfigMapManager.getFileConfigurationMap().get("config.yml").getBoolean("MMOcoreActionBarSpell");
-                        try{
-                            ((Object) null).hashCode();
-                        }catch (Exception exception){
-                            BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
-                            StackTraceElement[] traces = exception.getStackTrace();
-                            for(StackTraceElement trace : traces){
-                                if(trace.getClassName().contains("mmocore.listener.SpellCast")){
-                                    ActionManager.getMmocore_ActionBar_Spell_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
-                                    event.setCancelled(spell);
-                                    break;
-                                }else if(trace.getClassName().contains("mmocore.api.PlayerActionBar")){
-                                    ActionManager.getMmocore_ActionBar_Stats_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
-                                    event.setCancelled(stats);
-                                    break;
-                                }else if(trace.getClassName().contains("customdisplay.PackListener") || trace.getClassName().contains("com.comphenix.protocol") || trace.getClassName().contains("NetworkManager") || trace.getClassName().contains("PlayerConnection") || trace.getClassName().contains("CraftPlayer") || trace.getClassName().contains("mmocore.api.player.PlayerData")){
-                                    event.setCancelled(spell & stats);
-                                    continue;
-                                }else {
-                                    //player.sendMessage("Other"+BaseComponent.toLegacyText(b));
-                                    //cd.getLogger().info(trace.getClassName());
-                                    //player.sendMessage(BaseComponent.toLegacyText(b));
-                                }
-                            }
-                        }
+                        BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
+
+                        //cd.getLogger().info("觸發GAME_INFO"+BaseComponent.toLegacyText(b));
+                        event.setCancelled(true);
+
+
+
+//                        boolean stats = ConfigMapManager.getFileConfigurationMap().get("config.yml").getBoolean("MMOcoreActionBarStats");
+//                        boolean spell = ConfigMapManager.getFileConfigurationMap().get("config.yml").getBoolean("MMOcoreActionBarSpell");
+//                        try{
+//                            ((Object) null).hashCode();
+//                        }catch (Exception exception){
+//                            BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
+//                            StackTraceElement[] traces = exception.getStackTrace();
+//                            List list = new ArrayList();
+//
+//                            for(StackTraceElement trace : traces){
+//                                list.add(trace.getClassName());
+//                                if(function.toLowerCase().contains("log")){
+//                                    cd.getLogger().info(trace.getClassName());
+//                                    //ActionManager.getAction_Bar_Class_Map().put(player.getUniqueId(),trace.getClassName());
+//                                }
+//
+//                            }
+//                            if(function.toLowerCase().contains("remove")){
+//                                if(classList.size() > 0){
+//                                    for(String mess : classList){
+//                                        if(list.contains(mess)){
+//                                            ActionManager.getAction_Bar_Class_Map().put(mess,BaseComponent.toLegacyText(b));
+//                                            event.setCancelled(true);
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//                        }
 
 
                     }

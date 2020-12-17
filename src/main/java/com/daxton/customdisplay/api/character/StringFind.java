@@ -85,6 +85,15 @@ public class StringFind {
         return triggerActionName;
     }
 
+    /**丟入字串按照[;]轉成List**/
+    public List<String> getStringListClass(String string){
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(string,",");
+        while(stringTokenizer.hasMoreElements()){
+            stringList.add(stringTokenizer.nextToken().replace(" ",""));
+        }
+        return stringList;
+    }
 
     /**丟入字串按照[;]轉成List**/
     public List<String> getStringList(String string){
