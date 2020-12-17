@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
@@ -109,21 +110,19 @@ public class Action2 {
     }
 
     public void startAction(){
-        new ClearAction().clearPlayer(self,taskID);
+
         if(actionList.size() > 0){
             for(String actionString : actionList){
-                cd.getLogger().info("開始"+actionString);
                 if(actionString.toLowerCase().contains("condition")){
                     if(!(condition(actionString))){
                         return;
                     }
                 }
-
-                if(ActionManager.getAction_Judgment_Map().get(taskID) == null){
-                    ActionManager.getAction2_Judgment2_Map().put(taskID,new JudgmentAction2());
+                if(ActionManager2.getAction2_Judgment2_Map().get(taskID) == null){
+                    ActionManager2.getAction2_Judgment2_Map().put(taskID,new JudgmentAction2());
                 }
-                if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
-                    ActionManager.getAction2_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+                if(ActionManager2.getAction2_Judgment2_Map().get(taskID) != null){
+                    ActionManager2.getAction2_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
                 }
 
             }

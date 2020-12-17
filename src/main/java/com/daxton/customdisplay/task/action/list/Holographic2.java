@@ -23,10 +23,8 @@ public class Holographic2 {
 
     private String taskID = "";
     private String firstString = "";
-    private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
-    private double damageNumber = 0;
 
     public Hologram hologram;
 
@@ -45,11 +43,11 @@ public class Holographic2 {
     }
 
     public void setHD(LivingEntity self, LivingEntity target, String firstString,String taskID) {
-
         this.self = self;
         this.target = target;
         this.taskID = taskID;
         this.firstString = firstString;
+
         setOther();
     }
 
@@ -123,9 +121,9 @@ public class Holographic2 {
         if(aims.toLowerCase().contains("target")){
             createLocation = target.getLocation().add(x,y,z);
         }else if(aims.toLowerCase().contains("self")){
-            createLocation = player.getLocation().add(x,y,z);
+            createLocation = self.getLocation().add(x,y,z);
         }else if(aims.toLowerCase().contains("world")){
-            createLocation = new Location(player.getWorld(),x,y,z);
+            createLocation = new Location(self.getWorld(),x,y,z);
         }else {
             createLocation = createLocation.add(x,y,z);
         }

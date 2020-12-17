@@ -2,7 +2,6 @@
 #Attack display damage (up)
 AttackDisplayUp:
   Action:
-  - Condition[Compare=%mmocore_stamina%>Item stamina]
   - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
 AttackDisplayUp-Start:
   Action:
@@ -29,6 +28,20 @@ AttackCritDisplayUp-End:
   Action:
   - Hologram[Function=delete]
 
+#被攻擊顯示傷害(向上)
+#Being attacked shows damage (up)&self_damaged_number&&self_hight&
+DamagedDisplayUp:
+  Action:
+  - Loop[onStart=DamagedDisplayUp-Start;onTime=DamagedDisplayUp-Time;onEnd=DamagedDisplayUp-End;period=3;duration=20]
+DamagedDisplayUp-Start:
+  Action:
+  - Hologram[Function=create;m=&self_damaged_number&;x=0;y=&self_hight&;z=0] @=self
+DamagedDisplayUp-Time:
+  Action:
+  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+DamagedDisplayUp-End:
+  Action:
+  - Hologram[Function=delete]
 
 #攻擊顯示傷害(拋出)
 #Attack display damage (throw)

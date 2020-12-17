@@ -7,6 +7,6 @@ Particle-Remove:
   - Particle[Function=remove;particle=DAMAGE_INDICATOR]
 
 
-Particle-Lava:
+Particle-REDSTONE:
   Action:
-  - Particle[particle=redston]
+  - Particle[particle=REDSTONE;color=62DACA;extra=0.15;count=2000;x=0;y=2;z=0;Xoffset=5;Yoffset=5;Zoffset=1] @=target

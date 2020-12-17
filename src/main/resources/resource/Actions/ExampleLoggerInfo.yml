@@ -1,0 +1,10 @@
+#顯示攻擊出現的效果ID.
+#Display the effect ID of the attack.
+#LoggerInfo-Send:
+#  Action:
+#  - LoggerInfo[m=&self_action_bar_class&]
+
+LoggerInfo-Send:
+  Action:
+  - LoggerInfo[m=&self_action_bar_class&]
+  

@@ -5,8 +5,10 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import com.daxton.customdisplay.task.action.JudgmentAction2;
 import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -44,17 +46,17 @@ public class Loop2 extends BukkitRunnable {
     }
 
     public void onLoop(LivingEntity self, LivingEntity target,String firstString,String taskID){
-        this.taskID = taskID;
         this.self = self;
-        this.firstString = firstString;
         this.target = target;
-        setLoop(firstString);
+        this.firstString = firstString;
+        this.taskID = taskID;
+        setLoop();
         onStart();
         this.runTaskTimer(cd,0, period);
     }
 
 
-    public void setLoop(String firstString){
+    public void setLoop(){
         List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
 
@@ -96,7 +98,6 @@ public class Loop2 extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onStart);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-
                 gogo(actionString);
             }
         }
@@ -106,8 +107,6 @@ public class Loop2 extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onTime);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-
-
                 gogo(actionString);
             }
         }
@@ -117,24 +116,18 @@ public class Loop2 extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
         if(stringList.size() > 0){
             for(String actionString : stringList){
-
-
-                if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
-                    ActionManager.getJudgment_Loop_Map().remove(taskID);
-                }
                 gogo(actionString);
-
             }
 
         }
     }
 
     public void gogo(String actionString){
-        if(ActionManager.getLoop_Judgment_Map().get(taskID) == null){
-            ActionManager.getLoop_Judgment_Map().put(taskID,new JudgmentAction());
+        if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) == null){
+            ActionManager2.getLoop2_Judgment2_Map().put(taskID,new JudgmentAction2());
         }
-        if(ActionManager.getLoop_Judgment_Map().get(taskID) != null){
-
+        if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) != null){
+            ActionManager2.getLoop2_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
         }
     }
 

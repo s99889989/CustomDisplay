@@ -54,12 +54,22 @@ public class JudgmentAction2 {
 
         /**HolographicDisplays的相關判斷**/
         if(judgMent.toLowerCase().contains("hologram")){
-            //cd.getLogger().info(firstString);
             if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) == null){
                 ActionManager2.getJudgment2_Holographic2_Map().put(taskID,new Holographic2());
             }
             if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) != null){
                 ActionManager2.getJudgment2_Holographic2_Map().get(taskID).setHD(self,target,firstString,taskID);
+            }
+        }
+
+        /**Loop的相關判斷**/
+        if(judgMent.toLowerCase().contains("loop")){
+
+            if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) == null){
+                ActionManager2.getJudgment2_Loop2_Map().put(taskID,new Loop2());
+            }
+            if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) != null){
+                ActionManager2.getJudgment2_Loop2_Map().get(taskID).onLoop(self,target,firstString,taskID);
             }
         }
 

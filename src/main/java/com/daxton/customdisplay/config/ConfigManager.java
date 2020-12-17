@@ -32,6 +32,7 @@ public class ConfigManager {
         new AutoConfig("resource/Actions/ExampleActionBar.yml","Actions/ExampleActionBar.yml").get();
         new AutoConfig("resource/Actions/ExampleBossBar.yml","Actions/ExampleBossBar.yml").get();
         new AutoConfig("resource/Actions/ExampleHD.yml","Actions/ExampleHD.yml").get();
+        new AutoConfig("resource/Actions/ExampleLoggerInfo.yml","Actions/ExampleLoggerInfo.yml").get();
         new AutoConfig("resource/Actions/ExampleMessage.yml","Actions/ExampleMessage.yml").get();
         new AutoConfig("resource/Actions/ExampleMythic.yml","Actions/ExampleMythic.yml").get();
         new AutoConfig("resource/Actions/ExampleName.yml","Actions/ExampleName.yml").get();
