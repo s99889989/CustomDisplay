@@ -22,8 +22,11 @@ public class ActionManager {
 
     /**目標紀錄攻擊者**/
     public static Map<UUID, Player> target_getPlayer_Map = new HashMap<>();
-    /**Particles**/
-    public static Map<String ,SendParticles> particles_Map = new HashMap<>();
+
+    /**JudgmentAction->SendParticles**/
+    public static Map<String ,SendParticles> judgment_SendParticles_Map = new HashMap<>();
+    /**SendParticles->ProtocolManager**/
+    private static Map<String,ProtocolManager> sendParticles_ProtocolManager_Map = new HashMap<>();
     /**MMOcore插件的Spell-ActionBar顯示**/
     private static Map<UUID , String> mmocore_ActionBar_Spell_Map = new HashMap<>();
     /**MMOcore插件的Stats-ActionBar顯示**/
@@ -75,10 +78,15 @@ public class ActionManager {
     public static Map<UUID, Player> getTarget_getPlayer_Map() {
         return target_getPlayer_Map;
     }
-
-    public static Map<String, SendParticles> getParticles_Map() {
-        return particles_Map;
+    /**JudgmentAction->SendParticles**/
+    public static Map<String, SendParticles> getJudgment_SendParticles_Map() {
+        return judgment_SendParticles_Map;
     }
+    /**SendParticles->ProtocolManager**/
+    public static Map<String, ProtocolManager> getSendParticles_ProtocolManager_Map() {
+        return sendParticles_ProtocolManager_Map;
+    }
+
     /**MMOcore插件的Spell-ActionBar顯示**/
     public static Map<UUID, String> getMmocore_ActionBar_Spell_Map() {
         return mmocore_ActionBar_Spell_Map;

@@ -49,6 +49,7 @@ public class ConfigManager {
         new AutoConfig().permissionConfig();
 
 
+
     }
 
 }

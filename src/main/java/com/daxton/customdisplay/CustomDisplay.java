@@ -1,10 +1,10 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.listener.customdisplay.PackListener;
 import com.daxton.customdisplay.listener.attributeplus.AttrAttackListener;
 import com.daxton.customdisplay.listener.mmocore.SpellCastListener;
 import com.daxton.customdisplay.listener.customdisplay.*;
@@ -57,7 +57,7 @@ public final class CustomDisplay extends JavaPlugin {
         }
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
             getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
-            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
+            //Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
         }else {
             getLogger().severe("*** ProtocolLib is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
@@ -66,7 +66,6 @@ public final class CustomDisplay extends JavaPlugin {
             this.setEnabled(false);
             return;
         }
-
 
         load();
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
@@ -104,7 +103,12 @@ public final class CustomDisplay extends JavaPlugin {
         mapReload();
     }
     public void mapReload(){
-        ActionManager.getParticles_Map().clear();
+        ActionManager.getJudgment_SendParticles_Map().clear();
+        for(ProtocolManager protocolManager : ActionManager.getSendParticles_ProtocolManager_Map().values()){
+            protocolManager.removePacketListeners(customDisplay);
+        }
+        ActionManager.getSendParticles_ProtocolManager_Map().clear();
+
         for(Loop loop : ActionManager.getJudgment_Loop_Map().values()){
             loop.cancel();
         }
@@ -148,9 +152,6 @@ public final class CustomDisplay extends JavaPlugin {
                 PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
             }
         }
-
-
-
 
     }
 

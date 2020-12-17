@@ -28,6 +28,7 @@ public class JudgmentAction {
     }
 
     public void execute(Player player, LivingEntity target, String firstString, double damageNumber,String taskID){
+        this.self = player;
         this.player = player;
         this.target = target;
         this.damageNumber = damageNumber;
@@ -36,10 +37,12 @@ public class JudgmentAction {
 
     /**只有玩家**/
     public void execute(Player player, String firstString,String taskID){
+        this.self = player;
         bukkitRun(player,firstString,taskID);
     }
 
     public void executeOneTwo(Player player,LivingEntity target, String firstString,String taskID){
+        this.self = player;
         this.target = target;
         bukkitRun(player,firstString,taskID);
     }
@@ -143,15 +146,11 @@ public class JudgmentAction {
                 /**Particle的相關判斷**/
                 if(judgMent.toLowerCase().contains("particle")){
 
-                    if(ActionManager.getParticles_Map().get(taskID) == null){
-                        ActionManager.getParticles_Map().put(taskID,new SendParticles());
+                    if(ActionManager.getJudgment_SendParticles_Map().get(taskID) == null){
+                        ActionManager.getJudgment_SendParticles_Map().put(taskID,new SendParticles());
                     }
-                    if(ActionManager.getParticles_Map().get(taskID) != null){
-                        if(target == null){
-                            ActionManager.getParticles_Map().get(taskID).setParticles(player,firstString,taskID);
-                        }else {
-                            ActionManager.getParticles_Map().get(taskID).setParticles(player,target,firstString,taskID);
-                        }
+                    if(ActionManager.getJudgment_SendParticles_Map().get(taskID) != null){
+                        ActionManager.getJudgment_SendParticles_Map().get(taskID).setParticles(self,target,firstString,taskID);
                     }
                 }
 
