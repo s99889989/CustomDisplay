@@ -3,15 +3,12 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ActionManager2;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.Random;
 
@@ -26,9 +23,9 @@ public class Holographic2 {
     private LivingEntity self = null;
     private LivingEntity target = null;
 
-    public Hologram hologram;
+    private Hologram hologram;
 
-    Location createLocation = new Location(Bukkit.getWorld("world"),0,0,0);
+    private Location createLocation = new Location(Bukkit.getWorld("world"),0,0,0);
 
     private String function = "";
     private String message = "";
@@ -47,7 +44,6 @@ public class Holographic2 {
         this.target = target;
         this.taskID = taskID;
         this.firstString = firstString;
-
         setOther();
     }
 
@@ -153,9 +149,7 @@ public class Holographic2 {
     }
 
     public void addLineHD(){
-
         hologram.appendTextLine(message);
-
     }
 
     public void removeLineHD(){
@@ -167,21 +161,17 @@ public class Holographic2 {
     }
 
     public void teleportHD(){
-
         hologram.teleport(createLocation);
-
     }
 
     public void deleteHD(){
-        if(ActionManager.getJudgment2_Action2_Map().get(taskID) != null){
-            ActionManager.getJudgment2_Action2_Map().remove(taskID);
-        }
         if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) != null){
             ActionManager2.getJudgment2_Holographic2_Map().remove(taskID);
         }
-
         hologram.delete();
     }
 
-
+    public Hologram getHologram() {
+        return hologram;
+    }
 }

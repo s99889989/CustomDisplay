@@ -1,68 +1,136 @@
 package com.daxton.customdisplay.task.action.list;
 
+import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.SoundCategory;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import org.bukkit.entity.LivingEntity;
 
 public class Sound {
 
-    private Player player;
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private Location location;
+    private LivingEntity self = null;
+    private LivingEntity target = null;
+    private String firstString = "";
+    private String taskID = "";
+
+    private Location location = new Location(Bukkit.getWorld("world"),0,0,0);
+    private String aims = "self";
     private String sound = "";
     private float volume = 1;
     private float pitch = 1;
     private String category = "MASTER";
+    private double x = 0;
+    private double y = 0;
+    private double z = 0;
 
-    public Sound(Player player,String firstString){
-        this.player = player;
-        location = player.getLocation();
-        setSound(firstString);
+    public Sound(){
 
     }
 
-    public void playSound(){
-        player.getWorld().playSound(location, sound, Enum.valueOf(SoundCategory.class , category), volume, pitch);
-        //Enum.valueOf(SoundCategory.class , category);
+    public void setSound(LivingEntity self, LivingEntity target, String firstString,String taskID){
+        this.self = self;
+        this.target = target;
+        this.firstString = firstString;
+        this.taskID = taskID;
+        setOther();
     }
 
-    public void setSound(String firstString){
-        List<String> stringList = new StringFind().getStringList(firstString);
-        for(String string1 : stringList){
-            if(string1.toLowerCase().contains("sound=")){
-                String[] strings = string1.split("=");
+    public void setOther(){
+
+        for(String string : new StringFind().getStringList(firstString)){
+
+            if(string.toLowerCase().contains("@=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    aims = strings[1];
+                }
+            }
+            if(string.toLowerCase().contains("sound=")){
+                String[] strings = string.split("=");
                 if(strings.length == 2){
                     sound = strings[1];
                 }
             }
 
-            if(string1.toLowerCase().contains("volume=")){
-                String[] strings = string1.split("=");
+            if(string.toLowerCase().contains("volume=")){
+                String[] strings = string.split("=");
                 if(strings.length == 2){
                     volume = Float.valueOf(strings[1]);
                 }
             }
 
-            if(string1.toLowerCase().contains("pitch=")){
-                String[] strings = string1.split("=");
+            if(string.toLowerCase().contains("pitch=")){
+                String[] strings = string.split("=");
                 if(strings.length == 2){
                     pitch = Float.valueOf(strings[1]);
                 }
             }
 
-            if(string1.toLowerCase().contains("category=")){
-                String[] strings = string1.split("=");
+            if(string.toLowerCase().contains("category=")){
+                String[] strings = string.split("=");
                 if(strings.length == 2){
                     category = strings[1];
                 }
             }
-
         }
+
+        for(String string : new StringFind().getStringMessageList(firstString)){
+            if(string.toLowerCase().contains("x=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    try {
+                        x = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                    }catch (NumberFormatException exception){
+                        cd.getLogger().info("x不是數字");
+                    }
+                }
+            }
+
+            if(string.toLowerCase().contains("y=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    try {
+                        y = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                    }catch (NumberFormatException exception){
+                        cd.getLogger().info("y不是數字"+y);
+                    }
+                }
+            }
+
+            if(string.toLowerCase().contains("z=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    try {
+                        z = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                    }catch (NumberFormatException exception){
+                        cd.getLogger().info("z不是數字");
+                    }
+                }
+            }
+        }
+
+        if(aims.toLowerCase().contains("target")){
+            location = target.getLocation().add(x,y,z);
+        }else if(aims.toLowerCase().contains("self")){
+            location = self.getLocation().add(x,y,z);
+        }else if(aims.toLowerCase().contains("world")){
+            location = new Location(self.getWorld(),x,y,z);
+        }else {
+            location = location.add(x,y,z);
+        }
+
+        playSound();
+
+
     }
+
+    public void playSound(){
+        self.getWorld().playSound(location, sound, Enum.valueOf(SoundCategory.class , category), volume, pitch);
+    }
+
 
 }

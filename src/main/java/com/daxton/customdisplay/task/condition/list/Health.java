@@ -1,6 +1,8 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringConversion2;
+import com.daxton.customdisplay.api.character.StringFind;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,16 +19,25 @@ public class Health {
 
     private Player player;
 
-    private LivingEntity target;
+    private LivingEntity self = null;
+    private LivingEntity target = null;
 
     private String firstString = "";
-
+    private String aims = "self";
     private String taskID = "";
 
     private static Map<UUID,Double> healthMap = new HashMap<>();
 
     public Health(){
 
+    }
+
+    public void setHealth(LivingEntity self,LivingEntity target, String firstString, String taskID){
+        this.self = self;
+        this.target = target;
+        this.firstString = firstString;
+        this.taskID = taskID;
+        setOther();
     }
 
     public void setHealth(Player player,LivingEntity target, String firstString, String taskID){
@@ -44,14 +55,27 @@ public class Health {
 
     }
 
+    public void setOther(){
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("@=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    aims = strings[1];
+                }
+            }
+        }
+    }
 
     public boolean get(){
         boolean b = false;
         if(firstString.toLowerCase().contains("targetchange")){
-            b = targetChange(target);
+            if(aims.toLowerCase().contains("target")){
+                b = targetChange(target);
+            }else {
+                b = targetChange(self);
+            }
+
         }
-
-
         return b;
     }
 

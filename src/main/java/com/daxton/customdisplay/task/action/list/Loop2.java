@@ -4,14 +4,11 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.ConditionManager;
-import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.JudgmentAction2;
 import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -55,7 +52,6 @@ public class Loop2 extends BukkitRunnable {
         this.runTaskTimer(cd,0, period);
     }
 
-
     public void setLoop(){
         List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
@@ -98,6 +94,11 @@ public class Loop2 extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onStart);
         if(stringList.size() > 0){
             for(String actionString : stringList){
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
+                }
                 gogo(actionString);
             }
         }
@@ -107,6 +108,11 @@ public class Loop2 extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onTime);
         if(stringList.size() > 0){
             for(String actionString : stringList){
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
+                }
                 gogo(actionString);
             }
         }
@@ -115,8 +121,22 @@ public class Loop2 extends BukkitRunnable {
     public void onEnd(){
         List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
         if(stringList.size() > 0){
+            if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) != null){
+                ActionManager2.getJudgment2_Loop2_Map().remove(taskID);
+            }
             for(String actionString : stringList){
+                if(actionString.toLowerCase().contains("condition")){
+                    if(!(condition(actionString))){
+                        return;
+                    }
+                }
                 gogo(actionString);
+            }
+            if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) != null){
+                ActionManager2.getLoop2_Judgment2_Map().remove(taskID);
+            }
+            if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
+                ConditionManager.getAction_Condition_Map().remove(taskID);
             }
 
         }
@@ -131,9 +151,21 @@ public class Loop2 extends BukkitRunnable {
         }
     }
 
+    public boolean condition(String actionString){
+
+        boolean b = false;
+        if(ConditionManager.getAction_Condition_Map().get(taskID) == null){
+            ConditionManager.getAction_Condition_Map().put(taskID,new Condition());
+        }
+        if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
+            ConditionManager.getAction_Condition_Map().get(taskID).setCondition(self,target,actionString,taskID);
+            b = ConditionManager.getAction_Condition_Map().get(taskID).getResult2();
+        }
+        return b;
+    }
+
     public void run(){
         ticksRun = ticksRun + period;
-
         onTime();
         if(unlimited){
             if(ticksRun > duration){

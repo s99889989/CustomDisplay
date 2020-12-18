@@ -1,7 +1,6 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
@@ -10,14 +9,11 @@ import com.daxton.customdisplay.listener.mmocore.SpellCastListener;
 import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmolib.MMOAttackListener2;
 import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
+import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.task.action.JudgmentAction;
-import com.daxton.customdisplay.task.action.list.Holographic;
-import com.daxton.customdisplay.task.action.list.Loop;
+import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -82,7 +78,7 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
-        //Bukkit.getPluginManager().registerEvents(new EntityListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
 
         if (Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
@@ -93,7 +89,7 @@ public final class CustomDisplay extends JavaPlugin {
             getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
             Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
         }
-        ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
+        ActionManager2.protocolManager = ProtocolLibrary.getProtocolManager();
 
     }
 
@@ -103,38 +99,8 @@ public final class CustomDisplay extends JavaPlugin {
         mapReload();
     }
     public void mapReload(){
-        ActionManager.getJudgment_SendParticles_Map().clear();
-        for(ProtocolManager protocolManager : ActionManager.getSendParticles_ProtocolManager_Map().values()){
-            protocolManager.removePacketListeners(customDisplay);
-        }
-        ActionManager.getSendParticles_ProtocolManager_Map().clear();
 
-        for(Loop loop : ActionManager.getJudgment_Loop_Map().values()){
-            loop.cancel();
-        }
-        ActionManager.getJudgment_Loop_Map().clear();
-
-        for(Holographic holographic : ActionManager.getJudgment_Holographic_Map().values()){
-            holographic.deleteHD();
-        }
-        ActionManager.getJudgment_Holographic_Map().clear();
-        ActionManager.getJudgment_Action_Map().clear();
-
-        for(JudgmentAction judgmentAction : ActionManager.getLoop_Judgment_Map().values()){
-            judgmentAction.getBukkitRunnable().cancel();
-        }
-        ActionManager.getLoop_Judgment_Map().clear();
-
-        for(JudgmentAction judgmentAction : ActionManager.getAction_Judgment_Map().values()){
-            judgmentAction.getBukkitRunnable().cancel();
-        }
-        ActionManager.getAction_Judgment_Map().clear();
-        ActionManager.getJudgment_BossBar_Map().clear();
-        for(BossBar bossBar : ActionManager.getBossBar_Map().values()){
-            bossBar.removeAll();
-        }
-        ActionManager.getBossBar_Map().clear();
-
+        //new ClearAction();
 
         /**重新讀取玩家資料**/
         for(Player player : Bukkit.getOnlinePlayers()){
@@ -143,14 +109,13 @@ public final class CustomDisplay extends JavaPlugin {
             if(playerData != null){
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
-                if(ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()) != null){
-                    ActionManager.getJudgment_Holographic_Map().get(playerUUID.toString()).deleteHD();
-                }
             }
+
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) == null){
                 /**玩家資料**/
                 PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
             }
+
         }
 
     }

@@ -1,10 +1,8 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,28 +46,28 @@ public class AttackListener implements Listener {
             return;
         }
         double damageNumber = event.getFinalDamage();
-        ActionManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
+        PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
         target = (LivingEntity) event.getEntity();
 
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
-            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
-                new PlayerTrigger(player).onAttack(player,target,damageNumber);
-            }
+
+            new PlayerTrigger(player).onAttack(player,target);
+
 
 
         }else if(event.getDamager() instanceof Projectile){
             if(((Projectile) event.getDamager()).getShooter() instanceof Animals == false && ((Projectile) event.getDamager()).getShooter() instanceof Monster == false){
                 player = ((Player) event.getDamager()).getPlayer();
-                if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
-                    new PlayerTrigger(player).onAttack(player,target,damageNumber);
-                }
+
+                new PlayerTrigger(player).onAttack(player,target);
+
             }
         }else if(event.getDamager() instanceof TNTPrimed){
             player = ((Player) event.getDamager()).getPlayer();
-            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
-                new PlayerTrigger(player).onAttack(player,target,damageNumber);
-            }
+
+            new PlayerTrigger(player).onAttack(player,target);
+
         }else {
             return;
         }

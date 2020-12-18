@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +20,8 @@ public class JoinListener implements Listener {
 
     private Player player;
 
+    private LivingEntity target = null;
+
     private UUID playerUUID;
 
     @EventHandler
@@ -28,24 +31,20 @@ public class JoinListener implements Listener {
 
         PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
 
-        if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onjoin") != null){
-            new PlayerTrigger(player).onJoin(player);
-        }
-
-
+        new PlayerTrigger(player).onJoin(player,target);
 
     }
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event){
         if(event.isSneaking()){
-            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onsneak") != null){
-                new PlayerTrigger(player).onSneak(player);
-            }
+
+            new PlayerTrigger(player).onSneak(player,target);
+
         }else {
-            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onstandup") != null){
-                new PlayerTrigger(player).onStandup(player);
-            }
+
+            new PlayerTrigger(player).onStandup(player,target);
+
         }
 
 

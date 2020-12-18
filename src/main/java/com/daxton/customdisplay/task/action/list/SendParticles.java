@@ -2,33 +2,21 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.injector.GamePhase;
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.ConfigFind;
-import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.task.action.ClearAction;
-import net.md_5.bungee.api.chat.BaseComponent;
+import com.daxton.customdisplay.manager.ActionManager2;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.CHAT;
-import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.GAME_INFO;
 import static java.lang.Integer.parseInt;
 import static org.bukkit.Color.*;
 import static org.bukkit.Particle.REDSTONE;
@@ -221,10 +209,10 @@ public class SendParticles {
         }
 
         if(function.toLowerCase().contains("remove")){
-            if(ActionManager.getSendParticles_ProtocolManager_Map().get(taskID) == null){
-                ActionManager.getSendParticles_ProtocolManager_Map().put(taskID,ProtocolLibrary.getProtocolManager());
+            if(ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID) == null){
+                ActionManager2.getSendParticles_ProtocolManager_Map().put(taskID,ProtocolLibrary.getProtocolManager());
             }
-            if(ActionManager.getSendParticles_ProtocolManager_Map().get(taskID) != null){
+            if(ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID) != null){
                 Packet();
             }
         }else {
@@ -247,7 +235,7 @@ public class SendParticles {
 
     public void Packet(){
 
-        ActionManager.getSendParticles_ProtocolManager_Map().get(taskID).addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.WORLD_PARTICLES)) {
+        ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID).addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.WORLD_PARTICLES)) {
 
             @Override
             public void onPacketSending(PacketEvent event) {

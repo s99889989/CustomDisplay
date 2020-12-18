@@ -1,16 +1,14 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringConversion2;
+import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import com.daxton.customdisplay.task.action.JudgmentAction;
-import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
-import org.bukkit.Bukkit;
+import com.daxton.customdisplay.task.action.ClearAction;
+import com.daxton.customdisplay.task.action.JudgmentAction2;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.serverct.ersha.jd.event.AttrEntityCritEvent;
-import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,10 +20,11 @@ public class PlayerTrigger {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Player player = null;
+    private LivingEntity self = null;
     private LivingEntity target = null;
     private String firstString = "";
     private double damagerNumber = 0.0;
-    private String taskID = "";
+    private String taskID = String.valueOf((int)(Math.random()*100000));
 
     /**觸發的動作列表**/
     private Map<String, List<String>> action_Trigger_Map = new HashMap<>();
@@ -38,83 +37,169 @@ public class PlayerTrigger {
         }
     }
 
-    public void onAttack(Player player,LivingEntity target,double damageNumber){
-        for(String actionString : action_Trigger_Map.get("~onattack")){
-            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+    public void onAttack(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onattack") != null){
+            for(String actionString : action_Trigger_Map.get("~onattack")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onCrit(Player player,LivingEntity target,double damageNumber){
-        for(String actionString : action_Trigger_Map.get("~oncrit")){
-            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+    public void onCrit(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~oncrit") != null){
+            for(String actionString : action_Trigger_Map.get("~oncrit")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onMagic(Player player,LivingEntity target,double damageNumber){
-        for(String actionString : action_Trigger_Map.get("~onmagic")){
-            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+    public void onMagic(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmagic") != null){
+            for(String actionString : action_Trigger_Map.get("~onmagic")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onMCrit(Player player,LivingEntity target,double damageNumber){
-        for(String actionString : action_Trigger_Map.get("~onmcrit")){
-            new JudgmentAction().execute(player,target,actionString,damageNumber,String.valueOf((int)(Math.random()*100000)));
+    public void onMCrit(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmcrit") != null){
+            for(String actionString : action_Trigger_Map.get("~onmcrit")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onDamaged(Player player,double damageNumber){
-        for(String actionString : action_Trigger_Map.get("~ondamaged")){
-            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+    public void onDamaged(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~ondamaged") != null){
+            for(String actionString : action_Trigger_Map.get("~ondamaged")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onRegainHealth(Player player){
 
-    }
 
-    public void onJoin(Player player){
-        for(String actionString : action_Trigger_Map.get("~onjoin")){
-            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+    public void onRegainHealth(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onregainhealth") != null){
+            for(String actionString : action_Trigger_Map.get("~onregainhealth")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onQuit(Player player){
-        for(String actionString : action_Trigger_Map.get("~onquit")){
-            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+    public void onJoin(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onjoin") != null){
+            for(String actionString : action_Trigger_Map.get("~onjoin")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onMove(Player player){
-
-    }
-
-    public void onSneak(Player player){
-        for(String actionString : action_Trigger_Map.get("~onsneak")){
-            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+    public void onQuit(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onquit") != null){
+            for(String actionString : action_Trigger_Map.get("~onquit")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onStandup(Player player){
-        for(String actionString : action_Trigger_Map.get("~onstandup")){
-            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+    public void onMove(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmove") != null){
+            cd.getLogger().info("~onmove");
+            for(String actionString : action_Trigger_Map.get("~onmove")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onDeath(Player player){
-
-    }
-
-    public void onSkillCastStart(Player player){
-        for(String actionString : action_Trigger_Map.get("~onskillcaststart")){
-            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+    public void onSneak(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onsneak") != null){
+            for(String actionString : action_Trigger_Map.get("~onsneak")){
+                runExecute(actionString);
+            }
         }
     }
 
-    public void onSkillCastStop(Player player){
-        for(String actionString : action_Trigger_Map.get("~onskillcaststop")){
-            new JudgmentAction().execute(player,actionString,String.valueOf((int)(Math.random()*100000)));
+    public void onStandup(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onstandup") != null){
+            for(String actionString : action_Trigger_Map.get("~onstandup")){
+                runExecute(actionString);
+            }
         }
     }
+
+    public void onDeath(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~ondeath") != null){
+            for(String actionString : action_Trigger_Map.get("~ondeath")){
+                runExecute(actionString);
+            }
+        }
+    }
+
+    public void onSkillCastStart(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onskillcaststart") != null){
+            for(String actionString : action_Trigger_Map.get("~onskillcaststart")){
+                runExecute(actionString);
+            }
+        }
+    }
+
+    public void onSkillCastStop(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onskillcaststop") != null){
+            for(String actionString : action_Trigger_Map.get("~onskillcaststop")){
+                runExecute(actionString);
+            }
+        }
+    }
+
+    public void runExecute(String actionString){
+
+        for(String allString : new StringFind().getStringList(actionString)){
+            if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    taskID = new StringConversion2(self,target,strings[1],"Character").valueConv();
+                }
+            }
+        }
+        if(ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID) == null){
+            ActionManager2.getPlayerTrigger_Judgment2_Map().put(taskID,new JudgmentAction2());
+            ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+        }else{
+            new ClearAction(taskID);
+            ActionManager2.getPlayerTrigger_Judgment2_Map().put(taskID,new JudgmentAction2());
+            ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+        }
+    }
+
 
 
     public Map<String, List<String>> getAction_Trigger_Map() {

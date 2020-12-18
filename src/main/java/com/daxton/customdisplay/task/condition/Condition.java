@@ -31,82 +31,38 @@ public class Condition {
 
     }
 
-    public void setCondition(LivingEntity self,LivingEntity target,String firstString,double damageNumber,String taskID){
+    public void setCondition(LivingEntity self,LivingEntity target,String firstString,String taskID){
         this.self = self;
         this.target = target;
         this.firstString = firstString;
-        this.damageNumber = damageNumber;
         this.taskID = taskID;
-        if(self instanceof Player){
-            player = (Player) self;
-        }
-    }
-
-    /**有目標的判斷**/
-    public void setCondition(Player player,LivingEntity target,String firstString,String taskID){
-        this.player = player;
-        this.target = target;
-        this.firstString = firstString;
-        this.taskID = taskID;
-    }
-
-    /**沒有目標的判斷**/
-    public void setCondition(Player player,String firstString,String taskID){
-        this.player = player;
-        this.firstString = firstString;
-        this.taskID = taskID;
-
     }
 
     public boolean getResult2(){
         boolean b = false;
 
         if(firstString.toLowerCase().contains("compare=")){
-            b = new Compare(self,target,firstString,damageNumber,taskID).get();
+            b = new Compare(self,target,firstString,taskID).get();
         }
 
         if(firstString.toLowerCase().contains("entitytypelist=")){
-            b = new EntityTypeList(self,target,firstString,damageNumber,taskID).get();
+            b = new EntityTypeList(self,target,firstString,taskID).get();
         }
 
         if(firstString.toLowerCase().contains("entitytype=")){
-            b = new EntityType(self,target,firstString,damageNumber,taskID).get();
+            b = new EntityType(self,target,firstString,taskID).get();
         }
 
-        return b;
-    }
-
-
-    public boolean getResult(){
-        boolean b = false;
-
-        if(firstString.toLowerCase().contains("compare=")){
-
-            if(target == null){
-                b = new Compare(player,firstString).get();
-            }else {
-                b = new Compare(player,target,firstString).get();
-            }
-        }
-        if(firstString.toLowerCase().contains("entitytypelist=")){
-            b = new EntityTypeList(target,firstString).get();
-        }
-        if(firstString.toLowerCase().contains("entitytype=")){
-            b = new EntityType(target,firstString).get();
-        }
         if(firstString.toLowerCase().contains("health=")){
             if(ConditionManager.getCondition_Health_Map().get(taskID) == null){
                 ConditionManager.getCondition_Health_Map().put(taskID,new Health());
             }
             if(ConditionManager.getCondition_Health_Map().get(taskID) != null){
-                if(target == null){
-                    ConditionManager.getCondition_Health_Map().get(taskID).setHealth(player,firstString,taskID);
-                }else {
-                    ConditionManager.getCondition_Health_Map().get(taskID).setHealth(player,target,firstString,taskID);
-                }
+                ConditionManager.getCondition_Health_Map().get(taskID).setHealth(self,target,firstString,taskID);
                 b = ConditionManager.getCondition_Health_Map().get(taskID).get();
             }
         }
+
         return b;
     }
 

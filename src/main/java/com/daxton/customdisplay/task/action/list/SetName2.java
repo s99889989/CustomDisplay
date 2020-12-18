@@ -5,22 +5,16 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.NumberUtil;
-import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.manager.ActionManager2;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Optional;
 
-import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
-
-public class SetName {
+public class SetName2 {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -30,32 +24,37 @@ public class SetName {
     private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
-    private String targetName = "";
+
+    private String aims = "self";
     private boolean always = false;
 
-    public SetName(){
+    public SetName2(){
 
     }
 
-    public void setName(Player player, String firstString,String taskID){
-        this.taskID = taskID;
-        this.player = player;
-        setOther(firstString);
 
-    }
 
-    public void setName(Player player, LivingEntity target, String firstString,String taskID){
+    public void setName(LivingEntity self, LivingEntity target, String firstString,String taskID){
         this.taskID = taskID;
-        this.player = player;
+        this.self = self;
         this.target = target;
         this.self = player;
-        targetName = target.getName();
-        message = targetName;
+
         setOther(firstString);
 
     }
 
     public void setOther(String firstString){
+
+        for(String string : new StringFind().getStringList(firstString)){
+
+            if(string.toLowerCase().contains("@=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    aims = strings[1];
+                }
+            }
+        }
 
         for(String allString : new StringFind().getStringMessageList(firstString)){
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
@@ -79,18 +78,28 @@ public class SetName {
 
 
         }
+
+        if(target instanceof Player & aims.toLowerCase().contains("target")){
+            player = (Player) target;
+        }else {
+            if(self instanceof Player){
+                player = (Player) self;
+            }
+        }
+
+
         updateEntity();
     }
 
 
     public void updateEntity() {
 
-        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+        PacketContainer packet = ActionManager2.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());
         packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(target).getWatchableObjects());
         if (player.getWorld().equals(target.getWorld())) {
             try {
-                ActionManager.protocolManager.sendServerPacket(player, packet);
+                ActionManager2.protocolManager.sendServerPacket(player, packet);
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
@@ -103,7 +112,7 @@ public class SetName {
 
         message = new StringConversion2(self,target,message,"Character").valueConv();
 
-        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+        PacketContainer packet = ActionManager2.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());
         WrappedDataWatcher watcher = new WrappedDataWatcher();
 
@@ -115,20 +124,12 @@ public class SetName {
         packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
 
         try {
-            ActionManager.protocolManager.sendServerPacket(player, packet,false);
+            ActionManager2.protocolManager.sendServerPacket(player, packet,false);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
 
     }
-
-    public void colse(){
-        if(ActionManager.getJudgment_SetName_Map().get(taskID) != null){
-            ActionManager.getJudgment_SetName_Map().remove(taskID);
-        }
-    }
-
-
 
 
 }

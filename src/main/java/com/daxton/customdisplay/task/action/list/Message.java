@@ -17,23 +17,29 @@ public class Message{
     private String message = "";
 
     private Player player= null;
-
     private LivingEntity self = null;
-
     private LivingEntity target = null;
 
-    private Particle particle;
+
+    private String aims = "self";
 
     public Message(){
 
 
     }
 
+    public void setMessage(LivingEntity self,LivingEntity target, String firstString,String taskID){
+        this.self = self;
+        this.target = target;
 
-
-    public void setMessage(Player player, String firstString){
-        this.player = player;
-        this.self = player;
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("@=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    aims = strings[1];
+                }
+            }
+        }
 
         for(String allString : new StringFind().getStringMessageList(firstString)){
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
@@ -44,15 +50,21 @@ public class Message{
             }
 
         }
-
+        if(target instanceof Player & aims.toLowerCase().contains("target")){
+            player = (Player) target;
+        }else {
+            if(self instanceof Player){
+                player = (Player) self;
+            }
+        }
+        if(player != null){
+            sendMessage();
+        }
     }
 
     public void sendMessage(){
-        message = message.replace("{Particle_ID}",particle.toString());
         player.sendMessage(message);
     }
 
-    public void setParticle(Particle particle) {
-        this.particle = particle;
-    }
+
 }

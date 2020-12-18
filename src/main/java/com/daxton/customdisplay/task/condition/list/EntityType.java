@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.entity.LivingEntity;
@@ -15,60 +16,46 @@ public class EntityType {
     private LivingEntity self = null;
     private LivingEntity target = null;
     private String firstString = "";
-    private double damageNumber = 0;
     private String taskID = "";
 
     private String entityType = "";
 
-    private String messageTarge = "self";
+    private String aims = "";
 
     public EntityType(){
 
     }
 
-    public EntityType(LivingEntity self,LivingEntity target,String firstString,double damageNumber,String taskID){
+    public EntityType(LivingEntity self,LivingEntity target,String firstString,String taskID){
         this.self = self;
         this.target = target;
         this.firstString = firstString;
-        this.damageNumber = damageNumber;
         this.taskID = taskID;
-    }
-
-    public EntityType(LivingEntity target ,String firstString){
-        this.target = target;
-        this.firstString = firstString;
         setOther();
     }
 
     public void setOther(){
 
-        for(String string1 : new StringFind().getStringList(firstString)){
-            if(string1.toLowerCase().contains("messagetarge=") || string1.toLowerCase().contains("mt=")){
-                String[] strings = string1.split("=");
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("@=")){
+                String[] strings = string.split("=");
                 if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("target")){
-                        messageTarge = "target";
-                    }else {
-                        messageTarge = "self";
-                    }
+                    aims = strings[1];
                 }
             }
-            if(string1.toLowerCase().contains("entitytype=")){
-                String[] strings = string1.replace(" ","").split("=");
-                entityType = strings[1];
+            if(string.toLowerCase().contains("entitytype=")){
+                String[] strings = string.replace(" ","").split("=");
+                entityType = new StringConversion2(self,target,strings[1],"Character").valueConv();
             }
 
         }
+
     }
 
     public boolean get(){
         boolean b = false;
-        if(messageTarge.toLowerCase().contains("target")){
-            entityType = new StringConversion("Character",entityType,target).getResultString();
-        }else {
-            entityType = new StringConversion("Character",entityType,self).getResultString();
-        }
-        if(messageTarge.toLowerCase().contains("target")){
+
+        if(aims.toLowerCase().contains("target")){
             if(entityType.toLowerCase().contains(target.getType().toString().toLowerCase())){
                 b = true;
             }

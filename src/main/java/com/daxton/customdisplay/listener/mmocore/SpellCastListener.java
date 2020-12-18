@@ -6,6 +6,7 @@ import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import net.Indyuce.mmocore.listener.SpellCast;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
@@ -20,6 +21,8 @@ public class SpellCastListener extends SpellCast {
 
     private static Map<UUID,Boolean> CastOnStop = new HashMap<>();
 
+    private LivingEntity target = null;
+
     @EventHandler
     public void stopCasting(PlayerSwapHandItemsEvent event) {
 
@@ -28,24 +31,22 @@ public class SpellCastListener extends SpellCast {
         if(ListenerManager.getCast_On_Stop().get(playerUUID) == null){
             ListenerManager.getCast_On_Stop().put(playerUUID,true);
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststart") != null){
-                    new PlayerTrigger(player).onSkillCastStart(player);
-                }
+
+                new PlayerTrigger(player).onSkillCastStart(player,target);
+
 
             }
         }else {
             if(ListenerManager.getCast_On_Stop().get(playerUUID) == true){
                 if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
                     if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststop") != null){
-                        new PlayerTrigger(player).onSkillCastStop(player);
+                        new PlayerTrigger(player).onSkillCastStop(player,target);
                     }
                 }
                 ListenerManager.getCast_On_Stop().put(playerUUID,false);
             }else {
                 if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                    if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onskillcaststart") != null){
-                        new PlayerTrigger(player).onSkillCastStart(player);
-                    }
+                    new PlayerTrigger(player).onSkillCastStart(player,target);
                 }
                 ListenerManager.getCast_On_Stop().put(playerUUID,true);
             }

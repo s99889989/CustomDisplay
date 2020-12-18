@@ -28,7 +28,7 @@ public class LoggerInfo {
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion2(self,target,strings[1],"Character").valueConv();
+                    message = new StringConversion2(this.self,this.target,strings[1],"Character").valueConv();
                 }
             }
 

@@ -1,10 +1,10 @@
 package com.daxton.customdisplay.task.action;
 
-import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.ActionManager;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.task.action.list.Holographic2;
+import com.daxton.customdisplay.task.action.list.Loop2;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
 
 public class ClearAction {
 
@@ -12,80 +12,99 @@ public class ClearAction {
 
     public ClearAction(){
 
+        /**judgment2->Loop2**/
+        for(Loop2 loop2 : ActionManager2.getJudgment2_Loop2_Map().values()){
+            loop2.cancel();
+        }
+        ActionManager2.getJudgment2_Loop2_Map().clear();
+
+        /**PlayerTrigger->judgment2**/
+        ActionManager2.getPlayerTrigger_Judgment2_Map().clear();
+
+        /**judgment2->Action2**/
+        ActionManager2.getJudgment2_Action2_Map().clear();
+
+        /**judgment2->Holographic2**/
+        for (Holographic2 holographic2 : ActionManager2.getJudgment2_Holographic2_Map().values()){
+            holographic2.getHologram().delete();
+        }
+        ActionManager2.getJudgment2_Holographic2_Map().clear();
+
+
+        /**judgment2->ActionBar2**/
+        ActionManager2.getJudgment2_ActionBar2_Map().clear();
+
+        /**judgment2->SendBossBar2**/
+        ActionManager2.getJudgment2_SendBossBar2_Map().clear();
+
+        /**judgment2->SetName2**/
+
+        ActionManager2.getJudgment2_SendParticles_Map().clear();
+
+
+        /**action2->judgment2**/
+        ActionManager2.getAction2_Judgment2_Map().clear();
+
+        /**loop2->judgment2**/
+        ActionManager2.getLoop2_Judgment2_Map().clear();
+
+
+        /**SendParticles->ProtocolManager**/
+        ActionManager2.getSendParticles_ProtocolManager_Map().clear();
+
     }
-    /**清除當下的任務**/
-    public void clearPlayer(Player player,String taskID){
 
-        for(ProtocolManager protocolManager : ActionManager.getSendParticles_ProtocolManager_Map().values()){
-            protocolManager.removePacketListeners(cd);
-        }
-        if(ActionManager.getJudgment_ActionBar_Map().get(taskID) != null){
-            ActionManager.getJudgment_ActionBar_Map().remove(taskID);
-            ActionManager.getSendParticles_ProtocolManager_Map().remove(taskID);
-        }
-        ActionManager.getSendParticles_ProtocolManager_Map().clear();
+    public ClearAction(String taskID){
 
-        if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
-            ActionManager.getJudgment_Loop_Map().get(taskID).cancel();
-            ActionManager.getJudgment_Loop_Map().remove(taskID);
-        }
-        if(ActionManager.getJudgment_Holographic_Map().get(taskID) != null){
-            ActionManager.getJudgment_Holographic_Map().get(taskID).deleteHD();
-            ActionManager.getJudgment_Holographic_Map().remove(taskID);
+        /**judgment2->Loop2**/
+        if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) != null){
+            ActionManager2.getJudgment2_Loop2_Map().get(taskID).cancel();
+            ActionManager2.getJudgment2_Loop2_Map().remove(taskID);
         }
 
-        if(ActionManager.getJudgment_Action_Map().get(taskID) != null){
-            ActionManager.getJudgment_Action_Map().remove(taskID);
-        }
-        if(ActionManager.getLoop_Judgment_Map().get(taskID) != null){
-            ActionManager.getLoop_Judgment_Map().get(taskID).getBukkitRunnable().cancel();
-            ActionManager.getLoop_Judgment_Map().remove(taskID);
-        }
-        if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
-            ActionManager.getAction_Judgment_Map().get(taskID).getBukkitRunnable().cancel();
-            ActionManager.getAction_Judgment_Map().remove(taskID);
-        }
-        if(ActionManager.getJudgment_BossBar_Map().get(taskID) != null){
-            ActionManager.getJudgment_BossBar_Map().remove(taskID);
-        }
-        if(ActionManager.getBossBar_Map().get(taskID) != null){
-            ActionManager.getBossBar_Map().get(taskID).removePlayer(player);
-            ActionManager.getBossBar_Map().remove(taskID);
-        }
-    }
-
-    public void clearPlayer(LivingEntity self, String taskID){
-
-        if(ActionManager.getJudgment_Loop_Map().get(taskID) != null){
-            ActionManager.getJudgment_Loop_Map().get(taskID).cancel();
-            ActionManager.getJudgment_Loop_Map().remove(taskID);
-        }
-        if(ActionManager.getJudgment_Holographic_Map().get(taskID) != null){
-            ActionManager.getJudgment_Holographic_Map().get(taskID).deleteHD();
-            ActionManager.getJudgment_Holographic_Map().remove(taskID);
+        /**PlayerTrigger->judgment2**/
+        if(ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID) != null){
+            ActionManager2.getPlayerTrigger_Judgment2_Map().remove(taskID);
         }
 
-        if(ActionManager.getJudgment_Action_Map().get(taskID) != null){
-            ActionManager.getJudgment_Action_Map().remove(taskID);
+        /**judgment2->Action2**/
+        if(ActionManager2.getJudgment2_Action2_Map().get(taskID) != null){
+            ActionManager2.getJudgment2_Action2_Map().remove(taskID);
         }
-        if(ActionManager.getLoop_Judgment_Map().get(taskID) != null){
-            ActionManager.getLoop_Judgment_Map().get(taskID).getBukkitRunnable().cancel();
-            ActionManager.getLoop_Judgment_Map().remove(taskID);
+
+        /**judgment2->Holographic2**/
+        if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) != null){
+            ActionManager2.getJudgment2_Holographic2_Map().get(taskID).getHologram().delete();
+            ActionManager2.getJudgment2_Holographic2_Map().remove(taskID);
         }
-        if(ActionManager.getAction_Judgment_Map().get(taskID) != null){
-            ActionManager.getAction_Judgment_Map().get(taskID).getBukkitRunnable().cancel();
-            ActionManager.getAction_Judgment_Map().remove(taskID);
+
+        /**judgment2->ActionBar2**/
+        if(ActionManager2.getJudgment2_ActionBar2_Map().get(taskID) != null){
+            ActionManager2.getJudgment2_ActionBar2_Map().remove(taskID);
         }
-        if(ActionManager.getJudgment_BossBar_Map().get(taskID) != null){
-            ActionManager.getJudgment_BossBar_Map().remove(taskID);
+        /**judgment2->SendBossBar2**/
+        if(ActionManager2.getJudgment2_SendBossBar2_Map().get(taskID) != null){
+            ActionManager2.getJudgment2_SendBossBar2_Map().remove(taskID);
         }
-        if(self instanceof Player){
-            Player player = (Player) self;
-            if(ActionManager.getBossBar_Map().get(taskID) != null){
-                ActionManager.getBossBar_Map().get(taskID).removePlayer(player);
-                ActionManager.getBossBar_Map().remove(taskID);
-            }
+        /**judgment2->SetName2**/
+        if(ActionManager2.getJudgment2_SendParticles_Map().get(taskID) != null){
+            ActionManager2.getJudgment2_SendParticles_Map().remove(taskID);
         }
+
+        /**action2->judgment2**/
+        if(ActionManager2.getAction2_Judgment2_Map().get(taskID) != null){
+            ActionManager2.getAction2_Judgment2_Map().remove(taskID);
+        }
+        /**loop2->judgment2**/
+        if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) != null){
+            ActionManager2.getLoop2_Judgment2_Map().remove(taskID);
+        }
+
+        /**SendParticles->ProtocolManager**/
+        if(ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID) != null){
+            ActionManager2.getSendParticles_ProtocolManager_Map().remove(taskID);
+        }
+
     }
 
 }

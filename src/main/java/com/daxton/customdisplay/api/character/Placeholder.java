@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.HashMap;
@@ -53,14 +53,14 @@ public class Placeholder {
         entity_Map.put("vec_x",String.valueOf(vectorX(entity)));
         entity_Map.put("vec_y",String.valueOf(vectorY(entity)));
         entity_Map.put("vec_z",String.valueOf(vectorZ(entity)));
-        entity_Map.put("attack_number",ActionManager.getDamage_Number_Map().get(entity.getUniqueId()));
-        entity_Map.put("damaged_number",ActionManager.getDamaged_Number_Map().get(entity.getUniqueId()));
-        entity_Map.put(change,ActionManager.getAction_Bar_Class_Map().get(change));
+        entity_Map.put("attack_number",PlaceholderManager.getDamage_Number_Map().get(entity.getUniqueId()));
+        entity_Map.put("damaged_number",PlaceholderManager.getDamaged_Number_Map().get(entity.getUniqueId()));
+        entity_Map.put(change,PlaceholderManager.getAction_Bar_Class_Map().get(change));
 
-        entity_Map.put("mythic_level",ActionManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
+        entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
 
-        entity_Map.put("mmocore_actionbar_spell",ActionManager.getMmocore_ActionBar_Spell_Map().get(entity.getUniqueId()));
-        entity_Map.put("mmocore_actionbar_stats",ActionManager.getMmocore_ActionBar_Stats_Map().get(entity.getUniqueId()));
+        entity_Map.put("mmocore_actionbar_spell",PlaceholderManager.getMmocore_ActionBar_Spell_Map().get(entity.getUniqueId()));
+        entity_Map.put("mmocore_actionbar_stats",PlaceholderManager.getMmocore_ActionBar_Stats_Map().get(entity.getUniqueId()));
 
     }
 

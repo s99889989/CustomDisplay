@@ -2,36 +2,19 @@ package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.player.stats.StatType;
-import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.comp.holograms.HologramSupport;
-import net.mmogroup.mmolib.MMOLib;
-import net.mmogroup.mmolib.api.AttackResult;
-import net.mmogroup.mmolib.api.DamageType;
-import net.mmogroup.mmolib.api.RegisteredAttack;
-import net.mmogroup.mmolib.api.event.MMOPlayerDataEvent;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import net.mmogroup.mmolib.api.item.NBTItem;
 import net.mmogroup.mmolib.api.player.MMOPlayerData;
-import net.mmogroup.mmolib.api.stat.StatMap;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.MetadataValue;
 
-import java.util.Iterator;
-import java.util.Random;
 import java.util.UUID;
 
 import static net.mmogroup.mmolib.api.stat.SharedStat.*;
@@ -65,7 +48,7 @@ public class MMOAttackListener2 implements Listener{
         }
         target = (LivingEntity) event.getEntity();
         double damageNumber = event.getFinalDamage();
-        ActionManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
+        PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
         if(event.getDamager() instanceof Player){
             player = (Player) event.getDamager();
             playerUUID = player.getUniqueId();
@@ -111,14 +94,11 @@ public class MMOAttackListener2 implements Listener{
             if(damageType.contains("WEAPON")){
                 //player.sendMessage("WEAPON： "+damageType); damageNumber > (physical_STRIKE_POWER-2)
                 if(damageNumber > 2 & damageNumber > (physical_STRIKE_POWER-50) ){
-                    if(new PlayerTrigger(player).getAction_Trigger_Map().get("~oncrit") != null){
-                        new PlayerTrigger(player).onCrit(player,target,damageNumber);
-                    }
-                }else {
 
-                    if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
-                        new PlayerTrigger(player).onAttack(player,target,damageNumber);
-                    }
+                    new PlayerTrigger(player).onCrit(player,target);
+
+                }else {
+                    new PlayerTrigger(player).onAttack(player,target);
                 }
             }
             if(damageType.contains("MAGIC")){
@@ -126,13 +106,13 @@ public class MMOAttackListener2 implements Listener{
 //                player.sendMessage("估算傷害: "+((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER));
 
                 if(damageNumber > ((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER)){
-                    if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onmcrit") != null){
-                        new PlayerTrigger(player).onMCrit(player,target,damageNumber);
-                    }
+
+                    new PlayerTrigger(player).onMCrit(player,target);
+
                 }else {
-                    if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onmagic") != null){
-                        new PlayerTrigger(player).onMagic(player,target,damageNumber);
-                    }
+
+                    new PlayerTrigger(player).onMagic(player,target);
+
                 }
 
             }

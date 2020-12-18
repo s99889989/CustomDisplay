@@ -3,12 +3,8 @@ package com.daxton.customdisplay.listener.customdisplay;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.mobs.MobData;
 import com.daxton.customdisplay.api.mobs.MobTrigger;
-import com.daxton.customdisplay.api.player.PlayerData;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.MobManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
-import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -47,7 +43,7 @@ public class MobListener implements Listener {
             LivingEntity livingEntity = (LivingEntity) event.getEntity();
             UUID uuid = event.getEntity().getUniqueId();
             damagedNumber = event.getFinalDamage();
-            ActionManager.getDamaged_Number_Map().put(uuid,String.valueOf(damagedNumber));
+            PlaceholderManager.getDamaged_Number_Map().put(uuid,String.valueOf(damagedNumber));
             if(new MobTrigger(livingEntity).getAction_Trigger_Map().get("~ondamaged") != null){
                 new MobTrigger(livingEntity).onDamaged();
             }

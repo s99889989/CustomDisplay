@@ -16,36 +16,68 @@ public class Title {
     private Player player;
 
     private LivingEntity self = null;
-
     private LivingEntity target = null;
+    private String firstString = "";
+    private String taskID = "";
 
     private String title = "";
-
     private String subTitle = "";
-
     private int fadeIn = 1;
-
     private int stay = 1;
-
     private int fadeOut = 1;
+    private String aims = "self";
 
+    public Title(){
 
-    public Title(Player player, String firstString){
-        this.player = player;
-        this.self = player;
+    }
 
-        for(String strings : new StringFind().getStringList(firstString)){
-            if(strings.contains("fadeIn=")){
-                String[] stl = strings.split("=");
-                setFadeIn(Integer.valueOf(stl[1]));
+    public void setTitle(LivingEntity self,LivingEntity target, String firstString,String taskID){
+        this.self = self;
+        this.target = target;
+        this.firstString = firstString;
+        this.taskID = taskID;
+        setOther();
+    }
+
+    public void setOther(){
+        for(String string : new StringFind().getStringList(firstString)){
+            if(string.toLowerCase().contains("fadein=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    try{
+                        fadeIn = Integer.valueOf(strings[1]);
+                    }catch (NumberFormatException exception){
+
+                    }
+                }
             }
-            if(strings.contains("stay=")){
-                String[] stl = strings.split("=");
-                setStay(Integer.valueOf(stl[1]));
+            if(string.toLowerCase().contains("stay=")){
+                String[] strings= string.split("=");
+                if(strings.length == 2){
+                    try{
+                        stay = Integer.valueOf(strings[1]);
+                    }catch (NumberFormatException exception){
+
+                    }
+                }
+
+
             }
-            if(strings.contains("fadeOut=")){
-                String[] stl = strings.split("=");
-                setFadeOut(Integer.valueOf(stl[1]));
+            if(string.toLowerCase().contains("fadeout=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    try{
+                        fadeOut = Integer.valueOf(strings[1]);
+                    }catch (NumberFormatException exception){
+
+                    }
+                }
+            }
+            if(string.toLowerCase().contains("@=")){
+                String[] strings = string.split("=");
+                if(strings.length == 2){
+                    aims = strings[1];
+                }
             }
         }
 
@@ -54,48 +86,39 @@ public class Title {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     if(strings.length == 2){
-                        setTitle(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                        title = new StringConversion2(self,target,strings[1],"Character").valueConv();
                     }
-
                 }
             }
 
-            if(string.contains("subtitle=") || string.contains("subt=")){
+            if(string.toLowerCase().contains("subtitle=") || string.toLowerCase().contains("subt=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    setSubTitle(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                    subTitle = new StringConversion2(self,target,strings[1],"Character").valueConv();
                 }
 
             }
 
         }
 
+        if(target instanceof Player & aims.toLowerCase().contains("target")){
+            player = (Player) target;
+        }else {
+            if(self instanceof Player){
+                player = (Player) self;
+            }
+        }
+        if(player != null){
+            sendTitle();
+        }
+
 
     }
-
 
 
     public void sendTitle(){
         player.sendTitle(title,subTitle,fadeIn,stay,fadeOut);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
-    }
-
-    public void setFadeIn(int fadeIn) {
-        this.fadeIn = fadeIn;
-    }
-
-    public void setStay(int stay) {
-        this.stay = stay;
-    }
-
-    public void setFadeOut(int fadeOut) {
-        this.fadeOut = fadeOut;
-    }
 }

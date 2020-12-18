@@ -89,13 +89,11 @@ public class MMOAttackListener extends AttackEffects implements Listener {
         //player.sendMessage("自身攻擊:"+(final_damage));
         //player.sendMessage("傷害數字:"+event.getAttack().getDamage());
         if(event.getAttack().getDamage() > final_damage){
-            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~oncrit") != null){
-                new PlayerTrigger(player).onCrit(player,target,damageNumber);
-            }
+
+            new PlayerTrigger(player).onCrit(player,target);
+
         }else {
-            if(new PlayerTrigger(player).getAction_Trigger_Map().get("~onattack") != null){
-                new PlayerTrigger(player).onAttack(player,target,damageNumber);
-            }
+            new PlayerTrigger(player).onAttack(player,target);
         }
         //MMOLib.plugin.getDamage().damage(this.player.getPlayer(), target, new AttackResult(sweep - event.getAttack().getDamage(), new DamageType[]{DamageType.SKILL, DamageType.PHYSICAL}));
 

@@ -1,36 +1,9 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.*;
-import com.comphenix.protocol.injector.GamePhase;
-import com.comphenix.protocol.wrappers.*;
 import com.daxton.customdisplay.CustomDisplay;
 
-import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.task.action.list.Message;
-import com.daxton.customdisplay.task.action.list.SendParticles;
-
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
 import org.bukkit.event.Listener;
-
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-
-import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.*;
-import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
 
 
 public class PackListener implements Listener{
