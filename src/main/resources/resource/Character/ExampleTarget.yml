@@ -21,7 +21,7 @@ target_hight_show2:
 target_nowhealth:
   message:
   - CCharacter[<cd_nowhealth>] @=target
-  - Decimal[#.0] @=target
+  - Decimal[0.0] @=target
 
 target_maxhealth:
   message:

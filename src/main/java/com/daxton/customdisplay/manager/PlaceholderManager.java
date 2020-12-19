@@ -9,6 +9,11 @@ public class PlaceholderManager {
     /**AcionBar的function**/
     private static Map<String,Boolean> actionBar_function = new HashMap<>();
 
+    /**Particles的function**/
+    private static Map<String,String> particles_function = new HashMap<>();
+    /**Particles的particle**/
+    private static Map<String,String> particles_particle = new HashMap<>();
+
     /**MMOcore插件的Spell-ActionBar顯示**/
     private static Map<UUID, String> mmocore_ActionBar_Spell_Map = new HashMap<>();
     /**MMOcore插件的Stats-ActionBar顯示**/
@@ -27,6 +32,14 @@ public class PlaceholderManager {
     /**AcionBar的Function**/
     public static Map<String, Boolean> getActionBar_function() {
         return actionBar_function;
+    }
+    /**Particles的function**/
+    public static Map<String, String> getParticles_function() {
+        return particles_function;
+    }
+    /**Particles的particle**/
+    public static Map<String, String> getParticles_particle() {
+        return particles_particle;
     }
 
     /**MMOcore插件的Spell-ActionBar顯示**/

@@ -17,6 +17,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -158,7 +159,6 @@ public class PackListener implements Listener{
                     PacketType packetType = event.getPacketType();
 
 
-
                     if(packetType.equals(PacketType.Play.Server.CHAT)){
                         if(packet.getChatTypes().read(0) == GAME_INFO){
                             BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
@@ -181,7 +181,27 @@ public class PackListener implements Listener{
                     }
 
 
+                    if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
+                        Particle type = packet.getNewParticles().read(0).getParticle();
 
+                        if(PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"function") != null){
+                            String function = PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"function");
+                            if(function.toLowerCase().contains("remove")){
+                                if(PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"particle") != null){
+                                    String particle = PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"particle");
+                                    if(type.toString().toLowerCase().contains(particle)){
+                                        event.setCancelled(true);
+                                    }
+                                }
+                            }
+
+                        }
+
+
+
+
+
+                    }
 
 
 //                    if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){

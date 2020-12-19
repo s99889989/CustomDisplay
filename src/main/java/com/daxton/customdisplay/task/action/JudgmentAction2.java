@@ -40,6 +40,7 @@ public class JudgmentAction2 {
         String judgMent = new StringFind().getAction(firstString);
         /**Action的相關判斷**/
         if(judgMent.toLowerCase().contains("action")){
+
             new Action2().setAction(self,target,firstString,taskID);
         }
 
@@ -115,6 +116,7 @@ public class JudgmentAction2 {
 
         /**Name的相關判斷**/
         if(judgMent.toLowerCase().contains("name")){
+
             if(ActionManager2.getJudgment2_SetName2_Map().get(taskID) == null){
                 ActionManager2.getJudgment2_SetName2_Map().put(taskID,new SetName2());
             }

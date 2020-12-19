@@ -57,9 +57,9 @@ self_mana_proportion:
   - converAll[10,䁳;9,䁲;8,䁱;7,䁰;6,䁯;5,䁮;4,䁭;3,䁬;2,䁫;1,䁪;0,䁪]
 
 
-self_mmocore_actionbar_spell:
+self_other_actionbar:
   message:
-  - CCharacter[<cd_mmocore_actionbar_spell>]
+  - CCharacter[<cd_actionbar>]
 
 
 self_vec_x:
@@ -77,10 +77,6 @@ self_damaged_number:
   - ConverHead[9,䀉;8,䀈;7,䀇;6,䀆;5,䀅;4,䀄;3,䀃;2,䀂;1,䀁;0,䀀]
   - ConverUnits[9,䀝;8,䀜;7,䀛;6,䀚;5,䀙;4,䀘;3,䀗;2,䀖;1,䀕;0,䀔]
   - ConverDouble[9,䀓;8,䀒;7,䀑;6,䀐;5,䀏;4,䀎;3,䀍;2,䀌;1,䀋;0,䀊]
-
-self_actionbar:
-  message:
-  - CCharacter[<net.Indyuce.mmocore.api.PlayerActionBar>]
 
 
 self_hight:

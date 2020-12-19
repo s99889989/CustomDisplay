@@ -49,13 +49,18 @@ Action:
 - Action[mark=&self_name&ActionBarDisplay;stop=true] ~onSkillCastStart
 - Action[mark=&self_name&ActionBarDisplay;stop=true] ~onQuit
 
+#顯示MMOCore技能狀態攔.
+#-------------------------------------------------------------------------#
+- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
+- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
+
 #攻擊顯示BossBar
 #-------------------------------------------------------------------------#
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onAttack
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onCrit
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMagic
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMCrit
-- Action[mark=&self_name&BoosBarDisplay;stop=true] ~onDeath
+
 
 #被攻擊顯示標題
 #-------------------------------------------------------------------------#
@@ -63,16 +68,12 @@ Action:
 
 #移除攻擊顯示的愛心效果.
 #-------------------------------------------------------------------------#
-- Action[a=Particle-Remove;mark=&self_name&] ~onJoin
-
-#顯示攻擊的效果名稱。
-#-------------------------------------------------------------------------#
-#- Action[a=Particle-Show;mark=&self_name&] ~onAttack
+- Action[a=Particle-Remove;mark=&self_name&ParticleRemove] ~onJoin
 
 #攻擊的顯示效果。
 #-------------------------------------------------------------------------#
-#- Action[a=Particle-Lava] ~onAttack
-#- Action[a=Particle-Lava] ~onCrit
+#- Action[a=Particle-REDSTONE] ~onAttack
+#- Action[a=Particle-REDSTONE] ~onCrit
 
 #攻擊改變顯示名稱(怪物)
 #-------------------------------------------------------------------------#
@@ -89,13 +90,7 @@ Action:
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMagic
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMCrit
 
-
-#顯示MMOCore技能狀態攔.
-#-------------------------------------------------------------------------#
-- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
-- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
-
 #使用MM技能.
 #-------------------------------------------------------------------------#
-- Action[a=MythicSkillSmashAttack] ~onSneak
+#- Action[a=MythicSkillSmashAttack] ~onSneak
 

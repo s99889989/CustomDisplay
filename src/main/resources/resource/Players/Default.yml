@@ -49,13 +49,17 @@ Action:
 - Action[mark=&self_name&ActionBarDisplay;stop=true] ~onSkillCastStart
 - Action[mark=&self_name&ActionBarDisplay;stop=true] ~onQuit
 
+#Display the MMOCore skill status bar.
+#-------------------------------------------------------------------------#
+- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
+- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
+
 #The attack shows BossBar.
 #-------------------------------------------------------------------------#
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onAttack
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onCrit
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMagic
 - Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMCrit
-- Action[mark=&self_name&BoosBarDisplay;stop=true] ~onDeath
 
 #The title is displayed when attacked.
 #-------------------------------------------------------------------------#
@@ -82,9 +86,4 @@ Action:
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onCrit
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMagic
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMCrit
-
-#Display the MMOCore skill status bar.
-#-------------------------------------------------------------------------#
-- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
-- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
 

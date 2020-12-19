@@ -8,7 +8,7 @@ TitleHealthDisplay-Time:
   - Condition[Compare=&self_health_10&<3]
   - Title[title=§0;subtitle=§0䁾;fadeIn=1;duration=5;fadeOut=1]
   - Sound[sound=heartbeatin;pitch=1;volume=1;category=PLAYERS]
-  - Delay 5
+  - Delay=5
   - Title[title=§4;subtitle=§4䁾;fadeIn=1;duration=5;fadeOut=1]
   - Sound[sound=heartbeatout;pitch=1;volume=1;category=PLAYERS]
 

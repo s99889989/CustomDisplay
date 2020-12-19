@@ -4,8 +4,7 @@
 #There are multiple IDs for Hurt Love, and only a few of them are used in the example.
 Particle-Remove:
   Action:
-  - Particle[Function=remove;particle=DAMAGE_INDICATOR]
-
+  - Particle[Function=remove;particle=DAMAGE_INDICATOR] @=self
 
 Particle-REDSTONE:
   Action:

@@ -24,6 +24,7 @@ public class SetName2 {
     private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
+    private String firstString = "";
 
     private String aims = "self";
     private boolean always = false;
@@ -32,19 +33,17 @@ public class SetName2 {
 
     }
 
-
-
     public void setName(LivingEntity self, LivingEntity target, String firstString,String taskID){
         this.taskID = taskID;
         this.self = self;
         this.target = target;
-        this.self = player;
+        this.firstString = firstString;
 
-        setOther(firstString);
+        setOther();
 
     }
 
-    public void setOther(String firstString){
+    public void setOther(){
 
         for(String string : new StringFind().getStringList(firstString)){
 
@@ -87,8 +86,9 @@ public class SetName2 {
             }
         }
 
-
-        updateEntity();
+        if(player != null){
+            updateEntity();
+        }
     }
 
 

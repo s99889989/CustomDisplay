@@ -71,7 +71,7 @@ public class Action2 {
                         }catch (NumberFormatException exception){
 
                         }
-                        //cd.getLogger().info("延遲"+delay);
+
                     }
                 }
                 bukkitRunnable = new BukkitRunnable() {

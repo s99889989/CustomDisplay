@@ -8,6 +8,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -26,11 +27,8 @@ public class SendParticles {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String taskID = "";
-    private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
-
-    private static String hexString = "0123456789ABCDEF";
 
     private String function = "";
     private Particle putParticle;
@@ -56,7 +54,6 @@ public class SendParticles {
 
     public void setParticles(LivingEntity self,LivingEntity target, String firstString, String taskID){
         this.taskID = taskID;
-        this.player = (Player) self;
         this.self = self;
         this.target = target;
         stringSetting(firstString);
@@ -71,6 +68,7 @@ public class SendParticles {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
                     function = strings[1];
+
                 }
             }
             if(allString.toLowerCase().contains("@=")){
@@ -199,25 +197,33 @@ public class SendParticles {
         }
 
         if(aims.toLowerCase().contains("target")){
+            if(putParticle != null){
+                String particle = putParticle.toString().toLowerCase();
+                PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"particle",particle);
+            }
+            PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"function",function);
             location = target.getLocation().add(x,y,z);
         }else if(aims.toLowerCase().contains("self")){
-            location = player.getLocation().add(x,y,z);
+            if(putParticle != null){
+                String particle = putParticle.toString().toLowerCase();
+                PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"particle",particle);
+            }
+            PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"function",function);
+            location = self.getLocation().add(x,y,z);
         }else if(aims.toLowerCase().contains("world")){
-            location = new Location(player.getWorld(),x,y,z);
+            location = new Location(self.getWorld(),x,y,z);
         }else {
             location = location.add(x,y,z);
         }
 
         if(function.toLowerCase().contains("remove")){
-            if(ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID) == null){
-                ActionManager2.getSendParticles_ProtocolManager_Map().put(taskID,ProtocolLibrary.getProtocolManager());
-            }
-            if(ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID) != null){
-                Packet();
-            }
+
+        }else if(function.toLowerCase().contains("add")){
+            sendParticle();
         }else {
             sendParticle();
         }
+
     }
     public void sendParticle(){
         try{
@@ -233,31 +239,4 @@ public class SendParticles {
 
     }
 
-    public void Packet(){
-
-        ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID).addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.WORLD_PARTICLES)) {
-
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                PacketContainer packet = event.getPacket();
-                PacketType packetType = event.getPacketType();
-
-                if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
-                    Particle type = packet.getNewParticles().read(0).getParticle();
-                    inParticle = type;
-                    if(putParticle == inParticle){
-                        event.setCancelled(true);
-                    }
-
-                }
-
-            }
-
-        });
-
-    }
-
-    public Particle getPutParticle() {
-        return putParticle;
-    }
 }

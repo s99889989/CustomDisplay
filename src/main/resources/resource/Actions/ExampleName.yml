@@ -1,18 +1,18 @@
 #
 NameDisplayAttackMonster:
   Action:
-  - Condition[mt=target;entityTypeList=Monster]
+  - Condition[entityTypeList=Monster] @=target
   - Loop[onTime=NameDisplayAttackMonster-Time;period=40;duration=unlimited]
 NameDisplayAttackMonster-Time:
   Action:
-   - Name[m=&target_health_proportion_monster_name&&target_name&&target_nowhealth&/&target_maxhealth&;Always=true]
+   - Name[m=&target_health_proportion_monster_name&&target_name&&target_nowhealth&/&target_maxhealth&;Always=true] @=target
 
 #
 NameDisplayAttackAnimal:
   Action:
-  - Condition[mt=target;entityTypeList=Animal]
+  - Condition[entityTypeList=Animal] @=target
   - Loop[onTime=NameDisplayAttackAnimal-Time;period=40;duration=unlimited]
 NameDisplayAttackAnimal-Time:
   Action:
-   - Name[m=&target_health_proportion_animal_name&&target_name&&target_nowhealth&/&target_maxhealth&;Always=true]
+   - Name[m=&target_health_proportion_animal_name&&target_name&&target_nowhealth&/&target_maxhealth&;Always=true] @=target
 

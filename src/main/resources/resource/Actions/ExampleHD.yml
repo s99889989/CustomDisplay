@@ -76,7 +76,7 @@ AttackDisplayThrow-End3:
 #Attacking monsters shows blood volume.
 EntityTopDisplayMonster:
   Action:
-  - Condition[mt=target;entityTypeList=Monster]
+  - Condition[entityTypeList=Monster] @=target
   - Loop[onStart=EntityTopDisplayMonster-Start;onTime=EntityTopDisplayMonster-Time;onEnd=EntityTopDisplayMonster-End;period=10;duration=200]
 EntityTopDisplayMonster-Start:
   Action:
@@ -84,9 +84,11 @@ EntityTopDisplayMonster-Start:
 EntityTopDisplayMonster-Time:
   Action:
   - Hologram[Function=teleport;x=0;y=&target_hight_show&;z=0] @=target
-  - Condition[health=targetChange]
+  - Condition[health=targetChange] @=target
   - Hologram[Function=removeTextLine;m=0]
   - Hologram[Function=addTextLine;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_monster_hd&]
+  - Condition[Compare=&target_nowhealth&~0.0]
+  - Hologram[Function=delete]
 EntityTopDisplayMonster-End:
   Action:
   - Hologram[Function=delete]
@@ -95,7 +97,7 @@ EntityTopDisplayMonster-End:
 #Attack animals show blood volume.
 EntityTopDisplayAnimal:
   Action:
-  - Condition[mt=target;entityTypeList=Animal]
+  - Condition[mt=target;entityTypeList=Animal] @=target
   - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
 EntityTopDisplayAnimal-Start:
   Action:
@@ -103,9 +105,11 @@ EntityTopDisplayAnimal-Start:
 EntityTopDisplayAnimal-Time:
   Action:
   - Hologram[Function=teleport;x=0;y=&target_hight_show&;z=0] @=target
-  - Condition[health=targetChange]
+  - Condition[health=targetChange] @=target
   - Hologram[Function=removeTextLine;m=0]
   - Hologram[Function=addTextLine;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_animal_hd&]
+  - Condition[Compare=&target_nowhealth&~0.0]
+  - Hologram[Function=delete]
 EntityTopDisplayAnimal-End:
   Action:
   - Hologram[Function=delete]
@@ -114,7 +118,7 @@ EntityTopDisplayAnimal-End:
 #The attacking player displays information.
 EntityTopDisplayPlayer:
   Action:
-  - Condition[mt=target;entityType=Player]
+  - Condition[mt=target;entityType=Player] @=target
   - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
 EntityTopDisplayPlayer-Start:
   Action:
@@ -127,6 +131,8 @@ EntityTopDisplayPlayer-Time:
   - Hologram[Function=removeTextLine;m=0]
   - Hologram[Function=addTextLine;m=&target_nowhealth&/&target_maxhealth&&target_health_proportion_player_hd&]
   - Hologram[Function=addTextLine;m=&target_nowmana&/&target_maxmana&&player_mana_proportion2&]
+  - Condition[Compare=&target_nowhealth&~0.0]
+  - Hologram[Function=delete]
 EntityTopDisplayPlayer-End:
   Action:
   - Hologram[Function=delete]

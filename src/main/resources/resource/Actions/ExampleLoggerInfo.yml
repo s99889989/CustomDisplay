@@ -6,5 +6,5 @@
 
 LoggerInfo-Send:
   Action:
-  - LoggerInfo[m=&self_action_bar_class&]
+  - LoggerInfo[m=TestMessage]
   

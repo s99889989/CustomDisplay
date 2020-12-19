@@ -5,12 +5,17 @@ BoosBarDisplay:
   - Loop[onStart=BoosBarDisplay-Start;onTime=BoosBarDisplay-Time;onEnd=BoosBarDisplay-End;period=10;duration=200]
 BoosBarDisplay-Start:
   Action:
-  - BoosBar[Function=create;mt=target;message=&target_name&-&target_nowhealth&/&target_maxhealth&;Style=SEGMENTED_10;Color=RED;Progress=&target_health_proportion_bossbar&]
+  - BossBar[Function=create;message=&target_name&-&target_nowhealth&/&target_maxhealth&;Style=SEGMENTED_10;Color=RED;Progress=&target_health_proportion_bossbar&]
 BoosBarDisplay-Time:
   Action:
-  - BoosBar[Function=set;mt=target;message=&target_name&-&target_nowhealth&/&target_maxhealth&;Style=SEGMENTED_10;Color=RED;Progress=&target_health_proportion_bossbar&]
+  - BossBar[Function=set;message=&target_name&-&target_nowhealth&/&target_maxhealth&;Style=SEGMENTED_10;Color=RED;Progress=&target_health_proportion_bossbar&]
+  - Condition[Compare=&target_nowhealth&~0.0]
+  - BossBar[Function=delete]
 BoosBarDisplay-End:
   Action:
-  - BoosBar[Function=delete]
+  - BossBar[Function=delete]
 
   
+BoosBarMessage:
+  Action:
+  - BossBar[Function=create;message=Test;Style=SEGMENTED_10;Color=RED;Progress=&target_health_proportion_bossbar&]

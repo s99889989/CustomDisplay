@@ -140,7 +140,6 @@ public class SendBossBar2 {
     }
 
     public void create(){
-        cd.getLogger().info("增加: "+player.getName());
         try{
             bossBar = Bukkit.createBossBar(message, color, style, flag);
             bossBar.setProgress(progress);
@@ -164,7 +163,6 @@ public class SendBossBar2 {
     }
 
     public void remove(){
-        cd.getLogger().info("刪除: "+player.getName());
         new ClearAction(taskID);
         bossBar.removePlayer(player);
         bossBar.removeAll();
