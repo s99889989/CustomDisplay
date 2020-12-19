@@ -23,7 +23,8 @@ public class PlayerTrigger {
     private LivingEntity self = null;
     private LivingEntity target = null;
     private String firstString = "";
-    private double damagerNumber = 0.0;
+
+    private boolean stop = false;
     private String taskID = String.valueOf((int)(Math.random()*100000));
 
     /**觸發的動作列表**/
@@ -189,14 +190,26 @@ public class PlayerTrigger {
                     taskID = new StringConversion2(self,target,strings[1],"Character").valueConv();
                 }
             }
+            if(allString.toLowerCase().contains("stop=") || allString.toLowerCase().contains("s=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    stop = Boolean.valueOf(strings[1]);
+                }
+            }
         }
-        if(ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID) == null){
-            ActionManager2.getPlayerTrigger_Judgment2_Map().put(taskID,new JudgmentAction2());
-            ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
-        }else{
+        if(stop){
             new ClearAction(taskID);
-            ActionManager2.getPlayerTrigger_Judgment2_Map().put(taskID,new JudgmentAction2());
-            ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+        }else{
+            new JudgmentAction2().execute(self,target,actionString,taskID);
+//            if(ActionManager2.getOther_Judgment2_Map().get(taskID) == null){
+//                new ClearAction(taskID);
+//                ActionManager2.getOther_Judgment2_Map().put(taskID,new JudgmentAction2());
+//                ActionManager2.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+//                if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
+//                    ActionManager2.getOther_Judgment2_Map().get(taskID).getBukkitRunnable().cancel();
+//                    ActionManager2.getOther_Judgment2_Map().remove(taskID);
+//                }
+//            }
         }
     }
 

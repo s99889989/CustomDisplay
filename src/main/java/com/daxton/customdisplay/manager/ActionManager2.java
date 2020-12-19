@@ -12,8 +12,7 @@ public class ActionManager2 {
     /**ProtocolManager**/
     public static ProtocolManager protocolManager;
 
-    /**PlayerTrigger->judgment2**/
-    private static Map<String , JudgmentAction2> playerTrigger_Judgment2_Map = new HashMap<>();
+
 
     /**judgment2->Action2**/
     private static Map<String , Action2> judgment2_Action2_Map = new HashMap<>();
@@ -30,20 +29,15 @@ public class ActionManager2 {
     /**Judgment2->SendParticles**/
     private static Map<String ,SendParticles> judgment2_SendParticles_Map = new HashMap<>();
 
-    /**action2->judgment2**/
-    private static Map<String , JudgmentAction2> action2_Judgment2_Map = new HashMap<>();
-    /**loop2->judgment2**/
-    private static Map<String , JudgmentAction2> loop2_Judgment2_Map = new HashMap<>();
+    /**Other->judgment2**/
+    private static Map<String , JudgmentAction2> other_Judgment2_Map = new HashMap<>();
 
     /**SendParticles->ProtocolManager**/
     private static Map<String, ProtocolManager> sendParticles_ProtocolManager_Map = new HashMap<>();
 
     /**---------------------------------------------------------------------------------------------------------------**/
 
-    /**PlayerTrigger->judgment2**/
-    public static Map<String, JudgmentAction2> getPlayerTrigger_Judgment2_Map() {
-        return playerTrigger_Judgment2_Map;
-    }
+
 
     /**judgment2->Action2**/
     public static Map<String, Action2> getJudgment2_Action2_Map() {
@@ -74,13 +68,10 @@ public class ActionManager2 {
         return judgment2_SendParticles_Map;
     }
 
-    /**action2->judgment2**/
-    public static Map<String, JudgmentAction2> getAction2_Judgment2_Map() {
-        return action2_Judgment2_Map;
-    }
-    /**loop2->judgment2**/
-    public static Map<String, JudgmentAction2> getLoop2_Judgment2_Map() {
-        return loop2_Judgment2_Map;
+
+    /**Other->judgment2**/
+    public static Map<String, JudgmentAction2> getOther_Judgment2_Map() {
+        return other_Judgment2_Map;
     }
 
     /**SendParticles->ProtocolManager**/

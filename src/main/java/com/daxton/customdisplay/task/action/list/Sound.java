@@ -79,35 +79,35 @@ public class Sound {
         }
 
         for(String string : new StringFind().getStringMessageList(firstString)){
-            if(string.toLowerCase().contains("x=")){
+            if(string.toLowerCase().contains("sx=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
                         x = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
-                        cd.getLogger().info("x不是數字");
+                        cd.getLogger().info("sx不是數字"+strings[1]);
                     }
                 }
             }
 
-            if(string.toLowerCase().contains("y=")){
+            if(string.toLowerCase().contains("sy=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
                         y = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
-                        cd.getLogger().info("y不是數字"+y);
+                        cd.getLogger().info("sy不是數字"+strings[1]);
                     }
                 }
             }
 
-            if(string.toLowerCase().contains("z=")){
+            if(string.toLowerCase().contains("sz=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
                         z = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
-                        cd.getLogger().info("z不是數字");
+                        cd.getLogger().info("sz不是數字"+strings[1]);
                     }
                 }
             }

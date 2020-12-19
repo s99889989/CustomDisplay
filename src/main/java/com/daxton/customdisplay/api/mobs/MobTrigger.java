@@ -42,13 +42,13 @@ public class MobTrigger {
 
     public void onDamaged(){
         for(String actionString : action_Trigger_Map.get("~ondamaged")){
-            new JudgmentAction2().execute(self,target,actionString,String.valueOf((int)(Math.random()*100000)));
+            //new JudgmentAction2().execute(self,target,actionString,String.valueOf((int)(Math.random()*100000)));
         }
     }
 
     public void onDeath(){
         for(String actionString : action_Trigger_Map.get("~ondeath")){
-            new JudgmentAction2().execute(self,target,actionString,String.valueOf((int)(Math.random()*100000)));
+            //new JudgmentAction2().execute(self,target,actionString,String.valueOf((int)(Math.random()*100000)));
         }
     }
 

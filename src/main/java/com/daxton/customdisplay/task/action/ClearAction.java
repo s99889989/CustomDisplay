@@ -16,55 +16,66 @@ public class ClearAction {
         for(Loop2 loop2 : ActionManager2.getJudgment2_Loop2_Map().values()){
             loop2.cancel();
         }
-        ActionManager2.getJudgment2_Loop2_Map().clear();
+        if(!(ActionManager2.getJudgment2_Loop2_Map().isEmpty())){
+            ActionManager2.getJudgment2_Loop2_Map().clear();
+        }
+        /**Other->judgment2**/
+        if(!(ActionManager2.getOther_Judgment2_Map().isEmpty())){
+            ActionManager2.getOther_Judgment2_Map().clear();
+        }
 
-        /**PlayerTrigger->judgment2**/
-        ActionManager2.getPlayerTrigger_Judgment2_Map().clear();
 
         /**judgment2->Action2**/
-        ActionManager2.getJudgment2_Action2_Map().clear();
+        if(!(ActionManager2.getJudgment2_Action2_Map().isEmpty())){
+            ActionManager2.getJudgment2_Action2_Map().clear();
+        }
 
         /**judgment2->Holographic2**/
         for (Holographic2 holographic2 : ActionManager2.getJudgment2_Holographic2_Map().values()){
             holographic2.getHologram().delete();
         }
-        ActionManager2.getJudgment2_Holographic2_Map().clear();
+        if(!(ActionManager2.getJudgment2_Holographic2_Map().isEmpty())){
+            ActionManager2.getJudgment2_Holographic2_Map().clear();
+        }
 
 
         /**judgment2->ActionBar2**/
-        ActionManager2.getJudgment2_ActionBar2_Map().clear();
+        if(!(ActionManager2.getJudgment2_ActionBar2_Map().isEmpty())){
+            ActionManager2.getJudgment2_ActionBar2_Map().clear();
+        }
+
 
         /**judgment2->SendBossBar2**/
-        ActionManager2.getJudgment2_SendBossBar2_Map().clear();
+        if(!(ActionManager2.getJudgment2_SendBossBar2_Map().isEmpty())){
+            ActionManager2.getJudgment2_SendBossBar2_Map().clear();
+        }
+
 
         /**judgment2->SetName2**/
-
-        ActionManager2.getJudgment2_SendParticles_Map().clear();
-
-
-        /**action2->judgment2**/
-        ActionManager2.getAction2_Judgment2_Map().clear();
-
-        /**loop2->judgment2**/
-        ActionManager2.getLoop2_Judgment2_Map().clear();
+        if(!(ActionManager2.getJudgment2_SendParticles_Map().isEmpty())){
+            ActionManager2.getJudgment2_SendParticles_Map().clear();
+        }
 
 
         /**SendParticles->ProtocolManager**/
-        ActionManager2.getSendParticles_ProtocolManager_Map().clear();
+        if(!(ActionManager2.getSendParticles_ProtocolManager_Map().isEmpty())){
+            ActionManager2.getSendParticles_ProtocolManager_Map().clear();
+        }
+
 
     }
 
     public ClearAction(String taskID){
 
+        /**Other->judgment2**/
+        if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
+            ActionManager2.getOther_Judgment2_Map().remove(taskID);
+        }
+
         /**judgment2->Loop2**/
         if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) != null){
             ActionManager2.getJudgment2_Loop2_Map().get(taskID).cancel();
             ActionManager2.getJudgment2_Loop2_Map().remove(taskID);
-        }
-
-        /**PlayerTrigger->judgment2**/
-        if(ActionManager2.getPlayerTrigger_Judgment2_Map().get(taskID) != null){
-            ActionManager2.getPlayerTrigger_Judgment2_Map().remove(taskID);
         }
 
         /**judgment2->Action2**/
@@ -89,15 +100,6 @@ public class ClearAction {
         /**judgment2->SetName2**/
         if(ActionManager2.getJudgment2_SendParticles_Map().get(taskID) != null){
             ActionManager2.getJudgment2_SendParticles_Map().remove(taskID);
-        }
-
-        /**action2->judgment2**/
-        if(ActionManager2.getAction2_Judgment2_Map().get(taskID) != null){
-            ActionManager2.getAction2_Judgment2_Map().remove(taskID);
-        }
-        /**loop2->judgment2**/
-        if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) != null){
-            ActionManager2.getLoop2_Judgment2_Map().remove(taskID);
         }
 
         /**SendParticles->ProtocolManager**/

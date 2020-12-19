@@ -60,6 +60,7 @@ public class EntityTypeList {
     }
 
     public boolean get(){
+
         boolean b = false;
         List<String> stringList2 = ConfigMapManager.getFileConfigurationMap().get("Character_System_EntityTypeList.yml").getStringList(entityType+".entityTypeList");
 

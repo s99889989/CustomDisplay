@@ -6,6 +6,7 @@ import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class JudgmentAction2 {
 
@@ -15,6 +16,9 @@ public class JudgmentAction2 {
     private LivingEntity target = null;
     private String firstString = "";
     private String taskID = "";
+
+
+    private int delay = 0;
 
     public JudgmentAction2(){
 
@@ -28,20 +32,13 @@ public class JudgmentAction2 {
         bukkitRun();
     }
 
-    public void bukkitRun(){
 
+
+    public void bukkitRun(){
         String judgMent = new StringFind().getAction(firstString);
         /**Action的相關判斷**/
         if(judgMent.toLowerCase().contains("action")){
             new Action2().setAction(self,target,firstString,taskID);
-//            if(ActionManager2.getJudgment2_Action2_Map().get(taskID) == null){
-//                ActionManager2.getJudgment2_Action2_Map().put(taskID,new Action2());
-//                ActionManager2.getJudgment2_Action2_Map().get(taskID).setAction(self,target,firstString,taskID);
-//            }else {
-//                ActionManager2.getJudgment2_Action2_Map().remove(taskID);
-//                ActionManager2.getJudgment2_Action2_Map().put(taskID,new Action2());
-//                ActionManager2.getJudgment2_Action2_Map().get(taskID).setAction(self,target,firstString,taskID);
-//            }
         }
 
         /**Loop的相關判斷**/

@@ -14,10 +14,8 @@ public class Compare {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Player player = null;
-
     private LivingEntity self = null;
     private LivingEntity target = null;
-    private double damageNumber = 0;
     private String firstString = "";
     private String taskID = "";
 

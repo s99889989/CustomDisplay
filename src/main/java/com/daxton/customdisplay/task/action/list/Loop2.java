@@ -21,6 +21,7 @@ public class Loop2 extends BukkitRunnable {
 
     private int ticksRun = 0;
     private int period = 1;
+
     private int duration = 0;
 
     private LivingEntity self = null;
@@ -33,7 +34,9 @@ public class Loop2 extends BukkitRunnable {
     private String onTime = "";
     private String onEnd = "";
     private boolean unlimited = true;
-
+    private BukkitRunnable bukkitRunnableStart;
+    private BukkitRunnable bukkitRunnableTime;
+    private BukkitRunnable bukkitRunnableEnd;
 
     /**條件判斷**/
     private static Map<String,Condition> conditionMap = new HashMap<>();
@@ -93,13 +96,34 @@ public class Loop2 extends BukkitRunnable {
     public void onStart(){
         List<String> stringList = new ConfigFind().getActionKeyList(onStart);
         if(stringList.size() > 0){
+            int delay = 0;
             for(String actionString : stringList){
                 if(actionString.toLowerCase().contains("condition")){
                     if(!(condition(actionString))){
                         return;
                     }
                 }
-                gogo(actionString);
+                if(actionString.toLowerCase().contains("delay")){
+                    String[] strings = actionString.replace(" ","").toLowerCase().split("=");
+                    if(strings.length == 2){
+                        try{
+                            delay = delay + Integer.valueOf(strings[1]);
+                        }catch (NumberFormatException exception){
+
+                        }
+                    }
+                }
+                bukkitRunnableStart = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        gogo(actionString);
+                    }
+                };
+                bukkitRunnableStart.runTaskLater(cd,delay);
+            }
+
+            if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
+                ActionManager2.getOther_Judgment2_Map().remove(taskID);
             }
         }
     }
@@ -107,13 +131,36 @@ public class Loop2 extends BukkitRunnable {
     public void onTime(){
         List<String> stringList = new ConfigFind().getActionKeyList(onTime);
         if(stringList.size() > 0){
+            int delay = 0;
             for(String actionString : stringList){
+
                 if(actionString.toLowerCase().contains("condition")){
                     if(!(condition(actionString))){
                         return;
                     }
                 }
-                gogo(actionString);
+                if(actionString.toLowerCase().contains("delay")){
+                    String[] strings = actionString.replace(" ","").toLowerCase().split("=");
+                    if(strings.length == 2){
+                        try{
+                            delay = delay + Integer.valueOf(strings[1]);
+                        }catch (NumberFormatException exception){
+
+                        }
+                    }
+                }
+                bukkitRunnableTime = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        gogo(actionString);
+                    }
+                };
+                bukkitRunnableTime.runTaskLater(cd,delay);
+            }
+
+
+            if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
+                ActionManager2.getOther_Judgment2_Map().remove(taskID);
             }
         }
     }
@@ -121,6 +168,7 @@ public class Loop2 extends BukkitRunnable {
     public void onEnd(){
         List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
         if(stringList.size() > 0){
+            int delay = 0;
             if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) != null){
                 ActionManager2.getJudgment2_Loop2_Map().remove(taskID);
             }
@@ -130,25 +178,44 @@ public class Loop2 extends BukkitRunnable {
                         return;
                     }
                 }
-                gogo(actionString);
-            }
-            if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) != null){
-                ActionManager2.getLoop2_Judgment2_Map().remove(taskID);
-            }
-            if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
-                ConditionManager.getAction_Condition_Map().remove(taskID);
+                if(actionString.toLowerCase().contains("delay")){
+                    String[] strings = actionString.replace(" ","").toLowerCase().split("=");
+                    if(strings.length == 2){
+                        try{
+                            delay = delay + Integer.valueOf(strings[1]);
+                        }catch (NumberFormatException exception){
+
+                        }
+                    }
+                }
+                bukkitRunnableEnd = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        gogo(actionString);
+                    }
+                };
+                bukkitRunnableEnd.runTaskLater(cd,delay);
+
             }
 
+            if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
+                ActionManager2.getOther_Judgment2_Map().remove(taskID);
+            }
+        }
+        if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
+            ConditionManager.getAction_Condition_Map().remove(taskID);
         }
     }
 
     public void gogo(String actionString){
-        if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) == null){
-            ActionManager2.getLoop2_Judgment2_Map().put(taskID,new JudgmentAction2());
+
+        if(ActionManager2.getOther_Judgment2_Map().get(taskID) == null){
+            ActionManager2.getOther_Judgment2_Map().put(taskID,new JudgmentAction2());
+            ActionManager2.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+        }else {
+            ActionManager2.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
         }
-        if(ActionManager2.getLoop2_Judgment2_Map().get(taskID) != null){
-            ActionManager2.getLoop2_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
-        }
+
     }
 
     public boolean condition(String actionString){

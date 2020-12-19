@@ -1,6 +1,7 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.daxton.customdisplay.api.mobs.MobData;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
@@ -10,6 +11,7 @@ import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmolib.MMOAttackListener2;
 import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
 import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
@@ -100,7 +102,12 @@ public final class CustomDisplay extends JavaPlugin {
     }
     public void mapReload(){
 
-        //new ClearAction();
+        new ClearAction();
+
+        if(!(MobManager.getMob_Data_Map().isEmpty())){
+            MobManager.getMob_Data_Map().clear();
+        }
+
 
         /**重新讀取玩家資料**/
         for(Player player : Bukkit.getOnlinePlayers()){
