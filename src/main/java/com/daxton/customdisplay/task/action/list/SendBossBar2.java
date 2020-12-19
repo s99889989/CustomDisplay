@@ -3,6 +3,8 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -42,13 +44,14 @@ public class SendBossBar2 {
     }
 
     public void setBossBar(LivingEntity self, LivingEntity target, String firstString, String taskID){
+
         this.self = self;
         this.target = target;
         this.taskID = taskID;
         this.firstString = firstString;
-        if(target != null && target.getHealth() < 1){
-            return;
-        }
+//        if(target != null && target.getHealth() < 1){
+//            return;
+//        }
         setSelfOther();
     }
 
@@ -120,14 +123,16 @@ public class SendBossBar2 {
                 player = (Player) self;
             }
         }
+
+
         if(player != null){
-            if(function.toLowerCase().contains("create")){
+            if(bossBar == null & function.toLowerCase().contains("create")){
                 create();
             }
-            if(function.toLowerCase().contains("set")) {
+            if(bossBar != null & function.toLowerCase().contains("set")) {
                 change();
             }
-            if(function.toLowerCase().contains("delete")){
+            if(bossBar != null & function.toLowerCase().contains("delete")){
                 remove();
             }
         }
@@ -135,6 +140,7 @@ public class SendBossBar2 {
     }
 
     public void create(){
+        cd.getLogger().info("增加: "+player.getName());
         try{
             bossBar = Bukkit.createBossBar(message, color, style, flag);
             bossBar.setProgress(progress);
@@ -158,8 +164,14 @@ public class SendBossBar2 {
     }
 
     public void remove(){
-
+        cd.getLogger().info("刪除: "+player.getName());
+        new ClearAction(taskID);
+        bossBar.removePlayer(player);
+        bossBar.removeAll();
 
     }
 
+    public BossBar getBossBar() {
+        return bossBar;
+    }
 }

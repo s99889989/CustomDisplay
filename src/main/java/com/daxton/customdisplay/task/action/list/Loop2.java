@@ -149,9 +149,11 @@ public class Loop2 extends BukkitRunnable {
                         }
                     }
                 }
+
                 bukkitRunnableTime = new BukkitRunnable() {
                     @Override
                     public void run() {
+
                         gogo(actionString);
                     }
                 };

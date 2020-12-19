@@ -25,6 +25,7 @@ public class JudgmentAction2 {
     }
 
     public void execute(LivingEntity self, LivingEntity target, String firstString,String taskID){
+
         this.self = self;
         this.target = target;
         this.firstString = firstString;
@@ -35,6 +36,7 @@ public class JudgmentAction2 {
 
 
     public void bukkitRun(){
+
         String judgMent = new StringFind().getAction(firstString);
         /**Action的相關判斷**/
         if(judgMent.toLowerCase().contains("action")){
@@ -92,6 +94,7 @@ public class JudgmentAction2 {
 
         /**BossBar的相關判斷**/
         if(judgMent.toLowerCase().contains("bossbar")){
+
             if(ActionManager2.getJudgment2_SendBossBar2_Map().get(taskID) == null){
                 ActionManager2.getJudgment2_SendBossBar2_Map().put(taskID,new SendBossBar2());
             }

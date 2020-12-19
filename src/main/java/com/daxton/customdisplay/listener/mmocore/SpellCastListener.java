@@ -31,10 +31,7 @@ public class SpellCastListener extends SpellCast {
         if(ListenerManager.getCast_On_Stop().get(playerUUID) == null){
             ListenerManager.getCast_On_Stop().put(playerUUID,true);
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-
                 new PlayerTrigger(player).onSkillCastStart(player,target);
-
-
             }
         }else {
             if(ListenerManager.getCast_On_Stop().get(playerUUID) == true){

@@ -26,16 +26,6 @@ public class AttackListener implements Listener {
 
     private UUID targetUUID;
 
-    @EventHandler(
-            ignoreCancelled = true,
-            priority = EventPriority.MONITOR
-    )
-    public void onDamage(EntityDamageEvent event){
-        String name = event.getEntity().getName();
-        double d = event.getFinalDamage();
-        cd.getLogger().info(name+"數字: "+d);
-    }
-
 
     @EventHandler(
             ignoreCancelled = true,

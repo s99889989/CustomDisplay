@@ -55,7 +55,7 @@ public final class CustomDisplay extends JavaPlugin {
         }
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
             getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
-            //Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
+            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
         }else {
             getLogger().severe("*** ProtocolLib is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
@@ -65,7 +65,7 @@ public final class CustomDisplay extends JavaPlugin {
             return;
         }
 
-        load();
+        configManager = new ConfigManager(customDisplay);
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
 
         if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){

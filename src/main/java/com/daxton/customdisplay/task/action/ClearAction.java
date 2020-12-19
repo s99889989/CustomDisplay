@@ -1,10 +1,15 @@
 package com.daxton.customdisplay.task.action;
 
+import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.task.action.list.Holographic2;
 import com.daxton.customdisplay.task.action.list.Loop2;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import org.bukkit.entity.LivingEntity;
+
+import java.util.UUID;
 
 public class ClearAction {
 
@@ -57,13 +62,32 @@ public class ClearAction {
         }
 
 
-        /**SendParticles->ProtocolManager**/
-        if(!(ActionManager2.getSendParticles_ProtocolManager_Map().isEmpty())){
-            ActionManager2.getSendParticles_ProtocolManager_Map().clear();
-        }
 
 
     }
+
+    public ClearAction(LivingEntity self,LivingEntity target){
+        if(self != null){
+            UUID selfUUID = self.getUniqueId();
+            String uuidString = selfUUID.toString();
+            if(PlaceholderManager.getActionBar_function().get(uuidString+"function") != null){
+                PlaceholderManager.getActionBar_function().remove(uuidString);
+            }
+        }
+        if(target != null){
+            UUID targetUUID = target.getUniqueId();
+            String uuidString = targetUUID .toString();
+            if(PlaceholderManager.getActionBar_function().get(uuidString+"function") != null){
+                PlaceholderManager.getActionBar_function().remove(uuidString);
+            }
+        }
+
+
+
+
+
+    }
+
 
     public ClearAction(String taskID){
 
@@ -95,6 +119,7 @@ public class ClearAction {
         }
         /**judgment2->SendBossBar2**/
         if(ActionManager2.getJudgment2_SendBossBar2_Map().get(taskID) != null){
+            ActionManager2.getJudgment2_SendBossBar2_Map().get(taskID).getBossBar().removeAll();
             ActionManager2.getJudgment2_SendBossBar2_Map().remove(taskID);
         }
         /**judgment2->SetName2**/
@@ -102,10 +127,6 @@ public class ClearAction {
             ActionManager2.getJudgment2_SendParticles_Map().remove(taskID);
         }
 
-        /**SendParticles->ProtocolManager**/
-        if(ActionManager2.getSendParticles_ProtocolManager_Map().get(taskID) != null){
-            ActionManager2.getSendParticles_ProtocolManager_Map().remove(taskID);
-        }
 
     }
 

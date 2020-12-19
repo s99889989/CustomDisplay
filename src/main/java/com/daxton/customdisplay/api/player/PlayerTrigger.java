@@ -27,6 +27,7 @@ public class PlayerTrigger {
     private boolean stop = false;
     private String taskID = String.valueOf((int)(Math.random()*100000));
 
+
     /**觸發的動作列表**/
     private Map<String, List<String>> action_Trigger_Map = new HashMap<>();
 
@@ -182,7 +183,7 @@ public class PlayerTrigger {
     }
 
     public void runExecute(String actionString){
-
+        stop = false;
         for(String allString : new StringFind().getStringList(actionString)){
             if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
@@ -197,10 +198,14 @@ public class PlayerTrigger {
                 }
             }
         }
-        if(stop){
+
+        if(stop){ //actionString.toLowerCase().contains("stop=true")
             new ClearAction(taskID);
+            new ClearAction(self,target);
         }else{
+
             new JudgmentAction2().execute(self,target,actionString,taskID);
+
 //            if(ActionManager2.getOther_Judgment2_Map().get(taskID) == null){
 //                new ClearAction(taskID);
 //                ActionManager2.getOther_Judgment2_Map().put(taskID,new JudgmentAction2());
