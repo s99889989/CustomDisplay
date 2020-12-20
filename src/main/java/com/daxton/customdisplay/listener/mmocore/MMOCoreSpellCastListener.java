@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class SpellCastListener extends SpellCast {
+public class MMOCoreSpellCastListener extends SpellCast {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 

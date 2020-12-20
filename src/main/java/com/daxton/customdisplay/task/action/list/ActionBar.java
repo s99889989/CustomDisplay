@@ -27,7 +27,7 @@ import java.util.Map;
 import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.GAME_INFO;
 import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
 
-public class ActionBar2 {
+public class ActionBar {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -43,7 +43,7 @@ public class ActionBar2 {
     private boolean remove = false;
     private List<String> classList = new ArrayList();
 
-    public ActionBar2(){
+    public ActionBar(){
 
     }
 

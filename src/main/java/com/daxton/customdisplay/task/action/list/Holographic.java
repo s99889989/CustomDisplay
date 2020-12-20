@@ -12,7 +12,7 @@ import org.bukkit.entity.LivingEntity;
 
 import java.util.Random;
 
-public class Holographic2 {
+public class Holographic {
 
     private static final Random random = new Random();
 
@@ -35,7 +35,7 @@ public class Holographic2 {
     private double z = 0;
 
 
-    public Holographic2(){
+    public Holographic(){
 
     }
 

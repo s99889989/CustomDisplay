@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
 
-public class AttrAttackListener implements Listener {
+public class AttributePlusListener implements Listener {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 

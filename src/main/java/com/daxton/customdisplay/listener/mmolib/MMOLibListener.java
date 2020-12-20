@@ -20,7 +20,7 @@ import java.util.UUID;
 import static net.mmogroup.mmolib.api.stat.SharedStat.*;
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
 
-public class MMOAttackListener2 implements Listener{
+public class MMOLibListener implements Listener{
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -42,7 +42,7 @@ public class MMOAttackListener2 implements Listener{
             priority = EventPriority.MONITOR,
             ignoreCancelled = true
     )
-    public void onAttack(EntityDamageByEntityEvent event){ //PlayerAttackEvent pevent,
+    public void onAttack(EntityDamageByEntityEvent event){
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -53,8 +53,6 @@ public class MMOAttackListener2 implements Listener{
             player = (Player) event.getDamager();
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
-
-
 
 
             ItemStack itemStack = player.getInventory().getItemInMainHand();
@@ -69,52 +67,18 @@ public class MMOAttackListener2 implements Listener{
             physical_damage = (attack_damage/100)*physical_damage;
             /**爆擊增幅**/
             double physical_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(CRITICAL_STRIKE_POWER);
-            physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+200)/100);
-
-            /**額外魔法攻擊**/
-            PlayerData data = PlayerData.get(player);
-            double magical_damage = data.getStats().getStat(StatType.MAGIC_DAMAGE);
-            magical_damage = (magical_damage/100);
-
-            /**額外粒子攻擊**/
-            double projectile_DAMAGE = MMOPlayerData.get(playerUUID).getStatMap().getStat(PROJECTILE_DAMAGE);
-            /**額外技能攻擊**/
-            double skill_DAMAGE = MMOPlayerData.get(playerUUID).getStatMap().getStat(SKILL_DAMAGE);
-
-            /**魔法爆擊增幅**/
-            double spell_CRITICAL_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(SPELL_CRITICAL_STRIKE_POWER);
-            spell_CRITICAL_STRIKE_POWER = (spell_CRITICAL_STRIKE_POWER/100) + 1.5;
-
-            /**最終傷害**/
-            double final_damage = attack_damage+physical_damage;
-//            player.sendMessage("基礎傷害"+attack_damage);
-//            player.sendMessage("額外物理攻擊"+physical_damage);
-//            player.sendMessage("爆擊增幅"+physical_STRIKE_POWER);
+            physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
 
             if(damageType.contains("WEAPON")){
-                //player.sendMessage("WEAPON： "+damageType); damageNumber > (physical_STRIKE_POWER-2)
-                if(damageNumber > 2 & damageNumber > (physical_STRIKE_POWER-50) ){
-
+                if(damageNumber > physical_STRIKE_POWER ){
                     new PlayerTrigger(player).onCrit(player,target);
-
                 }else {
                     new PlayerTrigger(player).onAttack(player,target);
                 }
             }
+
             if(damageType.contains("MAGIC")){
-//                player.sendMessage("顯示傷害: "+damageNumber);
-//                player.sendMessage("估算傷害: "+((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER));
-
-                if(damageNumber > ((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER)){
-
-                    new PlayerTrigger(player).onMCrit(player,target);
-
-                }else {
-
-                    new PlayerTrigger(player).onMagic(player,target);
-
-                }
-
+                new PlayerTrigger(player).onMagic(player,target);
             }
 
         }else {

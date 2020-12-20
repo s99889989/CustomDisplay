@@ -1,15 +1,17 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import com.daxton.customdisplay.api.mobs.MobData;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.listener.attributeplus.AttrAttackListener;
-import com.daxton.customdisplay.listener.mmocore.SpellCastListener;
+import com.daxton.customdisplay.listener.attributeplus.AttributePlusListener;
+import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
+import com.daxton.customdisplay.listener.mmocore.MMOCoreSpellCastListener;
 import com.daxton.customdisplay.listener.customdisplay.*;
-import com.daxton.customdisplay.listener.mmolib.MMOAttackListener2;
+import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
 import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
+import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
+import com.daxton.customdisplay.listener.skillapi.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -32,6 +34,7 @@ public final class CustomDisplay extends JavaPlugin {
     @Override
     public void onEnable() {
         customDisplay = this;
+        ActionManager2.protocolManager = ProtocolLibrary.getProtocolManager();
         if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
             getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
@@ -65,36 +68,82 @@ public final class CustomDisplay extends JavaPlugin {
             return;
         }
 
+        if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")){
+            Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
+            getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
+        }
+
         configManager = new ConfigManager(customDisplay);
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
-
-        if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
-            Bukkit.getPluginManager().registerEvents(new MMOAttackListener2(),customDisplay);
-            getLogger().info(ChatColor.GREEN+"Loaded MMOLib");
-        }else if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
-            Bukkit.getPluginManager().registerEvents(new AttrAttackListener(),customDisplay);
-            getLogger().info(ChatColor.GREEN+"Loaded AttributePlus");
-        }else {
-            Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-        }
+        /**傷害判斷的核心插件.**/
+        AttackCore();
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
 
-        if (Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
-            getLogger().info(ChatColor.GREEN+"Loaded MMOCore");
-            Bukkit.getPluginManager().registerEvents(new SpellCastListener(),customDisplay);
-        }
-        if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")){
-            getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
-            Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
-        }
-        ActionManager2.protocolManager = ProtocolLibrary.getProtocolManager();
+
+
 
     }
 
+    public void AttackCore(){
+        String attackCore = configManager.config.getString("AttackCore");
+        switch (attackCore.toLowerCase()){
+            case "mmolib":
+                if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                    Bukkit.getPluginManager().registerEvents(new MMOLibListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOLib");
+                }else {
+                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+                }
+                break;
+            case "skillapi_mmolib":
+                if(Bukkit.getPluginManager().isPluginEnabled("SkillAPI") & Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                    Bukkit.getPluginManager().registerEvents(new SkillAPI_MMOLib_Listener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI_MMOLib");
+                }else {
+                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+                }
+                break;
+            case "mmocore":
+                if(Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
+                    Bukkit.getPluginManager().registerEvents(new MMOCoreListener(),customDisplay);
+                    Bukkit.getPluginManager().registerEvents(new MMOCoreSpellCastListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOCore");
+                }else {
+                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+                }
+                break;
+            case "attributeplus":
+                if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+                    Bukkit.getPluginManager().registerEvents(new AttributePlusListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: AttributePlus");
+                }else {
+                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+                }
+                break;
+            case "skillapi":
+                if(Bukkit.getPluginManager().isPluginEnabled("SkillAPI")){
+                    Bukkit.getPluginManager().registerEvents(new SkillAPIListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI");
+                }else {
+                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+                }
+                break;
+            case "default":
+            default:
+                Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+        }
+
+    }
 
     public void load(){
         configManager = new ConfigManager(customDisplay);

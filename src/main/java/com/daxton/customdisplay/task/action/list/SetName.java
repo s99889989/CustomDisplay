@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
-public class SetName2 {
+public class SetName {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -29,7 +29,7 @@ public class SetName2 {
     private String aims = "self";
     private boolean always = false;
 
-    public SetName2(){
+    public SetName(){
 
     }
 

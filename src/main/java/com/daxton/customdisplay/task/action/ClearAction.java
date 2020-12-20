@@ -1,12 +1,10 @@
 package com.daxton.customdisplay.task.action;
 
-import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.daxton.customdisplay.task.action.list.Holographic2;
-import com.daxton.customdisplay.task.action.list.Loop2;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.daxton.customdisplay.task.action.list.Holographic;
+import com.daxton.customdisplay.task.action.list.Loop;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.UUID;
@@ -18,8 +16,8 @@ public class ClearAction {
     public ClearAction(){
 
         /**judgment2->Loop2**/
-        for(Loop2 loop2 : ActionManager2.getJudgment2_Loop2_Map().values()){
-            loop2.cancel();
+        for(Loop loop : ActionManager2.getJudgment2_Loop2_Map().values()){
+            loop.cancel();
         }
         if(!(ActionManager2.getJudgment2_Loop2_Map().isEmpty())){
             ActionManager2.getJudgment2_Loop2_Map().clear();
@@ -36,8 +34,8 @@ public class ClearAction {
         }
 
         /**judgment2->Holographic2**/
-        for (Holographic2 holographic2 : ActionManager2.getJudgment2_Holographic2_Map().values()){
-            holographic2.getHologram().delete();
+        for (Holographic holographic : ActionManager2.getJudgment2_Holographic2_Map().values()){
+            holographic.getHologram().delete();
         }
         if(!(ActionManager2.getJudgment2_Holographic2_Map().isEmpty())){
             ActionManager2.getJudgment2_Holographic2_Map().clear();

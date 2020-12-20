@@ -1,9 +1,7 @@
 #語言(英語,繁體中文,簡體中文)
 #Language (English,Chinese_TW,Chinese_CN,Portuguese_BR)
 Language: English
-#是使否阻擋MMOCoreStats的顯示.
-#Whether to block the display of MMOCoreStats.
-MMOcoreActionBarStats: false
-#是使否阻擋MMOCoreSpell的顯示.
-#Whether to block the display of MMOCoreSpell.
-MMOcoreActionBarSpell: false
+
+#傷害判斷的核心插件. (Default,MMOLib,MMOCore,AttributePlus,SkillAPI,SkillAPI_MMOLib)
+#The core plugin for damage judgment. (Default,MMOLib,MMOCore,AttributePlus,SkillAPI,SkillAPI_MMOLib)
+AttackCore: Default

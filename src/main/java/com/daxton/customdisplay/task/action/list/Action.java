@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Action2 {
+public class Action {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -27,7 +27,7 @@ public class Action2 {
     private List<String> actionList = new ArrayList<>();
     private BukkitRunnable bukkitRunnable;
 
-    public Action2(){
+    public Action(){
 
     }
 

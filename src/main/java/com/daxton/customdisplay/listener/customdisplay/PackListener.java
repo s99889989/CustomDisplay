@@ -10,9 +10,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
 
-import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.daxton.customdisplay.task.action.list.ActionBar2;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
@@ -24,12 +22,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.CHAT;
 import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.GAME_INFO;
 
 

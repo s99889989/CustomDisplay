@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SendBossBar2 {
+public class SendBossBar {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -39,7 +39,7 @@ public class SendBossBar2 {
     private static Map<String, BossBar> bossBarMap = new HashMap<>();
 
 
-    public SendBossBar2(){
+    public SendBossBar(){
 
     }
 

@@ -38,6 +38,7 @@ public class NumberUtil {
         for(int i = 0 ; i < c.length; i++){
             if(i == 0){
                 strings[i] = NumberChange(String.valueOf(c[i]),content);
+
             }else {
                 strings[i] = String.valueOf(c[i]);
             }
@@ -57,6 +58,7 @@ public class NumberUtil {
         for(int i = 0 ; i < c.length; i++){
             if(i != 0 & (i+1)%2 != 0){
                 strings[i] = NumberChange(String.valueOf(c[i]),content);
+
             }else {
                 strings[i] = String.valueOf(c[i]);
             }
@@ -70,12 +72,15 @@ public class NumberUtil {
 
     /**對雙位字做處理，不包括首位字**/
     public String NumberDouble(String string, String content){
+
         String lastString = "";
         char[] c = string.toCharArray();
         String[] strings = new String[c.length];
         for(int i = 0 ; i < c.length; i++){
             if( i != 0 & (i+1)%2 == 0 ){
+
                 strings[i] = NumberChange(String.valueOf(c[i]),content);
+
             }else {
                 strings[i] = String.valueOf(c[i]);
             }

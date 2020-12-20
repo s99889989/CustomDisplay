@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Loop2 extends BukkitRunnable {
+public class Loop extends BukkitRunnable {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -41,7 +41,7 @@ public class Loop2 extends BukkitRunnable {
     /**條件判斷**/
     private static Map<String,Condition> conditionMap = new HashMap<>();
 
-    public Loop2(){
+    public Loop(){
 
     }
 
