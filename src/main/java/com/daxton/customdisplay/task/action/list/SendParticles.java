@@ -1,19 +1,13 @@
 package com.daxton.customdisplay.task.action.list;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.*;
-import com.comphenix.protocol.injector.GamePhase;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import java.math.BigInteger;
 import java.util.List;

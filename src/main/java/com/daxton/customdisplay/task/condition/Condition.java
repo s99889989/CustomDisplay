@@ -3,10 +3,7 @@ package com.daxton.customdisplay.task.condition;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.task.condition.list.Compare;
-import com.daxton.customdisplay.task.condition.list.EntityType;
-import com.daxton.customdisplay.task.condition.list.EntityTypeList;
-import com.daxton.customdisplay.task.condition.list.Health;
+import com.daxton.customdisplay.task.condition.list.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -40,6 +37,10 @@ public class Condition {
 
     public boolean getResult2(){
         boolean b = false;
+
+        if(firstString.toLowerCase().contains("contains=")){
+            b = new Contains(self,target,firstString,taskID).get();
+        }
 
         if(firstString.toLowerCase().contains("compare=")){
             b = new Compare(self,target,firstString,taskID).get();

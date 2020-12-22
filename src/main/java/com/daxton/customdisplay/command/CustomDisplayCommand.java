@@ -1,11 +1,16 @@
 package com.daxton.customdisplay.command;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
+import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +23,9 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter{
 
     private ConfigManager configManager = cd.getConfigManager();
 
-    private String[] subCommands = {"help", "reload"};
+    private String[] subCommands = {"help", "reload", "cast"};
 
+    private String[] subCastCommands = {"action"};
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
@@ -42,22 +48,42 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter{
                 return true;
             }
         }
+        if(args.length == 2){
+            if(args[0].equalsIgnoreCase("cast")) {
+                if(!(args[1].isEmpty())){
+                    if(sender instanceof Player){
+                        Player player = (Player) sender;
+                        String uuidString = player.getUniqueId().toString();
+                        new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
+                        //player.sendMessage("Cast: "+args[1]);
+                        new PlayerTrigger(player).onCommand(player);
+                    }
+                    return true;
+                }
+            }
+        }
         sender.sendMessage(configManager.language.getString("Language.Command.help.Description"));
         for(String msg : configManager.language.getStringList("Language.Command.help.info")){
             sender.sendMessage(msg);
         }
         return true;
     }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args){
-        //如果不是能夠補全的長度，則返回空列表
-        if (args.length > 1) return new ArrayList<>();
+        List<String> commandList = new ArrayList<>();
 
-        //如果此時僅輸入了命令"cd"，則直接返回所有的子命令
-        if (args.length == 0) return Arrays.asList(subCommands);
+        if (args.length == 1){
+            commandList = Arrays.stream(subCommands).filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
 
-        //篩選所有可能的補全列表，並返回
-        return Arrays.stream(subCommands).filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
+        }
+//        if (args.length == 2 & args[0].contains("cast")){
+//            commandList = Arrays.stream(subCastCommands).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
+//        }
+
+        return commandList;
     }
+
+
 
 }

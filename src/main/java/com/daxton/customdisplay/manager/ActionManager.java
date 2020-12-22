@@ -1,13 +1,13 @@
 package com.daxton.customdisplay.manager;
 
 import com.comphenix.protocol.ProtocolManager;
-import com.daxton.customdisplay.task.action.JudgmentAction2;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActionManager2 {
+public class ActionManager {
 
     /**ProtocolManager**/
     public static ProtocolManager protocolManager;
@@ -30,7 +30,7 @@ public class ActionManager2 {
     private static Map<String ,SendParticles> judgment2_SendParticles_Map = new HashMap<>();
 
     /**Other->judgment2**/
-    private static Map<String , JudgmentAction2> other_Judgment2_Map = new HashMap<>();
+    private static Map<String , JudgmentAction> other_Judgment2_Map = new HashMap<>();
 
     /**SendParticles->ProtocolManager**/
     private static Map<String, ProtocolManager> sendParticles_ProtocolManager_Map = new HashMap<>();
@@ -70,7 +70,7 @@ public class ActionManager2 {
 
 
     /**Other->judgment2**/
-    public static Map<String, JudgmentAction2> getOther_Judgment2_Map() {
+    public static Map<String, JudgmentAction> getOther_Judgment2_Map() {
         return other_Judgment2_Map;
     }
 

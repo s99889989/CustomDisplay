@@ -45,6 +45,7 @@ public class Placeholder {
     }
 
     public Placeholder(LivingEntity entity,String change){
+        String uuidString = entity.getUniqueId().toString();
         this.notChange = change;
         this.change = change.replace("cd_","").replace("<","").replace(">","").replace(" ","");
         entity_Map.put("name",entity.getName());
@@ -61,6 +62,8 @@ public class Placeholder {
         entity_Map.put("vec_x",String.valueOf(vectorX(entity)));
         entity_Map.put("vec_y",String.valueOf(vectorY(entity)));
         entity_Map.put("vec_z",String.valueOf(vectorZ(entity)));
+        entity_Map.put("last_chat",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_last_chat>"));
+        entity_Map.put("cast_command",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_cast_command>"));
         entity_Map.put("attack_number",PlaceholderManager.getDamage_Number_Map().get(entity.getUniqueId()));
         entity_Map.put("damaged_number",PlaceholderManager.getDamaged_Number_Map().get(entity.getUniqueId()));
 

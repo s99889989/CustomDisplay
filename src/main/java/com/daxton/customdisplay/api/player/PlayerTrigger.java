@@ -3,10 +3,9 @@ package com.daxton.customdisplay.api.player;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
-import com.daxton.customdisplay.task.action.JudgmentAction2;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -273,6 +272,26 @@ public class PlayerTrigger {
             }
         }
     }
+    /**當說話時**/
+    public void onChat(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onchat") != null){
+            for(String actionString : action_Trigger_Map.get("~onchat")){
+                actionString = actionString.replace("~onChat","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當輸入指令時**/
+    public void onCommand(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~oncommand") != null){
+            for(String actionString : action_Trigger_Map.get("~oncommand")){
+                actionString = actionString.replace("~onCommand","");
+                runExecute(actionString);
+            }
+        }
+    }
 
     public void runExecute(String actionString){
         stop = false;
@@ -296,7 +315,7 @@ public class PlayerTrigger {
             new ClearAction(self,target);
         }else{
 
-            new JudgmentAction2().execute(self,target,actionString,taskID);
+            new JudgmentAction().execute(self,target,actionString,taskID);
 
 //            if(ActionManager2.getOther_Judgment2_Map().get(taskID) == null){
 //                new ClearAction(taskID);

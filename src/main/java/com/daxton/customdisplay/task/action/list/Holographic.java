@@ -3,7 +3,8 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.task.action.ClearAction;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
@@ -165,8 +166,9 @@ public class Holographic {
     }
 
     public void deleteHD(){
-        if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) != null){
-            ActionManager2.getJudgment2_Holographic2_Map().remove(taskID);
+        new ClearAction(taskID);
+        if(ActionManager.getJudgment2_Holographic2_Map().get(taskID) != null){
+            ActionManager.getJudgment2_Holographic2_Map().remove(taskID);
         }
         hologram.delete();
     }

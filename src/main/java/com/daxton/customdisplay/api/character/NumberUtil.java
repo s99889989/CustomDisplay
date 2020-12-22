@@ -31,6 +31,30 @@ public class NumberUtil {
 
 
     /**對首位字做處理**/
+    public String stringAddRight(String string, String content){
+        String[] contests = content.split(";");
+        String[] cE = contests[0].split(",");
+        String[] cC = contests[1].split(",");
+
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            int amount = c[i];
+            if(amount < 124){
+                strings[i] = cE[0]+c[i]+cE[1];
+            }else {
+                strings[i] = cC[0]+c[i]+cC[1];
+            }
+
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+        return lastString;
+    }
+
+    /**對首位字做處理**/
     public String NumberHead(String string, String content){
         String lastString = "";
         char[] c = string.toCharArray();
@@ -52,7 +76,6 @@ public class NumberUtil {
     /**對單位字做處理，不包括首位字**/
     public String NumberUnits(String string, String content){
         String lastString = "";
-
         char[] c = string.toCharArray();
         String[] strings = new String[c.length];
         for(int i = 0 ; i < c.length; i++){

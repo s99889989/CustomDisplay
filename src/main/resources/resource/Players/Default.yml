@@ -90,3 +90,12 @@ Action:
 #Use MythicSkill skills.
 #-------------------------------------------------------------------------#
 #- Action[a=MythicSkillHomer] ~onKey1
+
+#Show chat messages on the head.
+#-------------------------------------------------------------------------#
+- Action[a=ChatHD] ~onChat
+
+#Emoji are displayed on the head.
+#-------------------------------------------------------------------------#
+#- Action[a=EmojiHelpHD] ~onChat
+- Action[a=EmojiHelpHD] ~onCommand

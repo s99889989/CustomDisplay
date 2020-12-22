@@ -97,7 +97,7 @@ EntityTopDisplayMonster-End:
 #Attack animals show blood volume.
 EntityTopDisplayAnimal:
   Action:
-  - Condition[mt=target;entityTypeList=Animal] @=target
+  - Condition[entityTypeList=Animal] @=target
   - Loop[onStart=EntityTopDisplayAnimal-Start;onTime=EntityTopDisplayAnimal-Time;onEnd=EntityTopDisplayAnimal-End;period=10;duration=200]
 EntityTopDisplayAnimal-Start:
   Action:
@@ -118,7 +118,7 @@ EntityTopDisplayAnimal-End:
 #The attacking player displays information.
 EntityTopDisplayPlayer:
   Action:
-  - Condition[mt=target;entityType=Player] @=target
+  - Condition[entityType=Player] @=target
   - Loop[onStart=EntityTopDisplayPlayer-Start;onTime=EntityTopDisplayPlayer-Time;onEnd=EntityTopDisplayPlayer-End;period=20;duration=200]
 EntityTopDisplayPlayer-Start:
   Action:
@@ -137,4 +137,115 @@ EntityTopDisplayPlayer-End:
   Action:
   - Hologram[Function=delete]
 
+#頭上顯示聊天訊息.
+#The chat message is displayed on the head.
+ChatHD:
+  Action:
+  - Loop[onStart=ChatHD-Start;onTime=ChatHD-Time;onEnd=ChatHD-End;period=3;duration=30]
+ChatHD-Start:
+  Action:
+  - Hologram[Function=create;m=䂭&self_last_chat&䂯;x=0;y=&self_hight&;z=0] @=self
+  - Hologram[Function=addTextLine;m=䂰]
+ChatHD-Time:
+  Action:
+  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+ChatHD-End:
+  Action:
+  - Hologram[Function=delete]
+  
+#頭上顯示表情符號，使用指令/cd cast !help觸發.
+#Show emoji on the head, use the command /cd cast !help to trigger.
+EmojiHelpHD:
+  Action:
+  #- Condition[Contains=&self_last_chat&=!help]
+  - Condition[Contains=&self_cast_command_help&=!help]
+  - Hologram[Function=create;m=䂞;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂟]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂠]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂡]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂢]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂣]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂤]
+  - Hologram[Function=teleport;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂥]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂦]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂧]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂨]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂩]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂪]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂫]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂞]
+  - Hologram[Function=teleport;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂟]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂠]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂡]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂢]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂣]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂤]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂥]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂦]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂧]
+  - Hologram[Function=teleport;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂨]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂩]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂪]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂫]
+  - Hologram[Function=delete]
+  
+  
+  
   

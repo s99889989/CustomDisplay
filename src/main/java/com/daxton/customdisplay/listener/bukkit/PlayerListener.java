@@ -4,7 +4,9 @@ package com.daxton.customdisplay.listener.bukkit;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ListenerManager;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -33,12 +35,17 @@ public class PlayerListener implements Listener {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
+    private ConfigManager configManager = cd.getConfigManager();
+
     private LivingEntity target = null;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
+        if(configManager.config.getBoolean("HealthScale.enable")){
+            player.setHealthScale(configManager.config.getInt("HealthScale.scale"));
+        }
 
         PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
 
@@ -66,8 +73,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
+        Player player = event.getPlayer();
+        String uuidString = event.getPlayer().getUniqueId().toString();
         String message = event.getMessage();
-        //cd.getLogger().info("聊天訊息: "+message);
+        new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
+        new PlayerTrigger(player).onChat(player);
+
     }
 
 

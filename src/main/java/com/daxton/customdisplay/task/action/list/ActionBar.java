@@ -1,31 +1,24 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.*;
-import com.comphenix.protocol.injector.GamePhase;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.GAME_INFO;
 import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
 
 public class ActionBar {
@@ -134,7 +127,7 @@ public class ActionBar {
         packet.getIntegers().write(1, time);
         packet.getIntegers().write(2, fadeOut);
         try {
-            ActionManager2.protocolManager.sendServerPacket(player, packet, false);
+            ActionManager.protocolManager.sendServerPacket(player, packet, false);
         } catch (InvocationTargetException ex) {
             ex.printStackTrace();
         }

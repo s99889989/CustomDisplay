@@ -4,9 +4,9 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConditionManager;
-import com.daxton.customdisplay.task.action.JudgmentAction2;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -122,8 +122,8 @@ public class Loop extends BukkitRunnable {
                 bukkitRunnableStart.runTaskLater(cd,delay);
             }
 
-            if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
-                ActionManager2.getOther_Judgment2_Map().remove(taskID);
+            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+                ActionManager.getOther_Judgment2_Map().remove(taskID);
             }
         }
     }
@@ -161,8 +161,8 @@ public class Loop extends BukkitRunnable {
             }
 
 
-            if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
-                ActionManager2.getOther_Judgment2_Map().remove(taskID);
+            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+                ActionManager.getOther_Judgment2_Map().remove(taskID);
             }
         }
     }
@@ -171,8 +171,8 @@ public class Loop extends BukkitRunnable {
         List<String> stringList = new ConfigFind().getActionKeyList(onEnd);
         if(stringList.size() > 0){
             int delay = 0;
-            if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) != null){
-                ActionManager2.getJudgment2_Loop2_Map().remove(taskID);
+            if(ActionManager.getJudgment2_Loop2_Map().get(taskID) != null){
+                ActionManager.getJudgment2_Loop2_Map().remove(taskID);
             }
             for(String actionString : stringList){
                 if(actionString.toLowerCase().contains("condition")){
@@ -200,8 +200,8 @@ public class Loop extends BukkitRunnable {
 
             }
 
-            if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
-                ActionManager2.getOther_Judgment2_Map().remove(taskID);
+            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+                ActionManager.getOther_Judgment2_Map().remove(taskID);
             }
         }
         if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
@@ -211,11 +211,11 @@ public class Loop extends BukkitRunnable {
 
     public void gogo(String actionString){
 
-        if(ActionManager2.getOther_Judgment2_Map().get(taskID) == null){
-            ActionManager2.getOther_Judgment2_Map().put(taskID,new JudgmentAction2());
-            ActionManager2.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+        if(ActionManager.getOther_Judgment2_Map().get(taskID) == null){
+            ActionManager.getOther_Judgment2_Map().put(taskID,new JudgmentAction());
+            ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
         }else {
-            ActionManager2.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+            ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
         }
 
     }

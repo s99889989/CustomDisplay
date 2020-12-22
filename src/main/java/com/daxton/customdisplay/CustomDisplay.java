@@ -12,7 +12,7 @@ import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
 import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPI_MMOLib_Listener;
-import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
@@ -33,7 +33,7 @@ public final class CustomDisplay extends JavaPlugin {
     @Override
     public void onEnable() {
         customDisplay = this;
-        ActionManager2.protocolManager = ProtocolLibrary.getProtocolManager();
+        ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
             getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
@@ -146,13 +146,14 @@ public final class CustomDisplay extends JavaPlugin {
     }
     public void mapReload(){
 
+
         new ClearAction();
-
-
-
 
         /**重新讀取玩家資料**/
         for(Player player : Bukkit.getOnlinePlayers()){
+            if(configManager.config.getBoolean("HealthScale.enable")){
+                player.setHealthScale(configManager.config.getInt("HealthScale.scale"));
+            }
             UUID playerUUID = player.getUniqueId();
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             if(playerData != null){

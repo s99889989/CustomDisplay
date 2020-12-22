@@ -5,3 +5,9 @@ Language: English
 #傷害判斷的核心插件. (Default,MMOLib,MMOCore,AttributePlus,SkillAPI,SkillAPI_MMOLib)
 #The core plugin for damage judgment. (Default,MMOLib,MMOCore,AttributePlus,SkillAPI,SkillAPI_MMOLib)
 AttackCore: Default
+
+#血量壓縮率.
+#HP compression rate.
+HealthScale:
+  enable: true
+  scale: 20

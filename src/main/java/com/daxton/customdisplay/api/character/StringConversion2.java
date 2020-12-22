@@ -114,6 +114,11 @@ public class StringConversion2 {
 
         }
 
+        if(headKey.toLowerCase().contains("converaddrl")){
+            finalString = new NumberUtil().stringAddRight(finalString,content);
+            return finalString;
+        }
+
         if(headKey.toLowerCase().contains("converhead") || headKey.toLowerCase().contains("chead")){
             finalString = new NumberUtil().NumberHead(finalString,content);
             return finalString;

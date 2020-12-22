@@ -262,6 +262,24 @@ public class PlayerData {
                         action_Trigger_Map.get("~onkey9").add(actionString);
                     }
                 }
+                /**當說話時**/
+                if(actionString.toLowerCase().contains("~onchat")){
+                    if(action_Trigger_Map.get("~onchat") == null){
+                        action_Trigger_Map.put("~onchat",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onchat") != null){
+                        action_Trigger_Map.get("~onchat").add(actionString);
+                    }
+                }
+                /**當輸入指令時**/
+                if(actionString.toLowerCase().contains("~oncommand")){
+                    if(action_Trigger_Map.get("~oncommand") == null){
+                        action_Trigger_Map.put("~oncommand",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~oncommand") != null){
+                        action_Trigger_Map.get("~oncommand").add(actionString);
+                    }
+                }
 
             }
         }

@@ -3,18 +3,13 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ConfigFind;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.ConditionManager;
-import com.daxton.customdisplay.task.action.ClearAction;
-import com.daxton.customdisplay.task.action.JudgmentAction2;
+import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 
@@ -68,8 +63,8 @@ public class Action {
                         return;
                     }
                 }
-                if(firstString.toLowerCase().contains("delay")){
-                    String[] strings = firstString.toLowerCase().split(" ");
+                if(actionString.toLowerCase().contains("delay")){
+                    String[] strings = actionString.toLowerCase().split(" ");
                     if(strings.length == 2){
                         try{
                             delay = delay + Integer.valueOf(strings[1]);
@@ -79,10 +74,12 @@ public class Action {
 
                     }
                 }
+
                 bukkitRunnable = new BukkitRunnable() {
                     @Override
                     public void run() {
-                        new JudgmentAction2().execute(self,target,actionString,taskID);
+
+                        new JudgmentAction().execute(self,target,actionString,taskID);
                     }
                 };
                 bukkitRunnable.runTaskLater(cd,delay);

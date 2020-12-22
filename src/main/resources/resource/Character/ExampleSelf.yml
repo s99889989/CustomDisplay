@@ -56,11 +56,9 @@ self_mana_proportion:
   - Decimal[#]
   - converAll[10,䁳;9,䁲;8,䁱;7,䁰;6,䁯;5,䁮;4,䁭;3,䁬;2,䁫;1,䁪;0,䁪]
 
-
 self_actionbar_mmocore_spell:
   message:
   - CCharacter[<cd_actionbar_mmocore_spell>]
-
 
 self_vec_x:
   message:
@@ -78,7 +76,15 @@ self_damaged_number:
   - ConverUnits[9,䀝;8,䀜;7,䀛;6,䀚;5,䀙;4,䀘;3,䀗;2,䀖;1,䀕;0,䀔]
   - Conver[9,䀓;8,䀒;7,䀑;6,䀐;5,䀏;4,䀎;3,䀍;2,䀌;1,䀋;0,䀊]
 
-
 self_hight:
   message:
   - Math[<cd_hight>+0.5]
+  
+self_last_chat:
+  message:
+  - CCharacter[<cd_last_chat>]
+  - ConverAddRL[,䂮;,䂮]
+
+self_cast_command_help:
+  message:
+  - CCharacter[<cd_cast_command>]

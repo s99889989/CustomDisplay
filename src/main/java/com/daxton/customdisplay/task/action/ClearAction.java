@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.Loop;
@@ -16,47 +16,47 @@ public class ClearAction {
     public ClearAction(){
 
         /**judgment2->Loop2**/
-        for(Loop loop : ActionManager2.getJudgment2_Loop2_Map().values()){
+        for(Loop loop : ActionManager.getJudgment2_Loop2_Map().values()){
             loop.cancel();
         }
-        if(!(ActionManager2.getJudgment2_Loop2_Map().isEmpty())){
-            ActionManager2.getJudgment2_Loop2_Map().clear();
+        if(!(ActionManager.getJudgment2_Loop2_Map().isEmpty())){
+            ActionManager.getJudgment2_Loop2_Map().clear();
         }
         /**Other->judgment2**/
-        if(!(ActionManager2.getOther_Judgment2_Map().isEmpty())){
-            ActionManager2.getOther_Judgment2_Map().clear();
+        if(!(ActionManager.getOther_Judgment2_Map().isEmpty())){
+            ActionManager.getOther_Judgment2_Map().clear();
         }
 
 
         /**judgment2->Action2**/
-        if(!(ActionManager2.getJudgment2_Action2_Map().isEmpty())){
-            ActionManager2.getJudgment2_Action2_Map().clear();
+        if(!(ActionManager.getJudgment2_Action2_Map().isEmpty())){
+            ActionManager.getJudgment2_Action2_Map().clear();
         }
 
         /**judgment2->Holographic2**/
-        for (Holographic holographic : ActionManager2.getJudgment2_Holographic2_Map().values()){
+        for (Holographic holographic : ActionManager.getJudgment2_Holographic2_Map().values()){
             holographic.getHologram().delete();
         }
-        if(!(ActionManager2.getJudgment2_Holographic2_Map().isEmpty())){
-            ActionManager2.getJudgment2_Holographic2_Map().clear();
+        if(!(ActionManager.getJudgment2_Holographic2_Map().isEmpty())){
+            ActionManager.getJudgment2_Holographic2_Map().clear();
         }
 
 
         /**judgment2->ActionBar2**/
-        if(!(ActionManager2.getJudgment2_ActionBar2_Map().isEmpty())){
-            ActionManager2.getJudgment2_ActionBar2_Map().clear();
+        if(!(ActionManager.getJudgment2_ActionBar2_Map().isEmpty())){
+            ActionManager.getJudgment2_ActionBar2_Map().clear();
         }
 
 
         /**judgment2->SendBossBar2**/
-        if(!(ActionManager2.getJudgment2_SendBossBar2_Map().isEmpty())){
-            ActionManager2.getJudgment2_SendBossBar2_Map().clear();
+        if(!(ActionManager.getJudgment2_SendBossBar2_Map().isEmpty())){
+            ActionManager.getJudgment2_SendBossBar2_Map().clear();
         }
 
 
         /**judgment2->SetName2**/
-        if(!(ActionManager2.getJudgment2_SendParticles_Map().isEmpty())){
-            ActionManager2.getJudgment2_SendParticles_Map().clear();
+        if(!(ActionManager.getJudgment2_SendParticles_Map().isEmpty())){
+            ActionManager.getJudgment2_SendParticles_Map().clear();
         }
 
 
@@ -90,39 +90,39 @@ public class ClearAction {
     public ClearAction(String taskID){
 
         /**Other->judgment2**/
-        if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
-            ActionManager2.getOther_Judgment2_Map().remove(taskID);
+        if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+            ActionManager.getOther_Judgment2_Map().remove(taskID);
         }
 
         /**judgment2->Loop2**/
-        if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) != null){
-            ActionManager2.getJudgment2_Loop2_Map().get(taskID).cancel();
-            ActionManager2.getJudgment2_Loop2_Map().remove(taskID);
+        if(ActionManager.getJudgment2_Loop2_Map().get(taskID) != null){
+            ActionManager.getJudgment2_Loop2_Map().get(taskID).cancel();
+            ActionManager.getJudgment2_Loop2_Map().remove(taskID);
         }
 
         /**judgment2->Action2**/
-        if(ActionManager2.getJudgment2_Action2_Map().get(taskID) != null){
-            ActionManager2.getJudgment2_Action2_Map().remove(taskID);
+        if(ActionManager.getJudgment2_Action2_Map().get(taskID) != null){
+            ActionManager.getJudgment2_Action2_Map().remove(taskID);
         }
 
         /**judgment2->Holographic2**/
-        if(ActionManager2.getJudgment2_Holographic2_Map().get(taskID) != null){
-            ActionManager2.getJudgment2_Holographic2_Map().get(taskID).getHologram().delete();
-            ActionManager2.getJudgment2_Holographic2_Map().remove(taskID);
+        if(ActionManager.getJudgment2_Holographic2_Map().get(taskID) != null){
+            ActionManager.getJudgment2_Holographic2_Map().get(taskID).getHologram().delete();
+            ActionManager.getJudgment2_Holographic2_Map().remove(taskID);
         }
 
         /**judgment2->ActionBar2**/
-        if(ActionManager2.getJudgment2_ActionBar2_Map().get(taskID) != null){
-            ActionManager2.getJudgment2_ActionBar2_Map().remove(taskID);
+        if(ActionManager.getJudgment2_ActionBar2_Map().get(taskID) != null){
+            ActionManager.getJudgment2_ActionBar2_Map().remove(taskID);
         }
         /**judgment2->SendBossBar2**/
-        if(ActionManager2.getJudgment2_SendBossBar2_Map().get(taskID) != null){
-            ActionManager2.getJudgment2_SendBossBar2_Map().get(taskID).getBossBar().removeAll();
-            ActionManager2.getJudgment2_SendBossBar2_Map().remove(taskID);
+        if(ActionManager.getJudgment2_SendBossBar2_Map().get(taskID) != null){
+            ActionManager.getJudgment2_SendBossBar2_Map().get(taskID).getBossBar().removeAll();
+            ActionManager.getJudgment2_SendBossBar2_Map().remove(taskID);
         }
         /**judgment2->SetName2**/
-        if(ActionManager2.getJudgment2_SendParticles_Map().get(taskID) != null){
-            ActionManager2.getJudgment2_SendParticles_Map().remove(taskID);
+        if(ActionManager.getJudgment2_SendParticles_Map().get(taskID) != null){
+            ActionManager.getJudgment2_SendParticles_Map().remove(taskID);
         }
 
 

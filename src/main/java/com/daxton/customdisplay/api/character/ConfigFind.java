@@ -77,9 +77,7 @@ public class ConfigFind {
                 }
             }
         }
-
         return actionList;
-
     }
 
 }

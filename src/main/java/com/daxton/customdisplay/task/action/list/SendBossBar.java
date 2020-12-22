@@ -3,7 +3,6 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;

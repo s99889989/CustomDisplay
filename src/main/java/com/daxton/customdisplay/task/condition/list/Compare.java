@@ -38,21 +38,6 @@ public class Compare {
         setOther2();
     }
 
-    public Compare(Player player, LivingEntity target ,String firstString){
-        this.player = player;
-        this.target = target;
-        this.firstString = firstString;
-        this.taskID = taskID;
-        setOther();
-    }
-
-    public Compare(Player player ,String firstString){
-        this.player = player;
-        this.firstString = firstString;
-        this.taskID = taskID;
-        setOther();
-    }
-
     public void setOther2(){
         for(String string1 : new StringFind().getStringMessageList(firstString)){
             if(string1.toLowerCase().contains("compare=")){

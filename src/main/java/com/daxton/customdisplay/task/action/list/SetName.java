@@ -7,7 +7,7 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
-import com.daxton.customdisplay.manager.ActionManager2;
+import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -94,12 +94,12 @@ public class SetName {
 
     public void updateEntity() {
 
-        PacketContainer packet = ActionManager2.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());
         packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(target).getWatchableObjects());
         if (player.getWorld().equals(target.getWorld())) {
             try {
-                ActionManager2.protocolManager.sendServerPacket(player, packet);
+                ActionManager.protocolManager.sendServerPacket(player, packet);
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
@@ -112,7 +112,7 @@ public class SetName {
 
         message = new StringConversion2(self,target,message,"Character").valueConv();
 
-        PacketContainer packet = ActionManager2.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());
         WrappedDataWatcher watcher = new WrappedDataWatcher();
 
@@ -124,7 +124,7 @@ public class SetName {
         packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
 
         try {
-            ActionManager2.protocolManager.sendServerPacket(player, packet,false);
+            ActionManager.protocolManager.sendServerPacket(player, packet,false);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
