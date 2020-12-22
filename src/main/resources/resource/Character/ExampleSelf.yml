@@ -40,7 +40,7 @@ self_attack_number:
   - Decimal[#]
   - ConverHead[9,䀉;8,䀈;7,䀇;6,䀆;5,䀅;4,䀄;3,䀃;2,䀂;1,䀁;0,䀀]
   - ConverUnits[9,䀝;8,䀜;7,䀛;6,䀚;5,䀙;4,䀘;3,䀗;2,䀖;1,䀕;0,䀔]
-  - ConverDouble[9,䀓;8,䀒;7,䀑;6,䀐;5,䀏;4,䀎;3,䀍;2,䀌;1,䀋;0,䀊]
+  - Conver[9,䀓;8,䀒;7,䀑;6,䀐;5,䀏;4,䀎;3,䀍;2,䀌;1,䀋;0,䀊]
   
 self_attack_number_crit:
   message:
@@ -48,7 +48,7 @@ self_attack_number_crit:
   - Decimal[#]
   - ConverHead[9,䀽䀧;8,䀽䀦;7,䀽䀥;6,䀽䀤;5,䀽䀣;4,䀽䀢;3,䀽䀡;2,䀽䀠;1,䀽䀟;0,䀽䀞]
   - ConverUnits[9,䀱;8,䀰;7,䀯;6,䀮;5,䀭;4,䀬;3,䀫;2,䀪;1,䀩;0,䀨]
-  - ConverDouble[9,䀻;8,䀺;7,䀹;6,䀸;5,䀷;4,䀶;3,䀵;2,䀴;1,䀳;0,䀲]
+  - Conver[9,䀻;8,䀺;7,䀹;6,䀸;5,䀷;4,䀶;3,䀵;2,䀴;1,䀳;0,䀲]
 
 self_mana_proportion:
   message:
@@ -57,9 +57,9 @@ self_mana_proportion:
   - converAll[10,䁳;9,䁲;8,䁱;7,䁰;6,䁯;5,䁮;4,䁭;3,䁬;2,䁫;1,䁪;0,䁪]
 
 
-self_other_actionbar:
+self_actionbar_mmocore_spell:
   message:
-  - CCharacter[<cd_actionbar>]
+  - CCharacter[<cd_actionbar_mmocore_spell>]
 
 
 self_vec_x:
@@ -76,7 +76,7 @@ self_damaged_number:
   - Decimal[#]
   - ConverHead[9,䀉;8,䀈;7,䀇;6,䀆;5,䀅;4,䀄;3,䀃;2,䀂;1,䀁;0,䀀]
   - ConverUnits[9,䀝;8,䀜;7,䀛;6,䀚;5,䀙;4,䀘;3,䀗;2,䀖;1,䀕;0,䀔]
-  - ConverDouble[9,䀓;8,䀒;7,䀑;6,䀐;5,䀏;4,䀎;3,䀍;2,䀌;1,䀋;0,䀊]
+  - Conver[9,䀓;8,䀒;7,䀑;6,䀐;5,䀏;4,䀎;3,䀍;2,䀌;1,䀋;0,䀊]
 
 
 self_hight:

@@ -10,10 +10,7 @@ import com.daxton.customdisplay.task.action.JudgmentAction2;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerTrigger {
 
@@ -22,6 +19,7 @@ public class PlayerTrigger {
     private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
+    private List<LivingEntity> targetList = new ArrayList<>();
     private String firstString = "";
 
     private boolean stop = false;
@@ -38,145 +36,239 @@ public class PlayerTrigger {
             action_Trigger_Map = playerData.getAction_Trigger_Map();
         }
     }
-
+    /**當攻擊時**/
     public void onAttack(LivingEntity self,LivingEntity target){
         this.self = self;
         this.target = target;
         if(action_Trigger_Map.get("~onattack") != null){
             for(String actionString : action_Trigger_Map.get("~onattack")){
+                actionString = actionString.replace("~onAttack","");
                 runExecute(actionString);
             }
         }
     }
-
+    /**當爆擊時**/
     public void onCrit(LivingEntity self,LivingEntity target){
         this.self = self;
         this.target = target;
         if(action_Trigger_Map.get("~oncrit") != null){
             for(String actionString : action_Trigger_Map.get("~oncrit")){
+                actionString = actionString.replace("~onCrit","");
                 runExecute(actionString);
             }
         }
     }
-
+    /**當魔法攻擊時**/
     public void onMagic(LivingEntity self,LivingEntity target){
         this.self = self;
         this.target = target;
         if(action_Trigger_Map.get("~onmagic") != null){
             for(String actionString : action_Trigger_Map.get("~onmagic")){
+                actionString = actionString.replace("~onMagic","");
                 runExecute(actionString);
             }
         }
     }
-
+    /**當魔法攻擊爆擊時**/
     public void onMCrit(LivingEntity self,LivingEntity target){
         this.self = self;
         this.target = target;
         if(action_Trigger_Map.get("~onmcrit") != null){
             for(String actionString : action_Trigger_Map.get("~onmcrit")){
+                actionString = actionString.replace("~onMCrit","");
                 runExecute(actionString);
             }
         }
     }
-
+    /**被攻擊時**/
     public void onDamaged(LivingEntity self,LivingEntity target){
         this.self = self;
         this.target = target;
         if(action_Trigger_Map.get("~ondamaged") != null){
             for(String actionString : action_Trigger_Map.get("~ondamaged")){
+                actionString = actionString.replace("~onDamaged","");
                 runExecute(actionString);
             }
         }
     }
-
-
-
-    public void onRegainHealth(LivingEntity self,LivingEntity target){
+    /**當回血時**/
+    public void onRegainHealth(LivingEntity self){
         this.self = self;
-        this.target = target;
         if(action_Trigger_Map.get("~onregainhealth") != null){
             for(String actionString : action_Trigger_Map.get("~onregainhealth")){
+                actionString = actionString.replace("~onRegainHealth","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onJoin(LivingEntity self,LivingEntity target){
+    /**當登入時**/
+    public void onJoin(LivingEntity self){
         this.self = self;
         this.target = target;
         if(action_Trigger_Map.get("~onjoin") != null){
             for(String actionString : action_Trigger_Map.get("~onjoin")){
+                actionString = actionString.replace("~onJoin","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onQuit(LivingEntity self,LivingEntity target){
+    /**當登出時**/
+    public void onQuit(LivingEntity self){
         this.self = self;
-        this.target = target;
         if(action_Trigger_Map.get("~onquit") != null){
             for(String actionString : action_Trigger_Map.get("~onquit")){
+                actionString = actionString.replace("~onQuit","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onMove(LivingEntity self,LivingEntity target){
+    /**移動時**/
+    public void onMove(LivingEntity self){
         this.self = self;
-        this.target = target;
         if(action_Trigger_Map.get("~onmove") != null){
             cd.getLogger().info("~onmove");
             for(String actionString : action_Trigger_Map.get("~onmove")){
+                actionString = actionString.replace("~onMove","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onSneak(LivingEntity self,LivingEntity target){
+    /**蹲下時**/
+    public void onSneak(LivingEntity self){
         this.self = self;
-        this.target = target;
         if(action_Trigger_Map.get("~onsneak") != null){
             for(String actionString : action_Trigger_Map.get("~onsneak")){
+                actionString = actionString.replace("~onSneak","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onStandup(LivingEntity self,LivingEntity target){
+    /**站起來時**/
+    public void onStandup(LivingEntity self){
         this.self = self;
-        this.target = target;
         if(action_Trigger_Map.get("~onstandup") != null){
             for(String actionString : action_Trigger_Map.get("~onstandup")){
+                actionString = actionString.replace("~onStandup","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onDeath(LivingEntity self,LivingEntity target){
+    /**當死亡時**/
+    public void onDeath(LivingEntity self){
         this.self = self;
-        this.target = target;
         if(action_Trigger_Map.get("~ondeath") != null){
             for(String actionString : action_Trigger_Map.get("~ondeath")){
+                actionString = actionString.replace("~onDeath","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onSkillCastStart(LivingEntity self,LivingEntity target){
+    /**當按下案件F時，一開始會觸發為ON，登出重新計算**/
+    public void onKeyFON(LivingEntity self){
         this.self = self;
-        this.target = target;
-        if(action_Trigger_Map.get("~onskillcaststart") != null){
-            for(String actionString : action_Trigger_Map.get("~onskillcaststart")){
+        if(action_Trigger_Map.get("~onkeyfon") != null){
+            for(String actionString : action_Trigger_Map.get("~onkeyfon")){
+                actionString = actionString.replace("~onKeyFON","");
                 runExecute(actionString);
             }
         }
     }
-
-    public void onSkillCastStop(LivingEntity self,LivingEntity target){
+    /**再按下案件F時，觸發為OFF，登出重新計算**/
+    public void onKeyFOFF(LivingEntity self){
         this.self = self;
-        this.target = target;
-        if(action_Trigger_Map.get("~onskillcaststop") != null){
-            for(String actionString : action_Trigger_Map.get("~onskillcaststop")){
+        if(action_Trigger_Map.get("~onkeyfoff") != null){
+            for(String actionString : action_Trigger_Map.get("~onkeyfoff")){
+                actionString = actionString.replace("~onKeyFOFF","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄1時**/
+    public void onKey1(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey1") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey1")){
+                actionString = actionString.replace("~onKey1","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄2時**/
+    public void onKey2(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey2") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey2")){
+                actionString = actionString.replace("~onKey2","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄3時**/
+    public void onKey3(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey3") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey3")){
+                actionString = actionString.replace("~onKey3","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄4時**/
+    public void onKey4(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey4") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey4")){
+                actionString = actionString.replace("~onKey4","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄5時**/
+    public void onKey5(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey5") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey5")){
+                actionString = actionString.replace("~onKey5","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄6時**/
+    public void onKey6(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey6") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey6")){
+                actionString = actionString.replace("~onKey6","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄7時**/
+    public void onKey7(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey7") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey7")){
+                actionString = actionString.replace("~onKey7","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄8時**/
+    public void onKey8(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey8") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey8")){
+                actionString = actionString.replace("~onKey8","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當切換到物品欄9時**/
+    public void onKey9(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onkey9") != null){
+            for(String actionString : action_Trigger_Map.get("~onkey9")){
+                actionString = actionString.replace("~onKey9","");
                 runExecute(actionString);
             }
         }

@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.listener.customdisplay;
+package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
@@ -41,10 +41,8 @@ public class AttackListener implements Listener {
 
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
-
+            //target.damage(50,player);
             new PlayerTrigger(player).onAttack(player,target);
-
-
 
         }else if(event.getDamager() instanceof Projectile){
             if(((Projectile) event.getDamager()).getShooter() instanceof Animals == false && ((Projectile) event.getDamager()).getShooter() instanceof Monster == false){

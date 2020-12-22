@@ -4,16 +4,15 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.listener.attributeplus.AttributePlusListener;
+import com.daxton.customdisplay.listener.attributeplus.*;
+import com.daxton.customdisplay.listener.bukkit.*;
 import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
-import com.daxton.customdisplay.listener.mmocore.MMOCoreSpellCastListener;
-import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
 import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
+import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager2;
-import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
@@ -78,11 +77,8 @@ public final class CustomDisplay extends JavaPlugin {
         /**傷害判斷的核心插件.**/
         AttackCore();
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new JoinListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new QuizListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
-
 
 
 
@@ -112,7 +108,6 @@ public final class CustomDisplay extends JavaPlugin {
             case "mmocore":
                 if(Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
                     Bukkit.getPluginManager().registerEvents(new MMOCoreListener(),customDisplay);
-                    Bukkit.getPluginManager().registerEvents(new MMOCoreSpellCastListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOCore");
                 }else {
                     Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
@@ -153,9 +148,7 @@ public final class CustomDisplay extends JavaPlugin {
 
         new ClearAction();
 
-        if(!(MobManager.getMob_Data_Map().isEmpty())){
-            MobManager.getMob_Data_Map().clear();
-        }
+
 
 
         /**重新讀取玩家資料**/

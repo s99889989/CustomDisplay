@@ -6,6 +6,8 @@ import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.List;
+
 public class JudgmentAction2 {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
@@ -31,17 +33,13 @@ public class JudgmentAction2 {
         bukkitRun();
     }
 
-
-
     public void bukkitRun(){
-
         String judgMent = new StringFind().getAction(firstString);
         /**Action的相關判斷**/
         if(judgMent.toLowerCase().contains("action")){
 
             new Action().setAction(self,target,firstString,taskID);
         }
-
         /**Loop的相關判斷**/
         if(judgMent.toLowerCase().contains("loop")){
             if(ActionManager2.getJudgment2_Loop2_Map().get(taskID) == null){

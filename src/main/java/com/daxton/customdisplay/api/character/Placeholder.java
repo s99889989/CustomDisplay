@@ -2,8 +2,16 @@ package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import net.Indyuce.mmocore.MMOCore;
+import net.Indyuce.mmocore.api.player.PlayerData;
+import net.Indyuce.mmocore.api.skill.Skill;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,9 +65,32 @@ public class Placeholder {
         entity_Map.put("damaged_number",PlaceholderManager.getDamaged_Number_Map().get(entity.getUniqueId()));
 
         entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
+        if(entity instanceof Player & Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
+            Player player = (Player) entity;
+            entity_Map.put("actionbar_mmocore_spell",MMOCoreActionBar(player));
+        }
 
-        entity_Map.put("actionbar",PlaceholderManager.getMmocore_ActionBar_Spell_Map().get(entity.getUniqueId()));
 
+    }
+
+    public String MMOCoreActionBar(Player player){
+        PlayerData data = PlayerData.get(player);
+        String ready = MMOCore.plugin.configManager.getSimpleMessage("casting.action-bar.ready", new String[0]).message();
+        String onCooldown = MMOCore.plugin.configManager.getSimpleMessage("casting.action-bar.on-cooldown", new String[0]).message();
+        String noMana = MMOCore.plugin.configManager.getSimpleMessage("casting.action-bar.no-mana", new String[0]).message();
+        String split = MMOCore.plugin.configManager.getSimpleMessage("casting.split", new String[0]).message();
+        StringBuilder str = new StringBuilder();
+        for(int j = 0; j < data.getBoundSkills().size(); ++j) {
+            Skill.SkillInfo skill = data.getBoundSkill(j);
+            str.append(str.length() == 0 ? "" : split).append((onCooldown(data, skill) ? onCooldown.replace("{cooldown}", "" + data.getSkillData().getCooldown(skill) / 1000L) : (noMana(data, skill) ? noMana : ready)).replace("{index}", "" + (j + 1 + (data.getPlayer().getInventory().getHeldItemSlot() <= j ? 1 : 0))).replace("{skill}", data.getBoundSkill(j).getSkill().getName()));
+        }
+        return str.toString();
+    }
+    private boolean onCooldown(PlayerData data, Skill.SkillInfo skill) {
+        return skill.getSkill().hasModifier("cooldown") && data.getSkillData().getCooldown(skill) > 0L;
+    }
+    private boolean noMana(PlayerData data, Skill.SkillInfo skill) {
+        return skill.getSkill().hasModifier("mana") && skill.getModifier("mana", data.getSkillLevel(skill.getSkill())) > data.getMana();
     }
 
     public String getString(){

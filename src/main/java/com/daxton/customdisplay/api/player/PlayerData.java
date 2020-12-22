@@ -55,6 +55,7 @@ public class PlayerData {
     public void setActionList(){
         if(playerActionList.size() > 0){
             for(String actionString : playerActionList){
+                /**當攻擊時**/
                 if(actionString.toLowerCase().contains("~onattack")){
                     if(action_Trigger_Map.get("~onattack") == null){
                         action_Trigger_Map.put("~onattack",new ArrayList<>());
@@ -63,6 +64,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onattack").add(actionString);
                     }
                 }
+                /**當爆擊時**/
                 if(actionString.toLowerCase().contains("~oncrit")){
                     if(action_Trigger_Map.get("~oncrit") == null){
                         action_Trigger_Map.put("~oncrit",new ArrayList<>());
@@ -71,6 +73,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~oncrit").add(actionString);
                     }
                 }
+                /**當魔法攻擊時**/
                 if(actionString.toLowerCase().contains("~onmagic")){
                     if(action_Trigger_Map.get("~onmagic") == null){
                         action_Trigger_Map.put("~onmagic",new ArrayList<>());
@@ -79,7 +82,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onmagic").add(actionString);
                     }
                 }
-
+                /**當魔法攻擊爆擊時**/
                 if(actionString.toLowerCase().contains("~onmcrit")){
                     if(action_Trigger_Map.get("~onmcrit") == null){
                         action_Trigger_Map.put("~onmcrit",new ArrayList<>());
@@ -88,6 +91,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onmcrit").add(actionString);
                     }
                 }
+                /**被攻擊時**/
                 if(actionString.toLowerCase().contains("~ondamaged")){
                     if(action_Trigger_Map.get("~ondamaged") == null){
                         action_Trigger_Map.put("~ondamaged",new ArrayList<>());
@@ -96,6 +100,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~ondamaged").add(actionString);
                     }
                 }
+                /**當回血時**/
                 if(actionString.toLowerCase().contains("~onregainhealth")){
                     if(action_Trigger_Map.get("~onregainhealth") == null){
                         action_Trigger_Map.put("~onregainhealth",new ArrayList<>());
@@ -104,6 +109,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onregainhealth").add(actionString);
                     }
                 }
+                /**當登入時**/
                 if(actionString.toLowerCase().contains("~onjoin")){
                     if(action_Trigger_Map.get("~onjoin") == null){
                         action_Trigger_Map.put("~onjoin",new ArrayList<>());
@@ -112,6 +118,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onjoin").add(actionString);
                     }
                 }
+                /**當登出時**/
                 if(actionString.toLowerCase().contains("~onquit")){
                     if(action_Trigger_Map.get("~onquit") == null){
                         action_Trigger_Map.put("~onquit",new ArrayList<>());
@@ -120,6 +127,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onquit").add(actionString);
                     }
                 }
+                /**移動時**/
                 if(actionString.toLowerCase().contains("~onmove")){
                     if(action_Trigger_Map.get("~onmove") == null){
                         action_Trigger_Map.put("~onmove",new ArrayList<>());
@@ -128,6 +136,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onmove").add(actionString);
                     }
                 }
+                /**蹲下時**/
                 if(actionString.toLowerCase().contains("~onsneak")){
                     if(action_Trigger_Map.get("~onsneak") == null){
                         action_Trigger_Map.put("~onsneak",new ArrayList<>());
@@ -136,6 +145,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onsneak").add(actionString);
                     }
                 }
+                /**站起來時**/
                 if(actionString.toLowerCase().contains("~onstandup")){
                     if(action_Trigger_Map.get("~onstandup") == null){
                         action_Trigger_Map.put("~onstandup",new ArrayList<>());
@@ -144,6 +154,7 @@ public class PlayerData {
                         action_Trigger_Map.get("~onstandup").add(actionString);
                     }
                 }
+                /**當死亡時**/
                 if(actionString.toLowerCase().contains("~ondeath")){
                     if(action_Trigger_Map.get("~ondeath") == null){
                         action_Trigger_Map.put("~ondeath",new ArrayList<>());
@@ -152,24 +163,105 @@ public class PlayerData {
                         action_Trigger_Map.get("~ondeath").add(actionString);
                     }
                 }
-                if(actionString.toLowerCase().contains("~onskillcaststart")){
-                    if(action_Trigger_Map.get("~onskillcaststart") == null){
-                        action_Trigger_Map.put("~onskillcaststart",new ArrayList<>());
+                /**當按下案件F時，一開始會觸發為ON，登出重新計算**/
+                if(actionString.toLowerCase().contains("~onkeyfon")){
+                    if(action_Trigger_Map.get("~onkeyfon") == null){
+                        action_Trigger_Map.put("~onkeyfon",new ArrayList<>());
                     }
-                    if(action_Trigger_Map.get("~onskillcaststart") != null){
-                        action_Trigger_Map.get("~onskillcaststart").add(actionString);
-                    }
-                }
-                if(actionString.toLowerCase().contains("~onskillcaststop")){
-                    if(action_Trigger_Map.get("~onskillcaststop") == null){
-                        action_Trigger_Map.put("~onskillcaststop",new ArrayList<>());
-                    }
-                    if(action_Trigger_Map.get("~onskillcaststop") != null){
-                        action_Trigger_Map.get("~onskillcaststop").add(actionString);
+                    if(action_Trigger_Map.get("~onkeyfon") != null){
+                        action_Trigger_Map.get("~onkeyfon").add(actionString);
                     }
                 }
-
-
+                /**再按下案件F時，觸發為OFF，登出重新計算**/
+                if(actionString.toLowerCase().contains("~onkeyfoff")){
+                    if(action_Trigger_Map.get("~onkeyfoff") == null){
+                        action_Trigger_Map.put("~onkeyfoff",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkeyfoff") != null){
+                        action_Trigger_Map.get("~onkeyfoff").add(actionString);
+                    }
+                }
+                /**當切換到物品欄1時**/
+                if(actionString.toLowerCase().contains("~onkey1")){
+                    if(action_Trigger_Map.get("~onkey1") == null){
+                        action_Trigger_Map.put("~onkey1",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey1") != null){
+                        action_Trigger_Map.get("~onkey1").add(actionString);
+                    }
+                }
+                /**當切換到物品欄2時**/
+                if(actionString.toLowerCase().contains("~onkey2")){
+                    if(action_Trigger_Map.get("~onkey2") == null){
+                        action_Trigger_Map.put("~onkey2",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey2") != null){
+                        action_Trigger_Map.get("~onkey2").add(actionString);
+                    }
+                }
+                /**當切換到物品欄3時**/
+                if(actionString.toLowerCase().contains("~onkey3")){
+                    if(action_Trigger_Map.get("~onkey3") == null){
+                        action_Trigger_Map.put("~onkey3",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey3") != null){
+                        action_Trigger_Map.get("~onkey3").add(actionString);
+                    }
+                }
+                /**當切換到物品欄4時**/
+                if(actionString.toLowerCase().contains("~onkey4")){
+                    if(action_Trigger_Map.get("~onkey4") == null){
+                        action_Trigger_Map.put("~onkey4",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey4") != null){
+                        action_Trigger_Map.get("~onkey4").add(actionString);
+                    }
+                }
+                /**當切換到物品欄5時**/
+                if(actionString.toLowerCase().contains("~onkey5")){
+                    if(action_Trigger_Map.get("~onkey5") == null){
+                        action_Trigger_Map.put("~onkey5",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey5") != null){
+                        action_Trigger_Map.get("~onkey5").add(actionString);
+                    }
+                }
+                /**當切換到物品欄6時**/
+                if(actionString.toLowerCase().contains("~onkey6")){
+                    if(action_Trigger_Map.get("~onkey6") == null){
+                        action_Trigger_Map.put("~onkey6",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey6") != null){
+                        action_Trigger_Map.get("~onkey6").add(actionString);
+                    }
+                }
+                /**當切換到物品欄7時**/
+                if(actionString.toLowerCase().contains("~onkey7")){
+                    if(action_Trigger_Map.get("~onkey7") == null){
+                        action_Trigger_Map.put("~onkey7",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey7") != null){
+                        action_Trigger_Map.get("~onkey7").add(actionString);
+                    }
+                }
+                /**當切換到物品欄8時**/
+                if(actionString.toLowerCase().contains("~onkey8")){
+                    if(action_Trigger_Map.get("~onkey8") == null){
+                        action_Trigger_Map.put("~onkey8",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey8") != null){
+                        action_Trigger_Map.get("~onkey8").add(actionString);
+                    }
+                }
+                /**當切換到物品欄9時**/
+                if(actionString.toLowerCase().contains("~onkey9")){
+                    if(action_Trigger_Map.get("~onkey9") == null){
+                        action_Trigger_Map.put("~onkey9",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onkey9") != null){
+                        action_Trigger_Map.get("~onkey9").add(actionString);
+                    }
+                }
 
             }
         }

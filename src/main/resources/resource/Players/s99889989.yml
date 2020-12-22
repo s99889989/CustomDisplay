@@ -32,27 +32,27 @@ Action:
 
 #攻擊玩家顯示資訊
 #-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onAttack
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onCrit
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMagic
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMCrit
+#- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onAttack
+#- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onCrit
+#- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMagic
+#- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMCrit
 
 #血量低於設定量顯示標題和聲音
 #-------------------------------------------------------------------------#
-- Action[a=TitleHealthDisplay;mark=&self_name&TitleHealthDisplay] ~onJoin
-- Action[mark=&self_name&TitleHealthDisplay;stop=true] ~onQuit
+#- Action[a=TitleHealthDisplay;mark=&self_name&TitleHealthDisplay] ~onJoin
+#- Action[mark=&self_name&TitleHealthDisplay;stop=true] ~onQuit
 
 #持續顯示動態欄
 #-------------------------------------------------------------------------#
 - Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onJoin
-- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onSkillCastStop
-- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onSkillCastStart
+- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onKeyFOFF
+- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onKeyFON
 - Action[mark=&self_name&ActionBarDisplay;stop=true] ~onQuit
 
 #顯示MMOCore技能狀態攔.
 #-------------------------------------------------------------------------#
-- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
-- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
+- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onKeyFOFF
+- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onKeyFON
 
 #攻擊顯示BossBar
 #-------------------------------------------------------------------------#
@@ -90,7 +90,8 @@ Action:
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMagic
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMCrit
 
-#使用MM技能.
+#使用MythicSkill技能.
 #-------------------------------------------------------------------------#
-#- Action[a=MythicSkillSmashAttack] ~onSneak
+- Action[a=MythicSkillHomer] ~onKey1
+
 

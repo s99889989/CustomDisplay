@@ -8,10 +8,13 @@ import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction2;
 import com.daxton.customdisplay.task.condition.Condition;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -32,10 +35,12 @@ public class Action {
     }
 
     public void setAction(LivingEntity self, LivingEntity target, String firstString,String taskID){
+
         this.self = self;
         this.target = target;
         this.firstString = firstString;
         this.taskID = taskID;
+
         stringSetting();
     }
 
@@ -108,5 +113,7 @@ public class Action {
         }
         return b;
     }
+
+
 
 }

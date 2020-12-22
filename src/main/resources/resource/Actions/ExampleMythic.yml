@@ -1,6 +1,5 @@
-#血量低於設定量顯示標題和聲音;category=PLAEYERS
-#If the blood volume is lower than the set volume, the title and sound are displayed.
-MythicSkillSmashAttack:
+#
+MythicSkillHomer:
   Action:
-  - MythicSkill[s=SummonSkeletons]
+  - MythicSkill[s=Homer] @=Target=10
   

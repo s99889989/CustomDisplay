@@ -1,9 +1,6 @@
-package com.daxton.customdisplay.listener.customdisplay;
+package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.mobs.MobData;
-import com.daxton.customdisplay.api.mobs.MobTrigger;
-import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -22,13 +19,13 @@ public class MobListener implements Listener {
 
     @EventHandler
     public void MobSpawn(EntitySpawnEvent event){
-        if(event.getEntity() instanceof LivingEntity){
-            LivingEntity livingEntity = (LivingEntity) event.getEntity();
-            UUID uuid = event.getEntity().getUniqueId();
-            MobManager.getMob_Data_Map().put(uuid,new MobData(livingEntity));
-        }else {
-            return;
-        }
+//        if(event.getEntity() instanceof LivingEntity){
+//            LivingEntity livingEntity = (LivingEntity) event.getEntity();
+//            UUID uuid = event.getEntity().getUniqueId();
+//            MobManager.getMob_Data_Map().put(uuid,new MobData(livingEntity));
+//        }else {
+//            return;
+//        }
 
 
 
@@ -44,9 +41,7 @@ public class MobListener implements Listener {
             UUID uuid = event.getEntity().getUniqueId();
             damagedNumber = event.getFinalDamage();
             PlaceholderManager.getDamaged_Number_Map().put(uuid,String.valueOf(damagedNumber));
-            if(new MobTrigger(livingEntity).getAction_Trigger_Map().get("~ondamaged") != null){
-                new MobTrigger(livingEntity).onDamaged();
-            }
+
         }else {
             return;
         }
@@ -71,9 +66,7 @@ public class MobListener implements Listener {
         if(event.getEntity() instanceof LivingEntity && !(event.getEntity() instanceof Player)){
             LivingEntity livingEntity = (LivingEntity) event.getEntity();
             UUID uuid = event.getEntity().getUniqueId();
-            if(new MobTrigger(livingEntity,damageNumber).getAction_Trigger_Map().get("~ondeath") != null){
-                new MobTrigger(livingEntity,damageNumber).onDeath();
-            }
+
         }
 
     }

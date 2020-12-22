@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.listener.customdisplay;
+package com.daxton.customdisplay.listener.protocollib;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -156,8 +156,8 @@ public class PackListener implements Listener{
 
                     if(packetType.equals(PacketType.Play.Server.CHAT)){
                         if(packet.getChatTypes().read(0) == GAME_INFO){
-                            BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
-                            PlaceholderManager.getMmocore_ActionBar_Spell_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
+//                            BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
+//                            PlaceholderManager.getMmocore_ActionBar_Spell_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
                             String uuidString = player.getUniqueId().toString();
                             if(PlaceholderManager.getActionBar_function().get(uuidString) != null){
                                 event.setCancelled(PlaceholderManager.getActionBar_function().get(uuidString));

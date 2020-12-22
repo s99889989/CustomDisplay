@@ -45,14 +45,14 @@ Action:
 #The dynamic bar is continuously displayed.
 #-------------------------------------------------------------------------#
 - Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onJoin
-- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onSkillCastStop
-- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onSkillCastStart
+- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onKeyFOFF
+- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onKeyFON
 - Action[mark=&self_name&ActionBarDisplay;stop=true] ~onQuit
 
 #Display the MMOCore skill status bar.
 #-------------------------------------------------------------------------#
-- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onSkillCastStart
-- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onSkillCastStop
+- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onKeyFOFF
+- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onKeyFON
 
 #The attack shows BossBar.
 #-------------------------------------------------------------------------#
@@ -87,3 +87,6 @@ Action:
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMagic
 - Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMCrit
 
+#Use MythicSkill skills.
+#-------------------------------------------------------------------------#
+#- Action[a=MythicSkillHomer] ~onKey1
