@@ -34,7 +34,7 @@ public final class CustomDisplay extends JavaPlugin {
     public void onEnable() {
         customDisplay = this;
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
-        if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        if (Bukkit.getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
             getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
             getLogger().severe("*** HolographicDisplays未安裝或未啟用。 ***");
@@ -45,7 +45,7 @@ public final class CustomDisplay extends JavaPlugin {
             getLogger().info(ChatColor.GREEN+"Loaded HolographicDisplays");
         }
 
-        if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+        if (Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null){
             getLogger().severe("*** PlaceholderAPI is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
             getLogger().severe("*** PlaceholderAPI未安裝或未啟用。 ***");
@@ -55,7 +55,7 @@ public final class CustomDisplay extends JavaPlugin {
         }else {
             getLogger().info(ChatColor.GREEN+"Loaded PlaceholderAPI");
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
+        if (Bukkit.getServer().getPluginManager().getPlugin("ProtocolLib") != null){
             getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
             Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
         }else {
@@ -67,7 +67,7 @@ public final class CustomDisplay extends JavaPlugin {
             return;
         }
 
-        if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")){
+        if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
             Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
             getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
         }
@@ -88,7 +88,7 @@ public final class CustomDisplay extends JavaPlugin {
         String attackCore = configManager.config.getString("AttackCore");
         switch (attackCore.toLowerCase()){
             case "mmolib":
-                if(Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                if(Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
                     Bukkit.getPluginManager().registerEvents(new MMOLibListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOLib");
                 }else {
@@ -97,7 +97,7 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 break;
             case "skillapi_mmolib":
-                if(Bukkit.getPluginManager().isPluginEnabled("SkillAPI") & Bukkit.getPluginManager().isPluginEnabled("MMOLib")){
+                if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null & Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
                     Bukkit.getPluginManager().registerEvents(new SkillAPI_MMOLib_Listener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI_MMOLib");
                 }else {
@@ -106,7 +106,7 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 break;
             case "mmocore":
-                if(Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
+                if(Bukkit.getServer().getPluginManager().getPlugin("MMOCore") != null){
                     Bukkit.getPluginManager().registerEvents(new MMOCoreListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOCore");
                 }else {
@@ -115,7 +115,7 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 break;
             case "attributeplus":
-                if(Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+                if(Bukkit.getServer().getPluginManager().getPlugin("AttributePlus") != null){
                     Bukkit.getPluginManager().registerEvents(new AttributePlusListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: AttributePlus");
                 }else {
@@ -124,7 +124,7 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 break;
             case "skillapi":
-                if(Bukkit.getPluginManager().isPluginEnabled("SkillAPI")){
+                if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null){
                     Bukkit.getPluginManager().registerEvents(new SkillAPIListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI");
                 }else {

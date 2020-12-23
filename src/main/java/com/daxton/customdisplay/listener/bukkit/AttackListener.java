@@ -3,6 +3,7 @@ package com.daxton.customdisplay.listener.bukkit;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

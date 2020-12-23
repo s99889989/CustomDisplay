@@ -6,7 +6,9 @@ import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.sucy.skill.api.event.PhysicalDamageEvent;
 import com.sucy.skill.api.event.SkillDamageEvent;
 import com.sucy.skill.listener.AttributeListener;
+
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,6 +23,7 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             ignoreCancelled = true
     )
     public void onSkillDamage(SkillDamageEvent event){
+
         if(event.getDamager() instanceof Player & event.getTarget() instanceof LivingEntity){
             Player player = ((Player) event.getDamager()).getPlayer();
             LivingEntity target = event.getTarget();
@@ -37,6 +40,7 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             ignoreCancelled = true
     )
     public void onPhysicalDamage(PhysicalDamageEvent event){
+
         if(event.getDamager() instanceof Player & event.getTarget() instanceof LivingEntity){
             Player player = ((Player) event.getDamager()).getPlayer();
             LivingEntity target = event.getTarget();

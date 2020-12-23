@@ -6,6 +6,7 @@ import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.sucy.skill.api.event.PhysicalDamageEvent;
 import com.sucy.skill.api.event.SkillDamageEvent;
 import com.sucy.skill.listener.AttributeListener;
+import net.citizensnpcs.api.npc.NPC;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import net.mmogroup.mmolib.api.player.MMOPlayerData;
 import org.bukkit.entity.LivingEntity;
@@ -40,6 +41,7 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             ignoreCancelled = true
     )
     public void onSkillDamage(SkillDamageEvent event){
+
         if(event.getDamager() instanceof Player & event.getTarget() instanceof LivingEntity){
             Player player = ((Player) event.getDamager()).getPlayer();
             LivingEntity target = event.getTarget();
@@ -64,21 +66,22 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             double damageNumber = event.getFinalDamage();
             PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
 
-            /**基礎傷害**/
+            /**Base damage**/
             double attack_damage = MMOPlayerData.get(playerUUID).getStatMap().getStat(ATTACK_DAMAGE);
-            /**額外物理攻擊**/
+            /**Additional physical attack**/
             double physical_damage = MMOPlayerData.get(playerUUID).getStatMap().getStat(PHYSICAL_DAMAGE);
             physical_damage = (attack_damage/100)*physical_damage;
-            /**爆擊增幅**/
+            /**Critical boost**/
             double physical_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(CRITICAL_STRIKE_POWER);
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
-
             if(damageType.contains("WEAPON")){
-                //player.sendMessage("實際數字： "+damageNumber);
-                //player.sendMessage("預估數字： "+physical_STRIKE_POWER);
+                //player.sendMessage("Actual value: "+damageNumber);
+                //player.sendMessage("Estimated value: "+physical_STRIKE_POWER);
                 if(damageNumber > physical_STRIKE_POWER ){
+                    //player.sendMessage(damageNumber +">"+physical_STRIKE_POWER+"Critical strike");
                     new PlayerTrigger(player).onCrit(player,target);
                 }else {
+                    //player.sendMessage(damageNumber +"<"+physical_STRIKE_POWER+"No critical strike");
                     new PlayerTrigger(player).onAttack(player,target);
                 }
             }

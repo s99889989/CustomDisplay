@@ -8,6 +8,7 @@ import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
+import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -109,12 +110,13 @@ public class PlayerListener implements Listener {
                 }
                 if(config.getBoolean("ResourcePack.kick-error-download")){
                     player.sendMessage(info.getString("Language.ResourcePack.download-error").replace("{time}",timeString));
-                    new BukkitRunnable() {
+                    bukkitRunnable = new BukkitRunnable() {
                         @Override
                         public void run() {
                             player.kickPlayer(info.getString("Language.ResourcePack.download-error-kick"));
                         }
-                    }.runTaskLater(cd,time*20);
+                    };
+                    bukkitRunnable.runTaskLater(cd,time*20);
                     return;
                 }else {
                     player.sendMessage(info.getString("Language.ResourcePack.download-error-pass"));
@@ -134,12 +136,13 @@ public class PlayerListener implements Listener {
                 }
                 if(config.getBoolean("ResourcePack.kick-no-download")){
                     player.sendMessage(info.getString("Language.ResourcePack.kick-delay").replace("{time}",timeString));
-                    new BukkitRunnable() {
+                    bukkitRunnable = new BukkitRunnable() {
                         @Override
                         public void run() {
                             player.kickPlayer(info.getString("Language.ResourcePack.kick"));
                         }
-                    }.runTaskLater(cd,time*20);
+                    };
+                    bukkitRunnable.runTaskLater(cd,time*20);
 
 
                 }else {
@@ -162,7 +165,9 @@ public class PlayerListener implements Listener {
         if(playerData != null){
             new PlayerTrigger(player).onQuit(player);
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
-
+        }
+        if(bukkitRunnable != null){
+            bukkitRunnable.cancel();
         }
         if(ListenerManager.getCast_On_Stop().get(playerUUID) != null){
             ListenerManager.getCast_On_Stop().put(playerUUID,false);

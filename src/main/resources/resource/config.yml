@@ -1,5 +1,5 @@
-#語言(英語,繁體中文,簡體中文)
-#Language (English,Chinese_TW,Chinese_CN,Portuguese_BR)
+#語言(英語,繁體中文,簡體中文,巴西葡萄牙語,韓語)
+#Language (English,Chinese_TW,Chinese_CN,Portuguese_BR,Korean_KR)
 Language: English
 
 #傷害判斷的核心插件. (Default,MMOLib,MMOCore,AttributePlus,SkillAPI,SkillAPI_MMOLib)

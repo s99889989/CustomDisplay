@@ -3,6 +3,7 @@ package com.daxton.customdisplay.listener.attributeplus;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,7 +47,7 @@ public class AttributePlusListener implements Listener {
 
     @EventHandler
     public void onAttackCrit(AttrEntityCritEvent event){
-        if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
+        if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND || event.getEntity() instanceof NPC){
             return;
         }
         target = (LivingEntity) event.getEntity();

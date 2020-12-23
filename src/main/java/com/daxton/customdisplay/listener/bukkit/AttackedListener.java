@@ -3,6 +3,7 @@ package com.daxton.customdisplay.listener.bukkit;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,7 @@ public class AttackedListener implements Listener {
 
     @EventHandler
     public void onAttacked(EntityDamageByEntityEvent event){
+
         if(event.getEntity() instanceof Player & event.getDamager() instanceof LivingEntity){
             Player player = ((Player) event.getEntity()).getPlayer();
             LivingEntity target = (LivingEntity) event.getDamager();

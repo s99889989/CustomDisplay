@@ -16,6 +16,6 @@ MMOCoreActionBarDisplay:
   - Loop[onTime=MMOCoreActionBarDisplay-Time;period=40;duration=unlimited]
 MMOCoreActionBarDisplay-Time:
   Action:
-  - ActionBar[remove=true;m=&self_other_actionbar&]
+  - ActionBar[remove=true;m=&self_actionbar_mmocore_spell&]
 
 

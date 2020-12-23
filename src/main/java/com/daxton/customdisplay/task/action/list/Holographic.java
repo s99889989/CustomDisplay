@@ -7,6 +7,7 @@ import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -45,6 +46,8 @@ public class Holographic {
         this.target = target;
         this.taskID = taskID;
         this.firstString = firstString;
+
+
         setOther();
     }
 

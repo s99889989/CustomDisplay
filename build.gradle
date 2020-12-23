@@ -30,6 +30,9 @@ repositories {
     maven {
         url = uri('https://mvn.lumine.io/repository/maven-public/')
     }
+    maven {
+        url = uri('http://repo.citizensnpcs.co/')
+    }
 }
 
 dependencies {
@@ -39,6 +42,7 @@ dependencies {
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.4'
     compileOnly 'org.serverct.ersha.jd:AttributePlus:2.2.5'
     compileOnly 'io.lumine.xikage:MythicMobs:4.9.1'
+    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
     compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.1.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6-284.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOItems-6.5.1-582.jar'])
@@ -46,7 +50,7 @@ dependencies {
 }
 
 group = 'com.daxton'
-version = '1.11.15'
+version = '1.11.15.4'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 
