@@ -8,28 +8,26 @@ import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.UUID;
 
 
-import static net.mmogroup.mmolib.api.stat.SharedStat.SPELL_CRITICAL_STRIKE_POWER;
+
 
 public class PlayerListener implements Listener {
 
@@ -37,19 +35,120 @@ public class PlayerListener implements Listener {
 
     private ConfigManager configManager = cd.getConfigManager();
 
+    private FileConfiguration config = configManager.config;
+
+    private FileConfiguration info = configManager.language;
+
     private LivingEntity target = null;
+
+    private BukkitRunnable bukkitRunnable;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
+
         UUID playerUUID = player.getUniqueId();
         if(configManager.config.getBoolean("HealthScale.enable")){
             player.setHealthScale(configManager.config.getInt("HealthScale.scale"));
         }
+        if(config.getBoolean("ResourcePack.enable")){
+            onResourcePackSend(player,null);
+        }
 
         PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
-
         new PlayerTrigger(player).onJoin(player);
+    }
+
+    @EventHandler
+    public void onResourcePack(PlayerResourcePackStatusEvent event){
+        Player player = event.getPlayer();
+        if(config.getBoolean("ResourcePack.enable")){
+            onResourcePackSend(player,event.getStatus().toString());
+        }
+
+    }
+
+    public void onResourcePackSend(Player player,String status){
+
+        /**發送材質包**/
+        if(status == null){
+            int time = 2;
+            String timeString = "";
+            try{
+                time = config.getInt("ResourcePack.download-delay");
+                timeString = String.valueOf(time);
+            }catch (NumberFormatException exception){
+                time = 1;
+            }
+            player.sendMessage(info.getString("Language.ResourcePack.join").replace("{time}",timeString));
+
+            bukkitRunnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.setResourcePack(config.getString("ResourcePack.url"),config.getString("ResourcePack.hash"));
+                }
+            };
+            bukkitRunnable.runTaskLater(cd,time*20);
+        }
+        if(status !=null){
+            /**發送材質包成功**/
+            if(status.contains("SUCCESSFULLY_LOADED")){
+                player.sendMessage(info.getString("Language.ResourcePack.successfully-loaded"));
+                return;
+            }
+
+            /**材質包下載失敗**/
+            if(status.contains("FAILED_DOWNLOAD")){
+                int time = 1;
+                String timeString = "";
+                try{
+                    time = config.getInt("ResourcePack.kick-error-delay");
+                    timeString = String.valueOf(time);
+                }catch (NumberFormatException exception){
+                    time = 1;
+                }
+                if(config.getBoolean("ResourcePack.kick-error-download")){
+                    player.sendMessage(info.getString("Language.ResourcePack.download-error").replace("{time}",timeString));
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.kickPlayer(info.getString("Language.ResourcePack.download-error-kick"));
+                        }
+                    }.runTaskLater(cd,time*20);
+                    return;
+                }else {
+                    player.sendMessage(info.getString("Language.ResourcePack.download-error-pass"));
+                }
+                return;
+            }
+
+            /**拒絕接受材質包**/
+            if(status.contains("DECLINED")){
+                int time = 1;
+                String timeString = "";
+                try{
+                    time = config.getInt("ResourcePack.kick-no-delay");
+                    timeString = String.valueOf(time);
+                }catch (NumberFormatException exception){
+                    time = 1;
+                }
+                if(config.getBoolean("ResourcePack.kick-no-download")){
+                    player.sendMessage(info.getString("Language.ResourcePack.kick-delay").replace("{time}",timeString));
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.kickPlayer(info.getString("Language.ResourcePack.kick"));
+                        }
+                    }.runTaskLater(cd,time*20);
+
+
+                }else {
+                    player.sendMessage(info.getString("Language.ResourcePack.kick-pass"));
+                }
+                return;
+            }
+        }
+
 
     }
 
@@ -179,6 +278,7 @@ public class PlayerListener implements Listener {
 
 
     }
+
 
 
 

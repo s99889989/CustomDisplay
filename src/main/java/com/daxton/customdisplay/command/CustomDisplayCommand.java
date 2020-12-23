@@ -5,19 +5,21 @@ import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CustomDisplayCommand implements CommandExecutor, TabCompleter{
+public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -48,26 +50,41 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter{
                 return true;
             }
         }
-        if(args.length == 2){
-            if(args[0].equalsIgnoreCase("cast")) {
-                if(!(args[1].isEmpty())){
-                    if(sender instanceof Player){
-                        Player player = (Player) sender;
-                        String uuidString = player.getUniqueId().toString();
-                        new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
-                        //player.sendMessage("Cast: "+args[1]);
-                        new PlayerTrigger(player).onCommand(player);
+
+
+        if(sender instanceof Player){
+            Player player = (Player) sender;
+            String uuidString = player.getUniqueId().toString();
+            if(args.length == 2){
+                if(args[0].equalsIgnoreCase("cast")) {
+                    if(!(args[1].isEmpty())){
+                        if(sender instanceof Player){
+                            new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
+                            new PlayerTrigger(player).onCommand(player);
+                        }
+                        return true;
                     }
-                    return true;
+                }
+                if(args[0].equalsIgnoreCase("bind")) {
+                    if(!(args[1].isEmpty())){
+                        ItemStack item = ((Player) sender).getItemInHand();
+                        if (item == null || item.getType() == Material.AIR){
+                            sender.sendMessage("You have no items in your hands.");
+                            return true;
+                        }
+                        return true;
+                    }
                 }
             }
         }
+
         sender.sendMessage(configManager.language.getString("Language.Command.help.Description"));
         for(String msg : configManager.language.getStringList("Language.Command.help.info")){
             sender.sendMessage(msg);
         }
         return true;
     }
+
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args){
@@ -83,6 +100,7 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter{
 
         return commandList;
     }
+
 
 
 

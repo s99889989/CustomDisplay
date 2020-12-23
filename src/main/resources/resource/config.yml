@@ -11,3 +11,38 @@ AttackCore: Default
 HealthScale:
   enable: true
   scale: 20
+
+#材質包設定
+#Texture Pack Settings
+ResourcePack:
+
+  #是否開啟，向客戶端發送材質包。
+  # Whether to open, send the texture package to the client.
+  enable: true
+  
+  #材質包連結
+  #Texture Pack Link
+  url: "https://www.dropbox.com/s/czqyuzwd394hl6l/%E6%95%B8%E5%AD%97%E6%9D%90%E8%B3%AA-1.12.zip?dl=1" 
+  #材質包標記。
+  #Material package mark.
+  hash: "1.12"
+  
+  #登入後幾秒開始下載。
+  #Start downloading a few seconds after login.
+  download-delay: 5
+  
+  #下載失敗是否踢出伺服器。
+  #Whether the download fails to kick out of the server.
+  kick-error-download: false
+  #下載失敗後，幾秒後踢出伺服器。
+  #After the download fails, it will be kicked out of the server after a few seconds.
+  kick-error-delay: 10
+  
+  #如果沒有同意下載材質包是否踢出伺服器。
+  #If you do not agree to download the texture pack, whether to kick the server out
+  kick-no-download: true
+  #如果沒有同意，幾秒後踢出伺服器。
+  #If you don't agree, kick out of the server after a few seconds.
+  kick-no-delay: 10
+
+  

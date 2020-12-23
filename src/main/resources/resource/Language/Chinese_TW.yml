@@ -7,3 +7,15 @@ Language:
       info:
       - '§7/cd help §6顯示所有指令'
       - '§7/cd reload §6重載插件'
+  ResourcePack:
+    join: "§e[CustomDisplay] §a服務器資源包將在{time}秒後開始下載和載入。"
+    
+    successfully-loaded: "§e[CustomDisplay] §a服務器資源包已成功下載並載入。"
+ 
+    download-error-pass: "§e[CustomDisplay] §a服務器資源包下載失敗，請重新登入，嘗試重新下載。"
+    download-error: "§e[CustomDisplay] &a 服務器資源包下載失敗，你將在{time}秒後被踢出伺服器。"
+    download-error-kick: "§e[CustomDisplay] §a因為下載資源包失敗，你被踢出伺服器。"
+    
+    kick-pass: "§e[CustomDisplay] §a你沒有同意下載材質包，材質包無法下載。"
+    kick-delay: "§e[CustomDisplay] §a你沒有同意下載材質包，你將在{time}秒後被踢出伺服器。"
+    kick: "§e[CustomDisplay] §c你被踢出伺服器，因為你沒有同意下載材質包。"
