@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
@@ -23,6 +24,7 @@ public class MobListener implements Listener {
 
     @EventHandler
     public void MobSpawn(EntitySpawnEvent event){
+        //cd.getLogger().info("BK: "+event.getEntityType().toString());
 //        if(event.getEntity() instanceof LivingEntity){
 //            LivingEntity livingEntity = (LivingEntity) event.getEntity();
 //            UUID uuid = event.getEntity().getUniqueId();
@@ -54,43 +56,22 @@ public class MobListener implements Listener {
 
     }
 
-//    @EventHandler
-//    public void onAttacked(EntityDamageByEntityEvent event){
-//        if(event.getEntity() instanceof LivingEntity && !(event.getEntity() instanceof Player)){
-//            LivingEntity livingEntity = (LivingEntity) event.getEntity();
-//            UUID uuid = event.getEntity().getUniqueId();
-//            this.damageNumber = event.getFinalDamage();
-//
-//        }else {
-//            return;
-//        }
-//
-//    }
     /**怪物死亡**/
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
+        String entityType= event.getEntityType().toString();
+
+        if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+            EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
+            Entity killer = nEvent.getDamager();
+            Player player = EntityFind.convertPlayer(killer);
 
 
-//        if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
-//            EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
-//            Player player = null;
-//            Entity killer = nEvent.getDamager();
-//            if(killer instanceof Arrow){
-//                if(((Arrow) nEvent.getDamager()).getShooter() instanceof Player){
-//                    Entity entity1 = (Player) ((Arrow) nEvent.getDamager()).getShooter();
-//                    cd.getLogger().info(entity1.getName());
-//                }
-//            }else if(killer instanceof ThrownPotion){
-//                if(((ThrownPotion) killer).getShooter() instanceof Player){
-//                    player = (Player) ((ThrownPotion) killer).getShooter();
-//                    player.sendMessage("藥水");
-//                }
-//            }
-//
-//
-//        }
+
+        }
 
     }
+
 
     @EventHandler
     public void onExplosionPrime(ExplosionPrimeEvent event){
@@ -99,11 +80,5 @@ public class MobListener implements Listener {
 
     }
 
-//    @EventHandler
-//    public void MythicMobSpawn(MythicMobSpawnEvent event){
-//
-//
-//
-//    }
 
 }

@@ -20,6 +20,7 @@ public class MythicMobSpawnListener implements Listener {
 
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
+        cd.getLogger().info("MM: "+event.getMobType().getInternalName());
         PlaceholderManager.getMythicMobs_Level_Map().put(event.getEntity().getUniqueId(), String.valueOf(event.getMobLevel()));
 
     }

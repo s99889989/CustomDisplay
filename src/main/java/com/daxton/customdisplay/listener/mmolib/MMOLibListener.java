@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.Indyuce.mmocore.api.player.PlayerData;
@@ -35,6 +36,8 @@ public class MMOLibListener implements Listener{
 
     private UUID targetUUID;
 
+    private double damageNumber = 0;
+
     private double damageNumberPAE = 0.0;
 
     private String damageType = "";
@@ -55,14 +58,15 @@ public class MMOLibListener implements Listener{
             }
         }
         target = (LivingEntity) event.getEntity();
-        double damageNumber = event.getFinalDamage();
-        String uuidString = event.getDamager().getUniqueId().toString();
-        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-        Entity damager = event.getDamager();
-        if(damager instanceof Player){
-            player = (Player) event.getDamager();
+        damageNumber = event.getFinalDamage();
+        player = EntityFind.convertPlayer(event.getDamager());
+        if(player != null){
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
+
             ItemStack itemStack = player.getInventory().getItemInMainHand();
             NBTItem nbtItem = NBTItem.get(itemStack);
             boolean b = nbtItem.hasType();
@@ -76,7 +80,8 @@ public class MMOLibListener implements Listener{
             /**爆擊增幅**/
             double physical_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(CRITICAL_STRIKE_POWER);
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
-
+//            player.sendMessage("實際: "+damageNumber);
+//            player.sendMessage("預估:" +physical_STRIKE_POWER);
             if(damageType.contains("WEAPON")){
                 if(damageNumber > physical_STRIKE_POWER ){
                     new PlayerTrigger(player).onCrit(player,target);
@@ -84,38 +89,10 @@ public class MMOLibListener implements Listener{
                     new PlayerTrigger(player).onAttack(player,target);
                 }
             }
-
             if(damageType.contains("MAGIC")){
                 new PlayerTrigger(player).onMagic(player,target);
             }
-            return;
-        }
 
-        if(damager instanceof Arrow){
-            if(((Arrow) event.getDamager()).getShooter() instanceof Player){
-                player = (Player) ((Arrow) event.getDamager()).getShooter();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-                return;
-            }
-        }
-        if(damager instanceof ThrownPotion){
-            if(((ThrownPotion) damager).getShooter() instanceof Player){
-                player = (Player) ((ThrownPotion) damager).getShooter();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-                return;
-            }
-        }
-        if(damager instanceof TNTPrimed){
-            if(((TNTPrimed) damager).getSource() instanceof Player){
-                player = (Player) ((TNTPrimed) event.getDamager()).getSource();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-            }
         }
 
     }

@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.skillapi;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.sucy.skill.api.event.PhysicalDamageEvent;
@@ -33,6 +34,8 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
     private UUID playerUUID;
 
     private UUID targetUUID;
+
+    private double damageNumber = 0;
 
     private double damageNumberPAE = 0.0;
 
@@ -73,14 +76,15 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
                 return;
             }
         }
-        String uuidString = event.getDamager().getUniqueId().toString();
-        double damageNumber = event.getFinalDamage();
-        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-        Entity damager = event.getDamager();
-        if(damager instanceof Player){
-            Player player = ((Player) event.getDamager()).getPlayer();
-            UUID playerUUID = player.getUniqueId();
-            LivingEntity target = (LivingEntity) event.getEntity();
+
+        damageNumber = event.getFinalDamage();
+        player = EntityFind.convertPlayer(event.getDamager());
+        if(player != null){
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+
+            playerUUID = player.getUniqueId();
+            targetUUID = target.getUniqueId();
 
 
             /**Base damage**/
@@ -92,43 +96,16 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             double physical_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(CRITICAL_STRIKE_POWER);
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
             if(damageType.contains("WEAPON")){
-                //player.sendMessage("Actual value: "+damageNumber);
-                //player.sendMessage("Estimated value: "+physical_STRIKE_POWER);
+
                 if(damageNumber > physical_STRIKE_POWER ){
-                    //player.sendMessage(damageNumber +">"+physical_STRIKE_POWER+"Critical strike");
+
                     new PlayerTrigger(player).onCrit(player,target);
                 }else {
-                    //player.sendMessage(damageNumber +"<"+physical_STRIKE_POWER+"No critical strike");
+
                     new PlayerTrigger(player).onAttack(player,target);
                 }
             }
             return;
-        }
-
-        if(damager instanceof Arrow){
-            if(((Arrow) event.getDamager()).getShooter() instanceof Player){
-                player = (Player) ((Arrow) event.getDamager()).getShooter();
-                uuidString = ((Player) ((Arrow) event.getDamager()).getShooter()).getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-            }
-        }
-        if(damager instanceof ThrownPotion){
-            if(((ThrownPotion) damager).getShooter() instanceof Player){
-                player = (Player) ((ThrownPotion) damager).getShooter();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-                return;
-            }
-        }
-        if(damager instanceof TNTPrimed){
-            if(((TNTPrimed) damager).getSource() instanceof Player){
-                player = (Player) ((TNTPrimed) event.getDamager()).getSource();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-            }
         }
 
     }

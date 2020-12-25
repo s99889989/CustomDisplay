@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
@@ -21,7 +22,7 @@ public class AttackListener implements Listener {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private Player player;
+    private Player player = null;
 
     private LivingEntity target;
 
@@ -46,48 +47,12 @@ public class AttackListener implements Listener {
         }
 
         double damageNumber = event.getFinalDamage();
-        String uuidString = event.getDamager().getUniqueId().toString();
-        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
         target = (LivingEntity) event.getEntity();
-        Entity damager = event.getDamager();
-        if(damager instanceof Player){
-            player = (Player) event.getDamager();
+        player = EntityFind.convertPlayer(event.getDamager());
+        if(player != null){
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onAttack(player,target);
-            return;
-        }
-        if(damager instanceof Arrow){
-            if(((Arrow) event.getDamager()).getShooter() instanceof Player){
-                player = (Player) ((Arrow) event.getDamager()).getShooter();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-                return;
-            }
-        }
-        if(damager instanceof Projectile){
-            if(((Projectile) damager).getShooter() instanceof Player){
-                player = (Player) ((Projectile) event.getDamager()).getShooter();
-                new PlayerTrigger(player).onAttack(player,target);
-                return;
-            }
-        }
-        if(damager instanceof TNTPrimed){
-            if(((TNTPrimed) damager).getSource() instanceof Player){
-                player = (Player) ((TNTPrimed) event.getDamager()).getSource();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-                return;
-            }
-        }
-        if(damager instanceof ThrownPotion){
-            if(((ThrownPotion) damager).getShooter() instanceof Player){
-                player = (Player) ((ThrownPotion) damager).getShooter();
-                uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
-                return;
-            }
         }
 
     }
