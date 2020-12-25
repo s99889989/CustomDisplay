@@ -6,11 +6,12 @@ import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.sucy.skill.api.event.PhysicalDamageEvent;
 import com.sucy.skill.api.event.SkillDamageEvent;
 import com.sucy.skill.listener.AttributeListener;
+import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import net.mmogroup.mmolib.api.player.MMOPlayerData;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.util.UUID;
 
 import static net.mmogroup.mmolib.api.stat.SharedStat.*;
+import static org.bukkit.entity.EntityType.ARMOR_STAND;
 
 public class SkillAPI_MMOLib_Listener extends AttributeListener implements Listener {
 
@@ -41,12 +43,16 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             ignoreCancelled = true
     )
     public void onSkillDamage(SkillDamageEvent event){
-
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getTarget())){
+                return;
+            }
+        }
         if(event.getDamager() instanceof Player & event.getTarget() instanceof LivingEntity){
             Player player = ((Player) event.getDamager()).getPlayer();
             LivingEntity target = event.getTarget();
             double damageNumber = event.getDamage();
-            PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
+            PlaceholderManager.getCd_Placeholder_Map().put(player.getUniqueId().toString()+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onMagic(player,target);
 
         }
@@ -59,12 +65,23 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             ignoreCancelled = true
     )
     public void onPhysicalDamage(EntityDamageByEntityEvent event){
-        if(event.getDamager() instanceof Player & event.getEntity() instanceof LivingEntity){
+        if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
+            return;
+        }
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
+                return;
+            }
+        }
+        String uuidString = event.getDamager().getUniqueId().toString();
+        double damageNumber = event.getFinalDamage();
+        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+        Entity damager = event.getDamager();
+        if(damager instanceof Player){
             Player player = ((Player) event.getDamager()).getPlayer();
             UUID playerUUID = player.getUniqueId();
             LivingEntity target = (LivingEntity) event.getEntity();
-            double damageNumber = event.getFinalDamage();
-            PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
+
 
             /**Base damage**/
             double attack_damage = MMOPlayerData.get(playerUUID).getStatMap().getStat(ATTACK_DAMAGE);
@@ -85,9 +102,34 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
                     new PlayerTrigger(player).onAttack(player,target);
                 }
             }
-
+            return;
         }
 
+        if(damager instanceof Arrow){
+            if(((Arrow) event.getDamager()).getShooter() instanceof Player){
+                player = (Player) ((Arrow) event.getDamager()).getShooter();
+                uuidString = ((Player) ((Arrow) event.getDamager()).getShooter()).getUniqueId().toString();
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+            }
+        }
+        if(damager instanceof ThrownPotion){
+            if(((ThrownPotion) damager).getShooter() instanceof Player){
+                player = (Player) ((ThrownPotion) damager).getShooter();
+                uuidString = player.getUniqueId().toString();
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+                return;
+            }
+        }
+        if(damager instanceof TNTPrimed){
+            if(((TNTPrimed) damager).getSource() instanceof Player){
+                player = (Player) ((TNTPrimed) event.getDamager()).getSource();
+                uuidString = player.getUniqueId().toString();
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+            }
+        }
 
     }
 
@@ -96,6 +138,11 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             //priority = EventPriority.MONITOR
     )
     public void c(PlayerAttackEvent event) {
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
+                return;
+            }
+        }
 //        StatMap stats = event.getData().getStatMap();
 //        cd.getLogger().info("額外魔法攻擊: "+stats.getStat(MAGICAL_DAMAGE));
         damageNumberPAE = event.getAttack().getDamage();

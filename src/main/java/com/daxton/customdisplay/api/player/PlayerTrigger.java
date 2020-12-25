@@ -3,6 +3,7 @@ package com.daxton.customdisplay.api.player;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
@@ -315,17 +316,16 @@ public class PlayerTrigger {
             new ClearAction(self,target);
         }else{
 
-            new JudgmentAction().execute(self,target,actionString,taskID);
+            //new JudgmentAction().execute(self,target,actionString,taskID);
 
-//            if(ActionManager2.getOther_Judgment2_Map().get(taskID) == null){
-//                new ClearAction(taskID);
-//                ActionManager2.getOther_Judgment2_Map().put(taskID,new JudgmentAction2());
-//                ActionManager2.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
-//                if(ActionManager2.getOther_Judgment2_Map().get(taskID) != null){
-//                    ActionManager2.getOther_Judgment2_Map().get(taskID).getBukkitRunnable().cancel();
-//                    ActionManager2.getOther_Judgment2_Map().remove(taskID);
-//                }
-//            }
+            if(ActionManager.getOther_Judgment2_Map().get(taskID) == null){
+                ActionManager.getOther_Judgment2_Map().put(taskID,new JudgmentAction());
+                ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+                if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+                    new ClearAction(taskID);
+                    ActionManager.getOther_Judgment2_Map().remove(taskID);
+                }
+            }
         }
     }
 

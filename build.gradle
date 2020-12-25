@@ -47,10 +47,11 @@ dependencies {
     compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6-284.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOItems-6.5.1-582.jar'])
     compileOnly fileTree(dir: 'lib', include: ['SkillAPI-v3.108.jar'])
+
 }
 
 group = 'com.daxton'
-version = '1.11.15.4'
+version = '1.11.17'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 

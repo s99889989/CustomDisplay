@@ -8,8 +8,12 @@ import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -58,99 +62,7 @@ public class PlayerListener implements Listener {
 
         PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
         new PlayerTrigger(player).onJoin(player);
-    }
 
-    @EventHandler
-    public void onResourcePack(PlayerResourcePackStatusEvent event){
-        Player player = event.getPlayer();
-        if(config.getBoolean("ResourcePack.enable")){
-            onResourcePackSend(player,event.getStatus().toString());
-        }
-
-    }
-
-    public void onResourcePackSend(Player player,String status){
-
-        /**發送材質包**/
-        if(status == null){
-            int time = 2;
-            String timeString = "";
-            try{
-                time = config.getInt("ResourcePack.download-delay");
-                timeString = String.valueOf(time);
-            }catch (NumberFormatException exception){
-                time = 1;
-            }
-            player.sendMessage(info.getString("Language.ResourcePack.join").replace("{time}",timeString));
-
-            bukkitRunnable = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.setResourcePack(config.getString("ResourcePack.url"),config.getString("ResourcePack.hash"));
-                }
-            };
-            bukkitRunnable.runTaskLater(cd,time*20);
-        }
-        if(status !=null){
-            /**發送材質包成功**/
-            if(status.contains("SUCCESSFULLY_LOADED")){
-                player.sendMessage(info.getString("Language.ResourcePack.successfully-loaded"));
-                return;
-            }
-
-            /**材質包下載失敗**/
-            if(status.contains("FAILED_DOWNLOAD")){
-                int time = 1;
-                String timeString = "";
-                try{
-                    time = config.getInt("ResourcePack.kick-error-delay");
-                    timeString = String.valueOf(time);
-                }catch (NumberFormatException exception){
-                    time = 1;
-                }
-                if(config.getBoolean("ResourcePack.kick-error-download")){
-                    player.sendMessage(info.getString("Language.ResourcePack.download-error").replace("{time}",timeString));
-                    bukkitRunnable = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.kickPlayer(info.getString("Language.ResourcePack.download-error-kick"));
-                        }
-                    };
-                    bukkitRunnable.runTaskLater(cd,time*20);
-                    return;
-                }else {
-                    player.sendMessage(info.getString("Language.ResourcePack.download-error-pass"));
-                }
-                return;
-            }
-
-            /**拒絕接受材質包**/
-            if(status.contains("DECLINED")){
-                int time = 1;
-                String timeString = "";
-                try{
-                    time = config.getInt("ResourcePack.kick-no-delay");
-                    timeString = String.valueOf(time);
-                }catch (NumberFormatException exception){
-                    time = 1;
-                }
-                if(config.getBoolean("ResourcePack.kick-no-download")){
-                    player.sendMessage(info.getString("Language.ResourcePack.kick-delay").replace("{time}",timeString));
-                    bukkitRunnable = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.kickPlayer(info.getString("Language.ResourcePack.kick"));
-                        }
-                    };
-                    bukkitRunnable.runTaskLater(cd,time*20);
-
-
-                }else {
-                    player.sendMessage(info.getString("Language.ResourcePack.kick-pass"));
-                }
-                return;
-            }
-        }
 
 
     }
@@ -172,8 +84,16 @@ public class PlayerListener implements Listener {
         if(ListenerManager.getCast_On_Stop().get(playerUUID) != null){
             ListenerManager.getCast_On_Stop().put(playerUUID,false);
         }
-
     }
+
+    @EventHandler
+    public void onExp(PlayerExpChangeEvent event){
+
+        //Player player = event.getPlayer();
+        //player.sendMessage("獲取經驗: "+event.getAmount()+"目標: "+event.getSource().getType().toString());
+    }
+
+
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
@@ -339,5 +259,100 @@ public class PlayerListener implements Listener {
         return target;
 
     }
+
+    @EventHandler
+    public void onResourcePack(PlayerResourcePackStatusEvent event){
+        Player player = event.getPlayer();
+        if(config.getBoolean("ResourcePack.enable")){
+            onResourcePackSend(player,event.getStatus().toString());
+        }
+
+    }
+
+    public void onResourcePackSend(Player player,String status){
+        /**發送材質包**/
+        if(status == null){
+            int time = 2;
+            String timeString = "";
+            try{
+                time = config.getInt("ResourcePack.download-delay");
+                timeString = String.valueOf(time);
+            }catch (NumberFormatException exception){
+                time = 1;
+            }
+            player.sendMessage(info.getString("Language.ResourcePack.join").replace("{time}",timeString));
+
+            bukkitRunnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.setResourcePack(config.getString("ResourcePack.url"),config.getString("ResourcePack.hash"));
+                }
+            };
+            bukkitRunnable.runTaskLater(cd,time*20);
+        }
+        if(status !=null){
+            /**發送材質包成功**/
+            if(status.contains("SUCCESSFULLY_LOADED")){
+                player.sendMessage(info.getString("Language.ResourcePack.successfully-loaded"));
+                return;
+            }
+
+            /**材質包下載失敗**/
+            if(status.contains("FAILED_DOWNLOAD")){
+                int time = 1;
+                String timeString = "";
+                try{
+                    time = config.getInt("ResourcePack.kick-error-delay");
+                    timeString = String.valueOf(time);
+                }catch (NumberFormatException exception){
+                    time = 1;
+                }
+                if(config.getBoolean("ResourcePack.kick-error-download")){
+                    player.sendMessage(info.getString("Language.ResourcePack.download-error").replace("{time}",timeString));
+                    bukkitRunnable = new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.kickPlayer(info.getString("Language.ResourcePack.download-error-kick"));
+                        }
+                    };
+                    bukkitRunnable.runTaskLater(cd,time*20);
+                    return;
+                }else {
+                    player.sendMessage(info.getString("Language.ResourcePack.download-error-pass"));
+                }
+                return;
+            }
+
+            /**拒絕接受材質包**/
+            if(status.contains("DECLINED")){
+                int time = 1;
+                String timeString = "";
+                try{
+                    time = config.getInt("ResourcePack.kick-no-delay");
+                    timeString = String.valueOf(time);
+                }catch (NumberFormatException exception){
+                    time = 1;
+                }
+                if(config.getBoolean("ResourcePack.kick-no-download")){
+                    player.sendMessage(info.getString("Language.ResourcePack.kick-delay").replace("{time}",timeString));
+                    bukkitRunnable = new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.kickPlayer(info.getString("Language.ResourcePack.kick"));
+                        }
+                    };
+                    bukkitRunnable.runTaskLater(cd,time*20);
+
+
+                }else {
+                    player.sendMessage(info.getString("Language.ResourcePack.kick-pass"));
+                }
+                return;
+            }
+        }
+
+
+    }
+
 
 }

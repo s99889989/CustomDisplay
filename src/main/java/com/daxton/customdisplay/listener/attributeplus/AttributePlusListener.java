@@ -3,7 +3,9 @@ package com.daxton.customdisplay.listener.attributeplus;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,12 +34,19 @@ public class AttributePlusListener implements Listener {
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
+                return;
+            }
+        }
         target = (LivingEntity) event.getEntity();
         double damageNumber = event.getDamage();
-        PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
+
+
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
-
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onAttack(player,target);
 
         }else {
@@ -50,11 +59,17 @@ public class AttributePlusListener implements Listener {
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND || event.getEntity() instanceof NPC){
             return;
         }
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
+                return;
+            }
+        }
         target = (LivingEntity) event.getEntity();
         double damageNumber = event.getCritDamage();
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
-
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onCrit(player,target);
 
 

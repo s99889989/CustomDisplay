@@ -5,12 +5,13 @@ import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.player.stats.StatType;
+import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import net.mmogroup.mmolib.api.item.NBTItem;
 import net.mmogroup.mmolib.api.player.MMOPlayerData;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -35,6 +36,8 @@ public class MMOCoreListener implements Listener {
 
     private UUID targetUUID;
 
+    private double damageNumber = 0;
+
     private double damageNumberPAE = 0.0;
 
     private String damageType = "";
@@ -48,16 +51,21 @@ public class MMOCoreListener implements Listener {
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
+                return;
+            }
+        }
+
         target = (LivingEntity) event.getEntity();
-        double damageNumber = event.getFinalDamage();
-        PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
-        if(event.getDamager() instanceof Player){
+        damageNumber = event.getFinalDamage();
+        String uuidString = event.getDamager().getUniqueId().toString();
+        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+        Entity damager = event.getDamager();
+        if(damager instanceof Player){
             player = (Player) event.getDamager();
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
-
-
-
 
             ItemStack itemStack = player.getInventory().getItemInMainHand();
             NBTItem nbtItem = NBTItem.get(itemStack);
@@ -78,48 +86,52 @@ public class MMOCoreListener implements Listener {
             double magical_damage = data.getStats().getStat(StatType.MAGIC_DAMAGE);
             magical_damage = (magical_damage/100);
 
-            /**額外粒子攻擊**/
-            double projectile_DAMAGE = MMOPlayerData.get(playerUUID).getStatMap().getStat(PROJECTILE_DAMAGE);
-            /**額外技能攻擊**/
-            double skill_DAMAGE = MMOPlayerData.get(playerUUID).getStatMap().getStat(SKILL_DAMAGE);
-
             /**魔法爆擊增幅**/
             double spell_CRITICAL_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(SPELL_CRITICAL_STRIKE_POWER);
             spell_CRITICAL_STRIKE_POWER = (spell_CRITICAL_STRIKE_POWER/100) + 1.5;
 
-            /**最終傷害**/
-            double final_damage = attack_damage+physical_damage;
-//            player.sendMessage("基礎傷害"+attack_damage);
-//            player.sendMessage("額外物理攻擊"+physical_damage);
-//            player.sendMessage("爆擊增幅"+physical_STRIKE_POWER);
-
             if(damageType.contains("WEAPON")){
-                //player.sendMessage("實際數字： "+damageNumber);
-                //player.sendMessage("預估數字： "+physical_STRIKE_POWER);
-                if(damageNumber > physical_STRIKE_POWER ){ //damageNumber > 2 &
+                if(damageNumber > physical_STRIKE_POWER ){
                     new PlayerTrigger(player).onCrit(player,target);
                 }else {
                     new PlayerTrigger(player).onAttack(player,target);
                 }
             }
             if(damageType.contains("MAGIC")){
-//                player.sendMessage("顯示傷害: "+damageNumber);
-//                player.sendMessage("估算傷害: "+((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER));
-
                 if(damageNumber > ((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER)){
-
                     new PlayerTrigger(player).onMCrit(player,target);
-
                 }else {
-
                     new PlayerTrigger(player).onMagic(player,target);
-
                 }
-
             }
-
-        }else {
             return;
+        }
+
+        if(damager instanceof Arrow){
+            if(((Arrow) event.getDamager()).getShooter() instanceof Player){
+                player = (Player) ((Arrow) event.getDamager()).getShooter();
+                uuidString = ((Player) ((Arrow) event.getDamager()).getShooter()).getUniqueId().toString();
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+            }
+        }
+
+        if(damager instanceof ThrownPotion){
+            if(((ThrownPotion) damager).getShooter() instanceof Player){
+                player = (Player) ((ThrownPotion) damager).getShooter();
+                uuidString = player.getUniqueId().toString();
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+                return;
+            }
+        }
+        if(damager instanceof TNTPrimed){
+            if(((TNTPrimed) damager).getSource() instanceof Player){
+                player = (Player) ((TNTPrimed) event.getDamager()).getSource();
+                uuidString = player.getUniqueId().toString();
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+            }
         }
 
     }
@@ -129,8 +141,11 @@ public class MMOCoreListener implements Listener {
             //priority = EventPriority.MONITOR
     )
     public void c(PlayerAttackEvent event) {
-//        StatMap stats = event.getData().getStatMap();
-//        cd.getLogger().info("額外魔法攻擊: "+stats.getStat(MAGICAL_DAMAGE));
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
+                return;
+            }
+        }
         damageNumberPAE = event.getAttack().getDamage();
         damageType = event.getAttack().getTypes().toString();
     }

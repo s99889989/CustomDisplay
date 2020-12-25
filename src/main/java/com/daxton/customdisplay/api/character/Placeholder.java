@@ -65,8 +65,8 @@ public class Placeholder {
         entity_Map.put("vec_z",String.valueOf(vectorZ(entity)));
         entity_Map.put("last_chat",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_last_chat>"));
         entity_Map.put("cast_command",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_cast_command>"));
-        entity_Map.put("attack_number",PlaceholderManager.getDamage_Number_Map().get(entity.getUniqueId()));
-        entity_Map.put("damaged_number",PlaceholderManager.getDamaged_Number_Map().get(entity.getUniqueId()));
+        entity_Map.put("attack_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>"));
+        entity_Map.put("damaged_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>"));
 
         entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
 

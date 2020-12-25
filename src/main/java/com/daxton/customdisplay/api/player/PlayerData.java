@@ -3,9 +3,15 @@ package com.daxton.customdisplay.api.player;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PermissionManager;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import javax.xml.soap.Node;
+import java.io.File;
 import java.util.*;
 
 public class PlayerData {
@@ -24,21 +30,28 @@ public class PlayerData {
 
     public PlayerData(Player player){
         this.player = player;
+
+        new PlayerConfig(player);
+
         setPlayerActionList();
         setActionList();
+
     }
+
     /**獲取動作列表**/
     public void setPlayerActionList() {
-        for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
+        String uuidString = player.getUniqueId().toString();
 
-            if(configName.contains("Players_"+player.getName()+".yml")){
-                fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("Players_"+player.getName()+".yml");
-                break;
-            }else{
-                fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("Players_Default.yml");
-            }
-        }
-        playerActionList = fileConfiguration.getStringList("Action");
+        File inputFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+        FileConfiguration inputConfig = YamlConfiguration.loadConfiguration(inputFile);
+        String set = inputConfig.getString(uuidString+".Action");
+
+        File inputFile2 = new File(cd.getDataFolder(),"Class/Action/"+set+".yml");
+        FileConfiguration inputConfig2 = YamlConfiguration.loadConfiguration(inputFile2);
+
+
+
+        playerActionList = inputConfig2.getStringList("Action");
 
         for(String stringConfig : PermissionManager.getPermission_String_Map().values()){
 

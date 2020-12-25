@@ -33,7 +33,11 @@ public class NumberUtil {
     /**對首位字做處理**/
     public String stringAddRight(String string, String content){
         String[] contests = content.split(";");
-        String[] cE = contests[0].split(",");
+        /**英文**/
+        String[] cA = contests[0].split(",");
+//        /**泰文**/
+//        String[] cB = contests[1].split(",");
+        /**其他**/
         String[] cC = contests[1].split(",");
 
         String lastString = "";
@@ -41,8 +45,8 @@ public class NumberUtil {
         String[] strings = new String[c.length];
         for(int i = 0 ; i < c.length; i++){
             int amount = c[i];
-            if(amount < 124){
-                strings[i] = cE[0]+c[i]+cE[1];
+            if(amount < 4000){
+                strings[i] = cA[0]+c[i]+cA[1];
             }else {
                 strings[i] = cC[0]+c[i]+cC[1];
             }

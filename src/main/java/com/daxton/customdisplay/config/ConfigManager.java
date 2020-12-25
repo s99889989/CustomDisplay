@@ -22,8 +22,15 @@ public class ConfigManager {
         config = new AutoConfig("resource/config.yml","config.yml").get();
         language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
 
-        new AutoConfig("resource/Players/Default.yml","Players/Default.yml").get();
-        new AutoConfig("resource/Players/s99889989.yml","Players/s99889989.yml").get();
+
+        new AutoConfig("resource/Class/Action/Default.yml","Class/Action/Default.yml").get();
+        new AutoConfig("resource/Class/Action/預設.yml","Class/Action/預設.yml").get();
+
+        new AutoConfig("resource/Class/Level/base.yml","Class/Level/base.yml").get();
+        new AutoConfig("resource/Class/Level/job.yml","Class/Level/job.yml").get();
+
+        new AutoConfig("resource/Class/Main/Default.yml","Class/Main/Default.yml").get();
+
 
         new AutoConfig("resource/Permission/ExamplePermission.yml","Permission/ExamplePermission.yml").get();
 
@@ -44,7 +51,7 @@ public class ConfigManager {
 
         new AutoConfig().actionConfig();
         new AutoConfig().characterConfig();
-        new AutoConfig().playersConfig();
+        //new AutoConfig().playersConfig();
         new AutoConfig().permissionConfig();
 
 

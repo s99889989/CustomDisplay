@@ -13,12 +13,11 @@ public class Test {
 
     public static void main(String[] args){
 
-
-        char a = '一';
+        char a = 'ะ';
         int i = a;
         System.out.println(i);
 
-        char c = 'z';
+        char c = '๋';
         int d = c;
         System.out.println(d);
 

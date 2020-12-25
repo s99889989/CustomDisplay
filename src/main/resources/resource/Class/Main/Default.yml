@@ -1,0 +1,6 @@
+Default:
+  ClassName: '初心者'
+  Action: Default
+  Level:
+  - base
+  - job

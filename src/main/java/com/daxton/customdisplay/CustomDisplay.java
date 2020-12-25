@@ -1,7 +1,9 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.daxton.customdisplay.api.player.PlayerConfig;
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
@@ -17,6 +19,7 @@ import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -81,7 +84,6 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
 
 
-
     }
 
     public void AttackCore(){
@@ -97,7 +99,7 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 break;
             case "skillapi_mmolib":
-                if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null & Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
+                if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null && Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
                     Bukkit.getPluginManager().registerEvents(new SkillAPI_MMOLib_Listener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI_MMOLib");
                 }else {
@@ -170,6 +172,23 @@ public final class CustomDisplay extends JavaPlugin {
 
     }
 
+    @Override
+    public void onDisable() {
+        for(Player player : Bukkit.getOnlinePlayers()){
+            UUID playerUUID = player.getUniqueId();
+            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            if(playerData != null){
+                //PlayerDataMap.getPlayerDataMap().get(playerUUID).removeAttribute(player);
+                PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+            }
+        }
+
+
+        getLogger().info("Plugin disable");
+        getLogger().info("插件卸載");
+    }
+
+
     /**複寫saveResource的存檔位置，因為位置是讀取jar內的，所以要去除resource/**/
     public void saveResource(String resourcePath,String savePath, boolean replace) {
         if (resourcePath == null || resourcePath.equals("")) {
@@ -224,9 +243,4 @@ public final class CustomDisplay extends JavaPlugin {
         return configManager;
     }
 
-    @Override
-    public void onDisable() {
-        getLogger().info("Plugin disable");
-        getLogger().info("插件卸載");
-    }
 }

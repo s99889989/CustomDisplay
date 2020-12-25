@@ -7,6 +7,8 @@ import com.sucy.skill.api.event.PhysicalDamageEvent;
 import com.sucy.skill.api.event.SkillDamageEvent;
 import com.sucy.skill.listener.AttributeListener;
 
+import net.citizensnpcs.api.CitizensAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
@@ -23,12 +25,17 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             ignoreCancelled = true
     )
     public void onSkillDamage(SkillDamageEvent event){
-
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getTarget())){
+                return;
+            }
+        }
         if(event.getDamager() instanceof Player & event.getTarget() instanceof LivingEntity){
             Player player = ((Player) event.getDamager()).getPlayer();
             LivingEntity target = event.getTarget();
             double damageNumber = event.getDamage();
-            PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onMagic(player,target);
 
         }
@@ -40,12 +47,17 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             ignoreCancelled = true
     )
     public void onPhysicalDamage(PhysicalDamageEvent event){
-
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getTarget())){
+                return;
+            }
+        }
         if(event.getDamager() instanceof Player & event.getTarget() instanceof LivingEntity){
             Player player = ((Player) event.getDamager()).getPlayer();
             LivingEntity target = event.getTarget();
             double damageNumber = event.getDamage();
-            PlaceholderManager.getDamage_Number_Map().put(event.getDamager().getUniqueId(),String.valueOf(damageNumber));
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onAttack(player,target);
 
         }
