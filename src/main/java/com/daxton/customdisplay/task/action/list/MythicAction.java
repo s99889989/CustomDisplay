@@ -45,8 +45,7 @@ public class MythicAction {
     }
 
     public void setOther(String firstString){
-        List<String> stringList = new StringFind().getStringMessageList(firstString);
-        for(String allString : stringList){
+        for(String allString : new StringFind().getStringMessageList(firstString)){
             if(allString.toLowerCase().contains("skill=") || allString.toLowerCase().contains("s=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){

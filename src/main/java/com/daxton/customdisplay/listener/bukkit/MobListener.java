@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.api.player.MobDeath;
 import com.daxton.customdisplay.api.player.PlayerConfig;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -75,12 +76,15 @@ public class MobListener implements Listener {
     /**怪物死亡**/
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
-        String entityType= event.getEntityType().toString();
+        LivingEntity target = event.getEntity();
+        String entityType = event.getEntityType().toString();
         if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
             Player player = EntityFind.convertPlayer(nEvent.getDamager());
             if(player != null){
-                new MobDeath().mobType(player,entityType);
+                String uuidString = player.getUniqueId().toString();
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_kill_mob_type>",entityType);
+                new PlayerTrigger(player).onMobDeath(player,target);
             }
         }
 

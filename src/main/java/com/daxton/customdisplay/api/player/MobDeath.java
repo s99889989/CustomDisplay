@@ -162,7 +162,7 @@ public class MobDeath {
                         }catch (Exception exception){
                             exception.printStackTrace();
                         }
-                        new PlayerLevelUp(player);
+
                     }
 
 //                    if(nextExp != 0 && newExp >= needExp){

@@ -293,6 +293,68 @@ public class PlayerTrigger {
             }
         }
     }
+    /**當等級提升時**/
+    public void onLevelUp(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onlevelup") != null){
+            for(String actionString : action_Trigger_Map.get("~onlevelup")){
+                actionString = actionString.replace("~onLevelUp","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當等級降低時**/
+    public void onLevelDown(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onleveldown") != null){
+            for(String actionString : action_Trigger_Map.get("~onleveldown")){
+                actionString = actionString.replace("~onLevelDown","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當獲得經驗值時**/
+    public void onExpUp(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onexpup") != null){
+            for(String actionString : action_Trigger_Map.get("~onexpup")){
+                actionString = actionString.replace("~onExpUp","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當失去經驗值時**/
+    public void onExpDown(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onexpdown") != null){
+            for(String actionString : action_Trigger_Map.get("~onexpdown")){
+                actionString = actionString.replace("~onExpDown","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當怪物死亡時.(死亡原因必須是該玩家)**/
+    public void onMobDeath(LivingEntity self){
+        this.self = self;
+        if(action_Trigger_Map.get("~onmobdeath") != null){
+            for(String actionString : action_Trigger_Map.get("~onmobdeath")){
+                actionString = actionString.replace("~onMobDeath","");
+                runExecute(actionString);
+            }
+        }
+    }
+
+    /**當怪物死亡時.(死亡原因必須是該玩家)**/
+    public void onMobDeath(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmobdeath") != null){
+            for(String actionString : action_Trigger_Map.get("~onmobdeath")){
+                actionString = actionString.replace("~onMobDeath","");
+                runExecute(actionString);
+            }
+        }
+    }
 
     public void runExecute(String actionString){
         stop = false;

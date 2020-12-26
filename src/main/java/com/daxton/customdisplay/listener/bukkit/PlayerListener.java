@@ -86,13 +86,32 @@ public class PlayerListener implements Listener {
         }
     }
 
+    /**當經驗值改變時**/
     @EventHandler
-    public void onExp(PlayerExpChangeEvent event){
-
-        //Player player = event.getPlayer();
-        //player.sendMessage("獲取經驗: "+event.getAmount()+"目標: "+event.getSource().getType().toString());
+    public void onExpChange(PlayerExpChangeEvent event){
+        Player player = event.getPlayer();
+        String uuidString = player.getUniqueId().toString();
+        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_exp_type>","default");
+        new PlayerTrigger(player).onExpUp(player);
     }
 
+    /**當等級改變時**/
+    @EventHandler
+    public void onLevelChange(PlayerLevelChangeEvent event){
+        Player player = event.getPlayer();
+        String uuidString = player.getUniqueId().toString();
+        int oldLevel = event.getOldLevel();
+        int newLevel = event.getNewLevel();
+        if(oldLevel > newLevel){
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_level_type>","default");
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_exp_type>","default");
+            new PlayerTrigger(player).onLevelDown(player);
+            new PlayerTrigger(player).onExpDown(player);
+        }else {
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_level_type>","default");
+            new PlayerTrigger(player).onLevelUp(player);
+        }
+    }
 
 
     @EventHandler

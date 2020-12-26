@@ -67,11 +67,21 @@ public class Placeholder {
         entity_Map.put("cast_command",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_cast_command>"));
         entity_Map.put("attack_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>"));
         entity_Map.put("damaged_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>"));
+        entity_Map.put("kill_mob_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_kill_mob_type>"));
 
-        entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
+        entity_Map.put("up_exp_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_exp_type>"));
+        entity_Map.put("down_exp_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_exp_type>"));
+        entity_Map.put("up_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_level_type>"));
+        entity_Map.put("down_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_level_type>"));
 
 
-        if(this.change.toLowerCase().contains("actionbar_mmocore_spell") &entity instanceof Player & Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
+        if(Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
+            entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
+            entity_Map.put("mythic_kill_mob_id", PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>"));
+        }
+
+
+        if(this.change.toLowerCase().contains("actionbar_mmocore_spell") &entity instanceof Player & Bukkit.getServer().getPluginManager().getPlugin("MMOCore") != null){
             Player player = (Player) entity;
             if(player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR){
                 entity_Map.put("actionbar_mmocore_spell",MMOCoreActionBar(player));

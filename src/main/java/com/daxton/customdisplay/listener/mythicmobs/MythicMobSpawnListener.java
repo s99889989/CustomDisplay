@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.MobDeath;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
@@ -31,6 +32,9 @@ public class MythicMobSpawnListener implements Listener {
     public void onMythicMobDeath(MythicMobDeathEvent event){
         String mobID = event.getMob().getMobType();
 
+
+
+        LivingEntity target = (LivingEntity) event.getEntity();
         LivingEntity killer = event.getKiller();
         Player player = null;
         if(killer instanceof Player){
@@ -38,8 +42,10 @@ public class MythicMobSpawnListener implements Listener {
         }
 
         if(player != null){
-            player.sendMessage(event.getMob().getMobType());
-            new MobDeath().mythicID(player,mobID);
+            String uuidString = player.getUniqueId().toString();
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
+            new PlayerTrigger(player).onMobDeath(player,target);
+
         }
 
 

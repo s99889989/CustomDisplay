@@ -127,6 +127,21 @@ public class JudgmentAction {
             new Title().setTitle(self,target,firstString,taskID);
         }
 
+        /**Experience的相關判斷**/
+        if(judgMent.toLowerCase().contains("exp")){
+            new Experience().setExp(self,target,firstString,taskID);
+        }
+
+        /**Level的相關判斷**/
+        if(judgMent.toLowerCase().contains("level")){
+            new Level().setLevel(self,target,firstString,taskID);
+        }
+
+        /**Point的相關判斷**/
+        if(judgMent.toLowerCase().contains("point")){
+            new Point().setPoint(self,target,firstString,taskID);
+        }
+
     }
 
 

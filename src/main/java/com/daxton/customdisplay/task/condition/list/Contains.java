@@ -1,10 +1,13 @@
 package com.daxton.customdisplay.task.condition.list;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import org.bukkit.entity.LivingEntity;
 
 public class Contains {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private LivingEntity self = null;
     private LivingEntity target = null;

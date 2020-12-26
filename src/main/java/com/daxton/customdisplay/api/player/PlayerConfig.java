@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.List;
 
 public class PlayerConfig {
 
@@ -39,19 +40,32 @@ public class PlayerConfig {
         }
 
         if(!(playerConfig.contains(uuidString+".Action"))){
-            playerConfig.set(uuidString+".Action", classConfig.getString("Default.Action"));
+            List<String> actionList = classConfig.getStringList("Default.Action");
+            playerConfig.set(uuidString+".Action", actionList);
+
         }
 
         if(!(playerConfig.contains(uuidString+".ClassName"))){
             playerConfig.set(uuidString+".ClassName", classConfig.getString("Default.ClassName"));
         }
-
-        for(String key : classConfig.getStringList("Default.Level")){
+        String levelString = playerConfig.getString(uuidString+".Class");
+        for(String key : classConfig.getStringList(levelString+".Level")){
             if(!(playerConfig.contains(uuidString+".Level."+key+"_level"))){
                 playerConfig.set(uuidString+".Level."+key+"_level",1);
             }
             if(!(playerConfig.contains(uuidString+".Level."+key+"_exp"))){
                 playerConfig.set(uuidString+".Level."+key+"_exp",0);
+            }
+        }
+
+
+        String pointString = playerConfig.getString(uuidString+".Class");
+        for(String key : classConfig.getStringList(pointString+".Point")){
+            if(!(playerConfig.contains(uuidString+".Point."+key+"_max"))){
+                playerConfig.set(uuidString+".Point."+key+"_max",0);
+            }
+            if(!(playerConfig.contains(uuidString+".Point."+key+"_last"))){
+                playerConfig.set(uuidString+".Point."+key+"_last",0);
             }
         }
 
@@ -88,6 +102,7 @@ public class PlayerConfig {
     /**存檔**/
     public void saveFile(){
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+
         //playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
         try {

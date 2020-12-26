@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import javax.xml.soap.Node;
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PlayerData {
 
@@ -23,7 +25,7 @@ public class PlayerData {
     private FileConfiguration fileConfiguration;
 
     /**動作列表**/
-    private List<String> playerActionList;
+    private List<String> playerActionList = new ArrayList<>();
 
     /**觸發的動作列表**/
     private Map<String,List<String>> action_Trigger_Map = new HashMap<>();
@@ -44,24 +46,29 @@ public class PlayerData {
 
         File inputFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
         FileConfiguration inputConfig = YamlConfiguration.loadConfiguration(inputFile);
-        String set = inputConfig.getString(uuidString+".Action");
-
-        File inputFile2 = new File(cd.getDataFolder(),"Class/Action/"+set+".yml");
-        FileConfiguration inputConfig2 = YamlConfiguration.loadConfiguration(inputFile2);
-
-
-
-        playerActionList = inputConfig2.getStringList("Action");
-
-        for(String stringConfig : PermissionManager.getPermission_String_Map().values()){
-
-            if(player.hasPermission(stringConfig)){
-                for(String list : PermissionManager.getPermission_FileConfiguration_Map().get(stringConfig).getStringList("Action")){
-                    playerActionList.add(list);
-                }
+        List<String> setList = inputConfig.getStringList(uuidString+".Action");
+        List<String> thisList = new ArrayList<>();
+        for(String set : setList){
+            File inputFile2 = new File(cd.getDataFolder(),"Class/Action/"+set+".yml");
+            FileConfiguration inputConfig2 = YamlConfiguration.loadConfiguration(inputFile2);
+            List<String> actionList = inputConfig2.getStringList("Action");
+            for(String string : actionList){
+                thisList.add(string);
             }
 
+
         }
+
+        for(String stringConfig : PermissionManager.getPermission_String_Map().values()){
+            if(player.hasPermission(stringConfig)){
+                for(String list : PermissionManager.getPermission_FileConfiguration_Map().get(stringConfig).getStringList("Action")){
+                    thisList.add(list);
+                }
+            }
+        }
+
+        playerActionList = thisList.stream().distinct().collect(Collectors.toList());
+
 
     }
 
@@ -291,6 +298,51 @@ public class PlayerData {
                     }
                     if(action_Trigger_Map.get("~oncommand") != null){
                         action_Trigger_Map.get("~oncommand").add(actionString);
+                    }
+                }
+                /**當等級提升時**/
+                if(actionString.toLowerCase().contains("~onlevelup")){
+                    if(action_Trigger_Map.get("~onlevelup") == null){
+                        action_Trigger_Map.put("~onlevelup",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onlevelup") != null){
+                        action_Trigger_Map.get("~onlevelup").add(actionString);
+                    }
+                }
+                /**當等級降低時**/
+                if(actionString.toLowerCase().contains("~onleveldown")){
+                    if(action_Trigger_Map.get("~onleveldown") == null){
+                        action_Trigger_Map.put("~onleveldown",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onleveldown") != null){
+                        action_Trigger_Map.get("~onleveldown").add(actionString);
+                    }
+                }
+                /**當獲得經驗值時**/
+                if(actionString.toLowerCase().contains("~onexpup")){
+                    if(action_Trigger_Map.get("~onexpup") == null){
+                        action_Trigger_Map.put("~onexpup",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onexpup") != null){
+                        action_Trigger_Map.get("~onexpup").add(actionString);
+                    }
+                }
+                /**當失去經驗值時**/
+                if(actionString.toLowerCase().contains("~onexpdown")){
+                    if(action_Trigger_Map.get("~onexpdown") == null){
+                        action_Trigger_Map.put("~onexpdown",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onexpdown") != null){
+                        action_Trigger_Map.get("~onexpdown").add(actionString);
+                    }
+                }
+                /**當怪物死亡時.(死亡原因必須是該玩家)**/
+                if(actionString.toLowerCase().contains("~onmobdeath")){
+                    if(action_Trigger_Map.get("~onmobdeath") == null){
+                        action_Trigger_Map.put("~onmobdeath",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onmobdeath") != null){
+                        action_Trigger_Map.get("~onmobdeath").add(actionString);
                     }
                 }
 
