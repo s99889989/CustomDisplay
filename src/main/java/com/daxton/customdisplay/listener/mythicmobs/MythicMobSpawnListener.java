@@ -1,12 +1,14 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.player.MobDeath;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -20,27 +22,24 @@ public class MythicMobSpawnListener implements Listener {
 
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
-        cd.getLogger().info("MM: "+event.getMobType().getInternalName());
+
         PlaceholderManager.getMythicMobs_Level_Map().put(event.getEntity().getUniqueId(), String.valueOf(event.getMobLevel()));
 
     }
 
     @EventHandler
     public void onMythicMobDeath(MythicMobDeathEvent event){
+        String mobID = event.getMob().getMobType();
+
         LivingEntity killer = event.getKiller();
-        if(killer != null){
-            String uuidString = killer.getUniqueId().toString();
-            File file = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
-            FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
-            if(fileConfiguration.contains(uuidString+".Level.base_exp")){
-                int soc = fileConfiguration.getInt(uuidString+".Level.base_exp");
-                fileConfiguration.set(uuidString+".Level.base_exp",soc+10);
-            }
-            try {
-                fileConfiguration.save(file);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
+        Player player = null;
+        if(killer instanceof Player){
+            player = (Player) killer;
+        }
+
+        if(player != null){
+            player.sendMessage(event.getMob().getMobType());
+            new MobDeath().mythicID(player,mobID);
         }
 
 

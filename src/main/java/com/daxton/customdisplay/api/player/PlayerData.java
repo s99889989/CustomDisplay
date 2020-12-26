@@ -31,7 +31,7 @@ public class PlayerData {
     public PlayerData(Player player){
         this.player = player;
 
-        new PlayerConfig(player);
+        new PlayerConfig(player).createFile();
 
         setPlayerActionList();
         setActionList();

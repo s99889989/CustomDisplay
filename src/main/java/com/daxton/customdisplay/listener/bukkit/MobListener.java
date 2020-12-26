@@ -2,17 +2,22 @@ package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.player.MobDeath;
+import com.daxton.customdisplay.api.player.PlayerConfig;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
-import io.lumine.xikage.mythicmobs.mobs.MythicMob;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
-import org.bukkit.potion.Potion;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class MobListener implements Listener {
@@ -21,6 +26,17 @@ public class MobListener implements Listener {
 
     private double damageNumber = 0;
     private double damagedNumber = 0;
+
+    private String playerUUIDString = "";
+    private List<String> levelNameList = new ArrayList<>();
+    private File playerFilePatch;
+    private FileConfiguration playerConfig;
+    private File levelFilePatch;
+    private FileConfiguration levelConfig;
+
+    private String setModType = "";
+    private String killType = "";
+    private int amonut = 0;
 
     @EventHandler
     public void MobSpawn(EntitySpawnEvent event){
@@ -60,17 +76,18 @@ public class MobListener implements Listener {
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
         String entityType= event.getEntityType().toString();
-
         if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
-            Entity killer = nEvent.getDamager();
-            Player player = EntityFind.convertPlayer(killer);
-
-
-
+            Player player = EntityFind.convertPlayer(nEvent.getDamager());
+            if(player != null){
+                new MobDeath().mobType(player,entityType);
+            }
         }
 
     }
+
+
+
 
 
     @EventHandler

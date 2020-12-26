@@ -3,21 +3,16 @@ package com.daxton.customdisplay.api.player;
 import com.daxton.customdisplay.CustomDisplay;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PlayerConfig {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private File file;
-
-    FileConfiguration fileConfiguration;
-    FileConfiguration inputConfig;
+    FileConfiguration playerConfig;
+    FileConfiguration classConfig;
 
     private Player player;
     private String uuidString;
@@ -25,40 +20,52 @@ public class PlayerConfig {
     public PlayerConfig(Player player){
         this.uuidString = player.getUniqueId().toString();
         this.player = player;
-        createFile();
-        setValue();
-        saveFile();
-    }
-
-
-    public void setValue(){
-        loadConfig();
-        fileConfiguration.set(uuidString+".Name",player.getName());
-        if(!(fileConfiguration.contains(uuidString+".Class"))){
-            fileConfiguration.set(uuidString+".Class","Default");
-        }
-        if(!(fileConfiguration.contains(uuidString+".Action"))){
-            fileConfiguration.set(uuidString+".Action",inputConfig.getString("Default.Action"));
-        }
-        if(!(fileConfiguration.contains(uuidString+".ClassName"))){
-            fileConfiguration.set(uuidString+".ClassName",inputConfig.getString("Default.ClassName"));
-        }
-        for(String key : inputConfig.getStringList("Default.Level")){
-            if(!(fileConfiguration.contains(uuidString+".Level."+key+"_level"))){
-                fileConfiguration.set(uuidString+".Level."+key+"_level",0);
-            }
-            if(!(fileConfiguration.contains(uuidString+".Level."+key+"_exp"))){
-                fileConfiguration.set(uuidString+".Level."+key+"_exp",10);
-            }
-        }
-
-
 
     }
 
-    public void loadConfig(){
-        File inputFile = new File(cd.getDataFolder(),"Class/Main/Default.yml");
-        inputConfig = YamlConfiguration.loadConfiguration(inputFile);
+
+    public void setDefaultValue(){
+        if(playerConfig.contains(uuidString+".Class")){
+            String className = playerConfig.getString(uuidString+".Class");
+            loadNowConfig(className);
+        }else {
+            loadDefaultConfig();
+        }
+
+        playerConfig.set(uuidString+".Name",player.getName());
+
+        if(!(playerConfig.contains(uuidString+".Class"))){
+            playerConfig.set(uuidString+".Class","Default");
+        }
+
+        if(!(playerConfig.contains(uuidString+".Action"))){
+            playerConfig.set(uuidString+".Action", classConfig.getString("Default.Action"));
+        }
+
+        if(!(playerConfig.contains(uuidString+".ClassName"))){
+            playerConfig.set(uuidString+".ClassName", classConfig.getString("Default.ClassName"));
+        }
+
+        for(String key : classConfig.getStringList("Default.Level")){
+            if(!(playerConfig.contains(uuidString+".Level."+key+"_level"))){
+                playerConfig.set(uuidString+".Level."+key+"_level",1);
+            }
+            if(!(playerConfig.contains(uuidString+".Level."+key+"_exp"))){
+                playerConfig.set(uuidString+".Level."+key+"_exp",0);
+            }
+        }
+
+
+    }
+
+    public void loadDefaultConfig(){
+        File defaultFilePatch = new File(cd.getDataFolder(),"Class/Main/Default.yml");
+        classConfig = YamlConfiguration.loadConfiguration(defaultFilePatch);
+    }
+
+    public void loadNowConfig(String MainName){
+        File defaultFilePatch = new File(cd.getDataFolder(),"Class/Main/"+MainName+".yml");
+        classConfig = YamlConfiguration.loadConfiguration(defaultFilePatch);
     }
 
     public void createFile(){
@@ -66,19 +73,25 @@ public class PlayerConfig {
         if(!dir_file.exists()){
             dir_file.mkdir();
         }
-        file = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
         try {
-            if(!file.exists()){
-                file.createNewFile();
+            if(!playerFilePatch.exists()){
+                playerFilePatch.createNewFile();
             }
         }catch (Exception exception){
             exception.printStackTrace();
         }
-        fileConfiguration = YamlConfiguration.loadConfiguration(file);
+        playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        setDefaultValue();
+        saveFile();
     }
+    /**存檔**/
     public void saveFile(){
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+        //playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+
         try {
-            fileConfiguration.save(file);
+            playerConfig.save(playerFilePatch);
         }catch (Exception exception){
             exception.printStackTrace();
         }
@@ -89,12 +102,12 @@ public class PlayerConfig {
 
         String level = uuidString+".Level.base";
         int socore;
-        if(fileConfiguration.contains(level)){
-            socore = fileConfiguration.getInt(level);
+        if(playerConfig.contains(level)){
+            socore = playerConfig.getInt(level);
 
         }else {
             socore = 0;
-            fileConfiguration.set(level,socore);
+            playerConfig.set(level,socore);
         }
 
         player.sendMessage("你的等級是: "+socore);

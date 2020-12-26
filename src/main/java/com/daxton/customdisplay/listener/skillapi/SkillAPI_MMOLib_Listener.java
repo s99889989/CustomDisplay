@@ -82,10 +82,8 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
         if(player != null){
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
-
 
             /**Base damage**/
             double attack_damage = MMOPlayerData.get(playerUUID).getStatMap().getStat(ATTACK_DAMAGE);
@@ -96,16 +94,13 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             double physical_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(CRITICAL_STRIKE_POWER);
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
             if(damageType.contains("WEAPON")){
-
                 if(damageNumber > physical_STRIKE_POWER ){
-
                     new PlayerTrigger(player).onCrit(player,target);
                 }else {
-
                     new PlayerTrigger(player).onAttack(player,target);
                 }
             }
-            return;
+
         }
 
     }
