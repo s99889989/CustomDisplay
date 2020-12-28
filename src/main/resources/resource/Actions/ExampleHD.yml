@@ -249,6 +249,7 @@ EmojiHelpHD:
   
 EmojiHelpHD2:
   Action:
+  - Inventory[fc=close]
   - Hologram[Function=create;m=䂞;x=0;y=&self_hight&;z=0] @=self
   - Delay 1
   - Hologram[Function=removeTextLine;m=0]

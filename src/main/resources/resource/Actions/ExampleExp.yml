@@ -10,4 +10,5 @@ GetBaseExp1:
 GetBasePoint:
   Action:
   - Condition[contains=&self_up_level_type&=base]
-  - Point[type=base;a=1]
+  - CustomPoint[type=base_max;a=1]
+  - CustomPoint[type=base_last;a=1]

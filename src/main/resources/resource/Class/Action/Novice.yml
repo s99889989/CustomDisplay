@@ -1,9 +1,14 @@
 Action:
 
+#
+#-------------------------------------------------------------------------#
+- Action[a=OpenGui;mark=&self_name&] ~onCommand #OpenGui
+
+
+
 #怪物死掉獲得經驗
 #-------------------------------------------------------------------------#
 - Action[a=GetBaseExp1] ~onMobDeath
 
 - Action[a=GetBasePoint] ~onLevelUp
-#- Level[a=1] ~onAttack
-#- Level[fc=set;a=10] ~onAttack
+

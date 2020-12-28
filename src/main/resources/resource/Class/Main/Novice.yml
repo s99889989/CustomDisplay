@@ -1,16 +1,15 @@
-Default:
+Novice:
   ClassName: '初心者'
   Action:
   - Default
-  - Level
-  - Gui
+  - Novice
   Level:
   - base
   - job
   Point:
   - base
   - job
-  Attributes:
+  AttributesPoint:
   - Str
   - Agi
   - Vit

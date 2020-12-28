@@ -1,9 +1,6 @@
 Str:
-  name: 力量
-  max-points: 99
-  buff:
-    attack_damage: 2
-    physical_damage: 1
+  stats:
+    melee_physical_attack: 2
 Agi:
   name: 敏捷
   max-points: 99

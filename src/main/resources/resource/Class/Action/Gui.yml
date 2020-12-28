@@ -1,7 +1,0 @@
-Action:
-
-#
-#-------------------------------------------------------------------------#
-- Action[a=OpenGui;mark=&self_name&] ~onCommand #OpenGui
-
-

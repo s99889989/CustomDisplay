@@ -1,0 +1,92 @@
+#個人資訊Stats
+self_class_name:
+  message:
+  - CCharacter[<cd_class_name>]
+
+self_level_now_base:
+  message:
+  - CCharacter[<cd_level_now_base>]
+  
+self_level_max_base:
+  message:
+  - CCharacter[<cd_level_max_base>]
+
+self_level_now_job:
+  message:
+  - CCharacter[<cd_level_now_job>]
+
+self_level_max_job:
+  message:
+  - CCharacter[<cd_level_max_job>]
+
+self_exp_now_base:
+  message:
+  - CCharacter[<cd_exp_now_base>]
+
+self_exp_max_base:
+  message:
+  - CCharacter[<cd_exp_max_base>]
+  
+self_exp_now_job:
+  message:
+  - CCharacter[<cd_exp_now_job>]
+
+self_exp_max_job:
+  message:
+  - CCharacter[<cd_exp_max_job>]
+
+self_point_max_base:
+  message:
+  - CCharacter[<cd_point_max_base>]
+
+self_point_last_base:
+  message:
+  - CCharacter[<cd_point_last_base>]
+
+self_point_max_job:
+  message:
+  - CCharacter[<cd_point_max_job>]
+
+self_point_last_job:
+  message:
+  - CCharacter[<cd_point_last_job>]
+
+
+#Str
+self_attr_point_str:
+  message:
+  - CCharacter[<cd_attr_point_Str>]
+
+
+
+#Agi
+self_attr_point_agi:
+  message:
+  - CCharacter[<cd_attr_point_Agi>]
+
+self_attr_stats_melee_physical_attack:
+  message:
+  - CCharacter[<cd_attr_stats_melee_physical_attack>]
+
+
+#Vit
+self_attr_point_vit:
+  message:
+  - CCharacter[<cd_attr_point_Vit>]
+
+#Int
+self_attr_point_int:
+  message:
+  - CCharacter[<cd_attr_point_Int>]
+
+#Dex
+self_attr_point_dex:
+  message:
+  - CCharacter[<cd_attr_point_Dex>]
+
+#Luk
+
+self_attr_point_luk:
+  message:
+  - CCharacter[<cd_attr_point_Luk>]
+

@@ -2,7 +2,7 @@
 #
 Buttons:
 
-  button1:
+  Stats:
     RawSlot: 15
     Move: true
     Material: 'PLAYER_HEAD'
@@ -21,9 +21,9 @@ Buttons:
     - '§7屬性點: §6&self_point_last_base& / &self_point_max_base&'
     - '§7技能點: §6&self_point_last_job& / &self_point_max_job&'
     Left:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=EmojiHelpHD2;mark=&self_name&]
     Right:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=EmojiHelpHD2;mark=&self_name&]
     
   Str:
     RawSlot: 23
@@ -33,11 +33,17 @@ Buttons:
     RemoveItemFlags: true
     Name: '力量'
     Lore:
-    - 力量
+    - ''
+    - '目前力量: §c§l&self_attr_point_str&'
+    - ''
+    - '⚔ 攻擊力: §c&self_attr_stats_melee_physical_attack&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
     Left:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=add_Attributes_Str;mark=&self_name&]
     Right:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=cut_Attributes_Str;mark=&self_name&]
     
   Agi:
     RawSlot: 24
@@ -47,11 +53,15 @@ Buttons:
     RemoveItemFlags: true
     Name: '敏捷'
     Lore:
-    - 敏捷
+    - ''
+    - '目前敏捷: §c§l&self_attr_point_agi&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
     Left:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=add_Attributes_Agi;mark=&self_name&]
     Right:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=cut_Attributes_Agi;mark=&self_name&]
 
   Vit:
     RawSlot: 25
@@ -61,11 +71,15 @@ Buttons:
     RemoveItemFlags: true
     Name: '體質'
     Lore:
-    - 體質
+    - ''
+    - '目前體質: §c§l&self_attr_point_vit&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
     Left:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=add_Attributes_Vit;mark=&self_name&]
     Right:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=cut_Attributes_Vit;mark=&self_name&]
 
   Int:
     RawSlot: 32
@@ -75,11 +89,15 @@ Buttons:
     RemoveItemFlags: true
     Name: '智力'
     Lore:
-    - 智力
+    - ''
+    - '目前智力: §c§l&self_attr_point_int&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
     Left:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=add_Attributes_Int;mark=&self_name&]
     Right:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=cut_Attributes_Int;mark=&self_name&]
 
   Dex:
     RawSlot: 33
@@ -89,11 +107,15 @@ Buttons:
     RemoveItemFlags: true
     Name: '靈巧'
     Lore:
-    - 靈巧
+    - ''
+    - '目前靈巧: §c§l&self_attr_point_dex&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
     Left:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=add_Attributes_Dex;mark=&self_name&]
     Right:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=cut_Attributes_Dex;mark=&self_name&]
 
   Luk:
     RawSlot: 34
@@ -103,11 +125,15 @@ Buttons:
     RemoveItemFlags: true
     Name: '幸運'
     Lore:
-    - 幸運
+    - ''
+    - '目前幸運: §c§l&self_attr_point_luk&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
     Left:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=add_Attributes_Luk;mark=&self_name&]
     Right:
-    - Action[a=EmojiHelpHD2]
+    - Action[a=cut_Attributes_Luk;mark=&self_name&]
 
 
 
