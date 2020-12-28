@@ -1,12 +1,15 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PlayerConfig {
 
@@ -50,11 +53,32 @@ public class PlayerConfig {
         }
         String levelString = playerConfig.getString(uuidString+".Class");
         for(String key : classConfig.getStringList(levelString+".Level")){
-            if(!(playerConfig.contains(uuidString+".Level."+key+"_level"))){
-                playerConfig.set(uuidString+".Level."+key+"_level",1);
+            File levelFile = new File(cd.getDataFolder(),"Class/Level/"+key+".yml");
+            FileConfiguration levelConfig = YamlConfiguration.loadConfiguration(levelFile);
+            ConfigurationSection levelSec = levelConfig.getConfigurationSection("Exp-Amount");
+            List<String> levelList = null;
+            String maxLevelString = "";
+            int maxLevel = 0;
+            try {
+                levelList = new ArrayList<>(levelSec.getKeys(false));
+                maxLevelString = levelList.get(levelList.size()-1);
+                maxLevel = Integer.valueOf(maxLevelString);
+            }catch (NullPointerException exception){
+
             }
-            if(!(playerConfig.contains(uuidString+".Level."+key+"_exp"))){
-                playerConfig.set(uuidString+".Level."+key+"_exp",0);
+
+            int maxExp = levelConfig.getInt("Exp-Amount.1");
+            if(!(playerConfig.contains(uuidString+".Level."+key+"_now_level"))){
+                playerConfig.set(uuidString+".Level."+key+"_now_level",1);
+            }
+            if(!(playerConfig.contains(uuidString+".Level."+key+"_max_level"))){
+                playerConfig.set(uuidString+".Level."+key+"_max_level",maxLevel);
+            }
+            if(!(playerConfig.contains(uuidString+".Level."+key+"_now_exp"))){
+                playerConfig.set(uuidString+".Level."+key+"_now_exp",0);
+            }
+            if(!(playerConfig.contains(uuidString+".Level."+key+"_max_exp"))){
+                playerConfig.set(uuidString+".Level."+key+"_max_exp",maxExp);
             }
         }
 
@@ -68,6 +92,14 @@ public class PlayerConfig {
                 playerConfig.set(uuidString+".Point."+key+"_last",0);
             }
         }
+        if(!(playerConfig.contains(uuidString+".Attributes"))){
+            String className = playerConfig.getString(uuidString+".Class");
+            for(String attr : classConfig.getStringList(className+".Attributes")){
+                playerConfig.set(uuidString+".Attributes."+attr,0);
+            }
+        }
+
+
 
 
     }

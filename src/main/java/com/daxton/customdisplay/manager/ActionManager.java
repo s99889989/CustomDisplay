@@ -3,16 +3,21 @@ package com.daxton.customdisplay.manager;
 import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
+import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class ActionManager {
 
     /**ProtocolManager**/
     public static ProtocolManager protocolManager;
 
-
+    /**自訂背包**/
+    private static Map<String , Inventory> inventory_Map = new HashMap<>();
+    /**根據玩家UUID找尋目前使用的背包**/
+    private static Map<UUID,  String> inventory_name_Map = new HashMap<>();
 
     /**judgment2->Action2**/
     private static Map<String , Action> judgment2_Action2_Map = new HashMap<>();
@@ -28,6 +33,8 @@ public class ActionManager {
     private static Map<String , SetName> judgment2_SetName2_Map = new HashMap<>();
     /**Judgment2->SendParticles**/
     private static Map<String ,SendParticles> judgment2_SendParticles_Map = new HashMap<>();
+    /**Judgment2->OpenInventory**/
+    private static Map<String, OpenInventory> judgment2_OpenInventory_Map = new HashMap<>();
 
     /**Other->judgment2**/
     private static Map<String , JudgmentAction> other_Judgment2_Map = new HashMap<>();
@@ -37,7 +44,14 @@ public class ActionManager {
 
     /**---------------------------------------------------------------------------------------------------------------**/
 
-
+    /**自訂背包**/
+    public static Map<String, Inventory> getInventory_Map() {
+        return inventory_Map;
+    }
+    /**根據玩家UUID找尋目前使用的背包**/
+    public static Map<UUID, String> getInventory_name_Map() {
+        return inventory_name_Map;
+    }
 
     /**judgment2->Action2**/
     public static Map<String, Action> getJudgment2_Action2_Map() {
@@ -67,7 +81,10 @@ public class ActionManager {
     public static Map<String, SendParticles> getJudgment2_SendParticles_Map() {
         return judgment2_SendParticles_Map;
     }
-
+    /**Judgment2->OpenInventory**/
+    public static Map<String, OpenInventory> getJudgment2_OpenInventory_Map() {
+        return judgment2_OpenInventory_Map;
+    }
 
     /**Other->judgment2**/
     public static Map<String, JudgmentAction> getOther_Judgment2_Map() {

@@ -142,6 +142,22 @@ public class JudgmentAction {
             new Point().setPoint(self,target,firstString,taskID);
         }
 
+        /**Inventory的相關判斷**/
+        if(judgMent.toLowerCase().contains("inventory")){
+
+            if(ActionManager.getJudgment2_OpenInventory_Map().get(taskID) == null){
+                ActionManager.getJudgment2_OpenInventory_Map().put(taskID,new OpenInventory());
+            }
+            if(ActionManager.getJudgment2_OpenInventory_Map().get(taskID) != null){
+                ActionManager.getJudgment2_OpenInventory_Map().get(taskID).setInventory(self,target,firstString,taskID);
+            }
+        }
+
+        /**AttributePoint的相關判斷**/
+        if(judgMent.toLowerCase().contains("attributepoint")){
+            new AttributePoint().setAttributePoint(self,target,firstString,taskID);
+        }
+
     }
 
 

@@ -5,11 +5,13 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import net.citizensnpcs.api.CitizensAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -23,7 +25,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
@@ -85,6 +90,40 @@ public class PlayerListener implements Listener {
             ListenerManager.getCast_On_Stop().put(playerUUID,false);
         }
     }
+    /**當打開背包時**/
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event){
+        if(event.getWhoClicked() instanceof Player == false){
+            return;
+        }
+        Player player = (Player) event.getWhoClicked();
+        UUID playerUUID = player.getUniqueId();
+        Inventory inventory = event.getInventory();
+
+        if(ActionManager.getInventory_name_Map().get(playerUUID) != null){
+            String taskID = ActionManager.getInventory_name_Map().get(playerUUID);
+            if(ActionManager.getInventory_Map().get(taskID) == inventory) {
+                if(ActionManager.getJudgment2_OpenInventory_Map().get(taskID) != null){
+                    ActionManager.getJudgment2_OpenInventory_Map().get(taskID).InventoryListener(event);
+                }
+                //player.sendMessage("移動GUI");
+//                event.setCancelled(true);
+//                if(event.getRawSlot() == 0){
+//
+//                    player.sendMessage(event.getClick().toString());
+//                }
+
+
+            }
+        }
+
+    }
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event){
+        Player player = (Player) event.getPlayer();
+        //player.sendMessage("關閉");
+    }
+
 
     /**當經驗值改變時**/
     @EventHandler

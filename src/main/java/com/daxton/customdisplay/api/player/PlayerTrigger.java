@@ -333,16 +333,6 @@ public class PlayerTrigger {
             }
         }
     }
-    /**當怪物死亡時.(死亡原因必須是該玩家)**/
-    public void onMobDeath(LivingEntity self){
-        this.self = self;
-        if(action_Trigger_Map.get("~onmobdeath") != null){
-            for(String actionString : action_Trigger_Map.get("~onmobdeath")){
-                actionString = actionString.replace("~onMobDeath","");
-                runExecute(actionString);
-            }
-        }
-    }
 
     /**當怪物死亡時.(死亡原因必須是該玩家)**/
     public void onMobDeath(LivingEntity self,LivingEntity target){
@@ -351,6 +341,15 @@ public class PlayerTrigger {
         if(action_Trigger_Map.get("~onmobdeath") != null){
             for(String actionString : action_Trigger_Map.get("~onmobdeath")){
                 actionString = actionString.replace("~onMobDeath","");
+                runExecute(actionString);
+            }
+        }
+    }
+
+    public void onGuiClick(LivingEntity self,List<String> action){
+        this.self = self;
+        if(action.size() > 0){
+            for(String actionString : action){
                 runExecute(actionString);
             }
         }

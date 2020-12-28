@@ -31,7 +31,7 @@ public class Point {
     }
 
     public void setPoint(LivingEntity self, LivingEntity target, String firstString, String taskID){
-        cd.getLogger().info(firstString);
+
         this.self = self;
         this.target = target;
         this.firstString = firstString;

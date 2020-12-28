@@ -36,6 +36,13 @@ public class Level {
     }
 
     public void setLevel(LivingEntity self, LivingEntity target, String firstString, String taskID){
+        this.self = self;
+        this.target = target;
+        this.firstString = firstString;
+        setOther();
+    }
+
+    public void setOther(){
         for(String allString : new StringFind().getStringMessageList(firstString)){
 
             if(allString.toLowerCase().contains("type=")){

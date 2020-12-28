@@ -74,6 +74,30 @@ public class Placeholder {
         entity_Map.put("up_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_level_type>"));
         entity_Map.put("down_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_level_type>"));
 
+        if(entity instanceof Player){
+
+            Player player = (Player) entity;
+
+
+            File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+            FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+            String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","");
+            String class_name = playerConfig.getString(uuidString+".ClassName");
+            int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
+            int level_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_level");
+            int exp_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_exp");
+            int exp_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_exp");
+            int point_max = playerConfig.getInt(uuidString+".Point."+custom+"_max");
+            int point_now = playerConfig.getInt(uuidString+".Point."+custom+"_last");
+
+            entity_Map.put("class_name",class_name);
+            entity_Map.put("level_now_"+custom,String.valueOf(level_now));
+            entity_Map.put("level_max_"+custom,String.valueOf(level_max));
+            entity_Map.put("exp_now_"+custom,String.valueOf(exp_now));
+            entity_Map.put("exp_max_"+custom,String.valueOf(exp_max));
+            entity_Map.put("point_last_"+custom,String.valueOf(point_now));
+            entity_Map.put("point_max_"+custom,String.valueOf(point_max));
+        }
 
         if(Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
             entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
