@@ -29,27 +29,29 @@ public class PlayerConfig {
 
 
     public void setDefaultValue(){
+        String className = "Novice";
         if(playerConfig.contains(uuidString+".Class")){
-            String className = playerConfig.getString(uuidString+".Class");
+            className = playerConfig.getString(uuidString+".Class");
             loadNowConfig(className);
         }else {
+            className = "Novice";
             loadDefaultConfig();
         }
 
         playerConfig.set(uuidString+".Name",player.getName());
 
         if(!(playerConfig.contains(uuidString+".Class"))){
-            playerConfig.set(uuidString+".Class","Default");
+            playerConfig.set(uuidString+".Class",className);
         }
 
         if(!(playerConfig.contains(uuidString+".Action"))){
-            List<String> actionList = classConfig.getStringList("Default.Action");
+            List<String> actionList = classConfig.getStringList(className+".Action");
             playerConfig.set(uuidString+".Action", actionList);
 
         }
 
         if(!(playerConfig.contains(uuidString+".ClassName"))){
-            playerConfig.set(uuidString+".ClassName", classConfig.getString("Default.ClassName"));
+            playerConfig.set(uuidString+".ClassName", classConfig.getString(className+".ClassName"));
         }
         String levelString = playerConfig.getString(uuidString+".Class");
         for(String key : classConfig.getStringList(levelString+".Level")){
@@ -83,8 +85,7 @@ public class PlayerConfig {
         }
 
 
-        String pointString = playerConfig.getString(uuidString+".Class");
-        for(String key : classConfig.getStringList(pointString+".Point")){
+        for(String key : classConfig.getStringList(className+".Point")){
             if(!(playerConfig.contains(uuidString+".Point."+key+"_max"))){
                 playerConfig.set(uuidString+".Point."+key+"_max",0);
             }
@@ -92,10 +93,10 @@ public class PlayerConfig {
                 playerConfig.set(uuidString+".Point."+key+"_last",0);
             }
         }
-        if(!(playerConfig.contains(uuidString+".Attributes"))){
-            String className = playerConfig.getString(uuidString+".Class");
-            for(String attr : classConfig.getStringList(className+".Attributes")){
-                playerConfig.set(uuidString+".Attributes."+attr,0);
+
+        if(!(playerConfig.contains(uuidString+".AttributesPoint"))){
+            for(String attr : classConfig.getStringList(className+".AttributesPoint")){
+                playerConfig.set(uuidString+".AttributesPoint."+attr,0);
             }
         }
 
@@ -105,7 +106,7 @@ public class PlayerConfig {
     }
 
     public void loadDefaultConfig(){
-        File defaultFilePatch = new File(cd.getDataFolder(),"Class/Main/Default.yml");
+        File defaultFilePatch = new File(cd.getDataFolder(),"Class/Main/Novice.yml");
         classConfig = YamlConfiguration.loadConfiguration(defaultFilePatch);
     }
 
@@ -129,16 +130,27 @@ public class PlayerConfig {
         }
         playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
         setDefaultValue();
-        saveFile();
+        saveCreateFile();
     }
     /**存檔**/
-    public void saveFile(){
+    public void saveCreateFile(){
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
 
         //playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
         try {
             playerConfig.save(playerFilePatch);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
+
+    /**存檔**/
+    public void saveFile(FileConfiguration fileConfiguration){
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+
+        try {
+            fileConfiguration.save(playerFilePatch);
         }catch (Exception exception){
             exception.printStackTrace();
         }

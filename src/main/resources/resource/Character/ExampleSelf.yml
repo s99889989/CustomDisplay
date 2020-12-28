@@ -88,3 +88,80 @@ self_last_chat:
 self_cast_command_help:
   message:
   - CCharacter[<cd_cast_command>]
+
+
+self_kill_mob_type:
+  message:
+  - CCharacter[<cd_kill_mob_type>]
+
+self_mythic_kill_mob_id:
+  message:
+  - CCharacter[<cd_mythic_kill_mob_id>]
+
+self_up_level_type:
+  message:
+  - CCharacter[<cd_up_level_type>]
+
+#個人資訊
+self_class_name:
+  message:
+  - CCharacter[<cd_class_name>]
+
+self_level_now_base:
+  message:
+  - CCharacter[<cd_level_now_base>]
+  
+self_level_max_base:
+  message:
+  - CCharacter[<cd_level_max_base>]
+
+self_level_now_job:
+  message:
+  - CCharacter[<cd_level_now_job>]
+
+self_level_max_job:
+  message:
+  - CCharacter[<cd_level_max_job>]
+
+self_exp_now_base:
+  message:
+  - CCharacter[<cd_exp_now_base>]
+
+self_exp_max_base:
+  message:
+  - CCharacter[<cd_exp_max_base>]
+  
+self_exp_now_job:
+  message:
+  - CCharacter[<cd_exp_now_job>]
+
+self_exp_max_job:
+  message:
+  - CCharacter[<cd_exp_max_job>]
+
+self_point_max_base:
+  message:
+  - CCharacter[<cd_point_max_base>]
+
+self_point_last_base:
+  message:
+  - CCharacter[<cd_point_last_base>]
+
+self_point_max_job:
+  message:
+  - CCharacter[<cd_point_max_job>]
+
+self_point_last_job:
+  message:
+  - CCharacter[<cd_point_last_job>]
+
+
+
+
+
+
+
+
+
+
+

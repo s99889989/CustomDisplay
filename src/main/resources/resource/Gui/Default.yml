@@ -1,0 +1,115 @@
+#
+#
+Buttons:
+
+  button1:
+    RawSlot: 15
+    Move: true
+    Material: 'PLAYER_HEAD'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e&self_name&'
+    Lore:
+    - ''
+    - '§7職業: §c&self_class_name&'
+    - ''
+    - '§7Base等級: §e&self_level_now_base& / &self_level_max_base&'
+    - '§7Job等級: §e&self_level_now_job& / &self_level_max_job&'
+    - '§7Bas經驗值: §e&self_exp_now_base& / &self_exp_max_base&'
+    - '§7Job經驗值: §e&self_exp_now_job& / &self_exp_max_job&'
+    - ''
+    - '§7屬性點: §6&self_point_last_base& / &self_point_max_base&'
+    - '§7技能點: §6&self_point_last_job& / &self_point_max_job&'
+    Left:
+    - Action[a=EmojiHelpHD2]
+    Right:
+    - Action[a=EmojiHelpHD2]
+    
+  Str:
+    RawSlot: 23
+    Move: true
+    Material: 'RED_DYE'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '力量'
+    Lore:
+    - 力量
+    Left:
+    - Action[a=EmojiHelpHD2]
+    Right:
+    - Action[a=EmojiHelpHD2]
+    
+  Agi:
+    RawSlot: 24
+    Move: true
+    Material: 'LEATHER_BOOTS'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '敏捷'
+    Lore:
+    - 敏捷
+    Left:
+    - Action[a=EmojiHelpHD2]
+    Right:
+    - Action[a=EmojiHelpHD2]
+
+  Vit:
+    RawSlot: 25
+    Move: true
+    Material: 'DIAMOND_CHESTPLATE'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '體質'
+    Lore:
+    - 體質
+    Left:
+    - Action[a=EmojiHelpHD2]
+    Right:
+    - Action[a=EmojiHelpHD2]
+
+  Int:
+    RawSlot: 32
+    Move: true
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '智力'
+    Lore:
+    - 智力
+    Left:
+    - Action[a=EmojiHelpHD2]
+    Right:
+    - Action[a=EmojiHelpHD2]
+
+  Dex:
+    RawSlot: 33
+    Move: true
+    Material: 'ARROW'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '靈巧'
+    Lore:
+    - 靈巧
+    Left:
+    - Action[a=EmojiHelpHD2]
+    Right:
+    - Action[a=EmojiHelpHD2]
+
+  Luk:
+    RawSlot: 34
+    Move: true
+    Material: 'NETHER_STAR'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '幸運'
+    Lore:
+    - 幸運
+    Left:
+    - Action[a=EmojiHelpHD2]
+    Right:
+    - Action[a=EmojiHelpHD2]
+
+
+
+
+

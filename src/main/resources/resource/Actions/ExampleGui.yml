@@ -1,0 +1,7 @@
+#
+#
+OpenGui:
+  Action:
+  - Condition[Contains=&self_cast_command_help&=gui]
+  - Inventory[m=個人資訊;amount=54]
+  - Inventory[fc=gui;m=個人資訊;amount=54]

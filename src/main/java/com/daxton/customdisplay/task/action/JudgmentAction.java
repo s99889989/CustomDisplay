@@ -137,8 +137,8 @@ public class JudgmentAction {
             new Level().setLevel(self,target,firstString,taskID);
         }
 
-        /**Point的相關判斷**/
-        if(judgMent.toLowerCase().contains("point")){
+        /**CustomPoint的相關判斷**/
+        if(judgMent.toLowerCase().contains("custompoint")){
             new Point().setPoint(self,target,firstString,taskID);
         }
 

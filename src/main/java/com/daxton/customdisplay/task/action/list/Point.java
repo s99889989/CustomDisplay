@@ -96,20 +96,12 @@ public class Point {
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
 
-        int nowLastPoint = playerConfig.getInt(playerUUIDString +".Point."+type+"_max");
+        int nowLastPoint = playerConfig.getInt(playerUUIDString +".Point."+type);
         int addLastPoint = nowLastPoint+amount;
         if(addLastPoint < 0){
             //playerConfig.set(playerUUIDString +".Point."+type+"_last",0);
         }else {
-            playerConfig.set(playerUUIDString +".Point."+type+"_last",addLastPoint);
-        }
-
-        int nowMaxPoint = playerConfig.getInt(playerUUIDString +".Point."+type+"_max");
-        int addMaxPoint = nowMaxPoint+amount;
-        if(addLastPoint < 0){
-            //playerConfig.set(playerUUIDString +".Point."+type+"_max",0);
-        }else {
-            playerConfig.set(playerUUIDString +".Point."+type+"_max",addMaxPoint);
+            playerConfig.set(playerUUIDString +".Point."+type,addLastPoint);
         }
 
 
@@ -118,9 +110,7 @@ public class Point {
         }catch (Exception exception){
             exception.printStackTrace();
         }
-        nowLastPoint = playerConfig.getInt(playerUUIDString +".Point."+type+"_max");
-        nowMaxPoint = playerConfig.getInt(playerUUIDString +".Point."+type+"_max");
-        //player.sendMessage(type+"目前點數: "+nowMaxPoint+" "+type+"剩餘點數: "+nowLastPoint);
+
     }
 
     public void setPoint(Player player){

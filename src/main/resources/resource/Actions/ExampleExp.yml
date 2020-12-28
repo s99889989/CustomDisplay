@@ -1,0 +1,13 @@
+#
+#
+GetBaseExp1:
+  Action:
+  - Condition[contains=&self_kill_mob_type&=husk]
+  - Exp[type=base;a=100]
+
+
+
+GetBasePoint:
+  Action:
+  - Condition[contains=&self_up_level_type&=base]
+  - Point[type=base;a=1]

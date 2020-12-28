@@ -111,12 +111,16 @@ public class OpenInventory {
             playerTest = player;
             if(function.toLowerCase().contains("gui")){
                 openGui(player);
+            }else if(function.toLowerCase().contains("close")){
+                player.closeInventory();
             }else {
                 openInventory(player);
             }
 
         }
     }
+
+
 
 
     public void openInventory(Player player){
@@ -126,7 +130,7 @@ public class OpenInventory {
         }
         if(ActionManager.getInventory_Map().get(taskID) != null){
             Inventory inventory = ActionManager.getInventory_Map().get(taskID);
-            player.closeInventory();
+            //player.closeInventory();
             player.openInventory(inventory);
         }
 
@@ -142,7 +146,7 @@ public class OpenInventory {
 
             inventory = setInventory(inventory);
 
-            player.closeInventory();
+            //player.closeInventory();
             player.openInventory(inventory);
         }
 
@@ -170,8 +174,8 @@ public class OpenInventory {
             nextItemLore.forEach((line) -> {
                 lastItemLore.add(ChatColor.GRAY + new StringConversion2(self,target,line,"Character").valueConv());
             });
-            List<String> rightClick = itemConfig.getStringList("Buttons."+key+".Left");
-            List<String> leftClick = itemConfig.getStringList("Buttons."+key+".Right");
+            List<String> rightClick = itemConfig.getStringList("Buttons."+key+".Right");
+            List<String> leftClick = itemConfig.getStringList("Buttons."+key+".Left");
 
             Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
 
@@ -208,7 +212,7 @@ public class OpenInventory {
             left_Click.put(rawslot,leftClick);
 
             customItem.setItemMeta(im);
-
+            inventory.setItem(rawslot,null);
             inventory.setItem(rawslot,customItem);
 
         }
@@ -218,6 +222,7 @@ public class OpenInventory {
 
     public void InventoryListener(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
         int i = event.getRawSlot();
         if(RawSlot.get(i) != null && RawSlot.get(i) == i){
             if(event.getClick().toString().contains("LEFT")){
@@ -226,8 +231,11 @@ public class OpenInventory {
             if(event.getClick().toString().contains("RIGHT")){
                 new PlayerTrigger(player).onGuiClick(player,right_Click.get(i));
             }
-            event.setCancelled(true);
+
         }
+//        if(function.toLowerCase().contains("gui")){
+//            event.setCancelled(true);
+//        }
 
     }
 

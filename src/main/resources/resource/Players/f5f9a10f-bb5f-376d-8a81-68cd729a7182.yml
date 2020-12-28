@@ -1,0 +1,29 @@
+f5f9a10f-bb5f-376d-8a81-68cd729a7182:
+  Name: s99889989
+  Class: Default
+  Action:
+  - Default
+  - Level
+  - Gui
+  ClassName: 初心者
+  Level:
+    base_now_level: 1
+    base_max_level: 50
+    base_now_exp: 0
+    base_max_exp: 100
+    job_now_level: 1
+    job_max_level: 40
+    job_now_exp: 0
+    job_max_exp: 100
+  Point:
+    base_max: 0
+    base_last: 0
+    job_max: 0
+    job_last: 0
+  Attributes:
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0

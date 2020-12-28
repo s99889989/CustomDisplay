@@ -1,6 +1,20 @@
 Default:
   ClassName: '初心者'
-  Action: Default
+  Action:
+  - Default
+  - Level
+  - Gui
   Level:
   - base
   - job
+  Point:
+  - base
+  - job
+  Attributes:
+  - Str
+  - Agi
+  - Vit
+  - Int
+  - Dex
+  - Luk
+  

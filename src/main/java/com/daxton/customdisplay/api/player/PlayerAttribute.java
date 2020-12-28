@@ -6,6 +6,9 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PlayerAttribute {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
@@ -14,18 +17,28 @@ public class PlayerAttribute {
 
     }
 
-    public void addAttribute(Player player){
+    public void addAttribute(Player player,String inherit,String operation,double addNumber,String attributeName){
 
-        Attribute maxHealth = Attribute.GENERIC_MAX_HEALTH;
-        AttributeInstance playerMaxHealth = player.getAttribute(maxHealth);
-        for(AttributeModifier attributeModifier : playerMaxHealth.getModifiers()){
-            player.sendMessage(attributeModifier.getName()+"量: "+attributeModifier.getAmount());
+
+        AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
+
+        for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
+            if(attributeModifier.toString().contains(attributeName)){
+                attributeInstance.removeModifier(attributeModifier);
+            }
         }
-//        double addNumber = 20;
-//        AttributeModifier healthModifier = new AttributeModifier("CustomDisplayHealth", addNumber, AttributeModifier.Operation.ADD_NUMBER);
-//        playerMaxHealth.addModifier(healthModifier);
-//        player.sendMessage("血量: "+playerMaxHealth.getValue());
-        //player.saveData();
+
+        AttributeModifier healthModifier = new AttributeModifier(attributeName, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
+        attributeInstance.addModifier(healthModifier);
+
+
+
+
+//        for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
+//            player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
+//        }
+
+        player.saveData();
 
     }
 

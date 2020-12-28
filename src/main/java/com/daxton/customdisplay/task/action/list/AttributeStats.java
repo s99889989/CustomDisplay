@@ -12,5 +12,11 @@ public class AttributeStats {
 
     }
 
+    public void setOther(){
+
+    }
+
+
+
 
 }

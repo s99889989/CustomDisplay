@@ -117,8 +117,8 @@ public class Experience {
         FileConfiguration levelConfig = YamlConfiguration.loadConfiguration(levelFilePatch);
 
 
-        int nowLevel = playerConfig.getInt(playerUUIDString +".Level."+type+"_level");
-        int nowExp = playerConfig.getInt(playerUUIDString +".Level."+type+"_exp");
+        int nowLevel = playerConfig.getInt(playerUUIDString +".Level."+type+"_now_level");
+        int nowExp = playerConfig.getInt(playerUUIDString +".Level."+type+"_now_exp");
         int needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
         int nextExp = levelConfig.getInt("Exp-Amount."+(nowLevel+1));
         int beforeExp = levelConfig.getInt("Exp-Amount."+(nowLevel-1));
@@ -126,7 +126,7 @@ public class Experience {
         int newExp = 0;
         if(nextExp != 0){
             newExp = nowExp + amount;
-            playerConfig.set(playerUUIDString +".Level."+type+"_exp",newExp);
+            playerConfig.set(playerUUIDString +".Level."+type+"_now_exp",newExp);
             try {
                 playerConfig.save(playerFilePatch);
             }catch (Exception exception){
@@ -137,16 +137,20 @@ public class Experience {
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_up_exp_type>",type);
             }
-            nowExp = playerConfig.getInt(playerUUIDString +".Level."+type+"_exp");
-            //player.sendMessage("目前等級: "+nowLevel+" 目前經驗: "+nowExp+"/"+needExp+"增加: "+amount);
+
         }
 
         while (beforeExp != 0 && newExp < 0){
             nowLevel = nowLevel - 1;
             needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
             newExp = newExp + needExp;
-            playerConfig.set(playerUUIDString +".Level."+type+"_exp",newExp);
-            playerConfig.set(playerUUIDString +".Level."+type+"_level",nowLevel);
+            playerConfig.set(playerUUIDString +".Level."+type+"_now_exp",newExp);
+
+            playerConfig.set(playerUUIDString +".Level."+type+"_now_level",nowLevel);
+
+            needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
+            playerConfig.set(playerUUIDString +".Level."+type+"_max_exp",needExp);
+
             try {
                 playerConfig.save(playerFilePatch);
             }catch (Exception exception){
@@ -159,12 +163,12 @@ public class Experience {
         while(nextExp != 0 && newExp >= needExp){
             newExp = newExp - needExp;
             nowLevel = nowLevel + 1;
-            playerConfig.set(playerUUIDString +".Level."+type+"_exp",newExp);
-            playerConfig.set(playerUUIDString +".Level."+type+"_level",nowLevel);
+            playerConfig.set(playerUUIDString +".Level."+type+"_now_exp",newExp);
+            playerConfig.set(playerUUIDString +".Level."+type+"_now_level",nowLevel);
             needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
             nextExp = levelConfig.getInt("Exp-Amount."+(nowLevel+1));
 
-            //player.sendMessage("升級目前等級: "+nowLevel+" 目前經驗:"+ newExp+"/"+needExp);
+            playerConfig.set(playerUUIDString +".Level."+type+"_max_exp",needExp);
             try {
                 playerConfig.save(playerFilePatch);
             }catch (Exception exception){

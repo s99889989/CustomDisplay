@@ -2,7 +2,9 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.player.PlayerAttribute;
 import com.daxton.customdisplay.api.player.PlayerConfig;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
@@ -30,6 +32,11 @@ public class AttributePoint {
         this.target = target;
         this.firstString = firstString;
         setOther();
+
+        if(self instanceof Player){
+            Player player = (Player) self;
+            addPoint(player);
+        }
     }
 
     public void setOther(){
@@ -55,26 +62,57 @@ public class AttributePoint {
 
         }
 
-        if(self instanceof Player){
-            Player player = (Player) self;
-            addPoint(player);
-        }
-
     }
 
     public void addPoint(Player player){
+
         String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString +".yml");
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
-        int nowAttrPoint = playerConfig.getInt(playerUUIDString+".Attributes."+type);
+        int nowAttrPoint = playerConfig.getInt(playerUUIDString+".AttributesPoint."+type);
+
         int newAttrPoint = nowAttrPoint + amount;
         if(newAttrPoint < 0){
             newAttrPoint = 0;
         }
-        playerConfig.set(playerUUIDString+".Attributes."+type,newAttrPoint);
+        playerConfig.set(playerUUIDString+".AttributesPoint."+type,newAttrPoint);
 
-        new PlayerConfig(player).saveFile();
+        String className = playerConfig.getString(playerUUIDString+".Class");
+
+        File attributesPointFilePatch = new File(cd.getDataFolder(),"Class/Attributes/Point/"+className+".yml");
+        FileConfiguration attributesPointConfig = YamlConfiguration.loadConfiguration(attributesPointFilePatch);
+        ConfigurationSection statsSec = attributesPointConfig.getConfigurationSection(type+".stats");
+
+        File attributesStatsFilePatch = new File(cd.getDataFolder(),"Class/Attributes/Stats/"+className+".yml");
+        FileConfiguration attributesStatsConfig = YamlConfiguration.loadConfiguration(attributesStatsFilePatch);
+
+        try {
+            for(String stats : statsSec.getKeys(false)){
+                int countStats = attributesPointConfig.getInt(type+".stats."+stats);
+                String inherit = attributesStatsConfig.getString(stats+".Inherit");
+                String operation = attributesStatsConfig.getString(stats+".Operation");
+                int newStats = countStats * newAttrPoint;
+                playerConfig.set(playerUUIDString+".AttributesStats."+stats,newStats);
+
+                if(stats != null && inherit != null && operation != null){
+                    new PlayerAttribute().addAttribute(player,inherit,operation,newStats,stats);
+                }
+
+            }
+        }catch (Exception exception){
+
+        }
+
+
+
+        new PlayerConfig(player).saveFile(playerConfig);
+
+//        try {
+//            playerConfig.save(playerFilePatch);
+//        }catch (Exception exception){
+//            exception.printStackTrace();
+//        }
 
 
     }

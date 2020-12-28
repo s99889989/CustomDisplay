@@ -81,7 +81,7 @@ public class Placeholder {
 
             File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
             FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-            String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","");
+            String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","");
             String class_name = playerConfig.getString(uuidString+".ClassName");
             int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
             int level_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_level");
@@ -89,6 +89,9 @@ public class Placeholder {
             int exp_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_exp");
             int point_max = playerConfig.getInt(uuidString+".Point."+custom+"_max");
             int point_now = playerConfig.getInt(uuidString+".Point."+custom+"_last");
+            int attr_point = playerConfig.getInt(uuidString+".AttributesPoint."+custom);
+            int attr_stats = playerConfig.getInt(uuidString+".AttributesStats."+custom);
+
 
             entity_Map.put("class_name",class_name);
             entity_Map.put("level_now_"+custom,String.valueOf(level_now));
@@ -97,6 +100,10 @@ public class Placeholder {
             entity_Map.put("exp_max_"+custom,String.valueOf(exp_max));
             entity_Map.put("point_last_"+custom,String.valueOf(point_now));
             entity_Map.put("point_max_"+custom,String.valueOf(point_max));
+            entity_Map.put("attr_point_"+custom,String.valueOf(attr_point));
+            entity_Map.put("attr_stats_"+custom,String.valueOf(attr_stats));
+
+
         }
 
         if(Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){

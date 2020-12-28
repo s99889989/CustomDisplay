@@ -247,5 +247,92 @@ EmojiHelpHD:
   - Hologram[Function=delete]
   
   
-  
+EmojiHelpHD2:
+  Action:
+  - Hologram[Function=create;m=䂞;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂟]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂠]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂡]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂢]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂣]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂤]
+  - Hologram[Function=teleport;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂥]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂦]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂧]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂨]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂩]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂪]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂫]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂞]
+  - Hologram[Function=teleport;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂟]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂠]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂡]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂢]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂣]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂤]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂥]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂦]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂧]
+  - Hologram[Function=teleport;x=0;y=&self_hight&;z=0] @=self
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂨]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂩]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂪]
+  - Delay 1
+  - Hologram[Function=removeTextLine;m=0]
+  - Hologram[Function=addTextLine;m=䂫]
+  - Hologram[Function=delete]
   
