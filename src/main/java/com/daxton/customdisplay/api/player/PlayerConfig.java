@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.character.Arithmetic;
 import com.daxton.customdisplay.api.character.NumberUtil;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,13 +34,7 @@ public class PlayerConfig {
         this.uuidString = player.getUniqueId().toString();
         this.player = player;
 
-//        ItemStack itemStack = player.getInventory().getItemInMainHand();
-//        ItemMeta itemMeta = itemStack.getItemMeta();
-//        List<String> stringList = itemStack.getLore();
-//        player.sendMessage(itemMeta.getDisplayName());
-//        for(String s : stringList){
-//            player.sendMessage(s);
-//        }
+        //new PlayerEquipment(player);
 
     }
 
@@ -51,7 +46,7 @@ public class PlayerConfig {
             loadNowConfig(className);
         }else {
             className = "Novice";
-            loadDefaultConfig();
+            loadNowConfig(className);
         }
 
         playerConfig.set(uuidString+".Name",player.getName());
@@ -69,45 +64,44 @@ public class PlayerConfig {
         if(!(playerConfig.contains(uuidString+".ClassName"))){
             playerConfig.set(uuidString+".ClassName", classConfig.getString(className+".ClassName"));
         }
-        String levelString = playerConfig.getString(uuidString+".Class");
-        for(String key : classConfig.getStringList(levelString+".Level")){
-            File levelFile = new File(cd.getDataFolder(),"Class/Level/"+key+".yml");
-            FileConfiguration levelConfig = YamlConfiguration.loadConfiguration(levelFile);
-            ConfigurationSection levelSec = levelConfig.getConfigurationSection("Exp-Amount");
-            List<String> levelList = null;
-            String maxLevelString = "";
-            int maxLevel = 0;
-            try {
-                levelList = new ArrayList<>(levelSec.getKeys(false));
-                maxLevelString = levelList.get(levelList.size()-1);
-                maxLevel = Integer.valueOf(maxLevelString);
-            }catch (NullPointerException exception){
+        if(!(playerConfig.contains(uuidString+".Level"))){
+            List<String> classLevelList = classConfig.getStringList(className+".Level");
+            if(classLevelList.size() > 0){
+                for(String key : classLevelList){
+                    File levelFile = new File(cd.getDataFolder(),"Class/Level/"+key+".yml");
+                    FileConfiguration levelConfig = YamlConfiguration.loadConfiguration(levelFile);
+                    ConfigurationSection levelSec = levelConfig.getConfigurationSection("Exp-Amount");
+                    List<String> levelList = null;
+                    String maxLevelString = "";
+                    int maxLevel = 0;
+                    try {
+                        levelList = new ArrayList<>(levelSec.getKeys(false));
+                        maxLevelString = levelList.get(levelList.size()-1);
+                        maxLevel = Integer.valueOf(maxLevelString);
+                    }catch (NullPointerException exception){
 
-            }
+                    }
+                    int maxExp = levelConfig.getInt("Exp-Amount.1");
 
-            int maxExp = levelConfig.getInt("Exp-Amount.1");
-            if(!(playerConfig.contains(uuidString+".Level."+key+"_now_level"))){
-                playerConfig.set(uuidString+".Level."+key+"_now_level",1);
-            }
-            if(!(playerConfig.contains(uuidString+".Level."+key+"_max_level"))){
-                playerConfig.set(uuidString+".Level."+key+"_max_level",maxLevel);
-            }
-            if(!(playerConfig.contains(uuidString+".Level."+key+"_now_exp"))){
-                playerConfig.set(uuidString+".Level."+key+"_now_exp",0);
-            }
-            if(!(playerConfig.contains(uuidString+".Level."+key+"_max_exp"))){
-                playerConfig.set(uuidString+".Level."+key+"_max_exp",maxExp);
+
+                    playerConfig.set(uuidString+".Level."+key+"_now_level",1);
+                    playerConfig.set(uuidString+".Level."+key+"_max_level",maxLevel);
+                    playerConfig.set(uuidString+".Level."+key+"_now_exp",0);
+                    playerConfig.set(uuidString+".Level."+key+"_max_exp",maxExp);
+
+                }
             }
         }
 
+        if(!(playerConfig.contains(uuidString+".Point"))){
+            List<String> classPointList = classConfig.getStringList(className+".Point");
+            if(classPointList.size() > 0){
+                for(String point : classPointList){
+                    playerConfig.set(uuidString+".Point."+point+"_last",0);
+                    playerConfig.set(uuidString+".Point."+point+"_max",0);
+                }
+            }
 
-        for(String key : classConfig.getStringList(className+".Point")){
-            if(!(playerConfig.contains(uuidString+".Point."+key+"_max"))){
-                playerConfig.set(uuidString+".Point."+key+"_max",0);
-            }
-            if(!(playerConfig.contains(uuidString+".Point."+key+"_last"))){
-                playerConfig.set(uuidString+".Point."+key+"_last",0);
-            }
         }
 
         if(!(playerConfig.contains(uuidString+".AttributesPoint"))){
@@ -127,74 +121,142 @@ public class PlayerConfig {
 
             }
         }
-        for(String attr : classConfig.getStringList(className+".AttributesStats")){
-            FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attr+".yml");
-            ConfigurationSection attrStatsList = attrStatsConfig.getConfigurationSection(attr);
-            try {
-                for(String sttrStats : attrStatsList.getKeys(false)){
-                    int base = attrStatsConfig.getInt(attr+"."+sttrStats+".base");
-                    if(!(playerConfig.contains(uuidString+".AttributesStats."+sttrStats))){
-                        playerConfig.set(uuidString+".AttributesStats."+sttrStats,base);
-                    }
+        if(!(playerConfig.contains(uuidString+".AttributesStats"))){
+            List<String> attrStatsList = classConfig.getStringList(className+".AttributesStats");
+            playerConfig.set(uuidString+".AttributesStats", attrStatsList);
+        }
+        if(!(playerConfig.contains(uuidString+".EquipmentStats"))){
+            List<String> attrStatsList = classConfig.getStringList(className+".EquipmentStats");
+            playerConfig.set(uuidString+".EquipmentStats", attrStatsList);
+        }
+
+        saveCreateFile(player,playerConfig);
+
+        File attrFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/attributes-stats.yml");
+        try {
+            if(!attrFilePatch.exists()){
+                attrFilePatch.createNewFile();
+                setNewAttrStatsConfig(attrFilePatch);
+            }
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+        if(attrFilePatch.exists()){
+
+        }
+        setAttrStats(player);
+    }
+
+    public void setNewAttrStatsConfig(File patch){
+        FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(patch);
+        List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".AttributesStats");
+        for(String attrStatsFileName : attrStatsNameList){
+            FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
+            ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
+            if(attrStatsSec.getKeys(false).size() > 0){
+                for(String attrStats : attrStatsSec.getKeys(false)){
+                    attrConfig.set(uuidString+".AttributesStats."+attrStats,0);
 
                 }
-            }catch (Exception exception){
-
             }
 
         }
-        setAttrStats();
-//        if(!(playerConfig.contains(uuidString+".AttributesStats"))){
+        try {
+            attrConfig.save(patch);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
+
+
+    public void setAttrStats(Player player){
+        String playerUUIDString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        List<String> attrStatsNameList = playerConfig.getStringList(playerUUIDString+".AttributesStats");
+        if(attrStatsNameList.size() > 0){
+            for(String attrStatsFileName : attrStatsNameList){
+
+                File attrFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/attributes-stats.yml");
+                FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFilePatch);
+
+                FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
+
+                ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
+                if(attrStatsSec.getKeys(false).size() > 0){
+                    for(String attrStats : attrStatsSec.getKeys(false)){
+                        String statsNumberString = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".formula");
+
+                        if(statsNumberString != null){
+                            statsNumberString = new StringConversion2(player,null,statsNumberString,"Character").valueConv();
+                        }else {
+                            statsNumberString = "0";
+                        }
+
+
+                        int statsNumber = 0;
+                        try {
+                            double number = Arithmetic.eval(statsNumberString);
+                            String numberDec = new NumberUtil(number,"#").getDecimalString();
+                            statsNumber = Integer.valueOf(numberDec);
+                        }catch (Exception exception){
+                            statsNumber = 0;
+                        }
+                        //cd.getLogger().info("加總: "+statsNumberString);
+
+                        attrConfig.set(playerUUIDString+".AttributesStats."+attrStats,statsNumber);
+
+
+                        String inherit = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".inherit");
+                        String operation = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".operation");
+                        if(inherit != null && operation !=null){
+                            new PlayerAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
+                        }
+
+                    }
+                }
+                try {
+                    attrConfig.save(attrFilePatch);
+                }catch (Exception exception){
+                    exception.printStackTrace();
+                }
+            }
+        }
+
+
+//        ConfigurationSection attrStatsList = playerConfig.getConfigurationSection(uuidString+".AttributesStats");
+//        FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+className+".yml");
+//        if(attrStatsList.getKeys(false).size() > 0){
+//            for(String attrStats : attrStatsList.getKeys(false)){
+//                String formula = attrStatsConfig.getString(className+"."+attrStats+".formula");
+//                if(formula == null){
+//                    formula = "100";
+//                }
+//                String formula2 = new StringConversion2(player,null,formula,"Character").valueConv();
+//                int inumber = 0;
+//                try {
+//                    double number = Arithmetic.eval(formula2);
+//                    String numberDec = new NumberUtil(number,"#").getDecimalString();
+//                    inumber = Integer.valueOf(numberDec);
+//                }catch (Exception exception){
+//                    inumber = 0;
+//                }
 //
-//        }else {
-//            setAttrStats();
+//                String inherit = attrStatsConfig.getString(className+"."+attrStats+".inherit");
+//                String operation = attrStatsConfig.getString(className+"."+attrStats+".operation");
+//                if(inherit != null && operation !=null){
+//                    new PlayerAttribute().addAttribute(player,inherit,operation,inumber,attrStats);
+//                }
+//                playerConfig.set(uuidString+".AttributesStats."+attrStats,inumber);
+//
+//            }
+//
 //        }
 
-    }
-
-    public void setAttrStats(){
-        ConfigurationSection attrStatsList = playerConfig.getConfigurationSection(uuidString+".AttributesStats");
-        FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+className+".yml");
-        if(attrStatsList.getKeys(false).size() > 0){
-            for(String attrStats : attrStatsList.getKeys(false)){
-                String formula = attrStatsConfig.getString(className+"."+attrStats+".formula");
-                if(formula == null){
-                    formula = "100";
-                }
-                String formula2 = new StringConversion2(player,null,formula,"Character").valueConv();
-                int inumber = 0;
-                try {
-                    double number = Arithmetic.eval(formula2);
-                    String numberDec = new NumberUtil(number,"#").getDecimalString();
-                    inumber = Integer.valueOf(numberDec);
-                }catch (Exception exception){
-                    inumber = 0;
-                }
-
-
-                String inherit = attrStatsConfig.getString(className+"."+attrStats+".inherit");
-                String operation = attrStatsConfig.getString(className+"."+attrStats+".operation");
-                if(inherit != null && operation !=null){
-                    new PlayerAttribute().addAttribute(player,inherit,operation,inumber,attrStats);
-                }
-                playerConfig.set(uuidString+".AttributesStats."+attrStats,inumber);
-
-
-            }
-
-
-        }
-
 
     }
 
 
-
-
-    public void loadDefaultConfig(){
-        File defaultFilePatch = new File(cd.getDataFolder(),"Class/Main/Novice.yml");
-        classConfig = YamlConfiguration.loadConfiguration(defaultFilePatch);
-    }
 
     public void loadNowConfig(String MainName){
         File defaultFilePatch = new File(cd.getDataFolder(),"Class/Main/"+MainName+".yml");
@@ -202,11 +264,14 @@ public class PlayerConfig {
     }
 
     public void createFile(){
-        File dir_file = new File(cd.getDataFolder(),"Players");
+        /****/
+        File dir_file = new File(cd.getDataFolder(),"Players/"+uuidString);
         if(!dir_file.exists()){
             dir_file.mkdir();
         }
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+
+
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
         try {
             if(!playerFilePatch.exists()){
                 playerFilePatch.createNewFile();
@@ -216,16 +281,17 @@ public class PlayerConfig {
         }
         playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
         setDefaultValue();
-        saveCreateFile();
+
     }
     /**存檔**/
-    public void saveCreateFile(){
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+    public void saveCreateFile(Player player,FileConfiguration config){
+        String playerUUIDString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
 
         //playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
         try {
-            playerConfig.save(playerFilePatch);
+            config.save(playerFilePatch);
         }catch (Exception exception){
             exception.printStackTrace();
         }
@@ -242,21 +308,5 @@ public class PlayerConfig {
         }
     }
 
-
-    public void createFile(Player player){
-
-        String level = uuidString+".Level.base";
-        int socore;
-        if(playerConfig.contains(level)){
-            socore = playerConfig.getInt(level);
-
-        }else {
-            socore = 0;
-            playerConfig.set(level,socore);
-        }
-
-        player.sendMessage("你的等級是: "+socore);
-
-    }
 
 }

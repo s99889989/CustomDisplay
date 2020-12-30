@@ -211,7 +211,7 @@ public class OpenInventory {
             }
 
             RawSlot.put(rawslot,rawslot);
-            Move.put(rawslot,move);
+            Move.put(rawslot,!move);
             right_Click.put(rawslot,rightClick);
             left_Click.put(rawslot,leftClick);
 
@@ -225,9 +225,10 @@ public class OpenInventory {
 
     public void InventoryListener(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
-        event.setCancelled(true);
+
         int i = event.getRawSlot();
         if(RawSlot.get(i) != null && RawSlot.get(i) == i){
+            event.setCancelled(Move.get(i));
             if(event.getClick().toString().contains("LEFT")){
                 new PlayerTrigger(player).onGuiClick(player,left_Click.get(i));
             }

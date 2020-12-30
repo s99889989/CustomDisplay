@@ -2,6 +2,7 @@ package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import net.Indyuce.mmocore.MMOCore;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.skill.Skill;
@@ -99,8 +100,12 @@ public class Placeholder {
 
             Player player = (Player) entity;
 
-            File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+            File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
             FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+
+            File attrFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/attributes-stats.yml");
+            FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFilePatch);
+
             String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","");
             String class_name = playerConfig.getString(uuidString+".ClassName");
             int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
@@ -110,7 +115,8 @@ public class Placeholder {
             int point_max = playerConfig.getInt(uuidString+".Point."+custom+"_max");
             int point_now = playerConfig.getInt(uuidString+".Point."+custom+"_last");
             int attr_point = playerConfig.getInt(uuidString+".AttributesPoint."+custom);
-            int attr_stats = playerConfig.getInt(uuidString+".AttributesStats."+custom);
+            int attr_stats = attrConfig.getInt(uuidString+".AttributesStats."+custom);
+
 
             if(class_name != null){
                 entity_Map.put("class_name",class_name);

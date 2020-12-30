@@ -44,7 +44,7 @@ public class PlayerData {
     public void setPlayerActionList() {
         String uuidString = player.getUniqueId().toString();
         playerActionList.clear();
-        File inputFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+        File inputFile = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
         FileConfiguration inputConfig = YamlConfiguration.loadConfiguration(inputFile);
         List<String> setList = inputConfig.getStringList(uuidString+".Action");
         List<String> thisList = new ArrayList<>();

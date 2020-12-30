@@ -6,6 +6,8 @@ import com.daxton.customdisplay.api.config.AutoConfig2;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.File;
+
 public class ConfigManager {
 
     CustomDisplay cd;
@@ -24,6 +26,11 @@ public class ConfigManager {
         language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
 
         new AutoConfig2();
+
+        File dir_file = new File(cd.getDataFolder(),"Players");
+        if(!dir_file.exists()){
+            dir_file.mkdir();
+        }
 //        new AutoConfig("resource/Class/Action/Default.yml","Class/Action/Default.yml").get();
 //        new AutoConfig("resource/Class/Action/預設.yml","Class/Action/預設.yml").get();
 //

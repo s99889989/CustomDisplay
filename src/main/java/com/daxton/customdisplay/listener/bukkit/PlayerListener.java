@@ -3,6 +3,7 @@ package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.PlayerEquipment;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -231,6 +232,7 @@ public class PlayerListener implements Listener {
 
 
         int key = event.getNewSlot();
+        //new PlayerEquipment(player,key);
         switch(key){
             case 0:
                 new PlayerTrigger(player).onKey1(player);
