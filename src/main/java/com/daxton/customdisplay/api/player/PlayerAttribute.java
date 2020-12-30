@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
+
 public class PlayerAttribute {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
@@ -22,36 +24,33 @@ public class PlayerAttribute {
 
         AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
 
-        for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
-            if(attributeModifier.toString().contains(attributeName)){
-                attributeInstance.removeModifier(attributeModifier);
-            }
-        }
+        removeAttribute(player,inherit);
 
-        AttributeModifier healthModifier = new AttributeModifier(attributeName, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
+        AttributeModifier healthModifier = new AttributeModifier("customdisplay"+attributeName, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
         attributeInstance.addModifier(healthModifier);
 
-
-
+        //player.sendMessage("TEST"+addNumber);
 
 //        for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
+//
 //            player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
 //        }
 
         player.saveData();
-
+//        if(inherit.contains("GENERIC_MAX_HEALTH")){
+//            double maxHealth = player.getAttribute(GENERIC_MAX_HEALTH).getValue();
+//            player.setHealth(maxHealth);
+//        }
     }
 
-    public void removeAttribute(Player player){
-        Attribute maxHealth = Attribute.GENERIC_MAX_HEALTH;
-        AttributeInstance playerMaxHealth = player.getAttribute(maxHealth);
-        for(AttributeModifier attributeModifier : playerMaxHealth.getModifiers()){
-            if(attributeModifier.getName().toLowerCase().contains("customdisplay")){
-                playerMaxHealth.removeModifier(attributeModifier);
+    public void removeAttribute(Player player,String inherit){
+        AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
+
+        for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
+            if(attributeModifier.toString().contains("customdisplay")){
+                attributeInstance.removeModifier(attributeModifier);
             }
-            player.sendMessage(attributeModifier.getName());
         }
-        cd.getLogger().info("血量: "+playerMaxHealth.getValue());
     }
 
 }

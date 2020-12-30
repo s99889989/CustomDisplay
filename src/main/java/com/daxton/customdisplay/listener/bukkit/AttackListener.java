@@ -6,13 +6,16 @@ import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+
 
 import java.util.UUID;
 
@@ -50,6 +53,18 @@ public class AttackListener implements Listener {
         target = (LivingEntity) event.getEntity();
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
+
+
+//            ItemStack itemStack = player.getEquipment().getItemInMainHand();
+//
+//            if(itemStack.hasItemMeta()){
+//                if(itemStack.getLore().size() > 0){
+//                    for(String s : itemStack.getLore()){
+//                        player.sendMessage(s);
+//                    }
+//                }
+//            }
+
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onAttack(player,target);

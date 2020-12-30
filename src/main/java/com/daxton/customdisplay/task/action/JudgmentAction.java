@@ -158,6 +158,12 @@ public class JudgmentAction {
             new AttributePoint().setAttributePoint(self,target,firstString,taskID);
         }
 
+        /**Heal的相關判斷**/
+        if(judgMent.toLowerCase().contains("heal")){
+            new Heal().setHeal(self,target,firstString,taskID);
+        }
+
+
     }
 
 

@@ -90,8 +90,8 @@ public class AttributePoint {
         try {
             for(String stats : statsSec.getKeys(false)){
                 int countStats = attributesPointConfig.getInt(type+".stats."+stats);
-                String inherit = attributesStatsConfig.getString(stats+".Inherit");
-                String operation = attributesStatsConfig.getString(stats+".Operation");
+                String inherit = attributesStatsConfig.getString(stats+".inherit");
+                String operation = attributesStatsConfig.getString(stats+".operation");
                 int newStats = countStats * newAttrPoint;
                 playerConfig.set(playerUUIDString+".AttributesStats."+stats,newStats);
 

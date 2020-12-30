@@ -1,16 +1,12 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.character.StringFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class EntityTypeList {
 

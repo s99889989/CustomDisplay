@@ -29,6 +29,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
@@ -227,6 +228,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event){
         Player player = event.getPlayer();
+
+
         int key = event.getNewSlot();
         switch(key){
             case 0:

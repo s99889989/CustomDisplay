@@ -154,6 +154,10 @@ public class OpenInventory {
 
     public Inventory setInventory(Inventory inventory){
 
+        for(int i = 0; i < inventory.getSize() ;i++){
+            inventory.setItem(i,null);
+        }
+
         File itemFilePatch = new File(cd.getDataFolder(),"Gui/Default.yml");
         FileConfiguration itemConfig = YamlConfiguration.loadConfiguration(itemFilePatch);
         ConfigurationSection button = itemConfig.getConfigurationSection("Buttons");
@@ -212,7 +216,6 @@ public class OpenInventory {
             left_Click.put(rawslot,leftClick);
 
             customItem.setItemMeta(im);
-            inventory.setItem(rawslot,null);
             inventory.setItem(rawslot,customItem);
 
         }

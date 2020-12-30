@@ -13,23 +13,22 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 
-public class Placeholder {
+public class Placeholder2 {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private Map<String,String> entity_Map = new HashMap<>();
+    private Map<String,String> entity_Map = new ConcurrentHashMap<>();
 
     public String change = "";
 
     public String notChange = "";
 
-    public Placeholder(String change){
+    public Placeholder2(String change){
 
         this.notChange = change;
         this.change = change.replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
@@ -46,15 +45,14 @@ public class Placeholder {
 
     }
 
-    public Placeholder(LivingEntity entity,String change){
+    public Placeholder2(LivingEntity entity, String change){
         String uuidString = entity.getUniqueId().toString();
         this.notChange = change;
         this.change = change.replace("cd_","").replace("<","").replace(">","").replace(" ","");
         entity_Map.put("name",entity.getName());
         entity_Map.put("uuid",entity.getUniqueId().toString());
         entity_Map.put("hight",String.valueOf(entity.getHeight()));
-        double nowH = entity.getHealth();
-        entity_Map.put("nowhealth",String.valueOf(nowH));
+        entity_Map.put("nowhealth",String.valueOf(entity.getHealth()));
         entity_Map.put("maxhealth",String.valueOf(entity.getAttribute(GENERIC_MAX_HEALTH).getValue()));
         entity_Map.put("type",entity.getType().toString());
         entity_Map.put("biome",entity.getLocation().getBlock().getBiome().toString());
@@ -65,35 +63,19 @@ public class Placeholder {
         entity_Map.put("vec_x",String.valueOf(vectorX(entity)));
         entity_Map.put("vec_y",String.valueOf(vectorY(entity)));
         entity_Map.put("vec_z",String.valueOf(vectorZ(entity)));
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_last_chat>") != null){
+        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_last_chat>") !=null){
             entity_Map.put("last_chat",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_last_chat>"));
         }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_cast_command>") != null){
-            entity_Map.put("cast_command",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_cast_command>"));
-        }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>") != null){
-            entity_Map.put("attack_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>"));
-        }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>") != null){
-            entity_Map.put("damaged_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>"));
-        }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_kill_mob_type>") != null){
-            entity_Map.put("kill_mob_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_kill_mob_type>"));
-        }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_exp_type>") != null){
-            entity_Map.put("up_exp_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_exp_type>"));
-        }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_exp_type>") != null){
-            entity_Map.put("down_exp_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_exp_type>"));
-        }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_level_type>") != null){
-            entity_Map.put("up_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_level_type>"));
-        }
-        if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_level_type>") != null){
-            entity_Map.put("down_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_level_type>"));
-        }
 
+        entity_Map.put("cast_command",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_cast_command>"));
+        entity_Map.put("attack_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>"));
+        entity_Map.put("damaged_number",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>"));
+        entity_Map.put("kill_mob_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_kill_mob_type>"));
 
+        entity_Map.put("up_exp_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_exp_type>"));
+        entity_Map.put("down_exp_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_exp_type>"));
+        entity_Map.put("up_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_up_level_type>"));
+        entity_Map.put("down_level_type",PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_level_type>"));
 
         if(entity instanceof Player){
 
@@ -112,9 +94,8 @@ public class Placeholder {
             int attr_point = playerConfig.getInt(uuidString+".AttributesPoint."+custom);
             int attr_stats = playerConfig.getInt(uuidString+".AttributesStats."+custom);
 
-            if(class_name != null){
-                entity_Map.put("class_name",class_name);
-            }
+
+            entity_Map.put("class_name",class_name);
             entity_Map.put("level_now_"+custom,String.valueOf(level_now));
             entity_Map.put("level_max_"+custom,String.valueOf(level_max));
             entity_Map.put("exp_now_"+custom,String.valueOf(exp_now));
@@ -128,22 +109,15 @@ public class Placeholder {
         }
 
         if(Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
-            if(PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()) != null){
-                entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
-            }
-            if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>") != null){
-                entity_Map.put("mythic_kill_mob_id", PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>"));
-            }
-
+            entity_Map.put("mythic_level", PlaceholderManager.getMythicMobs_Level_Map().get(entity.getUniqueId()));
+            entity_Map.put("mythic_kill_mob_id", PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>"));
         }
 
 
         if(this.change.toLowerCase().contains("actionbar_mmocore_spell") &entity instanceof Player & Bukkit.getServer().getPluginManager().getPlugin("MMOCore") != null){
             Player player = (Player) entity;
             if(player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR){
-                if(MMOCoreActionBar(player) != null){
-                    entity_Map.put("actionbar_mmocore_spell",MMOCoreActionBar(player));
-                }
+                entity_Map.put("actionbar_mmocore_spell",MMOCoreActionBar(player));
             }
         }
 

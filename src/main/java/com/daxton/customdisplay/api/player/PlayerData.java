@@ -43,7 +43,7 @@ public class PlayerData {
     /**獲取動作列表**/
     public void setPlayerActionList() {
         String uuidString = player.getUniqueId().toString();
-
+        playerActionList.clear();
         File inputFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
         FileConfiguration inputConfig = YamlConfiguration.loadConfiguration(inputFile);
         List<String> setList = inputConfig.getStringList(uuidString+".Action");
