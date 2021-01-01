@@ -23,6 +23,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -34,11 +35,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.UUID;
-
-
+import java.util.*;
 
 
 public class PlayerListener implements Listener {
@@ -120,11 +117,7 @@ public class PlayerListener implements Listener {
         }
 
     }
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event){
-        Player player = (Player) event.getPlayer();
-        //player.sendMessage("關閉");
-    }
+
 
 
     /**當經驗值改變時**/
@@ -226,13 +219,15 @@ public class PlayerListener implements Listener {
 
     }
 
+
+
+
     @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event){
         Player player = event.getPlayer();
 
-
         int key = event.getNewSlot();
-        //new PlayerEquipment(player,key);
+
         switch(key){
             case 0:
                 new PlayerTrigger(player).onKey1(player);

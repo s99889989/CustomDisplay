@@ -21,16 +21,23 @@ public class ConfigManager {
         cd = plugin;
 
 
+//        File actions_file = new File(cd.getDataFolder(),"Actions");
+//        if(!actions_file.exists()){
+//            actions_file.mkdir();
+//        }
 
         config = new AutoConfig("resource/config.yml","config.yml").get();
         language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
 
+        File players_file = new File(cd.getDataFolder(),"Players");
+        if(!players_file.exists()){
+            players_file.mkdir();
+        }
+
         new AutoConfig2();
 
-        File dir_file = new File(cd.getDataFolder(),"Players");
-        if(!dir_file.exists()){
-            dir_file.mkdir();
-        }
+
+
 //        new AutoConfig("resource/Class/Action/Default.yml","Class/Action/Default.yml").get();
 //        new AutoConfig("resource/Class/Action/預設.yml","Class/Action/預設.yml").get();
 //

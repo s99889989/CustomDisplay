@@ -67,7 +67,7 @@ public class AttributePoint {
     public void addPoint(Player player){
 
         String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString+".yml");
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
         int nowAttrPoint = playerConfig.getInt(playerUUIDString+".AttributesPoint."+type);

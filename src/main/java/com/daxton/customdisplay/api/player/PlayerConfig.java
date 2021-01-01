@@ -130,6 +130,10 @@ public class PlayerConfig {
             playerConfig.set(uuidString+".EquipmentStats", attrStatsList);
         }
 
+        if(!(playerConfig.contains(uuidString+".PhysicalAttackFormula"))){
+            playerConfig.set(uuidString+".PhysicalAttackFormula", classConfig.getString(className+".PhysicalAttackFormula"));
+        }
+
         saveCreateFile(player,playerConfig);
 
         File attrFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/attributes-stats.yml");
@@ -139,12 +143,45 @@ public class PlayerConfig {
                 setNewAttrStatsConfig(attrFilePatch);
             }
         }catch (Exception exception){
-            exception.printStackTrace();
+            //exception.printStackTrace();
         }
         if(attrFilePatch.exists()){
+            setAttrStats(player);
+        }
+
+
+        File eqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
+        try {
+            if(!eqmFilePatch.exists()){
+                eqmFilePatch.createNewFile();
+                setNewEqmStatsConfig(eqmFilePatch);
+            }
+        }catch (Exception exception){
+            //exception.printStackTrace();
+        }
+
+
+    }
+
+    public void setNewEqmStatsConfig(File patch){
+        FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(patch);
+        List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".EquipmentStats");
+        for(String attrStatsFileName : attrStatsNameList){
+            FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
+            ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
+            if(attrStatsSec.getKeys(false).size() > 0){
+                for(String attrStats : attrStatsSec.getKeys(false)){
+                    eqmConfig.set(uuidString+".EquipmentStats."+attrStats,0);
+
+                }
+            }
 
         }
-        setAttrStats(player);
+        try {
+            eqmConfig.save(patch);
+        }catch (Exception exception){
+            //exception.printStackTrace();
+        }
     }
 
     public void setNewAttrStatsConfig(File patch){
@@ -223,37 +260,6 @@ public class PlayerConfig {
             }
         }
 
-
-//        ConfigurationSection attrStatsList = playerConfig.getConfigurationSection(uuidString+".AttributesStats");
-//        FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+className+".yml");
-//        if(attrStatsList.getKeys(false).size() > 0){
-//            for(String attrStats : attrStatsList.getKeys(false)){
-//                String formula = attrStatsConfig.getString(className+"."+attrStats+".formula");
-//                if(formula == null){
-//                    formula = "100";
-//                }
-//                String formula2 = new StringConversion2(player,null,formula,"Character").valueConv();
-//                int inumber = 0;
-//                try {
-//                    double number = Arithmetic.eval(formula2);
-//                    String numberDec = new NumberUtil(number,"#").getDecimalString();
-//                    inumber = Integer.valueOf(numberDec);
-//                }catch (Exception exception){
-//                    inumber = 0;
-//                }
-//
-//                String inherit = attrStatsConfig.getString(className+"."+attrStats+".inherit");
-//                String operation = attrStatsConfig.getString(className+"."+attrStats+".operation");
-//                if(inherit != null && operation !=null){
-//                    new PlayerAttribute().addAttribute(player,inherit,operation,inumber,attrStats);
-//                }
-//                playerConfig.set(uuidString+".AttributesStats."+attrStats,inumber);
-//
-//            }
-//
-//        }
-
-
     }
 
 
@@ -288,8 +294,6 @@ public class PlayerConfig {
         String playerUUIDString = player.getUniqueId().toString();
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
 
-        //playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-
         try {
             config.save(playerFilePatch);
         }catch (Exception exception){
@@ -299,7 +303,7 @@ public class PlayerConfig {
 
     /**存檔**/
     public void saveFile(FileConfiguration fileConfiguration){
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
 
         try {
             fileConfiguration.save(playerFilePatch);

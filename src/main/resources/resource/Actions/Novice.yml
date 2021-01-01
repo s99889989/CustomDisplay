@@ -1,0 +1,8 @@
+#持續回血
+Hp_Regeneration:
+  Action:
+  - Loop[onTime=Hp_Regeneration-Time;period=200;duration=unlimited]
+Hp_Regeneration-Time: 
+  Action:
+  - Heal[amount=&self_Hp_Regeneration&]
+  #- Sound[sound=ab_heal_effect;pitch=1;volume=0.1;category=PLAYERS]

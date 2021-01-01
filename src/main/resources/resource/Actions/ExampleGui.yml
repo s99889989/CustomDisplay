@@ -24,44 +24,60 @@ cut_Attributes_Str:
 #增加敏捷點數
 add_Attributes_Agi:
   Action:
+  - Condition[Compare=&self_point_last_base&>0]
+  - CustomPoint[type=base_last;a=-1]
   - AttributePoint[type=Agi;amount=1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 #減少敏捷點數
 cut_Attributes_Agi:
   Action:
+  - Condition[Compare=&self_attr_point_agi&>0]
+  - CustomPoint[type=base_last;a=+1]
   - AttributePoint[type=Agi;amount=-1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 
 #增加體質點數
 add_Attributes_Vit:
   Action:
+  - Condition[Compare=&self_point_last_base&>0]
+  - CustomPoint[type=base_last;a=-1]
   - AttributePoint[type=Vit;amount=1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 #減少體質點數
 cut_Attributes_Vit:
   Action:
+  - Condition[Compare=&self_attr_point_vit&>0]
+  - CustomPoint[type=base_last;a=+1]
   - AttributePoint[type=Vit;amount=-1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 
 #增加智力點數
 add_Attributes_Int:
   Action:
+  - Condition[Compare=&self_point_last_base&>0]
+  - CustomPoint[type=base_last;a=-1]
   - AttributePoint[type=Int;amount=1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 #減少智力點數
 cut_Attributes_Int:
   Action:
+  - Condition[Compare=&self_attr_point_int&>0]
+  - CustomPoint[type=base_last;a=+1]
   - AttributePoint[type=Int;amount=-1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 
 #增加靈巧點數
 add_Attributes_Dex:
   Action:
+  - Condition[Compare=&self_point_last_base&>0]
+  - CustomPoint[type=base_last;a=-1]
   - AttributePoint[type=Dex;amount=1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 #減少靈巧點數
 cut_Attributes_Dex:
   Action:
+  - Condition[Compare=&self_attr_point_dex&>0]
+  - CustomPoint[type=base_last;a=+1]
   - AttributePoint[type=Dex;amount=-1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 
@@ -69,11 +85,15 @@ cut_Attributes_Dex:
 #增加幸運點數
 add_Attributes_Luk:
   Action:
+  - Condition[Compare=&self_point_last_base&>0]
+  - CustomPoint[type=base_last;a=-1]
   - AttributePoint[type=Luk;amount=1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 #減少幸運點數
 cut_Attributes_Luk:
   Action:
+  - Condition[Compare=&self_attr_point_luk&>0]
+  - CustomPoint[type=base_last;a=+1]
   - AttributePoint[type=Luk;amount=-1]
   - Inventory[fc=gui;m=個人資訊;amount=54]
 

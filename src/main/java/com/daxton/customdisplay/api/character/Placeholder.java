@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import net.Indyuce.mmocore.MMOCore;
@@ -8,6 +9,7 @@ import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.skill.Skill;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
@@ -95,7 +97,6 @@ public class Placeholder {
         }
 
 
-
         if(entity instanceof Player){
 
             Player player = (Player) entity;
@@ -106,7 +107,10 @@ public class Placeholder {
             File attrFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/attributes-stats.yml");
             FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFilePatch);
 
-            String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","");
+            File eqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
+            FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmFilePatch);
+
+            String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","").replace("eqm_stats_","");
             String class_name = playerConfig.getString(uuidString+".ClassName");
             int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
             int level_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_level");
@@ -116,7 +120,7 @@ public class Placeholder {
             int point_now = playerConfig.getInt(uuidString+".Point."+custom+"_last");
             int attr_point = playerConfig.getInt(uuidString+".AttributesPoint."+custom);
             int attr_stats = attrConfig.getInt(uuidString+".AttributesStats."+custom);
-
+            int attr_eqm = eqmConfig.getInt(uuidString+".EquipmentStats."+custom);
 
             if(class_name != null){
                 entity_Map.put("class_name",class_name);
@@ -129,7 +133,7 @@ public class Placeholder {
             entity_Map.put("point_max_"+custom,String.valueOf(point_max));
             entity_Map.put("attr_point_"+custom,String.valueOf(attr_point));
             entity_Map.put("attr_stats_"+custom,String.valueOf(attr_stats));
-
+            entity_Map.put("eqm_stats_"+custom,String.valueOf(attr_eqm));
 
         }
 
@@ -139,6 +143,28 @@ public class Placeholder {
             }
             if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>") != null){
                 entity_Map.put("mythic_kill_mob_id", PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>"));
+            }
+
+            if(MobManager.getMobID_Map().get(uuidString) != null && this.change.contains("mythic_attr_")){
+                String mobID = MobManager.getMobID_Map().get(uuidString);
+                File file = new File(cd.getDataFolder(),"Mobs/Default.yml");
+                FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
+                String custom = this.change.replace("mythic_attr_","");
+                ConfigurationSection section = fileConfiguration.getConfigurationSection("");
+                int i = 0;
+                if(section.getKeys(false).contains(mobID)){
+                    ConfigurationSection mobIDSection = fileConfiguration.getConfigurationSection(mobID);
+                    for(String mobIDName : mobIDSection.getKeys(false)){
+                        i = fileConfiguration.getInt(mobID+"."+custom);
+                        //cd.getLogger().info(mobIDName+" : "+i);
+                    }
+
+                }
+                entity_Map.put("mythic_attr_"+custom,String.valueOf(i));
+
+            }else {
+                String custom = this.change.replace("mythic_attr_","");
+                entity_Map.put("mythic_attr_"+custom,String.valueOf(0));
             }
 
         }

@@ -163,6 +163,11 @@ public class JudgmentAction {
             new Heal().setHeal(self,target,firstString,taskID);
         }
 
+        /**GiveItem的相關判斷**/
+        if(judgMent.toLowerCase().contains("item")){
+            new GiveItem().setItem(self,target,firstString,taskID);
+        }
+
 
     }
 

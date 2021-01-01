@@ -36,10 +36,14 @@ public class PlayerAttribute {
 //            player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
 //        }
 
-        player.saveData();
+//        player.saveData();
 //        if(inherit.contains("GENERIC_MAX_HEALTH")){
-//            double maxHealth = player.getAttribute(GENERIC_MAX_HEALTH).getValue();
-//            player.setHealth(maxHealth);
+//            for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
+//
+//                player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
+//            }
+//            //double maxHealth = player.getAttribute(GENERIC_MAX_HEALTH).getValue();
+//            //player.setHealth(maxHealth);
 //        }
     }
 

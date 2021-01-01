@@ -93,7 +93,7 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             /**Critical boost**/
             double physical_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(CRITICAL_STRIKE_POWER);
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
-            if(damageType.contains("WEAPON")){
+            if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
                     new PlayerTrigger(player).onCrit(player,target);
                 }else {

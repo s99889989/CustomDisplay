@@ -92,7 +92,7 @@ public class Point {
 
     public void addPoint(Player player){
         String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString +".yml");
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
 
@@ -115,7 +115,7 @@ public class Point {
 
     public void setPoint(Player player){
         String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString +".yml");
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
         playerConfig.set(playerUUIDString +".Point."+type+"_max",amount);

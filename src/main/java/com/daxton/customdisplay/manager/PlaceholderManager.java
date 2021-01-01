@@ -15,8 +15,6 @@ public class PlaceholderManager {
     /**佔位符訊息**/
     private static Map<String,String> cd_Placeholder_Map = new HashMap<>();
 
-
-
     /**MythicMobs插件的Mod_Level顯示**/
     private static Map<UUID,String> mythicMobs_Level_Map = new HashMap<>();
 

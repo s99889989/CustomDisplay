@@ -54,17 +54,6 @@ public class AttackListener implements Listener {
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
 
-
-//            ItemStack itemStack = player.getEquipment().getItemInMainHand();
-//
-//            if(itemStack.hasItemMeta()){
-//                if(itemStack.getLore().size() > 0){
-//                    for(String s : itemStack.getLore()){
-//                        player.sendMessage(s);
-//                    }
-//                }
-//            }
-
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onAttack(player,target);

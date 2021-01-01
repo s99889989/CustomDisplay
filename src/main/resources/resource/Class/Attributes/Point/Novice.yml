@@ -1,42 +1,28 @@
-Str:
-  stats:
-    melee_physical_attack: 2
-Agi:
-  name: 敏捷
-  max-points: 99
-  buff:
-    attack_speed: 0.04
-    #movement_speed: 0.001
-Vit:
-  name: 體質
-  max-points: 99
-  buff:
-    max_health: 100
-    health_regeneration: 0.1
-    armor: 1    
-    max_stamina: 1
-    additional_experience: 2
-Int:
-  name: 智力
-  max-points: 99
-  buff:
-    magic_damage: 5
-    max_mana: 2.0
-    mana_regeneration: 0.1
-Dex:
-  name: 靈巧
-  max-points: 99
-  buff:
-    cooldown_reduction: 1
-    projectile_damage: 20
-Luk:
-  name: 幸運
-  max-points: 99
-  buff:
-    spell_critical_strike_chance: 1
-    spell_critical_strike_power: 2
-    critical_strike_chance: 1
-    critical_strike_power: 2
+Novice:
+  Str:
+    base: 1
+    stats:
+      Melee_Physical_Attack: 2
+  Agi:
+    base: 1
+    stats:
+      Melee_Physical_Attack: 2
+  Vit:
+    base: 1
+    stats:
+      Melee_Physical_Attack: 2
+  Int:
+    base: 1
+    stats:
+      Melee_Physical_Attack: 2
+  Dex:
+    base: 1
+    stats:
+      Melee_Physical_Attack: 2
+  Luk:
+    base: 1
+    stats:
+      Melee_Physical_Attack: 2
 
 
 

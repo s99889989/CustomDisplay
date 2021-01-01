@@ -110,7 +110,7 @@ public class Experience {
 
     public void expOtherSet(Player player){
         String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString +".yml");
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
         File levelFilePatch = new File(cd.getDataFolder(),"Class/Level/"+type+".yml");

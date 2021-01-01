@@ -1,0 +1,52 @@
+
+
+
+  
+#Str
+self_1_base:
+  message:
+  - Accumulate[1,<cd_level_now_base>]
+
+
+self_hp_formula:
+  message:
+  - CConversion[((100+5 * &self_level_now_base& + 0 * (&self_1_base&)) * (1+&self_attr_point_vit&/100))]
+
+
+
+
+
+
+#裝備屬性
+
+#力量
+self_Eq_Str:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Str>]
+#敏捷
+self_Eq_Agi:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Agi>]
+#體質
+self_Eq_Vit:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Vit>]
+#智力
+self_Eq_Int:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Int>]
+#靈巧
+self_Eq_Dex:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Dex>]
+#幸運
+self_Eq_Luk:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Luk>]
+
+
+
+
+
+
+

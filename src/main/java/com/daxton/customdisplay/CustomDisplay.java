@@ -1,13 +1,13 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import com.daxton.customdisplay.api.player.PlayerConfig;
 import com.daxton.customdisplay.api.player.PlayerData;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
+import com.daxton.customdisplay.listener.customdisplay.CustomAttackListener;
+import com.daxton.customdisplay.listener.customdisplay.EquipmentListener;
 import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
 import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
 import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
@@ -19,7 +19,6 @@ import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -82,6 +81,7 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new EquipmentListener(),customDisplay);
 
 
     }
@@ -133,6 +133,10 @@ public final class CustomDisplay extends JavaPlugin {
                     Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
                 }
+                break;
+            case "customcore":
+                Bukkit.getPluginManager().registerEvents(new CustomAttackListener(),customDisplay);
+                getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CustomCore");
                 break;
             case "default":
             default:

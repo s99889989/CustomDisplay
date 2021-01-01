@@ -82,7 +82,7 @@ public class MMOLibListener implements Listener{
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
 //            player.sendMessage("實際: "+damageNumber);
 //            player.sendMessage("預估:" +physical_STRIKE_POWER);
-            if(damageType.contains("WEAPON")){
+            if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
                     new PlayerTrigger(player).onCrit(player,target);
                 }else {

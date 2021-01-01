@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -16,13 +17,17 @@ public class AutoConfig2 {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
+
+
     public AutoConfig2(){
-        File testFile = new File("plugins/CustomDisplay-1.11.17.jar");
+        File testFile = new File("plugins/CustomDisplay-1.11.18.jar");
         try {
             List<String> testList = readZipFile(testFile.toString());
+
             for(String patch : testList){
+
                 new AutoConfig(patch,patch.replace("resource/","")).get();
-                //cd.getLogger().info("路徑:　"+testS);
+
             }
         }catch (Exception exception){
 

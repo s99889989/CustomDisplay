@@ -43,7 +43,7 @@ dependencies {
     compileOnly 'org.serverct.ersha.jd:AttributePlus:2.2.5'
     compileOnly 'io.lumine.xikage:MythicMobs:4.9.1'
     compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
-    compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.1.jar'])
+    compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.4.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6-284.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOItems-6.5.1-582.jar'])
     compileOnly fileTree(dir: 'lib', include: ['SkillAPI-v3.108.jar'])
@@ -51,7 +51,7 @@ dependencies {
 }
 
 group = 'com.daxton'
-version = '1.11.17'
+version = '1.11.18'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 
@@ -59,7 +59,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-def mmoLibVersion = '1.7.1'
+def mmoLibVersion = '1.7.4'
 
 task downloadMMOLib(type: Download) {
     src "https://github.com/mmopluginteam/mmolib/releases/download/${mmoLibVersion}/MMOLib-${mmoLibVersion}.jar"

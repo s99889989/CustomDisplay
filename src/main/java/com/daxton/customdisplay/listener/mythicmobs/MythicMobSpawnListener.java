@@ -1,11 +1,13 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.player.MobDeath;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
+import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
@@ -14,6 +16,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MythicMobSpawnListener implements Listener {
 
@@ -23,8 +27,17 @@ public class MythicMobSpawnListener implements Listener {
 
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
+        ActiveMob activeMob = event.getMob();
+        String mobID = activeMob.getMobType();
+        String uuidString = event.getEntity().getUniqueId().toString();
+
+        MobManager.getMobID_Map().put(uuidString,mobID);
 
         PlaceholderManager.getMythicMobs_Level_Map().put(event.getEntity().getUniqueId(), String.valueOf(event.getMobLevel()));
+
+
+
+
 
     }
 

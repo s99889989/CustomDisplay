@@ -49,6 +49,7 @@ public class MMOCoreListener implements Listener {
             ignoreCancelled = true
     )
     public void onAttack(EntityDamageByEntityEvent event){
+
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -62,6 +63,7 @@ public class MMOCoreListener implements Listener {
         damageNumber = event.getFinalDamage();
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
+
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
 
@@ -91,7 +93,7 @@ public class MMOCoreListener implements Listener {
             double spell_CRITICAL_STRIKE_POWER = MMOPlayerData.get(playerUUID).getStatMap().getStat(SPELL_CRITICAL_STRIKE_POWER);
             spell_CRITICAL_STRIKE_POWER = (spell_CRITICAL_STRIKE_POWER/100) + 1.5;
 
-            if(damageType.contains("WEAPON")){
+            if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
                     new PlayerTrigger(player).onCrit(player,target);
                 }else {

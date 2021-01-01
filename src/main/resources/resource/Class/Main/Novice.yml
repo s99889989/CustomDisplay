@@ -2,7 +2,7 @@ Novice:
   ClassName: '初心者'
   Action:
   - Default
-  - Novice
+  #- Novice
   Level:
   - base
   - job
@@ -10,10 +10,8 @@ Novice:
   - base
   - job
   AttributesPoint:
-  - Str
-  - Agi
-  - Vit
-  - Int
-  - Dex
-  - Luk
-  
+  - Novice
+  AttributesStats:
+  - Default
+  EquipmentStats:
+  - Equipment

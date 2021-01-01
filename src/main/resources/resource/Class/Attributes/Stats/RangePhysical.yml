@@ -1,0 +1,33 @@
+#基礎屬性總攬
+#-------------------------------------------#
+RangePhysical:
+  #HP
+  Hp:
+    base: 0
+    #formula: '&self_hp_formula&'
+    formula: '((100+5 * &self_level_now_base& + 0 * (&self_1_base&)) * (1+&self_attr_point_vit&/100))'
+    inherit: 'GENERIC_MAX_HEALTH'
+    operation: 'ADD_NUMBER'
+  #HP恢復
+  Hp_Regeneration:
+    base: 0
+    formula: '(&self_maxhealth&/200) + (&self_attr_point_vit&/5)'
+    #formula: '10'
+  #遠距離物理攻擊
+  Range_Physical_Attack:
+    base: 0
+    formula: '2*&self_attr_point_dex&+(&self_attr_point_str&/5) + (&self_attr_point_luk&/5)'
+    inherit: GENERIC_ATTACK_DAMAGE
+    operation: ADD_NUMBER
+
+
+
+
+
+
+
+
+
+
+
+

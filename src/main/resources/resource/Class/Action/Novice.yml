@@ -12,3 +12,8 @@ Action:
 
 - Action[a=GetBasePoint] ~onLevelUp
 
+
+#持續回血
+#-------------------------------------------------------------------------#
+- Action[a=Hp_Regeneration;mark=&self_name&Hp_Regeneration] ~onJoin
+- Action[mark=&self_name&Hp_Regeneration;stop=true] ~onQuit
