@@ -15,3 +15,4 @@ Novice:
   - Default
   EquipmentStats:
   - Equipment
+  PhysicalAttackFormula: '&self_Melee_Physical_Attack& * (1+(&self_Eq_Fire_Attack&*&mob_attr_Attributes_Earth&))'

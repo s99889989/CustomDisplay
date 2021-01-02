@@ -134,4 +134,14 @@ public class StringFind {
         return stringList;
     }
 
+    /**丟入字串和key 轉成List**/
+    public List<String> getBlockList(String string,String key){
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(string,key);
+        while(stringTokenizer.hasMoreElements()){
+            stringList.add(stringTokenizer.nextToken());
+        }
+        return stringList;
+    }
+
 }

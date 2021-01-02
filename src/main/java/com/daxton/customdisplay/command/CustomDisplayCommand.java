@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,7 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
             return false;
         }
         if(args.length == 1){
+
             if(args[0].equalsIgnoreCase("reload")){
                 cd.load();
                 sender.sendMessage(configManager.language.getString("Language.Command.reload"));

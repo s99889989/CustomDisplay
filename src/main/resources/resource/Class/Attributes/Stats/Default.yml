@@ -1,0 +1,21 @@
+#基礎屬性總攬
+#-------------------------------------------#
+Default:
+  #HP
+  Hp:
+    base: 0
+    formula: '0'
+    inherit: 'GENERIC_MAX_HEALTH'
+    operation: 'ADD_NUMBER'
+  Melee_Physical_Attack:
+    base: 0
+    formula: '0'
+    inherit: GENERIC_ATTACK_DAMAGE
+    operation: ADD_NUMBER
+  Physical_Defense:
+    base: 0
+    formula: '0'
+    inherit: GENERIC_ARMOR
+    operation: ADD_NUMBER
+
+

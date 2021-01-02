@@ -1,98 +1,81 @@
-#基礎屬性
+#基礎屬性總攬
 #-------------------------------------------#
-MeleePhysical:
+Novice:
   #HP
   Hp:
     base: 0
-    formula: '(100+&self_level_now_base&*5+(1+&self_level_now_base&)*&self_level_now_base&/2*0.1+0)*(1+&self_attr_point_vit&+&self_Eq_Vit&/100)'
-    inherit: 'GENERIC_MAX_HEALTH'
-    operation: 'ADD_NUMBER'
-  #HP恢復
+    #Formula: 0
+    formula: ((100+5 * &self_level_now_base& + 0 * (&self_1_base&)) * (1+&self_attr_point_vit&/100))
+    inherit: GENERIC_MAX_HEALTH
+    operation: ADD_NUMBER
+#HP恢復
   Hp_Regeneration:
     base: 0
-    formula: '(&self_maxhealth&/200) + (&self_attr_point_vit&/5)'
-    #formula: '10'
-  #近戰物理攻擊
+#近戰物理攻擊
   Melee_Physical_Attack:
     base: 0
-    formula: '2*&self_attr_point_str& + (&self_attr_point_str&*&self_attr_point_str&/100) + (&self_attr_point_dex&/5) + (&self_attr_point_luk&/5)'
+    
     inherit: GENERIC_ATTACK_DAMAGE
     operation: ADD_NUMBER
-  #物理防禦
+#遠距離物理攻擊
+  Range_Physical_Attack:
+    base: 0
+#物理防禦
   Physical_Defense:
     base: 0
-    formula: '&self_attr_point_vit&'
-    inherit: GENERIC_ARMOR
-    operation: ADD_NUMBER
-  #命中
+#命中
   Hit_Rate:
     base: 0
-    formula: '&self_level_now_base& + &self_attr_point_dex&'
-  #閃避
+#閃避
   Dodge_Rate:
     base: 0
-    formula: '&self_level_now_base& + &self_attr_point_agi&'
-  #SP
+#SP
   Sp:
     base: 0
-    formula: '((20+1+&self_level_now_base&) * (1+&self_attr_point_int&/100)'
   #SP恢復
   Sp_Regeneration:
     base: 0
-    formula: '(&self_attr_point_int&/6)+(&self_Sp&/100)+1'
   #魔法攻擊
   Magic_Attack:
     base: 0
-    #formula: '10'
-    formula: '(&self_attr_point_vit&/100)+2*&self_attr_point_int&'
   #魔法防禦
   Magic_Defense:
     base: 0
-    formula: '&self_attr_point_int&'
   #移動速度
   Moving_Speed:
     base: 0
-    formula: '1'
   #攻擊速度
   Attack_Speed:
     base: 0
-    formula: '0'
 
 
 #穿透、暴擊、吟唱
 #-------------------------------------------#
-  #物理穿透%
-  Physical_Penetration%:
+#物理穿透
+  Physical_penetration:
     base: 0
-    formula: '0'
-  #暴擊率%
-  Critical_Strike_Chance%:
+#暴擊率
+  Critical_Strike_Chance:
     base: 0
-    formula: '(&self_attr_point_luk&/3)+1'
-  #暴擊傷害%
-  Critical_Strike_Power%:
+#暴擊傷害
+  Critical_Strike_Power:
     base: 0
-    formula: '1.5'
-  #暴擊防護%
-  Critical_Strike_Protection%:
+#暴擊防護
+  Critical_Protection:
     base: 0
-    formula: '0'
-  #暴傷減免%
-  Critical_Strike_Reduction%:
+#暴擊防護
+  Critical_Protection:
     base: 0
-    formula: '0'
-  #吟唱減免
+#吟唱減免
   Cooldown_Reduction:
     base: 0
-    formula: '0'
-  #受治療加成%
-  Receive_Healing_Bonus%:
+#受治療加成
+  Receive_Healing_Bonus:
     base: 0
-    formula: '0'
-  #治療加成%
-  Healing_Bonus%:
+#治療加成
+  Healing_Bonus:
     base: 0
-    formula: '0'
+
 
 #物理屬性
 #-------------------------------------------#
@@ -117,6 +100,7 @@ MeleePhysical:
   #精煉物免%
   Refined_Material_Free%:
     base: 0
+
 
 #魔法屬性
 #-------------------------------------------#
@@ -390,23 +374,24 @@ MeleePhysical:
     base: 0
 
 
-#類型-攻擊增強
-#攻擊特定類型目標時，提高造成的傷害
-#-------------------------------------------#
-  #對MINI Boss增傷%
-  Increases_Damage_To_MINI%:
-    formula: '0'
-  #對MVP Boss增傷%
-  Increases_Damage_To_MVP%:
-    formula: '0'
 
-#類型-傷害減免
-#受到特定類型的目標攻擊時，降低受到此類型目標的傷害
-#-------------------------------------------#
-  #對MINI Boss減傷%
-  Reduce_Damage_To_MINI%:
-    formula: '0'
-  #對MVP Boss減傷%
-  Reduce_Damage_To_MVP%:
-    formula: '0'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -44,7 +44,10 @@ self_Eq_Luk:
   message:
   - CCharacter[<cd_eqm_stats_Eq_Luk>]
 
-
+#幸運
+self_Eq_Fire_Attack:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Fire_Attack>]
 
 
 

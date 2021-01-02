@@ -17,3 +17,10 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=Hp_Regeneration;mark=&self_name&Hp_Regeneration] ~onJoin
 - Action[mark=&self_name&Hp_Regeneration;stop=true] ~onQuit
+
+
+
+
+#給物品
+- Action[a=GiveItem1] ~onCommand
+

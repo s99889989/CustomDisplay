@@ -11,7 +11,7 @@ Buttons:
     Name: '§e&self_name&'
     Lore:
     - ''
-    - '§7職業: §9&self_class_name&'
+    - '§7職業: §9&self_class_name&&self_Eq_Fire_Attack&'
     - ''
     - '§7Base等級: §e&self_level_now_base& / &self_level_max_base&'
     - '§7Bas經驗值: §e&self_exp_now_base& / &self_exp_max_base&'

@@ -88,8 +88,8 @@ public class SendParticles {
 
 
                     try{
-                        BigInteger bigint=new BigInteger(strings[1], 16);
-                        int numb =bigint.intValue();
+                        BigInteger bigint = new BigInteger(strings[1], 16);
+                        int numb = bigint.intValue();
                         color = new Particle.DustOptions(fromRGB(numb), 1);
                     }catch (NumberFormatException exception){
                         //cd.getLogger().info("color錯誤"+strings[1]);

@@ -1,0 +1,27 @@
+#
+#
+Buttons1:
+  Text: '[Yes]'
+  #https://papermc.io/javadocs/waterfall/net/md_5/bungee/api/ChatColor.html
+  Color: 'BLUE'
+  #https://papermc.io/javadocs/waterfall/net/md_5/bungee/api/chat/ClickEvent.Action.html
+  Bold: true
+  ClickEvent:
+    Action: 'RUN_COMMAND'
+    Text: '/cd reload'
+  #https://papermc.io/javadocs/waterfall/net/md_5/bungee/api/chat/HoverEvent.Action.html
+  HoverEvent:
+    Action: 'SHOW_TEXT'
+    Text: 'reload.'
+
+Buttons2:
+  Text: '[No]'
+  Color: 'GOLD'
+  Bold: false
+  ClickEvent:
+    Action: 'RUN_COMMAND'
+    Text: '/cd cast buttonNo'
+  HoverEvent:
+    Action: 'SHOW_TEXT'
+    Text: 'NO!'
+

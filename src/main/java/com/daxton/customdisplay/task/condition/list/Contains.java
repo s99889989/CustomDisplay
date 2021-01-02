@@ -41,7 +41,7 @@ public class Contains {
     }
     public boolean get(){
         boolean b = false;
-        if(stringLeft.toLowerCase().contains(stringRight)){
+        if(stringLeft.contains(stringRight)){
             b = true;
         }
 

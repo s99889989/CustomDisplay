@@ -99,3 +99,11 @@ Action:
 #-------------------------------------------------------------------------#
 #- Action[a=EmojiHelpHD] ~onChat
 - Action[a=EmojiHelpHD] ~onCommand
+
+#Show actionable messages.
+#-------------------------------------------------------------------------#
+- Action[a=Buttom-Message] ~onCommand
+- Action[a=Buttom-Message2] ~onCommand
+
+
+

@@ -1,0 +1,42 @@
+#
+#
+TestItem1:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  RemoveItemFlags: true
+  DisplayName: '§e火靈劍'
+  Lore:
+  - ''
+  - '§7火屬性:1'
+
+TestItem2:
+  Material: 'Diamond_Leggings'
+  Data:
+  CustomModelData: 0
+  RemoveItemFlags: true
+  DisplayName: '§e體質副手'
+  Lore:
+  - ''
+  - '§7體質: 20'
+
+TestItem3:
+  Material: 'BOOK'
+  Data:
+  CustomModelData: 0
+  RemoveItemFlags: true
+  DisplayName: '§e體質武器'
+  Lore:
+  - '§e受到特定體型的目標攻擊時，降低受到此體型目標的傷害'
+  - ''
+  - '§7體質: 1'
+  Enchantments:
+  - DAMAGE_ALL:5
+  - KNOCKBACK:2
+  - FIRE_ASPECT:2
+  Attributes:
+    Name: '加速書'
+    Inherit: 'GENERIC_MOVEMENT_SPEED'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.2
+    EquipmentSlot: 'OFF_HAND'
