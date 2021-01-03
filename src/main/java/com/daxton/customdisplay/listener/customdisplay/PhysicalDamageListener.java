@@ -3,9 +3,9 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.Arithmetic;
-import com.daxton.customdisplay.api.character.NumberUtil;
-import com.daxton.customdisplay.api.character.StringConversion2;
+import com.daxton.customdisplay.api.other.Arithmetic;
+import com.daxton.customdisplay.api.other.NumberUtil;
+import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
@@ -53,7 +53,7 @@ public class PhysicalDamageListener implements Listener {
             File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
             FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
             String plysical = playerConfig.getString(playerUUIDString+".Range_physics_formula");
-            plysical = new StringConversion2(player,e.getTarget(),plysical,"Character").valueConv();
+            plysical = new StringConversion(player,e.getTarget(),plysical,"Character").valueConv();
             int attackNumber = 0;
             try {
                 double number = Arithmetic.eval(plysical);
@@ -83,7 +83,7 @@ public class PhysicalDamageListener implements Listener {
             File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
             FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
             String plysical = playerConfig.getString(playerUUIDString+".Melee_physics_formula");
-            plysical = new StringConversion2(player,e.getTarget(),plysical,"Character").valueConv();
+            plysical = new StringConversion(player,e.getTarget(),plysical,"Character").valueConv();
             int attackNumber = 0;
             try {
                 double number = Arithmetic.eval(plysical);

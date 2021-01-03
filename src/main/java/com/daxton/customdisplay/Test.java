@@ -1,13 +1,5 @@
 package com.daxton.customdisplay;
 
-import com.daxton.customdisplay.api.character.NumberUtil;
-import com.daxton.customdisplay.api.character.Placeholder;
-
-import java.math.BigInteger;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static java.lang.Integer.parseInt;
 
 public class Test {

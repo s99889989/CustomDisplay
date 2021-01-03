@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.entity.LivingEntity;

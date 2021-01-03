@@ -32,23 +32,6 @@ public class Placeholder {
 
     public String notChange = "";
 
-    public Placeholder(String change){
-
-        this.notChange = change;
-        this.change = change.replace("cd_other_math_","").replace("<","").replace(">","").replace(" ","");
-
-        if(change.toLowerCase().contains("_math_random_")){
-
-            String randomString = change.replace("<cd_other_math_random_","").replace(">","").replace(" ","");
-            int randomNumber = Integer.valueOf(randomString);
-            String randomString1 = String.valueOf((int)(Math.random()*randomNumber));
-            entity_Map.put("random_"+randomString,randomString1);
-
-        }
-
-
-    }
-
     public Placeholder(LivingEntity entity,String change){
         String uuidString = entity.getUniqueId().toString();
         this.notChange = change;
@@ -112,6 +95,10 @@ public class Placeholder {
 
             String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","").replace("eqm_stats_","");
             String class_name = playerConfig.getString(uuidString+".Class_Name");
+            String player_race = playerConfig.getString(uuidString+".Player_Race");
+            String player_body = playerConfig.getString(uuidString+".Player_Body");
+            String player_attr_atk = playerConfig.getString(uuidString+".Player_Attribute_Attack");
+            String player_attr_def = playerConfig.getString(uuidString+".Player_Attribute_Defense");
             int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
             int level_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_level");
             int exp_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_exp");
@@ -124,6 +111,19 @@ public class Placeholder {
             if(class_name != null){
                 entity_Map.put("class_name",class_name);
             }
+            if(player_race != null){
+                entity_Map.put("class_race",player_race);
+            }
+            if(player_body != null){
+                entity_Map.put("class_body",player_body);
+            }
+            if(player_attr_atk != null){
+                entity_Map.put("class_attr_attack",player_attr_atk);
+            }
+            if(player_attr_def != null){
+                entity_Map.put("class_attr_defense",player_attr_def);
+            }
+
             entity_Map.put("level_now_"+custom,String.valueOf(level_now));
             entity_Map.put("level_max_"+custom,String.valueOf(level_max));
             entity_Map.put("exp_now_"+custom,String.valueOf(exp_now));
@@ -144,26 +144,31 @@ public class Placeholder {
                 entity_Map.put("mythic_kill_mob_id", PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>"));
             }
 
-            if(MobManager.getMobID_Map().get(uuidString) != null && this.change.contains("mythic_attr_")){
+            if(MobManager.getMobID_Map().get(uuidString) != null && this.change.contains("mythic_class_")){
                 String mobID = MobManager.getMobID_Map().get(uuidString);
-                File file = new File(cd.getDataFolder(),"Mobs/Default.yml");
-                FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
-                String custom = this.change.replace("mythic_attr_","");
-                ConfigurationSection section = fileConfiguration.getConfigurationSection("");
-                int i = 0;
-                if(section.getKeys(false).contains(mobID)){
-                    ConfigurationSection mobIDSection = fileConfiguration.getConfigurationSection(mobID);
-                    for(String mobIDName : mobIDSection.getKeys(false)){
-                        i = fileConfiguration.getInt(mobID+"."+custom);
-                        //cd.getLogger().info(mobIDName+" : "+i);
-                    }
-
-                }
-                entity_Map.put("mythic_attr_"+custom,String.valueOf(i));
-
+                File mobFile = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");
+                FileConfiguration mobConfig = YamlConfiguration.loadConfiguration(mobFile);
+                String custom = this.change.replace("mythic_class_","").replace("stats_","");
+                int mob_level = mobConfig.getInt(mobID+".Mob_Level");
+                String mob_race = mobConfig.getString(mobID+".Mob_Race");
+                String mob_attr = mobConfig.getString(mobID+".Mob_Attribute");
+                String mob_body = mobConfig.getString(mobID+".Mob_Body");
+                String mob_type = mobConfig.getString(mobID+".Mob_Type");
+                int mob_stats = mobConfig.getInt(mobID+".Attributes_Stats."+custom);
+                entity_Map.put("mythic_class_level",String.valueOf(mob_level));
+                entity_Map.put("mythic_class_race",mob_race);
+                entity_Map.put("mythic_class_attribute",mob_attr);
+                entity_Map.put("mythic_class_body",mob_body);
+                entity_Map.put("mythic_class_type",mob_type);
+                entity_Map.put("mythic_class_stats_"+custom,String.valueOf(mob_stats));
             }else {
-                String custom = this.change.replace("mythic_attr_","");
-                entity_Map.put("mythic_attr_"+custom,String.valueOf(0));
+                String custom = this.change.replace("mythic_class_","").replace("stats_","");
+                entity_Map.put("mythic_class_level",String.valueOf(0));
+                entity_Map.put("mythic_class_race","");
+                entity_Map.put("mythic_class_attribute","");
+                entity_Map.put("mythic_class_body","");
+                entity_Map.put("mythic_class_type","");
+                entity_Map.put("mythic_class_stats_"+custom,String.valueOf(0));
             }
 
         }

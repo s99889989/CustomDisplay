@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.character;
+package com.daxton.customdisplay.api.other;
 
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.ConfigurationSection;

@@ -1,8 +1,8 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -97,7 +97,7 @@ public class SendBossBar {
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion2(self,target,strings[1],"Character").valueConv();
+                    message = new StringConversion(self,target,strings[1],"Character").valueConv();
                 }
             }
             if(allString.toLowerCase().contains("progress=")){
@@ -105,7 +105,7 @@ public class SendBossBar {
                 if(strings.length == 2){
                     if(target != null){
                         try {
-                            progress = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                            progress = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
                         }catch (NumberFormatException exception){
                             //cd.getLogger().info("不是數字");
                         }

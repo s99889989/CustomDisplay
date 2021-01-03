@@ -1,8 +1,8 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -42,18 +42,18 @@ public class Compare {
                 if(strings[1].toLowerCase().contains(">")){
                     symbol = ">";
                     String[] strings1 = strings[1].replace(" ","").split(">");
-                    stringLeft = new StringConversion2(self,target,strings1[0],"Character").valueConv();
-                    stringRight = new StringConversion2(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversion(self,target,strings1[0],"Character").valueConv();
+                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
                 }else if(strings[1].toLowerCase().contains("<")){
                     symbol = "<";
                     String[] strings1 = strings[1].replace(" ","").split("<");
-                    stringLeft = new StringConversion2(self,target,strings1[0],"Character").valueConv();
-                    stringRight = new StringConversion2(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversion(self,target,strings1[0],"Character").valueConv();
+                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
                 }else if(strings[1].toLowerCase().contains("~")){
                     symbol = "=";
                     String[] strings1 = strings[1].replace(" ","").split("~");
-                    stringLeft = new StringConversion2(self,target,strings1[0],"Character").valueConv();
-                    stringRight = new StringConversion2(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversion(self,target,strings1[0],"Character").valueConv();
+                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
                 }
             }
         }
@@ -99,19 +99,19 @@ public class Compare {
                 if(strings[1].toLowerCase().contains(">")){
                     symbol = ">";
                     String[] strings1 = strings[1].replace(" ","").split(">");
-                    stringLeft = new StringConversion2(self,target,strings1[1],"Character").valueConv();
-                    stringRight = new StringConversion2(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversion(self,target,strings1[1],"Character").valueConv();
+                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
                 }else if(strings[1].toLowerCase().contains("<")){
                     symbol = "<";
                     String[] strings1 = strings[1].replace(" ","").split("<");
-                    stringLeft = new StringConversion2(self,target,strings1[1],"Character").valueConv();
-                    stringRight = new StringConversion2(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversion(self,target,strings1[1],"Character").valueConv();
+                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
 
                 }else if(strings[1].toLowerCase().contains("=")){
                     symbol = "=";
                     String[] strings1 = strings[1].replace(" ","").split("=");
-                    stringLeft = new StringConversion2(self,target,strings1[1],"Character").valueConv();
-                    stringRight = new StringConversion2(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversion(self,target,strings1[1],"Character").valueConv();
+                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
 
                 }
             }

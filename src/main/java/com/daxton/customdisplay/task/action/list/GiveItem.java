@@ -1,13 +1,11 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
-import com.google.common.collect.Lists;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,9 +18,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.*;
-
-import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE;
-import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED;
 
 public class GiveItem {
 
@@ -106,7 +101,7 @@ public class GiveItem {
         List<String> nextItemLore = new ArrayList<>();
         itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
         List<String> lastItemLore = new ArrayList<>();
-        nextItemLore.forEach((line) -> { lastItemLore.add(ChatColor.GRAY + new StringConversion2(self,target,line,"Character").valueConv()); });
+        nextItemLore.forEach((line) -> { lastItemLore.add(ChatColor.GRAY + new StringConversion(self,target,line,"Character").valueConv()); });
         itemMeta.setLore(lastItemLore);
 
         /**物品屬性**/

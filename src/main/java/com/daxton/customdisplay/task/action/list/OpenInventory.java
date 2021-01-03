@@ -1,16 +1,14 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -28,9 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE;
-import static org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES;
 
 public class OpenInventory {
 
@@ -168,7 +163,7 @@ public class OpenInventory {
             boolean flag = itemConfig.getBoolean("Buttons."+key+".RemoveItemFlags");
             String itemMaterial = itemConfig.getString("Buttons."+key+".Material");
             String itemName = itemConfig.getString("Buttons."+key+".Name");
-            itemName = new StringConversion2(self,target,itemName,"Character").valueConv();
+            itemName = new StringConversion(self,target,itemName,"Character").valueConv();
             List<String> itemLore = itemConfig.getStringList("Buttons."+key+".Lore");
             List<String> nextItemLore = new ArrayList<>();
             itemLore.forEach((line) -> {
@@ -176,7 +171,7 @@ public class OpenInventory {
             });
             List<String> lastItemLore = new ArrayList<>();
             nextItemLore.forEach((line) -> {
-                lastItemLore.add(ChatColor.GRAY + new StringConversion2(self,target,line,"Character").valueConv());
+                lastItemLore.add(ChatColor.GRAY + new StringConversion(self,target,line,"Character").valueConv());
             });
             List<String> rightClick = itemConfig.getStringList("Buttons."+key+".Right");
             List<String> leftClick = itemConfig.getStringList("Buttons."+key+".Left");

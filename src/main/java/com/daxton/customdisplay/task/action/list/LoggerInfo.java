@@ -1,10 +1,9 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 public class LoggerInfo {
 
@@ -28,7 +27,7 @@ public class LoggerInfo {
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion2(this.self,this.target,strings[1],"Character").valueConv();
+                    message = new StringConversion(this.self,this.target,strings[1],"Character").valueConv();
                 }
             }
 

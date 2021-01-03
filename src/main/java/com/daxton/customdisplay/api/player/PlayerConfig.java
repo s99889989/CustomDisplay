@@ -1,22 +1,18 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.Arithmetic;
-import com.daxton.customdisplay.api.character.NumberUtil;
-import com.daxton.customdisplay.api.character.StringConversion2;
+import com.daxton.customdisplay.api.other.Arithmetic;
+import com.daxton.customdisplay.api.other.NumberUtil;
+import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class PlayerConfig {
 
@@ -67,6 +63,18 @@ public class PlayerConfig {
 
         if(!(playerConfig.contains(uuidString+".Class_Name"))){
             playerConfig.set(uuidString+".Class_Name", classConfig.getString(className+".Class_Name"));
+        }
+        if(!(playerConfig.contains(uuidString+".Player_Race"))){
+            playerConfig.set(uuidString+".Player_Race", classConfig.getString(className+".Player_Race"));
+        }
+        if(!(playerConfig.contains(uuidString+".Player_Body"))){
+            playerConfig.set(uuidString+".Player_Body", classConfig.getString(className+".Player_Body"));
+        }
+        if(!(playerConfig.contains(uuidString+".Player_Attribute_Attack"))){
+            playerConfig.set(uuidString+".Player_Attribute_Attack", classConfig.getString(className+".Player_Attribute_Attack"));
+        }
+        if(!(playerConfig.contains(uuidString+".Player_Attribute_Defense"))){
+            playerConfig.set(uuidString+".Player_Attribute_Defense", classConfig.getString(className+".Player_Attribute_Defense"));
         }
         if(!(playerConfig.contains(uuidString+".Level"))){
             List<String> classLevelList = classConfig.getStringList(className+".Level");
@@ -233,7 +241,7 @@ public class PlayerConfig {
                         String statsNumberString = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".formula");
 
                         if(statsNumberString != null){
-                            statsNumberString = new StringConversion2(player,null,statsNumberString,"Character").valueConv();
+                            statsNumberString = new StringConversion(player,null,statsNumberString,"Character").valueConv();
                         }else {
                             statsNumberString = "0";
                         }
@@ -317,6 +325,41 @@ public class PlayerConfig {
             exception.printStackTrace();
         }
     }
+
+    /**建立玩家設定檔資料夾,和資料**/
+    public void createNewFile(Player player){
+        String playerUUIDString = player.getUniqueId().toString();
+
+        File dir_file = new File(cd.getDataFolder(),"Players/"+playerUUIDString);
+        if(!dir_file.exists()){
+            dir_file.mkdir();
+        }
+
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
+        try {
+            if(!playerFilePatch.exists()){
+                playerFilePatch.createNewFile();
+            }
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+
+        File playerDefaultPathc = new File(cd.getDataFolder(),"Class/Main/Default_Player.yml");
+        FileConfiguration playerDefaultConfig = YamlConfiguration.loadConfiguration(playerDefaultPathc);
+
+
+
+
+        try {
+            playerConfig.save(playerFilePatch);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+
+    }
+
 
 
 }

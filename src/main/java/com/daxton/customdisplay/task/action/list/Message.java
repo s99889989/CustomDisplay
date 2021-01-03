@@ -1,12 +1,11 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,11 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.awt.*;
 import java.io.File;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.bukkit.Color.fromRGB;
 
@@ -57,7 +52,7 @@ public class Message{
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion2(self,target,strings[1],"Character").valueConv();
+                    message = new StringConversion(self,target,strings[1],"Character").valueConv();
                 }
             }
 
@@ -101,14 +96,14 @@ public class Message{
                 if(buttonNameList.getKeys(false).contains(messageString)){
                     String text = messageConfig.getString(messageString+".Text");
                     boolean bold = messageConfig.getBoolean(messageString+".Bold");
-                    text = new StringConversion2(self,target,text,"Character").valueConv();
+                    text = new StringConversion(self,target,text,"Character").valueConv();
                     String color = messageConfig.getString(messageString+".Color");
                     String click_action = messageConfig.getString(messageString+".ClickEvent.Action");
                     String click_value = messageConfig.getString(messageString+".ClickEvent.Text");
-                    click_value = new StringConversion2(self,target,click_value,"Character").valueConv();
+                    click_value = new StringConversion(self,target,click_value,"Character").valueConv();
                     String hover_action = messageConfig.getString(messageString+".HoverEvent.Action");
                     String hover_value = messageConfig.getString(messageString+".HoverEvent.Text");
-                    hover_value = new StringConversion2(self,target,hover_value,"Character").valueConv();
+                    hover_value = new StringConversion(self,target,hover_value,"Character").valueConv();
 
                     textComponent.setBold(bold);
                     if(color != null){

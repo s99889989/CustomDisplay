@@ -2,8 +2,8 @@ package com.daxton.customdisplay.task.action.list;
 
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.ConfigFind;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.other.ConfigFind;
+import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;

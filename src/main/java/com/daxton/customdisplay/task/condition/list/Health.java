@@ -1,9 +1,7 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
-import org.bukkit.attribute.Attribute;
+import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 

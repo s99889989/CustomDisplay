@@ -1,8 +1,8 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 
 public class Contains {
@@ -30,8 +30,8 @@ public class Contains {
             if(string.toLowerCase().contains("contains=")){
                 String[] strings = string.split("=");
                 if(strings.length == 3){
-                    stringLeft = new StringConversion2(self,target,strings[1],"Character").valueConv();
-                    stringRight = new StringConversion2(self,target,strings[2],"Character").valueConv();
+                    stringLeft = new StringConversion(self,target,strings[1],"Character").valueConv();
+                    stringRight = new StringConversion(self,target,strings[2],"Character").valueConv();
                 }
             }
 

@@ -1,13 +1,12 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion2;
-import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -62,7 +61,7 @@ public class Holographic {
             if(string.toLowerCase().contains("message=") || string.toLowerCase().contains("m=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion2(self,target,strings[1],"Character").valueConv();
+                    message = new StringConversion(self,target,strings[1],"Character").valueConv();
                 }
             }
         }
@@ -88,7 +87,7 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        x = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                        x = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("x不是數字");
                     }
@@ -99,7 +98,7 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        y = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                        y = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("y不是數字"+y);
                     }
@@ -110,7 +109,7 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        z = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                        z = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("z不是數字");
                     }
