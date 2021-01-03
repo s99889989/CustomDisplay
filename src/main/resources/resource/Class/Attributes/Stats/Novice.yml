@@ -1,3 +1,0 @@
-melee_physical_attack:
-  Inherit: GENERIC_ATTACK_DAMAGE
-  Operation: ADD_NUMBER

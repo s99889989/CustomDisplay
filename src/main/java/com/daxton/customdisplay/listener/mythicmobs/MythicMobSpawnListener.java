@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.mob.MobConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
@@ -36,7 +37,7 @@ public class MythicMobSpawnListener implements Listener {
         PlaceholderManager.getMythicMobs_Level_Map().put(event.getEntity().getUniqueId(), String.valueOf(event.getMobLevel()));
 
 
-
+        new MobConfig().createNewFile(mobID);
 
 
     }
@@ -44,7 +45,6 @@ public class MythicMobSpawnListener implements Listener {
     @EventHandler
     public void onMythicMobDeath(MythicMobDeathEvent event){
         String mobID = event.getMob().getMobType();
-
 
 
         LivingEntity target = (LivingEntity) event.getEntity();

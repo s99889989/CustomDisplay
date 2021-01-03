@@ -1,0 +1,7 @@
+Default_Mob:
+  Default_Race: '人形'
+  Default_Attribute: '無'
+  Attributes_Stats:
+  - 'Stats_Ro_Mob'
+  Melee_physics_formula: '&self_Melee_Physical_Attack& * (1+(&self_Eq_Fire_Attack&*&mob_attr_Attributes_Earth&))'
+  Range_physics_formula: ''

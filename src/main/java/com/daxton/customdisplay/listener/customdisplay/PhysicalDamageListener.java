@@ -8,27 +8,23 @@ import com.daxton.customdisplay.api.character.NumberUtil;
 import com.daxton.customdisplay.api.character.StringConversion2;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.sucy.skill.api.skills.Skill;
-import com.sucy.skill.listener.ListenerUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.io.File;
-import java.util.Random;
 
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
 
-public class CustomAttackListener implements Listener {
+public class PhysicalDamageListener implements Listener {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -37,19 +33,26 @@ public class CustomAttackListener implements Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPhysicalDamage(EntityDamageByEntityEvent event){
 
+        if(event.getDamager() instanceof Player){
+            MeleePhysicalDamage(event);
+        }
+        if(event.getDamager() instanceof Arrow){
+            RangePhysicalDamage(event);
+        }
 
+    }
 
+    public void RangePhysicalDamage(EntityDamageByEntityEvent event){
         PhysicalDamageEvent e = new PhysicalDamageEvent(getDamager(event), (LivingEntity) event.getEntity(), event.getDamage(), event.getDamager() instanceof Projectile);
         Bukkit.getPluginManager().callEvent(e);
         String targetUUIDString = e.getTarget().getUniqueId().toString();
-
 
         Player player = EntityFind.convertPlayer(e.getDamager());
         if(player != null){
             String playerUUIDString = player.getUniqueId().toString();
             File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
             FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-            String plysical = playerConfig.getString(playerUUIDString+".PhysicalAttackFormula");
+            String plysical = playerConfig.getString(playerUUIDString+".Range_physics_formula");
             plysical = new StringConversion2(player,e.getTarget(),plysical,"Character").valueConv();
             int attackNumber = 0;
             try {
@@ -60,16 +63,36 @@ public class CustomAttackListener implements Listener {
                 attackNumber = 0;
             }
 
-//            int attack = 10;
-//            int finalDamage = attack;
-//            if(MobManager.getMobID_Map().get(targetUUIDString) != null){
-//                String mobID = MobManager.getMobID_Map().get(targetUUIDString);
-//                File file = new File(cd.getDataFolder(),"Mobs/Default.yml");
-//                FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
-//                int attr = fileConfiguration.getInt(mobID+".Attributes_Earth");
-//
-//                finalDamage = attack*attr;
-//            }
+            event.setDamage(attackNumber);
+        }else {
+            event.setDamage(e.getDamage());
+        }
+
+        event.setCancelled(e.isCancelled());
+    }
+
+    public void MeleePhysicalDamage(EntityDamageByEntityEvent event){
+
+        PhysicalDamageEvent e = new PhysicalDamageEvent(getDamager(event), (LivingEntity) event.getEntity(), event.getDamage(), event.getDamager() instanceof Projectile);
+        Bukkit.getPluginManager().callEvent(e);
+        String targetUUIDString = e.getTarget().getUniqueId().toString();
+
+        Player player = EntityFind.convertPlayer(e.getDamager());
+        if(player != null){
+            String playerUUIDString = player.getUniqueId().toString();
+            File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
+            FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+            String plysical = playerConfig.getString(playerUUIDString+".Melee_physics_formula");
+            plysical = new StringConversion2(player,e.getTarget(),plysical,"Character").valueConv();
+            int attackNumber = 0;
+            try {
+                double number = Arithmetic.eval(plysical);
+                String numberDec = new NumberUtil(number,"#").getDecimalString();
+                attackNumber = Integer.valueOf(numberDec);
+            }catch (Exception exception){
+                attackNumber = 0;
+            }
+
             event.setDamage(attackNumber);
         }else {
             event.setDamage(e.getDamage());
@@ -77,7 +100,10 @@ public class CustomAttackListener implements Listener {
 
         event.setCancelled(e.isCancelled());
 
+
     }
+
+
 
     public static LivingEntity getDamager(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof LivingEntity) {

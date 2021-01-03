@@ -35,6 +35,7 @@ public class Experience {
     }
 
     public void setExp(LivingEntity self, LivingEntity target, String firstString, String taskID){
+
         this.self = self;
         this.target = target;
         this.firstString = firstString;

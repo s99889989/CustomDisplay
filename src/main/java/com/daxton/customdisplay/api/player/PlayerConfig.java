@@ -30,6 +30,10 @@ public class PlayerConfig {
 
     private String className = "Novice";
 
+    public PlayerConfig(){
+
+    }
+
     public PlayerConfig(Player player){
         this.uuidString = player.getUniqueId().toString();
         this.player = player;
@@ -40,12 +44,12 @@ public class PlayerConfig {
 
 
     public void setDefaultValue(){
-        className = "Novice";
+        className = "Default_Player";
         if(playerConfig.contains(uuidString+".Class")){
             className = playerConfig.getString(uuidString+".Class");
             loadNowConfig(className);
         }else {
-            className = "Novice";
+            className = "Default_Player";
             loadNowConfig(className);
         }
 
@@ -61,8 +65,8 @@ public class PlayerConfig {
 
         }
 
-        if(!(playerConfig.contains(uuidString+".ClassName"))){
-            playerConfig.set(uuidString+".ClassName", classConfig.getString(className+".ClassName"));
+        if(!(playerConfig.contains(uuidString+".Class_Name"))){
+            playerConfig.set(uuidString+".Class_Name", classConfig.getString(className+".Class_Name"));
         }
         if(!(playerConfig.contains(uuidString+".Level"))){
             List<String> classLevelList = classConfig.getStringList(className+".Level");
@@ -104,8 +108,8 @@ public class PlayerConfig {
 
         }
 
-        if(!(playerConfig.contains(uuidString+".AttributesPoint"))){
-            for(String attr : classConfig.getStringList(className+".AttributesPoint")){
+        if(!(playerConfig.contains(uuidString+".Attributes_Point"))){
+            for(String attr : classConfig.getStringList(className+".Attributes_Point")){
                 FileConfiguration attrPointConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Point_"+attr+".yml");
 
                 ConfigurationSection attrPointList = attrPointConfig.getConfigurationSection(attr);
@@ -113,7 +117,7 @@ public class PlayerConfig {
                 try {
                     for(String sttrPoint : attrPointList.getKeys(false)){
                         int base = attrPointConfig.getInt(attr+"."+sttrPoint+".base");
-                        playerConfig.set(uuidString+".AttributesPoint."+sttrPoint,base);
+                        playerConfig.set(uuidString+".Attributes_Point."+sttrPoint,base);
                     }
                 }catch (Exception exception){
 
@@ -121,17 +125,21 @@ public class PlayerConfig {
 
             }
         }
-        if(!(playerConfig.contains(uuidString+".AttributesStats"))){
-            List<String> attrStatsList = classConfig.getStringList(className+".AttributesStats");
-            playerConfig.set(uuidString+".AttributesStats", attrStatsList);
+        if(!(playerConfig.contains(uuidString+".Attributes_Stats"))){
+            List<String> attrStatsList = classConfig.getStringList(className+".Attributes_Stats");
+            playerConfig.set(uuidString+".Attributes_Stats", attrStatsList);
         }
-        if(!(playerConfig.contains(uuidString+".EquipmentStats"))){
-            List<String> attrStatsList = classConfig.getStringList(className+".EquipmentStats");
-            playerConfig.set(uuidString+".EquipmentStats", attrStatsList);
+        if(!(playerConfig.contains(uuidString+".Equipment_Stats"))){
+            List<String> attrStatsList = classConfig.getStringList(className+".Equipment_Stats");
+            playerConfig.set(uuidString+".Equipment_Stats", attrStatsList);
         }
 
-        if(!(playerConfig.contains(uuidString+".PhysicalAttackFormula"))){
-            playerConfig.set(uuidString+".PhysicalAttackFormula", classConfig.getString(className+".PhysicalAttackFormula"));
+        if(!(playerConfig.contains(uuidString+".Melee_physics_formula"))){
+            playerConfig.set(uuidString+".Melee_physics_formula", classConfig.getString(className+".Melee_physics_formula"));
+        }
+
+        if(!(playerConfig.contains(uuidString+".Range_physics_formula"))){
+            playerConfig.set(uuidString+".Range_physics_formula", classConfig.getString(className+".Range_physics_formula"));
         }
 
         saveCreateFile(player,playerConfig);
@@ -165,13 +173,13 @@ public class PlayerConfig {
 
     public void setNewEqmStatsConfig(File patch){
         FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(patch);
-        List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".EquipmentStats");
+        List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
         for(String attrStatsFileName : attrStatsNameList){
             FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
             ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
             if(attrStatsSec.getKeys(false).size() > 0){
                 for(String attrStats : attrStatsSec.getKeys(false)){
-                    eqmConfig.set(uuidString+".EquipmentStats."+attrStats,0);
+                    eqmConfig.set(uuidString+".Equipment_Stats."+attrStats,0);
 
                 }
             }
@@ -186,13 +194,13 @@ public class PlayerConfig {
 
     public void setNewAttrStatsConfig(File patch){
         FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(patch);
-        List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".AttributesStats");
+        List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".Attributes_Stats");
         for(String attrStatsFileName : attrStatsNameList){
             FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
             ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
             if(attrStatsSec.getKeys(false).size() > 0){
                 for(String attrStats : attrStatsSec.getKeys(false)){
-                    attrConfig.set(uuidString+".AttributesStats."+attrStats,0);
+                    attrConfig.set(uuidString+".Attributes_Stats."+attrStats,0);
 
                 }
             }
@@ -205,12 +213,12 @@ public class PlayerConfig {
         }
     }
 
-
+    /**重新計算玩家屬性**/
     public void setAttrStats(Player player){
         String playerUUIDString = player.getUniqueId().toString();
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-        List<String> attrStatsNameList = playerConfig.getStringList(playerUUIDString+".AttributesStats");
+        List<String> attrStatsNameList = playerConfig.getStringList(playerUUIDString+".Attributes_Stats");
         if(attrStatsNameList.size() > 0){
             for(String attrStatsFileName : attrStatsNameList){
 
@@ -231,25 +239,23 @@ public class PlayerConfig {
                         }
 
 
-                        int statsNumber = 0;
+                        double statsNumber = 0;
                         try {
                             double number = Arithmetic.eval(statsNumberString);
-                            String numberDec = new NumberUtil(number,"#").getDecimalString();
-                            statsNumber = Integer.valueOf(numberDec);
+                            String numberDec = new NumberUtil(number,"#.###").getDecimalString();
+                            statsNumber = Double.valueOf(numberDec);
                         }catch (Exception exception){
                             statsNumber = 0;
                         }
-                        //cd.getLogger().info("加總: "+statsNumberString);
 
-                        attrConfig.set(playerUUIDString+".AttributesStats."+attrStats,statsNumber);
-
+                        attrConfig.set(playerUUIDString+".Attributes_Stats."+attrStats,statsNumber);
 
                         String inherit = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".inherit");
                         String operation = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".operation");
                         if(inherit != null && operation !=null){
+
                             new PlayerAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
                         }
-
                     }
                 }
                 try {

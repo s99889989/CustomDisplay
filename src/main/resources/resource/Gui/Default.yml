@@ -11,7 +11,7 @@ Buttons:
     Name: '§e&self_name&'
     Lore:
     - ''
-    - '§7職業: §9&self_class_name&&self_Eq_Fire_Attack&'
+    - '§7職業: §9&self_class_name&'
     - ''
     - '§7Base等級: §e&self_level_now_base& / &self_level_max_base&'
     - '§7Bas經驗值: §e&self_exp_now_base& / &self_exp_max_base&'
@@ -34,7 +34,7 @@ Buttons:
     Name: '§e力量'
     Lore:
     - ''
-    - '目前力量: §9§l&self_attr_point_str&'
+    - '目前力量: §9§l&self_attr_point_str& + &self_Eq_Str&'
     - ''
     - '§e左擊加點'
     - '§e右擊減點'
@@ -52,7 +52,7 @@ Buttons:
     Name: '§e敏捷'
     Lore:
     - ''
-    - '目前敏捷: §9§l&self_attr_point_agi&'
+    - '目前敏捷: §9§l&self_attr_point_agi& + &self_Eq_Agi&'
     - ''
     - '§e左擊加點'
     - '§e右擊減點'
@@ -88,7 +88,7 @@ Buttons:
     Name: '§e智力'
     Lore:
     - ''
-    - '目前智力: §9§l&self_attr_point_int&'
+    - '目前智力: §9§l&self_attr_point_int& + &self_Eq_Int&'
     - ''
     - '§e左擊加點'
     - '§e右擊減點'
@@ -106,7 +106,7 @@ Buttons:
     Name: '§e靈巧'
     Lore:
     - ''
-    - '目前靈巧: §9§l&self_attr_point_dex&'
+    - '目前靈巧: §9§l&self_attr_point_dex& + &self_Eq_Dex&'
     - ''
     - '§e左擊加點'
     - '§e右擊減點'
@@ -124,7 +124,7 @@ Buttons:
     Name: '§e幸運'
     Lore:
     - ''
-    - '目前幸運: §9§l&self_attr_point_luk&'
+    - '目前幸運: §9§l&self_attr_point_luk& + &self_Eq_Luk&'
     - ''
     - '§e左擊加點'
     - '§e右擊減點'

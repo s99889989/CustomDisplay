@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,9 +19,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
+import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE;
+import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED;
 
 public class GiveItem {
 
@@ -92,9 +94,9 @@ public class GiveItem {
         String itemMaterial = itemConfig.getString(ItemID+".Material");
 
         Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
-        ItemStack torch = new ItemStack(material);
+        ItemStack itemStack = new ItemStack(material);
 
-        ItemMeta itemMeta = torch.getItemMeta();
+        ItemMeta itemMeta = itemStack.getItemMeta();
         /**物品名稱**/
         String itemName = itemConfig.getString(ItemID+".DisplayName");
         itemMeta.setDisplayName(itemName);
@@ -117,7 +119,7 @@ public class GiveItem {
             itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrInheritString),new AttributeModifier(UUID.randomUUID(), attributesName, attributesAmount, Enum.valueOf(AttributeModifier.Operation.class,attrOpString), Enum.valueOf(EquipmentSlot.class,attrEqString)));
         }
 
-        boolean flag = itemConfig.getBoolean(ItemID+".RemoveItemFlags");
+        boolean flag = itemConfig.getBoolean(ItemID+".HideItemFlags");
         if(flag){
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -129,9 +131,9 @@ public class GiveItem {
         }
 
 
-        torch.setItemMeta(itemMeta);
+        itemStack.setItemMeta(itemMeta);
 
-        player.getInventory().addItem(torch);
+        player.getInventory().addItem(itemStack);
     }
 
 

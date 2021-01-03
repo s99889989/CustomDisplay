@@ -111,17 +111,16 @@ public class Placeholder {
             FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmFilePatch);
 
             String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","").replace("eqm_stats_","");
-            String class_name = playerConfig.getString(uuidString+".ClassName");
+            String class_name = playerConfig.getString(uuidString+".Class_Name");
             int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
             int level_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_level");
             int exp_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_exp");
             int exp_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_exp");
             int point_max = playerConfig.getInt(uuidString+".Point."+custom+"_max");
             int point_now = playerConfig.getInt(uuidString+".Point."+custom+"_last");
-            int attr_point = playerConfig.getInt(uuidString+".AttributesPoint."+custom);
-            int attr_stats = attrConfig.getInt(uuidString+".AttributesStats."+custom);
-            int attr_eqm = eqmConfig.getInt(uuidString+".EquipmentStats."+custom);
-
+            int attr_point = playerConfig.getInt(uuidString+".Attributes_Point."+custom);
+            double attr_stats = attrConfig.getDouble(uuidString+".Attributes_Stats."+custom);
+            double attr_eqm = eqmConfig.getDouble(uuidString+".Equipment_Stats."+custom);
             if(class_name != null){
                 entity_Map.put("class_name",class_name);
             }

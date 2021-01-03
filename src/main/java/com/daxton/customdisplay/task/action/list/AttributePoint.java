@@ -70,49 +70,17 @@ public class AttributePoint {
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
-        int nowAttrPoint = playerConfig.getInt(playerUUIDString+".AttributesPoint."+type);
+        int nowAttrPoint = playerConfig.getInt(playerUUIDString+".Attributes_Point."+type);
 
         int newAttrPoint = nowAttrPoint + amount;
         if(newAttrPoint < 0){
             newAttrPoint = 0;
         }
-        playerConfig.set(playerUUIDString+".AttributesPoint."+type,newAttrPoint);
-
-        String className = playerConfig.getString(playerUUIDString+".Class");
-
-        File attributesPointFilePatch = new File(cd.getDataFolder(),"Class/Attributes/Point/"+className+".yml");
-        FileConfiguration attributesPointConfig = YamlConfiguration.loadConfiguration(attributesPointFilePatch);
-        ConfigurationSection statsSec = attributesPointConfig.getConfigurationSection(type+".stats");
-
-        File attributesStatsFilePatch = new File(cd.getDataFolder(),"Class/Attributes/Stats/"+className+".yml");
-        FileConfiguration attributesStatsConfig = YamlConfiguration.loadConfiguration(attributesStatsFilePatch);
-
-        try {
-            for(String stats : statsSec.getKeys(false)){
-                int countStats = attributesPointConfig.getInt(type+".stats."+stats);
-                String inherit = attributesStatsConfig.getString(stats+".inherit");
-                String operation = attributesStatsConfig.getString(stats+".operation");
-                int newStats = countStats * newAttrPoint;
-                playerConfig.set(playerUUIDString+".AttributesStats."+stats,newStats);
-
-                if(stats != null && inherit != null && operation != null){
-                    new PlayerAttribute().addAttribute(player,inherit,operation,newStats,stats);
-                }
-
-            }
-        }catch (Exception exception){
-
-        }
-
+        playerConfig.set(playerUUIDString+".Attributes_Point."+type,newAttrPoint);
 
 
         new PlayerConfig(player).saveFile(playerConfig);
 
-//        try {
-//            playerConfig.save(playerFilePatch);
-//        }catch (Exception exception){
-//            exception.printStackTrace();
-//        }
 
 
     }

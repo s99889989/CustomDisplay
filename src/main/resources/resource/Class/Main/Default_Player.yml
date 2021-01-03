@@ -1,4 +1,4 @@
-Novice:
+Default_Player:
   Class_Name: '初心者'
   Default_Race: '人形'
   Attack_Attribute: '無'

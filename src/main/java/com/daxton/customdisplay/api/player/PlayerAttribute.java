@@ -24,16 +24,16 @@ public class PlayerAttribute {
 
         AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
 
+
         removeAttribute(player,inherit);
 
         AttributeModifier healthModifier = new AttributeModifier("customdisplay"+attributeName, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
         attributeInstance.addModifier(healthModifier);
 
-        //player.sendMessage("TEST"+addNumber);
 
-//        for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
-//
-//            player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
+        //player.sendMessage("值: "+attributeInstance.getValue());
+//        if(inherit.contains("GENERIC_ATTACK_SPEED")){
+//            player.sendMessage("攻擊速度"+attributeInstance.getValue());
 //        }
 
 //        player.saveData();
@@ -52,6 +52,7 @@ public class PlayerAttribute {
 
         for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
             if(attributeModifier.toString().contains("customdisplay")){
+                //player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
                 attributeInstance.removeModifier(attributeModifier);
             }
         }

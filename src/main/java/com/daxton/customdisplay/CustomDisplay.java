@@ -6,7 +6,7 @@ import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
-import com.daxton.customdisplay.listener.customdisplay.CustomAttackListener;
+import com.daxton.customdisplay.listener.customdisplay.PhysicalDamageListener;
 import com.daxton.customdisplay.listener.customdisplay.EquipmentListener;
 import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
 import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
@@ -135,7 +135,7 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 break;
             case "customcore":
-                Bukkit.getPluginManager().registerEvents(new CustomAttackListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new PhysicalDamageListener(),customDisplay);
                 getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CustomCore");
                 break;
             case "default":

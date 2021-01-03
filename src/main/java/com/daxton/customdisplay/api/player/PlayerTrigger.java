@@ -340,6 +340,7 @@ public class PlayerTrigger {
         this.target = target;
         if(action_Trigger_Map.get("~onmobdeath") != null){
             for(String actionString : action_Trigger_Map.get("~onmobdeath")){
+
                 actionString = actionString.replace("~onMobDeath","");
                 runExecute(actionString);
             }

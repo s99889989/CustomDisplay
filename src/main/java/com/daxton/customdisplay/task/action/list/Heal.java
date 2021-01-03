@@ -15,7 +15,7 @@ public class Heal {
     private LivingEntity target = null;
     private String firstString = "";
 
-    private int amount = 1;
+    private double amount = 1;
 
     public Heal(){
 
@@ -37,9 +37,9 @@ public class Heal {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     try{
-                        amount = Integer.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
+                        amount = Double.valueOf(new StringConversion2(self,target,strings[1],"Character").valueConv());
                     }catch (NumberFormatException exception){
-                        cd.getLogger().info("Heal的amount=內只能放整數數字: "+strings[1]);
+                        cd.getLogger().info("Heal的amount=內只能放數字: "+strings[1]);
                     }
                 }
             }

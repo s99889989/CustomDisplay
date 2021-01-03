@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.StringFind;
+import com.daxton.customdisplay.api.player.PlayerConfig;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -31,7 +32,6 @@ public class Point {
     }
 
     public void setPoint(LivingEntity self, LivingEntity target, String firstString, String taskID){
-
         this.self = self;
         this.target = target;
         this.firstString = firstString;
@@ -95,7 +95,6 @@ public class Point {
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
-
         int nowLastPoint = playerConfig.getInt(playerUUIDString +".Point."+type);
         int addLastPoint = nowLastPoint+amount;
         if(addLastPoint < 0){
@@ -104,23 +103,15 @@ public class Point {
             playerConfig.set(playerUUIDString +".Point."+type,addLastPoint);
         }
 
-
         try {
             playerConfig.save(playerFilePatch);
         }catch (Exception exception){
             exception.printStackTrace();
         }
 
-    }
-
-    public void setPoint(Player player){
-        String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-
-        playerConfig.set(playerUUIDString +".Point."+type+"_max",amount);
-        playerConfig.set(playerUUIDString +".Point."+type+"_last",amount);
+        new PlayerConfig().setAttrStats(player);
 
     }
+
 
 }

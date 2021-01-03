@@ -33,6 +33,10 @@ public class ConfigManager {
         if(!players_file.exists()){
             players_file.mkdir();
         }
+        File mobs_file = new File(cd.getDataFolder(),"Mobs");
+        if(!mobs_file.exists()){
+            mobs_file.mkdir();
+        }
 
         new AutoConfig2();
 

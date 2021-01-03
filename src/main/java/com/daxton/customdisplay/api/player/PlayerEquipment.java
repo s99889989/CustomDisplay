@@ -128,7 +128,7 @@ public class PlayerEquipment {
 
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".EquipmentStats");
+        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
         if(eqmSetNameList.size() > 0){
             for(String eqmSetName : eqmSetNameList){
                 File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/Stats/"+eqmSetName+".yml");
@@ -138,11 +138,11 @@ public class PlayerEquipment {
                     for(String eqmStatsName : eqmStatsSec.getKeys(false)){
                         String statsName = eqmConfig.getString(eqmSetName+"."+eqmStatsName+".name");
                         if(statsName.contains(key)){
-                            int nowNumber = playerEqmConfig.getInt(uuidString+".EquipmentStats."+eqmStatsName);
+                            int nowNumber = playerEqmConfig.getInt(uuidString+".Equipment_Stats."+eqmStatsName);
                             int newNumber = nowNumber + keyNumber;
 
 
-                            playerEqmConfig.set(uuidString+".EquipmentStats."+eqmStatsName,newNumber);
+                            playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,newNumber);
                             try {
                                 playerEqmConfig.save(playerEqmFilePatch);
                             }catch (Exception exception){
@@ -167,7 +167,7 @@ public class PlayerEquipment {
 
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".EquipmentStats");
+        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
         if(eqmSetNameList.size() > 0){
             for(String eqmSetName : eqmSetNameList){
                 File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/Stats/"+eqmSetName+".yml");
@@ -175,7 +175,7 @@ public class PlayerEquipment {
                 ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
                 if(eqmStatsSec.getKeys(false).size() > 0){
                     for(String eqmStatsName : eqmStatsSec.getKeys(false)){
-                        playerEqmConfig.set(uuidString+".EquipmentStats."+eqmStatsName,0);
+                        playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,0);
                         try {
                             playerEqmConfig.save(playerEqmFilePatch);
                         }catch (Exception exception){

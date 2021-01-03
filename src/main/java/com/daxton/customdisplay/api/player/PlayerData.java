@@ -16,6 +16,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.bukkit.attribute.Attribute.*;
+
 public class PlayerData {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
@@ -32,6 +34,21 @@ public class PlayerData {
 
     public PlayerData(Player player){
         this.player = player;
+        String attackCore = cd.getConfigManager().config.getString("AttackCore");
+        if(attackCore.toLowerCase().contains("customcore")){
+            double max_Health = cd.getConfigManager().config.getDouble("DefaultAttribute.GENERIC_MAX_HEALTH");
+            double attack_Speed = cd.getConfigManager().config.getDouble("DefaultAttribute.GENERIC_ATTACK_SPEED");
+            double move_Speed = cd.getConfigManager().config.getDouble("DefaultAttribute.GENERIC_MOVEMENT_SPEED");
+            AttributeInstance attribute_Max_Health = player.getAttribute(GENERIC_MAX_HEALTH);
+            attribute_Max_Health.setBaseValue(max_Health);
+            AttributeInstance attribute_Attack_Speed = player.getAttribute(GENERIC_ATTACK_SPEED);
+            attribute_Attack_Speed.setBaseValue(attack_Speed);
+            AttributeInstance attribute_Move_Speed = player.getAttribute(GENERIC_MOVEMENT_SPEED);
+            attribute_Move_Speed.setBaseValue(move_Speed);
+            //player.sendMessage("攻擊速度: "+attribute_Attack_Speed.getValue() + "移動速度: "+attribute_Move_Speed.getValue());
+            //player.sendMessage("-----------------------------");
+        }
+
 
         new PlayerConfig(player).createFile();
 

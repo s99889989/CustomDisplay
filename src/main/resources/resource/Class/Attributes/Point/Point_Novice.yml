@@ -1,0 +1,16 @@
+Point_Novice:
+  Str:
+    base: 1
+  Agi:
+    base: 1
+  Vit:
+    base: 1
+  Int:
+    base: 1
+  Dex:
+    base: 1
+  Luk:
+    base: 1
+
+
+
