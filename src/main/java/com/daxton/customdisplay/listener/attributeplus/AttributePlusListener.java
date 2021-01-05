@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.serverct.ersha.jd.event.AttrEntityCritEvent;
 import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
@@ -29,8 +30,12 @@ public class AttributePlusListener implements Listener {
 
     private UUID targetUUID;
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.MONITOR
+    )
     public void onAttack(AttrEntityDamageEvent event){
+
+
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -54,7 +59,9 @@ public class AttributePlusListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.MONITOR
+    )
     public void onAttackCrit(AttrEntityCritEvent event){
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND || event.getEntity() instanceof NPC){
             return;

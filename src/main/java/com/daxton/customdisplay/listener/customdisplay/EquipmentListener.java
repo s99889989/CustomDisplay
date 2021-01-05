@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.player.PlayerAttribute;
 import com.daxton.customdisplay.api.player.PlayerConfig;
 import com.daxton.customdisplay.api.player.PlayerEquipment;
 import org.bukkit.entity.Player;
@@ -31,7 +32,8 @@ public class EquipmentListener implements Listener {
         Player player = event.getPlayer();
         int key = event.getNewSlot();
         new PlayerEquipment().reloadEquipment(player,key);
-        new PlayerConfig(player).setAttrStats(player);
+        new PlayerAttribute(player);
+        //new PlayerConfig(player).setAttrStats(player);
     }
 
     /**關閉背包**/
@@ -39,7 +41,8 @@ public class EquipmentListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent event){
         Player player = (Player) event.getPlayer();
         new PlayerEquipment().reloadEquipment(player,10);
-        new PlayerConfig(player).setAttrStats(player);
+        new PlayerAttribute(player);
+        //new PlayerConfig(player).setAttrStats(player);
     }
 
 //    /**移動物品時**/

@@ -1,0 +1,1143 @@
+#一些計算
+#-------------------------------------------------------------------#
+#-------------------------------------------------------------------#
+
+
+#計算1+到最高等級的量
+self_1_base:
+  message:
+  - Accumulate[1,<cd_level_now_base>]
+
+
+self_hp_formula:
+  message:
+  - CConversion[((100+5 * &self_level_now_base& + 0 * (&self_1_base&)) * (1+&self_attr_point_vit&/100))]
+
+
+#屬性計算
+self_Attr:
+  message:
+  - CCharacter[<cd_class_attr_attack>]
+target_Attr:
+  message:
+  - CCharacter[<cd_mythic_class_attribute>] @=target
+self_target_Attr_Rest:
+  message:
+  - CCharacter[<cd_self_class_attr_attack><cd_target_mythic_class_attribute>] @=both
+  - ConverAll[無無,0;無火,0;無水,0;無風,0;無地,0;無毒,0;無聖,0;無暗,0;無念,-0.75;無不死,0]
+  - ConverAll[火無,0;火火,-0.75;火水,-0.5;火風,0;火地,1;火毒,-0.25;火聖,-0.25;火暗,0;火念,0;火不死,1]
+  - ConverAll[水無,0;水火,1;水水,-0.75;水風,-0.5;水地,0;水毒,-0.25;水聖,-0.25;水暗,0;水念,0;水不死,0.5]
+  - ConverAll[風無,0;風火,0;風水,1;風風,-0.75;風地,-0.5;風毒,-0.25;風聖,-0.25;風暗,0;風念,0;風不死,0]
+  - ConverAll[地無,0;地火,-0.5;地水,0;地風,1;地地,-0.75;地毒,-0.25;地聖,-0.25;地暗,0;地念,0;地不死,0]
+  - ConverAll[毒無,0;毒火,0.25;毒水,0;毒風,0.25;毒地,0.25;毒毒,-0.75;毒聖,-0.5;毒暗,-0.75;毒念,-0.5;毒不死,-0.75]
+  - ConverAll[聖無,0;聖火,0;聖水,0;聖風,0;聖地,0;聖毒,0.25;聖聖,-0.75;聖暗,1;聖念,0;聖不死,1]
+  - ConverAll[暗無,0;暗火,0;暗水,0;暗風,0;暗地,0;暗毒,-0.75;暗聖,1;暗暗,-0.75;暗念,0;暗不死,-0.75]
+  - ConverAll[念無,-0.75;念火,0;念水,0;念風,0;念地,0;念毒,-0.25;念聖,-0.25;念暗,-0.25;念念,1;念不死,0.75]
+  - ConverAll[不死無,0;不死火,-0.5;不死水,-0.5;不死風,-0.5;不死地,-0.5;不死毒,-0.75;不死聖,0.75;不死暗,-0.75;不死念,0;不死不死,-0.75]
+  - dec[#.##]
+
+self_target_Attr_RRR:
+  message:
+  - CCharacter[<cd_self_class_attr_attack><cd_target_mythic_class_attribute>] @=both
+  - ConverAll[無無,0;無火,0;無水,0;無風,0;無地,0;無毒,0;無聖,0;無暗,0;無念,-0.75;無不死,0]
+  - ConverAll[火無,0;火火,-0.75;火水,-0.5;火風,0;火地,1;火毒,-0.25;火聖,-0.25;火暗,0;火念,0;火不死,1]
+  - ConverAll[水無,0;水火,1;水水,-0.75;水風,-0.5;水地,0;水毒,-0.25;水聖,-0.25;水暗,0;水念,0;水不死,0.5]
+  - ConverAll[風無,0;風火,0;風水,1;風風,-0.75;風地,-0.5;風毒,-0.25;風聖,-0.25;風暗,0;風念,0;風不死,0]
+  - ConverAll[地無,0;地火,-0.5;地水,0;地風,1;地地,-0.75;地毒,-0.25;地聖,-0.25;地暗,0;地念,0;地不死,0]
+  - ConverAll[毒無,0;毒火,0.25;毒水,0;毒風,0.25;毒地,0.25;毒毒,-0.75;毒聖,-0.5;毒暗,-0.75;毒念,-0.5;毒不死,-0.75]
+  - ConverAll[聖無,0;聖火,0;聖水,0;聖風,0;聖地,0;聖毒,0.25;聖聖,-0.75;聖暗,1;聖念,0;聖不死,1]
+  - ConverAll[暗無,0;暗火,0;暗水,0;暗風,0;暗地,0;暗毒,-0.75;暗聖,1;暗暗,-0.75;暗念,0;暗不死,-0.75]
+  - ConverAll[念無,-0.75;念火,0;念水,0;念風,0;念地,0;念毒,-0.25;念聖,-0.25;念暗,-0.25;念念,1;念不死,0.75]
+  - ConverAll[不死無,0;不死火,-0.5;不死水,-0.5;不死風,-0.5;不死地,-0.5;不死毒,-0.75;不死聖,0.75;不死暗,-0.75;不死念,0;不死不死,-0.75]
+  - dec[#.##]
+
+
+
+
+
+
+
+
+
+
+
+
+#玩家屬性
+#-------------------------------------------------------------------#
+#-------------------------------------------------------------------#
+
+#個人資訊Stats
+self_class_name:
+  message:
+  - CCharacter[<cd_class_name>]
+#種族
+self_class_race:
+  message:
+  - CCharacter[<cd_class_race>]
+#體型
+self_class_body:
+  message:
+  - CCharacter[<cd_class_body>]
+#攻擊屬性
+self_class_attack:
+  message:
+  - CCharacter[<cd_class_attr_attack>]
+#防禦屬性
+self_class_defense:
+  message:
+  - CCharacter[<cd_class_attr_defense>]
+
+#攻擊屬性2
+self_Attributes_Attack:
+  message:
+  - CCharacter[<cd_attr_stats_Attributes_Attack>]
+
+#目前等級
+self_level_now_base:
+  message:
+  - CCharacter[<cd_level_now_base>]
+#最高基礎等級
+self_level_max_base:
+  message:
+  - CCharacter[<cd_level_max_base>]
+#目前職業等級
+self_level_now_job:
+  message:
+  - CCharacter[<cd_level_now_job>]
+#最高級業等級
+self_level_max_job:
+  message:
+  - CCharacter[<cd_level_max_job>]
+#目前基礎經驗
+self_exp_now_base:
+  message:
+  - CCharacter[<cd_exp_now_base>]
+#下一集需要多少基礎經驗
+self_exp_max_base:
+  message:
+  - CCharacter[<cd_exp_max_base>]
+#目前職業經驗
+self_exp_now_job:
+  message:
+  - CCharacter[<cd_exp_now_job>]
+#下一集需要多少職業經驗
+self_exp_max_job:
+  message:
+  - CCharacter[<cd_exp_max_job>]
+#最高基礎點數
+self_point_max_base:
+  message:
+  - CCharacter[<cd_point_max_base>]
+#剩餘基礎點數
+self_point_last_base:
+  message:
+  - CCharacter[<cd_point_last_base>]
+#總共有多少職業點數
+self_point_max_job:
+  message:
+  - CCharacter[<cd_point_max_job>]
+#剩餘職業點數
+self_point_last_job:
+  message:
+  - CCharacter[<cd_point_last_job>]
+
+
+
+#屬性
+#六維屬性
+#-------------------------------------------#
+#Str
+self_attr_point_str:
+  message:
+  - CCharacter[<cd_attr_point_Str>]
+#Agi
+self_attr_point_agi:
+  message:
+  - CCharacter[<cd_attr_point_Agi>]
+#Vit
+self_attr_point_vit:
+  message:
+  - CCharacter[<cd_attr_point_Vit>]
+#Int
+self_attr_point_int:
+  message:
+  - CCharacter[<cd_attr_point_Int>]
+#Dex
+self_attr_point_dex:
+  message:
+  - CCharacter[<cd_attr_point_Dex>]
+#Luk
+self_attr_point_luk:
+  message:
+  - CCharacter[<cd_attr_point_Luk>]
+
+#基礎屬性總攬
+#-------------------------------------------#
+#HP恢復
+self_Hp_Regeneration:
+  message:
+  - CCharacter[<cd_attr_stats_Hp_Regeneration>]
+#近戰離物理攻擊
+self_Melee_Physical_Attack:
+  message:
+  - CCharacter[<cd_self_class_attr_stats_Melee_Physical_Attack>] @=both
+  #- CCharacter[<cd_self_attr_stats_Melee_Physical_Attack>] @=both
+#遠距離物理攻擊
+self_Range_Physical_Attack:
+  message:
+  - CCharacter[<cd_attr_stats_Range_Physical_Attack>]
+#物理防禦
+self_melee_Physical_Defense:
+  message:
+  - CCharacter[<cd_attr_stats_Physical_Defense>]
+#命中
+self_Hit_Rate:
+  message:
+  - CCharacter[<cd_attr_stats_Hit_Rate>]
+#閃避
+self_Dodge_Rate:
+  message:
+  - CCharacter[<cd_attr_stats_Dodge_Rate>]
+#Sp
+self_Sp:
+  message:
+  - CCharacter[<cd_attr_stats_Sp>]
+#SP恢復
+self_Sp_Regeneration:
+  message:
+  - CCharacter[<cd_attr_stats_Sp_Regeneration>]
+#魔法攻擊
+self_Magic_Attack:
+  message:
+  - CCharacter[<cd_attr_stats_Magic_Attack>]
+#魔法防禦
+self_Magic_Defense:
+  message:
+  - CCharacter[<cd_attr_stats_Magic_Defense>]
+#移動速度
+self_Moving_Speed_%:
+  message:
+  - math[(<cd_attr_stats_Moving_Speed>+1)]
+self_Moving_Speed:
+  message:
+  - CCharacter[<cd_attr_stats_Moving_Speed>]
+#攻擊速度
+self_Attack_Speed_%:
+  message:
+  - math[(<cd_attr_stats_Attack_Speed>+1)]
+self_Attack_Speed:
+  message:
+  - CCharacter[<cd_attr_stats_Attack_Speed>]
+
+#穿透、暴擊、吟唱
+#-------------------------------------------#
+#物理穿透
+self_Physical_Penetration%:
+  message:
+  - CCharacter[<cd_attr_stats_Physical_Penetration%>]
+#暴擊率
+self_Critical_Strike_Chance%:
+  message:
+  - CCharacter[<cd_attr_stats_Critical_Strike_Chance%>]
+#暴擊傷害
+self_Critical_Strike_Power%:
+  message:
+  - CCharacter[<cd_attr_stats_Critical_Strike_Power%>]
+#暴擊防護
+self_Critical_Strike_Protection%:
+  message:
+  - CCharacter[<cd_attr_stats_Critical_Strike_Protection%>]
+#暴傷減免
+self_Critical_Strike_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Critical_Strike_Reduction%>]
+#吟唱減免
+self_Cooldown_Reduction:
+  message:
+  - CCharacter[<cd_attr_stats_Cooldown_Reduction>]
+#受治療加成
+self_Receive_Healing_Bonus%:
+  message:
+  - CCharacter[<cd_attr_stats_Receive_Healing_Bonus%>]
+#治療加成
+self_Healing_Bonus%:
+  message:
+  - CCharacter[<cd_attr_stats_Healing_Bonus%>]
+
+#物理屬性
+#-------------------------------------------#
+#物理攻擊%
+self_Physical_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Physical_Attack%>]
+#物理防禦%
+self_Physical_Defense%:
+  message:
+  - CCharacter[<cd_attr_stats_Physical_Defense%>]
+#物傷加成%
+self_Physical_Damage_Bonus%:
+  message:
+  - CCharacter[<cd_attr_stats_Physical_Damage_Bonus%>]
+#忽視物防%
+self_Ignore_Physical_Defense%:
+  message:
+  - CCharacter[<cd_attr_stats_Ignore_Physical_Defense%>]
+#物傷減免%
+self_Physical_Injury_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Physical_Injury_Reduction%>]
+#精煉物攻
+self_Refined_Physical_Attack:
+  message:
+  - CCharacter[<cd_attr_stats_Refined_Physical_Attack>]
+#精煉物免%
+self_Refined_Material_Free%:
+  message:
+  - CCharacter[<cd_attr_stats_Refined_Material_Free%>]
+
+#魔法屬性
+#-------------------------------------------#
+#魔法攻擊%
+self_Magic_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Magic_Attack%>]
+#魔法防禦%
+self_Magic_Defense%:
+  message:
+  - CCharacter[<cd_attr_stats_Magic_Defense%>]
+#魔傷加成%
+self_Magic_Injury_Bonus%:
+  message:
+  - CCharacter[<cd_attr_stats_Magic_Injury_Bonus%>]
+#忽視魔防%
+self_Ignore_Magic_Defense%:
+  message:
+  - CCharacter[<cd_attr_stats_Ignore_Magic_Defense%>]
+#魔傷減免%
+self_Magic_Injury_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Magic_Injury_Reduction%>]
+#精煉魔攻
+self_Refining_Magic_Attack:
+  message:
+  - CCharacter[<cd_attr_stats_Refining_Magic_Attack>]
+#精煉魔免%
+self_Refining_Magic_Free%:
+  message:
+  - CCharacter[<cd_attr_stats_Refining_Magic_Free%>]
+
+#狀態抵抗和攻擊
+#受異常狀態時，減少影響機率和時長;添加異常狀態時，提高生效率和時長
+#-------------------------------------------#
+#中毒抵抗%
+self_Poisoning_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Poisoning_Resistance%>]
+#流血抵抗%
+self_Bleeding_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Bleeding_Resistance%>]
+#灼燒抵抗%
+self_Burning_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Burning_Resistance%>]
+#暈眩抵抗%
+self_Dizziness_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Dizziness_Resistance%>]
+#冰凍抵抗%
+self_Freezing_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Freezing_Resistance%>]
+#石化抵抗%
+self_Petrochemical_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Petrochemical_Resistance%>]
+#睡眠抵抗%
+self_Sleep_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Sleep_Resistance%>]
+#恐懼抵抗%
+self_Fear_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Fear_Resistance%>]
+#定身抵抗%
+self_Fixed_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Fixed_Resistance%>]
+#沉默抵抗%
+self_Silent_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Silent_Resistance%>]
+#詛咒抵抗%
+self_Curse_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Curse_Resistance%>]
+#黑暗抵抗%
+self_Dark_Resistance%:
+  message:
+  - CCharacter[<cd_attr_stats_Dark_Resistance%>]
+
+#屬性-技能增強
+#增強自身屬性技能的攻擊強度
+#-------------------------------------------#
+#無屬性攻擊%
+self_No_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_No_Attribute_Attack%>]
+#火屬性攻擊%
+self_Fire_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Fire_Attribute_Attack%>]
+#地屬性攻擊%
+self_Geological_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Geological_Attribute_Attack%>]
+#水屬性攻擊%
+self_Water_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Water_Attribute_Attack%>]
+#風屬性攻擊%
+self_Wind_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Wind_Attribute_Attack%>]
+#毒屬性攻擊%
+self_Poison_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Poison_Attribute_Attack%>]
+#不死屬性攻擊%
+self_Immortality_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Immortality_Attribute_Attack%>]
+#暗屬性攻擊%
+self_Dark_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Dark_Attribute_Attack%>]
+#聖屬性攻擊%
+self_Holy_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Holy_Attribute_Attack%>]
+#念屬性攻擊%
+self_Sense_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_attr_stats_Sense_Attribute_Attack%>]
+
+#屬性-攻擊增加
+#攻擊對應屬性的目標時，提高對此屬性生物的傷害
+#-------------------------------------------#
+#對無屬性魔物增傷%
+self_Increase_Damage_To_Non_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Non_Attribute_monsters%>]
+#對火屬性魔物增傷%
+self_Increase_Damage_To_Fire_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Fire_Attribute_monsters%>]
+#對地屬性魔物增傷%
+self_Increase_Damage_To_Earth_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Earth_Attribute_monsters%>]
+#對水屬性魔物增傷%
+self_Increase_Damage_To_Water_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Water_Attribute_monsters%>]
+#對風屬性魔物增傷%
+self_Increase_Damage_To_Wind_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Wind_Attribute_monsters%>]
+#對毒屬性魔物增傷%
+self_Increase_Damage_To_Poisonous_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Poisonous_Attribute_monsters%>]
+#對不死屬性魔物增傷%
+self_Increase_Damage_To_Undead_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Undead_Attribute_monsters%>]
+#對暗屬性魔物增傷%
+self_Increase_Damage_To_Dark_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Dark_Attribute_monsters%>]
+#對聖屬性魔物增傷%
+self_Increase_Damage_To_Holy_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Holy_Attribute_monsters%>]
+#對念屬性魔物增傷%
+self_Increase_Damage_To_Mind_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_attr_stats_Increase_Damage_To_Mind_Attribute_monsters%>]
+
+#屬性-傷害減免
+#受到屬性傷害時，降低受到此屬性的傷害
+#-------------------------------------------#
+#對無屬性傷害減免%
+self_No_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_No_Attribute_Damage_Reduction%>]
+#對火屬性傷害減免%
+self_Fire_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Fire_Attribute_Damage_Reduction%>]
+#對地屬性傷害減免%
+self_Earth_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Earth_Attribute_Damage_Reduction%>]
+#對水屬性傷害減免%
+self_Water_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Water_Attribute_Damage_Reduction%>]
+#對風屬性傷害減免%
+self_Wind_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Wind_Attribute_Damage_Reduction%>]
+#對毒屬性傷害減免%
+self_Poison_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Poison_Attribute_Damage_Reduction%>]
+#對不死屬性傷害減免%
+self_Undead_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Undead_Attribute_Damage_Reduction%>]
+#對暗屬性傷害減免%
+self_Dark_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Dark_Attribute_Damage_Reduction%>]
+#對聖屬性傷害減免%
+self_Holy_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Holy_Attribute_Damage_Reduction%>]
+#對念屬性傷害減免%
+self_Mind_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_attr_stats_Mind_Attribute_Damage_Reduction%>]
+
+#種族-攻擊增加
+#對特定種族的目標攻擊時，提高對此種族的傷害效果
+#-------------------------------------------#
+#對無形增傷%
+self_Increases_Damage_To_Invisible%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Invisible%>]
+#對植物增傷%
+self_Increases_Damage_To_Plant%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Plant%>]
+#對昆蟲增傷%
+self_Increases_Damage_To_Insect%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Insect%>]
+#對動物增傷%
+self_Increases_Damage_To_Animal%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Animal%>]
+#對魚貝增傷%
+self_Increases_Damage_To_Fish%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Fish%>]
+#對人形增傷%
+self_Increases_Damage_To_Human%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Human%>]
+#對不死增傷%
+self_Increases_Damage_To_Immortal%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Immortal%>]
+#對龍族增傷%
+self_Increases_Damage_To_Dragon%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Dragon%>]
+#對天使增傷%
+self_Increases_Damage_To_Angel%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Angel%>]
+#對惡魔增傷%
+self_Increases_Damage_To_Demon%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Demon%>]
+
+#種族-傷害減免
+#受到特定種族的目標攻擊時，降低受到此種族目標的傷害
+#-------------------------------------------#
+#對無形減傷%
+self_Reduce_Damage_To_Invisible%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Invisible%>]
+#對植物減傷%
+self_Reduce_Damage_To_Plant%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Plant%>]
+#對昆蟲減傷%
+self_Reduce_Damage_To_Insect%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Insect%>]
+#對動物減傷%
+self_Reduce_Damage_To_Animal%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Animal%>]
+#對魚貝減傷%
+self_Reduce_Damage_To_Fish%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Fish%>]
+#對人形減傷%
+self_Reduce_Damage_To_Human%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Human%>]
+#對不死減傷%
+self_Reduce_Damage_To_Immortal%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Immortal%>]
+#對龍族減傷%
+self_Reduce_Damage_To_Dragon%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Dragon%>]
+#對天使減傷%
+self_Reduce_Damage_To_Angel%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Angel%>]
+#對惡魔減傷%
+self_Reduce_Damage_To_Demon%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Demon%>]
+
+#體型-攻擊增強
+#攻擊特定體型目標時，提高造成的傷害
+#-------------------------------------------#
+#對小體型增傷%
+self_Increases_Damage_To_Small_Body%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Small_Body%>]
+#對中體型增傷%
+self_Increases_Damage_To_Mid_Body%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Mid_Body%>]
+#對大體型增傷%
+self_Increases_Damage_To_Big_Body%:
+  message:
+  - CCharacter[<cd_attr_stats_Increases_Damage_To_Big_Body%>]
+
+#體型-傷害減免
+#受到特定體型的目標攻擊時，降低受到此體型目標的傷害
+#-------------------------------------------#
+#對小體型減傷%
+self_Reduce_Damage_To_Small_Body%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Small_Body%>]
+#對中體型減傷%
+self_Reduce_Damage_To_Mid_Body%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Mid_Body%>]
+#對大體型減傷%
+self_Reduce_Damage_To_Big_Body%:
+  message:
+  - CCharacter[<cd_attr_stats_Reduce_Damage_To_Big_Body%>]
+
+
+#裝備屬性
+#-------------------------------------------------------------------#
+#-------------------------------------------------------------------#
+#裝備力量
+self_Eq_Str:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Str>]
+#裝備敏捷
+self_Eq_Agi:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Agi>]
+#裝備體質
+self_Eq_Vit:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Vit>]
+#裝備智力
+self_Eq_Int:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Int>]
+#裝備靈巧
+self_Eq_Dex:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Dex>]
+#裝備幸運
+self_Eq_Luk:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Luk>]
+
+#裝備武器屬性
+#-------------------------------------------#
+#裝備屬性
+self_Eq_Attributes_Attack:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Attributes_Attack>]
+
+#基礎屬性
+#-------------------------------------------#
+#裝備HP
+self_Eq_HP:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_HP>]
+#裝備HP恢復
+self_Eq_Hp_Regeneration:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Hp_Regeneration>]
+#裝備物理攻擊
+self_Eq_Physical_Attack:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Physical_Attack>]
+#裝備物理防禦
+self_Eq_Physical_Defense:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Physical_Defense>]
+#裝備命中
+self_Eq_Hit_Rate:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Hit_Rate>]
+#裝備閃避
+self_Eq_Dodge_Rate:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Dodge_Rate>]
+#裝備SP
+self_Eq_Sp:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Sp>]
+#裝備SP恢復
+self_Eq_Sp_Regeneration:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Sp_Regeneration>]
+#裝備魔法攻擊
+self_Eq_Magic_Attack:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Magic_Attack>]
+#裝備魔法防禦
+self_Eq_Magic_Defense:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Magic_Defense>]
+#裝備移動速度
+self_Eq_Moving_Speed:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Moving_Speed>]
+#裝備攻擊速度
+self_Eq_Attack_Speed:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Attack_Speed>]
+
+#穿透、暴擊、吟唱
+#-------------------------------------------#
+#裝備物理穿透%
+self_Eq_Physical_Penetration%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Physical_Penetration%>]
+#裝備暴擊率%
+self_Eq_Critical_Strike_Chance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Critical_Strike_Chance%>]
+#裝備暴擊傷害%
+self_Eq_Critical_Strike_Power%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Critical_Strike_Power%>]
+#裝備暴擊防護%
+self_Eq_Critical_Strike_Protection%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Critical_Strike_Protection%>]
+#裝備暴傷減免%
+self_Eq_Critical_Strike_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Critical_Strike_Reduction%>]
+#裝備吟唱減免
+self_Eq_Cooldown_Reduction:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Cooldown_Reduction>]
+#裝備受治療加成%
+self_Eq_Receive_Healing_Bonus%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Receive_Healing_Bonus%>]
+#裝備治療加成%
+self_Eq_Healing_Bonus%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Healing_Bonus%>]
+
+#物理屬性
+#-------------------------------------------#
+#裝備物理攻擊%
+self_Eq_Physical_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Physical_Attack%>]
+#裝備物理防禦%
+self_Eq_Physical_Defense%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Physical_Defense%>]
+#裝備物傷加成%
+self_Eq_Physical_Damage_Bonus%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Physical_Damage_Bonus%>]
+#裝備忽視物防%
+self_Eq_Ignore_Physical_Defense%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Ignore_Physical_Defense%>]
+#裝備物傷減免%
+self_Eq_Physical_Injury_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Physical_Injury_Reduction%>]
+#裝備精煉物攻
+self_Eq_Refined_Physical_Attack:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Refined_Physical_Attack>]
+#裝備精煉物免%
+self_Eq_Refined_Material_Free%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Refined_Material_Free%>]
+
+#魔法屬性
+#-------------------------------------------#
+#裝備魔法攻擊%
+self_Eq_Magic_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Magic_Attack%>]
+#裝備魔法防禦%
+self_Eq_Magic_Defense%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Magic_Defense%>]
+#裝備魔傷加成%
+self_Eq_Magic_Injury_Bonus%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Magic_Injury_Bonus%>]
+#裝備忽視魔防%
+self_Eq_Ignore_Magic_Defense%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Ignore_Magic_Defense%>]
+#裝備魔傷減免%
+self_Eq_Magic_Injury_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Magic_Injury_Reduction%>]
+#裝備精煉魔攻
+self_Eq_Refining_Magic_Attack:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Refining_Magic_Attack>]
+#裝備精煉魔免%
+self_Eq_Refining_Magic_Free%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Refining_Magic_Free%>]
+
+#狀態抵抗和攻擊
+#受異常狀態時，減少影響機率和時長;添加異常狀態時，提高生效率和時長
+#-------------------------------------------#
+#裝備中毒抵抗%
+self_Eq_Poisoning_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Poisoning_Resistance%>]
+#裝備流血抵抗%
+self_Eq_Bleeding_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Bleeding_Resistance%>]
+#裝備灼燒抵抗%
+self_Eq_Burning_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Burning_Resistance%>]
+#裝備暈眩抵抗%
+self_Eq_Dizziness_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Dizziness_Resistance%>]
+#裝備冰凍抵抗%
+self_Eq_Freezing_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Freezing_Resistance%>]
+#裝備石化抵抗%
+self_Eq_Petrochemical_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Petrochemical_Resistance%>]
+#裝備睡眠抵抗%
+self_Eq_Sleep_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Sleep_Resistance%>]
+#裝備恐懼抵抗%
+self_Eq_Fear_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Fear_Resistance%>]
+#裝備定身抵抗%
+self_Eq_Fixed_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Fixed_Resistance%>]
+#裝備沉默抵抗%
+self_Eq_Silent_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Silent_Resistance%>]
+#裝備詛咒抵抗%
+self_Eq_Curse_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Curse_Resistance%>]
+#裝備黑暗抵抗%
+self_Eq_Dark_Resistance%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Dark_Resistance%>]
+
+#屬性-技能增強
+#增強自身屬性技能的攻擊強度
+#-------------------------------------------# 
+#裝備無屬性攻擊%
+self_Eq_No_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_No_Attribute_Attack%>]
+#裝備火屬性攻擊%
+self_Eq_Fire_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Fire_Attribute_Attack%>]
+#裝備地屬性攻擊%
+self_Eq_Earth_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Earth_Attribute_Attack%>]
+#裝備水屬性攻擊%
+self_Eq_Water_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Water_Attribute_Attack%>]
+#裝備風屬性攻擊%
+self_Eq_Wind_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Wind_Attribute_Attack%>]
+#裝備毒屬性攻擊%
+self_Eq_Poison_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Poison_Attribute_Attack%>]
+#裝備不死屬性攻擊%
+self_Eq_Immortality_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Immortality_Attribute_Attack%>]
+#裝備暗屬性攻擊%
+self_Eq_Dark_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Dark_Attribute_Attack%>]
+#裝備聖屬性攻擊%
+self_Eq_Holy_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Holy_Attribute_Attack%>]
+#裝備念屬性攻擊%
+self_Eq_Sense_Attribute_Attack%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Sense_Attribute_Attack%>]
+
+#屬性-攻擊增加
+#攻擊對應屬性的目標時，提高對此屬性生物的傷害
+#-------------------------------------------#
+#裝備對無屬性魔物增傷%
+self_Eq_Increase_Damage_To_Non_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Non_Attribute_monsters%>]
+#裝備對火屬性魔物增傷%
+self_Eq_Increase_Damage_To_Fire_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Fire_Attribute_monsters%>]
+#裝備對地屬性魔物增傷%
+self_Eq_Increase_Damage_To_Earth_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Earth_Attribute_monsters%>]
+#裝備對水屬性魔物增傷%
+self_Eq_Increase_Damage_To_Water_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Water_Attribute_monsters%>]
+#裝備對風屬性魔物增傷%
+self_Eq_Increase_Damage_To_Wind_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Wind_Attribute_monsters%>]
+#裝備對毒屬性魔物增傷%
+self_Eq_Increase_Damage_To_Poisonous_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Poisonous_Attribute_monsters%>]
+#裝備對不死屬性魔物增傷%
+self_Eq_Increase_Damage_To_Undead_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Undead_Attribute_monsters%>]
+#裝備對暗屬性魔物增傷%
+self_Eq_Increase_Damage_To_Dark_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Dark_Attribute_monsters%>]
+#裝備對聖屬性魔物增傷%
+self_Eq_Increase_Damage_To_Holy_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Holy_Attribute_monsters%>]
+#裝備對念屬性魔物增傷%
+self_Eq_Increase_Damage_To_Mind_Attribute_monsters%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increase_Damage_To_Mind_Attribute_monsters%>]
+
+#屬性-傷害減免
+#受到屬性傷害時，降低受到此屬性的傷害
+#-------------------------------------------#
+#裝備對無屬性傷害減免%
+self_Eq_No_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_No_Attribute_Damage_Reduction%>]
+#裝備對火屬性傷害減免%
+self_Eq_Fire_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Fire_Attribute_Damage_Reduction%>]
+#裝備對地屬性傷害減免%
+self_Eq_Earth_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Earth_Attribute_Damage_Reduction%>]
+#裝備對水屬性傷害減免%
+self_Eq_Water_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Water_Attribute_Damage_Reduction%>]
+#裝備對風屬性傷害減免%
+self_Eq_Wind_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Wind_Attribute_Damage_Reduction%>]
+#裝備對毒屬性傷害減免%
+self_Eq_Poison_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Poison_Attribute_Damage_Reduction%>]
+#裝備對不死屬性傷害減免%
+self_Eq_Undead_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Undead_Attribute_Damage_Reduction%>]
+#裝備對暗屬性傷害減免%
+self_Eq_Dark_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Dark_Attribute_Damage_Reduction%>]
+#裝備對聖屬性傷害減免%
+self_Eq_Holy_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Holy_Attribute_Damage_Reduction%>]
+#裝備對念屬性傷害減免%
+self_Eq_Mind_Attribute_Damage_Reduction%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Mind_Attribute_Damage_Reduction%>]
+
+#種族-攻擊增加
+#對特定種族的目標攻擊時，提高對此種族的傷害效果
+#-------------------------------------------#
+#裝備對無形增傷%
+self_Eq_Increases_Damage_To_Invisible%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Invisible%>]
+#裝備對植物增傷%
+self_Eq_Increases_Damage_To_Plant%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Plant%>]
+#裝備對昆蟲增傷%
+self_Eq_Increases_Damage_To_Insect%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Insect%>]
+#裝備對動物增傷%
+self_Eq_Increases_Damage_To_Animal%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Animal%>]
+#裝備對魚貝增傷%
+self_Eq_Increases_Damage_To_Fish%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Fish%>]
+#裝備對人形增傷%
+self_Eq_Increases_Damage_To_Human%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Human%>]
+#裝備對不死增傷%
+self_Eq_Increases_Damage_To_Immortal%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Immortal%>]
+#裝備對龍族增傷%
+self_Eq_Increases_Damage_To_Dragon%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Dragon%>]
+#裝備對天使增傷%
+self_Eq_Increases_Damage_To_Angel%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Angel%>]
+#裝備對惡魔增傷%
+self_Eq_Increases_Damage_To_Demon%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Demon%>]
+
+#種族-傷害減免
+#受到特定種族的目標攻擊時，降低受到此種族目標的傷害
+#-------------------------------------------#
+#裝備對無形減傷%
+self_Eq_Reduce_Damage_To_Invisible%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Invisible%>]
+#裝備對植物減傷%
+self_Eq_Reduce_Damage_To_Plant%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Plant%>]
+#裝備對昆蟲減傷%
+self_Eq_Reduce_Damage_To_Insect%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Insect%>]
+#裝備對動物減傷%
+self_Eq_Reduce_Damage_To_Animal%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Animal%>]
+#裝備對魚貝減傷%
+self_Eq_Reduce_Damage_To_Fish%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Fish%>]
+#裝備對人形減傷%
+self_Eq_Reduce_Damage_To_Human%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Human%>]
+#裝備對不死減傷%
+self_Eq_Reduce_Damage_To_Immortal%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Immortal%>]
+#裝備對龍族減傷%
+self_Eq_Reduce_Damage_To_Dragon%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Dragon%>]
+#裝備對天使減傷%
+self_Eq_Reduce_Damage_To_Angel%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Angel%>]
+#裝備對惡魔減傷%
+self_Eq_Reduce_Damage_To_Demon%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Demon%>]
+
+#體型-攻擊增強
+#攻擊特定體型目標時，提高造成的傷害
+#-------------------------------------------#
+#裝備對小體型增傷%
+self_Eq_Increases_Damage_To_Small_Body%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Small_Body%>]
+#裝備對中體型增傷%
+self_Eq_Increases_Damage_To_Mid_Body%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Mid_Body%>]
+#裝備對大體型增傷%
+self_Eq_Increases_Damage_To_Big_Body%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_Big_Body%>]
+
+#體型-傷害減免
+#受到特定體型的目標攻擊時，降低受到此體型目標的傷害
+#-------------------------------------------#
+#裝備對小體型減傷%
+self_Eq_Reduce_Damage_To_Small_Body%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Small_Body%>]
+#裝備對中體型減傷%
+self_Eq_Reduce_Damage_To_Mid_Body%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Mid_Body%>]
+#裝備對大體型減傷%
+self_Eq_Reduce_Damage_To_Big_Body%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_Big_Body%>]
+
+#類型-攻擊增強
+#攻擊特定類型目標時，提高造成的傷害
+#-------------------------------------------#
+#裝備MINI Boss增傷%
+self_Eq_Increases_Damage_To_MINI%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_MINI%>]
+#裝備MVP Boss增傷%
+self_Eq_Increases_Damage_To_MVP%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Increases_Damage_To_MVP%>]
+
+#類型-傷害減免
+#受到特定類型的目標攻擊時，降低受到此類型目標的傷害
+#-------------------------------------------#
+#裝備MINI Boss減傷%
+self_Eq_Reduce_Damage_To_MINI%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_MINI%>]
+#裝備MVP Boss減傷%
+self_Eq_Reduce_Damage_To_MVP%:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Reduce_Damage_To_MVP%>]

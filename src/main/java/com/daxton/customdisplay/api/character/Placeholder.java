@@ -106,8 +106,11 @@ public class Placeholder {
             int point_max = playerConfig.getInt(uuidString+".Point."+custom+"_max");
             int point_now = playerConfig.getInt(uuidString+".Point."+custom+"_last");
             int attr_point = playerConfig.getInt(uuidString+".Attributes_Point."+custom);
-            double attr_stats = attrConfig.getDouble(uuidString+".Attributes_Stats."+custom);
-            double attr_eqm = eqmConfig.getDouble(uuidString+".Equipment_Stats."+custom);
+            String attr_stats = attrConfig.getString(uuidString+".Attributes_Stats."+custom);
+            String attr_eqm = eqmConfig.getString(uuidString+".Equipment_Stats."+custom);
+//            if(custom.contains("Attributes")){
+//                cd.getLogger().info(custom+" : "+attr_eqm);
+//            }
             if(class_name != null){
                 entity_Map.put("class_name",class_name);
             }
@@ -131,8 +134,8 @@ public class Placeholder {
             entity_Map.put("point_last_"+custom,String.valueOf(point_now));
             entity_Map.put("point_max_"+custom,String.valueOf(point_max));
             entity_Map.put("attr_point_"+custom,String.valueOf(attr_point));
-            entity_Map.put("attr_stats_"+custom,String.valueOf(attr_stats));
-            entity_Map.put("eqm_stats_"+custom,String.valueOf(attr_eqm));
+            entity_Map.put("attr_stats_"+custom,attr_stats);
+            entity_Map.put("eqm_stats_"+custom,attr_eqm);
 
         }
 

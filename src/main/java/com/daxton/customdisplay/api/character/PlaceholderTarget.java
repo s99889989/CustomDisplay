@@ -294,7 +294,6 @@ public class PlaceholderTarget {
         }else {
 
         }
-        cd.getLogger().info(" : " +playerAnser);
         return playerAnser;
     }
 

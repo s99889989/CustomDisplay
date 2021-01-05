@@ -1,16 +1,26 @@
-mob_attr_Attributes_Earth:
+mob_class_level:
   message:
-  - CCharacter[<cd_mythic_attr_Attributes_Earth>] @=target
+  - CCharacter[<cd_mythic_class_level>] @=target
 
+mob_class_race:
+  message:
+  - CCharacter[<cd_mythic_class_race>] @=target
 
+mob_class_attr:
+  message:
+  - CCharacter[<cd_mythic_class_attribute>] @=target
 
+mob_class_body:
+  message:
+  - CCharacter[<cd_mythic_class_body>] @=target
 
+mob_class_type:
+  message:
+  - CCharacter[<cd_mythic_class_type>] @=target
 
-
-
-
-
-
+mob_class_stats_Mob_Str:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Str>]
 
 
 

@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
+import com.daxton.customdisplay.api.player.PlayerAttribute;
 import com.daxton.customdisplay.api.player.PlayerConfig;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -108,8 +109,8 @@ public class Point {
         }catch (Exception exception){
             exception.printStackTrace();
         }
-
-        new PlayerConfig().setAttrStats(player);
+        new PlayerAttribute(player);
+        //new PlayerConfig().setAttrStats(player);
 
     }
 

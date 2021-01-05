@@ -1,7 +1,9 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,12 +30,14 @@ public class PlayerEquipment {
     }
 
     public void reloadEquipment(Player player,int key){
+        String attackCore = cd.getConfigManager().config.getString("AttackCore");
+        if(attackCore.toLowerCase().contains("customcore")){
+            /**清除所有設定**/
+            clearEqmStats(player);
 
-        /**清除所有設定**/
-        clearEqmStats(player);
-
-        /**讀取目前身上裝備**/
-        loadAllEq(player,key);
+            /**讀取目前身上裝備**/
+            loadAllEq(player,key);
+        }
 
     }
 
@@ -45,7 +49,7 @@ public class PlayerEquipment {
                     ItemMeta itemMeta = itemStack.getItemMeta();
                     if(itemMeta != null && !(itemMeta.getDisplayName().isEmpty())){
                         /**找出裝備上的Lore屬性**/
-                        loadItem(itemStack,player);
+                        loadItem(itemStack,player,"");
                     }
                 }
             }
@@ -57,7 +61,7 @@ public class PlayerEquipment {
                     ItemMeta itemMeta = itemStack.getItemMeta();
                     if(itemMeta != null && !(itemMeta.getDisplayName().isEmpty())){
                         /**找出主手上的Lore屬性**/
-                        loadItem(itemStack,player);
+                        loadItem(itemStack,player,"MainHand");
                     }
                 }
             }
@@ -67,7 +71,7 @@ public class PlayerEquipment {
                 if(itemStack != null){
                     ItemMeta itemMeta = itemStack.getItemMeta();
                     if(itemMeta != null && !(itemMeta.getDisplayName().isEmpty())){
-                        loadItem(itemStack,player);
+                        loadItem(itemStack,player,"MainHand");
                     }
                 }
             }
@@ -79,7 +83,7 @@ public class PlayerEquipment {
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 if(itemMeta != null && !(itemMeta.getDisplayName().isEmpty())){
                     /**找出副手上的Lore屬性**/
-                    loadItem(itemStack,player);
+                    loadItem(itemStack,player,"");
                 }
             }
         }
@@ -88,7 +92,8 @@ public class PlayerEquipment {
     }
 
     /**找出裝備上的Lore屬性**/
-    public void loadItem(ItemStack itemStack,Player player){
+    public void loadItem(ItemStack itemStack,Player player,String parts){
+
         if(itemStack != null && itemStack.getType() != Material.AIR){
             ItemMeta itemMeta = itemStack.getItemMeta();
             if(itemMeta.getDisplayName() != null && itemMeta.getLore() != null){
@@ -99,15 +104,9 @@ public class PlayerEquipment {
                         if(strings.length == 2){
                             String attrName = strings[0];
                             String attrNumberString = strings[1].replace(" ","").replace("%","");
-                            int attrNumber;
-                            try {
-                                attrNumber = Integer.valueOf(attrNumberString);
-                            }catch (NumberFormatException exception){
-                                attrNumber = 0;
-                            }
-                            if(attrName != null && attrNumber > 0){
+                            if(attrName != null && attrNumberString != null){
                                 /**比對裝備內容**/
-                                setEqmStats(player,attrName,attrNumber);
+                                setEqmStats(player,attrName,attrNumberString);
                             }
                         }
                     }
@@ -118,8 +117,26 @@ public class PlayerEquipment {
         }
     }
 
+    public void setEqmOther(Player player,String key,String keyString,String parts){
+        String uuidString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        if(parts.equals("MainHand")){
+            //player.sendMessage(key+" : "+ keyString);
+            playerConfig.set(uuidString+".Player_Attribute_Attack",keyString.replace(" ",""));
+            try {
+                playerConfig.save(playerFilePatch);
+            }catch (Exception exception){
+                exception.printStackTrace();
+            }
+        }
+
+
+
+    }
+
     /**比對裝備內容**/
-    public void setEqmStats(Player player,String key,int keyNumber){
+    public void setEqmStats(Player player,String key,String keyNumberString){
 
         String uuidString = player.getUniqueId().toString();
 
@@ -137,12 +154,25 @@ public class PlayerEquipment {
                 if(eqmStatsSec.getKeys(false).size() > 0){
                     for(String eqmStatsName : eqmStatsSec.getKeys(false)){
                         String statsName = eqmConfig.getString(eqmSetName+"."+eqmStatsName+".name");
+
+
                         if(statsName.contains(key)){
-                            int nowNumber = playerEqmConfig.getInt(uuidString+".Equipment_Stats."+eqmStatsName);
-                            int newNumber = nowNumber + keyNumber;
+//                            if(statsName.contains("攻擊屬性")){
+//                                cd.getLogger().info(statsName + " : " +key + " : " + keyNumberString);
+//                            }
+                            String nowNumberString = playerEqmConfig.getString(uuidString+".Equipment_Stats."+eqmStatsName);
+                            String end = "";
+                            try {
+                                double nowNumber = Arithmetic.eval(nowNumberString);
+                                double keyNumber = Arithmetic.eval(keyNumberString);
+                                double newNumber = nowNumber + keyNumber;
+                                end = String.valueOf(newNumber);
+                            }catch (Exception exception){
+                                end = keyNumberString;
+                            }
 
+                            playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,end);
 
-                            playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,newNumber);
                             try {
                                 playerEqmConfig.save(playerEqmFilePatch);
                             }catch (Exception exception){
@@ -175,7 +205,7 @@ public class PlayerEquipment {
                 ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
                 if(eqmStatsSec.getKeys(false).size() > 0){
                     for(String eqmStatsName : eqmStatsSec.getKeys(false)){
-                        playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,0);
+                        playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,"0");
                         try {
                             playerEqmConfig.save(playerEqmFilePatch);
                         }catch (Exception exception){

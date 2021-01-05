@@ -152,29 +152,34 @@ public class PlayerConfig {
 
         saveCreateFile(player,playerConfig);
 
-        File attrFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/attributes-stats.yml");
-        try {
-            if(!attrFilePatch.exists()){
-                attrFilePatch.createNewFile();
-                setNewAttrStatsConfig(attrFilePatch);
+        String attackCore = cd.getConfigManager().config.getString("AttackCore");
+        if(attackCore.toLowerCase().contains("customcore")){
+            File attrFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/attributes-stats.yml");
+            try {
+                if(!attrFilePatch.exists()){
+                    attrFilePatch.createNewFile();
+                    setNewAttrStatsConfig(attrFilePatch);
+                }
+            }catch (Exception exception){
+                //exception.printStackTrace();
             }
-        }catch (Exception exception){
-            //exception.printStackTrace();
-        }
-        if(attrFilePatch.exists()){
-            setAttrStats(player);
+            if(attrFilePatch.exists()){
+                new PlayerAttribute(player);
+                //setAttrStats(player);
+            }
+
+            File eqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
+            try {
+                if(!eqmFilePatch.exists()){
+                    eqmFilePatch.createNewFile();
+                    setNewEqmStatsConfig(eqmFilePatch);
+                }
+            }catch (Exception exception){
+                //exception.printStackTrace();
+            }
         }
 
 
-        File eqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
-        try {
-            if(!eqmFilePatch.exists()){
-                eqmFilePatch.createNewFile();
-                setNewEqmStatsConfig(eqmFilePatch);
-            }
-        }catch (Exception exception){
-            //exception.printStackTrace();
-        }
 
 
     }
@@ -208,7 +213,7 @@ public class PlayerConfig {
             ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
             if(attrStatsSec.getKeys(false).size() > 0){
                 for(String attrStats : attrStatsSec.getKeys(false)){
-                    attrConfig.set(uuidString+".Attributes_Stats."+attrStats,0);
+                    attrConfig.set(uuidString+".Attributes_Stats."+attrStats,"0");
 
                 }
             }
@@ -248,21 +253,22 @@ public class PlayerConfig {
 
 
                         double statsNumber = 0;
+                        String numberDec = "";
                         try {
                             double number = Arithmetic.eval(statsNumberString);
-                            String numberDec = new NumberUtil(number,"#.###").getDecimalString();
+                            numberDec = new NumberUtil(number,"#.###").getDecimalString();
                             statsNumber = Double.valueOf(numberDec);
                         }catch (Exception exception){
                             statsNumber = 0;
                         }
 
-                        attrConfig.set(playerUUIDString+".Attributes_Stats."+attrStats,statsNumber);
+                        attrConfig.set(playerUUIDString+".Attributes_Stats."+attrStats,numberDec);
 
                         String inherit = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".inherit");
                         String operation = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".operation");
                         if(inherit != null && operation !=null){
 
-                            new PlayerAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
+                            new PlayerBukkitAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
                         }
                     }
                 }

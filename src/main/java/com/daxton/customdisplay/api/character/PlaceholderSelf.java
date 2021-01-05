@@ -26,7 +26,7 @@ public class PlaceholderSelf {
     public String getSelfPlaceholder(LivingEntity entity, String firstString){
 
 
-        String key = firstString.toLowerCase().replace("_self","").replace(">","");
+        String key = firstString.replace("_self","").replace(">","");
         if(entity instanceof Player){
             Player player = ((Player) entity).getPlayer();
             anser = setPlayer(player,key);
@@ -161,16 +161,20 @@ public class PlaceholderSelf {
     }
 
     public String setEqmStats(FileConfiguration eqmConfig,String key,String uuidString){
+        String playerAnser = "null";
         String key2 = key.replace("eqm_stats_","");
-        double attr_eqm = eqmConfig.getDouble(uuidString+".Equipment_Stats."+key2);
-        String playerAnser = String.valueOf(attr_eqm);
+        if(eqmConfig.getString(uuidString+".Equipment_Stats."+key2) != null){
+            playerAnser = eqmConfig.getString(uuidString+".Equipment_Stats."+key2);
+        }
         return playerAnser;
     }
 
     public String setAttrStats(FileConfiguration attrConfig,String key,String uuidString){
+        String playerAnser = "null";
         String key2 = key.replace("attr_stats_","");
-        double attr_stats = attrConfig.getDouble(uuidString+".Attributes_Stats."+key2);
-        String playerAnser = String.valueOf(attr_stats);
+        if(attrConfig.getString(uuidString+".Attributes_Stats."+key2) != null){
+            playerAnser = attrConfig.getString(uuidString+".Attributes_Stats."+key2);
+        }
         return playerAnser;
     }
 

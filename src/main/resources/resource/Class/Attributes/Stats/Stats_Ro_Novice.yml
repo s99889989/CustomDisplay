@@ -1,6 +1,9 @@
 #基礎屬性
 #-------------------------------------------#
 Stats_Ro_Novice:
+  Attributes_Attack:
+    formula: '&self_Eq_Attributes_Attack&'
+
   #HP
   Hp:
     formula: '((100+5 * &self_level_now_base&) * (1+(&self_attr_point_vit&+&self_Eq_Vit&)/100)) + (&self_Eq_HP&)'
@@ -230,8 +233,6 @@ Stats_Ro_Novice:
   Increase_Damage_To_Mind_Attribute_monsters%:
     formula: '(&self_Eq_Increase_Damage_To_Mind_Attribute_monsters%&)'
 
-
-
 #屬性-傷害減免
 #受到屬性傷害時，降低受到此屬性的傷害
 #-------------------------------------------#
@@ -300,8 +301,6 @@ Stats_Ro_Novice:
   Increases_Damage_To_Demon%:
     formula: '(&self_Eq_Increases_Damage_To_Demon%&)'
 
-
-
 #種族-傷害減免
 #受到特定種族的目標攻擊時，降低受到此種族目標的傷害
 #-------------------------------------------#
@@ -336,7 +335,6 @@ Stats_Ro_Novice:
   Reduce_Damage_To_Demon%:
     formula: '(&self_Eq_Reduce_Damage_To_Demon%&)'
 
-
 #體型-攻擊增強
 #攻擊特定體型目標時，提高造成的傷害
 #-------------------------------------------#
@@ -350,7 +348,6 @@ Stats_Ro_Novice:
   Increases_Damage_To_Big_Body%:
     formula: '(&self_Eq_Increases_Damage_To_Big_Body%&)'
 
-
 #體型-傷害減免
 #受到特定體型的目標攻擊時，降低受到此體型目標的傷害
 #-------------------------------------------#
@@ -363,7 +360,6 @@ Stats_Ro_Novice:
   #對大體型減傷%
   Reduce_Damage_To_Big_Body%:
     formula: '(&self_Eq_Reduce_Damage_To_Big_Body%&)'
-
 
 #類型-攻擊增強
 #攻擊特定類型目標時，提高造成的傷害

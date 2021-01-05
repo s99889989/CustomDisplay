@@ -21,10 +21,12 @@ public class SkillAPIListener extends AttributeListener implements Listener{
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     @EventHandler(
-            priority = EventPriority.MONITOR,
-            ignoreCancelled = true
+            priority = EventPriority.MONITOR
     )
     public void onSkillDamage(SkillDamageEvent event){
+        if(event.isCancelled()){
+            return;
+        }
         if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
             if(CitizensAPI.getNPCRegistry().isNPC(event.getTarget())){
                 return;
@@ -43,10 +45,12 @@ public class SkillAPIListener extends AttributeListener implements Listener{
     }
 
     @EventHandler(
-            priority = EventPriority.MONITOR,
-            ignoreCancelled = true
+            priority = EventPriority.MONITOR
     )
     public void onPhysicalDamage(PhysicalDamageEvent event){
+        if(event.isCancelled()){
+            return;
+        }
         if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
             if(CitizensAPI.getNPCRegistry().isNPC(event.getTarget())){
                 return;

@@ -42,4 +42,32 @@ public class EntityFind {
         return player;
     }
 
+    public static Player crackShotPlayer(Entity entity){
+        Player player = null;
+        if(entity instanceof Player){
+            player = ((Player) entity).getPlayer();
+            return player;
+        }
+//        if(entity instanceof Arrow){
+//            if(((Arrow) entity).getShooter() instanceof Player){
+//                player = (Player) ((Arrow) entity).getShooter();
+//                return player;
+//            }
+//        }
+//        if(entity instanceof ThrownPotion){
+//            if(((ThrownPotion) entity).getShooter() instanceof Player){
+//                player = (Player) ((ThrownPotion) entity).getShooter();
+//                return player;
+//            }
+//        }
+//        if(entity instanceof Projectile){
+//            if(((Projectile) entity).getShooter() instanceof Player){
+//                player = (Player) ((Projectile) entity).getShooter();
+//                return player;
+//            }
+//        }
+
+        return player;
+    }
+
 }

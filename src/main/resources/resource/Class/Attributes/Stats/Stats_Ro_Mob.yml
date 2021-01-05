@@ -1,138 +1,36 @@
 #基礎屬性總攬
 #-------------------------------------------#
 Stats_Ro_Mob:
-  #等級
-  Mob_Level:
-    base: '1'
   #力量
   Mob_Str:
-    base: '0'
+    base: 1
   #靈巧
   Mob_Dex:
-    base: '0'
+    base: 0
   #敏捷
   Mob_Agi:
-    base: '0'
+    base: 0
   #幸運
   Mob_Luk:
-    base: '0'
+    base: 0
   #物理攻擊
   Mob_Physical_Attack:
-    base: '0'
+    base: 0
   #物理防禦
   Mob_Physical_Defense:
-    base: '0'
+    base: 0
   #魔法攻擊
   Mob_Magic_Attack:
-    base: '0'
+    base: 0
   #魔法防禦
   Mob_Magic_Defense:
-    base: '0'
+    base: 0
   #命中
   Mob_Hit_Rate:
-    base: '0'
+    base: 0
   #閃避
   Mob_Dodge_Rate:
-    base: '0'
-
-#種族
-#-------------------------------------------#
-  #種族類型
-  Mob_Race_Type:
-    base: '動物'
-  #無形
-  Mob_Race_Invisible:
-    base: '0'
-  #植物
-  Mob_Race_Plant:
-    base: '0'
-  #昆蟲
-  Mob_Race_Insect:
-    base: '0'
-  #動物
-  Mob_Race_Animal:
-    base: '0'
-  #魚貝
-  Mob_Race_Fish:
-    base: '0'
-  #人形
-  Mob_Race_Human:
-    base: '0'
-  #不死
-  Mob_Race_Immortal:
-    base: '0'
-  #龍族
-  Mob_Race_Dragon:
-    base: '0'
-  #天使
-  Mob_Race_Angel:
-    base: '0'
-  #惡魔
-  Mob_Race_Demon:
-    base: '0'
-
-#屬性
-#-------------------------------------------#
-  #屬性類型
-  Mob_Attr_Type:
-    base: '無屬性'
-  #無屬性
-  Mob_Attr_Non:
-    base: '0'
-  #火屬性
-  Mob_Attr_Fire:
-    base: '0'
-  #地屬性
-  Mob_Attr_Earth:
-    base: '0'
-  #水屬性
-  Mob_Attr_Water:
-    base: '0'
-  #風屬性
-  Mob_Attr_Wind:
-    base: '0'
-  #毒屬性
-  Mob_Attr_Poison:
-    base: '0'
-  #不死屬性
-  Mob_Attr_Undead:
-    base: '0'
-  #暗屬性
-  Mob_Attr_Dark:
-    base: '0'
-  #聖屬性
-  Mob_Attr_Holy:
-    base: '0'
-  #念屬性
-  Mob_Attr_Mind:
-    base: '0'
-    
-#體型
-#-------------------------------------------#
-  #體型類型
-  Mob_Body_Type:
-    base: '小型'
-  #小體型
-  Mob_Body_Small:
-    base: '0'
-  #中體型
-  Mob_Body_Mid:
-    base: '0'
-  #大體型
-  Mob_Body_Big:
-    base: '0'
-
-#類型
-#-------------------------------------------#
-  #類型類型
-  Mob_Type_Type:
-    base: '普通魔物'
-  #MINI Boss
-  Mob_Type_MINI:
-    base: '0'
-  #MVP Boss
-  Mob_Type_MVP:
-    base: '0'
+    base: 0
 
 
 

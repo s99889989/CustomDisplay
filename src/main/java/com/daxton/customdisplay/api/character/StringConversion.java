@@ -58,6 +58,8 @@ public class StringConversion {
                 }else {
                     finalString = valueHandle(target,headKey,content,finalString);
                 }
+            }else if(targetKey.toLowerCase().contains("@=both")){
+                finalString = new StringConversion2().valueHandle(self,target,headKey,content,finalString);
             }else {
                 finalString = valueHandle(self,headKey,content,finalString);
             }
@@ -133,7 +135,7 @@ public class StringConversion {
                 content = new NumberUtil(number,content).getDecimalString();
                 return content;
             }catch (NumberFormatException exception){
-
+                return "0";
             }
 
         }

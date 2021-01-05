@@ -6,6 +6,7 @@ import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
+import com.daxton.customdisplay.listener.crackshot.CrackShotListener;
 import com.daxton.customdisplay.listener.customdisplay.PhysicalDamageListener;
 import com.daxton.customdisplay.listener.customdisplay.EquipmentListener;
 import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
@@ -129,6 +130,15 @@ public final class CustomDisplay extends JavaPlugin {
                 if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null){
                     Bukkit.getPluginManager().registerEvents(new SkillAPIListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI");
+                }else {
+                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+                }
+                break;
+            case "crackshot":
+                if(Bukkit.getServer().getPluginManager().getPlugin("CrackShot") != null){
+                    Bukkit.getPluginManager().registerEvents(new CrackShotListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CrackShot");
                 }else {
                     Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");

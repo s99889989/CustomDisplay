@@ -120,8 +120,15 @@ public class PhysicalDamageListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(
+            priority = EventPriority.MONITOR
+    )
     public void onPhysicalDamageListener(EntityDamageByEntityEvent event){
+
+        if (event.isCancelled()) {
+            return;
+        }
+
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }

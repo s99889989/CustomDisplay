@@ -42,10 +42,12 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
     private String damageType = "";
 
     @EventHandler(
-            priority = EventPriority.MONITOR,
-            ignoreCancelled = true
+            priority = EventPriority.MONITOR
     )
     public void onSkillDamage(SkillDamageEvent event){
+        if(event.isCancelled()){
+            return;
+        }
         if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
             if(CitizensAPI.getNPCRegistry().isNPC(event.getTarget())){
                 return;
@@ -64,10 +66,12 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
 
 
     @EventHandler(
-            priority = EventPriority.MONITOR,
-            ignoreCancelled = true
+            priority = EventPriority.MONITOR
     )
     public void onPhysicalDamage(EntityDamageByEntityEvent event){
+        if (event.isCancelled()) {
+            return;
+        }
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -110,6 +114,9 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             //priority = EventPriority.MONITOR
     )
     public void c(PlayerAttackEvent event) {
+        if(event.isCancelled()){
+            return;
+        }
         if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
             if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
                 return;

@@ -45,10 +45,12 @@ public class MMOLibListener implements Listener{
 
 
     @EventHandler(
-            priority = EventPriority.MONITOR,
-            ignoreCancelled = true
+            priority = EventPriority.MONITOR
     )
     public void onAttack(EntityDamageByEntityEvent event){
+        if (event.isCancelled()) {
+            return;
+        }
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -103,6 +105,9 @@ public class MMOLibListener implements Listener{
             //priority = EventPriority.MONITOR
     )
     public void c(PlayerAttackEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
             if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
                 return;

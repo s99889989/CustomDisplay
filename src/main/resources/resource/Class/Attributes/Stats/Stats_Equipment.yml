@@ -24,33 +24,9 @@ Stats_Equipment:
     
 #裝備武器屬性
 #-------------------------------------------#
-  #裝備火屬性
-  Eq_Fire_Attack:
-    name: §7火屬性
-  #裝備地屬性
-  Eq_Earth_Attack:
-    name: §7地屬性
-  #裝備水屬性
-  Eq_Water_Attack:
-    name: §7水屬性
-  #裝備風屬性
-  Eq_Wind_Attack:
-    name: §7風屬性
-  #裝備毒屬性
-  Eq_Poison_Attack:
-    name: §7毒屬性
-  #裝備不死屬性
-  Eq_Immortality_Attack:
-    name: §7不死屬性
-  #裝備暗屬性
-  Eq_Dark_Attack:
-    name: §7暗屬性
-  #裝備聖屬性
-  Eq_Holy_Attack:
-    name: §7聖屬性
-  #裝備念屬性
-  Eq_Sense_Attack:
-    name: §7念屬性
+  #裝備屬性
+  Eq_Attributes_Attack:
+    name: '§7攻擊屬性 '
   
 #基礎屬性
 #-------------------------------------------#

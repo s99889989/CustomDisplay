@@ -11,19 +11,19 @@ Buttons:
     Name: '§e&self_name&'
     Lore:
     - ''
-    - '§7職業: §9&self_class_name&'
-    - '§7種族: §9&self_class_race&'
-    - '§7體型: §9&self_class_body&'
-    - '§7攻擊屬性: §9&self_class_attack&'
-    - '§7防禦屬性: §9&self_class_defense&'
+    - '§7Profession: §9&self_class_name&'
+    - '§7Race: §9&self_class_race&'
+    - '§7BodyType: §9&self_class_body&'
+    - '§7Attack attributes: §9&self_class_attack&'
+    - '§7Defense attributes: §9&self_class_defense&'
     - ''
-    - '§7Base等級: §e&self_level_now_base& / &self_level_max_base&'
-    - '§7Bas經驗值: §e&self_exp_now_base& / &self_exp_max_base&'
-    - '§7Job等級: §e&self_level_now_job& / &self_level_max_job&'
-    - '§7Job經驗值: §e&self_exp_now_job& / &self_exp_max_job&'
+    - '§7BaseLevel: §e&self_level_now_base& / &self_level_max_base&'
+    - '§7BaseExp: §e&self_exp_now_base& / &self_exp_max_base&'
+    - '§7JobLevel: §e&self_level_now_job& / &self_level_max_job&'
+    - '§7JobExp: §e&self_exp_now_job& / &self_exp_max_job&'
     - ''
-    - '§7屬性點: §6&self_point_last_base& / &self_point_max_base&'
-    - '§7技能點: §6&self_point_last_job& / &self_point_max_job&'
+    - '§7Attribute points: §6&self_point_last_base& / &self_point_max_base&'
+    - '§7Skill points: §6&self_point_last_job& / &self_point_max_job&'
     Left:
     - Action[a=EmojiHelpHD2;mark=&self_name&]
     Right:
@@ -38,10 +38,10 @@ Buttons:
     Name: '§e力量'
     Lore:
     - ''
-    - '目前力量: §9§l&self_attr_point_str& + &self_Eq_Str&'
+    - 'Current power: §9§l&self_attr_point_str& + &self_Eq_Str&'
     - ''
-    - '§e左擊加點'
-    - '§e右擊減點'
+    - '§eLeft click to add points'
+    - '§eRight click to subtract points'
     Left:
     - Action[a=add_Attributes_Str;mark=&self_name&]
     Right:
@@ -58,8 +58,8 @@ Buttons:
     - ''
     - '目前敏捷: §9§l&self_attr_point_agi& + &self_Eq_Agi&'
     - ''
-    - '§e左擊加點'
-    - '§e右擊減點'
+    - '§eLeft click to add points'
+    - '§eRight click to subtract points'
     Left:
     - Action[a=add_Attributes_Agi;mark=&self_name&]
     Right:
@@ -76,8 +76,8 @@ Buttons:
     - ''
     - '目前體質: §9§l&self_attr_point_vit& + &self_Eq_Vit&'
     - ''
-    - '§e左擊加點'
-    - '§e右擊減點'
+    - '§eLeft click to add points'
+    - '§eRight click to subtract points'
     Left:
     - Action[a=add_Attributes_Vit;mark=&self_name&]
     Right:
@@ -94,8 +94,8 @@ Buttons:
     - ''
     - '目前智力: §9§l&self_attr_point_int& + &self_Eq_Int&'
     - ''
-    - '§e左擊加點'
-    - '§e右擊減點'
+    - '§eLeft click to add points'
+    - '§eRight click to subtract points'
     Left:
     - Action[a=add_Attributes_Int;mark=&self_name&]
     Right:
@@ -112,8 +112,8 @@ Buttons:
     - ''
     - '目前靈巧: §9§l&self_attr_point_dex& + &self_Eq_Dex&'
     - ''
-    - '§e左擊加點'
-    - '§e右擊減點'
+    - '§eLeft click to add points'
+    - '§eRight click to subtract points'
     Left:
     - Action[a=add_Attributes_Dex;mark=&self_name&]
     Right:
@@ -130,8 +130,8 @@ Buttons:
     - ''
     - '目前幸運: §9§l&self_attr_point_luk& + &self_Eq_Luk&'
     - ''
-    - '§e左擊加點'
-    - '§e右擊減點'
+    - '§eLeft click to add points'
+    - '§eRight click to subtract points'
     Left:
     - Action[a=add_Attributes_Luk;mark=&self_name&]
     Right:
@@ -144,15 +144,15 @@ Buttons:
     Material: 'BOOK'
     CustomModelData: 0
     RemoveItemFlags: true
-    Name: '§e基礎屬性總攬'
+    Name: '§eBasic attributes'
     Lore:
     - ''
     - '§7HP: §9&self_nowhealth&/&self_maxhealth&'
-    - '§7HP恢復: §9&self_Hp_Regeneration&'
-    - '§7物理攻擊: §9&self_Melee_Physical_Attack&'
-    - '§7物理防禦: §9&self_melee_Physical_Defense&'
-    - '§7命中: §9&self_Hit_Rate&'
-    - '§7閃避: §9&self_Dodge_Rate&'
+    - '§7HP recovery: §9&self_Hp_Regeneration&'
+    - '§7Physical attack: §9&self_Melee_Physical_Attack&'
+    - '§7Physical defense: §9&self_melee_Physical_Defense&'
+    - '§7Hit: §9&self_Hit_Rate&'
+    - '§7Dodge: §9&self_Dodge_Rate&'
 
   Stats1:
     RawSlot: 28
@@ -160,15 +160,15 @@ Buttons:
     Material: 'BOOK'
     CustomModelData: 0
     RemoveItemFlags: true
-    Name: '§e基礎屬性總攬'
+    Name: '§eBasic attributes'
     Lore:
     - ''
     - '§7SP: §9&self_Sp&/&self_Sp&'
-    - '§7SP恢復: §9&self_Sp_Regeneration&'
-    - '§7魔法攻擊: §9&self_Magic_Attack&'
-    - '§7魔法防禦: §9&self_Magic_Defense&'
-    - '§7移動速度: §9&self_Moving_Speed_%& §7%'
-    - '§7攻擊速度: §9&self_Attack_Speed_%& §7%'
+    - '§7SP recovery: §9&self_Sp_Regeneration&'
+    - '§7Magic attack: §9&self_Magic_Attack&'
+    - '§7Magic defense: §9&self_Magic_Defense&'
+    - '§7Moving speed: §9&self_Moving_Speed_%& §7%'
+    - '§7Attack speed: §9&self_Attack_Speed_%& §7%'
 
   Stats2:
     RawSlot: 29
@@ -176,15 +176,15 @@ Buttons:
     Material: 'BOOK'
     CustomModelData: 0
     RemoveItemFlags: true
-    Name: '§e穿透、暴擊、吟唱'
+    Name: '§ePenetration, Crit, Chanting'
     Lore:
     - ''
-    - '§7物理穿透: §9&self_Physical_Penetration%& §7%'
-    - '§7暴擊率: §9&self_Critical_Strike_Chance%& §7%'
-    - '§7暴擊傷害: §9&self_Critical_Strike_Power%& §7%'
-    - '§7暴擊防護: §9&self_Critical_Strike_Protection%& §7%'
-    - '§7暴傷減免: §9&self_Critical_Strike_Reduction%& §7%'
-    - '§7吟唱減免: §9&self_Cooldown_Reduction&'
+    - '§7Physical penetration: §9&self_Physical_Penetration%& §7%'
+    - '§7Crit rate: §9&self_Critical_Strike_Chance%& §7%'
+    - '§7Critical damage: §9&self_Critical_Strike_Power%& §7%'
+    - '§7Critical protection: §9&self_Critical_Strike_Protection%& §7%'
+    - '§7Critical injury reduction: §9&self_Critical_Strike_Reduction%& §7%'
+    - '§7Chant relief: §9&self_Cooldown_Reduction&'
     - '§7受治療加成: §9&self_Receive_Healing_Bonus%& §7%'
     - '§7治療加成: §9&self_Healing_Bonus%& §7%'
 
@@ -194,16 +194,16 @@ Buttons:
     Material: 'BOOK'
     CustomModelData: 0
     RemoveItemFlags: true
-    Name: '§e物理屬性'
+    Name: '§ePhysical properties'
     Lore:
     - ''
-    - '§7物理攻擊%: §9&self_Physical_Attack%& §7%'
-    - '§7物理防禦%: §9&self_Physical_Defense%& §7%'
-    - '§7物傷加成%: §9&self_Physical_Damage_Bonus%& §7%'
-    - '§7忽視物防%: §9&self_Ignore_Physical_Defense%& §7%'
-    - '§7物傷減免%: §9&self_Physical_Injury_Reduction%& §7%'
-    - '§7精煉物攻: §9&self_Refined_Physical_Attack&'
-    - '§7精煉物免%: §9&self_Refined_Material_Free%& §7%'
+    - '§7Physical attack%: §9&self_Physical_Attack%& §7%'
+    - '§7Physical defense%: §9&self_Physical_Defense%& §7%'
+    - '§7Physical damage bonus%: §9&self_Physical_Damage_Bonus%& §7%'
+    - '§7Ignore physical defense%: §9&self_Ignore_Physical_Defense%& §7%'
+    - '§7Material injury reduction%: §9&self_Physical_Injury_Reduction%& §7%'
+    - '§7Refined material attack: §9&self_Refined_Physical_Attack&'
+    - '§7Refined materials%: §9&self_Refined_Material_Free%& §7%'
 
   Stats4:
     RawSlot: 31
@@ -211,16 +211,16 @@ Buttons:
     Material: 'BOOK'
     CustomModelData: 0
     RemoveItemFlags: true
-    Name: '§e魔法屬性'
+    Name: '§eMagic attributes'
     Lore:
     - ''
-    - '§7魔法攻擊%: §9&self_Magic_Attack%& §7%'
-    - '§7魔法防禦%: §9&self_Magic_Defense%& §7%'
-    - '§7魔傷加成%: §9&self_Magic_Injury_Bonus%& §7%'
-    - '§7忽視魔防%: §9&self_Ignore_Magic_Defense%& §7%'
-    - '§7魔傷減免%: §9&self_Magic_Injury_Reduction%& §7%'
-    - '§7精煉魔攻: §9&self_Refining_Magic_Attack&'
-    - '§7精煉魔免%: §9&self_Refining_Magic_Free%& §7%'
+    - '§7Magic attack%: §9&self_Magic_Attack%& §7%'
+    - '§7Magic defense%: §9&self_Magic_Defense%& §7%'
+    - '§7Damage bonus%: §9&self_Magic_Injury_Bonus%& §7%'
+    - '§7Ignore Magic Defense%: §9&self_Ignore_Magic_Defense%& §7%'
+    - '§7Damage reduction%: §9&self_Magic_Injury_Reduction%& §7%'
+    - '§7Refining Magic Attack: §9&self_Refining_Magic_Attack&'
+    - '§7Refined Magic Free%: §9&self_Refining_Magic_Free%& §7%'
 
 
   Stats5:
@@ -229,23 +229,23 @@ Buttons:
     Material: 'BOOK'
     CustomModelData: 0
     RemoveItemFlags: true
-    Name: '§e狀態抵抗和攻擊'
+    Name: '§eState resistance and attack'
     Lore:
-    - '§e受異常狀態時，減少影響機率和時長'
-    - '§e添加異常狀態時，提高生效率和時長'
+    - '§eWhen affected by abnormal conditions, reduce the probability and duration of the impact.'
+    - '§eWhen adding abnormal status, increase the productivity and duration.'
     - ''
-    - '§7中毒抵抗%: §9&self_Poisoning_Resistance%& §7%'
-    - '§7流血抵抗%: §9&self_Bleeding_Resistance%& §7%'
-    - '§7灼燒抵抗%: §9&self_Burning_Resistance%& §7%'
-    - '§7暈眩抵抗%: §9&self_Dizziness_Resistance%& §7%'
-    - '§7冰凍抵抗%: §9&self_Freezing_Resistance%& §7%'
-    - '§7石化抵抗%: §9&self_Petrochemical_Resistance%& §7%'
-    - '§7睡眠抵抗%: §9&self_Sleep_Resistance%& §7%'
-    - '§7恐懼抵抗%: §9&self_Fear_Resistance%& §7%'
-    - '§7定身抵抗%: §9&self_Fixed_Resistance%& §7%'
-    - '§7沉默抵抗%: §9&self_Silent_Resistance%& §7%'
-    - '§7詛咒抵抗%: §9&self_Curse_Resistance%& §7%'
-    - '§7黑暗抵抗%: §9&self_Dark_Resistance%& §7%'
+    - '§7Poisoning resistance%: §9&self_Poisoning_Resistance%& §7%'
+    - '§7Poisoning resistance%: §9&self_Bleeding_Resistance%& §7%'
+    - '§7Burn resistance%: §9&self_Burning_Resistance%& §7%'
+    - '§7Dizziness resistance%: §9&self_Dizziness_Resistance%& §7%'
+    - '§7Freeze resistance%: §9&self_Freezing_Resistance%& §7%'
+    - '§7Petrochemical resistance%: §9&self_Petrochemical_Resistance%& §7%'
+    - '§7Sleep resistance%: §9&self_Sleep_Resistance%& §7%'
+    - '§7Fear resistance%: §9&self_Fear_Resistance%& §7%'
+    - '§7Fixed resistance%: §9&self_Fixed_Resistance%& §7%'
+    - '§7Silent resistance%: §9&self_Silent_Resistance%& §7%'
+    - '§7Curse resistance%: §9&self_Curse_Resistance%& §7%'
+    - '§7Dark resistance%: §9&self_Dark_Resistance%& §7%'
 
   Stats6:
     RawSlot: 33
@@ -253,9 +253,9 @@ Buttons:
     Material: 'BOOK'
     CustomModelData: 0
     RemoveItemFlags: true
-    Name: '§e屬性-技能增強'
+    Name: '§eAttribute-skill enhancement'
     Lore:
-    - '§e增強自身屬性技能的攻擊強度'
+    - '§eIncrease the attack power of your own attribute skills.'
     - ''
     - '§7無屬性攻擊%: §9&self_No_Attribute_Attack%& §7%'
     - '§7火屬性攻擊%: §9&self_Fire_Attribute_Attack%& §7%'

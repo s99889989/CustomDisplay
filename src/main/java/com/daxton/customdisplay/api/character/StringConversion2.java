@@ -1,10 +1,14 @@
 package com.daxton.customdisplay.api.character;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.ConfigFind;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public class StringConversion2 {
 
@@ -14,6 +18,9 @@ public class StringConversion2 {
     private String firstString = "";
     private LivingEntity target = null;
     private LivingEntity self = null;
+
+    public StringConversion2(){}
+
 
     public StringConversion2(LivingEntity self, LivingEntity target, String firstString, String folderName){
         this.self = self;
@@ -64,7 +71,33 @@ public class StringConversion2 {
             }
         }
 
-
+//        if(headKey.toLowerCase().contains("math")){
+//            cd.getLogger().info(finalString +" : "+ content);
+//            try {
+//                double number = Arithmetic.eval(finalString);
+//                finalString = String.valueOf(number);
+//                return finalString;
+//            }catch (Exception exception){
+//                return "0";
+//            }
+//
+//        }
+//
+//
+//        if(headKey.toLowerCase().contains("converall")){
+//            String[] stl2 = content.split(";");
+//            for(String stringList2 : stl2){
+//                String[] stl3 = stringList2.split(",");
+//                if(finalString.replace(stl3[0],"").length() == 0){
+//                    finalString = finalString.replace(stl3[0],stl3[1]);
+//                    if(finalString.equals(stl3[1])){
+//                        break;
+//                    }
+//                }
+//            }
+//            return finalString;
+//        }
+//
         return content;
     }
 
@@ -83,11 +116,11 @@ public class StringConversion2 {
                         content = content.replace(content.substring(head,tail+1),new PlaceholderOther().getOther(content.substring(head,tail+1)));
                         continue;
                     }
-                    if(content.substring(head,tail+1).toLowerCase().contains("<cd_self_")){
+                    if(self != null &&content.substring(head,tail+1).toLowerCase().contains("<cd_self_")){
                         content = content.replace(content.substring(head,tail+1),new PlaceholderSelf().getSelfPlaceholder(self,content.substring(head,tail+1)));
                         continue;
                     }
-                    if(content.substring(head,tail+1).toLowerCase().contains("<cd_target_")){
+                    if(target != null && content.substring(head,tail+1).toLowerCase().contains("<cd_target_")){
                         content = content.replace(content.substring(head,tail+1),new PlaceholderTarget().getTargetPlaceholder(target,content.substring(head,tail+1)));
                         continue;
                     }

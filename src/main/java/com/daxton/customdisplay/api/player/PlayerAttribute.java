@@ -1,59 +1,76 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.attribute.AttributeModifier;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.Arithmetic;
+import com.daxton.customdisplay.api.other.NumberUtil;
+import com.daxton.customdisplay.manager.ConfigMapManager;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 
 public class PlayerAttribute {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+    CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public PlayerAttribute(){
 
     }
+    public PlayerAttribute(Player player){
+        String playerUUIDString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        List<String> attrStatsNameList = playerConfig.getStringList(playerUUIDString+".Attributes_Stats");
+        if(attrStatsNameList.size() > 0){
+            for(String attrStatsFileName : attrStatsNameList){
 
-    public void addAttribute(Player player,String inherit,String operation,double addNumber,String attributeName){
+                File attrFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/attributes-stats.yml");
+                FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFilePatch);
 
+                FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
 
-        AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
+                ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
+                if(attrStatsSec.getKeys(false).size() > 0){
+                    for(String attrStats : attrStatsSec.getKeys(false)){
+                        String statsNumberString = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".formula");
 
+                        if(statsNumberString != null){
+                            statsNumberString = new StringConversion(player,null,statsNumberString,"Character").valueConv();
+                        }else {
+                            statsNumberString = "0";
+                        }
+                        //cd.getLogger().info(statsNumberString);
 
-        removeAttribute(player,inherit);
+                        double statsNumber = 0;
+                        String numberDec = "";
+                        try {
+                            double number = Arithmetic.eval(statsNumberString);
+                            numberDec = new NumberUtil(number,"#.###").getDecimalString();
+                            statsNumber = Double.valueOf(numberDec);
+                        }catch (Exception exception){
+                            numberDec = statsNumberString;
+                            statsNumber = 0;
+                        }
 
-        AttributeModifier healthModifier = new AttributeModifier("customdisplay"+attributeName, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
-        attributeInstance.addModifier(healthModifier);
+                        attrConfig.set(playerUUIDString+".Attributes_Stats."+attrStats,numberDec);
 
+                        String inherit = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".inherit");
+                        String operation = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".operation");
+                        if(inherit != null && operation !=null){
 
-        //player.sendMessage("值: "+attributeInstance.getValue());
-//        if(inherit.contains("GENERIC_ATTACK_SPEED")){
-//            player.sendMessage("攻擊速度"+attributeInstance.getValue());
-//        }
-
-//        player.saveData();
-//        if(inherit.contains("GENERIC_MAX_HEALTH")){
-//            for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
-//
-//                player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
-//            }
-//            //double maxHealth = player.getAttribute(GENERIC_MAX_HEALTH).getValue();
-//            //player.setHealth(maxHealth);
-//        }
-    }
-
-    public void removeAttribute(Player player,String inherit){
-        AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
-
-        for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
-            if(attributeModifier.toString().contains("customdisplay")){
-                //player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
-                attributeInstance.removeModifier(attributeModifier);
+                            new PlayerBukkitAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
+                        }
+                    }
+                }
+                try {
+                    attrConfig.save(attrFilePatch);
+                }catch (Exception exception){
+                    exception.printStackTrace();
+                }
             }
         }
     }

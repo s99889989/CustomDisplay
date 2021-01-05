@@ -1,16 +1,38 @@
 #
-#
-TestItem1:
+#火
+Sword_Non:
   Material: 'Wooden_Sword'
   Data:
   CustomModelData: 0
-  RemoveItemFlags: true
-  DisplayName: '§e火靈劍'
+  HideItemFlags: true
+  DisplayName: '§e無屬性的劍'
   Lore:
   - ''
-  - '§7火屬性:1'
+  - '§7屬性 : 無'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#
+Sword_Non:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e無屬性的劍'
+  Lore:
+  - ''
+  - '§7屬性 : 無'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
 
-TestItem2:
+Deputy:
   Material: 'Diamond_Leggings'
   Data:
   CustomModelData: 0
@@ -20,7 +42,7 @@ TestItem2:
   - ''
   - '§7體質: 20'
 
-TestItem3:
+arms:
   Material: 'BOOK'
   Data:
   CustomModelData: 0

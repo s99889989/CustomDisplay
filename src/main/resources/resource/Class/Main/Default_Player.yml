@@ -1,8 +1,9 @@
 Default_Player:
   Class_Name: '初心者'
-  Default_Race: '人形'
-  Attack_Attribute: '無'
-  Defense_Attribute: '無'
+  Player_Race: '人形'
+  Player_Body: '中'
+  Player_Attribute_Attack: '無'
+  Player_Attribute_Defense: '無'
   Action:
   - 'Default'
   #- 'Novice'
@@ -15,8 +16,9 @@ Default_Player:
   Attributes_Point:
   - 'Point_Novice'
   Attributes_Stats:
-  - 'Stats_Ro_Novice'
+  - 'Stats_Default'
+  #- 'Stats_Ro_Novice'
   Equipment_Stats:
   - 'Stats_Equipment'
   Melee_physics_formula: '&self_Melee_Physical_Attack& * (1+(&self_Eq_Fire_Attack&*&mob_attr_Attributes_Earth&))'
-  Range_physics_formula: ''
+  Range_physics_formula: '&self_Range_Physical_Attack& * (1+(&self_Eq_Fire_Attack&*&mob_attr_Attributes_Earth&))'

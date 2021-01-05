@@ -57,7 +57,9 @@ public class MobConfig {
         mobConfig.set(mobID+".Melee_physics_formula",mobDefaultConfig.getString("Default_Mob.Melee_physics_formula"));
         mobConfig.set(mobID+".Range_physics_formula",mobDefaultConfig.getString("Default_Mob.Range_physics_formula"));
         try {
-            mobConfig.save(mobFilePatch);
+            if(!mobFilePatch.exists()){
+                mobConfig.save(mobFilePatch);
+            }
         }catch (Exception exception){
             exception.printStackTrace();
         }
