@@ -1,0 +1,8 @@
+#初始屬性捨定,CustomCore
+DefaultAttribute:
+  Health:
+    enable: false
+    amount: 1
+  Move_Speed:
+    enable: false
+    amount: 0.001

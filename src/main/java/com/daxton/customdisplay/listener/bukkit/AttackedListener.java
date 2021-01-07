@@ -28,8 +28,8 @@ public class AttackedListener implements Listener {
             new PlayerTrigger(player).onDamaged(player,target);
 
 
-        }else {
-            return;
+
+
         }
 
 

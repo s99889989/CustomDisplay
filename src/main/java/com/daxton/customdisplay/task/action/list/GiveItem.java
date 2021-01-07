@@ -42,7 +42,6 @@ public class GiveItem {
         this.self = self;
         this.target = target;
         this.firstString = firstString;
-        cd.getLogger().info(firstString);
         setOther();
         if(self instanceof Player){
             Player player = (Player) self;

@@ -31,8 +31,10 @@ public class EquipmentListener implements Listener {
     public void onItemHeld(PlayerItemHeldEvent event){
         Player player = event.getPlayer();
         int key = event.getNewSlot();
+
         new PlayerEquipment().reloadEquipment(player,key);
         new PlayerAttribute(player);
+
         //new PlayerConfig(player).setAttrStats(player);
     }
 

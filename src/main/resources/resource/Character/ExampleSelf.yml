@@ -50,6 +50,11 @@ self_attack_number_crit:
   - ConverUnits[9,䀱;8,䀰;7,䀯;6,䀮;5,䀭;4,䀬;3,䀫;2,䀪;1,䀩;0,䀨]
   - Conver[9,䀻;8,䀺;7,䀹;6,䀸;5,䀷;4,䀶;3,䀵;2,䀴;1,䀳;0,䀲]
 
+self_attack_miss:
+  message:
+  - CCharacter[<cd_attack_number>]
+  - Conver[Miss,䀿]
+  
 self_mana_proportion:
   message:
   - math[%mmocore_mana%/%mmocore_stat_max_mana%*10]

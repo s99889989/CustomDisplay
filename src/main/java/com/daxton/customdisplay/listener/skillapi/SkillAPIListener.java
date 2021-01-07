@@ -20,9 +20,7 @@ public class SkillAPIListener extends AttributeListener implements Listener{
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onSkillDamage(SkillDamageEvent event){
         if(event.isCancelled()){
             return;
@@ -37,6 +35,11 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             LivingEntity target = event.getTarget();
             double damageNumber = event.getDamage();
             String uuidString = player.getUniqueId().toString();
+            if (event.isCancelled()) {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                new PlayerTrigger(player).onAtkMiss(player,target);
+                return;
+            }
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onMagic(player,target);
 
@@ -44,9 +47,7 @@ public class SkillAPIListener extends AttributeListener implements Listener{
 
     }
 
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPhysicalDamage(PhysicalDamageEvent event){
         if(event.isCancelled()){
             return;
@@ -61,6 +62,11 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             LivingEntity target = event.getTarget();
             double damageNumber = event.getDamage();
             String uuidString = player.getUniqueId().toString();
+            if (event.isCancelled()) {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                new PlayerTrigger(player).onAtkMiss(player,target);
+                return;
+            }
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onAttack(player,target);
 

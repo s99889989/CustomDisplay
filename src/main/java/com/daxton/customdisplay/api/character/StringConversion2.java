@@ -62,6 +62,24 @@ public class StringConversion2 {
     }
 
     public String valueHandle(LivingEntity self,LivingEntity target ,String headKey,String content,String finalString){
+
+        if(headKey.toLowerCase().contains("math")){
+
+            if(content.contains("<") && content.contains(">")){
+
+                content = pluginString(self,target,content);
+
+            }
+
+            try {
+                double number = Arithmetic.eval(content);
+                content = String.valueOf(number);
+            }catch (Exception exception){
+                content = "0";
+            }
+            return content;
+        }
+
         if(headKey.toLowerCase().contains("customcharacter") || headKey.toLowerCase().contains("ccharacter")){
             if(content.contains("<") && content.contains(">")){
 
@@ -71,33 +89,32 @@ public class StringConversion2 {
             }
         }
 
-//        if(headKey.toLowerCase().contains("math")){
-//            cd.getLogger().info(finalString +" : "+ content);
-//            try {
-//                double number = Arithmetic.eval(finalString);
-//                finalString = String.valueOf(number);
-//                return finalString;
-//            }catch (Exception exception){
-//                return "0";
-//            }
-//
-//        }
-//
-//
-//        if(headKey.toLowerCase().contains("converall")){
-//            String[] stl2 = content.split(";");
-//            for(String stringList2 : stl2){
-//                String[] stl3 = stringList2.split(",");
-//                if(finalString.replace(stl3[0],"").length() == 0){
-//                    finalString = finalString.replace(stl3[0],stl3[1]);
-//                    if(finalString.equals(stl3[1])){
-//                        break;
-//                    }
-//                }
-//            }
-//            return finalString;
-//        }
-//
+        if(headKey.toLowerCase().contains("customconversion") || headKey.toLowerCase().contains("cconversion")){
+            content = new StringConversion(self,target,content,"Character").valueConv();
+
+            return content;
+
+        }
+
+        if(headKey.toLowerCase().contains("converall")){
+            cd.getLogger().info("COVALL");
+            String[] stl2 = content.split(";");
+            for(String stringList2 : stl2){
+                String[] stl3 = stringList2.split(",");
+                if(finalString.replace(stl3[0],"").length() == 0){
+                    if(stl3[1].contains("<") && stl3[1].contains(">")){
+                        stl3[1] = pluginString(self,target,stl3[1]);
+                    }
+                    finalString = finalString.replace(stl3[0],stl3[1]);
+                    if(finalString.equals(stl3[1])){
+                        break;
+                    }
+                }
+            }
+            return finalString;
+        }
+
+
         return content;
     }
 

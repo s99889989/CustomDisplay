@@ -20,13 +20,8 @@ public class CrackShotListener implements Listener {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onWeaponDamage(WeaponDamageEntityEvent event){
-        if(event.isCancelled()){
-            return;
-        }
         if(!(event.getVictim() instanceof LivingEntity)){
             return;
         }
@@ -35,21 +30,21 @@ public class CrackShotListener implements Listener {
         LivingEntity target = (LivingEntity) event.getVictim();
         if(player != null && damageNumber > 0){
             String uuidString = player.getUniqueId().toString();
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onAttack(player,target);
+            if (event.isCancelled()) {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                new PlayerTrigger(player).onAtkMiss(player,target);
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+            }
         }
 
 
 
     }
 
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onAttack(EntityDamageByEntityEvent event){
-        if (event.isCancelled()) {
-            return;
-        }
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -63,8 +58,14 @@ public class CrackShotListener implements Listener {
         Player player = EntityFind.crackShotPlayer(event.getDamager());
         if(player != null && damageNumber > 0){
             String uuidString = player.getUniqueId().toString();
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onAttack(player,target);
+            if (event.isCancelled()) {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                new PlayerTrigger(player).onAtkMiss(player,target);
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
+            }
+
         }
 
     }

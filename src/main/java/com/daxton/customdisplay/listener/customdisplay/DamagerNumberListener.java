@@ -1,55 +1,41 @@
-package com.daxton.customdisplay.listener.bukkit;
+package com.daxton.customdisplay.listener.customdisplay;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import static org.bukkit.entity.EntityType.ARMOR_STAND;
+
+public class DamagerNumberListener implements Listener {
 
 
-import java.util.UUID;
+    @EventHandler(
+            priority = EventPriority.MONITOR
+    )
+    public void onPhysicalDamageListener(PhysicalDamageEvent event){
 
-import static org.bukkit.entity.EntityType.*;
-
-public class AttackListener implements Listener {
-
-    CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private Player player = null;
-
-    private LivingEntity target;
-
-    private UUID playerUUID;
-
-    private UUID targetUUID;
-
-
-    @EventHandler(priority = EventPriority.MONITOR )
-    public void onAttack(EntityDamageByEntityEvent event){
-        if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
+        if(!(event.getTarget() instanceof LivingEntity) || event.getTarget().getType() == ARMOR_STAND){
             return;
         }
         if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") !=null){
-            if(CitizensAPI.getNPCRegistry().isNPC(event.getEntity())){
+            if(CitizensAPI.getNPCRegistry().isNPC(event.getTarget())){
                 return;
             }
         }
 
-        double damageNumber = event.getFinalDamage();
-        target = (LivingEntity) event.getEntity();
-        player = EntityFind.convertPlayer(event.getDamager());
+        double damageNumber = event.getDamage();
+        LivingEntity target = event.getTarget();
+        Player player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
-
             String uuidString = player.getUniqueId().toString();
 
             if (event.isCancelled()) {
@@ -59,9 +45,11 @@ public class AttackListener implements Listener {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 new PlayerTrigger(player).onAttack(player,target);
             }
+
+
+
         }
 
     }
-
 
 }

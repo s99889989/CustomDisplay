@@ -95,10 +95,6 @@ public class Placeholder {
 
             String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","").replace("eqm_stats_","");
             String class_name = playerConfig.getString(uuidString+".Class_Name");
-            String player_race = playerConfig.getString(uuidString+".Player_Race");
-            String player_body = playerConfig.getString(uuidString+".Player_Body");
-            String player_attr_atk = playerConfig.getString(uuidString+".Player_Attribute_Attack");
-            String player_attr_def = playerConfig.getString(uuidString+".Player_Attribute_Defense");
             int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
             int level_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_level");
             int exp_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_exp");
@@ -113,18 +109,6 @@ public class Placeholder {
 //            }
             if(class_name != null){
                 entity_Map.put("class_name",class_name);
-            }
-            if(player_race != null){
-                entity_Map.put("class_race",player_race);
-            }
-            if(player_body != null){
-                entity_Map.put("class_body",player_body);
-            }
-            if(player_attr_atk != null){
-                entity_Map.put("class_attr_attack",player_attr_atk);
-            }
-            if(player_attr_def != null){
-                entity_Map.put("class_attr_defense",player_attr_def);
             }
 
             entity_Map.put("level_now_"+custom,String.valueOf(level_now));

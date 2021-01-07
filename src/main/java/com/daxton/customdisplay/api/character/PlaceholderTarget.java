@@ -26,7 +26,7 @@ public class PlaceholderTarget {
     public String getTargetPlaceholder(LivingEntity entity, String firstString){
 
 
-        String key = firstString.toLowerCase().replace("_target","").replace(">","");
+        String key = firstString.replace("_target","").replace(">","");
         if(entity instanceof Player){
             Player player = ((Player) entity).getPlayer();
             anser = setPlayer(player,key);
@@ -55,7 +55,7 @@ public class PlaceholderTarget {
             if(string.toLowerCase().contains("<cd_class_attr_stats_")){
                 playerAnser = setAttrStats(attrConfig,key,uuidString);
             }else if(string.toLowerCase().contains("<cd_class_eqm_stats_")){
-                playerAnser = setEqmStats(attrConfig,key,uuidString);
+                playerAnser = setEqmStats(eqmConfig,key,uuidString);
             }else {
                 playerAnser = setClass(playerConfig,key,uuidString);
             }
@@ -161,16 +161,22 @@ public class PlaceholderTarget {
     }
 
     public String setEqmStats(FileConfiguration eqmConfig,String key,String uuidString){
+
+        String playerAnser = "null";
         String key2 = key.replace("eqm_stats_","");
-        double attr_eqm = eqmConfig.getDouble(uuidString+".Equipment_Stats."+key2);
-        String playerAnser = String.valueOf(attr_eqm);
+
+        if(eqmConfig.getString(uuidString+".Equipment_Stats."+key2) != null){
+            playerAnser = eqmConfig.getString(uuidString+".Equipment_Stats."+key2);
+        }
         return playerAnser;
     }
 
     public String setAttrStats(FileConfiguration attrConfig,String key,String uuidString){
+        String playerAnser = "null";
         String key2 = key.replace("attr_stats_","");
-        double attr_stats = attrConfig.getDouble(uuidString+".Attributes_Stats."+key2);
-        String playerAnser = String.valueOf(attr_stats);
+        if(attrConfig.getString(uuidString+".Attributes_Stats."+key2) != null){
+            playerAnser = attrConfig.getString(uuidString+".Attributes_Stats."+key2);
+        }
         return playerAnser;
     }
 
@@ -215,19 +221,6 @@ public class PlaceholderTarget {
             String key2 = key.replace("attr_point_","");
             int attr_point = playerConfig.getInt(uuidString+".Attributes_Point."+key2);
             playerAnser = String.valueOf(attr_point);
-        }
-        if(key.toLowerCase().contains("race")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Race");
-        }
-        if(key.toLowerCase().contains("body")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Body");
-        }
-        if(key.toLowerCase().contains("attr_attack")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Attribute_Attack");
-
-        }
-        if(key.toLowerCase().contains("attr_defense")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Attribute_Defense");
         }
         return playerAnser;
     }

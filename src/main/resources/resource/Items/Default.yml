@@ -1,36 +1,264 @@
 #
+#無
+Sword_Non:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e劍'
+  Lore:
+  - ''
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
 #火
-Sword_Non:
+Sword_Fire:
   Material: 'Wooden_Sword'
   Data:
   CustomModelData: 0
   HideItemFlags: true
-  DisplayName: '§e無屬性的劍'
+  DisplayName: '§e火之劍'
   Lore:
   - ''
-  - '§7屬性 : 無'
+  - '§7攻擊屬性 : 火'
   Attributes:
     Name: '移除原本屬性用'
     Inherit: 'GENERIC_ATTACK_DAMAGE'
     Operation: 'ADD_NUMBER'
     Amount: 0.1
     EquipmentSlot: 'HAND'
-#
-Sword_Non:
+#火
+Sword_Fire_Add:
   Material: 'Wooden_Sword'
   Data:
   CustomModelData: 0
   HideItemFlags: true
-  DisplayName: '§e無屬性的劍'
+  DisplayName: '§e火之劍'
   Lore:
   - ''
-  - '§7屬性 : 無'
+  - '§7武器類型 : 武器-長矛'
+  - '§7物理攻擊 : 10'
+  - '§7對中型魔物傷害增加% : 50%'
+  - '§7對人形增傷% : 50%'
+  - '§7對火屬性魔物增傷% : 50%'
+  - '§7攻擊屬性 : 火'
   Attributes:
     Name: '移除原本屬性用'
     Inherit: 'GENERIC_ATTACK_DAMAGE'
     Operation: 'ADD_NUMBER'
     Amount: 0.1
     EquipmentSlot: 'HAND'
+#地
+Sword_Earth:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e地之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 地'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#水
+Sword_Water:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e水之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 水'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#風
+Sword_Wind:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e風之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 風'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#毒
+Sword_Poison:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e毒之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 毒'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#不死
+Sword_Immortality:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e不死之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 不死'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#暗
+Sword_Dark:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e暗之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 暗'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#聖
+Sword_Holy:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e聖之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 聖'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+#念
+Sword_Sense:
+  Material: 'Wooden_Sword'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e念之劍'
+  Lore:
+  - ''
+  - '§7攻擊屬性 : 念'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+
+
+
+#念
+Chestplate_Earth:
+  Material: 'Iron_Chestplate'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e地屬性鎧甲'
+  Lore:
+  - ''
+  - '§7防禦屬性 : 地'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+
+Chestplate_Fire:
+  Material: 'Iron_Chestplate'
+  Data:
+  CustomModelData: 0
+  HideItemFlags: true
+  DisplayName: '§e火屬性鎧甲'
+  Lore:
+  - ''
+  - ''
+  - '§7對火屬性傷害減免% : 30%'
+  - '§7對人形減傷% : 50%'
+  - '§7受到中型魔物減傷% : 50%'
+  - '§7防禦屬性 : 火'
+  Attributes:
+    Name: '移除原本屬性用'
+    Inherit: 'GENERIC_ATTACK_DAMAGE'
+    Operation: 'ADD_NUMBER'
+    Amount: 0.1
+    EquipmentSlot: 'HAND'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Deputy:
   Material: 'Diamond_Leggings'

@@ -328,6 +328,7 @@ public class PlayerListener implements Listener {
     }
 
     public void onResourcePackSend(Player player,String status){
+
         /**發送材質包**/
         if(status == null){
             int time = 2;
@@ -343,10 +344,20 @@ public class PlayerListener implements Listener {
             bukkitRunnable = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    player.setResourcePack(config.getString("ResourcePack.url"),config.getString("ResourcePack.hash"));
+                    try {
+                        player.setResourcePack(config.getString("ResourcePack.url"),config.getString("ResourcePack.hash"));
+                    }catch (NoSuchMethodError exception){
+
+                    }
+
+
+
                 }
             };
             bukkitRunnable.runTaskLater(cd,time*20);
+
+
+
         }
         if(status !=null){
             /**發送材質包成功**/

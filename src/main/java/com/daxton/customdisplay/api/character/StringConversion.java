@@ -198,6 +198,9 @@ public class StringConversion {
             for(String stringList2 : stl2){
                 String[] stl3 = stringList2.split(",");
                 if(finalString.replace(stl3[0],"").length() == 0){
+                    if(stl3[1].contains("<") && stl3[1].contains(">")){
+                        stl3[1] = pluginString(stl3[1],livingEntity);
+                    }
                     finalString = finalString.replace(stl3[0],stl3[1]);
                     if(finalString.equals(stl3[1])){
                         break;

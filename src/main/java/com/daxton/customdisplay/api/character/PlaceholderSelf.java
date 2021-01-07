@@ -30,6 +30,7 @@ public class PlaceholderSelf {
         if(entity instanceof Player){
             Player player = ((Player) entity).getPlayer();
             anser = setPlayer(player,key);
+
         }else {
             setOtherEntity(entity,key);
         }
@@ -55,7 +56,7 @@ public class PlaceholderSelf {
             if(string.toLowerCase().contains("<cd_class_attr_stats_")){
                 playerAnser = setAttrStats(attrConfig,key,uuidString);
             }else if(string.toLowerCase().contains("<cd_class_eqm_stats_")){
-                playerAnser = setEqmStats(attrConfig,key,uuidString);
+                playerAnser = setEqmStats(eqmConfig,key,uuidString);
             }else {
                 playerAnser = setClass(playerConfig,key,uuidString);
             }
@@ -220,19 +221,7 @@ public class PlaceholderSelf {
             int attr_point = playerConfig.getInt(uuidString+".Attributes_Point."+key2);
             playerAnser = String.valueOf(attr_point);
         }
-        if(key.toLowerCase().contains("race")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Race");
-        }
-        if(key.toLowerCase().contains("body")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Body");
-        }
-        if(key.toLowerCase().contains("attr_attack")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Attribute_Attack");
 
-        }
-        if(key.toLowerCase().contains("attr_defense")){
-            playerAnser = playerConfig.getString(uuidString+".Player_Attribute_Defense");
-        }
         return playerAnser;
     }
 

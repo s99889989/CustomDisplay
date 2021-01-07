@@ -80,6 +80,17 @@ public class PlayerTrigger {
             }
         }
     }
+    /**當魔法攻擊爆擊時**/
+    public void onAtkMiss(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onatkmiss") != null){
+            for(String actionString : action_Trigger_Map.get("~onatkmiss")){
+                actionString = actionString.replace("~onAtkMiss","");
+                runExecute(actionString);
+            }
+        }
+    }
     /**被攻擊時**/
     public void onDamaged(LivingEntity self,LivingEntity target){
         this.self = self;

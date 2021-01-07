@@ -31,7 +31,7 @@ public class PlayerAttribute {
                 File attrFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/attributes-stats.yml");
                 FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFilePatch);
 
-                FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
+                FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EntityStats_"+attrStatsFileName+".yml");
 
                 ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
                 if(attrStatsSec.getKeys(false).size() > 0){

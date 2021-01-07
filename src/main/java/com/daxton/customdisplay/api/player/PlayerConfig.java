@@ -143,11 +143,13 @@ public class PlayerConfig {
         }
 
         if(!(playerConfig.contains(uuidString+".Melee_physics_formula"))){
-            playerConfig.set(uuidString+".Melee_physics_formula", classConfig.getString(className+".Melee_physics_formula"));
+            playerConfig.set(uuidString+".Melee_physics_formula.Player", classConfig.getString(className+".Melee_physics_formula.Player"));
+            playerConfig.set(uuidString+".Melee_physics_formula.Other", classConfig.getString(className+".Melee_physics_formula.Other"));
         }
 
         if(!(playerConfig.contains(uuidString+".Range_physics_formula"))){
-            playerConfig.set(uuidString+".Range_physics_formula", classConfig.getString(className+".Range_physics_formula"));
+            playerConfig.set(uuidString+".Range_physics_formula.Player", classConfig.getString(className+".Range_physics_formula.Player"));
+            playerConfig.set(uuidString+".Range_physics_formula.Other", classConfig.getString(className+".Range_physics_formula.Other"));
         }
 
         saveCreateFile(player,playerConfig);
@@ -177,6 +179,9 @@ public class PlayerConfig {
             }catch (Exception exception){
                 //exception.printStackTrace();
             }
+
+
+
         }
 
 
@@ -188,7 +193,7 @@ public class PlayerConfig {
         FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(patch);
         List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
         for(String attrStatsFileName : attrStatsNameList){
-            FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
+            FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EquipmentStats_"+attrStatsFileName+".yml");
             ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
             if(attrStatsSec.getKeys(false).size() > 0){
                 for(String attrStats : attrStatsSec.getKeys(false)){
@@ -209,7 +214,7 @@ public class PlayerConfig {
         FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(patch);
         List<String> attrStatsNameList = playerConfig.getStringList(uuidString+".Attributes_Stats");
         for(String attrStatsFileName : attrStatsNameList){
-            FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
+            FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EntityStats_"+attrStatsFileName+".yml");
             ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
             if(attrStatsSec.getKeys(false).size() > 0){
                 for(String attrStats : attrStatsSec.getKeys(false)){
@@ -238,7 +243,7 @@ public class PlayerConfig {
                 File attrFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/attributes-stats.yml");
                 FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFilePatch);
 
-                FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Stats_"+attrStatsFileName+".yml");
+                FileConfiguration attrStatsConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EntityStats_"+attrStatsFileName+".yml");
 
                 ConfigurationSection attrStatsSec = attrStatsConfig.getConfigurationSection(attrStatsFileName);
                 if(attrStatsSec.getKeys(false).size() > 0){

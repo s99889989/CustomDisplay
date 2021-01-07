@@ -15,7 +15,8 @@ Novice:
   Attributes_Point:
   - 'Point_Novice'
   Attributes_Stats:
-  - 'Stats_Ro_Novice'
+  - 'Stats_Default'
+  #- 'Stats_Ro_Novice'
   Equipment_Stats:
   - 'Stats_Equipment'
   Melee_physics_formula: '&self_Melee_Physical_Attack& * (1+(&self_Eq_Fire_Attack&*&mob_attr_Attributes_Earth&))'

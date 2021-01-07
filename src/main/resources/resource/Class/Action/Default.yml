@@ -16,6 +16,10 @@ Action:
 #-------------------------------------------------------------------------#
 - Action[a=AttackCritDisplayUp] ~onMCrit
 
+#Attack display damage (up)(Fail)
+#-------------------------------------------------------------------------#
+- Action[a=AttackFailDisplayUp] ~onAtkMiss
+
 #Attack display damage (throw)
 #-------------------------------------------------------------------------#
 #- Action[a=AttackDisplayThrow] ~onAttack

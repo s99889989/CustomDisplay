@@ -1,26 +1,70 @@
+#怪物等級
 mob_class_level:
   message:
   - CCharacter[<cd_mythic_class_level>] @=target
-
+#怪物種族
 mob_class_race:
   message:
   - CCharacter[<cd_mythic_class_race>] @=target
-
+#怪物屬性
 mob_class_attr:
   message:
   - CCharacter[<cd_mythic_class_attribute>] @=target
-
+#怪物體型
 mob_class_body:
   message:
   - CCharacter[<cd_mythic_class_body>] @=target
-
+#怪物類型
 mob_class_type:
   message:
   - CCharacter[<cd_mythic_class_type>] @=target
-
+#怪物力量
 mob_class_stats_Mob_Str:
   message:
-  - CCharacter[<cd_mythic_class_stats_Mob_Str>]
+  - CCharacter[<cd_mythic_class_stats_Mob_Str>] @=target
+#怪物靈巧
+mob_class_stats_Mob_Dex:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Dex>] @=target
+#怪物敏捷
+mob_class_stats_Mob_Agi:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Agi>] @=target
+#怪物幸運
+mob_class_stats_Mob_Luk:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Luk>] @=target
+#怪物物理攻擊
+mob_class_stats_Mob_Physical_Attack:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Physical_Attack>] @=target
+#怪物物理防禦
+mob_class_stats_Mob_Physical_Defense:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Physical_Defense>] @=target
+#怪物魔法攻擊
+mob_class_stats_Mob_Magic_Attack:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Magic_Attack>] @=target
+#怪物魔法防禦
+mob_class_stats_Mob_Magic_Defense:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Magic_Defense>] @=target
+#怪物命中
+mob_class_stats_Mob_Hit_Rate:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Hit_Rate>] @=target
+#怪物閃避
+mob_class_stats_Mob_Dodge_Rate:
+  message:
+  - CCharacter[<cd_mythic_class_stats_Mob_Dodge_Rate>] @=target
+
+
+
+
+
+
+
 
 
 

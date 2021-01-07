@@ -30,6 +30,7 @@ public class PlayerEquipment {
     }
 
     public void reloadEquipment(Player player,int key){
+
         String attackCore = cd.getConfigManager().config.getString("AttackCore");
         if(attackCore.toLowerCase().contains("customcore")){
             /**清除所有設定**/
@@ -148,7 +149,7 @@ public class PlayerEquipment {
         List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
         if(eqmSetNameList.size() > 0){
             for(String eqmSetName : eqmSetNameList){
-                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/Stats/"+eqmSetName+".yml");
+                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/EquipmentStats/"+eqmSetName+".yml");
                 FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmStatsPatch);
                 ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
                 if(eqmStatsSec.getKeys(false).size() > 0){
@@ -200,12 +201,16 @@ public class PlayerEquipment {
         List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
         if(eqmSetNameList.size() > 0){
             for(String eqmSetName : eqmSetNameList){
-                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/Stats/"+eqmSetName+".yml");
+                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/EquipmentStats/"+eqmSetName+".yml");
                 FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmStatsPatch);
                 ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
                 if(eqmStatsSec.getKeys(false).size() > 0){
                     for(String eqmStatsName : eqmStatsSec.getKeys(false)){
-                        playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,"0");
+                        String value = "0";
+                        if(eqmConfig.getString(eqmSetName+"."+eqmStatsName+".base") != null){
+                            value = eqmConfig.getString(eqmSetName+"."+eqmStatsName+".base");
+                        }
+                        playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,value);
                         try {
                             playerEqmConfig.save(playerEqmFilePatch);
                         }catch (Exception exception){

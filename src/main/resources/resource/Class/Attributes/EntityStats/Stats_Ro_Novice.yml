@@ -1,9 +1,23 @@
+
+Stats_Ro_Novice:
+#人物屬性
+  #種族
+  Class_Race:
+    formula: '人形'
+  #體型
+  Class_Body:
+    formula: '中型'
+  #攻擊屬性
+  Class_Attributes_Attack:
+    formula: '&self_Eq_Class_Attributes_Attack&'
+  #防禦屬性
+  Class_Attributes_Defense:
+    formula: '&self_Eq_Class_Attributes_Defense&'
+  #手上道具類型
+  Class_Weapon_Type:
+    formula: '&self_Eq_Class_Weapon_Type&'
 #基礎屬性
 #-------------------------------------------#
-Stats_Ro_Novice:
-  Attributes_Attack:
-    formula: '&self_Eq_Attributes_Attack&'
-
   #HP
   Hp:
     formula: '((100+5 * &self_level_now_base&) * (1+(&self_attr_point_vit&+&self_Eq_Vit&)/100)) + (&self_Eq_HP&)'
@@ -175,7 +189,7 @@ Stats_Ro_Novice:
   Fire_Attribute_Attack%:
     formula: '(&self_Eq_Fire_Attribute_Attack%&)'
   #地屬性攻擊%
-  Geological_Attribute_Attack%:
+  Earth_Attribute_Attack%:
     formula: '(&self_Eq_Earth_Attribute_Attack%&)'
   #水屬性攻擊%
   Water_Attribute_Attack%:
@@ -338,26 +352,26 @@ Stats_Ro_Novice:
 #體型-攻擊增強
 #攻擊特定體型目標時，提高造成的傷害
 #-------------------------------------------#
-  #對小體型增傷%
+  #對小型魔物傷害增加%
   Increases_Damage_To_Small_Body%:
     formula: '(&self_Eq_Increases_Damage_To_Small_Body%&)'
-  #對中體型增傷%
+  #對中型魔物傷害增加%
   Increases_Damage_To_Mid_Body%:
     formula: '(&self_Eq_Increases_Damage_To_Mid_Body%&)'
-  #對大體型增傷%
+  #對大型魔物傷害增加%
   Increases_Damage_To_Big_Body%:
     formula: '(&self_Eq_Increases_Damage_To_Big_Body%&)'
 
 #體型-傷害減免
 #受到特定體型的目標攻擊時，降低受到此體型目標的傷害
 #-------------------------------------------#
-  #對小體型減傷%
+  #受到小型魔物減傷%
   Reduce_Damage_To_Small_Body%:
     formula: '(&self_Eq_Reduce_Damage_To_Small_Body%&)'
-  #對中體型減傷%
+  #受到中型魔物減傷%
   Reduce_Damage_To_Mid_Body%:
     formula: '(&self_Eq_Reduce_Damage_To_Mid_Body%&)'
-  #對大體型減傷%
+  #受到大型魔物減傷%
   Reduce_Damage_To_Big_Body%:
     formula: '(&self_Eq_Reduce_Damage_To_Big_Body%&)'
 

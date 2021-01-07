@@ -41,25 +41,25 @@ public class MobConfig {
         List<String> statsList = new ArrayList<>();
         List<String> statsFinalList = new ArrayList<>();
         mobDefaultConfig.getStringList("Default_Mob.Attributes_Stats").forEach((key)->{
-            File statsFile = new File(cd.getDataFolder(),"Class/Attributes/Stats/"+key+".yml");
+            File statsFile = new File(cd.getDataFolder(),"Class/Attributes/EntityStats/"+key+".yml");
             FileConfiguration statsConfig = YamlConfiguration.loadConfiguration(statsFile);
             ConfigurationSection statsSec = statsConfig.getConfigurationSection(key);
             statsSec.getKeys(false).forEach((stats)->{stats_Map.put(stats,statsConfig.getInt(key+"."+stats+".base"));});
             statsList.addAll(statsSec.getKeys(false));
         });
         statsFinalList = statsList.stream().distinct().collect(Collectors.toList());
-        mobConfig.set(mobID+".Mob_Level",mobDefaultConfig.getInt("Default_Mob.Mob_Level"));
-        mobConfig.set(mobID+".Mob_Race",mobDefaultConfig.getString("Default_Mob.Mob_Race"));
-        mobConfig.set(mobID+".Mob_Attribute",mobDefaultConfig.getString("Default_Mob.Mob_Attribute"));
-        mobConfig.set(mobID+".Mob_Body",mobDefaultConfig.getString("Default_Mob.Mob_Body"));
-        mobConfig.set(mobID+".Mob_Type",mobDefaultConfig.getString("Default_Mob.Mob_Type"));
-        statsFinalList.forEach((stats)->{mobConfig.set(mobID+".Attributes_Stats."+stats,stats_Map.get(stats));});
-        mobConfig.set(mobID+".Melee_physics_formula",mobDefaultConfig.getString("Default_Mob.Melee_physics_formula"));
-        mobConfig.set(mobID+".Range_physics_formula",mobDefaultConfig.getString("Default_Mob.Range_physics_formula"));
+        if(mobConfig.getString(mobID+".Mob_Race") == null){
+            mobConfig.set(mobID+".Mob_Level",mobDefaultConfig.getInt("Default_Mob.Mob_Level"));
+            mobConfig.set(mobID+".Mob_Race",mobDefaultConfig.getString("Default_Mob.Mob_Race"));
+            mobConfig.set(mobID+".Mob_Attribute",mobDefaultConfig.getString("Default_Mob.Mob_Attribute"));
+            mobConfig.set(mobID+".Mob_Body",mobDefaultConfig.getString("Default_Mob.Mob_Body"));
+            mobConfig.set(mobID+".Mob_Type",mobDefaultConfig.getString("Default_Mob.Mob_Type"));
+            statsFinalList.forEach((stats)->{mobConfig.set(mobID+".Attributes_Stats."+stats,stats_Map.get(stats));});
+            mobConfig.set(mobID+".Melee_physics_formula",mobDefaultConfig.getString("Default_Mob.Melee_physics_formula"));
+            mobConfig.set(mobID+".Range_physics_formula",mobDefaultConfig.getString("Default_Mob.Range_physics_formula"));
+        }
         try {
-            if(!mobFilePatch.exists()){
-                mobConfig.save(mobFilePatch);
-            }
+            mobConfig.save(mobFilePatch);
         }catch (Exception exception){
             exception.printStackTrace();
         }

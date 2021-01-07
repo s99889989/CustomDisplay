@@ -15,15 +15,179 @@ self_hp_formula:
 
 
 #屬性計算
-self_Attr:
+self_Attr_Test:
   message:
-  - CCharacter[<cd_class_attr_attack>]
-target_Attr:
+  - CCharacter[<cd_self_class_attr_stats_Class_Attributes_Attack>-<cd_target_class_attr_stats_Class_Attributes_Attack>] @=both
+#一些計算(針對玩家)
+#-------------------------------------------------------------------#
+#種族增傷(針對玩家)
+self_Player_Race_Add:
   message:
-  - CCharacter[<cd_mythic_class_attribute>] @=target
+  - CCharacter[<cd_attr_stats_Class_Race>] @=target
+  - ConverAll[無形,<cd_attr_stats_Increases_Damage_To_Invisible%>]
+  - ConverAll[植物,<cd_attr_stats_Increases_Damage_To_Plant%>]
+  - ConverAll[昆蟲,<cd_attr_stats_Increases_Damage_To_Insect%>]
+  - ConverAll[動物,<cd_attr_stats_Increases_Damage_To_Animal%>]
+  - ConverAll[魚貝,<cd_attr_stats_Increases_Damage_To_Fish%>]
+  - ConverAll[人形,<cd_attr_stats_Increases_Damage_To_Human%>]
+  - ConverAll[不死,<cd_attr_stats_Increases_Damage_To_Immortal%>]
+  - ConverAll[龍族,<cd_attr_stats_Increases_Damage_To_Dragon%>]
+  - ConverAll[天使,<cd_attr_stats_Increases_Damage_To_Angel%>]
+  - ConverAll[惡魔,<cd_attr_stats_Increases_Damage_To_Demon%>]
+  - dec[#.##]
+
+#種族減傷(針對玩家)
+self_Player_Race_Reduce:
+  message:
+  - CCharacter[<cd_attr_stats_Class_Race>] @=target
+  - ConverAll[無形,<cd_attr_stats_Reduce_Damage_To_Invisible%>] @=target
+  - ConverAll[植物,<cd_attr_stats_Reduce_Damage_To_Plant%>] @=target
+  - ConverAll[昆蟲,<cd_attr_stats_Reduce_Damage_To_Insect%>] @=target
+  - ConverAll[動物,<cd_attr_stats_Reduce_Damage_To_Animal%>] @=target
+  - ConverAll[魚貝,<cd_attr_stats_Reduce_Damage_To_Fish%>] @=target
+  - ConverAll[人形,<cd_attr_stats_Reduce_Damage_To_Human%>] @=target
+  - ConverAll[不死,<cd_attr_stats_Reduce_Damage_To_Immortal%>] @=target
+  - ConverAll[龍族,<cd_attr_stats_Reduce_Damage_To_Dragon%>] @=target
+  - ConverAll[天使,<cd_attr_stats_Reduce_Damage_To_Angel%>] @=target
+  - ConverAll[惡魔,<cd_attr_stats_Reduce_Damage_To_Demon%>] @=target
+  - dec[#.##]
+
+#屬性克制(針對玩家)
+self_target_Player_Attr_Rest:
+  message:
+  - CCharacter[<cd_self_class_attr_stats_Class_Attributes_Attack><cd_target_class_attr_stats_Class_Attributes_Defense>] @=both
+  - ConverAll[無無,0;無火,0;無水,0;無風,0;無地,0;無毒,0;無聖,0;無暗,0;無念,-0.75;無不死,0]
+  - ConverAll[火無,0;火火,-0.75;火水,-0.5;火風,0;火地,1;火毒,-0.25;火聖,-0.25;火暗,0;火念,0;火不死,1]
+  - ConverAll[水無,0;水火,1;水水,-0.75;水風,-0.5;水地,0;水毒,-0.25;水聖,-0.25;水暗,0;水念,0;水不死,0.5]
+  - ConverAll[風無,0;風火,0;風水,1;風風,-0.75;風地,-0.5;風毒,-0.25;風聖,-0.25;風暗,0;風念,0;風不死,0]
+  - ConverAll[地無,0;地火,-0.5;地水,0;地風,1;地地,-0.75;地毒,-0.25;地聖,-0.25;地暗,0;地念,0;地不死,0]
+  - ConverAll[毒無,0;毒火,0.25;毒水,0;毒風,0.25;毒地,0.25;毒毒,-0.75;毒聖,-0.5;毒暗,-0.75;毒念,-0.5;毒不死,-0.75]
+  - ConverAll[聖無,0;聖火,0;聖水,0;聖風,0;聖地,0;聖毒,0.25;聖聖,-0.75;聖暗,1;聖念,0;聖不死,1]
+  - ConverAll[暗無,0;暗火,0;暗水,0;暗風,0;暗地,0;暗毒,-0.75;暗聖,1;暗暗,-0.75;暗念,0;暗不死,-0.75]
+  - ConverAll[念無,-0.75;念火,0;念水,0;念風,0;念地,0;念毒,-0.25;念聖,-0.25;念暗,-0.25;念念,1;念不死,0.75]
+  - ConverAll[不死無,0;不死火,-0.5;不死水,-0.5;不死風,-0.5;不死地,-0.5;不死毒,-0.75;不死聖,0.75;不死暗,-0.75;不死念,0;不死不死,-0.75]
+  - dec[#.##]
+
+#屬性增傷(針對玩家)
+self_Player_Attr_Add:
+  message:
+  - CCharacter[<cd_target_class_attr_stats_Class_Attributes_Defense>] @=both
+  - ConverAll[無,<cd_attr_stats_Increase_Damage_To_Non_Attribute_monsters%>]
+  - ConverAll[火,<cd_attr_stats_Increase_Damage_To_Fire_Attribute_monsters%>]
+  - ConverAll[水,<cd_attr_stats_Increase_Damage_To_Water_Attribute_monsters%>]
+  - ConverAll[風,<cd_attr_stats_Increase_Damage_To_Wind_Attribute_monsters%>]
+  - ConverAll[地,<cd_attr_stats_Increase_Damage_To_Earth_Attribute_monsters%>]
+  - ConverAll[毒,<cd_attr_stats_Increase_Damage_To_Poisonous_Attribute_monsters%>]
+  - ConverAll[聖,<cd_attr_stats_Increase_Damage_To_Holy_Attribute_monsters%>]
+  - ConverAll[暗,<cd_attr_stats_Increase_Damage_To_Dark_Attribute_monsters%>]
+  - ConverAll[念,<cd_attr_stats_Increase_Damage_To_Mind_Attribute_monsters%>]
+  - ConverAll[不死,<cd_attr_stats_Increase_Damage_To_Undead_Attribute_monsters%>]
+  - dec[#.##]
+
+#屬性減免(針對玩家)
+self_Player_Attr_Reduction:
+  message:
+  - CCharacter[<cd_self_class_attr_stats_Class_Attributes_Attack>] @=both
+  - ConverAll[無,<cd_attr_stats_No_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[火,<cd_attr_stats_Fire_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[水,<cd_attr_stats_Water_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[風,<cd_attr_stats_Wind_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[地,<cd_attr_stats_Earth_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[毒,<cd_attr_stats_Poison_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[聖,<cd_attr_stats_Holy_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[暗,<cd_attr_stats_Dark_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[念,<cd_attr_stats_Mind_Attribute_Damage_Reduction%>] @=target
+  - ConverAll[不死,<cd_attr_stats_Undead_Attribute_Damage_Reduction%>] @=target
+  - dec[#.##]
+
+#體型增傷(針對玩家)
+self_Player_Body_Add:
+  message:
+  - CCharacter[<cd_target_class_attr_stats_Class_Body>] @=both
+  - ConverAll[小型,<cd_attr_stats_Increases_Damage_To_Small_Body%>]
+  - ConverAll[中型,<cd_attr_stats_Increases_Damage_To_Mid_Body%>]
+  - ConverAll[大型,<cd_attr_stats_Increases_Damage_To_Big_Body%>]
+  - dec[#.##]
+
+#體型減傷(針對玩家)
+self_Player_Body_Reduce:
+  message:
+  - CCharacter[<cd_target_class_attr_stats_Class_Body>] @=both
+  - ConverAll[小型,<cd_attr_stats_Reduce_Damage_To_Small_Body%>] @=target
+  - ConverAll[中型,<cd_attr_stats_Reduce_Damage_To_Mid_Body%>] @=target
+  - ConverAll[大型,<cd_attr_stats_Reduce_Damage_To_Big_Body%>] @=target
+  - dec[#.##]
+
+#體型修正(針對玩家)
+self_Player_Body_Fix:
+  message:
+  - CCharacter[<cd_self_class_attr_stats_Class_Weapon_Type><cd_target_class_attr_stats_Class_Body>] @=both
+  - ConverAll[武器-徒手小型,0;武器-徒手中型,0;武器-徒手大型,0]
+  - ConverAll[武器-長矛小型,-0.25;武器-長矛中型,-0.25;武器-長矛大型,0]
+  - ConverAll[武器-長劍小型,-0.25;武器-長劍中型,0;武器-長劍大型,-0.25]
+  - ConverAll[武器-法杖小型,0;武器-法杖中型,0;武器-法杖大型,0]
+  - ConverAll[武器-拳刃小型,-0.25;武器-拳刃中型,0;武器-拳刃大型,-0.25]
+  - ConverAll[武器-弓小型,0;武器-弓中型,0;武器-弓大型,-0.25]
+  - ConverAll[武器-鈍器小型,-0.25;武器-鈍器中型,0;武器-鈍器大型,0]
+  - ConverAll[武器-斧子小型,-0.5;武器-斧子中型,-0.25;武器-斧子大型,0]
+  - ConverAll[武器-短劍小型,0;武器-短劍中型,-0.25;武器-短劍大型,-0.5]
+  - ConverAll[武器-拳套小型,0;武器-拳套中型,-0.25;武器-拳套大型,-0.5]
+  - dec[#.##]
+
+
+#進戰最终物攻(針對玩家)
+self_Player_Final_Melee_Attack:
+  message:
+  - CConversion[((&self_Eq_Physical_Attack&) * (1+&self_Physical_Attack%&) * (1+&self_Player_Body_Fix&) * (1+(&self_Player_Body_Add&/100)) * (1+(&self_target_Player_Attr_Rest&)) * (1+(&self_Player_Attr_Add&/100)) + (&self_Melee_Physical_Attack&)) * (1+(&self_Player_Race_Add&/100))] @=both
+  
+#遠距離最终物攻(針對玩家)
+self_Player_Final_Range_Attack:
+  message:
+  - CConversion[((&self_Eq_Physical_Attack&) * (1+&self_Physical_Attack%&) * (1+&self_Player_Body_Fix&) * (1+(&self_Player_Body_Add&/100)) * (1+(&self_target_Player_Attr_Rest&)) * (1+(&self_Player_Attr_Add&/100)) + (&self_Range_Physical_Attack&)) * (1+(&self_Player_Race_Add&/100))] @=both
+
+#物防乘數(針對玩家)
+self_Player_Def_Double:
+  message:
+  - math[(4000+((<cd_target_class_eqm_stats_Eq_Vit>+<cd_target_class_eqm_stats_Eq_Physical_Defense>) * (1+(<cd_target_class_attr_stats_Physical_Defense%>/100)-(<cd_self_class_attr_stats_Ignore_Physical_Defense%>/100))))/(4000+((<cd_target_class_eqm_stats_Eq_Vit>+<cd_target_class_eqm_stats_Eq_Physical_Defense>) * (1+(<cd_target_class_attr_stats_Physical_Defense%>/100)-(<cd_self_class_attr_stats_Ignore_Physical_Defense%>/100)))*10)] @=both
+
+#物理最終減傷值(針對玩家)
+self_Player_Final_Def:
+  message:
+  - math[1-(1+(<cd_self_class_attr_stats_Physical_Penetration%>/100)-(<cd_target_class_attr_stats_Physical_Injury_Reduction%>/100))] @=both
+
+#基礎傷害(針對玩家)
+self_Player_Default_Damage:
+  message:
+  - CConversion[( (((&self_Player_Final_Melee_Attack&)*(&self_Player_Def_Double&)+(&self_Refined_Physical_Attack&)) * (100/100)-&self_attr_point_vit& *((1+&self_Physical_Damage_Bonus%&)) )] @=both
+
+#最終屬性乘算(針對玩家)
+self_Player_Final_Attack_Number:
+  message:
+  - CConversion[(1+(&self_Player_Attr_Add&/100)-(&self_Player_Attr_Reduction&/100)] @=both
+
+
+#一些計算(針對怪物)
+#-------------------------------------------------------------------#
+#種族增傷(針對怪物)
+self_Race_Add:
+  message:
+  - CCharacter[<cd_mythic_class_race>] @=target
+  - ConverAll[無形,<cd_attr_stats_Increases_Damage_To_Invisible%>]
+  - ConverAll[植物,<cd_attr_stats_Increases_Damage_To_Plant%>]
+  - ConverAll[昆蟲,<cd_attr_stats_Increases_Damage_To_Insect%>]
+  - ConverAll[動物,<cd_attr_stats_Increases_Damage_To_Animal%>]
+  - ConverAll[魚貝,<cd_attr_stats_Increases_Damage_To_Fish%>]
+  - ConverAll[人形,<cd_attr_stats_Increases_Damage_To_Human%>]
+  - ConverAll[不死,<cd_attr_stats_Increases_Damage_To_Immortal%>]
+  - ConverAll[龍族,<cd_attr_stats_Increases_Damage_To_Dragon%>]
+  - ConverAll[天使,<cd_attr_stats_Increases_Damage_To_Angel%>]
+  - ConverAll[惡魔,<cd_attr_stats_Increases_Damage_To_Demon%>]
+  - dec[#.##]
+
+#屬性克制(針對怪物)
 self_target_Attr_Rest:
   message:
-  - CCharacter[<cd_self_class_attr_attack><cd_target_mythic_class_attribute>] @=both
+  - CCharacter[<cd_self_class_attr_stats_Class_Attributes_Attack><cd_target_mythic_class_attribute>] @=both
   - ConverAll[無無,0;無火,0;無水,0;無風,0;無地,0;無毒,0;無聖,0;無暗,0;無念,-0.75;無不死,0]
   - ConverAll[火無,0;火火,-0.75;火水,-0.5;火風,0;火地,1;火毒,-0.25;火聖,-0.25;火暗,0;火念,0;火不死,1]
   - ConverAll[水無,0;水火,1;水水,-0.75;水風,-0.5;水地,0;水毒,-0.25;水聖,-0.25;水暗,0;水念,0;水不死,0.5]
@@ -36,29 +200,66 @@ self_target_Attr_Rest:
   - ConverAll[不死無,0;不死火,-0.5;不死水,-0.5;不死風,-0.5;不死地,-0.5;不死毒,-0.75;不死聖,0.75;不死暗,-0.75;不死念,0;不死不死,-0.75]
   - dec[#.##]
 
-self_target_Attr_RRR:
+#屬性增傷(針對怪物)
+self_Attr_Add:
   message:
-  - CCharacter[<cd_self_class_attr_attack><cd_target_mythic_class_attribute>] @=both
-  - ConverAll[無無,0;無火,0;無水,0;無風,0;無地,0;無毒,0;無聖,0;無暗,0;無念,-0.75;無不死,0]
-  - ConverAll[火無,0;火火,-0.75;火水,-0.5;火風,0;火地,1;火毒,-0.25;火聖,-0.25;火暗,0;火念,0;火不死,1]
-  - ConverAll[水無,0;水火,1;水水,-0.75;水風,-0.5;水地,0;水毒,-0.25;水聖,-0.25;水暗,0;水念,0;水不死,0.5]
-  - ConverAll[風無,0;風火,0;風水,1;風風,-0.75;風地,-0.5;風毒,-0.25;風聖,-0.25;風暗,0;風念,0;風不死,0]
-  - ConverAll[地無,0;地火,-0.5;地水,0;地風,1;地地,-0.75;地毒,-0.25;地聖,-0.25;地暗,0;地念,0;地不死,0]
-  - ConverAll[毒無,0;毒火,0.25;毒水,0;毒風,0.25;毒地,0.25;毒毒,-0.75;毒聖,-0.5;毒暗,-0.75;毒念,-0.5;毒不死,-0.75]
-  - ConverAll[聖無,0;聖火,0;聖水,0;聖風,0;聖地,0;聖毒,0.25;聖聖,-0.75;聖暗,1;聖念,0;聖不死,1]
-  - ConverAll[暗無,0;暗火,0;暗水,0;暗風,0;暗地,0;暗毒,-0.75;暗聖,1;暗暗,-0.75;暗念,0;暗不死,-0.75]
-  - ConverAll[念無,-0.75;念火,0;念水,0;念風,0;念地,0;念毒,-0.25;念聖,-0.25;念暗,-0.25;念念,1;念不死,0.75]
-  - ConverAll[不死無,0;不死火,-0.5;不死水,-0.5;不死風,-0.5;不死地,-0.5;不死毒,-0.75;不死聖,0.75;不死暗,-0.75;不死念,0;不死不死,-0.75]
+  - CCharacter[<cd_mythic_class_attribute>] @=target
+  - ConverAll[無,<cd_attr_stats_Increase_Damage_To_Non_Attribute_monsters%>]
+  - ConverAll[火,<cd_attr_stats_Increase_Damage_To_Fire_Attribute_monsters%>]
+  - ConverAll[水,<cd_attr_stats_Increase_Damage_To_Water_Attribute_monsters%>]
+  - ConverAll[風,<cd_attr_stats_Increase_Damage_To_Wind_Attribute_monsters%>]
+  - ConverAll[地,<cd_attr_stats_Increase_Damage_To_Earth_Attribute_monsters%>]
+  - ConverAll[毒,<cd_attr_stats_Increase_Damage_To_Poisonous_Attribute_monsters%>]
+  - ConverAll[聖,<cd_attr_stats_Increase_Damage_To_Holy_Attribute_monsters%>]
+  - ConverAll[暗,<cd_attr_stats_Increase_Damage_To_Dark_Attribute_monsters%>]
+  - ConverAll[念,<cd_attr_stats_Increase_Damage_To_Mind_Attribute_monsters%>]
+  - ConverAll[不死,<cd_attr_stats_Increase_Damage_To_Undead_Attribute_monsters%>]
   - dec[#.##]
 
+#體型增傷(針對怪物)
+self_Body_Add:
+  message:
+  - CCharacter[<cd_mythic_class_body>] @=target
+  - ConverAll[小型,<cd_attr_stats_Increases_Damage_To_Small_Body%>]
+  - ConverAll[中型,<cd_attr_stats_Increases_Damage_To_Mid_Body%>]
+  - ConverAll[大型,<cd_attr_stats_Increases_Damage_To_Big_Body%>]
+  - dec[#.##]
 
+#體型修正(針對怪物)
+self_Body_Fix:
+  message:
+  - CCharacter[<cd_self_class_attr_stats_Class_Weapon_Type><cd_target_mythic_class_body>] @=both
+  - ConverAll[武器-徒手小型,0;武器-徒手中型,0;武器-徒手大型,0]
+  - ConverAll[武器-長矛小型,-0.25;武器-長矛中型,-0.25;武器-長矛大型,0]
+  - ConverAll[武器-長劍小型,-0.25;武器-長劍中型,0;武器-長劍大型,-0.25]
+  - ConverAll[武器-法杖小型,0;武器-法杖中型,0;武器-法杖大型,0]
+  - ConverAll[武器-拳刃小型,-0.25;武器-拳刃中型,0;武器-拳刃大型,-0.25]
+  - ConverAll[武器-弓小型,0;武器-弓中型,0;武器-弓大型,-0.25]
+  - ConverAll[武器-鈍器小型,-0.25;武器-鈍器中型,0;武器-鈍器大型,0]
+  - ConverAll[武器-斧子小型,-0.5;武器-斧子中型,-0.25;武器-斧子大型,0]
+  - ConverAll[武器-短劍小型,0;武器-短劍中型,-0.25;武器-短劍大型,-0.5]
+  - ConverAll[武器-拳套小型,0;武器-拳套中型,-0.25;武器-拳套大型,-0.5]
+  - dec[#.##]
 
+#進戰最终物攻(針對怪物)
+self_Final_Melee_Attack:
+  message:
+  - CConversion[((&self_Eq_Physical_Attack&) * (1+&self_Physical_Attack%&) * (1+&self_Body_Fix&) * (1+(&self_Body_Add&/100)) * (1+(&self_target_Attr_Rest&)) * (1+(&self_Attr_Add&/100)) + (&self_Melee_Physical_Attack&)) * (1+(&self_Race_Add&/100))] @=both
+  
+#遠距離最终物攻(針對怪物)
+self_Final_Range_Attack:
+  message:
+  - CConversion[((&self_Eq_Physical_Attack&) * (1+&self_Physical_Attack%&) * (1+&self_Body_Fix&) * (1+(&self_Body_Add&/100)) * (1+(&self_target_Attr_Rest&)) * (1+(&self_Attr_Add&/100)) + (&self_Range_Physical_Attack&)) * (1+(&self_Race_Add&/100))] @=both
 
+#基礎傷害(針對怪物)
+sel_Default_Damage:
+  message:
+  - CConversion[((((&self_Player_Final_Melee_Attack&)*((4000+&self_Refined_Physical_Attack&)/(4000+(&self_Refined_Physical_Attack&*10)))+(&self_Refined_Physical_Attack&)) *(100/100)-&mob_class_stats_Mob_Physical_Defense& )*(1+&self_Physical_Damage_Bonus%&) )] @=both
 
-
-
-
-
+#最終屬性乘算(針對怪物)
+self_Final_Attack_Number:
+  message:
+  - CConversion[(1+(&self_Attr_Add&/100)] @=both
 
 
 
@@ -67,30 +268,31 @@ self_target_Attr_RRR:
 #-------------------------------------------------------------------#
 
 #個人資訊Stats
+#職業名稱
 self_class_name:
   message:
   - CCharacter[<cd_class_name>]
 #種族
-self_class_race:
+self_Class_Race:
   message:
-  - CCharacter[<cd_class_race>]
+  - CCharacter[<cd_attr_stats_Class_Race>]
 #體型
-self_class_body:
+self_Class_Body:
   message:
-  - CCharacter[<cd_class_body>]
+  - CCharacter[<cd_attr_stats_Class_Body>]
 #攻擊屬性
-self_class_attack:
+self_Class_Attributes_Attack:
   message:
-  - CCharacter[<cd_class_attr_attack>]
+  - CCharacter[<cd_attr_stats_Class_Attributes_Attack>]
 #防禦屬性
-self_class_defense:
+self_Class_Attributes_Defense:
   message:
-  - CCharacter[<cd_class_attr_defense>]
+  - CCharacter[<cd_attr_stats_Class_Attributes_Defense>]
+#武器類型
+self_Class_Weapon_Type:
+  message:
+  - CCharacter[<cd_attr_stats_Class_Weapon_Type>]
 
-#攻擊屬性2
-self_Attributes_Attack:
-  message:
-  - CCharacter[<cd_attr_stats_Attributes_Attack>]
 
 #目前等級
 self_level_now_base:
@@ -390,9 +592,9 @@ self_Fire_Attribute_Attack%:
   message:
   - CCharacter[<cd_attr_stats_Fire_Attribute_Attack%>]
 #地屬性攻擊%
-self_Geological_Attribute_Attack%:
+self_Earth_Attribute_Attack%:
   message:
-  - CCharacter[<cd_attr_stats_Geological_Attribute_Attack%>]
+  - CCharacter[<cd_attr_stats_Earth_Attribute_Attack%>]
 #水屬性攻擊%
 self_Water_Attribute_Attack%:
   message:
@@ -659,12 +861,20 @@ self_Eq_Luk:
   message:
   - CCharacter[<cd_eqm_stats_Eq_Luk>]
 
-#裝備武器屬性
-#-------------------------------------------#
 #裝備屬性
-self_Eq_Attributes_Attack:
+#-------------------------------------------#
+#裝備攻擊屬性
+self_Eq_Class_Attributes_Attack:
   message:
-  - CCharacter[<cd_eqm_stats_Eq_Attributes_Attack>]
+  - CCharacter[<cd_eqm_stats_Eq_Class_Attributes_Attack>]
+#裝備防禦屬性
+self_Eq_Class_Attributes_Defense:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Class_Attributes_Defense>]
+#裝備武器類型
+self_Eq_Class_Weapon_Type:
+  message:
+  - CCharacter[<cd_eqm_stats_Eq_Class_Weapon_Type>]
 
 #基礎屬性
 #-------------------------------------------#

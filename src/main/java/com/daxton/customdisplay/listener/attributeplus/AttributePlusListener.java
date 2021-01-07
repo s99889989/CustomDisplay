@@ -34,8 +34,6 @@ public class AttributePlusListener implements Listener {
             priority = EventPriority.MONITOR
     )
     public void onAttack(AttrEntityDamageEvent event){
-
-
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -46,8 +44,6 @@ public class AttributePlusListener implements Listener {
         }
         target = (LivingEntity) event.getEntity();
         double damageNumber = event.getDamage();
-
-
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
             String uuidString = player.getUniqueId().toString();
@@ -59,9 +55,7 @@ public class AttributePlusListener implements Listener {
         }
     }
 
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onAttackCrit(AttrEntityCritEvent event){
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND || event.getEntity() instanceof NPC){
             return;
@@ -78,8 +72,6 @@ public class AttributePlusListener implements Listener {
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onCrit(player,target);
-
-
         }else {
             return;
         }

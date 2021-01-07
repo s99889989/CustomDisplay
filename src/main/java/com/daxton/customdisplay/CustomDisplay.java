@@ -7,8 +7,7 @@ import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
 import com.daxton.customdisplay.listener.crackshot.CrackShotListener;
-import com.daxton.customdisplay.listener.customdisplay.PhysicalDamageListener;
-import com.daxton.customdisplay.listener.customdisplay.EquipmentListener;
+import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
 import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
 import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
@@ -82,8 +81,6 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
-        Bukkit.getPluginManager().registerEvents(new EquipmentListener(),customDisplay);
-
 
     }
 
@@ -145,7 +142,11 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 break;
             case "customcore":
-                Bukkit.getPluginManager().registerEvents(new PhysicalDamageListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new MainListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new MeleePhysicalDamageListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new RangePhysicalDamageListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new DamagerNumberListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new EquipmentListener(),customDisplay);
                 getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CustomCore");
                 break;
             case "default":

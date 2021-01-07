@@ -20,5 +20,9 @@ Default_Player:
   #- 'Stats_Ro_Novice'
   Equipment_Stats:
   - 'Stats_Equipment'
-  Melee_physics_formula: '&self_Melee_Physical_Attack& * (1+(&self_Eq_Fire_Attack&*&mob_attr_Attributes_Earth&))'
-  Range_physics_formula: '&self_Range_Physical_Attack& * (1+(&self_Eq_Fire_Attack&*&mob_attr_Attributes_Earth&))'
+  Melee_physics_formula: 
+    Player: '&self_Final_Melee_Attack&'
+    Other: '&self_Final_Melee_Attack&'
+  Range_physics_formula: 
+    Player: '&self_Final_Range_Attack&'
+    Other: '&self_Final_Range_Attack&'

@@ -69,9 +69,6 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             priority = EventPriority.MONITOR
     )
     public void onPhysicalDamage(EntityDamageByEntityEvent event){
-        if (event.isCancelled()) {
-            return;
-        }
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -85,6 +82,11 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
             String uuidString = player.getUniqueId().toString();
+            if (event.isCancelled()) {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                new PlayerTrigger(player).onAtkMiss(player,target);
+                return;
+            }
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
@@ -109,10 +111,7 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
 
     }
 
-    @EventHandler(
-            //ignoreCancelled = true,
-            //priority = EventPriority.MONITOR
-    )
+    @EventHandler
     public void c(PlayerAttackEvent event) {
         if(event.isCancelled()){
             return;
@@ -122,8 +121,6 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
                 return;
             }
         }
-//        StatMap stats = event.getData().getStatMap();
-//        cd.getLogger().info("額外魔法攻擊: "+stats.getStat(MAGICAL_DAMAGE));
         damageNumberPAE = event.getAttack().getDamage();
         damageType = event.getAttack().getTypes().toString();
     }

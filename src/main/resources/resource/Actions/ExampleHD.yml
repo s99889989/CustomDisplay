@@ -28,6 +28,21 @@ AttackCritDisplayUp-End:
   Action:
   - Hologram[Function=delete]
 
+#攻擊失敗(向上)
+#Attack failed (up)
+AttackFailDisplayUp:
+  Action:
+  - Loop[onStart=AttackFailDisplayUp-Start;onTime=AttackFailDisplayUp-Time;onEnd=AttackFailDisplayUp-End;period=3;duration=20]
+AttackFailDisplayUp-Start:
+  Action:
+  - Hologram[Function=create;m=&self_attack_miss&;x=0;y=&target_hight&;z=0] @=target
+AttackFailDisplayUp-Time:
+  Action:
+  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+AttackFailDisplayUp-End:
+  Action:
+  - Hologram[Function=delete]
+
 #被攻擊顯示傷害(向上)
 #Being attacked shows damage (up)&self_damaged_number&&self_hight&
 DamagedDisplayUp:

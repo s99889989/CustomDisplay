@@ -12,10 +12,11 @@ Buttons:
     Lore:
     - ''
     - '§7職業: §9&self_class_name&'
-    - '§7種族: §9&self_class_race&'
-    - '§7體型: §9&self_class_body&'
-    - '§7攻擊屬性: §9&self_class_attack&'
-    - '§7防禦屬性: §9&self_class_defense&'
+    - '§7種族: §9&self_Class_Race&'
+    - '§7體型: §9&self_Class_Body&'
+    - '§7攻擊屬性: §9&self_Class_Attributes_Attack&'
+    - '§7防禦屬性: §9&self_Class_Attributes_Defense&'
+    - '§7武器類型: §9&self_Class_Weapon_Type&'
     - ''
     - '§7Base等級: §e&self_level_now_base& / &self_level_max_base&'
     - '§7Bas經驗值: §e&self_exp_now_base& / &self_exp_max_base&'
@@ -259,7 +260,7 @@ Buttons:
     - ''
     - '§7無屬性攻擊%: §9&self_No_Attribute_Attack%& §7%'
     - '§7火屬性攻擊%: §9&self_Fire_Attribute_Attack%& §7%'
-    - '§7地屬性攻擊%: §9&self_Geological_Attribute_Attack%& §7%'
+    - '§7地屬性攻擊%: §9&self_Earth_Attribute_Attack%& §7%'
     - '§7水屬性攻擊%: §9&self_Water_Attribute_Attack%& §7%'
     - '§7風屬性攻擊%: §9&self_Wind_Attribute_Attack%& §7%'
     - '§7毒屬性攻擊%: §9&self_Poison_Attribute_Attack%& §7%'
@@ -365,9 +366,9 @@ Buttons:
     Lore:
     - '§e攻擊特定體型目標時，提高造成的傷害'
     - ''
-    - '§7對小體型增傷%: §9&self_Increases_Damage_To_Small_Body%& §7%'
-    - '§7對中體型增傷%: §9&self_Increases_Damage_To_Mid_Body%& §7%'
-    - '§7對大體型增傷%: §9&self_Increases_Damage_To_Big_Body%& §7%'
+    - '§7對小型魔物傷害增加%: §9&self_Increases_Damage_To_Small_Body%& §7%'
+    - '§7對中型魔物傷害增加%: §9&self_Increases_Damage_To_Mid_Body%& §7%'
+    - '§7對大型魔物傷害增加%: §9&self_Increases_Damage_To_Big_Body%& §7%'
 
   Stats12:
     RawSlot: 39
@@ -379,9 +380,9 @@ Buttons:
     Lore:
     - '§e受到特定體型的目標攻擊時，降低受到此體型目標的傷害'
     - ''
-    - '§7對小體型減傷%: §9&self_Reduce_Damage_To_Small_Body%& §7%'
-    - '§7對中體型減傷%: §9&self_Reduce_Damage_To_Mid_Body%& §7%'
-    - '§7對大體型減傷%: §9&self_Reduce_Damage_To_Big_Body%& §7%'
+    - '§7受到小型魔物減傷%: §9&self_Reduce_Damage_To_Small_Body%& §7%'
+    - '§7受到中型魔物減傷%: §9&self_Reduce_Damage_To_Mid_Body%& §7%'
+    - '§7受到大型魔物減傷%: §9&self_Reduce_Damage_To_Big_Body%& §7%'
 
   Stats54:
     RawSlot: 53

@@ -44,13 +44,8 @@ public class MMOLibListener implements Listener{
 
 
 
-    @EventHandler(
-            priority = EventPriority.MONITOR
-    )
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onAttack(EntityDamageByEntityEvent event){
-        if (event.isCancelled()) {
-            return;
-        }
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
@@ -64,6 +59,11 @@ public class MMOLibListener implements Listener{
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
             String uuidString = player.getUniqueId().toString();
+            if (event.isCancelled()) {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                new PlayerTrigger(player).onAtkMiss(player,target);
+                return;
+            }
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
 
             playerUUID = player.getUniqueId();
@@ -84,6 +84,9 @@ public class MMOLibListener implements Listener{
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
 //            player.sendMessage("實際: "+damageNumber);
 //            player.sendMessage("預估:" +physical_STRIKE_POWER);
+
+
+
             if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
                     new PlayerTrigger(player).onCrit(player,target);

@@ -1,22 +1,16 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PermissionManager;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.xml.soap.Node;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.bukkit.attribute.Attribute.*;
 
 public class PlayerData {
 
@@ -35,18 +29,11 @@ public class PlayerData {
     public PlayerData(Player player){
         this.player = player;
         String attackCore = cd.getConfigManager().config.getString("AttackCore");
+
+        /**屬性初始值**/
         if(attackCore.toLowerCase().contains("customcore")){
-            double max_Health = cd.getConfigManager().config.getDouble("DefaultAttribute.GENERIC_MAX_HEALTH");
-            double attack_Speed = cd.getConfigManager().config.getDouble("DefaultAttribute.GENERIC_ATTACK_SPEED");
-            double move_Speed = cd.getConfigManager().config.getDouble("DefaultAttribute.GENERIC_MOVEMENT_SPEED");
-            AttributeInstance attribute_Max_Health = player.getAttribute(GENERIC_MAX_HEALTH);
-            attribute_Max_Health.setBaseValue(max_Health);
-            AttributeInstance attribute_Attack_Speed = player.getAttribute(GENERIC_ATTACK_SPEED);
-            attribute_Attack_Speed.setBaseValue(attack_Speed);
-            AttributeInstance attribute_Move_Speed = player.getAttribute(GENERIC_MOVEMENT_SPEED);
-            attribute_Move_Speed.setBaseValue(move_Speed);
-            //player.sendMessage("攻擊速度: "+attribute_Attack_Speed.getValue() + "移動速度: "+attribute_Move_Speed.getValue());
-            //player.sendMessage("-----------------------------");
+            new PlayerBukkitAttribute().setDefault(player);
+            new CoreAttribute(player).setDefault();
         }
 
 
@@ -54,8 +41,32 @@ public class PlayerData {
 
         setPlayerActionList();
         setActionList();
-
+        health_Regeneration(player);
     }
+
+    public void health_Regeneration(Player player){
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+
+                if(player.getHealth() != player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()){
+                    double giveHealth = player.getHealth()+10;
+                    double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+                    if(giveHealth > maxHealth){
+                        giveHealth = giveHealth - (giveHealth - maxHealth);
+                    }
+
+                    player.sendMessage("回血量:"+giveHealth);
+                    player.sendMessage("加:"+new CoreAttribute(player).getAttribute("Health_Regeneration"));
+                    player.setHealth(giveHealth);
+                }
+
+
+            }
+        }.runTaskTimer(cd,0,200);
+    }
+
 
     /**獲取動作列表**/
     public void setPlayerActionList() {
@@ -126,6 +137,15 @@ public class PlayerData {
                     }
                     if(action_Trigger_Map.get("~onmcrit") != null){
                         action_Trigger_Map.get("~onmcrit").add(actionString);
+                    }
+                }
+                /**當攻擊失敗時**/
+                if(actionString.toLowerCase().contains("~onatkmiss")){
+                    if(action_Trigger_Map.get("~onatkmiss") == null){
+                        action_Trigger_Map.put("~onatkmiss",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onatkmiss") != null){
+                        action_Trigger_Map.get("~onatkmiss").add(actionString);
                     }
                 }
                 /**被攻擊時**/

@@ -5,8 +5,7 @@ NameDisplayAttackMonster:
   - Loop[onTime=NameDisplayAttackMonster-Time;period=40;duration=unlimited]
 NameDisplayAttackMonster-Time:
   Action:
-   #- Name[m=&target_health_proportion_monster_name&&target_name&&target_nowhealth&/&target_maxhealth&;Always=true] @=target
-   - Name[m=&target_name&-&target_Attr&;Always=true] @=target
+   - Name[m=&target_health_proportion_monster_name&&target_name&&target_nowhealth&/&target_maxhealth&;Always=true] @=target
 
 #
 NameDisplayAttackAnimal:
