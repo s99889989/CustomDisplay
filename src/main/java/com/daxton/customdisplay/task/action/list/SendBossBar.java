@@ -107,7 +107,10 @@ public class SendBossBar {
                         try {
                             progress = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
                         }catch (NumberFormatException exception){
-                            //cd.getLogger().info("不是數字");
+                            progress = 0;
+                        }
+                        if(progress > 1){
+                            progress = 0;
                         }
                     }
 

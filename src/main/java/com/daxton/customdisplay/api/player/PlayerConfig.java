@@ -142,16 +142,6 @@ public class PlayerConfig {
             playerConfig.set(uuidString+".Equipment_Stats", attrStatsList);
         }
 
-        if(!(playerConfig.contains(uuidString+".Melee_physics_formula"))){
-            playerConfig.set(uuidString+".Melee_physics_formula.Player", classConfig.getString(className+".Melee_physics_formula.Player"));
-            playerConfig.set(uuidString+".Melee_physics_formula.Other", classConfig.getString(className+".Melee_physics_formula.Other"));
-        }
-
-        if(!(playerConfig.contains(uuidString+".Range_physics_formula"))){
-            playerConfig.set(uuidString+".Range_physics_formula.Player", classConfig.getString(className+".Range_physics_formula.Player"));
-            playerConfig.set(uuidString+".Range_physics_formula.Other", classConfig.getString(className+".Range_physics_formula.Other"));
-        }
-
         saveCreateFile(player,playerConfig);
 
         String attackCore = cd.getConfigManager().config.getString("AttackCore");

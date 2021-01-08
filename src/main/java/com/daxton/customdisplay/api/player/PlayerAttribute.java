@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -57,12 +58,14 @@ public class PlayerAttribute {
                         }
 
                         attrConfig.set(playerUUIDString+".Attributes_Stats."+attrStats,numberDec);
-
+                        String coreattr = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".coreattr");
                         String inherit = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".inherit");
                         String operation = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".operation");
                         if(inherit != null && operation !=null){
 
                             new PlayerBukkitAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
+                        }else if(coreattr != null){
+                            PlayerDataMap.getCore_Attribute_Map().get(playerUUIDString).setAttribute(coreattr,operation,statsNumber);
                         }
                     }
                 }

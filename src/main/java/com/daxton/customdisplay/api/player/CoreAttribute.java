@@ -57,9 +57,37 @@ public class CoreAttribute {
         if(key.contains("Health_Regeneration")){
             double firstNumber = Health_Regeneration.get(uuidString+"Health_Regeneration.first");
             double newNumber = 0;
-            if(operation.contains("ADD_NUMBER")){
-                Health_Regeneration.put(uuidString+"Health_Regeneration.EntityStats",number);
+
+            switch (key){
+                case "Health_Regeneration":
+                    Health_Regeneration.put(uuidString+"Health_Regeneration.EntityStats",number);
+                    break;
+                case "Max_Mana":
+                    Max_Mana.put(uuidString+"Max_Mana.EntityStats",number);
+                    break;
+                case "Mana_Regeneration":
+                    Mana_Regeneration.put(uuidString+"Mana_Regeneration.EntityStats",number);
+                    break;
+                case "Dodge_Rate":
+                    Dodge_Rate.put(uuidString+"Dodge_Rate.EntityStats",number);
+                    break;
+                case "Hit_Rate":
+                    Hit_Rate.put(uuidString+"Hit_Rate.EntityStats",number);
+                    break;
+                case "Critical_Strike_Chance":
+                    Critical_Strike_Chance.put(uuidString+"Critical_Strike_Chance.EntityStats",number);
+                    break;
+                case "Critical_Strike_Protection":
+                    Critical_Strike_Protection.put(uuidString+"Critical_Strike_Protection.EntityStats",number);
+                    break;
+                case "Critical_Strike_Power":
+                    Critical_Strike_Power.put(uuidString+"Critical_Strike_Power.EntityStats",number);
+                    break;
+                case "Critical_Strike_Reduction":
+                    Critical_Strike_Reduction.put(uuidString+"Critical_Strike_Reduction.EntityStats",number);
+                    break;
             }
+
 
         }
 
@@ -69,15 +97,70 @@ public class CoreAttribute {
     public double getAttribute(String key){
 
         double value = 0;
-        if(key.contains("Health_Regeneration")){
-            Iterator keys = Health_Regeneration.keySet().iterator();
-            while(keys.hasNext()){
-                String key2 = (String)keys.next();
-                if(key2.contains(uuidString+"Health_Regeneration")){
-                    value = value + Health_Regeneration.get(key2);
+
+
+        switch (key){
+            case "Health_Regeneration":
+                for(double i : Health_Regeneration.values()){
+                    value = value + i;
                 }
-            }
+                break;
+            case "Max_Mana":
+                for(double i : Max_Mana.values()){
+                    value = value + i;
+                }
+                break;
+            case "Mana_Regeneration":
+                for(double i : Mana_Regeneration.values()){
+                    value = value + i;
+                }
+                break;
+            case "Dodge_Rate":
+                for(double i : Dodge_Rate.values()){
+                    value = value + i;
+                }
+                break;
+            case "Hit_Rate":
+                for(double i : Hit_Rate.values()){
+                    value = value + i;
+                }
+                break;
+            case "Critical_Strike_Chance":
+                for(double i : Critical_Strike_Chance.values()){
+                    value = value + i;
+                }
+                break;
+            case "Critical_Strike_Protection":
+                for(double i : Critical_Strike_Protection.values()){
+                    value = value + i;
+                }
+                break;
+            case "Critical_Strike_Power":
+                for(double i : Critical_Strike_Power.values()){
+                    value = value + i;
+                }
+                break;
+            case "Critical_Strike_Reduction":
+                for(double i : Critical_Strike_Reduction.values()){
+                    value = value + i;
+                }
+                break;
         }
+
+
+//        if(key.contains("Health_Regeneration")){
+//            for(double i : Health_Regeneration.values()){
+//                value = value + i;
+//            }
+//
+//            Iterator keys = Health_Regeneration.keySet().iterator();
+//            while(keys.hasNext()){
+//                String key2 = (String)keys.next();
+//                if(key2.contains(uuidString+"Health_Regeneration")){
+//                    value = value + Health_Regeneration.get(key2);
+//                }
+//            }
+//        }
         return value;
     }
 

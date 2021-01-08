@@ -162,7 +162,7 @@ public class PlaceholderTarget {
 
     public String setEqmStats(FileConfiguration eqmConfig,String key,String uuidString){
 
-        String playerAnser = "null";
+        String playerAnser = "0";
         String key2 = key.replace("eqm_stats_","");
 
         if(eqmConfig.getString(uuidString+".Equipment_Stats."+key2) != null){
@@ -172,7 +172,7 @@ public class PlaceholderTarget {
     }
 
     public String setAttrStats(FileConfiguration attrConfig,String key,String uuidString){
-        String playerAnser = "null";
+        String playerAnser = "0";
         String key2 = key.replace("attr_stats_","");
         if(attrConfig.getString(uuidString+".Attributes_Stats."+key2) != null){
             playerAnser = attrConfig.getString(uuidString+".Attributes_Stats."+key2);
@@ -181,7 +181,7 @@ public class PlaceholderTarget {
     }
 
     public String setClass(FileConfiguration playerConfig,String key,String uuidString){
-        String playerAnser = "";
+        String playerAnser = "0";
         if(key.toLowerCase().contains("name")){
             if(playerConfig.getString(uuidString+".Class_Name") != null){
                 playerAnser = playerConfig.getString(uuidString+".Class_Name");
@@ -228,7 +228,7 @@ public class PlaceholderTarget {
 
 
     public String setOtherEntity(LivingEntity entity ,String string){
-        String playerAnser = "";
+        String playerAnser = "0";
         String uuidString = entity.getUniqueId().toString();
         if(string.toLowerCase().contains("<cd_mythic_")){
             if(Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
@@ -277,8 +277,11 @@ public class PlaceholderTarget {
 
 
                     }else {
-                        playerAnser = setBasic(entity,string);
+                        playerAnser = "0";
                     }
+
+                }else {
+                    playerAnser = setBasic(entity,string);
                 }
 
 

@@ -1,7 +1,11 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.other.Arithmetic;
+import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.PermissionManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,6 +24,12 @@ public class PlayerData {
 
     private FileConfiguration fileConfiguration;
 
+    private BukkitRunnable bukkitRunnable;
+
+    private String uuidString = "";
+
+    private double mana;
+
     /**動作列表**/
     private List<String> playerActionList = new ArrayList<>();
 
@@ -28,12 +38,30 @@ public class PlayerData {
 
     public PlayerData(Player player){
         this.player = player;
+        uuidString = player.getUniqueId().toString();
         String attackCore = cd.getConfigManager().config.getString("AttackCore");
 
         /**屬性初始值**/
         if(attackCore.toLowerCase().contains("customcore")){
             new PlayerBukkitAttribute().setDefault(player);
-            new CoreAttribute(player).setDefault();
+            PlayerDataMap.getCore_Attribute_Map().put(uuidString,new CoreAttribute(player));
+            PlayerDataMap.getCore_Attribute_Map().get(uuidString).setDefault();
+
+            mana = PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration");
+
+            File customCoreFile = new File(cd.getDataFolder(),"Class/CustomCore.yml");
+            FileConfiguration customCoreConfig = YamlConfiguration.loadConfiguration(customCoreFile);
+            String attackSpeedString = customCoreConfig.getString("Formula.Attack_Speed.Speed");
+            attackSpeedString = new StringConversion(player,null,attackSpeedString,"Character").valueConv();
+            int  attackSpeed = 10;
+            try {
+                double number = Arithmetic.eval(attackSpeedString);
+                String numberDec = new NumberUtil(number,"#").getDecimalString();
+                attackSpeed = Integer.valueOf(numberDec);
+            }catch (Exception exception){
+                attackSpeed = 10;
+            }
+            PlayerDataMap.attack_Count_Map.put(uuidString,attackSpeed);
         }
 
 
@@ -45,26 +73,26 @@ public class PlayerData {
     }
 
     public void health_Regeneration(Player player){
-        new BukkitRunnable(){
+        bukkitRunnable = new BukkitRunnable(){
             @Override
             public void run() {
 
                 if(player.getHealth() != player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()){
-                    double giveHealth = player.getHealth()+10;
+                    double giveHealth = player.getHealth()+PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration");
                     double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 
                     if(giveHealth > maxHealth){
                         giveHealth = giveHealth - (giveHealth - maxHealth);
                     }
-
-                    player.sendMessage("回血量:"+giveHealth);
-                    player.sendMessage("加:"+new CoreAttribute(player).getAttribute("Health_Regeneration"));
+                    //cd.getLogger().info("回血:"+giveHealth);
+                    //player.sendMessage("回血:"+PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration"));
                     player.setHealth(giveHealth);
                 }
 
 
             }
-        }.runTaskTimer(cd,0,200);
+        };
+        bukkitRunnable.runTaskTimer(cd,0,200);
     }
 
 
@@ -397,5 +425,9 @@ public class PlayerData {
     /**觸發的動作列表**/
     public Map<String, List<String>> getAction_Trigger_Map() {
         return action_Trigger_Map;
+    }
+
+    public BukkitRunnable getBukkitRunnable() {
+        return bukkitRunnable;
     }
 }

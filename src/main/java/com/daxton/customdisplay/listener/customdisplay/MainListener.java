@@ -32,12 +32,20 @@ public class MainListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPhysicalDamage(EntityDamageByEntityEvent event){
+        if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
+            return;
+        }
+
         if(event.getDamager() instanceof Player){
             MeleePhysicalDamage(event);
+            return;
         }
         if(event.getDamager() instanceof Arrow){
             RangePhysicalDamage(event);
+            return;
         }
+
+
 
     }
 
@@ -56,9 +64,11 @@ public class MainListener implements Listener {
         event.setDamage(e.getDamage());
         event.setCancelled(e.isCancelled());
 
-
     }
 
+    public void PhysicalDamaged(EntityDamageByEntityEvent event){
+
+    }
 
 
 //    public static LivingEntity getDamager(EntityDamageByEntityEvent event) {

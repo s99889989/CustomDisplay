@@ -3,6 +3,7 @@ package com.daxton.customdisplay.api.character;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -57,6 +58,8 @@ public class PlaceholderSelf {
                 playerAnser = setAttrStats(attrConfig,key,uuidString);
             }else if(string.toLowerCase().contains("<cd_class_eqm_stats_")){
                 playerAnser = setEqmStats(eqmConfig,key,uuidString);
+            }else if(string.toLowerCase().contains("<cd_class_core_")){
+                playerAnser = setCoreAttr(key,uuidString);
             }else {
                 playerAnser = setClass(playerConfig,key,uuidString);
             }
@@ -66,6 +69,14 @@ public class PlaceholderSelf {
         }
 
         return playerAnser ;
+    }
+
+    public String setCoreAttr(String key ,String uuidString){
+        String playerAnser = "null";
+        String key2 = key.replace("core_","");
+        double ansNumber = PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute(key2);
+        playerAnser = String.valueOf(ansNumber);
+        return playerAnser;
     }
 
     public String setBasic(LivingEntity entity,String string){
@@ -162,7 +173,7 @@ public class PlaceholderSelf {
     }
 
     public String setEqmStats(FileConfiguration eqmConfig,String key,String uuidString){
-        String playerAnser = "null";
+        String playerAnser = "0";
         String key2 = key.replace("eqm_stats_","");
         if(eqmConfig.getString(uuidString+".Equipment_Stats."+key2) != null){
             playerAnser = eqmConfig.getString(uuidString+".Equipment_Stats."+key2);
@@ -171,7 +182,7 @@ public class PlaceholderSelf {
     }
 
     public String setAttrStats(FileConfiguration attrConfig,String key,String uuidString){
-        String playerAnser = "null";
+        String playerAnser = "0";
         String key2 = key.replace("attr_stats_","");
         if(attrConfig.getString(uuidString+".Attributes_Stats."+key2) != null){
             playerAnser = attrConfig.getString(uuidString+".Attributes_Stats."+key2);
@@ -180,7 +191,7 @@ public class PlaceholderSelf {
     }
 
     public String setClass(FileConfiguration playerConfig,String key,String uuidString){
-        String playerAnser = "";
+        String playerAnser = "0";
         if(key.toLowerCase().contains("name")){
             if(playerConfig.getString(uuidString+".Class_Name") != null){
                 playerAnser = playerConfig.getString(uuidString+".Class_Name");
@@ -271,10 +282,12 @@ public class PlaceholderSelf {
                             playerAnser = String.valueOf(mob_stats);
                         }
 
-
                     }else {
-                        playerAnser = setBasic(entity,string);
+                        playerAnser = "0";
                     }
+
+                }else {
+                    playerAnser = setBasic(entity,string);
                 }
 
 
