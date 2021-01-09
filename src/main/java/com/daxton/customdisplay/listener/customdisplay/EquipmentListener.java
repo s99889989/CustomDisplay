@@ -4,6 +4,8 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerAttribute;
 import com.daxton.customdisplay.api.player.PlayerConfig;
 import com.daxton.customdisplay.api.player.PlayerEquipment;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,7 +13,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 
 public class EquipmentListener implements Listener {
@@ -27,15 +32,46 @@ public class EquipmentListener implements Listener {
     }
 
     /**切換手上物品時**/
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW )
     public void onItemHeld(PlayerItemHeldEvent event){
-        Player player = event.getPlayer();
-        int key = event.getNewSlot();
 
+
+
+
+        Player player = event.getPlayer();
+        String uuidString = player.getUniqueId().toString();
+        int key = event.getNewSlot();
+        int old = event.getPreviousSlot();
         new PlayerEquipment().reloadEquipment(player,key);
         new PlayerAttribute(player);
 
+        List<String> action = PlayerDataMap.skill_Key_Map.get(uuidString+"."+key);
+        if(action != null && action.size() > 0){
+            new PlayerTrigger(player).onGuiClick(player,action);
+        }
+
+        if(PlayerDataMap.even_Cancel_Map.get(uuidString) != null){
+            boolean cc = PlayerDataMap.even_Cancel_Map.get(uuidString);
+            if(cc == true){
+                event.setCancelled(true);
+            }
+        }
+
         //new PlayerConfig(player).setAttrStats(player);
+    }
+
+    /**按下F時**/
+    @EventHandler(priority = EventPriority.LOW )
+    public void onSwapHand(PlayerSwapHandItemsEvent event){
+        event.setCancelled(true);
+//        Player player = event.getPlayer();
+//        String uuidString = player.getUniqueId().toString();
+//        if(PlayerDataMap.even_Cancel_Map.get(uuidString) != null){
+//            boolean cc = PlayerDataMap.even_Cancel_Map.get(uuidString);
+//            if(cc == true){
+//                event.setCancelled(true);
+//            }
+//        }
     }
 
     /**關閉背包**/

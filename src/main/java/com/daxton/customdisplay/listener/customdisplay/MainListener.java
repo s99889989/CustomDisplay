@@ -35,7 +35,7 @@ public class MainListener implements Listener {
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
-
+        cd.getLogger().info(event.getDamager().getType().toString());
         if(event.getDamager() instanceof Player){
             MeleePhysicalDamage(event);
             return;

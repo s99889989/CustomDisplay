@@ -62,6 +62,21 @@ public class PlayerData {
                 attackSpeed = 10;
             }
             PlayerDataMap.attack_Count_Map.put(uuidString,attackSpeed);
+
+            File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
+            FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+            for (int i = 1 ;i < 9 ;i++){
+                String bindSkill = playerConfig.getString(uuidString+".Binds."+i+".SkillName");
+                if(!(bindSkill.equals("null"))){
+                    int key = i -1;
+                    File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+bindSkill+".yml");
+                    FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                    List<String> skillAction = skillConfig.getStringList(bindSkill+".Action");
+                    PlayerDataMap.skill_Key_Map.put(uuidString+"."+key,skillAction);
+                }
+
+            }
+
         }
 
 

@@ -6,6 +6,7 @@ import com.daxton.customdisplay.api.player.PlayerData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -16,11 +17,15 @@ public class PlayerDataMap {
     /**CustomCore屬性**/
     private static Map<String, CoreAttribute> core_Attribute_Map = new HashMap<>();
 
-    private static Map<String, AttributeEnum> attribute_Enum_Map = new HashMap<>();
-
     /**攻擊速度計時**/
     public static Map<String, BukkitRunnable> attack_Speed_Map = new HashMap<>();
     public static Map<String, Integer> attack_Count_Map = new HashMap<>();
+
+    /**技能綁定**/
+    public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
+
+    /**事件的取消**/
+    public static Map<String, Boolean> even_Cancel_Map = new HashMap<>();
 
     /**玩家動作資料**/
     public static Map<UUID, PlayerData> getPlayerDataMap() {
@@ -32,9 +37,7 @@ public class PlayerDataMap {
         return core_Attribute_Map;
     }
 
-    public static Map<String, AttributeEnum> getAttribute_Enum_Map() {
-        return attribute_Enum_Map;
-    }
+
 
 
 

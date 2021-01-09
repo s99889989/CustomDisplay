@@ -142,6 +142,27 @@ public class PlayerConfig {
             playerConfig.set(uuidString+".Equipment_Stats", attrStatsList);
         }
 
+        if(!(playerConfig.contains(uuidString+".Skills"))){
+            List<String> skillPatchList = classConfig.getStringList(className+".Skills");
+            skillPatchList.forEach((fileName)->{
+                File skillFile = new File(cd.getDataFolder(),"Class/Skill/"+fileName+".yml");
+                FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                ConfigurationSection skillSec = skillConfig.getConfigurationSection(fileName);
+                skillSec.getKeys(false).forEach((key)->{
+                    playerConfig.set(uuidString+".Skills."+key+".level", 0);
+                    playerConfig.set(uuidString+".Skills."+key+".use", 0);
+                });
+
+            });
+
+        }
+        if(!(playerConfig.contains(uuidString+".Binds"))){
+            for(int i = 1 ; i < 9 ; i++){
+                playerConfig.set(uuidString+".Binds."+i+".SkillName", "null");
+                playerConfig.set(uuidString+".Binds."+i+".UseLevel", 0);
+            }
+        }
+
         saveCreateFile(player,playerConfig);
 
         String attackCore = cd.getConfigManager().config.getString("AttackCore");

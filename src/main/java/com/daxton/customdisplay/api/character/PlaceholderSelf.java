@@ -172,6 +172,7 @@ public class PlaceholderSelf {
         return playerAnser;
     }
 
+    /**裝備屬性**/
     public String setEqmStats(FileConfiguration eqmConfig,String key,String uuidString){
         String playerAnser = "0";
         String key2 = key.replace("eqm_stats_","");
@@ -180,7 +181,7 @@ public class PlaceholderSelf {
         }
         return playerAnser;
     }
-
+    /**素質屬性**/
     public String setAttrStats(FileConfiguration attrConfig,String key,String uuidString){
         String playerAnser = "0";
         String key2 = key.replace("attr_stats_","");
@@ -189,7 +190,7 @@ public class PlaceholderSelf {
         }
         return playerAnser;
     }
-
+    /****/
     public String setClass(FileConfiguration playerConfig,String key,String uuidString){
         String playerAnser = "0";
         if(key.toLowerCase().contains("name")){
@@ -232,7 +233,16 @@ public class PlaceholderSelf {
             int attr_point = playerConfig.getInt(uuidString+".Attributes_Point."+key2);
             playerAnser = String.valueOf(attr_point);
         }
-
+        if(key.toLowerCase().contains("skill_level_")){
+            String key2 = key.replace("skill_level_","");
+            int attr_point = playerConfig.getInt(uuidString+".Skills."+key2+".level");
+            playerAnser = String.valueOf(attr_point);
+        }
+        if(key.toLowerCase().contains("skill_use_")){
+            String key2 = key.replace("skill_use_","");
+            int attr_point = playerConfig.getInt(uuidString+".Skills."+key2+".use");
+            playerAnser = String.valueOf(attr_point);
+        }
         return playerAnser;
     }
 

@@ -2,8 +2,6 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
-import com.daxton.customdisplay.api.player.PlayerAttribute;
-import com.daxton.customdisplay.api.player.PlayerConfig;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -14,7 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Point {
+public class CoreSkill {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -24,23 +22,34 @@ public class Point {
 
     private List<Entity> EntityList = new ArrayList<>();
 
-    private String type = "沒有";
+    private String skillName = "沒有";
+    private String type = "level";
     private String function = "";
     private int amount = 1;
 
-    public Point(){
+    public CoreSkill(){
 
     }
 
-    public void setPoint(LivingEntity self, LivingEntity target, String firstString, String taskID){
+    public void setCoreSkill(LivingEntity self, LivingEntity target, String firstString, String taskID){
         this.self = self;
         this.target = target;
         this.firstString = firstString;
         setOther();
+
     }
 
     public void setOther(){
         for(String allString : new StringFind().getStringMessageList(firstString)){
+
+            if(allString.toLowerCase().contains("skillname=")){
+                String[] strings = allString.split("=");
+                if(strings.length == 2){
+                    skillName = strings[1];
+
+                }
+            }
+
             if(allString.toLowerCase().contains("type=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
@@ -70,48 +79,34 @@ public class Point {
 
         }
 
-        EntityList.add(self);
+        if(self != null && self instanceof Player && !(skillName.equals("沒有"))){
+            Player player = (Player) self;
+            addSkill(player);
 
-        if(!(EntityList.isEmpty())){
-            for(Entity entity : EntityList){
-                if(entity instanceof Player){
-                    if(type.contains("沒有")){
-
-                    }else {
-                        addPoint(((Player) entity).getPlayer());
-//                        if(function.toLowerCase().contains("set")){
-//                            setPoint(((Player) entity).getPlayer());
-//                        }else {
-//
-//                        }
-                    }
-                }
-            }
         }
+
+
 
     }
 
-    public void addPoint(Player player){
+    public void addSkill(Player player){
         String playerUUIDString = player.getUniqueId().toString();
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
-        int nowLastPoint = playerConfig.getInt(playerUUIDString +".Point."+type);
+        int nowLastPoint = playerConfig.getInt(playerUUIDString +".Skills."+skillName+"."+type);
         int addLastPoint = nowLastPoint+amount;
 
 
         if(nowLastPoint != addLastPoint){
-            playerConfig.set(playerUUIDString +".Point."+type,addLastPoint);
+            playerConfig.set(playerUUIDString +".Skills."+skillName+"."+type,addLastPoint);
 
             try {
                 playerConfig.save(playerFilePatch);
             }catch (Exception exception){
                 exception.printStackTrace();
             }
-            new PlayerAttribute(player);
         }
-
-
 
     }
 

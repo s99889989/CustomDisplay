@@ -168,6 +168,15 @@ public class JudgmentAction {
             new GiveItem().setItem(self,target,firstString,taskID);
         }
 
+        /**CoreSkill的相關判斷**/
+        if(judgMent.toLowerCase().contains("coreskill")){
+            new CoreSkill().setCoreSkill(self,target,firstString,taskID);
+        }
+
+        /**Cancell的相關判斷**/
+        if(judgMent.toLowerCase().contains("cancell")){
+            new Cancell().setCancell(self,target,firstString,taskID);
+        }
 
     }
 

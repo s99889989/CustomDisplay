@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OpenInventory {
 
@@ -39,13 +41,20 @@ public class OpenInventory {
 
     private String function = "";
     private String message = "";
-    private String GuiID = "";
+    private String GuiID = "Default";
     private int amount = 27;
+
+
+    private String skillNowName = "";
+    private int next = 0;
 
     private Map<Integer,Integer> RawSlot = new HashMap<>();
     private Map<Integer,Boolean> Move = new HashMap<>();
-    private Map<Integer,List<String>> right_Click = new HashMap<>();
+
+    private Map<Integer,List<String>> left_Shift_Click = new HashMap<>();
+    private Map<Integer,List<String>> right_Shift_Click = new HashMap<>();
     private Map<Integer,List<String>> left_Click = new HashMap<>();
+    private Map<Integer,List<String>> right_Click = new HashMap<>();
 
     public OpenInventory(){
 
@@ -108,7 +117,10 @@ public class OpenInventory {
                 openGui(player);
             }else if(function.toLowerCase().contains("close")){
                 player.closeInventory();
-            }else {
+            }else if(function.toLowerCase().contains("bind")){
+                Bind(player,0);
+            }
+            else {
                 openInventory(player);
             }
 
@@ -147,71 +159,83 @@ public class OpenInventory {
 
     }
 
+
+
+
+
     public Inventory setInventory(Inventory inventory){
 
-        for(int i = 0; i < inventory.getSize() ;i++){
-            inventory.setItem(i,null);
-        }
-
-        File itemFilePatch = new File(cd.getDataFolder(),"Gui/Default.yml");
+        File itemFilePatch = new File(cd.getDataFolder(),"Gui/"+GuiID+".yml");
         FileConfiguration itemConfig = YamlConfiguration.loadConfiguration(itemFilePatch);
         ConfigurationSection button = itemConfig.getConfigurationSection("Buttons");
+        for(int i = 0; i < inventory.getSize() ;i++){
+
+            inventory.setItem(i,null);
+        }
         for(String key : button.getKeys(false)){
-            int rawslot = itemConfig.getInt("Buttons."+key+".RawSlot");
-            boolean move = itemConfig.getBoolean("Buttons."+key+".Move");
-            int cmd = itemConfig.getInt("Buttons."+key+".CustomModelData");
-            boolean flag = itemConfig.getBoolean("Buttons."+key+".RemoveItemFlags");
-            String itemMaterial = itemConfig.getString("Buttons."+key+".Material");
-            String itemName = itemConfig.getString("Buttons."+key+".Name");
-            itemName = new StringConversion(self,target,itemName,"Character").valueConv();
-            List<String> itemLore = itemConfig.getStringList("Buttons."+key+".Lore");
-            List<String> nextItemLore = new ArrayList<>();
-            itemLore.forEach((line) -> {
-                nextItemLore.add(ChatColor.GRAY + line);
-            });
-            List<String> lastItemLore = new ArrayList<>();
-            nextItemLore.forEach((line) -> {
-                lastItemLore.add(ChatColor.GRAY + new StringConversion(self,target,line,"Character").valueConv());
-            });
-            List<String> rightClick = itemConfig.getStringList("Buttons."+key+".Right");
-            List<String> leftClick = itemConfig.getStringList("Buttons."+key+".Left");
 
-            Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
-
-            ItemStack customItem = new ItemStack(material);
-
-            if(itemMaterial.contains("PLAYER_HEAD")){
-                SkullMeta skullMeta = (SkullMeta) customItem.getItemMeta();
-                skullMeta.setOwningPlayer(playerTest);
-                customItem.setItemMeta(skullMeta);
-            }
+                int rawslot = itemConfig.getInt("Buttons."+key+".RawSlot");
+                boolean move = itemConfig.getBoolean("Buttons."+key+".Move");
+                int cmd = itemConfig.getInt("Buttons."+key+".CustomModelData");
+                boolean flag = itemConfig.getBoolean("Buttons."+key+".RemoveItemFlags");
+                String itemMaterial = itemConfig.getString("Buttons."+key+".Material");
+                String itemName = itemConfig.getString("Buttons."+key+".Name");
+                itemName = new StringConversion(self,target,itemName,"Character").valueConv();
+                List<String> itemLore = itemConfig.getStringList("Buttons."+key+".Lore");
+                List<String> nextItemLore = new ArrayList<>();
+                itemLore.forEach((line) -> {
+                    nextItemLore.add(ChatColor.GRAY + line);
+                });
+                List<String> lastItemLore = new ArrayList<>();
+                nextItemLore.forEach((line) -> {
+                    lastItemLore.add(ChatColor.GRAY + new StringConversion(self,target,line,"Character").valueConv());
+                });
+                List<String> leftClick = itemConfig.getStringList("Buttons."+key+".Left");
+                List<String> leftShiftClick = itemConfig.getStringList("Buttons."+key+".Left_Shift");
+                List<String> rightClick = itemConfig.getStringList("Buttons."+key+".Right");
+                List<String> rightShiftClick = itemConfig.getStringList("Buttons."+key+".Right_Shift");
 
 
+                Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
 
-            ItemMeta im = customItem.getItemMeta();
-            im.setDisplayName(itemName);
-            im.setLore(lastItemLore);
-            im.setCustomModelData(cmd);
+                ItemStack customItem = new ItemStack(material);
+
+                if(itemMaterial.contains("PLAYER_HEAD")){
+                    SkullMeta skullMeta = (SkullMeta) customItem.getItemMeta();
+                    skullMeta.setOwningPlayer(playerTest);
+                    customItem.setItemMeta(skullMeta);
+                }
 
 
 
-            if(flag){
-                im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-                im.addItemFlags(ItemFlag.HIDE_DESTROYS);
-                im.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-                im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-                im.addItemFlags(ItemFlag.HIDE_DYE);
-            }
+                ItemMeta im = customItem.getItemMeta();
+                im.setDisplayName(itemName);
+                im.setLore(lastItemLore);
+                im.setCustomModelData(cmd);
 
-            RawSlot.put(rawslot,rawslot);
-            Move.put(rawslot,!move);
-            right_Click.put(rawslot,rightClick);
-            left_Click.put(rawslot,leftClick);
 
-            customItem.setItemMeta(im);
-            inventory.setItem(rawslot,customItem);
+
+                if(flag){
+                    im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                    im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                    im.addItemFlags(ItemFlag.HIDE_DESTROYS);
+                    im.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+                    im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                    im.addItemFlags(ItemFlag.HIDE_DYE);
+                }
+
+                RawSlot.put(rawslot,rawslot);
+                Move.put(rawslot,!move);
+                right_Click.put(rawslot,rightClick);
+                left_Click.put(rawslot,leftClick);
+                right_Shift_Click.put(rawslot,rightShiftClick);
+                left_Shift_Click.put(rawslot,leftShiftClick);
+
+                customItem.setItemMeta(im);
+                inventory.setItem(rawslot,customItem);
+
+
 
         }
 
@@ -221,22 +245,217 @@ public class OpenInventory {
     public void InventoryListener(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
 
+
         int i = event.getRawSlot();
         if(RawSlot.get(i) != null && RawSlot.get(i) == i){
             event.setCancelled(Move.get(i));
+            //player.sendMessage(event.getClick().toString());
             if(event.getClick().toString().contains("LEFT")){
                 new PlayerTrigger(player).onGuiClick(player,left_Click.get(i));
+            }
+            if(event.getClick().toString().contains("SHIFT_LEFT")){
+                new PlayerTrigger(player).onGuiClick(player,left_Shift_Click.get(i));
             }
             if(event.getClick().toString().contains("RIGHT")){
                 new PlayerTrigger(player).onGuiClick(player,right_Click.get(i));
             }
+            if(event.getClick().toString().contains("SHIFT_RIGHT")){
+                new PlayerTrigger(player).onGuiClick(player,right_Shift_Click.get(i));
+            }
 
         }
-//        if(function.toLowerCase().contains("gui")){
-//            event.setCancelled(true);
-//        }
+
+
+        if(function.toLowerCase().contains("bind")){
+            event.setCancelled(true);
+            if(i == 9){
+                if(event.getClick().toString().contains("LEFT")){
+                    Bind(player,1);
+                }
+                if(event.getClick().toString().contains("RIGHT")){
+                    Bind(player,-1);
+                }
+            }
+            if(i > 27 && i < 36){
+                if(event.getClick().toString().contains("LEFT")){
+                    setBind(player,i);
+                }
+                if(event.getClick().toString().contains("RIGHT")){
+                    removeBind(player,i);
+                }
+            }
+
+        }
 
     }
 
+    public void setBind(Player player,int first){
+
+        String uuidString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        int use = playerConfig.getInt(uuidString+".Skills."+skillNowName+".use");
+        int key = first - 27;
+        playerConfig.set(uuidString+".Binds."+key+".SkillName",skillNowName);
+        playerConfig.set(uuidString+".Binds."+key+".UseLevel",use);
+
+        Inventory inventory = ActionManager.getInventory_Map().get(taskID);
+        ItemStack customItem = inventory.getItem(13);
+        ItemMeta bindMeta = customItem.getItemMeta();
+        String itemName = bindMeta.getDisplayName().replace("(綁定1)","").replace("(綁定2)","").replace("(綁定3)","").replace("(綁定4)","").replace("(綁定5)","").replace("(綁定6)","").replace("(綁定7)","").replace("(綁定8)","");
+        bindMeta.setDisplayName(itemName+"(綁定"+key+")");
+        customItem.setItemMeta(bindMeta);
+        inventory.setItem(first,customItem);
+
+        int putkey = key - 1;
+        File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillNowName+".yml");
+        FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+        List<String> skillAction = skillConfig.getStringList(skillNowName+".Action");
+        PlayerDataMap.skill_Key_Map.put(uuidString+"."+putkey,skillAction);
+        try {
+            playerConfig.save(playerFilePatch);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+
+
+    }
+    public void removeBind(Player player,int first){
+        String uuidString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        int key = first - 27;
+        playerConfig.set(uuidString+".Binds."+key+".SkillName","null");
+        playerConfig.set(uuidString+".Binds."+key+".UseLevel",0);
+
+
+        Inventory inventory = ActionManager.getInventory_Map().get(taskID);
+        ItemStack bindItem = new ItemStack(Material.COAL);
+        ItemMeta bindMeta = bindItem.getItemMeta();
+        bindMeta.setDisplayName("§e綁定"+key);
+        bindItem.setItemMeta(bindMeta);
+        inventory.setItem(first,bindItem);
+        try {
+            playerConfig.save(playerFilePatch);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+        PlayerDataMap.skill_Key_Map.remove(uuidString+"."+key);
+    }
+
+    public void Bind(Player player,int first){
+
+        ActionManager.getInventory_Map().put(taskID,Bukkit.createInventory(null,45 , message));
+        ActionManager.getInventory_name_Map().put(player.getUniqueId(),taskID);
+        Inventory inventory = ActionManager.getInventory_Map().get(taskID);
+        String uuidString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        List<String> skillList = new ArrayList<>(playerConfig.getConfigurationSection(uuidString+".Skills").getKeys(false));
+        int count = 0;
+        next = next +first;
+        if(next < 0){
+            next = 0;
+        }
+        for(int i = 10; i <= 17 ; i++){
+            count = next+(i-10);
+            while (count >= skillList.size()){
+                count = count - skillList.size();
+            }
+            String skillName = skillList.get(count);
+            if(i == 13){
+                skillNowName = skillName;
+            }
+            File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
+            FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+            String itemMaterial = skillConfig.getString(skillName+".Material");
+            Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+            List<String> itemLore = skillConfig.getStringList(skillName+".Lore");
+            List<String> lastItemLore = new ArrayList<>();
+            itemLore.forEach((line) -> {
+                lastItemLore.add(new StringConversion(self,target,line,"Character").valueConv());
+            });
+            int cmd = skillConfig.getInt(skillName+".CustomModelData");
+            String itemName = skillConfig.getString(skillName+".Name");
+
+
+            ItemStack customItem = new ItemStack(material);
+            ItemMeta im = customItem.getItemMeta();
+            im.setDisplayName(itemName);
+            im.setCustomModelData(cmd);
+            im.setLore(lastItemLore);
+            customItem.setItemMeta(im);
+            inventory.setItem(i,customItem);
+        }
+
+        ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
+        skullMeta.setOwningPlayer(player);
+        playerHead.setItemMeta(skullMeta);
+
+        ItemMeta headMeta = playerHead.getItemMeta();
+        headMeta.setDisplayName("以下為目標");
+        playerHead.setItemMeta(headMeta);
+
+        inventory.setItem(4,playerHead);
+
+        ItemStack selectItem = new ItemStack(Material.COAL);
+        ItemMeta selectMeta = selectItem.getItemMeta();
+        selectMeta.setDisplayName("§e選擇");
+        List<String> selectLoreList = new ArrayList<>();
+        selectLoreList.add("");
+        selectLoreList.add("§e左鍵往左");
+        selectLoreList.add("§e右鍵往右");
+        selectMeta.setLore(selectLoreList);
+        selectItem.setItemMeta(selectMeta);
+        inventory.setItem(9,selectItem);
+
+        for(int i = 1 ; i < 9 ; i++){
+            String bind = playerConfig.getString(uuidString+".Binds."+i+".SkillName");
+            if(bind != null){
+                if(bind.contains("null")){
+                    ItemStack bindItem = new ItemStack(Material.COAL);
+                    ItemMeta bindMeta = bindItem.getItemMeta();
+                    bindMeta.setDisplayName("§e綁定"+i);
+                    bindItem.setItemMeta(bindMeta);
+                    inventory.setItem(i+27,bindItem);
+                }else{
+                    try{
+                        File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+bind+".yml");
+                        FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                        String itemMaterial = skillConfig.getString(bind+".Material");
+                        Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+                        List<String> itemLore = skillConfig.getStringList(bind+".Lore");
+                        List<String> lastItemLore = new ArrayList<>();
+                        itemLore.forEach((line) -> {
+                            lastItemLore.add(new StringConversion(self,target,line,"Character").valueConv());
+                        });
+                        int cmd = skillConfig.getInt(bind+".CustomModelData");
+                        String itemName = skillConfig.getString(bind+".Name");
+
+                        ItemStack bindItem = new ItemStack(material);
+                        ItemMeta bindMeta = bindItem.getItemMeta();
+                        bindMeta.setDisplayName(itemName+"(綁定"+i+")");
+                        bindMeta.setCustomModelData(cmd);
+                        bindMeta.setLore(lastItemLore);
+                        bindItem.setItemMeta(bindMeta);
+                        inventory.setItem(i+27,bindItem);
+                    }catch (Exception exception){
+                        ItemStack bindItem = new ItemStack(Material.COAL);
+                        ItemMeta bindMeta = bindItem.getItemMeta();
+                        bindMeta.setDisplayName("§e綁定"+i);
+                        bindItem.setItemMeta(bindMeta);
+                        inventory.setItem(i+27,bindItem);
+                    }
+
+
+                }
+            }
+
+        }
+
+        player.openInventory(inventory);
+
+    }
 
 }
