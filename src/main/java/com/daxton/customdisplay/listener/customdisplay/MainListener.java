@@ -13,10 +13,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
@@ -35,56 +32,45 @@ public class MainListener implements Listener {
         if(!(event.getEntity() instanceof LivingEntity) || event.getEntity().getType() == ARMOR_STAND){
             return;
         }
+
         cd.getLogger().info(event.getDamager().getType().toString());
         if(event.getDamager() instanceof Player){
-            MeleePhysicalDamage(event);
+            PhysicalDamageEvent e = new PhysicalDamageEvent(event.getDamager(), (LivingEntity) event.getEntity(), event.getDamage(), event.getDamager() instanceof Projectile,"MELEE_PHYSICAL_ATTACK");
+            Bukkit.getPluginManager().callEvent(e);
+            event.setDamage(e.getDamage());
+            event.setCancelled(e.isCancelled());
             return;
         }
         if(event.getDamager() instanceof Arrow){
-            RangePhysicalDamage(event);
+            PhysicalDamageEvent e = new PhysicalDamageEvent(event.getDamager(), (LivingEntity) event.getEntity(), event.getDamage(), event.getDamager() instanceof Projectile,"RANGE_PHYSICAL_ATTACK");
+            Bukkit.getPluginManager().callEvent(e);
+            event.setDamage(e.getDamage());
+            event.setCancelled(e.isCancelled());
             return;
         }
+        if(event.getDamager() instanceof Wolf){
+            Wolf wolf = (Wolf) event.getDamager();
+            if(wolf.getOwner() != null && wolf.getOwner() instanceof Player){
+                Player player = ((Player) wolf.getOwner()).getPlayer();
+                PhysicalDamageEvent e = new PhysicalDamageEvent(player, (LivingEntity) event.getEntity(), event.getDamage(), event.getDamager() instanceof Projectile,"SKILL_PHYSICAL_ATTACK");
+                Bukkit.getPluginManager().callEvent(e);
+                event.setDamage(e.getDamage());
+                event.setCancelled(e.isCancelled());
+                return;
 
+            }
+        }
+        if(event.getDamager() instanceof Cat){
+            Cat cat = (Cat) event.getDamager();
+            if(cat.getOwner() != null && cat.getOwner() instanceof Player){
+                Player player = ((Player) cat.getOwner()).getPlayer();
+                player.sendMessage("貓");
 
-
-    }
-
-    public void RangePhysicalDamage(EntityDamageByEntityEvent event){
-        PhysicalDamageEvent e = new PhysicalDamageEvent(event.getDamager(), (LivingEntity) event.getEntity(), event.getDamage(), event.getDamager() instanceof Projectile);
-        Bukkit.getPluginManager().callEvent(e);
-        event.setDamage(e.getDamage());
-        event.setCancelled(e.isCancelled());
-
-    }
-
-    public void MeleePhysicalDamage(EntityDamageByEntityEvent event){
-
-        PhysicalDamageEvent e = new PhysicalDamageEvent(event.getDamager(), (LivingEntity) event.getEntity(), event.getDamage(), event.getDamager() instanceof Projectile);
-        Bukkit.getPluginManager().callEvent(e);
-        event.setDamage(e.getDamage());
-        event.setCancelled(e.isCancelled());
-
-    }
-
-    public void PhysicalDamaged(EntityDamageByEntityEvent event){
+            }
+        }
 
     }
 
-
-//    public static LivingEntity getDamager(EntityDamageByEntityEvent event) {
-//        if (event.getDamager() instanceof LivingEntity) {
-//            return (LivingEntity)event.getDamager();
-//        } else {
-//            if (event.getDamager() instanceof Projectile) {
-//                Projectile projectile = (Projectile)event.getDamager();
-//                if (projectile.getShooter() instanceof LivingEntity) {
-//                    return (LivingEntity)projectile.getShooter();
-//                }
-//            }
-//
-//            return null;
-//        }
-//    }
 
 
 

@@ -20,9 +20,15 @@ public class MeleePhysicalDamageListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPhysical(PhysicalDamageEvent event) {
 
+
+        if(!(event.getDamageType().equals("MELEE_PHYSICAL_ATTACK"))){
+            return;
+        }
+
         if(!(event.getDamager() instanceof Player)){
             return;
         }
+
         Player player = (Player) event.getDamager();
         if(player != null){
             String uuidString = player.getUniqueId().toString();

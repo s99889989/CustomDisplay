@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.player.PlayerAttribute;
 import com.daxton.customdisplay.api.player.PlayerConfig;
 import com.daxton.customdisplay.api.player.PlayerEquipment;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +18,7 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class EquipmentListener implements Listener {
@@ -26,7 +28,7 @@ public class EquipmentListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(@NotNull final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        new PlayerEquipment().reloadEquipment(player,10);
+        //new PlayerEquipment().reloadEquipment(player,10);
 
 
     }
@@ -39,16 +41,24 @@ public class EquipmentListener implements Listener {
 
 
         Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();
         int key = event.getNewSlot();
         int old = event.getPreviousSlot();
-        new PlayerEquipment().reloadEquipment(player,key);
-        new PlayerAttribute(player);
+//        new PlayerEquipment().reloadEquipment(player,key);
+//        new PlayerAttribute(player);
 
-        List<String> action = PlayerDataMap.skill_Key_Map.get(uuidString+"."+key);
-        if(action != null && action.size() > 0){
-            new PlayerTrigger(player).onGuiClick(player,action);
+        if(ListenerManager.getCast_On_Stop().get(playerUUID) != null){
+            boolean cast = ListenerManager.getCast_On_Stop().get(playerUUID);
+            if(cast){
+                List<String> action = PlayerDataMap.skill_Key_Map.get(uuidString+"."+key);
+                if(action != null && action.size() > 0){
+                    new PlayerTrigger(player).onGuiClick(player,action);
+                }
+            }
+
         }
+
 
         if(PlayerDataMap.even_Cancel_Map.get(uuidString) != null){
             boolean cc = PlayerDataMap.even_Cancel_Map.get(uuidString);

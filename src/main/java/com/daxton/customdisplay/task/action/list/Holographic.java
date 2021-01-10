@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -45,12 +46,18 @@ public class Holographic {
         this.target = target;
         this.taskID = taskID;
         this.firstString = firstString;
+        if(target == null){
+            this.target = (LivingEntity) new EntityFind().getTarget(self,10);
 
+        }
+        if(setOther()){
+            return;
+        }
 
-        setOther();
     }
 
-    public void setOther(){
+    public boolean setOther(){
+        boolean ret = false;
         aims = "";
         function = "";
         message = "";
@@ -118,7 +125,11 @@ public class Holographic {
         }
 
         if(aims.toLowerCase().contains("target")){
-            createLocation = target.getLocation().add(x,y,z);
+            if(target == null){
+                ret = true;
+            }else {
+                createLocation = target.getLocation().add(x,y,z);
+            }
         }else if(aims.toLowerCase().contains("self")){
             createLocation = self.getLocation().add(x,y,z);
         }else if(aims.toLowerCase().contains("world")){
@@ -126,23 +137,25 @@ public class Holographic {
         }else {
             createLocation = createLocation.add(x,y,z);
         }
+        if(!(ret)){
+            if(function.toLowerCase().contains("create") && hologram == null){
+                createHD();
+            }
+            if(function.toLowerCase().contains("addtextline") && hologram != null){
+                addLineHD();
+            }
+            if(function.toLowerCase().contains("removetextline") && hologram != null){
+                removeLineHD();
+            }
+            if(function.toLowerCase().contains("teleport") && hologram != null){
+                teleportHD();
+            }
+            if(function.toLowerCase().contains("delete") && hologram != null){
+                deleteHD();
+            }
+        }
 
-        if(function.toLowerCase().contains("create") && hologram == null){
-            createHD();
-        }
-        if(function.toLowerCase().contains("addtextline") && hologram != null){
-            addLineHD();
-        }
-        if(function.toLowerCase().contains("removetextline") && hologram != null){
-            removeLineHD();
-        }
-        if(function.toLowerCase().contains("teleport") && hologram != null){
-            teleportHD();
-        }
-        if(function.toLowerCase().contains("delete") && hologram != null){
-            deleteHD();
-        }
-
+        return ret;
     }
 
 

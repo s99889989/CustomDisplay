@@ -193,7 +193,7 @@ public class PlayerListener implements Listener {
 
     }
 
-
+    /**當按下F鍵**/
     @EventHandler
     public void onSwapHand(PlayerSwapHandItemsEvent event){
         Player player = event.getPlayer();

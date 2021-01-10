@@ -178,6 +178,16 @@ public class JudgmentAction {
             new Cancell().setCancell(self,target,firstString,taskID);
         }
 
+        /**Damage的相關判斷**/
+        if(judgMent.toLowerCase().contains("damage")){
+            new Damage().setDamage(self,target,firstString,taskID);
+        }
+
+        /**ParabolicAttack的相關判斷**/
+        if(judgMent.toLowerCase().contains("parabolicattack")){
+            new ParabolicAttack().setParabolicAttack(self,target,firstString,taskID);
+        }
+
     }
 
 

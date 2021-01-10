@@ -26,9 +26,15 @@ public class RangePhysicalDamageListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPhysical(PhysicalDamageEvent event) {
+
+        if(!(event.getDamageType().equals("RANGE_PHYSICAL_ATTACK"))){
+            return;
+        }
+
         if(!(event.getDamager() instanceof Arrow)){
             return;
         }
+        cd.getLogger().info("RANGE");
         Player player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
             String uuidString = player.getUniqueId().toString();
