@@ -303,6 +303,7 @@ public class OpenInventory {
         ItemStack customItem = inventory.getItem(13);
         ItemMeta bindMeta = customItem.getItemMeta();
         String itemName = bindMeta.getDisplayName().replace("(綁定1)","").replace("(綁定2)","").replace("(綁定3)","").replace("(綁定4)","").replace("(綁定5)","").replace("(綁定6)","").replace("(綁定7)","").replace("(綁定8)","");
+
         bindMeta.setDisplayName(itemName+"(綁定"+key+")");
         customItem.setItemMeta(bindMeta);
         inventory.setItem(first,customItem);
@@ -377,8 +378,7 @@ public class OpenInventory {
             });
             int cmd = skillConfig.getInt(skillName+".CustomModelData");
             String itemName = skillConfig.getString(skillName+".Name");
-
-
+            itemName = new StringConversion(self,target,itemName,"Character").valueConv();
             ItemStack customItem = new ItemStack(material);
             ItemMeta im = customItem.getItemMeta();
             im.setDisplayName(itemName);
@@ -432,7 +432,7 @@ public class OpenInventory {
                         });
                         int cmd = skillConfig.getInt(bind+".CustomModelData");
                         String itemName = skillConfig.getString(bind+".Name");
-
+                        itemName = new StringConversion(self,target,itemName,"Character").valueConv();
                         ItemStack bindItem = new ItemStack(material);
                         ItemMeta bindMeta = bindItem.getItemMeta();
                         bindMeta.setDisplayName(itemName+"(綁定"+i+")");

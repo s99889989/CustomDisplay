@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerDataMap {
     /**玩家動作資料**/
@@ -25,7 +26,7 @@ public class PlayerDataMap {
     public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
 
     /**事件的取消**/
-    public static Map<String, Boolean> even_Cancel_Map = new HashMap<>();
+    public static Map<String, Boolean> even_Cancel_Map = new ConcurrentHashMap<>();
 
     /**玩家動作資料**/
     public static Map<UUID, PlayerData> getPlayerDataMap() {

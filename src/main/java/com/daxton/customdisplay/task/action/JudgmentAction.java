@@ -185,7 +185,7 @@ public class JudgmentAction {
 
         /**ParabolicAttack的相關判斷**/
         if(judgMent.toLowerCase().contains("parabolicattack")){
-            new ParabolicAttack().setParabolicAttack(self,target,firstString,taskID);
+            new ParabolicHDAttack().setParabolicAttack(self,target,firstString,taskID);
         }
 
     }

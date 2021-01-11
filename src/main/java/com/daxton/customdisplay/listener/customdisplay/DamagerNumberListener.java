@@ -33,7 +33,7 @@ public class DamagerNumberListener implements Listener {
                 return;
             }
         }
-        cd.getLogger().info(event.getDamageType());
+
         double damageNumber = event.getDamage();
         LivingEntity target = event.getTarget();
         Player player = EntityFind.convertPlayer(event.getDamager());
@@ -59,7 +59,7 @@ public class DamagerNumberListener implements Listener {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 new PlayerTrigger(player).onAttack(player,target);
             }
-            if(damageType.contains("MAGIC_ATTACK")){
+            if(damageType.contains("SKILL_MAGIC_ATTACK")){
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 new PlayerTrigger(player).onMagic(player,target);
             }

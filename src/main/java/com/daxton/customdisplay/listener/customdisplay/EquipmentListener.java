@@ -77,10 +77,8 @@ public class EquipmentListener implements Listener {
 //        Player player = event.getPlayer();
 //        String uuidString = player.getUniqueId().toString();
 //        if(PlayerDataMap.even_Cancel_Map.get(uuidString) != null){
-//            boolean cc = PlayerDataMap.even_Cancel_Map.get(uuidString);
-//            if(cc == true){
-//                event.setCancelled(true);
-//            }
+//            event.setCancelled(PlayerDataMap.even_Cancel_Map.get(uuidString));
+//            player.sendMessage("PLE"+true);
 //        }
     }
 

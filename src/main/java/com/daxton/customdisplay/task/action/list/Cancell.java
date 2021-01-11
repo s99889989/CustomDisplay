@@ -46,11 +46,13 @@ public class Cancell {
         }
 
         if(self != null && self instanceof Player){
+            Player player = (Player) self;
             String uuidString = self.getUniqueId().toString();
             if(cancellName.toLowerCase().contains("playeritemheldevent")){
                 PlayerDataMap.even_Cancel_Map.put(uuidString,enable);
             }
             if(cancellName.toLowerCase().contains("playerswaphanditemsevent")){
+                player.sendMessage("開關"+enable);
                 PlayerDataMap.even_Cancel_Map.put(uuidString,enable);
             }
 

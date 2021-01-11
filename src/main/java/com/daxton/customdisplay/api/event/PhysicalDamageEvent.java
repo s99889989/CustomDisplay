@@ -15,13 +15,15 @@ public class PhysicalDamageEvent extends Event implements Cancellable {
     private boolean      projectile;
     private boolean      cancelled;
     private String damageType = "";
+    private String operate = "";
 
-    public PhysicalDamageEvent(Entity damager, LivingEntity target, double damage, boolean projectile,String damageType){
+    public PhysicalDamageEvent(Entity damager, LivingEntity target, double damage, boolean projectile,String damageType,String operate){
         this.damager = damager;
         this.target = target;
         this.damage = damage;
         this.projectile = projectile;
         this.damageType = damageType;
+        this.operate = operate;
         this.cancelled = false;
     }
 

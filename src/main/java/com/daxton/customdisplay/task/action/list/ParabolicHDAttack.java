@@ -13,7 +13,7 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 import java.util.function.Consumer;
 
-public class ParabolicAttack extends BukkitRunnable{
+public class ParabolicHDAttack extends BukkitRunnable{
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -32,7 +32,7 @@ public class ParabolicAttack extends BukkitRunnable{
 
     private LivingEntity target;
 
-    public ParabolicAttack(){
+    public ParabolicHDAttack(){
 
     }
 
@@ -81,7 +81,7 @@ public class ParabolicAttack extends BukkitRunnable{
 
     public void endRun(){
         target.getWorld().playSound(target.getLocation(), "attack2", 1.0f, 1.0f);
-        new Damage().giveMagDamage(self,target,10);
+        new Damage().giveMagicDamage(self,target,10,"add");
 
         hologram.delete();
     }
