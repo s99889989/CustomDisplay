@@ -143,10 +143,11 @@ public final class CustomDisplay extends JavaPlugin {
                 break;
             case "customcore":
                 Bukkit.getPluginManager().registerEvents(new MainListener(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new MeleePhysicalDamageListener(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new RangePhysicalDamageListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new MeleePhysicalAttack(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new RangePhysicalAttack(),customDisplay);
                 Bukkit.getPluginManager().registerEvents(new DamagerNumberListener(),customDisplay);
                 Bukkit.getPluginManager().registerEvents(new EquipmentListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new MagicAttack(),customDisplay);
                 getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CustomCore");
                 break;
             case "default":

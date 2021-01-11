@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 
 import java.io.File;
 
-public class MeleePhysicalDamageListener implements Listener {
+public class MeleePhysicalAttack implements Listener {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -23,8 +23,6 @@ public class MeleePhysicalDamageListener implements Listener {
         String damageType = event.getDamageType();
 
         if(damageType != null && damageType.equals("MELEE_PHYSICAL_ATTACK") || damageType.equals("SKILL_MELEE_PHYSICAL_ATTACK")) {
-
-
 
             if (!(event.getDamager() instanceof Player)) {
                 return;

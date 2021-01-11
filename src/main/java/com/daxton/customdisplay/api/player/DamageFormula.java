@@ -316,4 +316,27 @@ public class DamageFormula {
         return attackNumber;
     }
 
+    /**魔法傷害公式**/
+    public double setMagicDamageNumber(Player player, LivingEntity target, FileConfiguration customCoreConfig){
+
+        double attackNumber = 0;
+
+        String plysical = "0";
+        if(target instanceof Player){
+            plysical = customCoreConfig.getString("Formula.Magic_Attack.Player_Player");
+        }else {
+            plysical = customCoreConfig.getString("Formula.Magic_Attack.Player_Other");
+        }
+        plysical = new StringConversion(player,target,plysical,"Character").valueConv();
+        try {
+            double number = Arithmetic.eval(plysical);
+
+            attackNumber = Double.valueOf(number);
+        }catch (Exception exception){
+            attackNumber = 0;
+        }
+        return attackNumber;
+    }
+
+
 }

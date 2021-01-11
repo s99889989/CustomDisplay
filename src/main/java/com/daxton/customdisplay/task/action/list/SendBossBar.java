@@ -9,10 +9,15 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SendBossBar {
@@ -48,9 +53,6 @@ public class SendBossBar {
         this.target = target;
         this.taskID = taskID;
         this.firstString = firstString;
-//        if(target != null && target.getHealth() < 1){
-//            return;
-//        }
         setSelfOther();
     }
 
@@ -137,7 +139,45 @@ public class SendBossBar {
             if(bossBar != null & function.toLowerCase().contains("delete")){
                 remove();
             }
+            if(bossBar == null & function.toLowerCase().contains("skill")){
+                skill();
+            }
         }
+
+    }
+
+    public void skill(){
+        String uuidString = player.getUniqueId().toString();
+        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
+        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+
+        String skillNameString = "";
+        for(int i = 1 ; i < 9 ; i++){
+             String skillName = playerConfig.getString(uuidString+".Binds."+i+".SkillName");
+             if(!(skillName.contains("null"))){
+                 if(i == 8){
+                     File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
+                     FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                     String barName = skillConfig.getString(skillName+".BarName");
+                     skillNameString = skillNameString + barName;
+
+                 }else {
+                     File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
+                     FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                     String barName = skillConfig.getString(skillName+".BarName");
+                     skillNameString = skillNameString + barName + "-";
+
+                 }
+
+             }
+
+        }
+
+
+
+        bossBar = Bukkit.createBossBar(skillNameString, color, style, flag);
+        bossBar.setProgress(0);
+        bossBar.addPlayer(player);
 
     }
 

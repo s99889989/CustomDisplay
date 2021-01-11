@@ -82,4 +82,8 @@ public class PhysicalDamageEvent extends Event implements Cancellable {
     public void setDamageType(String damageType) {
         this.damageType = damageType;
     }
+
+    public String getOperate() {
+        return operate;
+    }
 }
