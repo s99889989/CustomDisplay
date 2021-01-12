@@ -62,7 +62,7 @@ public class PlayerData {
                 attackSpeed = 10;
             }
             PlayerDataMap.attack_Count_Map.put(uuidString,attackSpeed);
-
+            PlayerDataMap.cost_Count_Map.put(uuidString,0);
             File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
             FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
             for (int i = 1 ;i < 9 ;i++){

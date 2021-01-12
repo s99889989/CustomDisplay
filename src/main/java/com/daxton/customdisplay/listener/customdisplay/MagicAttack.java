@@ -33,7 +33,7 @@ public class MagicAttack implements Listener {
                 FileConfiguration customCoreConfig = YamlConfiguration.loadConfiguration(customCoreFile);
                 double attackNumber = 0;
                 attackNumber = new DamageFormula().setMagicDamageNumber(player, target, customCoreConfig);
-                player.sendMessage("魔法攻擊: "+attackNumber);
+                //player.sendMessage("魔法攻擊: "+attackNumber);
                 String operate = event.getOperate();
 
                 if(operate.contains("multiply")){

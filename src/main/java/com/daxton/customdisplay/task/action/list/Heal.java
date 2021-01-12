@@ -64,7 +64,7 @@ public class Heal {
             giveHealth = giveHealth - (giveHealth - maxHealth);
         }
 
-        player.sendMessage("補血量:"+amount);
+        //player.sendMessage("補血量:"+amount);
         player.setHealth(giveHealth);
     }
 

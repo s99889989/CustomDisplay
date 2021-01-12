@@ -57,6 +57,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
 
         UUID playerUUID = player.getUniqueId();
+        String uuidString = player.getUniqueId().toString();
         if(configManager.config.getBoolean("HealthScale.enable")){
             player.setHealthScale(configManager.config.getInt("HealthScale.scale"));
         }
@@ -67,7 +68,8 @@ public class PlayerListener implements Listener {
         PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
         new PlayerTrigger(player).onJoin(player);
 
-
+        /**設定F**/
+        ListenerManager.getCast_On_Stop().put(uuidString,false);
 
     }
 
@@ -75,7 +77,7 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
-
+        String uuidString = playerUUID.toString();
         /**刪除玩家資料物件  和   刪除OnTime物件**/
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
@@ -86,9 +88,9 @@ public class PlayerListener implements Listener {
         if(bukkitRunnable != null){
             bukkitRunnable.cancel();
         }
-        if(ListenerManager.getCast_On_Stop().get(playerUUID) != null){
-            ListenerManager.getCast_On_Stop().put(playerUUID,false);
-        }
+
+        ListenerManager.getCast_On_Stop().put(uuidString,false);
+
     }
     /**當打開背包時**/
     @EventHandler
@@ -199,24 +201,19 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
 
         UUID playerUUID = player.getUniqueId();
-        if(ListenerManager.getCast_On_Stop().get(playerUUID) == null){
-            ListenerManager.getCast_On_Stop().put(playerUUID,true);
+        String uuidString = player.getUniqueId().toString();
+        if(ListenerManager.getCast_On_Stop().get(uuidString) == true){
+            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+                new PlayerTrigger(player).onKeyFOFF(player);
+            }
+            ListenerManager.getCast_On_Stop().put(uuidString,false);
+        }else {
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
                 new PlayerTrigger(player).onKeyFON(player);
             }
-        }else {
-            if(ListenerManager.getCast_On_Stop().get(playerUUID) == true){
-                if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                    new PlayerTrigger(player).onKeyFOFF(player);
-                }
-                ListenerManager.getCast_On_Stop().put(playerUUID,false);
-            }else {
-                if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                    new PlayerTrigger(player).onKeyFON(player);
-                }
-                ListenerManager.getCast_On_Stop().put(playerUUID,true);
-            }
+            ListenerManager.getCast_On_Stop().put(uuidString,true);
         }
+
 
     }
 

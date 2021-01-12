@@ -26,6 +26,9 @@ public class SendBossBar {
 
     private BossBar bossBar;
 
+    private static BossBar skillBar0;
+    private static BossBar skillBar;
+
     private String aims = "self";
     private String function = "";
     private String message = "";
@@ -139,14 +142,12 @@ public class SendBossBar {
             if(bossBar != null & function.toLowerCase().contains("delete")){
                 remove();
             }
-            if(bossBar == null & function.toLowerCase().contains("skill")){
-                skill();
-            }
+
         }
 
     }
 
-    public void skill(){
+    public void openSkill(Player player){
         String uuidString = player.getUniqueId().toString();
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
@@ -165,20 +166,52 @@ public class SendBossBar {
                      File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
                      FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
                      String barName = skillConfig.getString(skillName+".BarName");
-                     skillNameString = skillNameString + barName + "-";
+                     skillNameString = skillNameString + barName + "\uF822";
 
                  }
 
+             }else {
+                 if(i == 8){
+                     skillNameString = skillNameString + "䂶";
+                 }else {
+                     skillNameString = skillNameString + "䂶" + "\uF822";
+                 }
              }
 
         }
 
 
+        skillBar = Bukkit.createBossBar(skillNameString, Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_10"));
+        skillBar.setProgress(0);
+        skillBar.addPlayer(player);
 
-        bossBar = Bukkit.createBossBar(skillNameString, color, style, flag);
-        bossBar.setProgress(0);
-        bossBar.addPlayer(player);
+        skillBar0 = Bukkit.createBossBar("䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍", Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_20"));
+        skillBar0.setProgress(0);
+        skillBar0.addPlayer(player);
 
+    }
+
+    public void closeSkill(Player player){
+        if(skillBar != null && skillBar0 != null){
+            skillBar0.removePlayer(player);
+            skillBar.removePlayer(player);
+        }
+
+    }
+
+    public String getSkillMessage(){
+        return skillBar0.getTitle();
+    }
+
+    public void setSkillBar(String message){
+        skillBar0.setTitle(message);
+    }
+
+    public void setSkillBarProgress(double progress){
+        if(skillBar0 != null){
+            skillBar0.setProgress(progress);
+
+        }
     }
 
     public void create(){

@@ -1,12 +1,10 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.player.PlayerAttribute;
-import com.daxton.customdisplay.api.player.PlayerConfig;
-import com.daxton.customdisplay.api.player.PlayerEquipment;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.*;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.task.action.list.SendBossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,12 +46,35 @@ public class EquipmentListener implements Listener {
 //        new PlayerEquipment().reloadEquipment(player,key);
 //        new PlayerAttribute(player);
 
-        if(ListenerManager.getCast_On_Stop().get(playerUUID) != null){
-            boolean cast = ListenerManager.getCast_On_Stop().get(playerUUID);
+        if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
+            boolean cast = ListenerManager.getCast_On_Stop().get(uuidString);
             if(cast){
                 List<String> action = PlayerDataMap.skill_Key_Map.get(uuidString+"."+key);
                 if(action != null && action.size() > 0){
-                    new PlayerTrigger(player).onGuiClick(player,action);
+                    if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
+                        PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                    }
+                    if(PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key) == null){
+                        PlayerDataMap.skill_Delay_Boolean_Map.put(uuidString+"."+key,true);
+                    }
+                    if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null){
+                        boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
+                        if(costDelay){
+                            new DamageFormula().setCost(player,action);
+                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
+
+                            if(PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key) != null){
+                                boolean skillDelay = PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key);
+                                if(skillDelay){
+                                    new DamageFormula().skillCD(player,key);
+
+                                    PlayerDataMap.skill_Delay_Boolean_Map.put(uuidString+"."+key,false);
+
+                                }
+                            }
+
+                        }
+                    }
                 }
             }
 
@@ -71,9 +92,23 @@ public class EquipmentListener implements Listener {
     }
 
     /**按下F時**/
-    @EventHandler(priority = EventPriority.LOW )
+    @EventHandler(priority = EventPriority.LOW)
     public void onSwapHand(PlayerSwapHandItemsEvent event){
+        Player player = event.getPlayer();
+        String uuidString = player.getUniqueId().toString();
+
+        if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
+            boolean b = ListenerManager.getCast_On_Stop().get(uuidString);
+            if(b){
+                new SendBossBar().closeSkill(player);
+            }else {
+                new SendBossBar().openSkill(player);
+            }
+        }
+
         event.setCancelled(true);
+
+
 //        Player player = event.getPlayer();
 //        String uuidString = player.getUniqueId().toString();
 //        if(PlayerDataMap.even_Cancel_Map.get(uuidString) != null){
