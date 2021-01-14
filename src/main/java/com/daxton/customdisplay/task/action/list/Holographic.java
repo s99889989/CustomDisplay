@@ -2,7 +2,8 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
@@ -68,7 +69,7 @@ public class Holographic {
             if(string.toLowerCase().contains("message=") || string.toLowerCase().contains("m=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion(self,target,strings[1],"Character").valueConv();
+                    message = new StringConversionMain().valueOf(self,target,strings[1]);
                 }
             }
         }
@@ -94,7 +95,11 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        x = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
+                        if(strings[1].contains("&")){
+                            x = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        }else {
+                            x = Double.valueOf(strings[1]);
+                        }
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("x不是數字");
                     }
@@ -105,7 +110,11 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        y = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
+                        if(strings[1].contains("&")){
+                            y = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        }else {
+                            y = Double.valueOf(strings[1]);
+                        }
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("y不是數字"+y);
                     }
@@ -116,7 +125,11 @@ public class Holographic {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        z = Double.valueOf(new StringConversion(self,target,strings[1],"Character").valueConv());
+                        if(strings[1].contains("&")){
+                            z = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        }else {
+                            z = Double.valueOf(strings[1]);
+                        }
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("z不是數字");
                     }

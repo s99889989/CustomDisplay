@@ -2,11 +2,10 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.Bukkit;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 
 

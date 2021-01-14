@@ -1,13 +1,15 @@
-package com.daxton.customdisplay.api.character;
+package com.daxton.customdisplay.api.character.placeholder;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import net.Indyuce.mmocore.MMOCore;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.skill.Skill;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
@@ -16,10 +18,11 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 
-public class Placeholder2 {
+public class Placeholder {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -29,9 +32,7 @@ public class Placeholder2 {
 
     public String notChange = "";
 
-
-
-    public Placeholder2(LivingEntity entity, String change){
+    public Placeholder(LivingEntity entity,String change){
         String uuidString = entity.getUniqueId().toString();
         this.notChange = change;
         this.change = change.replace("cd_","").replace("<","").replace(">","").replace(" ","");
@@ -94,10 +95,6 @@ public class Placeholder2 {
 
             String custom = this.change.replace("level_now_","").replace("level_max_","").replace("exp_now_","").replace("exp_max_","").replace("point_max_","").replace("point_last_","").replace("attr_point_","").replace("attr_stats_","").replace("eqm_stats_","");
             String class_name = playerConfig.getString(uuidString+".Class_Name");
-            String player_race = playerConfig.getString(uuidString+".Player_Race");
-            String player_body = playerConfig.getString(uuidString+".Player_Body");
-            String player_attr_atk = playerConfig.getString(uuidString+".Player_Attribute_Attack");
-            String player_attr_def = playerConfig.getString(uuidString+".Player_Attribute_Defense");
             int level_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_level");
             int level_max = playerConfig.getInt(uuidString+".Level."+custom+"_max_level");
             int exp_now = playerConfig.getInt(uuidString+".Level."+custom+"_now_exp");
@@ -105,22 +102,13 @@ public class Placeholder2 {
             int point_max = playerConfig.getInt(uuidString+".Point."+custom+"_max");
             int point_now = playerConfig.getInt(uuidString+".Point."+custom+"_last");
             int attr_point = playerConfig.getInt(uuidString+".Attributes_Point."+custom);
-            double attr_stats = attrConfig.getDouble(uuidString+".Attributes_Stats."+custom);
-            double attr_eqm = eqmConfig.getDouble(uuidString+".Equipment_Stats."+custom);
+            String attr_stats = attrConfig.getString(uuidString+".Attributes_Stats."+custom);
+            String attr_eqm = eqmConfig.getString(uuidString+".Equipment_Stats."+custom);
+//            if(custom.contains("Attributes")){
+//                cd.getLogger().info(custom+" : "+attr_eqm);
+//            }
             if(class_name != null){
                 entity_Map.put("class_name",class_name);
-            }
-            if(player_race != null){
-                entity_Map.put("class_race",player_race);
-            }
-            if(player_body != null){
-                entity_Map.put("class_body",player_body);
-            }
-            if(player_attr_atk != null){
-                entity_Map.put("class_attr_attack",player_attr_atk);
-            }
-            if(player_attr_def != null){
-                entity_Map.put("class_attr_defense",player_attr_def);
             }
 
             entity_Map.put("level_now_"+custom,String.valueOf(level_now));
@@ -130,8 +118,8 @@ public class Placeholder2 {
             entity_Map.put("point_last_"+custom,String.valueOf(point_now));
             entity_Map.put("point_max_"+custom,String.valueOf(point_max));
             entity_Map.put("attr_point_"+custom,String.valueOf(attr_point));
-            entity_Map.put("attr_stats_"+custom,String.valueOf(attr_stats));
-            entity_Map.put("eqm_stats_"+custom,String.valueOf(attr_eqm));
+            entity_Map.put("attr_stats_"+custom,attr_stats);
+            entity_Map.put("eqm_stats_"+custom,attr_eqm);
 
         }
 

@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.PlayerDataMap;

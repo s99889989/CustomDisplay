@@ -5,10 +5,11 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion;
-import com.daxton.customdisplay.api.character.StringConversion2;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -110,9 +111,8 @@ public class SetName {
 
     public void sendMetadataPacket() {
 
-
-        message = new StringConversion(self,target,message,"Character").valueConv();
-
+        message = new StringConversionMain().valueOf(self,target,message);
+        cd.getLogger().info(message);
         PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());
         WrappedDataWatcher watcher = new WrappedDataWatcher();
@@ -129,6 +129,8 @@ public class SetName {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+
+
 
     }
 

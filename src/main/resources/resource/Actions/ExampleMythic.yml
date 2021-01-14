@@ -1,5 +1,0 @@
-#
-MythicSkillHomer:
-  Action:
-  - MythicSkill[s=Homer] @=Target=10
-  

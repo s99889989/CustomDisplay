@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -42,18 +43,18 @@ public class Compare {
                 if(strings[1].toLowerCase().contains(">")){
                     symbol = ">";
                     String[] strings1 = strings[1].replace(" ","").split(">");
-                    stringLeft = new StringConversion(self,target,strings1[0],"Character").valueConv();
-                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversionMain().valueOf(self,target,strings1[0]);
+                    stringRight = new StringConversionMain().valueOf(self,target,strings1[1]);
                 }else if(strings[1].toLowerCase().contains("<")){
                     symbol = "<";
                     String[] strings1 = strings[1].replace(" ","").split("<");
-                    stringLeft = new StringConversion(self,target,strings1[0],"Character").valueConv();
-                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversionMain().valueOf(self,target,strings1[0]);
+                    stringRight = new StringConversionMain().valueOf(self,target,strings1[1]);
                 }else if(strings[1].toLowerCase().contains("~")){
                     symbol = "=";
                     String[] strings1 = strings[1].replace(" ","").split("~");
-                    stringLeft = new StringConversion(self,target,strings1[0],"Character").valueConv();
-                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
+                    stringLeft = new StringConversionMain().valueOf(self,target,strings1[0]);
+                    stringRight = new StringConversionMain().valueOf(self,target,strings1[1]);
                 }
             }
         }
@@ -91,41 +92,5 @@ public class Compare {
     }
 
 
-    public void setOther(){
-
-        for(String string1 : new StringFind().getStringMessageList(firstString)){
-            if(string1.toLowerCase().contains("compare=")){
-                String[] strings = string1.split("=");
-                if(strings[1].toLowerCase().contains(">")){
-                    symbol = ">";
-                    String[] strings1 = strings[1].replace(" ","").split(">");
-                    stringLeft = new StringConversion(self,target,strings1[1],"Character").valueConv();
-                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
-                }else if(strings[1].toLowerCase().contains("<")){
-                    symbol = "<";
-                    String[] strings1 = strings[1].replace(" ","").split("<");
-                    stringLeft = new StringConversion(self,target,strings1[1],"Character").valueConv();
-                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
-
-                }else if(strings[1].toLowerCase().contains("=")){
-                    symbol = "=";
-                    String[] strings1 = strings[1].replace(" ","").split("=");
-                    stringLeft = new StringConversion(self,target,strings1[1],"Character").valueConv();
-                    stringRight = new StringConversion(self,target,strings1[1],"Character").valueConv();
-
-                }
-            }
-        }
-
-        try {
-            left = Double.valueOf(stringLeft);
-            right = Double.valueOf(stringRight);
-        }catch (NumberFormatException exceptione){
-
-        }
-
-
-
-    }
 
 }

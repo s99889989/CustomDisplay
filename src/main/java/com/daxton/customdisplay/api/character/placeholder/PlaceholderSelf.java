@@ -1,8 +1,9 @@
-package com.daxton.customdisplay.api.character;
+package com.daxton.customdisplay.api.character.placeholder;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,25 +14,26 @@ import java.io.File;
 
 import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 
-public class PlaceholderTarget {
+public class PlaceholderSelf {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private String anser = "";
 
-    public PlaceholderTarget(){
+    public PlaceholderSelf(){
 
     }
 
-    public String getTargetPlaceholder(LivingEntity entity, String firstString){
+    public String getSelfPlaceholder(LivingEntity entity, String firstString){
 
 
-        String key = firstString.replace("_target","").replace(">","");
+        String key = firstString.replace("_self","").replace(">","");
         if(entity instanceof Player){
             Player player = ((Player) entity).getPlayer();
             anser = setPlayer(player,key);
+
         }else {
-            anser = setOtherEntity(entity,key);
+            setOtherEntity(entity,key);
         }
 
 
@@ -56,6 +58,8 @@ public class PlaceholderTarget {
                 playerAnser = setAttrStats(attrConfig,key,uuidString);
             }else if(string.toLowerCase().contains("<cd_class_eqm_stats_")){
                 playerAnser = setEqmStats(eqmConfig,key,uuidString);
+            }else if(string.toLowerCase().contains("<cd_class_core_")){
+                playerAnser = setCoreAttr(key,uuidString);
             }else {
                 playerAnser = setClass(playerConfig,key,uuidString);
             }
@@ -65,6 +69,14 @@ public class PlaceholderTarget {
         }
 
         return playerAnser ;
+    }
+
+    public String setCoreAttr(String key ,String uuidString){
+        String playerAnser = "null";
+        String key2 = key.replace("core_","");
+        double ansNumber = PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute(key2);
+        playerAnser = String.valueOf(ansNumber);
+        return playerAnser;
     }
 
     public String setBasic(LivingEntity entity,String string){
@@ -160,17 +172,16 @@ public class PlaceholderTarget {
         return playerAnser;
     }
 
+    /**裝備屬性**/
     public String setEqmStats(FileConfiguration eqmConfig,String key,String uuidString){
-
         String playerAnser = "0";
         String key2 = key.replace("eqm_stats_","");
-
         if(eqmConfig.getString(uuidString+".Equipment_Stats."+key2) != null){
             playerAnser = eqmConfig.getString(uuidString+".Equipment_Stats."+key2);
         }
         return playerAnser;
     }
-
+    /**素質屬性**/
     public String setAttrStats(FileConfiguration attrConfig,String key,String uuidString){
         String playerAnser = "0";
         String key2 = key.replace("attr_stats_","");
@@ -179,7 +190,7 @@ public class PlaceholderTarget {
         }
         return playerAnser;
     }
-
+    /****/
     public String setClass(FileConfiguration playerConfig,String key,String uuidString){
         String playerAnser = "0";
         if(key.toLowerCase().contains("name")){
@@ -238,7 +249,7 @@ public class PlaceholderTarget {
 
 
     public String setOtherEntity(LivingEntity entity ,String string){
-        String playerAnser = "0";
+        String playerAnser = "";
         String uuidString = entity.getUniqueId().toString();
         if(string.toLowerCase().contains("<cd_mythic_")){
             if(Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
@@ -254,11 +265,9 @@ public class PlaceholderTarget {
                     }
                 }
                 if(string.toLowerCase().contains("<cd_mythic_class_")){
-
                     if(MobManager.getMobID_Map().get(uuidString) != null){
 
                         String mobID = MobManager.getMobID_Map().get(uuidString);
-
                         File mobFile = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");
                         FileConfiguration mobConfig = YamlConfiguration.loadConfiguration(mobFile);
                         if(string.toLowerCase().contains("<cd_mythic_class_level")){
@@ -269,9 +278,7 @@ public class PlaceholderTarget {
                             playerAnser = mobConfig.getString(mobID+".Mob_Race");
                         }
                         if(string.toLowerCase().contains("<cd_mythic_class_attribute")){
-
                             playerAnser = mobConfig.getString(mobID+".Mob_Attribute");
-
                         }
                         if(string.toLowerCase().contains("<cd_mythic_class_body")){
                             playerAnser = mobConfig.getString(mobID+".Mob_Body");
@@ -284,7 +291,6 @@ public class PlaceholderTarget {
                             int mob_stats = mobConfig.getInt(mobID+".Attributes_Stats."+key);
                             playerAnser = String.valueOf(mob_stats);
                         }
-
 
                     }else {
                         playerAnser = "0";
@@ -300,6 +306,7 @@ public class PlaceholderTarget {
         }else {
 
         }
+
         return playerAnser;
     }
 

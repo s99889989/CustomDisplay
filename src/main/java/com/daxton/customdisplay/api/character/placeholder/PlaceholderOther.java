@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.character;
+package com.daxton.customdisplay.api.character.placeholder;
 
 import com.daxton.customdisplay.CustomDisplay;
 

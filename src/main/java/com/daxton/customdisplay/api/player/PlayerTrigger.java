@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -23,7 +24,7 @@ public class PlayerTrigger {
     private String firstString = "";
 
     private boolean stop = false;
-    private String taskID = String.valueOf((int)(Math.random()*100000));
+    private String taskID = "";
 
 
     /**觸發的動作列表**/
@@ -369,11 +370,12 @@ public class PlayerTrigger {
 
     public void runExecute(String actionString){
         stop = false;
+        taskID = String.valueOf((int)(Math.random()*100000));
         for(String allString : new StringFind().getStringList(actionString)){
             if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    taskID = new StringConversion(self,target,strings[1],"Character").valueConv();
+                    taskID = new StringConversionMain().valueOf(self,target,strings[1]);
                 }
             }
             if(allString.toLowerCase().contains("stop=") || allString.toLowerCase().contains("s=")){
@@ -385,8 +387,11 @@ public class PlayerTrigger {
         }
 
         if(stop){ //actionString.toLowerCase().contains("stop=true")
-            new ClearAction(taskID);
-            new ClearAction(self,target);
+            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+                new ClearAction(taskID);
+                new ClearAction(self,target);
+                ActionManager.getOther_Judgment2_Map().remove(taskID);
+            }
         }else{
 
             //new JudgmentAction().execute(self,target,actionString,taskID);
@@ -394,10 +399,6 @@ public class PlayerTrigger {
             if(ActionManager.getOther_Judgment2_Map().get(taskID) == null){
                 ActionManager.getOther_Judgment2_Map().put(taskID,new JudgmentAction());
                 ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
-                if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
-                    new ClearAction(taskID);
-                    ActionManager.getOther_Judgment2_Map().remove(taskID);
-                }
             }
         }
     }

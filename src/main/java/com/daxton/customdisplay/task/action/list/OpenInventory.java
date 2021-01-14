@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OpenInventory {
 

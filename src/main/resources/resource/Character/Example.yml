@@ -1,0 +1,28 @@
+#自己攻擊的傷害數字
+self_attack_number:
+  message:
+  - content[<cd_self_base_attack_number>]
+
+#攻擊目標的身高
+target_hight:
+  message:
+  - content[<cd_target_base_hight>]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

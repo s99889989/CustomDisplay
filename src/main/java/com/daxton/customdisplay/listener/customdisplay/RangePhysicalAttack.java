@@ -2,12 +2,8 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
-import com.daxton.customdisplay.api.other.Arithmetic;
-import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.DamageFormula;
-import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
@@ -16,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 

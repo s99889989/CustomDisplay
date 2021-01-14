@@ -29,8 +29,35 @@ public class NumberUtil {
         decimalString = string;
     }
 
+    /**單字左右邊加上字**/
+    public String stringAddRight2(String string, String content){
+        String[] contests = content.split(",");
+        /**英文**/
+        String[] cA = contests[0].split(">");
+//        /**泰文**/
+//        String[] cB = contests[1].split(",");
+        /**其他**/
+        String[] cC = contests[1].split(">");
 
-    /**對首位字做處理**/
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            int amount = c[i];
+            if(amount < 4000){
+                strings[i] = cA[0]+c[i]+cA[1];
+            }else {
+                strings[i] = cC[0]+c[i]+cC[1];
+            }
+
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+        return lastString;
+    }
+
+    /**單字左右邊加上字**/
     public String stringAddRight(String string, String content){
         String[] contests = content.split(";");
         /**英文**/
@@ -58,6 +85,24 @@ public class NumberUtil {
         return lastString;
     }
 
+    /**對首位字做處理2**/
+    public String NumberHead2(String string, String content){
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if(i == 0){
+                strings[i] = NumberChange2(String.valueOf(c[i]),content);
+            }else {
+                strings[i] = String.valueOf(c[i]);
+            }
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+        return lastString;
+    }
+
     /**對首位字做處理**/
     public String NumberHead(String string, String content){
         String lastString = "";
@@ -74,6 +119,26 @@ public class NumberUtil {
         for(String value : strings){
             lastString = lastString + value;
         }
+        return lastString;
+    }
+
+    /**對單位字做處理，不包括首位字2**/
+    public String NumberUnits2(String string, String content){
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if(i != 0 & (i+1)%2 != 0){
+                strings[i] = NumberChange2(String.valueOf(c[i]),content);
+
+            }else {
+                strings[i] = String.valueOf(c[i]);
+            }
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
+
         return lastString;
     }
 
@@ -94,6 +159,27 @@ public class NumberUtil {
             lastString = lastString + value;
         }
 
+        return lastString;
+    }
+
+    /**對雙位字做處理，不包括首位字2**/
+    public String NumberDouble2(String string, String content){
+
+        String lastString = "";
+        char[] c = string.toCharArray();
+        String[] strings = new String[c.length];
+        for(int i = 0 ; i < c.length; i++){
+            if( i != 0 & (i+1)%2 == 0 ){
+
+                strings[i] = NumberChange2(String.valueOf(c[i]),content);
+
+            }else {
+                strings[i] = String.valueOf(c[i]);
+            }
+        }
+        for(String value : strings){
+            lastString = lastString + value;
+        }
         return lastString;
     }
 
@@ -118,6 +204,21 @@ public class NumberUtil {
         return lastString;
     }
 
+    /**位數字的轉換2**/
+    public String NumberChange2(String string,String content){
+
+        String[] stl2 = content.split(",");
+        for(String stringList2 : stl2){
+            String[] stl3 = stringList2.split(">");
+            if(string.replace(stl3[0],"").length() == 0){
+                string = string.replace(stl3[0],stl3[1]);
+
+            }
+        }
+        return string;
+    }
+
+    /**位數字的轉換**/
     public String NumberChange(String string,String content){
 
         String[] stl2 = content.split(";");

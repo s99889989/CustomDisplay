@@ -1,6 +1,8 @@
-package com.daxton.customdisplay.api.character;
+package com.daxton.customdisplay.api.character.stringconversion;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.placeholder.Placeholder;
+import com.daxton.customdisplay.api.character.placeholder.PlaceholderOther;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.ConfigFind;
 import com.daxton.customdisplay.api.other.NumberUtil;

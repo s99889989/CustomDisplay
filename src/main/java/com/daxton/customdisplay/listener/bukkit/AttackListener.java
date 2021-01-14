@@ -44,7 +44,6 @@ public class AttackListener implements Listener {
                 return;
             }
         }
-
         double damageNumber = event.getFinalDamage();
         target = (LivingEntity) event.getEntity();
         player = EntityFind.convertPlayer(event.getDamager());

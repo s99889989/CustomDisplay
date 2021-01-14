@@ -2,23 +2,11 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.other.Arithmetic;
-import com.daxton.customdisplay.api.other.NumberUtil;
-import com.daxton.customdisplay.api.character.StringConversion;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.manager.PlaceholderManager;
-import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-
-import java.io.File;
 
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
 

@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 
@@ -14,8 +15,8 @@ public class Contains {
     private String firstString = "";
     private String taskID = "";
 
-    private String stringLeft = "";
-    private String stringRight = "";
+    private String stringLeft = "0";
+    private String stringRight = "1";
 
     public Contains(LivingEntity self, LivingEntity target, String firstString, String taskID){
         this.self = self;
@@ -30,8 +31,10 @@ public class Contains {
             if(string.toLowerCase().contains("contains=")){
                 String[] strings = string.split("=");
                 if(strings.length == 3){
-                    stringLeft = new StringConversion(self,target,strings[1],"Character").valueConv();
-                    stringRight = new StringConversion(self,target,strings[2],"Character").valueConv();
+                    //stringLeft = new StringConversion(self,target,strings[1],"Character").valueConv();
+                    //stringRight = new StringConversion(self,target,strings[2],"Character").valueConv();
+                    stringLeft = new StringConversionMain().valueOf(self,target,strings[1]);
+                    stringRight = new StringConversionMain().valueOf(self,target,strings[2]);
                 }
             }
 
@@ -44,7 +47,7 @@ public class Contains {
         if(stringLeft.contains(stringRight)){
             b = true;
         }
-
+        cd.getLogger().info("正手: "+stringLeft +" : "+stringRight);
         return b;
     }
 

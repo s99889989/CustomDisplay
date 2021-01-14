@@ -82,7 +82,7 @@ public class PlayerListener implements Listener {
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             new PlayerTrigger(player).onQuit(player);
-            playerData.getBukkitRunnable().cancel();
+            //playerData.getBukkitRunnable().cancel();
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
         }
         if(bukkitRunnable != null){
