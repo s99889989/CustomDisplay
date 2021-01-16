@@ -1,19 +1,294 @@
 #自己攻擊的傷害數字
-self_attack_number:
+#Self-attack damage number
+attack_number:
   message:
   - content[<cd_self_base_attack_number>]
+  - math [fc=Dec;m=#]
+  - Conver[function=ConverHead;m=9>䀉,8>䀈,7>䀇,6>䀆,5>䀅,4>䀄,3>䀃,2>䀂,1>䀁,0>䀀]
+  - Conver[function=ConverUnits;m=9>䀝,8>䀜,7>䀛,6>䀚,5>䀙,4>䀘,3>䀗,2>䀖,1>䀕,0>䀔]
+  - Conver[function=Contain;m=9>䀓,8>䀒,7>䀑,6>䀐,5>䀏,4>䀎,3>䀍,2>䀌,1>䀋,0>䀊]
 
-#攻擊目標的身高
-target_hight:
+#攻擊數字起始高度(以對方身高+0.5)
+#Attack number starting height (based on opponent's height +0.5)
+attack_number_height:
   message:
-  - content[<cd_target_base_hight>]
+  - content[<cd_target_base_height>+0.5]
+  - math[fc=Arith]
+
+#攻擊數字要移動的X方向(以自身向量X值*0.4)
+#The X direction of the attack number to move (using the self vector X value * 0.4)
+attack_number_move_vec_x:
+  message:
+  - content[<cd_self_base_vec_x>*0.4]
+  - math[fc=Arith]
+
+#攻擊數字要移動的Y方向(以自身向量Y值*0.4)
+#The Y direction of the attack number to move (using the self vector Y value * 0.4)
+attack_number_move_vec_z:
+  message:
+  - content[<cd_self_base_vec_z>*0.4]
+  - math[fc=Arith]
+
+#目前目標血量
+#Current target blood volume.
+hd_target_nowhealth:
+  message:
+  - content[<cd_target_base_nowhealth>]
+  - math [fc=Dec;m=#.0]
+
+#目前目標最高血量
+#The highest HP currently targeted.
+hd_target_maxhealth:
+  message:
+  - content[<cd_target_base_maxhealth>]
+
+#頭上顯示全息圖的高度
+#The height of the hologram is displayed on the head.
+hd_target_height:
+  message:
+  - content[<cd_target_base_height>+1.2]
+  - math[fc=Arith]
+
+#把血量10分比轉成特定字
+#Convert the blood volume 10 points ratio into a specific word.
+hd_target_monster_health_proportion:
+  message:
+  - content[<cd_target_base_nowhealth>/<cd_target_base_maxhealth>*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䁩,9>䁨,8>䁧,7>䁦,6>䁥,5>䁤,4>䁣,3>䁢,2>䁡,1>䁠,0>䁠]
+
+
+
+hd_target_animal_health_proportion:
+  message:
+  - content[<cd_target_base_nowhealth>/<cd_target_base_maxhealth>*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䁽,9,䁼,8>䁻,7>䁺,6>䁹,5>䁸,4>䁷,3>䁶,2>䁵,1>䁴,0>䁴]
+
+hd_target_player_health_proportion:
+  message:
+  - content[<cd_target_base_nowhealth>/<cd_target_base_maxhealth>*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䁋,9>䁊,8>䁉,7>䁈,6>䁇,5>䁆,4>䁅,3>䁄,2>䁃,1>䁂,0>䁂]
+  
+#目標玩家的MMOCore目前魔量。
+#The MMOCore of the target player is currently magical.
+hd_target_player_newmana:
+  message:
+  - content[%mmocore_mana%] @=target
+  
+#目標玩家的MMOCore最高魔量。
+#The target player's MMOCore maximum magic power.
+hd_target_player_maxmana:
+  message:
+  - content[%mmocore_stat_max_mana%] @=target
+
+#把MMOCore魔量10分比轉成特定字。
+#Convert MMOCore magic quantity 10 points ratio into specific words.
+hd_target_player_mmocore_mana_proportion:
+  message:
+  - content[%mmocore_mana%/%mmocore_stat_max_mana%*10] @=target
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䁕,9>䁔,8>䁓,7>䁒,6>䁑,5>䁐,4>䁏,3>䁎,2>䁍,1>䁌,0>䁌]
+
+
+
+#聊天訊息起始高度(以自身身高+0.5)
+#The starting height of the chat message (with one's own height + 0.5)
+hd_chat_height:
+  message:
+  - content[<cd_self_base_height>+0.5]
+  - math[fc=Arith]
+
+#聊天訊息
+#Chat messages.
+hd_chat_message:
+  message:
+  - content[<cd_self_player_last_chat>]
+  #在每個字加上框框字再回推，因為排版再把字往回推一點。
+  #Add a box word to each word and push it back, because the typesetting pushes the word back a bit.
+  - Conver[function=ConverAddRL;m=>䂮,>䂮]
+
+
+
+#表情符號的顯示高度(以自身身高+0.5)
+#The display height of the emoji (with your own height +0.5)
+hd_emoji_height:
+  message:
+  - content[<cd_self_base_height>+0.5]
+  - math[fc=Arith]
+
+#最後使用的/cd cast ??指令內容
+#The last used /cd cast ?? command content
+hd_emoji_command:
+  message:
+  - content[<cd_self_player_cast_command>]
+
+
+#用自己的名子作為任務標記。
+#Use your name as the task tag.
+title_self_name:
+  message:
+  - content[<cd_self_base_name>]
+
+
+#自己血量的10分比。
+#10 points ratio of own blood volume.
+title_self_health_10:
+  message:
+  - content[<cd_self_base_nowhealth>/<cd_self_base_maxhealth>*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
 
 
 
 
 
+#用自己的名子作為任務標記。
+#Use your name as the task tag.
+acb_self_name:
+  message:
+  - content[<cd_self_base_name>]
 
 
+#自己目前血量
+#Your current blood volume.
+acb_self_nowhealth:
+  message:
+  - content[<cd_self_base_nowhealth>]
+  - math [fc=Dec;m=#.0]
+
+#自己最高血量
+#Your highest blood volume.
+acb_self_maxhealth:
+  message:
+  - content[<cd_self_base_maxhealth>]
+
+
+#把自己血量10分比轉成特定字
+#Convert 10 points of your own HP into a specific word.
+acb_self_health_proportion_10:
+  message:
+  - content[<cd_self_base_nowhealth>/<cd_self_base_maxhealth>*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䁩,9>䁨,8>䁧,7>䁦,6>䁥,5>䁤,4>䁣,3>䁢,2>䁡,1>䁠,0>䁠]
+
+
+#自己的MMOCore目前魔量。
+#My own MMOCore is currently magical.
+acb_self_nowmana:
+  message:
+  - content[%mmocore_mana%]
+  
+#自己的MMOCore最高魔量。
+#The highest magic power of own MMOCore.
+acb_self_maxmana:
+  message:
+  - content[%mmocore_stat_max_mana%]
+
+#把自己的MMOCore魔量10分比轉成特定字。
+#Turn your MMOCore magic power 10 points ratio into a specific word.
+acb_self_mmocore_mana_proportion_10:
+  message:
+  - content[%mmocore_mana%/%mmocore_stat_max_mana%*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䁳,9>䁲,8>䁱,7>䁰,6>䁯,5>䁮,4>䁭,3>䁬,2>䁫,1>䁪,0>䁪]
+
+
+#用自己的名子作為任務標記。
+#Use your name as the task tag.
+bsb_self_name:
+  message:
+  - content[<cd_self_base_name>]
+
+#顯示在BossBar上的對方名子。
+#The name of the opponent displayed on the BossBar.
+bsb_target_name:
+  message:
+  - content[<cd_target_base_name>]
+
+#目前目標血量
+#Current target blood volume.
+bsb_target_nowhealth:
+  message:
+  - content[<cd_target_base_nowhealth>]
+  - math [fc=Dec;m=#.0]
+
+#目前目標最高血量
+#The highest HP currently targeted.
+bsb_target_maxhealth:
+  message:
+  - content[<cd_target_base_maxhealth>]
+
+#把血量轉成0~1之間，做為BossBar的血條判斷用。
+#Turn the blood volume between 0 and 1, as the health bar of BossBar.
+bsb_target_health_proportion:
+  message:
+  - content[<cd_target_base_nowhealth>/<cd_target_base_maxhealth>]
+  - math[fc=Arith]
+
+
+
+#用自己的名子作為任務標記。
+#Use your name as the task tag.
+nd_self_name:
+  message:
+  - content[<cd_self_base_name>]
+
+#目標的UUID，也是用來做任務標記。
+#The UUID of the target is also used to mark the task.
+nd_target_uuid:
+  message:
+  - content[<cd_target_base_uuid>]
+
+#目標的名子。
+#The name of the target.
+nd_target_name:
+  message:
+  - content[<cd_target_base_name>]
+
+#目前目標血量
+#Current target blood volume.
+nd_target_nowhealth:
+  message:
+  - content[<cd_target_base_nowhealth>]
+  - math [fc=Dec;m=#.0]
+
+#目前目標最高血量
+#The highest HP currently targeted.
+nd_target_maxhealth:
+  message:
+  - content[<cd_target_base_maxhealth>]
+
+#把血量10分比轉成特定字
+#Convert the blood volume 10 points ratio into a specific word.
+nd_target_monster_health_proportion_10:
+  message:
+  - content[<cd_target_base_nowhealth>/<cd_target_base_maxhealth>*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䂉,9>䂈,8>䂇,7>䂆,6>䂅,5>䂄,4>䂃,3>䂂,2>䂁,1>䂀,0>䂀]
+
+nd_target_animal_health_proportion_10:
+  message:
+  - content[<cd_target_base_nowhealth>/<cd_target_base_maxhealth>*10]
+  - math[fc=Arith]
+  - math [fc=Dec;m=#]
+  - Conver[function=ExSame;m=10>䂝,9>䂜,8>䂛,7>䂚,6>䂙,5>䂘,4>䂗,3>䂖,2>䂕,1>䂔,0>䂔]
+
+
+
+#用自己的名子作為任務標記。
+#Use your name as the task tag.
+pa_self_name:
+  message:
+  - content[<cd_self_base_name>]
 
 
 

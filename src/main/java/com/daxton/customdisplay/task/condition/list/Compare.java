@@ -33,10 +33,10 @@ public class Compare {
         this.target = target;
         this.firstString = firstString;
         this.taskID = taskID;
-        setOther2();
+        setOther();
     }
 
-    public void setOther2(){
+    public void setOther(){
         for(String string1 : new StringFind().getStringMessageList(firstString)){
             if(string1.toLowerCase().contains("compare=")){
                 String[] strings = string1.split("=");

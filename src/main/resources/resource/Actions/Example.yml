@@ -46,4 +46,21 @@ AttackFailDisplayUp-End:
   Action:
   - Hologram[Function=delete]
 
+
+
+#
+Buttom-Message:
+  Action:
+  - Condition[Contains=&self_cast_command_help&=message]
+  - Message[m=Do you want to reload the plugin?]
+  - Message[m=Please select{Buttons1}or{Buttons2}]
   
+Buttom-Message2:
+  Action:
+  - Condition[Contains=&self_cast_command_help&=buttonNo]
+  - Message[m=You chose NO.]
+
+#
+MythicSkillHomer:
+  Action:
+  - MythicSkill[s=Homer] @=Target=10

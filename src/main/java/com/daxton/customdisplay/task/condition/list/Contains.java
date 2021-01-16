@@ -31,8 +31,6 @@ public class Contains {
             if(string.toLowerCase().contains("contains=")){
                 String[] strings = string.split("=");
                 if(strings.length == 3){
-                    //stringLeft = new StringConversion(self,target,strings[1],"Character").valueConv();
-                    //stringRight = new StringConversion(self,target,strings[2],"Character").valueConv();
                     stringLeft = new StringConversionMain().valueOf(self,target,strings[1]);
                     stringRight = new StringConversionMain().valueOf(self,target,strings[2]);
                 }
@@ -47,7 +45,6 @@ public class Contains {
         if(stringLeft.contains(stringRight)){
             b = true;
         }
-        cd.getLogger().info("正手: "+stringLeft +" : "+stringRight);
         return b;
     }
 

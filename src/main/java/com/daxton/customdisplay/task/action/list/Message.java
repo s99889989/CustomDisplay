@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
@@ -52,7 +53,7 @@ public class Message{
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversion(self,target,strings[1],"Character").valueConv();
+                    message = new StringConversionMain().valueOf(self,target,strings[1]);
                 }
             }
 
@@ -96,15 +97,21 @@ public class Message{
                 if(buttonNameList.getKeys(false).contains(messageString)){
                     String text = messageConfig.getString(messageString+".Text");
                     boolean bold = messageConfig.getBoolean(messageString+".Bold");
-                    text = new StringConversion(self,target,text,"Character").valueConv();
+                    if(text.contains("&")){
+                        text = new StringConversionMain().valueOf(self,target,text);
+                    }
                     String color = messageConfig.getString(messageString+".Color");
                     String click_action = messageConfig.getString(messageString+".ClickEvent.Action");
                     String click_value = messageConfig.getString(messageString+".ClickEvent.Text");
-                    click_value = new StringConversion(self,target,click_value,"Character").valueConv();
+                    if(click_value.contains("&")){
+                        click_value = new StringConversionMain().valueOf(self,target,click_value);
+                    }
+
                     String hover_action = messageConfig.getString(messageString+".HoverEvent.Action");
                     String hover_value = messageConfig.getString(messageString+".HoverEvent.Text");
-                    hover_value = new StringConversion(self,target,hover_value,"Character").valueConv();
-
+                    if(hover_value.contains("&")){
+                        hover_value = new StringConversionMain().valueOf(self,target,hover_value);
+                    }
                     textComponent.setBold(bold);
                     if(color != null){
 //                        BigInteger bigint = new BigInteger(color, 16);

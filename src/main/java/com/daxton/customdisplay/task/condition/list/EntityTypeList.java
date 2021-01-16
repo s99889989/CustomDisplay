@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.entity.LivingEntity;
@@ -50,7 +51,7 @@ public class EntityTypeList {
 
             if(string.toLowerCase().contains("entitytypelist=")){
                 String[] strings = string.replace(" ","").split("=");
-                entityType = new StringConversion(self,target,strings[1],"Character").valueConv();
+                entityType = new StringConversionMain().valueOf(self,target,strings[1]);
             }
         }
     }

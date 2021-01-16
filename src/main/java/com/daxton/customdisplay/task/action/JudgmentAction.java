@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.list.*;
+import com.daxton.customdisplay.task.locationAction.OrbitalAction;
 import org.bukkit.entity.LivingEntity;
 
 public class JudgmentAction {
@@ -185,7 +186,7 @@ public class JudgmentAction {
 
         /**ParabolicAttack的相關判斷**/
         if(judgMent.toLowerCase().contains("parabolicattack")){
-            new ParabolicHDAttack().setParabolicAttack(self,target,firstString,taskID);
+            new OrbitalAction().setParabolicAttack(self,target,firstString,taskID);
         }
 
     }

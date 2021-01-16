@@ -38,21 +38,6 @@ public class Health {
         setOther();
     }
 
-    public void setHealth(Player player,LivingEntity target, String firstString, String taskID){
-        this.player = player;
-        this.target = target;
-        this.firstString = firstString;
-        this.taskID = taskID;
-
-    }
-
-    public void setHealth(Player player, String taskID, String firstString){
-        this.player = player;
-        this.firstString = firstString;
-        this.taskID = taskID;
-
-    }
-
     public void setOther(){
         for(String string : new StringFind().getStringList(firstString)){
             if(string.toLowerCase().contains("@=")){

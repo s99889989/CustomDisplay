@@ -8,12 +8,15 @@ import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class Loop extends BukkitRunnable {
 
@@ -21,7 +24,6 @@ public class Loop extends BukkitRunnable {
 
     private int ticksRun = 0;
     private int period = 1;
-
     private int duration = 0;
 
     private LivingEntity self = null;
@@ -37,6 +39,8 @@ public class Loop extends BukkitRunnable {
     private BukkitRunnable bukkitRunnableStart;
     private BukkitRunnable bukkitRunnableTime;
     private BukkitRunnable bukkitRunnableEnd;
+
+
 
     /**條件判斷**/
     private static Map<String,Condition> conditionMap = new HashMap<>();
@@ -56,6 +60,7 @@ public class Loop extends BukkitRunnable {
     }
 
     public void setLoop(){
+
         List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
 
