@@ -40,7 +40,8 @@ public class OrbitalAction extends BukkitRunnable{
     private int ticksRun = 0;
 
     private int period = 1;
-    private int duration = 0;
+    private int duration = 100;
+    private double distance = 10;
     private String onStart = "";
     private String onTimeHit = "";
     private String onTime = "";
@@ -75,35 +76,11 @@ public class OrbitalAction extends BukkitRunnable{
         this.self = self;
         this.target = target;
         this.taskID = taskID;
-        if(target == null){
-            this.target = (LivingEntity) new EntityFind().getTarget(self,10);
-        }
-//        if(this.target != null){
-//            startParabolicAttack(firstString);
-//        }else {
-//            return;
-//        }
+
         startParabolicAttack(firstString);
     }
 
     public void startParabolicAttack(String firstString){
-        startLocation = self.getLocation().add(0.0, self.getHeight(), 0.0);
-        if(target == null){
-            double cos90 = -Math.cos(Math.toRadians(self.getLocation().getYaw() - 90));
-            double sin90 = -Math.sin(Math.toRadians(self.getLocation().getYaw() - 90));
-            Location firstLoc = self.getLocation().add(-Math.cos(Math.toRadians(self.getLocation().getYaw())) *8, 1, -Math.sin(Math.toRadians(self.getLocation().getYaw())) * 8);
-            firstLoc.add(cos90*3, 0, sin90*3);
-
-            targetLocation = firstLoc;
-
-
-        }else {
-            targetLocation = target.getLocation().add(0.0, target.getHeight(), 0.0);
-        }
-
-        fLocation = (floc) ->{return floc;};
-        vec = randomVector(self);
-        speed = 10;
         List<String> stringList = new StringFind().getStringList(firstString);
         for(String string1 : stringList){
             if(string1.toLowerCase().contains("onstart=")){
@@ -145,6 +122,13 @@ public class OrbitalAction extends BukkitRunnable{
                 String[] strings = string1.split("=");
                 if(strings.length == 2){
                     period = Integer.valueOf(strings[1]);
+                }
+            }
+
+            if(string1.toLowerCase().contains("distance=")){
+                String[] strings = string1.split("=");
+                if(strings.length == 2){
+                    distance = Double.valueOf(strings[1]);
                 }
             }
 
@@ -202,18 +186,36 @@ public class OrbitalAction extends BukkitRunnable{
                 }
             }
         }
+        if(target == null){
+            this.target = (LivingEntity) new EntityFind().getTarget(self,10);
+        }
+
+
+        startLocation = self.getLocation().add(0.0, self.getHeight(), 0.0);
+        if(target == null){
+
+            targetLocation = distanceDirection(self,distance,self.getHeight());
+        }else {
+
+            //targetLocation = distanceDirection(self,20,self.getHeight());
+            targetLocation = target.getLocation().add(0.0, target.getHeight(), 0.0);
+        }
+
+        fLocation = (floc) ->{return floc;};
+        vec = randomVector(self);
+        speed = 10;
 
         actionRun(onStart,startLocation,target);
-        hologram = HologramsAPI.createHologram(cd, targetLocation);
-        hologram.appendTextLine("位置標記");
-        runTaskTimer(cd, 0L, 1L);
+
+        runTaskTimer(cd, 0L, period);
     }
 
     public void run() {
         j++;
-        for(int k = 0; k < 5; ++k) {
-            double c = Math.min(1.0D, (double) j / 40.0D);
-            Location location = fLocation.apply(startLocation.add(targetLocation.clone().subtract(startLocation).toVector().normalize().multiply(c).add(vec.clone().multiply(1.0D - c))));
+        for(int k = 0; k < 1; ++k) {
+            double c = Math.min(1.0D, (double) j / duration);
+            //Location location = fLocation.apply(startLocation.add(targetLocation.clone().subtract(startLocation).toVector().normalize().multiply(c).add(vec.clone().multiply(1.0D - c))));
+            Location location = fLocation.apply(startLocation.add(targetLocation.clone().subtract(startLocation).toVector().normalize().multiply(c).add(vec.multiply(1.0D - c))));
             actionRun(onTime,location,target);
         }
         List<Entity> entityList = new ArrayList<>(startLocation.getWorld().getNearbyEntities(startLocation,1,1,1));
@@ -227,20 +229,31 @@ public class OrbitalAction extends BukkitRunnable{
         }
 
         if(target != null && startLocation.distanceSquared(target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0)) < 0.8D){
-            //cd.getLogger().info("HIT");
+
             actionRun(onEndHit,targetLocation,target);
-            hologram.delete();
+
             cancel();
-        }else if(j > 100 || startLocation.distanceSquared(targetLocation) < 0.8D){
-            //cd.getLogger().info("END");
+        }else if(j > duration || startLocation.distanceSquared(targetLocation) < 0.8D){
+
             actionRun(onEnd,targetLocation,target);
-            hologram.delete();
+
             cancel();
         }
 
     }
 
+    private Vector randomVector(LivingEntity livingEntity) {
+        double ax = Math.toRadians(livingEntity.getEyeLocation().getYaw() + 90.0f);
+        double az = Math.toRadians(livingEntity.getEyeLocation().getYaw() + 90.0f);
+        //Vector vector = new Vector(Math.cos(a += (double)(random.nextBoolean() ? 1 : -1) * (random.nextDouble() * 2.0 + 1.0) * 3.141592653589793 / 6.0), 0.8, Math.sin(a)).normalize().multiply(0.4);
 
+        //double x = Math.cos(a += (random.nextDouble() * 2.0 + 1.0) * 3.141592653589793 / 6.0);
+        double x = Math.cos(ax);
+        double z = Math.sin(az);
+        //cd.getLogger().info("亂數: "+(random.nextDouble() * 2.0 + 1.0));
+        Vector vector = new Vector(x, 0.0, z).normalize().multiply(0.4);
+        return vector;
+    }
 
     public void actionRun(String action,Location location,LivingEntity livingTarget){
         List<String> stringList = new ConfigFind().getActionKeyList(action);
@@ -288,17 +301,7 @@ public class OrbitalAction extends BukkitRunnable{
         return b;
     }
 
-    private Vector randomVector(LivingEntity livingEntity) {
-        double a = Math.toRadians(livingEntity.getEyeLocation().getYaw() + 0.0f);
-        //Vector vector = new Vector(Math.cos(a += (double)(random.nextBoolean() ? 1 : -1) * (random.nextDouble() * 2.0 + 1.0) * 3.141592653589793 / 6.0), 0.8, Math.sin(a)).normalize().multiply(0.4);
-        Vector vector = new Vector(Math.cos(a += (double)(random.nextBoolean() ? 1 : -1) * (random.nextDouble() * 2.0 + 1.0) * 3.141592653589793 / 6.0), 0, Math.sin(a)).normalize().multiply(0.4);
-        double vx = vectorX(livingEntity);
-        double vz = vectorZ(livingEntity);
 
-        //cd.getLogger().info("X: "+vector.getX()+" Z: "+vector.getZ());
-        Vector vector2 = new Vector(0,0,0);
-        return vector2;
-    }
 
 
 
@@ -333,34 +336,25 @@ public class OrbitalAction extends BukkitRunnable{
         return rzVector;
     }
 
-    public void LocationRun(Player player){
-                double cos90 = -Math.cos(Math.toRadians(player.getLocation().getYaw() - 90));
-                double sin90 = -Math.sin(Math.toRadians(player.getLocation().getYaw() - 90));
-                Location firstLoc = player.getLocation().add(-Math.cos(Math.toRadians(player.getLocation().getYaw())) * 8, 1, -Math.sin(Math.toRadians(player.getLocation().getYaw())) * 8);
-                firstLoc.add(cos90, 0, sin90);
-                Location secondLoc = player.getLocation().add(Math.cos(Math.toRadians(player.getLocation().getYaw())) * 8, 1, Math.sin(Math.toRadians(player.getLocation().getYaw())) * 8);
-                secondLoc.add(cos90, 0, sin90);
-                drawLine(firstLoc, secondLoc, 0.2);
-                Location thirdLoc = firstLoc.clone().add(cos90 * 6, 0, sin90 * 6);
-                Location fourthLoc = secondLoc.clone().add(cos90 * 6, 0, sin90 * 6);
-                drawLine(thirdLoc, fourthLoc, 0.2);
-                drawLine(firstLoc, thirdLoc, 0.2);
-                drawLine(secondLoc, fourthLoc, 0.2);
+
+
+    /**根據方向距離和高度，回傳座標**/
+    public static Location distanceDirection(LivingEntity livingEntity,double distance,double hight){
+        Location location = livingEntity.getLocation();
+
+        /**高度**/
+        double ry = livingEntity.getEyeLocation().getDirection().getY();
+        double rx = livingEntity.getEyeLocation().getDirection().getX();
+        double rz = livingEntity.getEyeLocation().getDirection().getZ();
+
+        location.add(distance*rx,hight+(distance*ry),distance*rz);
+
+
+
+        return location;
     }
 
 
-    public void drawLine(Location point1, Location point2, double space) {
-        World world = point1.getWorld();
-        Validate.isTrue(point2.getWorld().equals(world), "Lines cannot be in different worlds!");
-        double distance = point1.distance(point2);
-        Vector p1 = point1.toVector();
-        Vector p2 = point2.toVector();
-        Vector vector = p2.clone().subtract(p1).normalize();
-        double length = 0;
-        for (; length < distance; p1.add(vector.clone().multiply(space))) {
-            world.spawnParticle(Particle.REDSTONE, p1.getX(), p1.getY(), p1.getZ(), 1);
-            length += space;
-        }
-    }
+
 
 }

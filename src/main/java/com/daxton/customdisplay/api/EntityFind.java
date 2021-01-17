@@ -79,8 +79,8 @@ public class EntityFind {
 
     /**目標不包括自己**/
     public Entity getTarget(LivingEntity self,int radius) {
-        List<Entity> targetList = getNearbyEntities(self,self.getLocation(), radius);
-        //List<Entity> targetList = self.getNearbyEntities(10, 10, 10);
+        //List<Entity> targetList = getNearbyEntities(self,self.getLocation(), radius);
+        List<Entity> targetList = self.getNearbyEntities(10, 10, 10);
         ArrayList<Entity> nearPlayers = new ArrayList<>();
         if(!(targetList.isEmpty())){
             for (Entity livingEntity : targetList) {
@@ -138,6 +138,62 @@ public class EntityFind {
         }
 
         return livingEntityList;
+    }
+
+    /**判斷玩家方向**/
+    public static String getCardinalDirection(LivingEntity livingEntity) {
+        double rotation = (livingEntity.getLocation().getYaw() - 90) % 360;
+        if (rotation < 0) {
+            rotation += 360.0;
+        }
+        if (0 <= rotation && rotation < 22.5) {
+            return "北";
+        } else if (22.5 <= rotation && rotation < 67.5) {
+            return "北東";
+        } else if (67.5 <= rotation && rotation < 112.5) {
+            return "東";
+        } else if (112.5 <= rotation && rotation < 157.5) {
+            return "南東";
+        } else if (157.5 <= rotation && rotation < 202.5) {
+            return "南";
+        } else if (202.5 <= rotation && rotation < 247.5) {
+            return "南西";
+        } else if (247.5 <= rotation && rotation < 292.5) {
+            return "西";
+        } else if (292.5 <= rotation && rotation < 337.5) {
+            return "北西";
+        } else if (337.5 <= rotation && rotation < 360.0) {
+            return "北";
+        } else {
+            return null;
+        }
+    }
+
+
+    public static String rpGetPlayerDirection(LivingEntity livingEntity){
+        String dir = "";
+        float y = livingEntity.getLocation().getYaw();
+        if( y < 0 ){y += 360;}
+        y %= 360;
+        int i = (int)((y+8) / 22.5);
+        if(i == 0){dir = "西";}
+        else if(i == 1){dir = "西 北西";}
+        else if(i == 2){dir = "北西";}
+        else if(i == 3){dir = "北 北西";}
+        else if(i == 4){dir = "北";}
+        else if(i == 5){dir = "北 北東";}
+        else if(i == 6){dir = "北東";}
+        else if(i == 7){dir = "東 北東";}
+        else if(i == 8){dir = "東";}
+        else if(i == 9){dir = "東 南東";}
+        else if(i == 10){dir = "南東";}
+        else if(i == 11){dir = "南 南東";}
+        else if(i == 12){dir = "南";}
+        else if(i == 13){dir = "南 南西";}
+        else if(i == 14){dir = "南西";}
+        else if(i == 15){dir = "西 南西";}
+        else {dir = "西";}
+        return dir;
     }
 
 

@@ -1,7 +1,7 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;

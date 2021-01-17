@@ -43,6 +43,11 @@ public class LocationAction {
             new LocationSound().setSound(self,target,firstString,taskID,location);
         }
 
+        /**Particle的相關判斷**/
+        if(judgMent.toLowerCase().contains("particle")){
+            new LocationParticles().setParticles(self,target,firstString,taskID,location);
+        }
+
     }
 
 

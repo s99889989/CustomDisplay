@@ -1,151 +1,22 @@
-package com.daxton.customdisplay.api.player;
+package com.daxton.customdisplay.api.player.data.set;
 
-import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
-import com.daxton.customdisplay.api.other.Arithmetic;
-import com.daxton.customdisplay.api.other.NumberUtil;
-import com.daxton.customdisplay.manager.PermissionManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.io.File;
-import java.util.*;
-import java.util.stream.Collectors;
-
-public class PlayerData {
-
-    CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private Player player;
-
-    private FileConfiguration fileConfiguration;
-
-    private BukkitRunnable bukkitRunnable;
-
-    private String uuidString = "";
-
-    private double mana;
-
-    /**動作列表**/
-    private List<String> playerActionList = new ArrayList<>();
+public class PlayerAction {
 
     /**觸發的動作列表**/
     private Map<String,List<String>> action_Trigger_Map = new HashMap<>();
 
-    public PlayerData(Player player){
-        this.player = player;
-        uuidString = player.getUniqueId().toString();
-        String attackCore = cd.getConfigManager().config.getString("AttackCore");
-
-        /**屬性初始值**/
-        if(attackCore.toLowerCase().contains("customcore")){
-            new PlayerBukkitAttribute().setDefault(player);
-            PlayerDataMap.getCore_Attribute_Map().put(uuidString,new CoreAttribute(player));
-            PlayerDataMap.getCore_Attribute_Map().get(uuidString).setDefault();
-
-            mana = PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration");
-
-            File customCoreFile = new File(cd.getDataFolder(),"Class/CustomCore.yml");
-            FileConfiguration customCoreConfig = YamlConfiguration.loadConfiguration(customCoreFile);
-            String attackSpeedString = customCoreConfig.getString("Formula.Attack_Speed.Speed");
-            attackSpeedString = new StringConversion(player,null,attackSpeedString,"Character").valueConv();
-            int  attackSpeed = 10;
-            try {
-                double number = Arithmetic.eval(attackSpeedString);
-                String numberDec = new NumberUtil(number,"#").getDecimalString();
-                attackSpeed = Integer.valueOf(numberDec);
-            }catch (Exception exception){
-                attackSpeed = 10;
-            }
-            PlayerDataMap.attack_Count_Map.put(uuidString,attackSpeed);
-            PlayerDataMap.cost_Count_Map.put(uuidString,0);
-            File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
-            FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-            for (int i = 1 ;i < 9 ;i++){
-                String bindSkill = playerConfig.getString(uuidString+".Binds."+i+".SkillName");
-                if(!(bindSkill.equals("null"))){
-                    int key = i -1;
-                    File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+bindSkill+".yml");
-                    FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
-                    List<String> skillAction = skillConfig.getStringList(bindSkill+".Action");
-                    PlayerDataMap.skill_Key_Map.put(uuidString+"."+key,skillAction);
-                }
-
-            }
-
-        }
-
-
-        new PlayerConfig(player).createFile();
-
-        setPlayerActionList();
-        setActionList();
-        //health_Regeneration(player);
-    }
-
-    public void health_Regeneration(Player player){
-        bukkitRunnable = new BukkitRunnable(){
-            @Override
-            public void run() {
-
-                if(player.getHealth() != player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()){
-                    double giveHealth = player.getHealth()+PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration");
-                    double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-
-                    if(giveHealth > maxHealth){
-                        giveHealth = giveHealth - (giveHealth - maxHealth);
-                    }
-                    //cd.getLogger().info("回血:"+giveHealth);
-                    //player.sendMessage("回血:"+PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration"));
-                    player.setHealth(giveHealth);
-                }
-
-
-            }
-        };
-        bukkitRunnable.runTaskTimer(cd,0,200);
-    }
-
-
-    /**獲取動作列表**/
-    public void setPlayerActionList() {
-        String uuidString = player.getUniqueId().toString();
-        playerActionList.clear();
-        File inputFile = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
-        FileConfiguration inputConfig = YamlConfiguration.loadConfiguration(inputFile);
-        List<String> setList = inputConfig.getStringList(uuidString+".Action");
-        List<String> thisList = new ArrayList<>();
-        for(String set : setList){
-            File inputFile2 = new File(cd.getDataFolder(),"Class/Action/"+set+".yml");
-            FileConfiguration inputConfig2 = YamlConfiguration.loadConfiguration(inputFile2);
-            List<String> actionList = inputConfig2.getStringList("Action");
-            for(String string : actionList){
-                thisList.add(string);
-            }
-
-
-        }
-
-        for(String stringConfig : PermissionManager.getPermission_String_Map().values()){
-            if(player.hasPermission(stringConfig)){
-                for(String list : PermissionManager.getPermission_FileConfiguration_Map().get(stringConfig).getStringList("Action")){
-                    thisList.add(list);
-                }
-            }
-        }
-
-        playerActionList = thisList.stream().distinct().collect(Collectors.toList());
-
+    public PlayerAction(){
 
     }
-
-    public void setActionList(){
-        if(playerActionList.size() > 0){
-            for(String actionString : playerActionList){
+    /**丟入玩家動作列表，回傳動作Map**/
+    public Map<String,List<String>> setPlayerAction(List<String> actionList){
+        if(actionList.size() > 0){
+            for(String actionString : actionList){
                 /**當攻擊時**/
                 if(actionString.toLowerCase().contains("~onattack")){
                     if(action_Trigger_Map.get("~onattack") == null){
@@ -428,21 +299,10 @@ public class PlayerData {
 
             }
         }
-    }
 
-    public Player getPlayer() {
-        return player;
-    }
-    /**動作列表**/
-    public List<String> getPlayerActionList() {
-        return playerActionList;
-    }
-    /**觸發的動作列表**/
-    public Map<String, List<String>> getAction_Trigger_Map() {
+
+
         return action_Trigger_Map;
     }
 
-    public BukkitRunnable getBukkitRunnable() {
-        return bukkitRunnable;
-    }
 }

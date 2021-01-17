@@ -2,36 +2,26 @@ package com.daxton.customdisplay.listener.bukkit;
 
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.player.PlayerData;
-import com.daxton.customdisplay.api.player.PlayerEquipment;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
-import net.citizensnpcs.api.CitizensAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
@@ -82,8 +72,12 @@ public class PlayerListener implements Listener {
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             new PlayerTrigger(player).onQuit(player);
-            //playerData.getBukkitRunnable().cancel();
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+
+            String attackCore = cd.getConfigManager().config.getString("AttackCore");
+            if(attackCore.toLowerCase().contains("customcore")){
+                playerData.getBukkitRunnable().cancel();
+            }
         }
         if(bukkitRunnable != null){
             bukkitRunnable.cancel();

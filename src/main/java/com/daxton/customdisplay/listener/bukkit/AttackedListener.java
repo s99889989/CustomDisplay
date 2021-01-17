@@ -1,17 +1,12 @@
 package com.daxton.customdisplay.listener.bukkit;
 
-import com.daxton.customdisplay.api.player.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-
-import java.util.UUID;
 
 
 public class AttackedListener implements Listener {

@@ -1,9 +1,9 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
 import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;

@@ -21,7 +21,7 @@ public class PlaceholderSelf2 {
                 outputString = new PlaceholderPlayer().valueOf(entity,key);
             }
             if(key.toLowerCase().contains("<cd_class_")){
-
+                outputString = new PlaceholderClass().valueOf(entity,key);
             }
             if(key.toLowerCase().contains("<cd_mmocore_")){
 

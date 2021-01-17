@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -179,7 +179,7 @@ public class OpenInventory {
                 boolean flag = itemConfig.getBoolean("Buttons."+key+".RemoveItemFlags");
                 String itemMaterial = itemConfig.getString("Buttons."+key+".Material");
                 String itemName = itemConfig.getString("Buttons."+key+".Name");
-                itemName = new StringConversion(self,target,itemName,"Character").valueConv();
+                itemName = new StringConversionMain().valueOf(self,target,itemName);
                 List<String> itemLore = itemConfig.getStringList("Buttons."+key+".Lore");
                 List<String> nextItemLore = new ArrayList<>();
                 itemLore.forEach((line) -> {
@@ -187,7 +187,7 @@ public class OpenInventory {
                 });
                 List<String> lastItemLore = new ArrayList<>();
                 nextItemLore.forEach((line) -> {
-                    lastItemLore.add(ChatColor.GRAY + new StringConversion(self,target,line,"Character").valueConv());
+                    lastItemLore.add(ChatColor.GRAY + new StringConversionMain().valueOf(self,target,line));
                 });
                 List<String> leftClick = itemConfig.getStringList("Buttons."+key+".Left");
                 List<String> leftShiftClick = itemConfig.getStringList("Buttons."+key+".Left_Shift");
@@ -373,11 +373,11 @@ public class OpenInventory {
             List<String> itemLore = skillConfig.getStringList(skillName+".Lore");
             List<String> lastItemLore = new ArrayList<>();
             itemLore.forEach((line) -> {
-                lastItemLore.add(new StringConversion(self,target,line,"Character").valueConv());
+                lastItemLore.add(new StringConversionMain().valueOf(self,target,line));
             });
             int cmd = skillConfig.getInt(skillName+".CustomModelData");
             String itemName = skillConfig.getString(skillName+".Name");
-            itemName = new StringConversion(self,target,itemName,"Character").valueConv();
+            itemName = new StringConversionMain().valueOf(self,target,itemName);
             ItemStack customItem = new ItemStack(material);
             ItemMeta im = customItem.getItemMeta();
             im.setDisplayName(itemName);
@@ -427,11 +427,11 @@ public class OpenInventory {
                         List<String> itemLore = skillConfig.getStringList(bind+".Lore");
                         List<String> lastItemLore = new ArrayList<>();
                         itemLore.forEach((line) -> {
-                            lastItemLore.add(new StringConversion(self,target,line,"Character").valueConv());
+                            lastItemLore.add(new StringConversionMain().valueOf(self,target,line));
                         });
                         int cmd = skillConfig.getInt(bind+".CustomModelData");
                         String itemName = skillConfig.getString(bind+".Name");
-                        itemName = new StringConversion(self,target,itemName,"Character").valueConv();
+                        itemName = new StringConversionMain().valueOf(self,target,itemName);
                         ItemStack bindItem = new ItemStack(material);
                         ItemMeta bindMeta = bindItem.getItemMeta();
                         bindMeta.setDisplayName(itemName+"(綁定"+i+")");

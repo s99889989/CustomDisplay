@@ -1,8 +1,7 @@
 package com.daxton.customdisplay.manager;
 
-import com.daxton.customdisplay.api.player.AttributeEnum;
 import com.daxton.customdisplay.api.player.CoreAttribute;
-import com.daxton.customdisplay.api.player.PlayerData;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;

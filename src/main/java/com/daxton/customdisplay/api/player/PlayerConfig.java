@@ -95,7 +95,6 @@ public class PlayerConfig {
                     }
                     int maxExp = levelConfig.getInt("Exp-Amount.1");
 
-
                     playerConfig.set(uuidString+".Level."+key+"_now_level",1);
                     playerConfig.set(uuidString+".Level."+key+"_max_level",maxLevel);
                     playerConfig.set(uuidString+".Level."+key+"_now_exp",0);

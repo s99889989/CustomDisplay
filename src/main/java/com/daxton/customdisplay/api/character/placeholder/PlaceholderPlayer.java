@@ -13,7 +13,6 @@ public class PlaceholderPlayer {
     }
 
     public String valueOf(LivingEntity entity, String inputString){
-        cd.getLogger().info(inputString);
         String outputString = "";
         String uuidString = entity.getUniqueId().toString();
         if(inputString.toLowerCase().contains("<cd_player_last_chat")){
