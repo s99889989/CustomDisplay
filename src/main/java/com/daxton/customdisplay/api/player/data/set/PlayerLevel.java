@@ -20,10 +20,9 @@ public class PlayerLevel {
 
     }
 
-    public void setMap(Player player, Map<String,String> level_Map){
+    public void setMap(Player player, Map<String,String> level_Map,FileConfiguration playerConfig){
         String uuidString = player.getUniqueId().toString();
-        UUID playerUUID = player.getUniqueId();
-        FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
+
         List<String> attrStatsList = new ArrayList<>(playerConfig.getConfigurationSection(uuidString+".Level").getKeys(false));
         if(attrStatsList.size() > 0){
             for(String attrName : attrStatsList){

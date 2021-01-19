@@ -45,7 +45,7 @@ public class PlaceholderClass {
                 outputString = playerConfig.getString(uuidString+".Class_Name");
             }
         }
-        cd.getLogger().info(inputString+" : "+value);
+
         if(playerData != null){
             if(inputString.toLowerCase().contains("_class_level_")){
                 if(playerData.level_Map.get(value) != null){
@@ -53,17 +53,46 @@ public class PlaceholderClass {
                 }
             }
             if(inputString.toLowerCase().contains("_class_point_")){
-
+                if(playerData.point_Map.get(value) != null){
+                    outputString = playerData.point_Map.get(value);
+                }
             }
             if(inputString.toLowerCase().contains("_class_attr_point_")){
-
+                if(playerData.attributes_Point_Map.get(value) != null){
+                    outputString = playerData.attributes_Point_Map.get(value);
+                }
             }
             if(inputString.toLowerCase().contains("_class_attr_stats_")){
-
+                if(playerData.attributes_Stats_Map.get(value) != null){
+                    outputString = playerData.attributes_Stats_Map.get(value);
+                }
             }
             if(inputString.toLowerCase().contains("_class_eqm_stats_")){
-
+                if(playerData.equipment_Stats_Map.get(value) != null){
+                    outputString = playerData.equipment_Stats_Map.get(value);
+                }
             }
+            if(inputString.toLowerCase().contains("_class_skill_level_")){
+                if(playerData.skills_Map.get(value+"_level") != null){
+                    outputString = playerData.skills_Map.get(value+"_level");
+                }
+            }
+            if(inputString.toLowerCase().contains("_class_skill_use_")){
+                if(playerData.skills_Map.get(value+"_use") != null){
+                    outputString = playerData.skills_Map.get(value+"_use");
+                }
+            }
+            if(inputString.toLowerCase().contains("_class_bind_name_")){
+                if(playerData.binds_Map.get(value+"_skillName") != null){
+                    outputString = playerData.binds_Map.get(value+"_skillName");
+                }
+            }
+            if(inputString.toLowerCase().contains("_class_bind_use_")){
+                if(playerData.binds_Map.get(value+"_use") != null){
+                    outputString = playerData.binds_Map.get(value+"_use");
+                }
+            }
+
         }
 
         return outputString;

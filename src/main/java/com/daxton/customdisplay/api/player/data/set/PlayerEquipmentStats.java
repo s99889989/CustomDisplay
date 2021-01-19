@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,10 +21,10 @@ public class PlayerEquipmentStats {
 
     }
 
-    public void setMap(Player player, Map<String,String> attributes_Stats_Map){
+    public void setMap(Player player, Map<String,String> attributes_Stats_Map,FileConfiguration playerConfig){
         String uuidString = player.getUniqueId().toString();
         UUID playerUUID = player.getUniqueId();
-        FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
+
         List<String> attrStatsList = playerConfig.getStringList(uuidString+".Equipment_Stats");
         if(attrStatsList.size() > 0){
             for(String attrName : attrStatsList){
@@ -31,7 +32,38 @@ public class PlayerEquipmentStats {
                 FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFile);
                 List<String> attrStatsNameList = new ArrayList<>(attrConfig.getConfigurationSection(attrName).getKeys(false));
                 for(String attrName2 : attrStatsNameList){
-                    attributes_Stats_Map.put(attrName2,"0");
+                    String value = attrConfig.getString(attrName+"."+attrName2+".base");
+                    if(value != null){
+                        value = new StringConversionMain().valueOf(player,null,value);
+                        attributes_Stats_Map.put(attrName2,value);
+                    }else {
+                        attributes_Stats_Map.put(attrName2,"0");
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public void setFormula(Player player, Map<String,String> attributes_Stats_Map,FileConfiguration playerConfig){
+        String uuidString = player.getUniqueId().toString();
+        UUID playerUUID = player.getUniqueId();
+
+        List<String> attrStatsList = playerConfig.getStringList(uuidString+".Equipment_Stats");
+        if(attrStatsList.size() > 0){
+            for(String attrName : attrStatsList){
+                File attrFile = new File(cd.getDataFolder(),"Class/Attributes/EquipmentStats/"+attrName+".yml");
+                FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFile);
+                List<String> attrStatsNameList = new ArrayList<>(attrConfig.getConfigurationSection(attrName).getKeys(false));
+                for(String attrName2 : attrStatsNameList){
+                    String value = attrConfig.getString(attrName+"."+attrName2+".base");
+                    if(value != null){
+                        value = new StringConversionMain().valueOf(player,null,value);
+                        attributes_Stats_Map.put(attrName2,value);
+                    }
                 }
 
             }

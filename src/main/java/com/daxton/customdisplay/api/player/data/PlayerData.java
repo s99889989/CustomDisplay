@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.player.data;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.player.config.PlayerConfig2;
 import com.daxton.customdisplay.api.player.data.set.*;
 import com.daxton.customdisplay.manager.PermissionManager;
@@ -21,7 +22,7 @@ public class PlayerData {
 
     private Player player;
 
-    private FileConfiguration fileConfiguration;
+    private FileConfiguration playerConfig;
 
     private BukkitRunnable bukkitRunnable;
 
@@ -59,6 +60,8 @@ public class PlayerData {
         }
 
         new PlayerConfig2(player);
+        playerConfig = new LoadConfig().getPlayerConfig(player);
+
 
         setPlayerActionList();
         setActionList();
@@ -68,16 +71,20 @@ public class PlayerData {
 
     public void setPlayerData(Player player){
 
+        /**先設預設值**/
+        new PlayerLevel().setMap(player,level_Map,playerConfig);
+        new PlayerPoint().setMap(player,point_Map,playerConfig);
+        new PlayerAttributesPoint().setMap(player,attributes_Point_Map,playerConfig);
+        new PlayerAttributesStats().setMap(player,attributes_Stats_Map,playerConfig);
+        new PlayerEquipmentStats().setMap(player,equipment_Stats_Map,playerConfig);
+        new PlayerSkills().setMap(player,skills_Map,playerConfig);
+        new PlayerBinds().setMap(player,binds_Map,playerConfig);
 
-        new PlayerLevel().setMap(player,level_Map);
-        new PlayerPoint().setMap(player,point_Map);
-        new PlayerAttributesPoint().setMap(player,attributes_Point_Map);
-        new PlayerAttributesStats().setMap(player,attributes_Stats_Map);
-        new PlayerEquipmentStats().setMap(player,equipment_Stats_Map);
+        /**2次計算**/
+        new PlayerAttributesStats().setFormula(player,attributes_Stats_Map,playerConfig);
 
 
 
-        new PlayerAttributesStats().setFormula(player,attributes_Stats_Map);
     }
 
     /**Custom職業相關**/
