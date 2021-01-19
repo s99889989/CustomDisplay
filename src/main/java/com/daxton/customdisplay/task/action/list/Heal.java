@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.attribute.Attribute;
@@ -38,7 +38,7 @@ public class Heal {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     try{
-                        String amountString = new StringConversion(self,target,strings[1],"Character").valueConv();
+                        String amountString = new StringConversionMain().valueOf(self,target,strings[1]);
                         amount = Arithmetic.eval(amountString);
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("Heal的amount=內只能放數字: "+strings[1]);

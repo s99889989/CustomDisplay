@@ -1,9 +1,9 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -261,7 +261,7 @@ public class PlayerConfig {
                         String statsNumberString = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".formula");
 
                         if(statsNumberString != null){
-                            statsNumberString = new StringConversion(player,null,statsNumberString,"Character").valueConv();
+                            statsNumberString = new StringConversionMain().valueOf(player,null,statsNumberString);
                         }else {
                             statsNumberString = "0";
                         }

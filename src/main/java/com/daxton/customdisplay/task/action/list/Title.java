@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversion;
+import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -83,7 +83,7 @@ public class Title {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     if(strings.length == 2){
-                        title = new StringConversion(self,target,strings[1],"Character").valueConv();
+                        title = new StringConversionMain().valueOf(self,target,strings[1]);
                     }
                 }
             }
@@ -91,7 +91,7 @@ public class Title {
             if(string.toLowerCase().contains("subtitle=") || string.toLowerCase().contains("subt=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    subTitle = new StringConversion(self,target,strings[1],"Character").valueConv();
+                    subTitle = new StringConversionMain().valueOf(self,target,strings[1]);
                 }
 
             }
