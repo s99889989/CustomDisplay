@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -375,7 +375,7 @@ public class PlayerTrigger {
             if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    taskID = new StringConversionMain().valueOf(self,target,strings[1]);
+                    taskID = new ConversionMain().valueOf(self,target,strings[1]);
                 }
             }
             if(allString.toLowerCase().contains("stop=") || allString.toLowerCase().contains("s=")){

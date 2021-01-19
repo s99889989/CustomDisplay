@@ -6,11 +6,11 @@ import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.ChatColor;
 
-public class MathConversion {
+public class ConversionMath {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    public MathConversion(){
+    public ConversionMath(){
 
     }
 

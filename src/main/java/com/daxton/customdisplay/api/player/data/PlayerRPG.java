@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.player.data;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.CoreAttribute;
@@ -31,7 +31,7 @@ public class PlayerRPG {
         File customCoreFile = new File(cd.getDataFolder(),"Class/CustomCore.yml");
         FileConfiguration customCoreConfig = YamlConfiguration.loadConfiguration(customCoreFile);
         String attackSpeedString = customCoreConfig.getString("Formula.Attack_Speed.Speed");
-        attackSpeedString = new StringConversionMain().valueOf(player,null,attackSpeedString);
+        attackSpeedString = new ConversionMain().valueOf(player,null,attackSpeedString);
         int  attackSpeed = 10;
         try {
             double number = Arithmetic.eval(attackSpeedString);

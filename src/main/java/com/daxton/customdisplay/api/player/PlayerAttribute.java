@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -40,7 +40,7 @@ public class PlayerAttribute {
                         String statsNumberString = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".formula");
 
                         if(statsNumberString != null){
-                            statsNumberString = new StringConversionMain().valueOf(player,null,statsNumberString);
+                            statsNumberString = new ConversionMain().valueOf(player,null,statsNumberString);
                         }else {
                             statsNumberString = "0";
                         }

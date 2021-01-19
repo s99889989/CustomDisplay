@@ -2,7 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.Bukkit;
@@ -58,7 +58,7 @@ public class Damage {
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     try{
-                        amount = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        amount = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("Damage的amount=內只能放數字: "+strings[1]);
                     }

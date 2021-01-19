@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -83,7 +83,7 @@ public class Sound {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        x = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        x = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("sx不是數字"+strings[1]);
                     }
@@ -94,7 +94,7 @@ public class Sound {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        y = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        y = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("sy不是數字"+strings[1]);
                     }
@@ -105,7 +105,7 @@ public class Sound {
                 String[] strings = string.split("=");
                 if(strings.length == 2){
                     try {
-                        z = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        z = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                         cd.getLogger().info("sz不是數字"+strings[1]);
                     }

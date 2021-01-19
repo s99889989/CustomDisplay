@@ -53,20 +53,21 @@ public class PlayerData {
         this.player = player;
         uuidString = player.getUniqueId().toString();
 
-        /**是否使用屬性**/
-        String attackCore = cd.getConfigManager().config.getString("AttackCore");
-        if(attackCore.toLowerCase().contains("customcore")){
-            customCore(player);
-        }
+
 
         new PlayerConfig2(player);
         playerConfig = new LoadConfig().getPlayerConfig(player);
-
+        /**是否使用屬性**/
+        String attackCore = cd.getConfigManager().config.getString("AttackCore");
+        if(attackCore.toLowerCase().contains("customcore")){
+            //customCore(player);
+            setPlayerData(player);
+        }
 
         setPlayerActionList();
         setActionList();
 
-        setPlayerData(player);
+
     }
 
     public void setPlayerData(Player player){

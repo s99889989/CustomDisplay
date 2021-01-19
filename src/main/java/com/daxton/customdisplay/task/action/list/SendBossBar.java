@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
@@ -100,7 +100,7 @@ public class SendBossBar {
             if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
-                    message = new StringConversionMain().valueOf(self,target,strings[1]);;
+                    message = new ConversionMain().valueOf(self,target,strings[1]);;
                 }
             }
             if(allString.toLowerCase().contains("progress=")){
@@ -108,7 +108,7 @@ public class SendBossBar {
                 if(strings.length == 2){
                     if(target != null){
                         try {
-                            progress = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                            progress = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                         }catch (NumberFormatException exception){
                             progress = 0;
                         }

@@ -1,12 +1,7 @@
 Default_Player:
   Class_Name: '初心者'
-  Player_Race: '人形'
-  Player_Body: '中'
-  Player_Attribute_Attack: '無'
-  Player_Attribute_Defense: '無'
   Action:
   - 'Default'
-  #- 'Novice'
   Level:
   - 'base'
   - 'job'
@@ -17,12 +12,8 @@ Default_Player:
   - 'Point_Novice'
   Attributes_Stats:
   - 'Stats_Default'
-  #- 'Stats_Ro_Novice'
   Equipment_Stats:
   - 'Stats_Equipment'
-  Melee_physics_formula: 
-    Player: '&self_Final_Melee_Attack&'
-    Other: '&self_Final_Melee_Attack&'
-  Range_physics_formula: 
-    Player: '&self_Final_Range_Attack&'
-    Other: '&self_Final_Range_Attack&'
+  #Skills:
+  #- Novice
+  #- Swordman

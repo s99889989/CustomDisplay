@@ -1,12 +1,9 @@
 package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
-import com.daxton.customdisplay.api.config.LoadConfig;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -55,7 +52,7 @@ public class PlayerAttributesStats {
                 for(String attrName2 : attrStatsNameList){
                     String value = attrConfig.getString(attrName+"."+attrName2+".formula");
                     if(value != null){
-                        value = new StringConversionMain().valueOf(player,null,value);
+                        value = new ConversionMain().valueOf(player,null,value);
                         attributes_Stats_Map.put(attrName2,value);
                     }
                 }

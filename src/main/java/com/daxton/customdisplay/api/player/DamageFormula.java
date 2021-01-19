@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -160,7 +160,7 @@ public class DamageFormula {
     public int setCount(Player player,LivingEntity target,FileConfiguration customCoreConfig){
         int  attackSpeed = 10;
         String attackSpeedString = customCoreConfig.getString("Formula.Attack_Speed.Speed");
-        attackSpeedString = new StringConversionMain().valueOf(player,target,attackSpeedString);
+        attackSpeedString = new ConversionMain().valueOf(player,target,attackSpeedString);
         try {
             double number = Arithmetic.eval(attackSpeedString);
             String numberDec = new NumberUtil(number,"#").getDecimalString();
@@ -180,7 +180,7 @@ public class DamageFormula {
         }else {
             crit_powerString = customCoreConfig.getString("Formula.Critical_Strike_Power.Player_Other");
         }
-        crit_powerString = new StringConversionMain().valueOf(player,target,crit_powerString);
+        crit_powerString = new ConversionMain().valueOf(player,target,crit_powerString);
 
         try {
             double number = Arithmetic.eval(crit_powerString);
@@ -208,7 +208,7 @@ public class DamageFormula {
         }else {
             crit_chanceString = customCoreConfig.getString("Formula.Critical_Strike_Chance.Player_Other");
         }
-        crit_chanceString = new StringConversionMain().valueOf(player,target,crit_chanceString);
+        crit_chanceString = new ConversionMain().valueOf(player,target,crit_chanceString);
         int crit_chance = 0;
         try {
             double number = Arithmetic.eval(crit_chanceString);
@@ -240,7 +240,7 @@ public class DamageFormula {
         }else {
             hitRateString = customCoreConfig.getString("Formula.Hit_Rate.Player_Other");
         }
-        hitRateString = new StringConversionMain().valueOf(player,target,hitRateString);
+        hitRateString = new ConversionMain().valueOf(player,target,hitRateString);
         int hitRate = 0;
         try {
             double number = Arithmetic.eval(hitRateString);
@@ -270,7 +270,7 @@ public class DamageFormula {
         }else {
             dodgeRateString = customCoreConfig.getString("Formula.Dodge_Rate.Player_Other");
         }
-        dodgeRateString = new StringConversionMain().valueOf(player,target,dodgeRateString);
+        dodgeRateString = new ConversionMain().valueOf(player,target,dodgeRateString);
 
         int dodgeRate = 0;
         try {
@@ -308,7 +308,7 @@ public class DamageFormula {
         }else {
             blockRateString = customCoreConfig.getString("Formula.Block_Rate.Player_Other");
         }
-        blockRateString = new StringConversionMain().valueOf(player,target,blockRateString);
+        blockRateString = new ConversionMain().valueOf(player,target,blockRateString);
 
         int blockRate = 0;
         try {
@@ -346,7 +346,7 @@ public class DamageFormula {
             plysical = customCoreConfig.getString("Formula.Melee_Physics_Critical_Strike_Power.Player_Other");
         }
 
-        plysical = new StringConversionMain().valueOf(player,target,plysical);
+        plysical = new ConversionMain().valueOf(player,target,plysical);
 
         try {
             double number = Arithmetic.eval(plysical);
@@ -369,7 +369,7 @@ public class DamageFormula {
             plysical = customCoreConfig.getString("Formula.Melee_Physics.Player_Other");
         }
 
-        plysical = new StringConversionMain().valueOf(player,target,plysical);
+        plysical = new ConversionMain().valueOf(player,target,plysical);
 
         try {
             double number = Arithmetic.eval(plysical);
@@ -393,7 +393,7 @@ public class DamageFormula {
         }else {
             plysical = customCoreConfig.getString("Formula.Range_Physics_Critical_Strike_Power.Player_Other");
         }
-        plysical = new StringConversionMain().valueOf(player,target,plysical);
+        plysical = new ConversionMain().valueOf(player,target,plysical);
         try {
             double number = Arithmetic.eval(plysical);
             attackNumber = Double.valueOf(number);
@@ -414,7 +414,7 @@ public class DamageFormula {
         }else {
             plysical = customCoreConfig.getString("Formula.Range_Physics.Player_Other");
         }
-        plysical = new StringConversionMain().valueOf(player,target,plysical);
+        plysical = new ConversionMain().valueOf(player,target,plysical);
         try {
             double number = Arithmetic.eval(plysical);
             attackNumber = Double.valueOf(number);
@@ -435,7 +435,7 @@ public class DamageFormula {
         }else {
             plysical = customCoreConfig.getString("Formula.Magic_Attack.Player_Other");
         }
-        plysical = new StringConversionMain().valueOf(player,target,plysical);
+        plysical = new ConversionMain().valueOf(player,target,plysical);
         try {
             double number = Arithmetic.eval(plysical);
 

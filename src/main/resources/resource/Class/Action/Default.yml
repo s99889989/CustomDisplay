@@ -1,113 +1,28 @@
 Action:
 
+#攻擊顯示數字(向上)
 #Attack display damage (up)
 #-------------------------------------------------------------------------#
 - Action[a=AttackDisplayUp] ~onAttack
 
+#攻擊顯示數字(向上) (暴擊)
 #Attack display damage (up)(Critical)
 #-------------------------------------------------------------------------#
-- Action[a=AttackCritDisplayUp] ~onCrit
+- Action[a=AttackDisplayUpCrit] ~onCrit
 
+#攻擊顯示數字(向上) (魔法)
 #Attack display damage (up)(Magic)
 #-------------------------------------------------------------------------#
 - Action[a=AttackDisplayUp] ~onMagic
 
+#攻擊顯示數字(向上) (魔法暴擊)
 #Attack display damage (up)(Magic Critical)
 #-------------------------------------------------------------------------#
-- Action[a=AttackCritDisplayUp] ~onMCrit
+- Action[a=AttackDisplayUpCrit] ~onMCrit
 
+#攻擊顯示數字(向上) (失敗)
 #Attack display damage (up)(Fail)
 #-------------------------------------------------------------------------#
-- Action[a=AttackFailDisplayUp] ~onAtkMiss
-
-#Attack display damage (throw)
-#-------------------------------------------------------------------------#
-#- Action[a=AttackDisplayThrow] ~onAttack
-
-#Attacking monsters shows blood volume.
-#-------------------------------------------------------------------------#
-#- Action[a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onAttack
-#- Action[a=EntityTopDisplayMonster;mark=&target_uuid&EntityTopDisplayMonster] ~onCrit
-
-#Attack animals show blood volume.
-#-------------------------------------------------------------------------#
-#- Action[a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onAttack
-#- Action[a=EntityTopDisplayAnimal;mark=&target_uuid&EntityTopDisplayAnimal] ~onCrit
-
-#The attacking player displays information.
-#-------------------------------------------------------------------------#
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onAttack
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onCrit
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMagic
-- Action[a=EntityTopDisplayPlayer;mark=&target_uuid&EntityTopDisplayPlayer] ~onMCrit
-
-#If the blood volume is lower than the set volume, the title and sound are displayed.
-#-------------------------------------------------------------------------#
-- Action[a=TitleHealthDisplay;mark=&self_name&TitleHealthDisplay] ~onJoin
-- Action[mark=&self_name&TitleHealthDisplay;stop=true] ~onQuit
-
-#The dynamic bar is continuously displayed.
-#-------------------------------------------------------------------------#
-- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onJoin
-- Action[a=ActionBarDisplay;mark=&self_name&ActionBarDisplay] ~onKeyFOFF
-- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onKeyFON
-- Action[mark=&self_name&ActionBarDisplay;stop=true] ~onQuit
-
-#Display the MMOCore skill status bar.
-#-------------------------------------------------------------------------#
-- Action[mark=&self_name&MMOCoreActionBarDisplay;stop=true] ~onKeyFOFF
-- Action[a=MMOCoreActionBarDisplay;mark=&self_name&MMOCoreActionBarDisplay] ~onKeyFON
-
-#The attack shows BossBar.
-#-------------------------------------------------------------------------#
-- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onAttack
-- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onCrit
-- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMagic
-- Action[a=BoosBarDisplay;mark=&self_name&BoosBarDisplay] ~onMCrit
-
-#The title is displayed when attacked.
-#-------------------------------------------------------------------------#
-- Action[a=TitleDisplayAttacked] ~onDamaged
-
-#Removed the love effect displayed by the attack.
-#-------------------------------------------------------------------------#
-- Action[a=Particle-Remove;mark=&self_name&] ~onJoin
-
-#Display the name of the attack's effect.
-#-------------------------------------------------------------------------#
-#- Action[a=Particle-Show;mark=&self_name&] ~onAttack
-
-#Attack change display name (monster)
-#-------------------------------------------------------------------------#
-- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onAttack
-- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onCrit
-- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onMagic
-- Action[a=NameDisplayAttackMonster;mark=&target_uuid&NameDisplayAttackMonster] ~onMCrit
-
-#Attack change display name (animal)
-#-------------------------------------------------------------------------#
-- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onAttack
-- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onCrit
-- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMagic
-- Action[a=NameDisplayAttackAnimal;mark=&target_uuid&NameDisplayAttackAnimal] ~onMCrit
-
-#Use MythicSkill skills.
-#-------------------------------------------------------------------------#
-#- Action[a=MythicSkillHomer] ~onKey1
-
-#Show chat messages on the head.
-#-------------------------------------------------------------------------#
-- Action[a=ChatHD] ~onChat
-
-#Emoji are displayed on the head.
-#-------------------------------------------------------------------------#
-#- Action[a=EmojiHelpHD] ~onChat
-- Action[a=EmojiHelpHD] ~onCommand
-
-#Show actionable messages.
-#-------------------------------------------------------------------------#
-- Action[a=Buttom-Message] ~onCommand
-- Action[a=Buttom-Message2] ~onCommand
-
+- Action[a=AttackDisplayUpMiss] ~onAtkMiss
 
 

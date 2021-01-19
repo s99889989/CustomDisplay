@@ -4,10 +4,10 @@ import com.daxton.customdisplay.api.character.placeholder.*;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import org.bukkit.entity.LivingEntity;
 
-public class PlaceholderConversion {
+public class ConversionPlaceholder {
 
 
-    public PlaceholderConversion(){
+    public ConversionPlaceholder(){
 
     }
 

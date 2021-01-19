@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -100,7 +100,7 @@ public class GiveItem {
         List<String> nextItemLore = new ArrayList<>();
         itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
         List<String> lastItemLore = new ArrayList<>();
-        nextItemLore.forEach((line) -> { lastItemLore.add(ChatColor.GRAY + new StringConversionMain().valueOf(self,target,line)); });
+        nextItemLore.forEach((line) -> { lastItemLore.add(ChatColor.GRAY + new ConversionMain().valueOf(self,target,line)); });
         itemMeta.setLore(lastItemLore);
 
         /**物品屬性**/

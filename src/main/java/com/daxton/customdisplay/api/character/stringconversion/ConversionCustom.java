@@ -2,7 +2,6 @@ package com.daxton.customdisplay.api.character.stringconversion;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.ConfigFind;
-import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.LivingEntity;
@@ -10,11 +9,11 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class CustomConversion {
+public class ConversionCustom {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    public CustomConversion(){
+    public ConversionCustom(){
 
     }
 
@@ -60,10 +59,10 @@ public class CustomConversion {
                 }
             }
             if(content.contains("&")){
-                content = new CustomConversion().valueOf(self,target,content);
+                content = new ConversionCustom().valueOf(self,target,content);
             }
             if(content.contains("<") && content.contains(">")){
-                content = new PlaceholderConversion().valueOf(self,target,content);
+                content = new ConversionPlaceholder().valueOf(self,target,content);
             }
             outputString = content;
         }
@@ -76,13 +75,13 @@ public class CustomConversion {
         String outputString = "";
 
         if(headKey.toLowerCase().contains("conver")){
-            outputString = new ChangeConversion().valueOf(content,changeContent);
+            outputString = new ConversionChange().valueOf(content,changeContent);
         }
 
 
         if(headKey.toLowerCase().contains("math")){
 
-            outputString = new MathConversion().valueOf(content,changeContent);
+            outputString = new ConversionMath().valueOf(content,changeContent);
         }
 
 

@@ -6,11 +6,11 @@ import com.daxton.customdisplay.api.other.StringFind;
 
 import java.util.List;
 
-public class ChangeConversion {
+public class ConversionChange {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    public ChangeConversion(){
+    public ConversionChange(){
 
     }
 

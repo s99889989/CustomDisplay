@@ -2,7 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
@@ -68,7 +68,7 @@ public class Holographic {
             if(string.toLowerCase().contains("message=") || string.toLowerCase().contains("m=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    message = new StringConversionMain().valueOf(self,target,strings[1]);
+                    message = new ConversionMain().valueOf(self,target,strings[1]);
                 }
             }
         }
@@ -95,7 +95,7 @@ public class Holographic {
                 if(strings.length == 2){
                     try {
                         if(strings[1].contains("&")){
-                            x = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                            x = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                         }else {
                             x = Double.valueOf(strings[1]);
                         }
@@ -110,7 +110,7 @@ public class Holographic {
                 if(strings.length == 2){
                     try {
                         if(strings[1].contains("&")){
-                            y = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                            y = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                         }else {
                             y = Double.valueOf(strings[1]);
                         }
@@ -125,7 +125,7 @@ public class Holographic {
                 if(strings.length == 2){
                     try {
                         if(strings[1].contains("&")){
-                            z = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                            z = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                         }else {
                             z = Double.valueOf(strings[1]);
                         }

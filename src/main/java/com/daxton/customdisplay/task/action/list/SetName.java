@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.LivingEntity;
@@ -109,7 +109,7 @@ public class SetName {
 
     public void sendMetadataPacket() {
 
-        message = new StringConversionMain().valueOf(self,target,message);
+        message = new ConversionMain().valueOf(self,target,message);
         cd.getLogger().info(message);
         PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());

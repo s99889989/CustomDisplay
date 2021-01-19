@@ -1,15 +1,12 @@
 package com.daxton.customdisplay.task.locationAction;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
-import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.LocationActionManager;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
@@ -35,7 +32,7 @@ public class LocationHolographic {
             if(string.toLowerCase().contains("message=") || string.toLowerCase().contains("m=")){
                 String[] strings = string.split("=");
                 if(strings.length == 2){
-                    message = new StringConversionMain().valueOf(self,target,strings[1]);
+                    message = new ConversionMain().valueOf(self,target,strings[1]);
                 }
             }
         }

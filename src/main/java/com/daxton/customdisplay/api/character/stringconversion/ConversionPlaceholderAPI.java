@@ -4,10 +4,10 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-public class PlaceholderAPIConversion {
+public class ConversionPlaceholderAPI {
 
 
-    public PlaceholderAPIConversion(){
+    public ConversionPlaceholderAPI(){
 
     }
 

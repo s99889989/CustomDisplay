@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -42,18 +42,18 @@ public class Compare {
                 if(strings[1].toLowerCase().contains(">")){
                     symbol = ">";
                     String[] strings1 = strings[1].replace(" ","").split(">");
-                    stringLeft = new StringConversionMain().valueOf(self,target,strings1[0]);
-                    stringRight = new StringConversionMain().valueOf(self,target,strings1[1]);
+                    stringLeft = new ConversionMain().valueOf(self,target,strings1[0]);
+                    stringRight = new ConversionMain().valueOf(self,target,strings1[1]);
                 }else if(strings[1].toLowerCase().contains("<")){
                     symbol = "<";
                     String[] strings1 = strings[1].replace(" ","").split("<");
-                    stringLeft = new StringConversionMain().valueOf(self,target,strings1[0]);
-                    stringRight = new StringConversionMain().valueOf(self,target,strings1[1]);
+                    stringLeft = new ConversionMain().valueOf(self,target,strings1[0]);
+                    stringRight = new ConversionMain().valueOf(self,target,strings1[1]);
                 }else if(strings[1].toLowerCase().contains("~")){
                     symbol = "=";
                     String[] strings1 = strings[1].replace(" ","").split("~");
-                    stringLeft = new StringConversionMain().valueOf(self,target,strings1[0]);
-                    stringRight = new StringConversionMain().valueOf(self,target,strings1[1]);
+                    stringLeft = new ConversionMain().valueOf(self,target,strings1[0]);
+                    stringRight = new ConversionMain().valueOf(self,target,strings1[1]);
                 }
             }
         }

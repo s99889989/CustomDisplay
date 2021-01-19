@@ -13,54 +13,33 @@ AttackDisplayUp-End:
   Action:
   - Hologram[Function=delete]
   
-#攻擊顯示傷害(向上)(爆擊)
+#攻擊顯示傷害(向上)(爆擊)Crit
 #Attack display damage (up)(Critical)
-AttackCritDisplayUp:
+AttackDisplayUpCrit:
   Action:
-  - Loop[onStart=AttackCritDisplayUp-Start;onTime=AttackCritDisplayUp-Time;onEnd=AttackCritDisplayUp-End;period=3;duration=20]
-AttackCritDisplayUp-Start:
+  - Loop[onStart=AttackDisplayUpCrit-Start;onTime=AttackDisplayUpCrit-Time;onEnd=AttackDisplayUpCrit-End;period=3;duration=20]
+AttackDisplayUpCrit-Start:
   Action:
-  - Hologram[Function=create;m=&self_attack_number_crit&;x=0;y=&target_hight&;z=0] @=target
-AttackCritDisplayUp-Time:
+  - Hologram[Function=create;m=&attack_number_crit&;x=0;y=&attack_number_height&;z=0] @=target
+AttackDisplayUpCrit-Time:
   Action:
   - Hologram[Function=teleport;x=0;y=0.1;z=0]
-AttackCritDisplayUp-End:
+AttackDisplayUpCrit-End:
   Action:
   - Hologram[Function=delete]
 
-#攻擊失敗(向上)
-#Attack failed (up)
-AttackFailDisplayUp:
+#攻擊顯示傷害(向上)(失敗)
+#Attack display damage (up)(Miss)
+AttackDisplayUpMiss:
   Action:
-  - Loop[onStart=AttackFailDisplayUp-Start;onTime=AttackFailDisplayUp-Time;onEnd=AttackFailDisplayUp-End;period=3;duration=20]
-
-AttackFailDisplayUp-Start:
+  - Loop[onStart=AttackDisplayUpMiss-Start;onTime=AttackDisplayUpMiss-Time;onEnd=AttackDisplayUpMiss-End;period=3;duration=20]
+AttackDisplayUpMiss-Start:
   Action:
-  - Hologram[Function=create;m=&self_attack_miss&;x=0;y=&target_hight&;z=0] @=target
-
-AttackFailDisplayUp-Time:
+  - Hologram[Function=create;m=&attack_number_miss&;x=0;y=&attack_number_height&;z=0] @=target
+AttackDisplayUpMiss-Time:
   Action:
   - Hologram[Function=teleport;x=0;y=0.1;z=0]
-
-AttackFailDisplayUp-End:
+AttackDisplayUpMiss-End:
   Action:
   - Hologram[Function=delete]
 
-
-
-#
-Buttom-Message:
-  Action:
-  - Condition[Contains=&self_cast_command_help&=message]
-  - Message[m=Do you want to reload the plugin?]
-  - Message[m=Please select{Buttons1}or{Buttons2}]
-  
-Buttom-Message2:
-  Action:
-  - Condition[Contains=&self_cast_command_help&=buttonNo]
-  - Message[m=You chose NO.]
-
-#
-MythicSkillHomer:
-  Action:
-  - MythicSkill[s=Homer] @=Target=10

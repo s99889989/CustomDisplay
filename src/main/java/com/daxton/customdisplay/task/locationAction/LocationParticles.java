@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.locationAction;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.StringConversionMain;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -125,7 +125,7 @@ public class LocationParticles {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
                     try{
-                        x = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        x = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                         //cd.getLogger().info("x錯誤");
                     }
@@ -136,7 +136,7 @@ public class LocationParticles {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
                     try{
-                        y = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        y = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                         //cd.getLogger().info("y錯誤");
                     }
@@ -147,7 +147,7 @@ public class LocationParticles {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
                     try{
-                        z = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        z = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                         //cd.getLogger().info("z錯誤");
                     }
@@ -158,7 +158,7 @@ public class LocationParticles {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
                     try{
-                        xOffset = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        xOffset = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                        // cd.getLogger().info("xOffset錯誤");
                     }
@@ -169,7 +169,7 @@ public class LocationParticles {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
                     try{
-                        yOffset = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        yOffset = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                        // cd.getLogger().info("yOffset錯誤");
                     }
@@ -180,7 +180,7 @@ public class LocationParticles {
                 String[] strings = allString.split("=");
                 if (strings.length == 2) {
                     try{
-                        zOffset = Double.valueOf(new StringConversionMain().valueOf(self,target,strings[1]));
+                        zOffset = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
                     }catch (NumberFormatException exception){
                        // cd.getLogger().info("zOffset錯誤");
                     }
