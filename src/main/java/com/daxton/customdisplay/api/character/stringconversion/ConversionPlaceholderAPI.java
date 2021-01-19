@@ -11,13 +11,18 @@ public class ConversionPlaceholderAPI {
 
     }
 
-    public String valueOf(LivingEntity livingEntity, String inputString){
+    public String valueOf(LivingEntity self,LivingEntity target, String inputString,String targetKey){
         String outputString = "";
-        if(livingEntity instanceof Player){
-            Player player = (Player) livingEntity;
-            outputString = PlaceholderAPI.setPlaceholders(player,inputString);
+        if(target != null && targetKey.toLowerCase().contains("@=target")){
+            if(target instanceof Player){
+                Player player = (Player) target;
+                outputString = PlaceholderAPI.setPlaceholders(player,inputString);
+            }
         }else {
-            outputString = inputString;
+            if(self instanceof Player){
+                Player player = (Player) self;
+                outputString = PlaceholderAPI.setPlaceholders(player,inputString);
+            }
         }
         return outputString;
     }

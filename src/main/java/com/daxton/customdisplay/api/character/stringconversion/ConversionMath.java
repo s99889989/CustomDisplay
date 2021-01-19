@@ -68,8 +68,6 @@ public class ConversionMath {
                     int count = 0;
                     for(int i = Integer.valueOf(strings[0]) ; i <= Integer.valueOf(strings[1]) ; i++){
                         count = count + i;
-
-                        cd.getLogger().info(i+":"+Integer.valueOf(strings[1])+"數字: "+count);
                     }
                     outputString = String.valueOf(count);
                 }catch (NumberFormatException exception){

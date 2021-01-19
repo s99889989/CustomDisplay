@@ -18,6 +18,7 @@ public class ConversionCustom {
     }
 
     public String valueOf(LivingEntity self, LivingEntity target, String inputString){
+
         String outputString = "";
         inputString = inputString.replace(" ","").replace("&","");
         List<String> stringList = new ConfigFind().getCharacterMessageList("Character",inputString);
@@ -46,20 +47,10 @@ public class ConversionCustom {
         String outputString = "";
         if(headKey.toLowerCase().contains("content")){
             if(content.contains("%")){
-                if(target != null && targetKey.toLowerCase().contains("@=target")){
-                    if(target instanceof Player){
-                        Player player = (Player) target;
-                        content = PlaceholderAPI.setPlaceholders(player,content);
-                    }
-                }else {
-                    if(self instanceof Player){
-                        Player player = (Player) self;
-                        content = PlaceholderAPI.setPlaceholders(player,content);
-                    }
-                }
+                content = new ConversionPlaceholderAPI().valueOf(self,target,content,targetKey);
             }
             if(content.contains("&")){
-                content = new ConversionCustom().valueOf(self,target,content);
+                content = new ConversionMain().valueOf(self,target,content);
             }
             if(content.contains("<") && content.contains(">")){
                 content = new ConversionPlaceholder().valueOf(self,target,content);
