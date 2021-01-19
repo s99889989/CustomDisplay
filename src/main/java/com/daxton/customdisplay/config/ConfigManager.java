@@ -7,6 +7,7 @@ import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
+import java.util.List;
 
 public class ConfigManager {
 
@@ -39,7 +40,6 @@ public class ConfigManager {
         }
 
         new AutoConfig2();
-
 
 
 //        new AutoConfig("resource/Class/Action/Default.yml","Class/Action/Default.yml").get();
