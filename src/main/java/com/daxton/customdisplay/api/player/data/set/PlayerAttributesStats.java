@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PlayerAttributesStats {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
+    /**屬性狀態**/
     public PlayerAttributesStats(){
 
     }
@@ -62,5 +62,6 @@ public class PlayerAttributesStats {
         }
 
     }
+
 
 }

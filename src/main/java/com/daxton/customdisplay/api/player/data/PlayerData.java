@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.player.data;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.player.config.PlayerConfig2;
 import com.daxton.customdisplay.api.player.data.set.*;
@@ -21,6 +22,12 @@ public class PlayerData {
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Player player;
+
+    private double mana = 0;
+
+    private double maxmana = 0;
+
+    private double manaRegeneration = 0;
 
     private FileConfiguration playerConfig;
 
@@ -60,7 +67,6 @@ public class PlayerData {
         /**是否使用屬性**/
         String attackCore = cd.getConfigManager().config.getString("AttackCore");
         if(attackCore.toLowerCase().contains("customcore")){
-            //customCore(player);
             setPlayerData(player);
         }
 
@@ -85,30 +91,66 @@ public class PlayerData {
         new PlayerAttributesStats().setFormula(player,attributes_Stats_Map,playerConfig);
 
 
+        /**核心屬性設置**/
+        new PlayerAttributeCore().setBukkitAttribute(player);
+        /**其他屬性設置**/
+        new PlayerAttributeCore().setCoreAttribute(player);
 
-    }
-
-    /**Custom職業相關**/
-    public void customCore(Player player){
-        new PlayerRPG().setPlayerRPG(player);
+        /**設置回血**/
         health_Regeneration(player);
     }
 
 
+
+    /**設置回血回魔**/
     public void health_Regeneration(Player player){
+        /**回血量**/
+        String amountString = PlayerDataMap.core_Formula_Map.get("Health_Regeneration");
+        /**魔量**/
+        String maxmanaString = PlayerDataMap.core_Formula_Map.get("Max_Mana");
+        maxmanaString = new ConversionMain().valueOf(player,null,maxmanaString);
+        try {
+            mana = Double.valueOf(maxmanaString);
+            maxmana = Double.valueOf(maxmanaString);
+        }catch (NumberFormatException exception){
+            mana = 20;
+            maxmana = 20;
+        }
+        /**回魔量**/
+        String manaRegString = PlayerDataMap.core_Formula_Map.get("Mana_Regeneration");
+        manaRegString = new ConversionMain().valueOf(player,null,manaRegString);
+        try {
+            manaRegeneration = Double.valueOf(manaRegString);
+        }catch (NumberFormatException exception){
+            manaRegeneration = 1;
+        }
+
+
         bukkitRunnable = new BukkitRunnable(){
             @Override
             public void run() {
+                String amountString2 = new ConversionMain().valueOf(player,null,amountString);
+                double amount = 0;
+                try {
+                    amount = Double.valueOf(amountString2);
+                }catch (NumberFormatException exception){
+                    amount = 0;
+                }
+
+                if(mana != maxmana){
+                    if((mana += manaRegeneration) > maxmana){
+                        mana = maxmana;
+                    }
+                }
+
 
                 if(player.getHealth() != player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()){
-                    double giveHealth = player.getHealth()+PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration");
+                    double giveHealth = player.getHealth()+amount;
                     double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 
                     if(giveHealth > maxHealth){
                         giveHealth = giveHealth - (giveHealth - maxHealth);
                     }
-                    //cd.getLogger().info("回血:"+giveHealth);
-                    //player.sendMessage("回血:"+PlayerDataMap.getCore_Attribute_Map().get(uuidString).getAttribute("Health_Regeneration"));
                     player.setHealth(giveHealth);
                 }
 

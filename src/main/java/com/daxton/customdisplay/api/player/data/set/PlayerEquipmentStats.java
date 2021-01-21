@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PlayerEquipmentStats {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
+    /**裝備狀態**/
     public PlayerEquipmentStats(){
 
     }

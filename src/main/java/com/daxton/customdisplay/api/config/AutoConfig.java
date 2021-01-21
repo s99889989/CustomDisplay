@@ -50,59 +50,7 @@ public class AutoConfig {
     }
 
 
-    public void actionConfig(){
-        File file = new File(cd.getDataFolder(),"Actions");
-        String[] strings = file.list();
-        for(String s : strings){
-            if(s.contains(".yml")){
-                File finalConfigFile = new File(cd.getDataFolder(), "Actions/"+s);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
-                ConfigMapManager.getFileConfigurationMap().put("Actions_"+s, config);
-                ConfigMapManager.getFileConfigurationNameMap().put("Actions_"+s,"Actions_"+s);
-            }
-        }
-    }
 
-    public void characterConfig(){
 
-        File file = new File(cd.getDataFolder(),"Character");
-        String[] strings = file.list();
-        for(String s : strings){
-            if(s.contains(".yml")){
-                File finalConfigFile = new File(cd.getDataFolder(), "Character/"+s);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
-                ConfigMapManager.getFileConfigurationMap().put("Character_"+s, config);
-                ConfigMapManager.getFileConfigurationNameMap().put("Character_"+s,"Character_"+s);
-            }
-        }
-    }
-
-    public void playersConfig(){
-        File file = new File(cd.getDataFolder(),"Players");
-        String[] strings = file.list();
-        for(String s : strings){
-            if(s.contains(".yml")){
-                File finalConfigFile = new File(cd.getDataFolder(), "Players/"+s);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
-                ConfigMapManager.getFileConfigurationMap().put("Players_"+s, config);
-                ConfigMapManager.getFileConfigurationNameMap().put("Players_"+s,"Players_"+s);
-            }
-        }
-    }
-
-    public void permissionConfig(){
-
-        File file = new File(cd.getDataFolder(),"Permission");
-        String[] strings = file.list();
-        for(String s : strings){
-            if(s.contains(".yml")){
-                File finalConfigFile = new File(cd.getDataFolder(), "Permission/"+s);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(finalConfigFile);
-                String permissionMap = s.toLowerCase().replace(".yml","");
-                PermissionManager.getPermission_String_Map().put("customdisplay.permission."+permissionMap,"customdisplay.permission."+permissionMap);
-                PermissionManager.getPermission_FileConfiguration_Map().put("customdisplay.permission."+permissionMap,config);
-            }
-        }
-    }
 
 }

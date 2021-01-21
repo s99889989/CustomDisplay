@@ -2,6 +2,7 @@ package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
@@ -81,7 +82,8 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
-
+        /**設置核心公式字串**/
+        new PlayerAttributeCore().setFormula();
     }
 
     public void AttackCore(){
@@ -164,7 +166,10 @@ public final class CustomDisplay extends JavaPlugin {
     }
     public void mapReload(){
 
+        /**設置核心公式字串**/
+        new PlayerAttributeCore().setFormula();
 
+        /**清除所有動作**/
         new ClearAction();
 
         /**重新讀取玩家資料**/
@@ -176,6 +181,10 @@ public final class CustomDisplay extends JavaPlugin {
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             if(playerData != null){
                 /**玩家資料**/
+                String attackCore = getConfigManager().config.getString("AttackCore");
+                if(attackCore.toLowerCase().contains("customcore")){
+                    playerData.getBukkitRunnable().cancel();
+                }
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
             }
 

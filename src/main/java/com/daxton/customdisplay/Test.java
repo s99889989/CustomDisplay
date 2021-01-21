@@ -10,8 +10,9 @@ public class Test {
 
 
     public static void main(String[] args){
-        LocalDateTime date = LocalDateTime.now();
-        System.out.println(date);
+        double d = 205;
+
+        System.out.println(String.valueOf(Math.sqrt(d)));
 
 
 

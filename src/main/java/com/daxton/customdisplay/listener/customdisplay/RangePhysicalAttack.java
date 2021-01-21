@@ -3,7 +3,9 @@ package com.daxton.customdisplay.listener.customdisplay;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
-import com.daxton.customdisplay.api.player.DamageFormula;
+import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
+import com.daxton.customdisplay.api.player.damageformula.FormulaChance;
+import com.daxton.customdisplay.api.player.damageformula.FormulaPhysics;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
@@ -33,19 +35,18 @@ public class RangePhysicalAttack implements Listener {
             Player player = EntityFind.convertPlayer(event.getDamager());
             if (player != null) {
                 String uuidString = player.getUniqueId().toString();
-                File customCoreFile = new File(cd.getDataFolder(), "Class/CustomCore.yml");
-                FileConfiguration customCoreConfig = YamlConfiguration.loadConfiguration(customCoreFile);
+
                 LivingEntity target = event.getTarget();
 
                 /**攻速**/
-                boolean attack_speed = new DamageFormula().setAttackSpeed(player, target, customCoreConfig, uuidString);
+                boolean attack_speed = new FormulaDelay().setAttackSpeed(player, target, uuidString);
                 if (attack_speed) {
                     event.setCancelled(true);
                     return;
                 }
 
                 /**命中**/
-                boolean hit = new DamageFormula().setHitRate(player, target, customCoreConfig);
+                boolean hit = new FormulaChance().setHitRate(player, target);
                 if (!(hit)) {
                     event.setDamageType("PHYSICAL_MISS");
                     event.setCancelled(true);
@@ -53,7 +54,7 @@ public class RangePhysicalAttack implements Listener {
                 }
 
                 /**目標格檔**/
-                boolean block = new DamageFormula().setBlockRate(player, target, customCoreConfig);
+                boolean block = new FormulaChance().setBlockRate(player, target);
                 if (block) {
                     event.setDamageType("PHYSICAL_BLOCK");
                     event.setCancelled(true);
@@ -61,17 +62,17 @@ public class RangePhysicalAttack implements Listener {
                 }
 
                 /**爆擊**/
-                boolean crit = new DamageFormula().setCritChange(player, target, customCoreConfig);
+                boolean crit = new FormulaChance().setCritChange(player, target);
                 double attackNumber = 0;
                 if (crit) {
                     event.setDamageType("PHYSICAL_CRITICAL");
-                    attackNumber = new DamageFormula().setRangePhysicalCriticalDamageNumber(player, target, customCoreConfig);
+                    attackNumber = new FormulaPhysics().setRangePhysicalCriticalDamageNumber(player, target);
                     event.setDamage(attackNumber);
                     return;
                 }
 
                 /**目標迴避**/
-                boolean dodge = new DamageFormula().setDodgeRate(player, target, customCoreConfig);
+                boolean dodge = new FormulaChance().setDodgeRate(player, target);
                 if (dodge) {
                     event.setDamageType("PHYSICAL_MISS");
                     event.setCancelled(true);
@@ -80,7 +81,7 @@ public class RangePhysicalAttack implements Listener {
 
                 /**普通攻擊**/
                 event.setDamageType("PHYSICAL_ATTACK");
-                attackNumber = new DamageFormula().setRangePhysicalDamageNumber(player, target, customCoreConfig);
+                attackNumber = new FormulaPhysics().setRangePhysicalDamageNumber(player, target);
                 event.setDamage(attackNumber);
 
             }

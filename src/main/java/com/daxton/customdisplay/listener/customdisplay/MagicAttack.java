@@ -2,16 +2,12 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
-import com.daxton.customdisplay.api.player.DamageFormula;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import com.daxton.customdisplay.api.player.damageformula.FormulaMagic;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
-import java.io.File;
 
 public class MagicAttack implements Listener {
 
@@ -29,10 +25,9 @@ public class MagicAttack implements Listener {
             if (player != null) {
                 LivingEntity target = event.getTarget();
                 String uuidString = player.getUniqueId().toString();
-                File customCoreFile = new File(cd.getDataFolder(), "Class/CustomCore.yml");
-                FileConfiguration customCoreConfig = YamlConfiguration.loadConfiguration(customCoreFile);
+
                 double attackNumber = 0;
-                attackNumber = new DamageFormula().setMagicDamageNumber(player, target, customCoreConfig);
+                attackNumber = new FormulaMagic().setMagicDamageNumber(player, target);
                 //player.sendMessage("魔法攻擊: "+attackNumber);
                 String operate = event.getOperate();
 

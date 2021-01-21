@@ -30,9 +30,9 @@ repositories {
     maven {
         url = uri('https://mvn.lumine.io/repository/maven-public/')
     }
-    maven {
-        url = uri('http://repo.citizensnpcs.co/')
-    }
+    //maven {
+    //    url = uri('http://repo.citizensnpcs.co/')
+    //}
     maven {
         url = uri('https://jitpack.io')
     }
@@ -45,18 +45,19 @@ dependencies {
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.4'
     compileOnly 'org.serverct.ersha.jd:AttributePlus:2.2.5'
     compileOnly 'io.lumine.xikage:MythicMobs:4.9.1'
-    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
+    //compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
     compileOnly 'com.github.Archy-x:AureliumSkills:Alpha1.5.2'
     compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.4.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6-284.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOItems-6.5.1-582.jar'])
     compileOnly fileTree(dir: 'lib', include: ['SkillAPI-v3.108.jar'])
     compileOnly fileTree(dir: 'lib', include: ['CrackShot-0.98.11.jar'])
+    compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
 
 }
 
 group = 'com.daxton'
-version = '1.12'
+version = '1.12.1'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 

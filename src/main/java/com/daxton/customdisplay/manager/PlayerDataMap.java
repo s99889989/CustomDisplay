@@ -17,6 +17,11 @@ public class PlayerDataMap {
     /**CustomCore屬性**/
     private static Map<String, CoreAttribute> core_Attribute_Map = new HashMap<>();
 
+    /**CustomCore公式**/
+    public static Map<String, String> core_Formula_Map = new HashMap<>();
+    /**CustomCore布林**/
+    public static Map<String, Boolean> core_Boolean_Map = new HashMap<>();
+
     /**攻擊速度計時**/
     public static Map<String, BukkitRunnable> attack_Speed_Map = new HashMap<>();
     public static Map<String, Integer> attack_Count_Map = new HashMap<>();

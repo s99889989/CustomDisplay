@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.*;
+import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.list.SendBossBar;
@@ -60,13 +61,13 @@ public class EquipmentListener implements Listener {
                     if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null){
                         boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
                         if(costDelay){
-                            new DamageFormula().setCost(player,action);
+                            new FormulaDelay().setCost(player,action);
                             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
 
                             if(PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key) != null){
                                 boolean skillDelay = PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key);
                                 if(skillDelay){
-                                    new DamageFormula().skillCD(player,key);
+                                    new FormulaDelay().skillCD(player,key);
 
                                     PlayerDataMap.skill_Delay_Boolean_Map.put(uuidString+"."+key,false);
 

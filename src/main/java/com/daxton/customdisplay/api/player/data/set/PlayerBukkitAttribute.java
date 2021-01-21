@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.player;
+package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
 import io.lumine.xikage.mythicmobs.utils.config.file.FileConfiguration;
@@ -62,21 +62,5 @@ public class PlayerBukkitAttribute {
         }
     }
 
-    public void setDefault(Player player){
-        File file = new File(cd.getDataFolder(),"Class/CustomCore.yml");
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-        boolean health = config.getBoolean("DefaultAttribute.Health.enable");
-        boolean move = config.getBoolean("DefaultAttribute.Move_Speed.enable");
-        if(health){
-            double max_Health = config.getDouble("DefaultAttribute.Health.amount");
-            AttributeInstance attribute_Max_Health = player.getAttribute(GENERIC_MAX_HEALTH);
-            attribute_Max_Health.setBaseValue(max_Health);
-        }
-        if(move){
-            double move_Speed = config.getDouble("DefaultAttribute.Move_Speed.amount");
-            AttributeInstance attribute_Move_Speed = player.getAttribute(GENERIC_MOVEMENT_SPEED);
-            attribute_Move_Speed.setBaseValue(move_Speed);
-        }
-    }
 
 }

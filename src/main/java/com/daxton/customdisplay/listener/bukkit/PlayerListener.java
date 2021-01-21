@@ -72,12 +72,14 @@ public class PlayerListener implements Listener {
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             new PlayerTrigger(player).onQuit(player);
-            PlayerDataMap.getPlayerDataMap().remove(playerUUID);
 
             String attackCore = cd.getConfigManager().config.getString("AttackCore");
             if(attackCore.toLowerCase().contains("customcore")){
                 playerData.getBukkitRunnable().cancel();
             }
+            PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+
+
         }
         if(bukkitRunnable != null){
             bukkitRunnable.cancel();
