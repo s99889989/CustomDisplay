@@ -40,6 +40,7 @@ public class DamagerNumberListener implements Listener {
         if(player != null){
             String uuidString = player.getUniqueId().toString();
             String damageType = event.getDamageType();
+
             if(damageType.contains("PHYSICAL_MISS")){
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);

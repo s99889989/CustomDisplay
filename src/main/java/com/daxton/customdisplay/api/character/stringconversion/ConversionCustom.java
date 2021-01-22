@@ -35,7 +35,7 @@ public class ConversionCustom {
                     break;
                 }
             }else {
-                outputString = CustomChange(headKey, outputString, content);
+                outputString = CustomChange(self,target,headKey, outputString, content);
             }
 
         }
@@ -62,11 +62,11 @@ public class ConversionCustom {
         return outputString;
     }
 
-    public String CustomChange(String headKey, String content,String changeContent){
+    public String CustomChange(LivingEntity self, LivingEntity target, String headKey, String content,String changeContent){
         String outputString = "";
 
         if(headKey.toLowerCase().contains("conver")){
-            outputString = new ConversionChange().valueOf(content,changeContent);
+            outputString = new ConversionChange().valueOf(self,target,content,changeContent);
         }
 
 

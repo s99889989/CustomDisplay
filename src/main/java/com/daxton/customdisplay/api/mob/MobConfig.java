@@ -1,7 +1,9 @@
 package com.daxton.customdisplay.api.mob;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,15 +19,46 @@ public class MobConfig {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private Map<String,Integer> stats_Map = new HashMap<>();
+    private Map<String,String> stats_Map = new HashMap<>();
 
     public MobConfig(){
 
     }
 
-    /**建新檔**/
-    public void createNewFile(String mobID){
+    public void setMod(ActiveMob activeMob){
+        String mobID = activeMob.getMobType();
+        String uuidString = activeMob.getUniqueId().toString();
+        String mobLevel = String.valueOf(activeMob.getLevel());
 
+        /**用UUID字串儲存MMID**/
+        MobManager.mythicMobs_mobID_Map.put(uuidString,mobID);
+        /**用UUID字串儲存MMID**/
+        MobManager.mythicMobs_Level_Map.put(uuidString,mobLevel);
+
+        File mobFilePatch = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");
+        FileConfiguration mobConfig;
+
+
+        if(!mobFilePatch.exists()){
+            createNewConfig(mobID);
+            mobConfig = YamlConfiguration.loadConfiguration(mobFilePatch);
+        }else {
+            mobConfig = YamlConfiguration.loadConfiguration(mobFilePatch);
+        }
+
+        mobConfig.getConfigurationSection(mobID+".Attributes_Stats").getKeys(false).forEach(s -> {
+            String value = mobConfig.getString(mobID+".Attributes_Stats."+s);
+            MobManager.mythicMobs_Attr_Map.put(mobID+"."+s,value);
+        });
+
+
+
+
+
+
+    }
+
+    public void createNewConfig(String mobID){
         File mobFilePatch = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");
         try {
             if(!mobFilePatch.exists()){
@@ -44,19 +77,12 @@ public class MobConfig {
             File statsFile = new File(cd.getDataFolder(),"Class/Attributes/EntityStats/"+key+".yml");
             FileConfiguration statsConfig = YamlConfiguration.loadConfiguration(statsFile);
             ConfigurationSection statsSec = statsConfig.getConfigurationSection(key);
-            statsSec.getKeys(false).forEach((stats)->{stats_Map.put(stats,statsConfig.getInt(key+"."+stats+".base"));});
+            statsSec.getKeys(false).forEach((stats)->{stats_Map.put(stats,statsConfig.getString(key+"."+stats+".base"));});
             statsList.addAll(statsSec.getKeys(false));
         });
         statsFinalList = statsList.stream().distinct().collect(Collectors.toList());
         if(mobConfig.getString(mobID+".Mob_Race") == null){
-            mobConfig.set(mobID+".Mob_Level",mobDefaultConfig.getInt("Default_Mob.Mob_Level"));
-            mobConfig.set(mobID+".Mob_Race",mobDefaultConfig.getString("Default_Mob.Mob_Race"));
-            mobConfig.set(mobID+".Mob_Attribute",mobDefaultConfig.getString("Default_Mob.Mob_Attribute"));
-            mobConfig.set(mobID+".Mob_Body",mobDefaultConfig.getString("Default_Mob.Mob_Body"));
-            mobConfig.set(mobID+".Mob_Type",mobDefaultConfig.getString("Default_Mob.Mob_Type"));
             statsFinalList.forEach((stats)->{mobConfig.set(mobID+".Attributes_Stats."+stats,stats_Map.get(stats));});
-            mobConfig.set(mobID+".Melee_physics_formula",mobDefaultConfig.getString("Default_Mob.Melee_physics_formula"));
-            mobConfig.set(mobID+".Range_physics_formula",mobDefaultConfig.getString("Default_Mob.Range_physics_formula"));
         }
         try {
             mobConfig.save(mobFilePatch);
@@ -66,16 +92,5 @@ public class MobConfig {
     }
 
 
-
-    public void setMobConfig(String mobID){
-        File file = new File(cd.getDataFolder(),"Mobs/Attributes/Stats_Ro_Mob.yml");
-        FileConfiguration mobConfig = YamlConfiguration.loadConfiguration(file);
-        ConfigurationSection mobSec = mobConfig.getConfigurationSection("Stats_Ro_Mob");
-        for(String mob : mobSec.getKeys(false)){
-            String value = mobConfig.getString("Stats_Ro_Mob."+mob+".base");
-            cd.getLogger().info(mob + " : " +value);
-            PlaceholderManager.getMythicMobs_Attr_Map().put(mobID+mob,value);
-        }
-    }
 
 }

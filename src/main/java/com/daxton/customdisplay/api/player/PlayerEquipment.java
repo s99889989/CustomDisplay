@@ -2,7 +2,10 @@ package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.Arithmetic;
+import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.player.data.set.PlayerEquipmentStats;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,8 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.bukkit.inventory.EquipmentSlot.HAND;
 
@@ -34,7 +36,7 @@ public class PlayerEquipment {
         String attackCore = cd.getConfigManager().config.getString("AttackCore");
         if(attackCore.toLowerCase().contains("customcore")){
             /**清除所有設定**/
-            clearEqmStats(player);
+            new PlayerEquipmentStats().setMap(player);
 
             /**讀取目前身上裝備**/
             loadAllEq(player,key);
@@ -118,111 +120,79 @@ public class PlayerEquipment {
         }
     }
 
-    public void setEqmOther(Player player,String key,String keyString,String parts){
-        String uuidString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-        if(parts.equals("MainHand")){
-            //player.sendMessage(key+" : "+ keyString);
-            playerConfig.set(uuidString+".Player_Attribute_Attack",keyString.replace(" ",""));
-            try {
-                playerConfig.save(playerFilePatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
-        }
-
-
-
-    }
 
     /**比對裝備內容**/
     public void setEqmStats(Player player,String key,String keyNumberString){
 
-        String uuidString = player.getUniqueId().toString();
 
-        File playerEqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
-        FileConfiguration playerEqmConfig = YamlConfiguration.loadConfiguration(playerEqmFilePatch);
-
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
-        if(eqmSetNameList.size() > 0){
-            for(String eqmSetName : eqmSetNameList){
-                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/EquipmentStats/"+eqmSetName+".yml");
-                FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmStatsPatch);
-                ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
-                if(eqmStatsSec.getKeys(false).size() > 0){
-                    for(String eqmStatsName : eqmStatsSec.getKeys(false)){
-                        String statsName = eqmConfig.getString(eqmSetName+"."+eqmStatsName+".name");
+        UUID playerUUID = player.getUniqueId();
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        if(playerData != null){
+            Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map;
+            Map<String,String> name_Equipment_Map = playerData.name_Equipment_Map;
+            Iterator keys = name_Equipment_Map.keySet().iterator();
+            while(keys.hasNext()){
+                String key2 = (String)keys.next();
+                if(key2.equals(key)){
+                    String attr = name_Equipment_Map.get(key2);
+                    attributes_EquipmentStats_Map.put(attr,keyNumberString);
+                    //player.sendMessage(attr+" : "+keyNumberString);
 
 
-                        if(statsName.contains(key)){
-//                            if(statsName.contains("攻擊屬性")){
-//                                cd.getLogger().info(statsName + " : " +key + " : " + keyNumberString);
+                }
+            }
+        }
+
+
+
+//        String uuidString = player.getUniqueId().toString();
+//
+//        File playerEqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
+//        FileConfiguration playerEqmConfig = YamlConfiguration.loadConfiguration(playerEqmFilePatch);
+//
+//        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
+//        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+//        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
+//        if(eqmSetNameList.size() > 0){
+//            for(String eqmSetName : eqmSetNameList){
+//                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/EquipmentStats/"+eqmSetName+".yml");
+//                FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmStatsPatch);
+//                ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
+//                if(eqmStatsSec.getKeys(false).size() > 0){
+//                    for(String eqmStatsName : eqmStatsSec.getKeys(false)){
+//                        String statsName = eqmConfig.getString(eqmSetName+"."+eqmStatsName+".name");
+//
+//
+//                        if(statsName.contains(key)){
+//                            String nowNumberString = playerEqmConfig.getString(uuidString+".Equipment_Stats."+eqmStatsName);
+//                            String end = "";
+//                            try {
+//                                double nowNumber = Arithmetic.eval(nowNumberString);
+//                                double keyNumber = Arithmetic.eval(keyNumberString);
+//                                double newNumber = nowNumber + keyNumber;
+//                                end = String.valueOf(newNumber);
+//                            }catch (Exception exception){
+//                                end = keyNumberString;
 //                            }
-                            String nowNumberString = playerEqmConfig.getString(uuidString+".Equipment_Stats."+eqmStatsName);
-                            String end = "";
-                            try {
-                                double nowNumber = Arithmetic.eval(nowNumberString);
-                                double keyNumber = Arithmetic.eval(keyNumberString);
-                                double newNumber = nowNumber + keyNumber;
-                                end = String.valueOf(newNumber);
-                            }catch (Exception exception){
-                                end = keyNumberString;
-                            }
-
-                            playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,end);
-
-                            try {
-                                playerEqmConfig.save(playerEqmFilePatch);
-                            }catch (Exception exception){
-                                exception.printStackTrace();
-                            }
-                        }
-                    }
-                }
-
-            }
-
-        }
+//
+//                            playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,end);
+//
+//                            try {
+//                                playerEqmConfig.save(playerEqmFilePatch);
+//                            }catch (Exception exception){
+//                                exception.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            }
+//
+//        }
 
     }
 
-    /**清除裝備設定內容**/
-    public void clearEqmStats(Player player){
-        String uuidString = player.getUniqueId().toString();
 
-        File playerEqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
-        FileConfiguration playerEqmConfig = YamlConfiguration.loadConfiguration(playerEqmFilePatch);
-
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
-        if(eqmSetNameList.size() > 0){
-            for(String eqmSetName : eqmSetNameList){
-                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/EquipmentStats/"+eqmSetName+".yml");
-                FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmStatsPatch);
-                ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
-                if(eqmStatsSec.getKeys(false).size() > 0){
-                    for(String eqmStatsName : eqmStatsSec.getKeys(false)){
-                        String value = "0";
-                        if(eqmConfig.getString(eqmSetName+"."+eqmStatsName+".base") != null){
-                            value = eqmConfig.getString(eqmSetName+"."+eqmStatsName+".base");
-                        }
-                        playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,value);
-                        try {
-                            playerEqmConfig.save(playerEqmFilePatch);
-                        }catch (Exception exception){
-                            exception.printStackTrace();
-                        }
-                    }
-                }
-
-            }
-
-        }
-    }
 
 
 }

@@ -115,7 +115,6 @@ public class FormulaChance {
         if(crit_chance > max_chance){
             crit_chance = max_chance;
         }
-
         if(r2<crit_chance){
             crit = true;
         }

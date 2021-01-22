@@ -3,6 +3,7 @@ package com.daxton.customdisplay.api.character.stringconversion;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class ConversionChange {
 
     }
 
-    public String valueOf(String inputString,String changeString){
+    public String valueOf(LivingEntity self, LivingEntity target, String inputString, String changeString){
         String outputString = "";
         String function = null;
         String message = null;
@@ -35,7 +36,7 @@ public class ConversionChange {
 
         }
         if(function != null && message != null){
-            outputString = ChangeConversion(inputString,function,message);
+            outputString = ChangeConversion(self,target,inputString,function,message);
         }else {
             outputString = inputString;
         }
@@ -43,7 +44,7 @@ public class ConversionChange {
         return outputString;
     }
 
-    public String ChangeConversion(String inputString,String function,String changeMessage){
+    public String ChangeConversion(LivingEntity self, LivingEntity target, String inputString,String function,String changeMessage){
         String outputString = "";
 
         switch (function.toLowerCase()){
@@ -58,9 +59,23 @@ public class ConversionChange {
                 outputString = inputString;
                 break;
             case "containall":
-                String[] containallKeyList = changeMessage.split(">");
-                if(inputString.contains(containallKeyList[0])){
-                    outputString = containallKeyList[1];
+                String[] containallKeyList = changeMessage.split(",");
+                for(String containallKey : containallKeyList){
+                    String[] containallKeyList2 = containallKey.split(">");
+                    if(containallKeyList2.length == 2 && inputString.contains(containallKeyList2[0])){
+
+                        if(containallKeyList2[1].contains("&")){
+
+                            outputString = new ConversionMain().valueOf(self,target,containallKeyList2[1]);
+
+                        }else {
+                            outputString = containallKeyList2[1];
+                        }
+
+                        break;
+                    }else {
+                        outputString = inputString;
+                    }
                 }
                 break;
             case "exsame":

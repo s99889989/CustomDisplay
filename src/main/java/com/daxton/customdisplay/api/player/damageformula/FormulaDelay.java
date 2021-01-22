@@ -18,6 +18,8 @@ public class FormulaDelay {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
+    private double attackSpeed;
+
     public FormulaDelay(){
 
     }
@@ -127,47 +129,46 @@ public class FormulaDelay {
     }
 
     /**攻擊速度**/
-    public boolean setAttackSpeed(Player player, LivingEntity target, String uuidString){
-        boolean attack_speed = false;
-        int count = PlayerDataMap.attack_Count_Map.get(uuidString);
-        int first = setCount(player,target)-1;
-        if(count > first){
+    public void setAttackSpeed(Player player, LivingEntity target, String uuidString){
+
+
+        if(PlayerDataMap.attack_Boolean3_Map.get(uuidString) == null){
+            PlayerDataMap.attack_Boolean3_Map.put(uuidString,true);
+        }
+
+        if(PlayerDataMap.attack_Boolean3_Map.get(uuidString)){
+
+            PlayerDataMap.attack_Boolean3_Map.put(uuidString,false);
+
+            String tickRunString = PlayerDataMap.core_Formula_Map.get("Attack_Speed");
+            tickRunString = new ConversionMain().valueOf(player,target,tickRunString);
+
+            try {
+                attackSpeed = Double.valueOf(tickRunString);
+            }catch (Exception exception){
+                attackSpeed = 10;
+            }
+
             PlayerDataMap.attack_Speed_Map.put(uuidString, new BukkitRunnable() {
-                int count = PlayerDataMap.attack_Count_Map.get(uuidString);
+
+                int tickRun = 0;
+
                 @Override
                 public void run() {
+                    tickRun++;
+                    if(tickRun >= attackSpeed){
 
-                    count--;
-                    PlayerDataMap.attack_Count_Map.put(uuidString,count);
-                    //player.sendMessage("數字: "+count);
-                    if(count == 0){
-                        PlayerDataMap.attack_Count_Map.put(uuidString,setCount(player,target));
-                        count = 4;
+                        PlayerDataMap.attack_Boolean3_Map.put(uuidString,true);
+                        PlayerDataMap.attack_Boolean2_Map.put(uuidString,true);
+                        PlayerDataMap.attack_Boolean_Map.put(uuidString,false);
                         cancel();
                     }
                 }
             });
             PlayerDataMap.attack_Speed_Map.get(uuidString).runTaskTimer(cd,0,2);
-        }else {
-            attack_speed = true;
         }
 
-        return attack_speed;
-    }
 
-    /**攻擊速度設定**/
-    public int setCount(Player player,LivingEntity target){
-        int  attackSpeed = 10;
-        String attackSpeedString = PlayerDataMap.core_Formula_Map.get("Attack_Speed");
-        attackSpeedString = new ConversionMain().valueOf(player,target,attackSpeedString);
-        try {
-            double number = Arithmetic.eval(attackSpeedString);
-            String numberDec = new NumberUtil(number,"#").getDecimalString();
-            attackSpeed = Integer.valueOf(numberDec);
-        }catch (Exception exception){
-            attackSpeed = 10;
-        }
-        return attackSpeed;
     }
 
 

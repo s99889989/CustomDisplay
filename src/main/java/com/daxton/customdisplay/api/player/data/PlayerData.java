@@ -45,6 +45,7 @@ public class PlayerData {
     public Map<String,String> attributes_Stats_Map = new HashMap<>();
     /**裝備屬性**/
     public Map<String,String> equipment_Stats_Map = new HashMap<>();
+    public Map<String,String> name_Equipment_Map = new HashMap<>();
     /**技能**/
     public Map<String,String> skills_Map = new HashMap<>();
     /**技能綁定**/
@@ -83,7 +84,7 @@ public class PlayerData {
         new PlayerPoint().setMap(player,point_Map,playerConfig);
         new PlayerAttributesPoint().setMap(player,attributes_Point_Map,playerConfig);
         new PlayerAttributesStats().setMap(player,attributes_Stats_Map,playerConfig);
-        new PlayerEquipmentStats().setMap(player,equipment_Stats_Map,playerConfig);
+        new PlayerEquipmentStats().setMap(player,equipment_Stats_Map,playerConfig,name_Equipment_Map);
         new PlayerSkills().setMap(player,skills_Map,playerConfig);
         new PlayerBinds().setMap(player,binds_Map,playerConfig);
 

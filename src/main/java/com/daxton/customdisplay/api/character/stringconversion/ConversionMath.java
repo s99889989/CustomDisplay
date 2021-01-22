@@ -83,6 +83,40 @@ public class ConversionMath {
                 outputString =  "0";
             }
         }
+        if(function.toLowerCase().contains("greater")){
+
+            String[] strings = message.split(">");
+            if(strings.length == 2){
+                try{
+                    if(Double.valueOf(inputString) > Double.valueOf(strings[0])){
+                        outputString = strings[1];
+                    }else {
+                        outputString = inputString;
+                    }
+                }catch (NumberFormatException exception){
+                    outputString = inputString;
+                }
+            }else {
+                outputString = inputString;
+            }
+
+        }
+        if(function.toLowerCase().contains("less")){
+            String[] strings = message.split(">");
+            if(strings.length == 2){
+                try{
+                    if(Double.valueOf(inputString) < Double.valueOf(strings[0])){
+                        outputString = strings[1];
+                    }else {
+                        outputString = inputString;
+                    }
+                }catch (NumberFormatException exception){
+                    outputString = inputString;
+                }
+            }else {
+                outputString = inputString;
+            }
+        }
 
         return outputString;
     }

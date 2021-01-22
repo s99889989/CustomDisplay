@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
 import com.daxton.customdisplay.api.player.damageformula.FormulaChance;
 import com.daxton.customdisplay.api.player.damageformula.FormulaPhysics;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
@@ -33,15 +34,26 @@ public class MeleePhysicalAttack implements Listener {
             Player player = (Player) event.getDamager();
             if (player != null) {
                 String uuidString = player.getUniqueId().toString();
-                File customCoreFile = new File(cd.getDataFolder(), "Class/CustomCore.yml");
-                FileConfiguration customCoreConfig = YamlConfiguration.loadConfiguration(customCoreFile);
                 LivingEntity target = event.getTarget();
 
                 /**攻速**/
-                boolean attack_speed = new FormulaDelay().setAttackSpeed(player, target, uuidString);
+                if(PlayerDataMap.attack_Boolean_Map.get(uuidString) == null){
+                    PlayerDataMap.attack_Boolean_Map.put(uuidString,false);
+                }
+                boolean attack_speed = PlayerDataMap.attack_Boolean_Map.get(uuidString);
                 if (attack_speed) {
+                    event.setDamageType("PHYSICAL_NON");
                     event.setCancelled(true);
                     return;
+                }else {
+                    if(PlayerDataMap.attack_Boolean2_Map.get(uuidString) == null){
+                        PlayerDataMap.attack_Boolean2_Map.put(uuidString,true);
+                    }
+                    if(PlayerDataMap.attack_Boolean2_Map.get(uuidString)){
+                        PlayerDataMap.attack_Boolean_Map.put(uuidString,true);
+                        PlayerDataMap.attack_Boolean2_Map.put(uuidString,false);
+                        new FormulaDelay().setAttackSpeed(player, target, uuidString);
+                    }
                 }
 
                 /**命中**/

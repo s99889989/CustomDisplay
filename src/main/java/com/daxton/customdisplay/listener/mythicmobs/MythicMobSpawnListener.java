@@ -29,16 +29,7 @@ public class MythicMobSpawnListener implements Listener {
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
         ActiveMob activeMob = event.getMob();
-        String mobID = activeMob.getMobType();
-        String uuidString = event.getEntity().getUniqueId().toString();
-
-        MobManager.getMobID_Map().put(uuidString,mobID);
-
-        PlaceholderManager.getMythicMobs_Level_Map().put(event.getEntity().getUniqueId(), String.valueOf(event.getMobLevel()));
-
-
-        new MobConfig().createNewFile(mobID);
-
+        new MobConfig().setMod(activeMob);
 
     }
 

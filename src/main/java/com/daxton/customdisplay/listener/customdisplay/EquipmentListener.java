@@ -27,7 +27,7 @@ public class EquipmentListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(@NotNull final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        //new PlayerEquipment().reloadEquipment(player,10);
+        new PlayerEquipment().reloadEquipment(player,10);
 
 
     }
@@ -44,8 +44,8 @@ public class EquipmentListener implements Listener {
         String uuidString = player.getUniqueId().toString();
         int key = event.getNewSlot();
         int old = event.getPreviousSlot();
-//        new PlayerEquipment().reloadEquipment(player,key);
-//        new PlayerAttribute(player);
+        new PlayerEquipment().reloadEquipment(player,key);
+        //new PlayerAttribute(player);
 
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
             boolean cast = ListenerManager.getCast_On_Stop().get(uuidString);
@@ -123,7 +123,7 @@ public class EquipmentListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent event){
         Player player = (Player) event.getPlayer();
         new PlayerEquipment().reloadEquipment(player,10);
-        new PlayerAttribute(player);
+        //new PlayerAttribute(player);
         //new PlayerConfig(player).setAttrStats(player);
     }
 

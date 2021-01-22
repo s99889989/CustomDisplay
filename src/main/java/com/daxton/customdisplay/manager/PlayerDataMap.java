@@ -25,6 +25,9 @@ public class PlayerDataMap {
     /**攻擊速度計時**/
     public static Map<String, BukkitRunnable> attack_Speed_Map = new HashMap<>();
     public static Map<String, Integer> attack_Count_Map = new HashMap<>();
+    public static Map<String, Boolean> attack_Boolean_Map = new HashMap<>();
+    public static Map<String, Boolean> attack_Boolean2_Map = new HashMap<>();
+    public static Map<String, Boolean> attack_Boolean3_Map = new HashMap<>();
 
     /**施法時間**/
     public static Map<String, BukkitRunnable> cost_Time_Map = new HashMap<>();

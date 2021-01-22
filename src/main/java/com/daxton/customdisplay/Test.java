@@ -10,11 +10,6 @@ public class Test {
 
 
     public static void main(String[] args){
-        double d = 205;
-
-        System.out.println(String.valueOf(Math.sqrt(d)));
-
-
 
     }
 

@@ -13,7 +13,7 @@ public class PlaceholderTarget {
     }
 
     public String valueOf(LivingEntity entity, String inputString){
-        String outputString = "";
+        String outputString = "0";
         String key = inputString.replace("_target","").replace(">","");
 
         if(entity instanceof Player){
@@ -34,7 +34,7 @@ public class PlaceholderTarget {
                 outputString = new PlaceholderBase().valueOf(entity,key);
             }
             if(key.toLowerCase().contains("<cd_mythic_")){
-
+                outputString = new PlaceholderMythic().valueOf(entity,key);
             }
         }
         return outputString;
