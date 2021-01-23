@@ -1,6 +1,7 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
 import com.daxton.customdisplay.command.CustomDisplayCommand;
@@ -185,6 +186,8 @@ public final class CustomDisplay extends JavaPlugin {
                 if(attackCore.toLowerCase().contains("customcore")){
                     playerData.getBukkitRunnable().cancel();
                 }
+                /**儲存人物資料**/
+                new SaveConfig().setConfig(player);
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
             }
 
@@ -203,6 +206,8 @@ public final class CustomDisplay extends JavaPlugin {
             UUID playerUUID = player.getUniqueId();
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             if(playerData != null){
+                /**儲存人物資料**/
+                new SaveConfig().setConfig(player);
                 //PlayerDataMap.getPlayerDataMap().get(playerUUID).removeAttribute(player);
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
             }

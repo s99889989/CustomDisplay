@@ -1,8 +1,9 @@
-package com.daxton.customdisplay.task.action.list;
+package com.daxton.customdisplay.task.action.list.setplayer;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.data.set.PlayerLevel;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -94,17 +95,22 @@ public class Level {
         if(!(EntityList.isEmpty())){
             for(Entity entity : EntityList){
                 if(entity instanceof Player){
+                    Player player = (Player) entity;
                     if(type.contains("沒有")){
                         if(function.toLowerCase().contains("set")){
-                            levelSet(((Player) entity).getPlayer());
+                            /**設定原版等級**/
+                            player.setLevel(amount);
                         }else {
-                            levelAdd(((Player) entity).getPlayer());
+                            /**增加原版等級**/
+                            player.giveExpLevels(amount);
                         }
                     }else {
                         if(function.toLowerCase().contains("set")){
-                            levelOtherSet(((Player) entity).getPlayer());
+                            /**設定自訂等級**/
+                            new PlayerLevel().setLevelMap(player,type,amount);
                         }else {
-                            levelOtherAdd(((Player) entity).getPlayer());
+                            /**增加自訂等級**/
+                            new PlayerLevel().addLevelMap(player,type,amount);
                         }
                     }
 
@@ -113,71 +119,7 @@ public class Level {
         }
     }
 
-    public void levelSet(Player player){
 
-        player.setLevel(amount);
 
-    }
-
-    public void levelAdd(Player player){
-
-        player.giveExpLevels(amount);
-
-    }
-
-    public void levelOtherSet(Player player){
-        String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString +".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-        int nowLevel = playerConfig.getInt(playerUUIDString +".Level."+type+"_level");
-        playerConfig.set(playerUUIDString +".Level."+type+"_level",amount);
-        if(amount > nowLevel){
-            int count = amount - nowLevel;
-            for(int i = 0; i < count;i++){
-                PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_up_level_type>",type);
-                new PlayerTrigger(player).onLevelUp(player);
-            }
-        }else {
-            int count = nowLevel - amount;
-            for(int i = 0; i < count;i++){
-                PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_down_level_type>",type);
-                new PlayerTrigger(player).onLevelDown(player);
-            }
-        }
-
-        try {
-            playerConfig.save(playerFilePatch);
-        }catch (Exception exception){
-            exception.printStackTrace();
-        }
-
-    }
-
-    public void levelOtherAdd(Player player){
-        String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+ playerUUIDString +".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-
-        int nowLevel = playerConfig.getInt(playerUUIDString +".Level."+type+"_level");
-        int newLevel = nowLevel + amount;
-        playerConfig.set(playerUUIDString +".Level."+type+"_level",newLevel);
-        if(amount > 0){
-            for(int i = 0; i < amount ;i++){
-                PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_up_level_type>",type);
-                new PlayerTrigger(player).onLevelUp(player);
-            }
-        }else {
-            for(int i = 0; i < amount*-1 ;i++){
-                PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_down_level_type>",type);
-                new PlayerTrigger(player).onLevelDown(player);
-            }
-        }
-        try {
-            playerConfig.save(playerFilePatch);
-        }catch (Exception exception){
-            exception.printStackTrace();
-        }
-
-    }
 
 }

@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.bukkit;
 
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
@@ -77,6 +78,8 @@ public class PlayerListener implements Listener {
             if(attackCore.toLowerCase().contains("customcore")){
                 playerData.getBukkitRunnable().cancel();
             }
+            /**儲存人物資料**/
+            new SaveConfig().setConfig(player);
             PlayerDataMap.getPlayerDataMap().remove(playerUUID);
 
 

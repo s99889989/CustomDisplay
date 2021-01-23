@@ -352,8 +352,18 @@ public class PlayerTrigger {
         this.target = target;
         if(action_Trigger_Map.get("~onmobdeath") != null){
             for(String actionString : action_Trigger_Map.get("~onmobdeath")){
-
                 actionString = actionString.replace("~onMobDeath","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當MythicMobs怪物死亡時.(死亡原因必須是該玩家)**/
+    public void onMythicMobDeath(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmmobdeath") != null){
+            for(String actionString : action_Trigger_Map.get("~onmmobdeath")){
+                actionString = actionString.replace("~onMMobDeath","");
                 runExecute(actionString);
             }
         }

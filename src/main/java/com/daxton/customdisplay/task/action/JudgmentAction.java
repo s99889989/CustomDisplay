@@ -4,10 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.action.list.*;
-import com.daxton.customdisplay.task.action.list.setplayer.AttributePoint;
-import com.daxton.customdisplay.task.action.list.setplayer.CoreSkill;
-import com.daxton.customdisplay.task.action.list.setplayer.Experience;
-import com.daxton.customdisplay.task.action.list.setplayer.Point;
+import com.daxton.customdisplay.task.action.list.setplayer.*;
 import com.daxton.customdisplay.task.locationAction.OrbitalAction;
 import org.bukkit.entity.LivingEntity;
 

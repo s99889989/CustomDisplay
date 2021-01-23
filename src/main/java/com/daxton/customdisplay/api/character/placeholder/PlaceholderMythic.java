@@ -19,15 +19,13 @@ public class PlaceholderMythic {
         String key = inputString.replace(" ","").replace("<cd_mythic_class_stats_","");
 
         if(MobManager.mythicMobs_mobID_Map.get(uuidString) != null){
+
             String mobID = MobManager.mythicMobs_mobID_Map.get(uuidString);
             if(inputString.toLowerCase().contains("<cd_mythic_id")){
                 outputString = MobManager.mythicMobs_mobID_Map.get(uuidString);
             }
             if(inputString.toLowerCase().contains("<cd_mythic_level")){
                 outputString = MobManager.mythicMobs_Level_Map.get(uuidString);
-            }
-            if(inputString.toLowerCase().contains("<cd_mythic_kill_mob_id")){
-                outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>");
             }
 
             if(inputString.toLowerCase().contains("<cd_mythic_class_stats_")){

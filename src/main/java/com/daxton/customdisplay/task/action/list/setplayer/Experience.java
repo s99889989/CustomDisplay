@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list.setplayer;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.data.set.PlayerLevel;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -110,74 +111,8 @@ public class Experience {
     }
 
     public void expOtherSet(Player player){
-        String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
-        File levelFilePatch = new File(cd.getDataFolder(),"Class/Level/"+type+".yml");
-        FileConfiguration levelConfig = YamlConfiguration.loadConfiguration(levelFilePatch);
-
-
-        int nowLevel = playerConfig.getInt(playerUUIDString +".Level."+type+"_now_level");
-        int nowExp = playerConfig.getInt(playerUUIDString +".Level."+type+"_now_exp");
-        int needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
-        int nextExp = levelConfig.getInt("Exp-Amount."+(nowLevel+1));
-        int beforeExp = levelConfig.getInt("Exp-Amount."+(nowLevel-1));
-
-        int newExp = 0;
-        if(nextExp != 0){
-            newExp = nowExp + amount;
-            playerConfig.set(playerUUIDString +".Level."+type+"_now_exp",newExp);
-            try {
-                playerConfig.save(playerFilePatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
-            if(amount < 0){
-                PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_down_exp_type>",type);
-            }else {
-                PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_up_exp_type>",type);
-            }
-
-        }
-
-        while (beforeExp != 0 && newExp < 0){
-            nowLevel = nowLevel - 1;
-            needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
-            newExp = newExp + needExp;
-            playerConfig.set(playerUUIDString +".Level."+type+"_now_exp",newExp);
-
-            playerConfig.set(playerUUIDString +".Level."+type+"_now_level",nowLevel);
-
-            needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
-            playerConfig.set(playerUUIDString +".Level."+type+"_max_exp",needExp);
-
-            try {
-                playerConfig.save(playerFilePatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
-            PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_down_level_type>",type);
-        }
-
-
-        while(nextExp != 0 && newExp >= needExp){
-            newExp = newExp - needExp;
-            nowLevel = nowLevel + 1;
-            playerConfig.set(playerUUIDString +".Level."+type+"_now_exp",newExp);
-            playerConfig.set(playerUUIDString +".Level."+type+"_now_level",nowLevel);
-            needExp = levelConfig.getInt("Exp-Amount."+nowLevel);
-            nextExp = levelConfig.getInt("Exp-Amount."+(nowLevel+1));
-
-            playerConfig.set(playerUUIDString +".Level."+type+"_max_exp",needExp);
-            try {
-                playerConfig.save(playerFilePatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
-            PlaceholderManager.getCd_Placeholder_Map().put(playerUUIDString+"<cd_up_level_type>",type);
-            new PlayerTrigger(player).onLevelUp(player);
-        }
+        new PlayerLevel().addExpMap(player,type,amount);
 
 
     }

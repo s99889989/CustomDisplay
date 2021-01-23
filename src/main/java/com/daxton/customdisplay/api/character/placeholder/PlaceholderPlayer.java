@@ -50,6 +50,11 @@ public class PlaceholderPlayer {
                 outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_down_level_type>");
             }
         }
+        if(inputString.toLowerCase().contains("<cd_player_kill_mythic_mob_id")){
+            if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>") != null){
+                outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_mythic_kill_mob_id>");
+            }
+        }
         return outputString;
     }
 

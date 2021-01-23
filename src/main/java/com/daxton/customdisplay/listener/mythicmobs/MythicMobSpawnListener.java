@@ -48,7 +48,7 @@ public class MythicMobSpawnListener implements Listener {
         if(player != null){
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
-            new PlayerTrigger(player).onMobDeath(player,target);
+            new PlayerTrigger(player).onMythicMobDeath(player,target);
 
         }
 

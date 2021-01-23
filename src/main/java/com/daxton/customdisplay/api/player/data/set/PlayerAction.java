@@ -296,6 +296,15 @@ public class PlayerAction {
                         action_Trigger_Map.get("~onmobdeath").add(actionString);
                     }
                 }
+                /**當MythicMobs怪物死亡時.(死亡原因必須是該玩家)**/
+                if(actionString.toLowerCase().contains("~onmmobdeath")){
+                    if(action_Trigger_Map.get("~onmmobdeath") == null){
+                        action_Trigger_Map.put("~onmmobdeath",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onmmobdeath") != null){
+                        action_Trigger_Map.get("~onmmobdeath").add(actionString);
+                    }
+                }
 
             }
         }
