@@ -47,6 +47,7 @@ public class PlaceholderClass {
             }
 
             if(playerData != null){
+
                 if(inputString.toLowerCase().contains("_class_level_")){
                     if(playerData.level_Map.get(value) != null){
                         outputString = playerData.level_Map.get(value);
@@ -72,14 +73,10 @@ public class PlaceholderClass {
                         outputString = playerData.equipment_Stats_Map.get(value);
                     }
                 }
-                if(inputString.toLowerCase().contains("_class_skill_level_")){
-                    if(playerData.skills_Map.get(value+"_level") != null){
-                        outputString = playerData.skills_Map.get(value+"_level");
-                    }
-                }
-                if(inputString.toLowerCase().contains("_class_skill_use_")){
-                    if(playerData.skills_Map.get(value+"_use") != null){
-                        outputString = playerData.skills_Map.get(value+"_use");
+                if(inputString.toLowerCase().contains("_class_skill_")){
+                    String key = inputString.replace(" ","").replace("<cd","").replace("_class_skill_","");
+                    if(playerData.skills_Map.get(key) != null){
+                        outputString = playerData.skills_Map.get(key);
                     }
                 }
                 if(inputString.toLowerCase().contains("_class_bind_name_")){

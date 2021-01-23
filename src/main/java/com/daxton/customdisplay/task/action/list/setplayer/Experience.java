@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.task.action.list;
+package com.daxton.customdisplay.task.action.list.setplayer;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;

@@ -27,6 +27,9 @@ public class PlayerConfig2 {
         setPlayerConfig(player);
 
     }
+
+
+
     /**設定玩家設定檔**/
     public void setPlayerConfig(Player player){
         FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
@@ -150,9 +153,6 @@ public class PlayerConfig2 {
         }
 
     }
-
-
-
 
 
     /**如果沒有找到設定檔，就創一個空白新的**/

@@ -1,18 +1,16 @@
-package com.daxton.customdisplay.task.action.list;
+package com.daxton.customdisplay.task.action.list.setplayer;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
+import com.daxton.customdisplay.api.player.PlayerConfig;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CoreSkill {
+public class AttributePoint {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -20,48 +18,31 @@ public class CoreSkill {
     private LivingEntity target = null;
     private String firstString = "";
 
-    private List<Entity> EntityList = new ArrayList<>();
-
-    private String skillName = "沒有";
-    private String type = "level";
-    private String function = "";
+    private String type = "沒有";
     private int amount = 1;
 
-    public CoreSkill(){
+    public AttributePoint(){
 
     }
 
-    public void setCoreSkill(LivingEntity self, LivingEntity target, String firstString, String taskID){
+    public void setAttributePoint(LivingEntity self, LivingEntity target, String firstString, String taskID){
         this.self = self;
         this.target = target;
         this.firstString = firstString;
         setOther();
 
+        if(self instanceof Player){
+            Player player = (Player) self;
+            addPoint(player);
+        }
     }
 
     public void setOther(){
         for(String allString : new StringFind().getStringMessageList(firstString)){
-
-            if(allString.toLowerCase().contains("skillname=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    skillName = strings[1];
-
-                }
-            }
-
             if(allString.toLowerCase().contains("type=")){
                 String[] strings = allString.split("=");
                 if(strings.length == 2){
                     type = strings[1];
-
-                }
-            }
-
-            if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    function = strings[1];
 
                 }
             }
@@ -79,34 +60,26 @@ public class CoreSkill {
 
         }
 
-        if(self != null && self instanceof Player && !(skillName.equals("沒有"))){
-            Player player = (Player) self;
-            addSkill(player);
-
-        }
-
-
-
     }
 
-    public void addSkill(Player player){
+    public void addPoint(Player player){
+
         String playerUUIDString = player.getUniqueId().toString();
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
-        int nowLastPoint = playerConfig.getInt(playerUUIDString +".Skills."+skillName+"."+type);
-        int addLastPoint = nowLastPoint+amount;
+        int nowAttrPoint = playerConfig.getInt(playerUUIDString+".Attributes_Point."+type);
 
-
-        if(nowLastPoint != addLastPoint){
-            playerConfig.set(playerUUIDString +".Skills."+skillName+"."+type,addLastPoint);
-
-            try {
-                playerConfig.save(playerFilePatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
+        int newAttrPoint = nowAttrPoint + amount;
+        if(newAttrPoint < 0){
+            newAttrPoint = 0;
         }
+        playerConfig.set(playerUUIDString+".Attributes_Point."+type,newAttrPoint);
+
+
+        new PlayerConfig(player).saveFile(playerConfig);
+
+
 
     }
 

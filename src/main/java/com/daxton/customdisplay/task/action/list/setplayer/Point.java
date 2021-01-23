@@ -1,9 +1,11 @@
-package com.daxton.customdisplay.task.action.list;
+package com.daxton.customdisplay.task.action.list.setplayer;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerAttribute;
 import com.daxton.customdisplay.api.player.PlayerConfig;
+import com.daxton.customdisplay.api.player.data.set.PlayerAttributesPoint;
+import com.daxton.customdisplay.api.player.data.set.PlayerPoint;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -33,6 +35,7 @@ public class Point {
     }
 
     public void setPoint(LivingEntity self, LivingEntity target, String firstString, String taskID){
+
         this.self = self;
         this.target = target;
         this.firstString = firstString;
@@ -79,11 +82,6 @@ public class Point {
 
                     }else {
                         addPoint(((Player) entity).getPlayer());
-//                        if(function.toLowerCase().contains("set")){
-//                            setPoint(((Player) entity).getPlayer());
-//                        }else {
-//
-//                        }
                     }
                 }
             }
@@ -92,25 +90,8 @@ public class Point {
     }
 
     public void addPoint(Player player){
-        String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
 
-        int nowLastPoint = playerConfig.getInt(playerUUIDString +".Point."+type);
-        int addLastPoint = nowLastPoint+amount;
-
-
-        if(nowLastPoint != addLastPoint){
-            playerConfig.set(playerUUIDString +".Point."+type,addLastPoint);
-
-            try {
-                playerConfig.save(playerFilePatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
-            new PlayerAttribute(player);
-        }
-
+        new PlayerPoint().setOneMap(player,type,amount);
 
 
     }

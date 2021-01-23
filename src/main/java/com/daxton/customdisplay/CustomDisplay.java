@@ -35,6 +35,7 @@ public final class CustomDisplay extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         customDisplay = this;
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         if (Bukkit.getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
@@ -84,6 +85,7 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
         /**設置核心公式字串**/
         new PlayerAttributeCore().setFormula();
+
     }
 
     public void AttackCore(){
@@ -174,9 +176,7 @@ public final class CustomDisplay extends JavaPlugin {
 
         /**重新讀取玩家資料**/
         for(Player player : Bukkit.getOnlinePlayers()){
-            if(configManager.config.getBoolean("HealthScale.enable")){
-                player.setHealthScale(configManager.config.getInt("HealthScale.scale"));
-            }
+
             UUID playerUUID = player.getUniqueId();
             PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
             if(playerData != null){

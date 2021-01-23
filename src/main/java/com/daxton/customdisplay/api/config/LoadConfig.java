@@ -29,5 +29,11 @@ public class LoadConfig {
         return classConfig;
     }
 
+    /**讀取Point設定**/
+    public FileConfiguration getAttrPointConfig(String pointName){
+        File pointAttrFile = new File(cd.getDataFolder(),"Class/Attributes/Point/"+pointName+".yml");
+        FileConfiguration pointAttrConfig = YamlConfiguration.loadConfiguration(pointAttrFile);
+        return pointAttrConfig;
+    }
 
 }

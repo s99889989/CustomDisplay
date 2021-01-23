@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PlayerLevel {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
+    /**設置等級**/
     public PlayerLevel(){
 
     }

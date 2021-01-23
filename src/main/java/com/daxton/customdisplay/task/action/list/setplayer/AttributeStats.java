@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.task.action.list;
+package com.daxton.customdisplay.task.action.list.setplayer;
 
 public class AttributeStats {
 
