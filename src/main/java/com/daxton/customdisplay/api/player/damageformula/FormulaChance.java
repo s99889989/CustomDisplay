@@ -134,6 +134,7 @@ public class FormulaChance {
             hitRateString = PlayerDataMap.core_Formula_Map.get("Hit_Rate_Player_Other");
         }
         hitRateString = new ConversionMain().valueOf(player,target,hitRateString);
+
         int hitRate = 0;
         try {
             double number = Arithmetic.eval(hitRateString);

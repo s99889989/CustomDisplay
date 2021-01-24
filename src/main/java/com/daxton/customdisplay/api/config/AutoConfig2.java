@@ -40,7 +40,7 @@ public class AutoConfig2 {
         File patch1 = new File(cd.getDataFolder(),"");
         String[] fileNameList1 = patch1.list();
         for(String fileName1 : fileNameList1){
-            if(!(fileName1.contains(".yml"))){
+            if(!(fileName1.contains("."))){
                 File patch2 = new File(cd.getDataFolder(),fileName1);
                 String[] fileNameList2 = patch2.list();
                 for(String fileName2 : fileNameList2){
@@ -52,62 +52,55 @@ public class AutoConfig2 {
                             ConfigMapManager.getFileConfigurationMap().put(fileMap, saveFileConfig2);
                             ConfigMapManager.getFileConfigurationNameMap().put(fileMap,fileMap);
                         //}
-                    }else {
+                    }else if(fileName2.contains(".") != true){
                         File patch3 = new File(cd.getDataFolder(),fileName1+"/"+fileName2);
                         String[] fileNameList3 = patch3.list();
                         for(String fileName3 : fileNameList3){
                             if(fileName3.contains(".yml")){
                                 String fileMap3 = fileName1+"_"+fileName2+"_"+fileName3;
                                 //if(ConfigMapManager.getFileConfigurationNameMap().get(fileMap3) == null){
-                                    File saveFilePatch3 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3);
-                                    FileConfiguration saveFileConfig3 = YamlConfiguration.loadConfiguration(saveFilePatch3);
-                                    ConfigMapManager.getFileConfigurationMap().put(fileMap3, saveFileConfig3);
-                                    ConfigMapManager.getFileConfigurationNameMap().put(fileMap3,fileMap3);
+                                File saveFilePatch3 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3);
+                                FileConfiguration saveFileConfig3 = YamlConfiguration.loadConfiguration(saveFilePatch3);
+                                ConfigMapManager.getFileConfigurationMap().put(fileMap3, saveFileConfig3);
+                                ConfigMapManager.getFileConfigurationNameMap().put(fileMap3,fileMap3);
                                 //}
 
-                            }else {
+                            }else if(!(fileName3.contains("."))){
+                                cd.getLogger().info(fileName3);
                                 File patch4 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3);
                                 String[] fileNameList4 = patch4.list();
                                 for(String fileName4 : fileNameList4){
+
                                     if(fileName4.contains(".yml")){
                                         String fileMap4 = fileName1+"_"+fileName2+"_"+fileName3+"_"+fileName4;
                                         //if(ConfigMapManager.getFileConfigurationNameMap().get(fileMap4) == null){
-                                            File saveFilePatch4 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3+"/"+fileName4);
-                                            FileConfiguration saveFileConfig4 = YamlConfiguration.loadConfiguration(saveFilePatch4);
-                                            ConfigMapManager.getFileConfigurationMap().put(fileMap4, saveFileConfig4);
-                                            ConfigMapManager.getFileConfigurationNameMap().put(fileMap4,fileMap4);
+                                        File saveFilePatch4 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3+"/"+fileName4);
+                                        FileConfiguration saveFileConfig4 = YamlConfiguration.loadConfiguration(saveFilePatch4);
+                                        ConfigMapManager.getFileConfigurationMap().put(fileMap4, saveFileConfig4);
+                                        ConfigMapManager.getFileConfigurationNameMap().put(fileMap4,fileMap4);
 
-                                       // }
+                                        // }
 
 
 
                                     }
 
                                 }
-
-
                             }
 
 
 
                         }
-
-
                     }
 
 
                 }
 
 
-
-
             }
 
 
-
-
         }
-
 
     }
 

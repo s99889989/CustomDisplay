@@ -38,7 +38,6 @@ public class EquipmentListener implements Listener {
 
 
 
-
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();
@@ -101,9 +100,9 @@ public class EquipmentListener implements Listener {
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
             boolean b = ListenerManager.getCast_On_Stop().get(uuidString);
             if(b){
-                new SendBossBar().closeSkill(player);
+                //new SendBossBar().closeSkill(player);
             }else {
-                new SendBossBar().openSkill(player);
+                //new SendBossBar().openSkill(player);
             }
         }
 
