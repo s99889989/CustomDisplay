@@ -1,10 +1,14 @@
 package com.daxton.customdisplay.api.other;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 public class StringFind {
 
@@ -133,6 +137,22 @@ public class StringFind {
         }
         return stringList;
     }
+
+    /**丟入字串,key和關鍵字 回傳值**/
+    public String getKeyValue(LivingEntity self, LivingEntity target, String string, String cut, String... key){
+        List<String> KeyList = getBlockList(string,cut);
+        String[] itemIDStrings = KeyList.stream().filter(s -> Arrays.stream(key).anyMatch(s.toLowerCase()::contains)).collect(Collectors.joining()).split("=");
+        String outPut = "null";
+        if(itemIDStrings.length == 2){
+            outPut = itemIDStrings[1];
+            if(outPut.contains("&")){
+                outPut = new ConversionMain().valueOf(self,target,outPut);
+            }
+        }
+        return outPut;
+    }
+
+
 
     /**丟入字串和key 轉成List**/
     public List<String> getBlockList(String string,String key){

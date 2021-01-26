@@ -190,6 +190,11 @@ public class JudgmentAction {
             new OrbitalAction().setParabolicAttack(self,target,firstString,taskID);
         }
 
+        /**Command的相關判斷**/
+        if(judgMent.toLowerCase().contains("command")){
+            new Command().setCommand(self,target,firstString,taskID);
+        }
+
     }
 
 

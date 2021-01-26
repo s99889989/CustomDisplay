@@ -307,11 +307,11 @@ public class OpenInventory {
             customItem.setItemMeta(bindMeta);
             inventory.setItem(first,customItem);
 
-            int putkey = key - 1;
-            File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillNowName+".yml");
-            FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
-            List<String> skillAction = skillConfig.getStringList(skillNowName+".Action");
-            PlayerDataMap.skill_Key_Map.put(uuidString+"."+putkey,skillAction);
+//            int putkey = key - 1;
+//            File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillNowName+".yml");
+//            FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+//            List<String> skillAction = skillConfig.getStringList(skillNowName+".Action");
+//            PlayerDataMap.skill_Key_Map.put(uuidString+"."+putkey,skillAction);
         }
 
     }
@@ -334,7 +334,7 @@ public class OpenInventory {
             bindItem.setItemMeta(bindMeta);
             inventory.setItem(first,bindItem);
 
-            PlayerDataMap.skill_Key_Map.remove(uuidString+"."+key);
+            //PlayerDataMap.skill_Key_Map.remove(uuidString+"."+key);
 
         }
     }

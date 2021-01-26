@@ -21,7 +21,7 @@ public class AutoConfig2 {
 
     public AutoConfig2(){
 
-        File testFile = new File("plugins/CustomDisplay-1.12.1.jar");
+        File testFile = new File("plugins/CustomDisplay-1.12.2.jar");
         try {
             List<String> testList = readZipFile(testFile.toString());
 
@@ -66,7 +66,7 @@ public class AutoConfig2 {
                                 //}
 
                             }else if(!(fileName3.contains("."))){
-                                cd.getLogger().info(fileName3);
+
                                 File patch4 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3);
                                 String[] fileNameList4 = patch4.list();
                                 for(String fileName4 : fileNameList4){

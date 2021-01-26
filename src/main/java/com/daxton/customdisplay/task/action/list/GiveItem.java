@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GiveItem {
 
@@ -27,10 +28,6 @@ public class GiveItem {
     private LivingEntity target = null;
     private String firstString = "";
 
-    private String function = "";
-    private String message = "";
-    private String ItemID = "";
-    private int amount = 27;
 
     public GiveItem(){
 
@@ -39,64 +36,62 @@ public class GiveItem {
     }
 
     public void setItem(LivingEntity self, LivingEntity target, String firstString, String taskID){
-        this.self = self;
-        this.target = target;
-        this.firstString = firstString;
-        setOther();
-        if(self instanceof Player){
-            Player player = (Player) self;
-            giveItem(player);
+
+        /**獲得物品的ID**/
+        String itemID = new StringFind().getKeyValue(self,target,firstString,"[];","itemid=");
+
+        /**獲得物品的數量**/
+        int amount = 1;
+        try {
+            String amountString = new StringFind().getKeyValue(self,target,firstString,"[];","amount=","a=");
+            if(!(amountString.equals("null"))){
+                amount = Integer.valueOf(amountString);
+            }
+        }catch (NumberFormatException exception){
+            cd.getLogger().info("物品的amount必須放整數數字。");
+            cd.getLogger().info("The amount of the item must be an integer number.");
         }
+
+        /**獲得目標**/
+        String aims = new StringFind().getKeyValue(self,target,firstString,"[]; ","@=");
+
+        if(aims.toLowerCase().contains("target")){
+            if(target instanceof Player){
+                Player player = (Player) self;
+                giveItem(player,itemID,amount);
+            }
+        }else if(aims.toLowerCase().contains("self")){
+            if(self instanceof Player){
+                Player player = (Player) self;
+                giveItem(player,itemID,amount);
+            }
+        }else {
+            if(self instanceof Player){
+                Player player = (Player) self;
+                giveItem(player,itemID,amount);
+            }
+        }
+
+
 
     }
 
-    public void setOther(){
-        for(String allString : new StringFind().getStringMessageList(firstString)){
-            if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    function = strings[1];
-
-                }
-            }
-
-            if(allString.toLowerCase().contains("itemid=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    ItemID = strings[1];
-                }
-            }
-
-
-            if(allString.toLowerCase().contains("amount=") || allString.toLowerCase().contains("a=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    try{
-                        amount = Integer.valueOf(strings[1]);
-                    }catch (NumberFormatException exception){
-                        cd.getLogger().info("amount=內只能放整數數字");
-                    }
-                }
-            }
-        }
-    }
-
-    public void giveItem(Player player){
+    public void giveItem(Player player,String itemID,int amount){
         File file = new File(cd.getDataFolder(),"Items/Default.yml");
         FileConfiguration itemConfig = YamlConfiguration.loadConfiguration(file);
         /**物品材質**/
-        String itemMaterial = itemConfig.getString(ItemID+".Material");
+        String itemMaterial = itemConfig.getString(itemID+".Material");
 
         Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
         ItemStack itemStack = new ItemStack(material);
 
         ItemMeta itemMeta = itemStack.getItemMeta();
         /**物品名稱**/
-        String itemName = itemConfig.getString(ItemID+".DisplayName");
+        String itemName = itemConfig.getString(itemID+".DisplayName");
         itemMeta.setDisplayName(itemName);
 
         /**物品Lore**/
-        List<String> itemLore = itemConfig.getStringList(ItemID+".Lore");
+        List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
         List<String> nextItemLore = new ArrayList<>();
         itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
         List<String> lastItemLore = new ArrayList<>();
@@ -104,16 +99,16 @@ public class GiveItem {
         itemMeta.setLore(lastItemLore);
 
         /**物品屬性**/
-        String attrInheritString = itemConfig.getString(ItemID+".Attributes.Inherit");
-        String attributesName = itemConfig.getString(ItemID+".Attributes.Name");
-        double attributesAmount = itemConfig.getDouble(ItemID+".Attributes.Amount");
-        String attrOpString = itemConfig.getString(ItemID+".Attributes.Operation");
-        String attrEqString = itemConfig.getString(ItemID+".Attributes.EquipmentSlot");
+        String attrInheritString = itemConfig.getString(itemID+".Attributes.Inherit");
+        String attributesName = itemConfig.getString(itemID+".Attributes.Name");
+        double attributesAmount = itemConfig.getDouble(itemID+".Attributes.Amount");
+        String attrOpString = itemConfig.getString(itemID+".Attributes.Operation");
+        String attrEqString = itemConfig.getString(itemID+".Attributes.EquipmentSlot");
         if(attrInheritString != null && attributesName != null && attributesAmount != 0 && attrOpString != null && attrEqString != null){
             itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrInheritString),new AttributeModifier(UUID.randomUUID(), attributesName, attributesAmount, Enum.valueOf(AttributeModifier.Operation.class,attrOpString), Enum.valueOf(EquipmentSlot.class,attrEqString)));
         }
 
-        boolean flag = itemConfig.getBoolean(ItemID+".HideItemFlags");
+        boolean flag = itemConfig.getBoolean(itemID+".HideItemFlags");
         if(flag){
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -126,8 +121,13 @@ public class GiveItem {
 
 
         itemStack.setItemMeta(itemMeta);
+        List<ItemStack> itemStackList = new ArrayList<>();
+        for(int i = 0 ; i < amount ;i++){
+            itemStackList.add(itemStack);
+        }
 
-        player.getInventory().addItem(itemStack);
+        player.getInventory().addItem(itemStackList.toArray(new ItemStack[itemStackList.size()]));
+
     }
 
 

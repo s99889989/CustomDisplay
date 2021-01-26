@@ -12,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Parrot;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,12 +41,21 @@ public class MythicMobSpawnListener implements Listener {
 
         LivingEntity target = (LivingEntity) event.getEntity();
         LivingEntity killer = event.getKiller();
+
         Player player = null;
         if(killer instanceof Player){
             player = (Player) killer;
         }
+        if(killer instanceof Parrot){
+            Parrot parrot = (Parrot) killer;
+            if(parrot.getOwner() != null && parrot.getOwner() instanceof Player){
+                player = ((Player) parrot.getOwner()).getPlayer();
+            }
+        }
+
 
         if(player != null){
+            //cd.getLogger().info(player.getName());
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
             new PlayerTrigger(player).onMythicMobDeath(player,target);

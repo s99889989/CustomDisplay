@@ -3,6 +3,8 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
+import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -15,8 +17,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SendBossBar {
 
@@ -145,47 +146,76 @@ public class SendBossBar {
 
     }
 
-    public void openSkill(Player player){
+    public void openSkill(Player player,int mainKey){
         String uuidString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
+        UUID playerUUID = player.getUniqueId();
 
-        String skillNameString = "";
-        for(int i = 1 ; i < 9 ; i++){
-             String skillName = playerConfig.getString(uuidString+".Binds."+i+".SkillName");
-             if(!(skillName.contains("null"))){
-                 if(i == 8){
-                     File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
-                     FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
-                     String barName = skillConfig.getString(skillName+".BarName");
-                     skillNameString = skillNameString + barName;
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        if(playerData != null){
+            String skillNameString = "";
+            for(int i = 1 ; i < 9 ; i++){
+                int x = 0;
+                if(i-1 >= mainKey){
+                    x = i;
+                }else {
+                    x = i-1;
+                }
 
-                 }else {
-                     File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
-                     FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
-                     String barName = skillConfig.getString(skillName+".BarName");
-                     skillNameString = skillNameString + barName + "\uF822";
+                String skillName = playerData.binds_Map.get(i+"_skillName");
+                if(i-1 == mainKey){
+                    skillNameString = skillNameString + "䂴" + "\uF822";
+                }
 
-                 }
+                if(!(skillName.contains("null"))){
+                    player.sendMessage(""+i+" : "+skillName);
+                    if(i == 8){
+                        File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
+                        FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                        String barName = skillConfig.getString(skillName+".BarName");
+                        skillNameString = skillNameString + barName;
 
-             }else {
-                 if(i == 8){
-                     skillNameString = skillNameString + "䂶";
-                 }else {
-                     skillNameString = skillNameString + "䂶" + "\uF822";
-                 }
-             }
+                        /**把Skill動作存到Map**/
 
+                        List<String> skillAction = skillConfig.getStringList(skillName+".Action");
+                        if(skillAction != null){
+                            PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
+                        }
+
+                    }else {
+                        File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
+                        FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                        String barName = skillConfig.getString(skillName+".BarName");
+                        skillNameString = skillNameString + barName + "\uF822";
+
+                        /**把Skill動作存到Map**/
+                        List<String> skillAction = skillConfig.getStringList(skillName+".Action");
+                        if(skillAction != null){
+                            PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
+                        }
+                    }
+
+                }else {
+                    if(i == 8){
+                        skillNameString = skillNameString + "䂶";
+                    }else {
+                        skillNameString = skillNameString + "䂶" + "\uF822";
+                    }
+                }
+
+
+
+            }
+
+
+            skillBar = Bukkit.createBossBar(skillNameString, Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_10"));
+            skillBar.setProgress(0);
+            skillBar.addPlayer(player);
+
+            skillBar0 = Bukkit.createBossBar("䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍", Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_20"));
+            skillBar0.setProgress(0);
+            skillBar0.addPlayer(player);
         }
 
-
-        skillBar = Bukkit.createBossBar(skillNameString, Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_10"));
-        skillBar.setProgress(0);
-        skillBar.addPlayer(player);
-
-        skillBar0 = Bukkit.createBossBar("䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍", Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_20"));
-        skillBar0.setProgress(0);
-        skillBar0.addPlayer(player);
 
     }
 

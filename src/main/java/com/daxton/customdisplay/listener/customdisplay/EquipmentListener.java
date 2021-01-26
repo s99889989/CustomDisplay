@@ -96,13 +96,15 @@ public class EquipmentListener implements Listener {
     public void onSwapHand(PlayerSwapHandItemsEvent event){
         Player player = event.getPlayer();
         String uuidString = player.getUniqueId().toString();
+        /**主手位置**/
+        int key = player.getInventory().getHeldItemSlot();
 
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
             boolean b = ListenerManager.getCast_On_Stop().get(uuidString);
             if(b){
-                //new SendBossBar().closeSkill(player);
+                new SendBossBar().closeSkill(player);
             }else {
-                //new SendBossBar().openSkill(player);
+                new SendBossBar().openSkill(player,key);
             }
         }
 

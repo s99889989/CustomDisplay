@@ -38,14 +38,47 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-        //sender.sendMessage(args.length > 0 ? args[0] : "nothing");
+
+        if(sender instanceof Player){
+            /**玩家用指令**/
+            if(commandPlayer(sender, cmd, label, args)){
+                return true;
+            }
+        }
+
         if(!sender.isOp()){
             sender.sendMessage(configManager.language.getString("Language.Command.isOp"));
-            return false;
+
         }
+
+
+        /**不限使用者**/
+        if(commandAll(sender, cmd, label, args)){
+            return true;
+        }
+
+        if(sender instanceof Player){
+            /**OP玩家用指令**/
+            if(commandOpPlayer(sender, cmd, label, args)){
+                return true;
+            }
+
+        }
+
+        sender.sendMessage(configManager.language.getString("Language.Command.help.Description"));
+        for(String msg : configManager.language.getStringList("Language.Command.help.info")){
+            sender.sendMessage(msg);
+        }
+        return true;
+    }
+
+    /**不限使用者**/
+    public boolean commandAll(CommandSender sender, Command cmd, String label, String[] args){
+
         if(args.length == 1){
 
             if(args[0].equalsIgnoreCase("reload")){
+
                 cd.load();
                 sender.sendMessage(configManager.language.getString("Language.Command.reload"));
                 return true;
@@ -60,74 +93,80 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
         }
 
 
-        if(sender instanceof Player){
-            Player player = (Player) sender;
-            String uuidString = player.getUniqueId().toString();
-            if(args.length == 2){
-                if(args[0].equalsIgnoreCase("cast")) {
-                    if(!(args[1].isEmpty())){
-                        if(sender instanceof Player){
-                            new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
-                            new PlayerTrigger(player).onCommand(player);
-                        }
-                        return true;
-                    }
-                }
-                if(args[0].equalsIgnoreCase("bind")) {
-                    if(!(args[1].isEmpty())){
-                        ItemStack item = ((Player) sender).getItemInHand();
-                        if (item == null || item.getType() == Material.AIR){
-                            sender.sendMessage("You have no items in your hands.");
-                            return true;
-                        }
-                        return true;
-                    }
-                }
-
-            }
-            if(args.length == 3){
-                /**所有線上玩家名單**/
-                List<String> onLineplayerNameList = new ArrayList<>();
-                /**所有線上玩家**/
-                Map<String,Player> playerMap = new HashMap<>();
-                Bukkit.getOnlinePlayers().forEach(player2 -> {
-                    onLineplayerNameList.add(player2.getName());
-                    playerMap.put(player2.getName(),player2);
-                });
-
-                File file = new File(cd.getDataFolder(),"Class/Main");
-                /**所有職業名單**/
-                List<String> classNameList = new ArrayList<>();
-                Arrays.asList(file.list()).forEach(s -> classNameList.add(s.replace(".yml","")));
-
-                /**轉職指令**/
-                if(args[0].equalsIgnoreCase("changeclass")) {
-                    if(onLineplayerNameList.contains(args[1])){
-                        if(classNameList.contains(args[2])){
-                            new PlayerChangeClass().changeClass(playerMap.get(args[1]),args[2]);
-                            return true;
-                        }
-                    }
-                }
-                /**轉生指令**/
-                if(args[0].equalsIgnoreCase("rebirth")) {
-                    if(onLineplayerNameList.contains(args[1])){
-                        if(classNameList.contains(args[2])){
-                            new PlayerRebirth().rebirth(playerMap.get(args[1]),args[2]);
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        sender.sendMessage(configManager.language.getString("Language.Command.help.Description"));
-        for(String msg : configManager.language.getStringList("Language.Command.help.info")){
-            sender.sendMessage(msg);
-        }
-        return true;
+        return false;
     }
 
+    /**OP玩家用指令**/
+    public boolean commandOpPlayer(CommandSender sender, Command cmd, String label, String[] args){
+        Player player = (Player) sender;
+        String uuidString = player.getUniqueId().toString();
+        if(args.length == 3){
+            /**所有線上玩家名單**/
+            List<String> onLineplayerNameList = new ArrayList<>();
+            /**所有線上玩家**/
+            Map<String,Player> playerMap = new HashMap<>();
+            Bukkit.getOnlinePlayers().forEach(player2 -> {
+                onLineplayerNameList.add(player2.getName());
+                playerMap.put(player2.getName(),player2);
+            });
+
+            File file = new File(cd.getDataFolder(),"Class/Main");
+            /**所有職業名單**/
+            List<String> classNameList = new ArrayList<>();
+            Arrays.asList(file.list()).forEach(s -> classNameList.add(s.replace(".yml","")));
+
+            /**轉職指令**/
+            if(args[0].equalsIgnoreCase("changeclass")) {
+                if(onLineplayerNameList.contains(args[1])){
+                    if(classNameList.contains(args[2])){
+                        new PlayerChangeClass().changeClass(playerMap.get(args[1]),args[2]);
+                        return true;
+                    }
+                }
+            }
+            /**轉生指令**/
+            if(args[0].equalsIgnoreCase("rebirth")) {
+                if(onLineplayerNameList.contains(args[1])){
+                    if(classNameList.contains(args[2])){
+                        new PlayerRebirth().rebirth(playerMap.get(args[1]),args[2]);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**所有玩家用指令**/
+    public boolean commandPlayer(CommandSender sender, Command cmd, String label, String[] args){
+        Player player = (Player) sender;
+        String uuidString = player.getUniqueId().toString();
+        if(args.length == 2){
+            if(args[0].equalsIgnoreCase("cast")) {
+                if(!(args[1].isEmpty())){
+                    if(sender instanceof Player){
+                        new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
+                        new PlayerTrigger(player).onCommand(player);
+                    }
+                    return true;
+                }
+            }
+            if(args[0].equalsIgnoreCase("bind")) {
+                if(!(args[1].isEmpty())){
+                    ItemStack item = ((Player) sender).getItemInHand();
+                    if (item == null || item.getType() == Material.AIR){
+                        sender.sendMessage("You have no items in your hands.");
+                        return true;
+                    }
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args){
