@@ -38,7 +38,7 @@ public final class CustomDisplay extends JavaPlugin {
     public void onEnable() {
 
         customDisplay = this;
-        ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
+
         if (Bukkit.getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
             getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
             getLogger().severe("*** CustomDisplay will be disabled. ***");
@@ -76,7 +76,7 @@ public final class CustomDisplay extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
             getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
         }
-
+        ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         configManager = new ConfigManager(customDisplay);
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
         /**傷害判斷的核心插件.**/

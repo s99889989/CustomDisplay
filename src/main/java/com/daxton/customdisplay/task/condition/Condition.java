@@ -64,6 +64,10 @@ public class Condition {
             }
         }
 
+        if(firstString.toLowerCase().contains("equals=")){
+            b = new Equals().setEquals(self,target,firstString,taskID);
+        }
+
         return b;
     }
 

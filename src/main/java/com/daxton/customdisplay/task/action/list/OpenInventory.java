@@ -157,9 +157,6 @@ public class OpenInventory {
     }
 
 
-
-
-
     public Inventory setInventory(Inventory inventory){
 
         File itemFilePatch = new File(cd.getDataFolder(),"Gui/"+GuiID+".yml");

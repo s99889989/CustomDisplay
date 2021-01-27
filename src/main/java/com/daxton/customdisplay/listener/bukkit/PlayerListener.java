@@ -2,14 +2,12 @@ package com.daxton.customdisplay.listener.bukkit;
 
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.ListenerManager;
-import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.*;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,8 +19,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
@@ -120,6 +122,34 @@ public class PlayerListener implements Listener {
 
     }
 
+//    @EventHandler
+//    public void anvilCost(PrepareAnvilEvent event){
+//        Player player = (Player) event.getViewers().get(0);
+//        ConfigMapManager.getFileConfigurationNameMap().values().forEach(s -> {
+//            if(s.contains("Items_")){
+//                FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get(s);
+//                itemConfig.getKeys(false).forEach(s1 -> {
+//                    AnvilInventory inv = event.getInventory();
+//                    ItemStack itemStack = inv.getFirstItem();
+//                    if(itemStack != null){
+//                        ItemMeta itemMeta = itemStack.getItemMeta();
+//                        if(itemMeta != null){
+//                            String itemName = itemConfig.getString(s1+".DisplayName");
+//                            itemName = new ConversionMain().valueOf(player,null,itemName);
+//                            String itemName2 = itemMeta.getDisplayName();
+//                            if(itemName.equals(itemName2)){
+//                                //inv.setRepairCost(100);
+//                                //player.sendMessage(inv.getRepairCost()+" : "+itemMeta.getDisplayName());
+//                            }
+//                        }
+//                    }
+//                });
+//
+//            }
+//        });
+//
+//
+//    }
 
 
     /**當經驗值改變時**/
@@ -155,9 +185,11 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         String uuidString = event.getPlayer().getUniqueId().toString();
         String message = event.getMessage();
+        message = new ConversionMain().valueOf(player,null,message);
+
         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
         new PlayerTrigger(player).onChat(player);
-
+        //event.setCancelled(true);
     }
 
 
