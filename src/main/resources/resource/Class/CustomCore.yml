@@ -1,85 +1,93 @@
-#初始屬性設定
-DefaultAttribute:
+CoreAttribute:
   #原版血量
   Health:
     enable: true
-    amount: 20
+    formula: '&self_attr_Hp&'
+
   #原版移動速度
   Move_Speed:
     enable: true
-    amount: 0.001
-CoreAttribute:
+    formula: '&self_attr_Moving_Speed_Core&'
+
   #每10秒回多少血
   Health_Regeneration:
-    amount: 1
+    formula: '&self_attr_Hp_Regeneration&'
+  
   #魔量
   Max_Mana:
-    amount: 1
+    formula: '&self_attr_Sp&'
+  
   #每10秒回多少魔
   Mana_Regeneration:
-    amount: 1
-  #迴避
-  Dodge_Rate:
-    amount: 1
-  #命中
-  Hit_Rate:
-    amount: 1
-  #暴擊率%
-  Critical_Strike_Chance:
-    amount: 1
-  #暴擊防護%
-  Critical_Strike_Protection:
-    amount: 1
-  #暴擊傷害%
-  Critical_Strike_Power:
-    amount: 1    
-  #暴傷減免%
-  Critical_Strike_Reduction:
-    amount: 1
-Formula:
-  #近距離物理攻擊
-  Melee_Physics:
-    Player_Player: '(&self_Player_Default_Melee_Damage&) * (&self_Player_Final_Attack_Number&)'
-    Player_Other: '(&sel_Default_Melee_Damage&) * (&self_Final_Attack_Number&)'
-  #遠距離物理攻擊(弓箭)
-  Range_Physics:
-    Player_Player: '(&self_Player_Default_Range_Damage&) * (&self_Player_Final_Attack_Number&)'
-    Player_Other: '(&sel_Default_Range_Damage&) * (&self_Final_Attack_Number&)' 
-  #近距離物理暴擊
-  Melee_Physics_Critical_Strike_Power:
-    Player_Player: '(&self_Player_Default_Melee_Critical_Damage&) * (&self_Player_Final_Attack_Number&) *(&self_Player_Crit_Power&)'
-    Player_Other: '(&sel_Default_Melee_Critical_Damage&) * (&self_Final_Attack_Number&) * (&self_Crit_Power&)'
-  #遠距離物理暴擊(弓箭)
-  Range_Physics_Critical_Strike_Power:
-    Player_Player: '(&self_Player_Default_Range_Critical_Damage&) * (&self_Player_Final_Attack_Number&) * (&self_Player_Crit_Power&)'
-    Player_Other: '(&sel_Default_Range_Critical_Damage&) * (&self_Final_Attack_Number&) * (&self_Crit_Power&)'
-  #RrndomNumber > Player_Player or RrndomNumber > Player_Other 
-  #RrndomNumber會產生0~設定值的隨機數。
-  #命中
-  Hit_Rate:
-    RrndomNumber: 100
-    Player_Player: '&self_Player_Hit_Probability&'
-    Player_Other: '&self_Hit_Probability&'
-  #迴避(算目標的)
-  Dodge_Rate:
-    RrndomNumber: 100
-    Max_Chance: 95
-    Player_Player: '&self_Player_Dodge_Probability&'
-    Player_Other: '&self_Dodge_Probability&'
-  #格檔(算目標的)
-  Block_Rate:
-    RrndomNumber: 100
-    Max_Chance: 95
-    Player_Player: '0'
-    Player_Other: '0'
-  #暴擊率
-  Critical_Strike_Chance:
-    RrndomNumber: 100
-    Max_Chance: 95
-    #Player_Other: '50'
-    Player_Player: '&self_Player_Crit_Chance&'
-    Player_Other: '&self_Crit_Chance&'
+    formula: '&self_attr_Sp_Regeneration&'
+  
   #攻擊速度，攻擊後延遲多久，才能再次攻擊(單位為0.1秒，10=1秒)
   Attack_Speed:
-    Speed: '10'
+    formula: '&self_attr_Attack_Speed_Core&'
+  
+  #近距離物理攻擊(玩家攻擊玩家)
+  Melee_Physics_Player_Player:
+    formula: '&Player_Player_Final_Damage_Melee&'
+  #近距離物理攻擊(玩家攻擊其他生物)
+  Melee_Physics_Player_Other:
+    formula: '&Player_Mob_Final_Damage_Melee&'
+  
+  #遠距離物理攻擊(弓箭)(玩家攻擊玩家)
+  Range_Physics_Player_Player:
+    formula: '&Player_Player_Final_Damage_Range&'
+  #遠距離物理攻擊(弓箭)(玩家攻擊其他生物)
+  Range_Physics_Player_Other:
+    formula: '&Player_Mob_Final_Damage_Range&'
+  
+  #魔法攻擊(玩家攻擊玩家)
+  Magic_Attack_Player_Player:
+    formula: '&Player_Player_Final_Damage_Magic&'
+  #魔法攻擊(玩家攻擊其他生物)
+  Magic_Attack_Player_Other:
+    formula: '&Player_Mob_Final_Damage_Magic&'
+  
+  #近距離物理暴擊(玩家攻擊玩家)
+  Melee_Physics_Critical_Strike_Power_Player_Player:
+    formula: '&Player_Player_Final_Damage_Melee_Crit&'
+  #近距離物理暴擊(玩家攻擊其他生物)
+  Melee_Physics_Critical_Strike_Power_Player_Other:
+    formula: '&Player_Mob_Final_Damage_Melee_Crit&'
+  
+  #遠距離物理暴擊(弓箭)(玩家攻擊玩家)
+  Range_Physics_Critical_Strike_Power_Player_Player:
+    formula: '&Player_Player_Final_Damage_Range_Crit&'
+  #遠距離物理暴擊(弓箭)(玩家攻擊其他生物)
+  Range_Physics_Critical_Strike_Power_Player_Other:
+    formula: '&Player_Mob_Final_Damage_Range_Crit&'
+  
+  #命中(機率為1~100)(玩家攻擊玩家)
+  Hit_Rate_Player_Player:
+    formula: '&Player_Player_Hit_Rate&'
+  #命中(機率為1~100)(玩家攻擊其他生物)
+  Hit_Rate_Player_Other:
+    formula: '&Player_Mob_Hit_Rate%&'
+  
+  #迴避(算目標的)(機率為1~100)(玩家攻擊玩家)
+  Dodge_Rate_Player_Player:
+    formula: '&Player_Player_Dodge_Rate&'
+  #迴避(算目標的)(機率為1~100)(玩家攻擊其他生物)
+  Dodge_Rate_Player_Other:
+    formula: '&Player_Mob_Dodge_Rate%&'
+  
+  #格檔(算目標的)(機率為1~100)(玩家攻擊玩家)
+  Block_Rate_Player_Player:
+    formula: '0'
+  #格檔(算目標的)(機率為1~100)(玩家攻擊其他生物)
+  Block_Rate_Player_Other:
+    formula: '0'
+  
+  #暴擊率(機率為1~100)(玩家攻擊玩家)
+  Critical_Strike_Chance_Player_Player:
+    formula: '&Player_Player_Critical_Strike_Chance%&'
+  #暴擊率(機率為1~100)(玩家攻擊其他生物)
+  Critical_Strike_Chance_Player_Other:
+    formula: '&Player_Mob_Critical_Strike_Chance%&'
+  
+  
+  
 

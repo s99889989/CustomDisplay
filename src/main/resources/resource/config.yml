@@ -4,7 +4,7 @@ Language: English
 
 #傷害判斷的核心插件.
 #The core plugin for damage judgment. 
-#(Default, MMOLib, MMOCore, AttributePlus, SkillAPI, SkillAPI_MMOLib, CrackShot, CustomCore)
+#(Default, MMOLib, MMOCore, AttributePlus, SkillAPI, SkillAPI_MMOLib, CrackShot, CustomCore, CDMMOLib)
 AttackCore: Default
 
 #血量壓縮率.

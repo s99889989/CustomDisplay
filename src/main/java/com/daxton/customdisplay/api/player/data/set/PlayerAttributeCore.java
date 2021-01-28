@@ -5,9 +5,10 @@ import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import io.lumine.xikage.mythicmobs.utils.config.file.FileConfiguration;
-import io.lumine.xikage.mythicmobs.utils.config.file.YamlConfiguration;
+
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -25,6 +26,8 @@ public class PlayerAttributeCore {
 
     /**設置核心公式字串**/
     public void setFormula(){
+
+
         File file = new File(cd.getDataFolder(),"Class/CustomCore.yml");
         FileConfiguration coreConfig = YamlConfiguration.loadConfiguration(file);
         coreConfig.getConfigurationSection("CoreAttribute").getKeys(false).forEach(s -> {
@@ -32,7 +35,7 @@ public class PlayerAttributeCore {
             boolean b = coreConfig.getBoolean("CoreAttribute."+s+".enable");
             PlayerDataMap.core_Formula_Map.put(s,formulaString);
             PlayerDataMap.core_Boolean_Map.put(s,b);
-            ;});
+        ;});
 
 
 

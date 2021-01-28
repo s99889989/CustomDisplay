@@ -8,6 +8,7 @@ import com.daxton.customdisplay.command.CustomDisplayCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
+import com.daxton.customdisplay.listener.cdmmolib.CDMMOLibListener;
 import com.daxton.customdisplay.listener.crackshot.CrackShotListener;
 import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
@@ -84,8 +85,13 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
-        /**設置核心公式字串**/
-        new PlayerAttributeCore().setFormula();
+
+        String attackCore = getConfigManager().config.getString("AttackCore");
+        if(attackCore.toLowerCase().contains("customcore")){
+            /**設置核心公式字串**/
+            new PlayerAttributeCore().setFormula();
+        }
+
 
     }
 
@@ -114,6 +120,15 @@ public final class CustomDisplay extends JavaPlugin {
                 if(Bukkit.getServer().getPluginManager().getPlugin("MMOCore") != null){
                     Bukkit.getPluginManager().registerEvents(new MMOCoreListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOCore");
+                }else {
+                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+                }
+                break;
+            case "cdmmolib":
+                if(Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
+                    Bukkit.getPluginManager().registerEvents(new CDMMOLibListener(),customDisplay);
+                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CDMMOLib");
                 }else {
                     Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
                     getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");

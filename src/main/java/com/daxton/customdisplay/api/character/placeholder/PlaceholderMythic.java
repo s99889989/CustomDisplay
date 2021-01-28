@@ -32,10 +32,6 @@ public class PlaceholderMythic {
                 outputString = MobManager.mythicMobs_Attr_Map.get(mobID+"."+key);
             }
 
-
-
-
-
         }
 
         return outputString;

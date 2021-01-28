@@ -1,0 +1,20 @@
+#
+Buttons:
+
+  Stats:
+    RawSlot: 0
+    Move: false
+    Material: 'PLAYER_HEAD'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '{#f77703}&gui_self_name&'
+    Lore:
+    - ''
+    - '{#f75703}Health: &gui_self_base_nowhealth&/&gui_self_base_maxhealth&'
+    Left:
+    #????8
+    #Matching example 8
+    - Action[a=EmojiHelpHD]
+    
+
+
