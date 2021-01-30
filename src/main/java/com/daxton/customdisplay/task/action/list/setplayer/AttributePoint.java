@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list.setplayer;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerConfig;
+import com.daxton.customdisplay.api.player.data.set.PlayerAttributesPoint;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
@@ -63,6 +64,8 @@ public class AttributePoint {
     }
 
     public void addPoint(Player player){
+
+        new PlayerAttributesPoint().setOneMap(player,type,amount);
 
         String playerUUIDString = player.getUniqueId().toString();
         File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");

@@ -36,8 +36,6 @@ public class EquipmentListener implements Listener {
     @EventHandler(priority = EventPriority.LOW )
     public void onItemHeld(PlayerItemHeldEvent event){
 
-
-
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();

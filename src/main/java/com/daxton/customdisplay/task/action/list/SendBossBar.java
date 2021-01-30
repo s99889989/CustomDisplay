@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import org.bukkit.Bukkit;
@@ -150,6 +151,16 @@ public class SendBossBar {
         String uuidString = player.getUniqueId().toString();
         UUID playerUUID = player.getUniqueId();
 
+        FileConfiguration skillStatusConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Status.yml");
+        /**主手顯示**/
+        String main_Hand_1_8 = skillStatusConfig.getString("Skill_Status.Main_Hand.18");
+        String main_Hand_9 = skillStatusConfig.getString("Skill_Status.Main_Hand.9");
+        /**技能空格顯示**/
+        String skill_Blank = skillStatusConfig.getString("Skill_Status.Skill_Blank");
+        /**技能背景顯示**/
+        String skill_Back_18 = skillStatusConfig.getString("Skill_Status.Skill_Back.18");
+        String skill_Back_9 = skillStatusConfig.getString("Skill_Status.Skill_Back.9");
+
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             String skillNameString = "";
@@ -162,12 +173,14 @@ public class SendBossBar {
                 }
 
                 String skillName = playerData.binds_Map.get(i+"_skillName");
-                if(i-1 == mainKey){
-                    skillNameString = skillNameString + "䂴" + "\uF822";
+
+                if(mainKey != 8 && i == mainKey+1){
+
+                    skillNameString = skillNameString + main_Hand_1_8;
+
                 }
 
                 if(!(skillName.contains("null"))){
-                    player.sendMessage(""+i+" : "+skillName);
                     if(i == 8){
                         File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
                         FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
@@ -185,7 +198,7 @@ public class SendBossBar {
                         File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
                         FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
                         String barName = skillConfig.getString(skillName+".BarName");
-                        skillNameString = skillNameString + barName + "\uF822";
+                        skillNameString = skillNameString + barName + skill_Blank;
 
                         /**把Skill動作存到Map**/
                         List<String> skillAction = skillConfig.getStringList(skillName+".Action");
@@ -196,13 +209,17 @@ public class SendBossBar {
 
                 }else {
                     if(i == 8){
-                        skillNameString = skillNameString + "䂶";
+                        skillNameString = skillNameString + skill_Back_9;
                     }else {
-                        skillNameString = skillNameString + "䂶" + "\uF822";
+                        skillNameString = skillNameString + skill_Back_18;
                     }
                 }
 
+                if(i == 8 && mainKey == 8){
 
+                    skillNameString = skillNameString + main_Hand_9;
+
+                }
 
             }
 

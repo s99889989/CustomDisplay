@@ -179,6 +179,7 @@ public class GiveItem {
                             String headValue = itemConfig.getString(itemID+".HeadValue");
                             if(headValue != null){
                                 if(headValue.length() < 50){
+                                    headValue = new ConversionMain().valueOf(self,target,headValue);
                                     OfflinePlayer targetPlayer = player.getServer().getOfflinePlayer(headValue);
                                     skullMeta.setOwningPlayer(targetPlayer);
                                     itemStack.setItemMeta(skullMeta);

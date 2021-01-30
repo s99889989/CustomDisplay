@@ -20,6 +20,7 @@ public class Command {
         String aims = new StringFind().getKeyValue(self,target,firstString,"[]; ","@=");
 
 
+
         if(aims.toLowerCase().contains("target")){
             if(target instanceof Player){
                 Player player = (Player) self;
@@ -40,6 +41,7 @@ public class Command {
     }
 
     public void sendCommand(Player player,String command){
+
         player.performCommand(command);
     }
 
