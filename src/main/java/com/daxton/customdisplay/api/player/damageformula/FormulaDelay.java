@@ -7,6 +7,7 @@ import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.list.SendBossBar;
+import org.bukkit.SoundCategory;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -89,9 +90,11 @@ public class FormulaDelay {
     }
 
     /**施法**/
-    public boolean setCost(Player player, List<String> action){
+    public boolean setCost(Player player,String skillName, List<String> action){
         boolean attack_speed = false;
         String uuidString = player.getUniqueId().toString();
+        player.sendMessage(skillName);
+        player.getWorld().playSound(player.getLocation(), "skills_casttime", Enum.valueOf(SoundCategory.class , "PLAYERS"), 1, 1);
         PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
             //int count = PlayerDataMap.cost_Count_Map.get(uuidString);
             double costCount = 0.0;
@@ -124,7 +127,7 @@ public class FormulaDelay {
 
             }
         });
-        PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2);
+        PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,4);
         return attack_speed;
     }
 

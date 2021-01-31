@@ -48,7 +48,8 @@ public class EquipmentListener implements Listener {
             boolean cast = ListenerManager.getCast_On_Stop().get(uuidString);
             if(cast){
                 List<String> action = PlayerDataMap.skill_Key_Map.get(uuidString+"."+key);
-                if(action != null && action.size() > 0){
+                String skillName = PlayerDataMap.skill_Name_Map.get(uuidString+"."+key);
+                if(skillName != null && action != null && action.size() > 0){
                     if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
                         PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
                     }
@@ -58,7 +59,7 @@ public class EquipmentListener implements Listener {
                     if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null){
                         boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
                         if(costDelay){
-                            new FormulaDelay().setCost(player,action);
+                            new FormulaDelay().setCost(player,skillName,action);
                             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
 
                             if(PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key) != null){

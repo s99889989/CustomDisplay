@@ -120,25 +120,30 @@ public class OpenInventoryBindGui {
                 if(i == 13){
                     skillNowName = skillName;
                 }
-                File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
-                FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
-                String itemMaterial = skillConfig.getString(skillName+".Material");
-                Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
-                List<String> itemLore = skillConfig.getStringList(skillName+".Lore");
-                List<String> lastItemLore = new ArrayList<>();
-                itemLore.forEach((line) -> {
-                    lastItemLore.add(new ConversionMain().valueOf(player,target,line));
-                });
-                int cmd = skillConfig.getInt(skillName+".CustomModelData");
-                String itemName = skillConfig.getString(skillName+".Name");
-                itemName = new ConversionMain().valueOf(player,target,itemName);
-                ItemStack customItem = new ItemStack(material);
-                ItemMeta im = customItem.getItemMeta();
-                im.setDisplayName(itemName);
-                im.setCustomModelData(cmd);
-                im.setLore(lastItemLore);
-                customItem.setItemMeta(im);
-                inventory.setItem(i,customItem);
+                try {
+                    File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
+                    FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
+                    String itemMaterial = skillConfig.getString(skillName+".Material");
+                    Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+                    List<String> itemLore = skillConfig.getStringList(skillName+".Lore");
+                    List<String> lastItemLore = new ArrayList<>();
+                    itemLore.forEach((line) -> {
+                        lastItemLore.add(new ConversionMain().valueOf(player,target,line));
+                    });
+                    int cmd = skillConfig.getInt(skillName+".CustomModelData");
+                    String itemName = skillConfig.getString(skillName+".Name");
+                    itemName = new ConversionMain().valueOf(player,target,itemName);
+                    ItemStack customItem = new ItemStack(material);
+                    ItemMeta im = customItem.getItemMeta();
+                    im.setDisplayName(itemName);
+                    im.setCustomModelData(cmd);
+                    im.setLore(lastItemLore);
+                    customItem.setItemMeta(im);
+                    inventory.setItem(i,customItem);
+                }catch (Exception exception){
+
+                }
+
             }
 
             ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);

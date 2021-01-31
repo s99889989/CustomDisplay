@@ -42,6 +42,7 @@ public class PlayerDataMap {
 
     /**技能綁定**/
     public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
+    public static Map<String, String> skill_Name_Map = new HashMap<>();
     /**事件的取消**/
     public static Map<String, Boolean> even_Cancel_Map = new ConcurrentHashMap<>();
 

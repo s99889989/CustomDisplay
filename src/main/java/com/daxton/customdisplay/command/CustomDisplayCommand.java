@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.command;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.config.PlayerChangeClass;
 import com.daxton.customdisplay.api.player.config.PlayerConfig2;
@@ -119,6 +120,7 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
             if(args[0].equalsIgnoreCase("changeclass")) {
                 if(onLineplayerNameList.contains(args[1])){
                     if(classNameList.contains(args[2])){
+                        new SaveConfig().setConfig(player);
                         new PlayerChangeClass().changeClass(playerMap.get(args[1]),args[2]);
                         return true;
                     }

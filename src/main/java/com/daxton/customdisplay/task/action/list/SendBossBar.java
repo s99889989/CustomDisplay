@@ -61,67 +61,40 @@ public class SendBossBar {
 
     public void setSelfOther(){
 
-        for(String allString : new StringFind().getStringList(firstString)){
-            if(allString.toLowerCase().contains("function=") || allString.toLowerCase().contains("fc=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    function = strings[1];
-                }
-            }
 
-            if(allString.toLowerCase().contains("@=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    aims = strings[1];
-                }
-            }
+        function = new StringFind().getKeyValue(self,target,firstString,"[];","fc=","function=");
 
-            if(allString.toLowerCase().contains("style=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    style = Enum.valueOf(BarStyle.class , strings[1]);
-                }
-            }
-            if(allString.toLowerCase().contains("color=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    color = Enum.valueOf(BarColor.class , strings[1]);
-                }
-            }
-            if(allString.toLowerCase().contains("flag=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    flag = Enum.valueOf(BarFlag.class , strings[1]);
-                }
-            }
 
+        aims = new StringFind().getKeyValue(self,target,firstString,"[]; ","@=");
+        try {
+            style = Enum.valueOf(BarStyle.class , new StringFind().getKeyValue(self,target,firstString,"[];","style="));
+        }catch (Exception exception){
+            style = Enum.valueOf(BarStyle.class , "SOLID");
         }
 
-
-        for(String allString: new StringFind().getStringMessageList(firstString)){
-            if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    message = new ConversionMain().valueOf(self,target,strings[1]);;
-                }
-            }
-            if(allString.toLowerCase().contains("progress=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    if(target != null){
-                        try {
-                            progress = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-                        }catch (NumberFormatException exception){
-                            progress = 0;
-                        }
-                        if(progress > 1){
-                            progress = 0;
-                        }
-                    }
-
-                }
-            }
+        try {
+            color = Enum.valueOf(BarColor.class , new StringFind().getKeyValue(self,target,firstString,"[];","color="));
+        }catch (Exception exception){
+            color = Enum.valueOf(BarColor.class , "BLUE");
         }
+        try {
+            flag = Enum.valueOf(BarFlag.class , new StringFind().getKeyValue(self,target,firstString,"[];","flag="));
+        }catch (Exception exception){
+            flag = null;
+        }
+
+        message = new StringFind().getKeyValue(self,target,firstString,"[];","m=","message=");
+
+        try {
+            progress = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","progress="));
+        }catch (NumberFormatException exception){
+            progress = 0;
+        }
+        if(progress > 1){
+            progress = 0;
+        }
+
+        //cd.getLogger().info(function+" : "+aims+" : "+style+" : "+color+" : "+flag+" : "+message+" : "+progress);
 
         if(target instanceof Player & aims.toLowerCase().contains("target")){
             player = (Player) target;
@@ -191,6 +164,7 @@ public class SendBossBar {
 
                         List<String> skillAction = skillConfig.getStringList(skillName+".Action");
                         if(skillAction != null){
+                            PlayerDataMap.skill_Name_Map.put(uuidString+"."+x,skillName);
                             PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
                         }
 
@@ -203,6 +177,7 @@ public class SendBossBar {
                         /**把Skill動作存到Map**/
                         List<String> skillAction = skillConfig.getStringList(skillName+".Action");
                         if(skillAction != null){
+                            PlayerDataMap.skill_Name_Map.put(uuidString+"."+x,skillName);
                             PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
                         }
                     }

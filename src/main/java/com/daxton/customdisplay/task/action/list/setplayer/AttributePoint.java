@@ -67,22 +67,6 @@ public class AttributePoint {
 
         new PlayerAttributesPoint().setOneMap(player,type,amount);
 
-        String playerUUIDString = player.getUniqueId().toString();
-        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+playerUUIDString+"/"+playerUUIDString+".yml");
-        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-
-        int nowAttrPoint = playerConfig.getInt(playerUUIDString+".Attributes_Point."+type);
-
-        int newAttrPoint = nowAttrPoint + amount;
-        if(newAttrPoint < 0){
-            newAttrPoint = 0;
-        }
-        playerConfig.set(playerUUIDString+".Attributes_Point."+type,newAttrPoint);
-
-
-        new PlayerConfig(player).saveFile(playerConfig);
-
-
 
     }
 

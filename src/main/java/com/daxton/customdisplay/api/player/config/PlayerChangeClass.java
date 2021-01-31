@@ -83,12 +83,15 @@ public class PlayerChangeClass {
                 if(!(playerConfig.contains(uuidString+".Point."+point+"_last"))){
                     playerConfig.set(uuidString+".Point."+point+"_last",0);
                 }
-                playerConfig.set(uuidString+".Point."+point+"_max",0);
+                if(!(playerConfig.contains(uuidString+".Point."+point+"_max"))){
+                    playerConfig.set(uuidString+".Point."+point+"_max",0);
+                }
+
             }
         }
 
 
-        /**設定點數屬性**/
+        /**設定屬性點數**/
 
         for(String attr : classConfig.getStringList(className+".Attributes_Point")){
             FileConfiguration attrPointConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Point_"+attr+".yml");
