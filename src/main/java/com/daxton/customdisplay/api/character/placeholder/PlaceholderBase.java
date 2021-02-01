@@ -1,11 +1,14 @@
 package com.daxton.customdisplay.api.character.placeholder;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.entity.LivingEntity;
 
 import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 
 public class PlaceholderBase {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public PlaceholderBase(){
 
@@ -60,11 +63,13 @@ public class PlaceholderBase {
             if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>") != null){
                 outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>");
             }
+
         }
         if(inputString.toLowerCase().contains("<cd_base_damaged_number")){
             if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>") != null){
                 outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>");
             }
+            cd.getLogger().info(outputString);
         }
 
         return outputString;

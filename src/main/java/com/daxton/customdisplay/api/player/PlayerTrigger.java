@@ -103,6 +103,17 @@ public class PlayerTrigger {
             }
         }
     }
+    /**被攻擊時**/
+    public void onDamagedMiss(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~ondamagedmiss") != null){
+            for(String actionString : action_Trigger_Map.get("~ondamagedmiss")){
+                actionString = actionString.replace("~onDamagedMiss","");
+                runExecute(actionString);
+            }
+        }
+    }
     /**當回血時**/
     public void onRegainHealth(LivingEntity self){
         this.self = self;

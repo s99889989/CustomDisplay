@@ -71,6 +71,15 @@ public class PlayerAction {
                         action_Trigger_Map.get("~ondamaged").add(actionString);
                     }
                 }
+                /**被攻擊失敗時**/
+                if(actionString.toLowerCase().contains("~ondamagedmiss")){
+                    if(action_Trigger_Map.get("~ondamagedmiss") == null){
+                        action_Trigger_Map.put("~ondamagedmiss",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~ondamagedmiss") != null){
+                        action_Trigger_Map.get("~ondamagedmiss").add(actionString);
+                    }
+                }
                 /**當回血時**/
                 if(actionString.toLowerCase().contains("~onregainhealth")){
                     if(action_Trigger_Map.get("~onregainhealth") == null){
