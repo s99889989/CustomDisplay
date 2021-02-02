@@ -145,6 +145,7 @@ public class StringFind {
         String outPut = "null";
         if(itemIDStrings.length == 2){
             outPut = itemIDStrings[1];
+
             if(outPut.contains("&")){
                 outPut = new ConversionMain().valueOf(self,target,outPut);
             }

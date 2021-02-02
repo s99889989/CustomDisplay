@@ -34,13 +34,18 @@ public class PlayerPoint {
     /**設定單個點數**/
     public void setOneMap(Player player,String attrName,int amount){
 
-
         UUID uuid = player.getUniqueId();
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
         if(playerData != null){
             Map<String,String> point_Map = playerData.point_Map;
+
             if(!(point_Map.isEmpty()) && point_Map.size() > 0){
-                int nowValue = Integer.valueOf(point_Map.get(attrName));
+                int nowValue = 0;
+                try {
+                    nowValue = Integer.valueOf(point_Map.get(attrName));
+                }catch (NumberFormatException exception){
+                    nowValue = 0;
+                }
                 int newValue = nowValue + amount;
                 if(newValue >= 0){
                     point_Map.put(attrName,String.valueOf(newValue));

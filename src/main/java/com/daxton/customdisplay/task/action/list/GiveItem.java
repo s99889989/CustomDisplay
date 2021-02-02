@@ -112,6 +112,13 @@ public class GiveItem {
                         itemName = new ConversionMain().valueOf(self,target,itemName);
                         itemMeta.setDisplayName(itemName);
 
+
+
+
+                        /**物品CustomModelData**/
+                        int cmd = itemConfig.getInt(itemID+".CustomModelData");
+                        itemMeta.setCustomModelData(cmd);
+
                         /**物品Lore**/
                         List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
                         List<String> nextItemLore = new ArrayList<>();

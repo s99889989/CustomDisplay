@@ -37,8 +37,8 @@ public class PlayerDataMap {
     public static Map<String, Integer> cost_Delay_Count_Map = new HashMap<>();
     public static Map<String, Boolean> cost_Delay_Boolean_Map = new HashMap<>();
     /**技能CD時間**/
-    public static Map<String, BukkitRunnable> skill_Delay_Time_Map = new HashMap<>();
-    public static Map<String, Boolean> skill_Delay_Boolean_Map = new HashMap<>();
+    public static Map<String, BukkitRunnable> skill_Cool_Down_Run_Map = new HashMap<>();
+    public static Map<String, Boolean> skill_Cool_Down_Boolean_Map = new HashMap<>();
 
     /**技能綁定**/
     public static Map<String, List<String>> skill_Key_Map = new HashMap<>();

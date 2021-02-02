@@ -389,6 +389,16 @@ public class PlayerTrigger {
         }
     }
 
+    public void onSkill(LivingEntity self,LivingEntity target,List<String> action){
+        this.self = self;
+        this.target = target;
+        if(action.size() > 0){
+            for(String actionString : action){
+                runExecute(actionString);
+            }
+        }
+    }
+
     public void runExecute(String actionString){
         stop = false;
         taskID = String.valueOf((int)(Math.random()*100000));

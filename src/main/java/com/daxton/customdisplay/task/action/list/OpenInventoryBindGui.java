@@ -37,21 +37,22 @@ public class OpenInventoryBindGui {
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
         if(playerData != null){
             String uuidString = player.getUniqueId().toString();
+            if(!playerData.binds_Map.values().contains(skillNowName)){
+                int use = Integer.valueOf(playerData.skills_Map.get(skillNowName+"_use"));
+                int key = first - 26;
 
-            int use = Integer.valueOf(playerData.skills_Map.get(skillNowName+"_use"));
-            int key = first - 26;
+                playerData.binds_Map.put(key+"_skillName",skillNowName);
+                playerData.binds_Map.put(key+"_use",String.valueOf(use));
 
-            playerData.binds_Map.put(key+"_skillName",skillNowName);
-            playerData.binds_Map.put(key+"_use",String.valueOf(use));
+                Inventory inventory = ActionManager.getInventory_Map().get(taskID);
+                ItemStack customItem = inventory.getItem(13);
+                ItemMeta bindMeta = customItem.getItemMeta();
+                String itemName = bindMeta.getDisplayName().replace("(綁定1)","").replace("(綁定2)","").replace("(綁定3)","").replace("(綁定4)","").replace("(綁定5)","").replace("(綁定6)","").replace("(綁定7)","").replace("(綁定8)","");
 
-            Inventory inventory = ActionManager.getInventory_Map().get(taskID);
-            ItemStack customItem = inventory.getItem(13);
-            ItemMeta bindMeta = customItem.getItemMeta();
-            String itemName = bindMeta.getDisplayName().replace("(綁定1)","").replace("(綁定2)","").replace("(綁定3)","").replace("(綁定4)","").replace("(綁定5)","").replace("(綁定6)","").replace("(綁定7)","").replace("(綁定8)","");
-
-            bindMeta.setDisplayName(itemName+"(綁定"+key+")");
-            customItem.setItemMeta(bindMeta);
-            inventory.setItem(first,customItem);
+                bindMeta.setDisplayName(itemName+"(綁定"+key+")");
+                customItem.setItemMeta(bindMeta);
+                inventory.setItem(first,customItem);
+            }
 
         }
 
@@ -101,9 +102,11 @@ public class OpenInventoryBindGui {
             Iterator skillKeyList = playerData.skills_Map.keySet().iterator();
             while(skillKeyList.hasNext()){
                 String skillKey = (String) skillKeyList.next();
-                if(skillKey.contains("_level")){
-                    String skill = skillKey.replace("_level","");
-                    skillList.add(skill);
+                if(skillKey.contains("_use")){
+                    String skill = skillKey.replace("_use","");
+                    if(!playerData.skills_Map.get(skillKey).equals("0")){
+                        skillList.add(skill);
+                    }
                 }
             }
 

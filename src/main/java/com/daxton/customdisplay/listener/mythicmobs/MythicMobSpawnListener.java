@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.mob.MobConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.MobManager;
@@ -43,19 +44,11 @@ public class MythicMobSpawnListener implements Listener {
         LivingEntity killer = event.getKiller();
 
         Player player = null;
-        if(killer instanceof Player){
-            player = (Player) killer;
-        }
-        if(killer instanceof Parrot){
-            Parrot parrot = (Parrot) killer;
-            if(parrot.getOwner() != null && parrot.getOwner() instanceof Player){
-                player = ((Player) parrot.getOwner()).getPlayer();
-            }
-        }
+        player = EntityFind.convertKillerPlayer(killer);
 
 
         if(player != null){
-            //cd.getLogger().info(player.getName());
+
             String uuidString = player.getUniqueId().toString();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
             new PlayerTrigger(player).onMythicMobDeath(player,target);

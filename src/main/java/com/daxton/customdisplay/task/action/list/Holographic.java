@@ -5,14 +5,29 @@ import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.task.action.ClearAction;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class Holographic {
 
@@ -156,6 +171,9 @@ public class Holographic {
             if(function.toLowerCase().contains("addtextline") && hologram != null){
                 addLineHD();
             }
+            if(function.toLowerCase().contains("additemline") && hologram != null){
+                addItemHD();
+            }
             if(function.toLowerCase().contains("removetextline") && hologram != null){
                 removeLineHD();
             }
@@ -178,6 +196,16 @@ public class Holographic {
 
     public void addLineHD(){
         hologram.appendTextLine(message);
+    }
+
+    public void addItemHD(){
+        if(self instanceof Player){
+            Player player = (Player) self;
+            ItemStack newItemStack = giveItem(player,target, "LawTown");
+            hologram.appendItemLine(newItemStack);
+        }
+
+
     }
 
     public void removeLineHD(){
@@ -203,4 +231,138 @@ public class Holographic {
     public Hologram getHologram() {
         return hologram;
     }
+
+
+    public ItemStack giveItem(Player player,LivingEntity target, String itemID){
+        ItemStack newItemStack = new ItemStack(Material.SPONGE);
+
+       for(String configString : ConfigMapManager.getFileConfigurationNameMap().values()){
+           if(configString.contains("Items_")){
+               FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get(configString);
+               for (String itemKey : itemConfig.getKeys(false)){
+                   if(itemKey.equals(itemID)){
+
+                       /**物品材質**/
+                       String itemMaterial = itemConfig.getString(itemID+".Material");
+
+                       Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+                       ItemStack itemStack = new ItemStack(material);
+
+                       ItemMeta itemMeta = itemStack.getItemMeta();
+
+                       /**物品名稱**/
+                       String itemName = itemConfig.getString(itemID+".DisplayName");
+                       itemName = new ConversionMain().valueOf(player,target,itemName);
+                       itemMeta.setDisplayName(itemName);
+
+
+
+
+                       /**物品CustomModelData**/
+                       int cmd = itemConfig.getInt(itemID+".CustomModelData");
+                       itemMeta.setCustomModelData(cmd);
+
+                       /**物品Lore**/
+                       List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
+                       List<String> nextItemLore = new ArrayList<>();
+                       itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
+                       List<String> lastItemLore = new ArrayList<>();
+                       nextItemLore.forEach((line) -> { lastItemLore.add(ChatColor.GRAY + new ConversionMain().valueOf(self,target,line)); });
+                       itemMeta.setLore(lastItemLore);
+
+                       /**物品附魔**/
+                       List<String> itemEnchantment = itemConfig.getStringList(itemID+".Enchantments");
+                       itemEnchantment.forEach(s -> {
+                           String[] strings = s.split(":");
+                           if(strings.length == 2){
+                               Enchantment enchantment1 = Enchantment.getByName(strings[0]);
+                               //Enchantment enchantment1 = Enchantment.getByKey(new NamespacedKey(cd,strings[0]));
+                               itemMeta.addEnchant(enchantment1,Integer.valueOf(strings[1]),false);
+                           }
+                       });
+
+
+                       /**物品屬性**/
+                       try {
+                           List<String> attrList = new ArrayList<>(itemConfig.getConfigurationSection(itemID+".Attributes").getKeys(false));
+                           if(attrList != null){
+                               attrList.forEach(s -> {
+                                   itemConfig.getStringList(itemID+".Attributes."+s).forEach(s1 -> {
+                                       String[] attrValues = s1.split(":");
+                                       if(attrValues.length == 2){
+                                           if(s.toLowerCase().contains("all")){
+                                               itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrValues[0].toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), Double.valueOf(attrValues[1]), Enum.valueOf(AttributeModifier.Operation.class,"ADD_NUMBER")));
+                                           }else {
+                                               itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrValues[0].toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), Double.valueOf(attrValues[1]), Enum.valueOf(AttributeModifier.Operation.class,"ADD_NUMBER"), Enum.valueOf(EquipmentSlot.class,s.toUpperCase())));
+                                           }
+
+                                       }
+                                   });
+                               });
+                           }
+                       }catch (Exception exception){
+
+                       }
+
+                       /**設置無法破壞**/
+                       itemMeta.setUnbreakable(itemConfig.getBoolean(itemID+".Unbreakable"));
+
+                       /**設置無法附魔**/
+
+
+                       boolean flag = itemConfig.getBoolean(itemID+".HideItemFlags");
+                       if(flag){
+                           itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                           itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                           itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                           itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+                           itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+                           itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                           itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
+                       }
+
+
+                       itemStack.setItemMeta(itemMeta);
+
+                       if(itemMaterial.contains("PLAYER_HEAD")){
+                           SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+                           String headValue = itemConfig.getString(itemID+".HeadValue");
+                           if(headValue != null){
+                               if(headValue.length() < 50){
+                                   headValue = new ConversionMain().valueOf(player,target,headValue);
+                                   OfflinePlayer targetPlayer = player.getServer().getOfflinePlayer(headValue);
+                                   skullMeta.setOwningPlayer(targetPlayer);
+                                   itemStack.setItemMeta(skullMeta);
+                               }else {
+                                   try {
+                                       PlayerProfile playerProfile = Bukkit.createProfile(UUID.randomUUID(), null);
+                                       playerProfile.getProperties().add(new ProfileProperty("textures", headValue));
+                                       skullMeta.setPlayerProfile(playerProfile);
+                                       itemStack.setItemMeta(skullMeta);
+                                   }catch (Exception exception){
+                                       cd.getLogger().info("頭的值只能在paper伺服器使用。");
+                                       cd.getLogger().info("The value of the header can only be used on the paper server.");
+                                   }
+                               }
+
+                           }
+                       }
+
+
+                       newItemStack = itemStack;
+
+                   }
+               }
+
+           }
+       }
+
+
+
+
+        return newItemStack;
+
+    }
+
+
 }

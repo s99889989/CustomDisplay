@@ -1,16 +1,20 @@
 package com.daxton.customdisplay.api.player.damageformula;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
-import com.daxton.customdisplay.api.other.Arithmetic;
-import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.SendBossBar;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.SoundCategory;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -25,110 +29,172 @@ public class FormulaDelay {
 
     }
     /**技能CD**/
-    public void skillCD(Player player, int key){
+    public void skillCD(Player player,String skillName, int key){
         String uuidString = player.getUniqueId().toString();
         StringBuilder newString = new StringBuilder(new SendBossBar().getSkillMessage());
+        /**技能設定檔**/
+        FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillName+".yml");
+        /**技能獨立延遲時間**/
+        int coolDown = skillConfig.getInt(skillName+".CoolDown");
 
-
-        PlayerDataMap.skill_Delay_Time_Map.put(uuidString, new BukkitRunnable() {
-            int costCount = 12;
-            int start = 0;
-            int end = 1;
-            @Override
-            public void run() {
+        if(PlayerDataMap.skill_Cool_Down_Run_Map.get(uuidString+"."+key) == null){
+            PlayerDataMap.skill_Cool_Down_Run_Map.put(uuidString+"."+key, new BukkitRunnable() {
+                int costCount = 12;
+                int start = 0;
+                int end = 1;
+                @Override
+                public void run() {
 
 
                     start = (key)*2;
                     end = start+1;
 
 
-                if(costCount == 12){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃘").toString());
-                }
-                if(costCount == 11){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃗").toString());
-                }
-                if(costCount == 10){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃖").toString());
-                }
-                if(costCount == 9){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃕").toString());
-                }
-                if(costCount == 8){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃔").toString());
-                }
-                if(costCount == 7){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃓").toString());
-                }
-                if(costCount == 6){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃒").toString());
-                }
-                if(costCount == 5){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃑").toString());
-                }
-                if(costCount == 4){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃐").toString());
-                }
-                if(costCount == 3){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃏").toString());
-                }
-                if(costCount == 2){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃎").toString());
-                }
-                if(costCount == 1){
-                    new SendBossBar().setSkillBar(newString.replace(start,end,"䃍").toString());
-                    PlayerDataMap.skill_Delay_Boolean_Map.put(uuidString+"."+key,true);
-                    cancel();
-                }
-                costCount--;
+                    if(costCount == 12){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃘").toString());
+                    }
+                    if(costCount == 11){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃗").toString());
+                    }
+                    if(costCount == 10){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃖").toString());
+                    }
+                    if(costCount == 9){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃕").toString());
+                    }
+                    if(costCount == 8){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃔").toString());
+                    }
+                    if(costCount == 7){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃓").toString());
+                    }
+                    if(costCount == 6){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃒").toString());
+                    }
+                    if(costCount == 5){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃑").toString());
+                    }
+                    if(costCount == 4){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃐").toString());
+                    }
+                    if(costCount == 3){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃏").toString());
+                    }
+                    if(costCount == 2){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃎").toString());
+                    }
+                    if(costCount == 1){
+                        new SendBossBar().setSkillBar(newString.replace(start,end,"䃍").toString());
+                        PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+                        PlayerDataMap.skill_Cool_Down_Run_Map.remove(uuidString+"."+key);
+                        cancel();
+                    }
+                    costCount--;
 
-            }
-        });
-        PlayerDataMap.skill_Delay_Time_Map.get(uuidString).runTaskTimer(cd,0,2);
+                }
+            });
+            PlayerDataMap.skill_Cool_Down_Run_Map.get(uuidString+"."+key).runTaskTimer(cd,0,2*coolDown);
+        }
+
 
 
     }
 
     /**施法**/
-    public boolean setCost(Player player,String skillName, List<String> action){
-        boolean attack_speed = false;
+    public void setCost(Player player,LivingEntity inputTarget,String skillName, List<String> action,int targetDistance){
+
         String uuidString = player.getUniqueId().toString();
-        player.sendMessage(skillName);
-        player.getWorld().playSound(player.getLocation(), "skills_casttime", Enum.valueOf(SoundCategory.class , "PLAYERS"), 1, 1);
-        PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
-            //int count = PlayerDataMap.cost_Count_Map.get(uuidString);
-            double costCount = 0.0;
-            @Override
-            public void run() {
-                if(costCount >= 1.0){
-                    new PlayerTrigger(player).onGuiClick(player,action);
+        /**技能設定檔**/
+        FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillName+".yml");
+        /**技能施法時間**/
+        int castTime = skillConfig.getInt(skillName+".CastTime");
+        /**技能動作時間**/
+        int castDelay = skillConfig.getInt(skillName+".CastDelay");
 
-                    cancel();
-                    PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
-                        double costCount = 1.0;
-                        @Override
-                        public void run() {
-                            if(costCount >= 0.0){
-                                new SendBossBar().setSkillBarProgress(costCount);
-                                costCount = costCount-0.1;
-                            }else {
-                                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
-                                cancel();
-                            }
 
+        if(castTime == 0){
+            if(castDelay == 0){
+                LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+
+                new PlayerTrigger(player).onSkill(player,target,action);
+
+                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+            }else {
+                LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+
+                new PlayerTrigger(player).onSkill(player,target,action);
+
+                new SendBossBar().setSkillBarProgress(1);
+                PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+                    double costCount = 1.0;
+                    @Override
+                    public void run() {
+                        if(costCount >= 0.0){
+                            new SendBossBar().setSkillBarProgress(costCount);
+                            costCount = costCount-0.1;
+                        }else {
+                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                            cancel();
                         }
-                    });
-                    PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2);
-                }else {
 
-                    new SendBossBar().setSkillBarProgress(costCount);
-                    costCount = costCount+0.1;
-                }
-
+                    }
+                });
+                PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
             }
-        });
-        PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,4);
-        return attack_speed;
+
+        }else {
+            player.getWorld().playSound(player.getLocation(), "skills_casttime", Enum.valueOf(SoundCategory.class , "PLAYERS"), 1, 1);
+            Hologram hologram = HologramsAPI.createHologram(cd, inputTarget.getLocation().add(0,0.6,0));
+            ItemStack newItemStack = new Holographic().giveItem(player,inputTarget, "LawTown");
+            hologram.appendItemLine(newItemStack);
+
+            PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+                //int count = PlayerDataMap.cost_Count_Map.get(uuidString);
+                double costCount = 0.0;
+                @Override
+                public void run() {
+                    if(costCount >= 1.0){
+                        cancel();
+                        if(castDelay == 0){
+                            LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+                            hologram.delete();
+                            new PlayerTrigger(player).onSkill(player,target,action);
+                            new SendBossBar().setSkillBarProgress(0);
+                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                        }else {
+                            LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+                            hologram.delete();
+                            new PlayerTrigger(player).onSkill(player,target,action);
+                            PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+                                double costCount = 1.0;
+                                @Override
+                                public void run() {
+                                    if(costCount >= 0.0){
+                                        new SendBossBar().setSkillBarProgress(costCount);
+                                        costCount = costCount-0.1;
+                                    }else {
+                                        PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                                        cancel();
+                                    }
+
+                                }
+                            });
+                            PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
+                        }
+
+                    }else {
+                        hologram.teleport(inputTarget.getLocation().add(0,0.6,0));
+                        new SendBossBar().setSkillBarProgress(costCount);
+                        costCount = costCount+0.1;
+                    }
+
+                }
+            });
+            PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castTime);
+        }
+
+
+
     }
 
     /**攻擊速度**/

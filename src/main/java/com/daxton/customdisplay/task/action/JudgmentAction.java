@@ -187,7 +187,8 @@ public class JudgmentAction {
 
         /**ParabolicAttack的相關判斷**/
         if(judgMent.toLowerCase().contains("parabolicattack")){
-            new OrbitalAction().setParabolicAttack(self,target,firstString,taskID);
+
+            new OrbitalAction().setParabolicAttack(self,target,firstString,taskID+(Math.random()*100000));
         }
 
         /**Command的相關判斷**/

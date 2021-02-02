@@ -1,11 +1,15 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.player.*;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.list.SendBossBar;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -49,31 +53,67 @@ public class EquipmentListener implements Listener {
             if(cast){
                 List<String> action = PlayerDataMap.skill_Key_Map.get(uuidString+"."+key);
                 String skillName = PlayerDataMap.skill_Name_Map.get(uuidString+"."+key);
+
                 if(skillName != null && action != null && action.size() > 0){
-                    if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
-                        PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
-                    }
-                    if(PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key) == null){
-                        PlayerDataMap.skill_Delay_Boolean_Map.put(uuidString+"."+key,true);
-                    }
-                    if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null){
-                        boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
-                        if(costDelay){
-                            new FormulaDelay().setCost(player,skillName,action);
-                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
+                    /**技能設定檔**/
+                    FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillName+".yml");
+                    /**技能是否需要目標**/
+                    boolean needTarget = skillConfig.getBoolean(skillName+".NeedTarget");
+                    /**目標最遠距離**/
+                    int targetDistance = skillConfig.getInt(skillName+".TargetDistance");
+                    LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+                    if(needTarget){
+                        if(target != null){
+                            /**技能動作延遲初始化**/
+                            if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
+                                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                            }
+                            /**技能獨立延遲初始化**/
+                            if(PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
+                                PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+                            }
+                            /**技能動作延遲**/
+                            /**技能獨立延遲**/
+                            if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
+                                boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
+                                boolean coolDown = PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
+                                if(costDelay && coolDown){ //
+                                    PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
+                                    new FormulaDelay().setCost(player,target,skillName,action,targetDistance);
 
-                            if(PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key) != null){
-                                boolean skillDelay = PlayerDataMap.skill_Delay_Boolean_Map.get(uuidString+"."+key);
-                                if(skillDelay){
-                                    new FormulaDelay().skillCD(player,key);
-
-                                    PlayerDataMap.skill_Delay_Boolean_Map.put(uuidString+"."+key,false);
+                                    PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
+                                    new FormulaDelay().skillCD(player,skillName,key);
 
                                 }
                             }
 
                         }
+                    }else {
+                        /**技能動作延遲初始化**/
+                        if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
+                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                        }
+                        /**技能獨立延遲初始化**/
+                        if(PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
+                            PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+                        }
+                        /**技能動作延遲**/
+                        /**技能獨立延遲**/
+                        if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
+                            boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
+                            boolean coolDown = PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
+                            if(costDelay && coolDown){ //
+                                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
+                                new FormulaDelay().setCost(player,target,skillName,action,targetDistance);
+
+                                PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
+                                new FormulaDelay().skillCD(player,skillName,key);
+
+                            }
+                        }
                     }
+
+
                 }
             }
 

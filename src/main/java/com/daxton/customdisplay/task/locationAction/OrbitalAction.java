@@ -53,6 +53,7 @@ public class OrbitalAction extends BukkitRunnable{
     private double endX = 0;
     private double endY = 0;
     private double endZ = 0;
+    private double hitRange = 0.8;
     private boolean selfDead = true;
     private boolean targetDead = true;
 
@@ -78,142 +79,139 @@ public class OrbitalAction extends BukkitRunnable{
         this.taskID = taskID;
 
         startParabolicAttack(firstString);
+
     }
 
     public void startParabolicAttack(String firstString){
-        List<String> stringList = new StringFind().getStringList(firstString);
-        for(String string1 : stringList){
-            if(string1.toLowerCase().contains("onstart=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    onStart = strings[1];
-                }
-            }
 
-            if(string1.toLowerCase().contains("ontimehit=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    onTimeHit = strings[1];
-                }
-            }
+        /**如果自身死亡任務是否取消**/
+        selfDead = Boolean.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","selfdead="));
 
-            if(string1.toLowerCase().contains("ontime=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    onTime = strings[1];
-                }
-            }
+        /**如果目標死亡任務是否取消**/
+        targetDead = Boolean.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","targetdead="));
 
-            if(string1.toLowerCase().contains("onendhit=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    onEndHit = strings[1];
-                }
-            }
+        /**初始動作**/
+        onStart = new StringFind().getKeyValue(self,target,firstString,"[];","onstart=");
 
-            if(string1.toLowerCase().contains("onend=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    onEnd = strings[1];
-                }
-            }
+        /**過程中命中動作**/
+        onTimeHit = new StringFind().getKeyValue(self,target,firstString,"[];","ontimehit=");
 
-            if(string1.toLowerCase().contains("period=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    period = Integer.valueOf(strings[1]);
-                }
-            }
+        /**過程中動作**/
+        onTime = new StringFind().getKeyValue(self,target,firstString,"[];","ontime=");
 
-            if(string1.toLowerCase().contains("distance=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    distance = Double.valueOf(strings[1]);
-                }
-            }
+        /**最後命中動作**/
+        onEndHit = new StringFind().getKeyValue(self,target,firstString,"[];","onendhit=");
 
-            if(string1.toLowerCase().contains("duration=")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    duration = Integer.valueOf(strings[1]);
-                }
-            }
+        /**最後動作**/
+        onEnd = new StringFind().getKeyValue(self,target,firstString,"[];","onend=");
 
-            if(string1.toLowerCase().contains("startlocadd")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    String[] strings1 = strings[1].split("|");
-                    if(strings1.length == 3){
-                        try {
-                            startX = Double.valueOf(strings1[0]);
-                            startY = Double.valueOf(strings1[1]);
-                            startX = Double.valueOf(strings1[2]);
-                        }catch (NumberFormatException exception){
-                            startX = 0;
-                            startY = 0;
-                            startX = 0;
-                        }
-                    }
-                }
-            }
-            if(string1.toLowerCase().contains("endlocadd")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    String[] strings1 = strings[1].split("|");
-                    if(strings1.length == 3){
-                        try {
-                            endX = Double.valueOf(strings1[0]);
-                            endY = Double.valueOf(strings1[1]);
-                            endX = Double.valueOf(strings1[2]);
-                        }catch (NumberFormatException exception){
-                            endX = 0;
-                            endY = 0;
-                            endX = 0;
-                        }
-                    }
-                }
-            }
-            if(string1.toLowerCase().contains("selfdead")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    selfDead = Boolean.valueOf(strings[1]);
-                }
-            }
-            if(string1.toLowerCase().contains("targetdead")){
-                String[] strings = string1.split("=");
-                if(strings.length == 2){
-                    targetDead = Boolean.valueOf(strings[1]);
-                }
+        /**執行間隔時間**/
+        try {
+            period = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","period="));
+        }catch (NumberFormatException exception){
+            period = 0;
+        }
+
+        /**目標最遠距離**/
+        try {
+            distance = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","distance="));
+        }catch (NumberFormatException exception){
+            distance = 1;
+        }
+
+        /**命中判定範圍**/
+        try {
+            hitRange = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","hitrange="));
+        }catch (NumberFormatException exception){
+            hitRange = 0.8;
+        }
+
+        /**此動作要持續多久**/
+        try {
+            duration = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","duration="));
+        }catch (NumberFormatException exception){
+            duration = 20;
+        }
+
+        /**技能運行速度**/
+        try {
+            speed = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","speed="));
+        }catch (NumberFormatException exception){
+            speed = 20;
+        }
+
+        /**終點座標偏移**/
+        String endlocadd = new StringFind().getKeyValue(self,target,firstString,"[];","endlocadd=");
+        String[] endlocadds = endlocadd.split("\\|");
+        if(endlocadds.length == 3){
+            try {
+                endX = Double.valueOf(endlocadds[0]);
+                endY = Double.valueOf(endlocadds[1]);
+                endZ = Double.valueOf(endlocadds[2]);
+            }catch (NumberFormatException exception){
+                endX = 0;
+                endY = 0;
+                endZ = 0;
             }
         }
+
+        /**起始座標偏移**/
+        String startlocadd = new StringFind().getKeyValue(self,target,firstString,"[];","startlocadd=");
+        String[] startlocadds = startlocadd.split("\\|");
+        if(startlocadds.length == 3){
+            try {
+                startX = Double.valueOf(startlocadds[0]);
+                startY = Double.valueOf(startlocadds[1]);
+                startZ = Double.valueOf(startlocadds[2]);
+            }catch (NumberFormatException exception){
+                startX = 0;
+                startY = 0;
+                startZ = 0;
+            }
+        }
+
+
         if(target == null){
             this.target = (LivingEntity) new EntityFind().getTarget(self,10);
         }
 
+        startX = startX*self.getEyeLocation().getDirection().getX();
+        startZ = startZ*self.getEyeLocation().getDirection().getZ();
+        //cd.getLogger().info(startX+" : "+startY+" : "+startZ);
+        startLocation = self.getLocation().add(startX, startY, startZ);
 
-        startLocation = self.getLocation().add(0.0, self.getHeight(), 0.0);
         if(target == null){
-
             targetLocation = distanceDirection(self,distance,self.getHeight());
         }else {
-
-            //targetLocation = distanceDirection(self,20,self.getHeight());
-            targetLocation = target.getLocation().add(0.0, target.getHeight(), 0.0);
+            targetLocation = target.getLocation().add(endX, endY, endZ);
         }
+
 
         fLocation = (floc) ->{return floc;};
         vec = randomVector(self);
-        speed = 10;
 
-        actionRun(onStart,startLocation,target);
 
-        runTaskTimer(cd, 0L, period);
+        if(target != null){
+            actionRun(onStart,startLocation,target);
+
+            runTaskTimer(cd, 0L, period);
+        }
+
     }
 
     public void run() {
+        if(selfDead && self.isDead()){
+            actionRun(onEnd,targetLocation,target);
+            cancel();
+        }
+        if(targetDead && target.isDead()){
+            actionRun(onEnd,targetLocation,target);
+            cancel();
+        }
+
         j++;
         for(int k = 0; k < 1; ++k) {
-            double c = Math.min(1.0D, (double) j / duration);
+            double c = Math.min(1.0D, (double) j / speed);
             //Location location = fLocation.apply(startLocation.add(targetLocation.clone().subtract(startLocation).toVector().normalize().multiply(c).add(vec.clone().multiply(1.0D - c))));
             Location location = fLocation.apply(startLocation.add(targetLocation.clone().subtract(startLocation).toVector().normalize().multiply(c).add(vec.multiply(1.0D - c))));
             actionRun(onTime,location,target);
@@ -228,12 +226,14 @@ public class OrbitalAction extends BukkitRunnable{
             }
         }
 
-        if(target != null && startLocation.distanceSquared(target.getLocation().add(0.0, target.getHeight() / 2.0, 0.0)) < 0.8D){
+
+
+        if(target != null && startLocation.distanceSquared(target.getLocation().add(endX, endY, endZ)) < hitRange){
 
             actionRun(onEndHit,targetLocation,target);
 
             cancel();
-        }else if(j > duration || startLocation.distanceSquared(targetLocation) < 0.8D){
+        }else if(j > duration || startLocation.distanceSquared(target.getLocation().add(endX, endY, endZ)) < hitRange){
 
             actionRun(onEnd,targetLocation,target);
 

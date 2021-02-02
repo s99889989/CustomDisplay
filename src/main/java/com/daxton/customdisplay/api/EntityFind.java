@@ -15,6 +15,7 @@ public class EntityFind {
 
     }
 
+    /**把一些攻擊轉換成玩家**/
     public static Player convertPlayer(Entity entity){
         Player player = null;
         if(entity instanceof Player){
@@ -48,6 +49,62 @@ public class EntityFind {
 
         return player;
     }
+
+    /**把寵物殺死的目標轉換為玩家**/
+    public static Player convertKillerPlayer(LivingEntity killer){
+        Player player = null;
+        if(killer instanceof Player){
+            player = ((Player) killer).getPlayer();
+            return player;
+        }
+        if(killer instanceof Parrot){
+            Parrot parrot = (Parrot) killer;
+            if(parrot.getOwner() != null && parrot.getOwner() instanceof Player){
+                player = ((Player) parrot.getOwner()).getPlayer();
+                return player;
+            }
+        }
+
+        if(killer instanceof Cat){
+            Cat cat = (Cat) killer;
+            if(cat.getOwner() != null && cat.getOwner() instanceof Player){
+                player = ((Player) cat.getOwner()).getPlayer();
+                return player;
+            }
+        }
+        if(killer instanceof Donkey){
+            Donkey donkey = (Donkey) killer;
+            if(donkey.getOwner() != null && donkey.getOwner() instanceof Player){
+                player = ((Player) donkey.getOwner()).getPlayer();
+                return player;
+            }
+        }
+        if(killer instanceof Mule){
+            Mule mule = (Mule) killer;
+            if(mule.getOwner() != null && mule.getOwner() instanceof Player){
+                player = ((Player) mule.getOwner()).getPlayer();
+                return player;
+            }
+        }
+        if(killer instanceof Llama){
+            Llama llama = (Llama) killer;
+            if(llama.getOwner() != null && llama.getOwner() instanceof Player){
+                player = ((Player) llama.getOwner()).getPlayer();
+                return player;
+            }
+        }
+        if(killer instanceof ZombieHorse){
+
+            ZombieHorse zombieHorse = (ZombieHorse) killer;
+            if(zombieHorse.getOwner() != null && zombieHorse.getOwner() instanceof Player){
+                player = ((Player) zombieHorse.getOwner()).getPlayer();
+                return player;
+            }
+        }
+
+        return player;
+    }
+
 
     public static Player crackShotPlayer(Entity entity){
         Player player = null;

@@ -18,17 +18,17 @@ public class Test {
 
 
     public static void main(String[] args){
-        String inputString = "{#f77703}劍";
+        String inputString = "10|5|10";
+        String[] startlocadds = inputString.split("\\|");
+        for (String s : startlocadds){
+            System.out.println(s);
+        }
+        if(startlocadds.length == 5){
 
-        String key1 = inputString.substring(2,3);
-        String key2 = inputString.substring(3,4);
-        String key3 = inputString.substring(4,5);
-        String key4 = inputString.substring(5,6);
-        String key5 = inputString.substring(6,7);
-        String key6 = inputString.substring(7,8);
-        inputString = "§x§"+key1+"§"+key2+"§"+key3+"§"+key4+"§"+key5+"§"+key6;
+            System.out.println(startlocadds[0]+" : "+startlocadds[2]+" : "+startlocadds[4]);
 
-        System.out.println(inputString);
+        }
+
 
     }
 

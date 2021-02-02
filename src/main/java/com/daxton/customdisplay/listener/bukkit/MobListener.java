@@ -75,22 +75,22 @@ public class MobListener implements Listener {
 
         String entityType = event.getEntityType().toString();
 
-        Player player = EntityFind.convertPlayer(target.getKiller());
-        if(player != null){
+        if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+            EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
+
+            Player player = null;
+            if(nEvent.getDamager() instanceof LivingEntity){
+                player = EntityFind.convertKillerPlayer((LivingEntity) nEvent.getDamager());
+            }else {
+                player = EntityFind.convertPlayer(nEvent.getDamager());
+            }
+            if(player != null){
+
                 String uuidString = player.getUniqueId().toString();
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_kill_mob_type>",entityType);
                 new PlayerTrigger(player).onMobDeath(player,target);
+            }
         }
-
-//        if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
-//            EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
-//            Player player = EntityFind.convertPlayer(nEvent.getDamager());
-//            if(player != null){
-//                String uuidString = player.getUniqueId().toString();
-//                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_kill_mob_type>",entityType);
-//                new PlayerTrigger(player).onMobDeath(player,target);
-//            }
-//        }
 
     }
 
