@@ -1,7 +1,6 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -126,13 +125,13 @@ public class SendBossBar {
 
         FileConfiguration skillStatusConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Status.yml");
         /**主手顯示**/
-        String main_Hand_1_8 = skillStatusConfig.getString("Skill_Status.Main_Hand.18");
-        String main_Hand_9 = skillStatusConfig.getString("Skill_Status.Main_Hand.9");
-        /**技能空格顯示**/
-        String skill_Blank = skillStatusConfig.getString("Skill_Status.Skill_Blank");
-        /**技能背景顯示**/
-        String skill_Back_18 = skillStatusConfig.getString("Skill_Status.Skill_Back.18");
-        String skill_Back_9 = skillStatusConfig.getString("Skill_Status.Skill_Back.9");
+        String main_Hand_1_8 = skillStatusConfig.getString("BossBar1.Main_Hand.18");
+        String main_Hand_9 = skillStatusConfig.getString("BossBar1.Main_Hand.9");
+        /**技能間隔顯示**/
+        String skill_Blank = skillStatusConfig.getString("BossBar1.Skill_Blank");
+        /**技能空顯示**/
+        String skill_Null_18 = skillStatusConfig.getString("BossBar1.Skill_Null.18");
+        String skill_Null_9 = skillStatusConfig.getString("BossBar1.Skill_Null.9");
 
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
@@ -184,9 +183,9 @@ public class SendBossBar {
 
                 }else {
                     if(i == 8){
-                        skillNameString = skillNameString + skill_Back_9;
+                        skillNameString = skillNameString + skill_Null_9;
                     }else {
-                        skillNameString = skillNameString + skill_Back_18;
+                        skillNameString = skillNameString + skill_Null_18;
                     }
                 }
 
@@ -198,12 +197,25 @@ public class SendBossBar {
 
             }
 
+            /**技能第一行樣式**/
+            /**顏色**/
+            String bossBar1_BarColor = skillStatusConfig.getString("BossBar1.BarColor");
+            /**樣式**/
+            String bossBar1_BarStyle = skillStatusConfig.getString("BossBar1.BarStyle");
+            /**進度條**/
+            double bossBar1_Progress = skillStatusConfig.getDouble("BossBar1.Progress");
 
-            skillBar = Bukkit.createBossBar(skillNameString, Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_10"));
-            skillBar.setProgress(0);
+            skillBar = Bukkit.createBossBar(skillNameString, Enum.valueOf(BarColor.class , bossBar1_BarColor), Enum.valueOf(BarStyle.class , bossBar1_BarStyle));
+            skillBar.setProgress(bossBar1_Progress);
             skillBar.addPlayer(player);
-
-            skillBar0 = Bukkit.createBossBar("䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍\uF822䃍", Enum.valueOf(BarColor.class , "BLUE"), Enum.valueOf(BarStyle.class , "SEGMENTED_20"));
+            /**技能第二行樣式**/
+            /**內容**/
+            String bossBar2_Title = skillStatusConfig.getString("BossBar2.Title");
+            /**顏色**/
+            String bossBar2_BarColor = skillStatusConfig.getString("BossBar2.BarColor");
+            /**樣式**/
+            String bossBar2_BarStyle = skillStatusConfig.getString("BossBar2.BarStyle");
+            skillBar0 = Bukkit.createBossBar(bossBar2_Title, Enum.valueOf(BarColor.class , bossBar2_BarColor), Enum.valueOf(BarStyle.class , bossBar2_BarStyle));
             skillBar0.setProgress(0);
             skillBar0.addPlayer(player);
         }

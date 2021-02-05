@@ -192,9 +192,13 @@ public class LocationParticles {
 
 
 
-        sendParticle();
 
 
+        if(function.toLowerCase().contains("circular")){
+            sendParticleCircular();
+        }else {
+            sendParticle();
+        }
 
 
     }
@@ -204,6 +208,23 @@ public class LocationParticles {
                 self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,color);
             }else {
                 target.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra);
+            }
+        }catch (Exception e){
+            //cd.getLogger().info(e.toString());
+        }
+
+    }
+
+    public void sendParticleCircular(){
+        try{
+            if(putParticle == REDSTONE){
+
+                self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,color);
+
+            }else {
+
+                target.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra);
+
             }
         }catch (Exception e){
             //cd.getLogger().info(e.toString());

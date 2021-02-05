@@ -44,7 +44,7 @@ public class OpenInventory {
     private int amount = 27;
 
 
-    private String skillNowName = "";
+    private String skillNowName = "null";
     private int next = 0;
 
     private Map<Integer,Integer> RawSlot = new HashMap<>();

@@ -33,6 +33,9 @@ public class PlaceholderSelf {
             if(key.toLowerCase().contains("<cd_mythic_")){
                 outputString = new PlaceholderMythic().valueOf(entity,key);
             }
+            if(key.toLowerCase().contains("<cd_modelengine_")){
+                outputString = new PlaceholderModelEngine().valueOf(entity,key);
+            }
         }
         return outputString;
     }

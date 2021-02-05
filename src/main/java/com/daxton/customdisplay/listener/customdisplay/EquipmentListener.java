@@ -102,7 +102,7 @@ public class EquipmentListener implements Listener {
                         if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
                             boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
                             boolean coolDown = PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
-                            if(costDelay && coolDown){ //
+                            if(costDelay && coolDown){
                                 PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
                                 new FormulaDelay().setCost(player,target,skillName,action,targetDistance);
 

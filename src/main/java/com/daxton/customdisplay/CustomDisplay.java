@@ -13,6 +13,7 @@ import com.daxton.customdisplay.listener.crackshot.CrackShotListener;
 import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmocore.MMOCoreListener;
 import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
+import com.daxton.customdisplay.listener.modelengine.ModelEngineListener;
 import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
 import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
@@ -76,6 +77,10 @@ public final class CustomDisplay extends JavaPlugin {
         if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
             Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
             getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
+        }
+        if (Bukkit.getServer().getPluginManager().getPlugin("ModelEngine") != null){
+            Bukkit.getPluginManager().registerEvents(new ModelEngineListener(),customDisplay);
+            getLogger().info(ChatColor.GREEN+"Loaded ModelEngine");
         }
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         configManager = new ConfigManager(customDisplay);

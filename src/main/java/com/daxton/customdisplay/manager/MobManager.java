@@ -14,4 +14,7 @@ public class MobManager {
     /**用UUID字串+屬性名稱，儲存值**/
     public static Map<String,String> mythicMobs_Attr_Map = new HashMap<>();
 
+    /**ModelEngine資料**/
+    public static Map<String,String> modelengine_Map = new HashMap<>();
+
 }
