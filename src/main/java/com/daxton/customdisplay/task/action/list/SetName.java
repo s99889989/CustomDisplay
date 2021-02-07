@@ -110,7 +110,7 @@ public class SetName {
     public void sendMetadataPacket() {
 
         message = new ConversionMain().valueOf(self,target,message);
-        cd.getLogger().info(message);
+
         PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());
         WrappedDataWatcher watcher = new WrappedDataWatcher();

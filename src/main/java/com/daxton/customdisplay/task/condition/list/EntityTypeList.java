@@ -32,12 +32,6 @@ public class EntityTypeList {
         setOther();
     }
 
-    public EntityTypeList(LivingEntity target ,String firstString){
-        this.target = target;
-        this.firstString = firstString;
-        setOther();
-    }
-
     public void setOther(){
         for(String string : new StringFind().getStringList(firstString)){
 

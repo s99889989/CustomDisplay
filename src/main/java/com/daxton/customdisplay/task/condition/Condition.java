@@ -50,6 +50,10 @@ public class Condition {
             b = new EntityTypeList(self,target,firstString,taskID).get();
         }
 
+        if(firstString.toLowerCase().contains("mythictypelist=")){
+            b = new MythicMobTypeList().valueOf(self,target,firstString,taskID);
+        }
+
         if(firstString.toLowerCase().contains("entitytype=")){
             b = new EntityType(self,target,firstString,taskID).get();
         }

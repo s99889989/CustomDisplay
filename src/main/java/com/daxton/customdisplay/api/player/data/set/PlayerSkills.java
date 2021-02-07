@@ -31,7 +31,7 @@ public class PlayerSkills {
             if(!(attrStatsList.isEmpty()) && attrStatsList.size() > 0){
                 for(String attrName : attrStatsList){
                     int level = playerConfig.getInt(uuidString+".Skills."+attrName+".level");
-                    int use = playerConfig.getInt(uuidString+".Skills."+attrName+".level");
+                    int use = playerConfig.getInt(uuidString+".Skills."+attrName+".use");
                     point_Map.put(attrName+"_level",String.valueOf(level));
                     point_Map.put(attrName+"_use",String.valueOf(use));
 
@@ -51,13 +51,16 @@ public class PlayerSkills {
         if(playerData != null){
             Map<String,String> skills_Map = playerData.skills_Map;
             if(!(skills_Map.isEmpty()) && skills_Map.size() > 0){
-                int nowValue = Integer.valueOf(skills_Map.get(attrName));
-                int newValue = nowValue + amount;
-                if(newValue >= 0){
-                    skills_Map.put(attrName,String.valueOf(newValue));
+                try {
+                    int nowValue = Integer.valueOf(skills_Map.get(attrName));
+                    int newValue = nowValue + amount;
+                    if(newValue >= 0){
+                        skills_Map.put(attrName,String.valueOf(newValue));
+
+                    }
+                }catch (NumberFormatException exception){
 
                 }
-
             }
 
         }

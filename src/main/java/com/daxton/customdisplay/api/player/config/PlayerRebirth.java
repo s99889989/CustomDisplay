@@ -55,17 +55,22 @@ public class PlayerRebirth {
                 ConfigurationSection levelSec = levelConfig.getConfigurationSection("Exp-Amount");
                 List<String> levelList = null;
                 String maxLevelString = "";
+                int mineLevel = 0;
+
                 int maxLevel = 0;
+
                 try {
                     levelList = new ArrayList<>(levelSec.getKeys(false));
                     maxLevelString = levelList.get(levelList.size()-1);
                     maxLevel = Integer.valueOf(maxLevelString);
+                    String minLevelString = levelList.get(0);
+                    mineLevel = Integer.valueOf(minLevelString);
                 }catch (NullPointerException exception){
 
                 }
                 int maxExp = levelConfig.getInt("Exp-Amount.1");
 
-                playerConfig.set(uuidString+".Level."+key+"_level_now",1);
+                playerConfig.set(uuidString+".Level."+key+"_level_now",mineLevel);
 
                 playerConfig.set(uuidString+".Level."+key+"_level_max",maxLevel);
 

@@ -25,15 +25,17 @@ public class MobConfig {
 
     }
 
-    public void setMod(ActiveMob activeMob){
+    public void setMod(ActiveMob activeMob,double mobLevel){
         String mobID = activeMob.getMobType();
         String uuidString = activeMob.getUniqueId().toString();
-        String mobLevel = String.valueOf(activeMob.getLevel());
+
+
+
 
         /**用UUID字串儲存MMID**/
         MobManager.mythicMobs_mobID_Map.put(uuidString,mobID);
         /**用UUID字串儲存MMID**/
-        MobManager.mythicMobs_Level_Map.put(uuidString,mobLevel);
+        MobManager.mythicMobs_Level_Map.put(uuidString,String.valueOf(mobLevel));
 
         File mobFilePatch = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");
         FileConfiguration mobConfig;

@@ -1,20 +1,26 @@
 package com.daxton.customdisplay.task.action.list;
 
+import com.comphenix.protocol.wrappers.BlockPosition;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+
+import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
 import static org.bukkit.Color.*;
-import static org.bukkit.Particle.REDSTONE;
+import static org.bukkit.Particle.*;
 
 public class SendParticles {
 
@@ -27,6 +33,8 @@ public class SendParticles {
     private String function = "";
     private Particle putParticle;
     private Particle inParticle;
+    private BlockData blockData;
+    private ItemStack itemData;
     private Particle.DustOptions color = new Particle.DustOptions(fromRGB(0xFF0000), 1);
     private Location location = new Location(Bukkit.getWorld("world"),0,0,0);
     private String aims = "";
@@ -56,167 +64,103 @@ public class SendParticles {
     }
 
     public void stringSetting(String firstString){
-        cd.getLogger().info(firstString);
+
         /**獲得功能**/
         function = new StringFind().getKeyValue(self,target,firstString,"[];","fc=","function=");
+        /**目標**/
+        aims = new StringFind().getKeyValue(self,target,firstString,"[];","@=");
+        /**粒子名稱**/
+        try{
+            putParticle = Enum.valueOf(Particle.class,new StringFind().getKeyValue(self,target,firstString,"[];","particle=").toUpperCase());
+        }catch (Exception exception){
+            putParticle = REDSTONE;
+        }
+        /**粒子的方塊材質**/
+        try {
+            blockData = Enum.valueOf(Material.class,new StringFind().getKeyValue(self,target,firstString,"[];","particledata=","pdata=").toUpperCase()).createBlockData();
+        }catch (Exception exception){
+            blockData = Material.REDSTONE_BLOCK.createBlockData();
+        }
+        /**粒子的物品材質**/
+        try {
+            itemData = new ItemStack(Enum.valueOf(Material.class,new StringFind().getKeyValue(self,target,firstString,"[];","particledata=","pdata=").toUpperCase()));
+        }catch (Exception exception){
+            itemData = new ItemStack(Material.COOKIE);
+        }
+        /**粒子的顏色**/
+        try{
+            BigInteger bigint = new BigInteger(new StringFind().getKeyValue(self,target,firstString,"[];","particledata=","pdata="), 16);
+            int numb = bigint.intValue();
+            color = new Particle.DustOptions(fromRGB(numb), 1);
+        }catch (NumberFormatException exception){
+            BigInteger bigint = new BigInteger("FF0000", 16);
+            int numb = bigint.intValue();
+            color = new Particle.DustOptions(fromRGB(numb), 1);
+        }
+        /**粒子的速度**/
+        extra = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","extra="));
+        /**粒子的數量**/
+        count = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","count="));
+        /**粒子中心點位置**/
+        String locAdd = new StringFind().getKeyValue(self,target,firstString,"[];","locationadd=","locadd=");
+        String[] locAdds = locAdd.split("\\|");
+        if(locAdds.length == 3){
+            try {
+                x = Double.valueOf(locAdds[0]);
+                y = Double.valueOf(locAdds[1]);
+                z = Double.valueOf(locAdds[2]);
+            }catch (NumberFormatException exception){
+                x = 0;
+                y = 0;
+                z = 0;
+            }
+        }
+        /**粒子擴散**/
+        String locOff = new StringFind().getKeyValue(self,target,firstString,"[];","locationoffset=","locoff=");
+        String[] locOffs = locOff.split("\\|");
+        if(locOffs.length == 3){
+            try {
+                xOffset = Double.valueOf(locAdds[0]);
+                yOffset = Double.valueOf(locAdds[1]);
+                zOffset = Double.valueOf(locAdds[2]);
+            }catch (NumberFormatException exception){
+                xOffset = 0;
+                yOffset = 0;
+                zOffset = 0;
+            }
+        }
 
-//        List<String> stringList = new StringFind().getStringList(firstString);
-//        for(String allString : stringList) {
-//
-//            if(allString.toLowerCase().contains("@=")){
-//                String[] strings = allString.split("=");
-//                if(strings.length == 2){
-//                    aims = strings[1];
-//                }
-//            }
-//            if (allString.toLowerCase().contains("particle=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        putParticle = Enum.valueOf(Particle.class,strings[1].toUpperCase());
-//                    }catch (Exception exception){
-//
-//                    }
-//
-//                }
-//            }
-//            if (allString.toLowerCase().contains("color=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//
-//
-//                    try{
-//                        BigInteger bigint = new BigInteger(strings[1], 16);
-//                        int numb = bigint.intValue();
-//                        color = new Particle.DustOptions(fromRGB(numb), 1);
-//                    }catch (NumberFormatException exception){
-//                        //cd.getLogger().info("color錯誤"+strings[1]);
-//                    }
-//                }
-//            }
-//            if (allString.toLowerCase().contains("extra=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        extra = Double.valueOf(strings[1]);
-//                    }catch (NumberFormatException exception){
-//                        //cd.getLogger().info("extra錯誤");
-//                    }
-//
-//                }
-//            }
-//            if (allString.toLowerCase().contains("count=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        count = Integer.valueOf(strings[1]);
-//                    }catch (NumberFormatException exception){
-//                        //cd.getLogger().info("count錯誤"+strings[1]);
-//                    }
-//
-//                }
-//            }
-//
-//        }
-//
-//        for(String allString : new StringFind().getStringMessageList(firstString)){
-//            if (allString.toLowerCase().contains("x=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        x = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-//                    }catch (NumberFormatException exception){
-//                        //cd.getLogger().info("x錯誤");
-//                    }
-//
-//                }
-//            }
-//            if (allString.toLowerCase().contains("y=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        y = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-//                    }catch (NumberFormatException exception){
-//                        //cd.getLogger().info("y錯誤");
-//                    }
-//
-//                }
-//            }
-//            if (allString.toLowerCase().contains("z=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        z = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-//                    }catch (NumberFormatException exception){
-//                        //cd.getLogger().info("z錯誤");
-//                    }
-//
-//                }
-//            }
-//            if (allString.toLowerCase().contains("xoffset=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        xOffset = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-//                    }catch (NumberFormatException exception){
-//                       // cd.getLogger().info("xOffset錯誤");
-//                    }
-//
-//                }
-//            }
-//            if (allString.toLowerCase().contains("yoffset=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        yOffset = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-//                    }catch (NumberFormatException exception){
-//                       // cd.getLogger().info("yOffset錯誤");
-//                    }
-//
-//                }
-//            }
-//            if (allString.toLowerCase().contains("zoffset=")) {
-//                String[] strings = allString.split("=");
-//                if (strings.length == 2) {
-//                    try{
-//                        zOffset = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-//                    }catch (NumberFormatException exception){
-//                       // cd.getLogger().info("zOffset錯誤");
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//        if(aims.toLowerCase().contains("target")){
-//            if(putParticle != null){
-//                String particle = putParticle.toString().toLowerCase();
-//                PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"particle",particle);
-//            }
-//            PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"function",function);
-//            location = target.getLocation().add(x,y,z);
-//        }else if(aims.toLowerCase().contains("self")){
-//            if(putParticle != null){
-//                String particle = putParticle.toString().toLowerCase();
-//                PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"particle",particle);
-//            }
-//            PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"function",function);
-//            location = self.getLocation().add(x,y,z);
-//        }else if(aims.toLowerCase().contains("world")){
-//            location = new Location(self.getWorld(),x,y,z);
-//        }else {
-//            location = location.add(x,y,z);
-//        }
-//
-//        if(function.toLowerCase().contains("remove")){
-//
-//        }else if(function.toLowerCase().contains("add")){
-//            sendParticle();
-//        }else if(function.toLowerCase().contains("circular")){
-//            sendParticleCircular();
-//        } else {
-//            sendParticle();
-//        }
+
+
+        if(aims.toLowerCase().contains("target")){
+            if(putParticle != null){
+                String particle = putParticle.toString().toLowerCase();
+                PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"particle",particle);
+            }
+            PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"function",function);
+            location = target.getLocation().add(x,y,z);
+        }else if(aims.toLowerCase().contains("self")){
+            if(putParticle != null){
+                String particle = putParticle.toString().toLowerCase();
+                PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"particle",particle);
+            }
+            PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"function",function);
+            location = self.getLocation().add(x,y,z);
+        }else if(aims.toLowerCase().contains("world")){
+            location = new Location(self.getWorld(),x,y,z);
+        }else {
+            location = location.add(x,y,z);
+        }
+
+        if(function.toLowerCase().contains("remove")){
+
+        }else if(function.toLowerCase().contains("add")){
+            sendParticle();
+        }else if(function.toLowerCase().contains("circular")){
+            sendParticleCircular();
+        } else {
+            sendParticle();
+        }
 
     }
     /**單點**/
@@ -224,33 +168,63 @@ public class SendParticles {
         try{
             if(putParticle == REDSTONE){
                 self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,color);
-            }else {
-                target.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra);
+            }else if(putParticle == BLOCK_CRACK || putParticle == BLOCK_DUST){
+                self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,blockData);
+            }else if(putParticle == ITEM_CRACK ){
+                self.getWorld().spawnParticle(ITEM_CRACK, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,itemData);
+            } else {
+                self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra);
             }
         }catch (Exception e){
-            //cd.getLogger().info(e.toString());
+
         }
 
 
     }
+
+
+
     /**圓圈**/
     public void sendParticleCircular(){
         cd.getLogger().info("圓圈");
         try{
             if(putParticle == REDSTONE){
+                List<Location> circleList = circle(location.add(x, y, z),10,0,true,true,0);
+                for(Location location1 : circleList){
+                    self.getWorld().spawnParticle(putParticle, location1, count, xOffset, yOffset, zOffset, extra,color);
+                }
 
-                self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,color);
-
-            }else {
-
-                target.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra);
-
+            }else if(putParticle == BLOCK_CRACK || putParticle == BLOCK_DUST){
+                self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,blockData);
+            }else if(putParticle == ITEM_CRACK ){
+                self.getWorld().spawnParticle(ITEM_CRACK, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra,itemData);
+            } else {
+                self.getWorld().spawnParticle(putParticle, location.add(x, y, z), count, xOffset, yOffset, zOffset, extra);
             }
         }catch (Exception e){
-            //cd.getLogger().info(e.toString());
+
         }
 
 
+
+    }
+
+    public static List<Location> circle (Location loc, Integer r, Integer h, Boolean hollow, Boolean sphere, int plus_y) {
+        List<Location> circleblocks = new ArrayList<Location>();
+        int cx = loc.getBlockX();
+        int cy = loc.getBlockY();
+        int cz = loc.getBlockZ();
+        for (int x = cx - r; x <= cx +r; x++)
+            for (int z = cz - r; z <= cz +r; z++)
+                for (int y = (sphere ? cy - r : cy); y < (sphere ? cy + r : cy + h); y++) {
+                    double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (sphere ? (cy - y) * (cy - y) : 0);
+                    if (dist < r*r && !(hollow && dist < (r-1)*(r-1))) {
+                        Location l = new Location(loc.getWorld(), x, y + plus_y, z);
+                        circleblocks.add(l);
+                    }
+                }
+
+        return circleblocks;
     }
 
 }

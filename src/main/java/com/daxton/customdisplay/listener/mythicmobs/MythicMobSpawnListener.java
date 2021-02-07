@@ -37,10 +37,10 @@ public class MythicMobSpawnListener implements Listener {
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
         ActiveMob activeMob = event.getMob();
-        new MobConfig().setMod(activeMob);
+        new MobConfig().setMod(activeMob,event.getMobLevel());
 
 
-
+        cd.getLogger().info("等級: "+event.getMobLevel());
 
     }
 
