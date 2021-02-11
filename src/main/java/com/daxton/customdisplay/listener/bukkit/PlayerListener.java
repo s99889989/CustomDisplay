@@ -206,13 +206,21 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
         Player player = event.getPlayer();
+
         new PlayerTrigger(player).onMove(player);
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerDeathEvent event){
+    public void onPlayerDeath(PlayerDeathEvent event){
         Player player = event.getEntity().getPlayer();
+//        //player.sendMessage("值: ");
+//        int maxExp = player.getExpToLevel();
+//        float ExpB = player.getExp();
+//        double newExp = maxExp/ExpB*0.3;
+//
+//        player.setExp((float) newExp);
         new PlayerTrigger(player).onDeath(player);
+
     }
 
     @EventHandler

@@ -6,7 +6,10 @@ import com.daxton.customdisplay.api.config.AutoConfig2;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ConfigManager {
@@ -22,10 +25,7 @@ public class ConfigManager {
         cd = plugin;
 
 
-//        File actions_file = new File(cd.getDataFolder(),"Actions");
-//        if(!actions_file.exists()){
-//            actions_file.mkdir();
-//        }
+
 
         config = new AutoConfig("resource/config.yml","config.yml").get();
         language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
@@ -38,7 +38,10 @@ public class ConfigManager {
         if(!mobs_file.exists()){
             mobs_file.mkdir();
         }
-
+        File png_file = new File(cd.getDataFolder(),"Png");
+        if(!png_file.exists()){
+            png_file.mkdir();
+        }
         new AutoConfig2();
 
 
@@ -76,5 +79,7 @@ public class ConfigManager {
 
 
     }
+
+
 
 }

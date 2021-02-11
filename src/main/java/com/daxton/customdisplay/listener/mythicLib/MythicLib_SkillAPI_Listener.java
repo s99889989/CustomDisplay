@@ -1,18 +1,17 @@
-package com.daxton.customdisplay.listener.skillapi;
+package com.daxton.customdisplay.listener.mythicLib;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.sucy.skill.api.event.PhysicalDamageEvent;
 import com.sucy.skill.api.event.SkillDamageEvent;
 import com.sucy.skill.listener.AttributeListener;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
-import net.mmogroup.mmolib.api.player.MMOPlayerData;
+import io.lumine.mythic.lib.api.event.PlayerAttackEvent;
+import io.lumine.mythic.lib.api.player.MMOPlayerData;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,10 +19,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.UUID;
 
-import static net.mmogroup.mmolib.api.stat.SharedStat.*;
+import static io.lumine.mythic.lib.api.stat.SharedStat.*;
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
 
-public class SkillAPI_MMOLib_Listener extends AttributeListener implements Listener {
+public class MythicLib_SkillAPI_Listener extends AttributeListener implements Listener {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -125,5 +124,6 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
         damageNumberPAE = event.getAttack().getDamage();
         damageType = event.getAttack().getTypes().toString();
     }
+
 
 }

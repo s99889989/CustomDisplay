@@ -40,7 +40,7 @@ public class MythicMobSpawnListener implements Listener {
         new MobConfig().setMod(activeMob,event.getMobLevel());
 
 
-        cd.getLogger().info("等級: "+event.getMobLevel());
+
 
     }
 

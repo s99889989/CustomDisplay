@@ -48,6 +48,7 @@ dependencies {
     compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
     compileOnly 'com.github.Archy-x:AureliumSkills:Alpha1.5.2'
     compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.4.jar'])
+    compileOnly fileTree(dir: 'lib', include: ['MythicLib-1.0.0.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6.2-305.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOItems-6.5.2-619.jar'])
     compileOnly fileTree(dir: 'lib', include: ['SkillAPI-v3.108.jar'])
@@ -58,7 +59,7 @@ dependencies {
 }
 
 group = 'com.daxton'
-version = '1.12.8'
+version = '1.12.9'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 

@@ -89,6 +89,7 @@ public class Action {
                 if(tickRun == count){
 
                     cancel();
+                    return;
                 }
 
 

@@ -4,6 +4,7 @@ package com.daxton.customdisplay;
 
 import com.daxton.customdisplay.api.other.StringFind;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,17 +19,9 @@ public class Test {
 
 
     public static void main(String[] args){
-        String inputString = "10|5|10";
-        String[] startlocadds = inputString.split("\\|");
-        for (String s : startlocadds){
-            System.out.println(s);
-        }
-        if(startlocadds.length == 5){
 
-            System.out.println(startlocadds[0]+" : "+startlocadds[2]+" : "+startlocadds[4]);
-
-        }
-
+        double SinB = Math.sin(Math.toRadians(60));
+        double CosB = Math.cos(Math.toRadians(60));
 
     }
 
