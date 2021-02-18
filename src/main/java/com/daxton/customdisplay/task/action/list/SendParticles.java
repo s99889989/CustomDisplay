@@ -6,8 +6,6 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 
-import com.sun.imageio.plugins.gif.GIFImageReader;
-import com.sun.imageio.plugins.gif.GIFImageReaderSpi;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.LivingEntity;
@@ -18,9 +16,7 @@ import org.bukkit.util.Vector;
 
 
 import javax.imageio.ImageIO;
-import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.FileImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -224,7 +220,7 @@ public class SendParticles {
             sendParticle();
         }else if(function.toLowerCase().contains("circular")){
             sendParticleCircular();
-        }else if(function.toLowerCase().contains("png")){
+        }else if(function.toLowerCase().contains("img")){
             //Test();
             JavaImageIOTest();
             //TestParticle(target,cd);
@@ -372,20 +368,16 @@ public class SendParticles {
         double rotX = 0;
         double rotY = 0;
         double rotZ = 0;
-//        try {
-//            imgX = Double.valueOf(imgRotAngle);
-//        }catch (NumberFormatException exception){
-//            imgX = 0;
-//        }
+
         if(imgTargetAngle){
             if(target != null && aims.toLowerCase().contains("target")){
-                rotX = target.getLocation().getYaw()+ imgX;
-                rotY = target.getLocation().getPitch()+ imgX; //+pngY
-                rotZ = target.getLocation().getYaw()+ imgX; // pngZ
+                rotX = target.getLocation().getPitch()+ imgX;
+                rotY = target.getLocation().getYaw()+ imgX;
+                rotZ = target.getLocation().getPitch()+ imgX;
             }else {
-                rotX = self.getLocation().getYaw()+ imgX;
-                rotY = self.getLocation().getPitch()+ imgX; // pngY
-                rotZ = self.getLocation().getYaw()+ imgX; // pngZ
+                rotX = self.getLocation().getPitch()+ imgX;
+                rotY = self.getLocation().getYaw()+ imgX;
+                rotZ = self.getLocation().getPitch()+ imgX;
             }
         }else {
             rotX = imgX;
@@ -393,35 +385,18 @@ public class SendParticles {
             rotZ = imgZ;
         }
 
-        if(rotY > 359){
-            rotY %= 360;
-        }
-        while (rotY < 0){
-            rotY +=360;
-        }
-        if(rotX > 359){
-            rotX %= 360;
-        }
-        while (rotX < 0){
-            rotX +=360;
-        }
-        if(rotZ > 359){
-            rotZ %= 360;
-        }
-        while (rotZ < 0){
-            rotZ +=360;
-        }
-
-        cd.getLogger().info("X: "+rotX+" Y: "+rotY+" Z: "+rotZ);
-//        double cos90 = -Math.cos(Math.toRadians(target.getLocation().getYaw() - 90));
-//        double sin90 = -Math.sin(Math.toRadians(target.getLocation().getYaw() - 90));
-//        Location firstLoc = null;
-//        if(imgStyle.toLowerCase().contains("v")){
-//            firstLoc = target.getLocation().add(target.getLocation().getDirection().getX()*-1,2,target.getLocation().getDirection().getZ()*-1);
-//        }else {
-//            //firstLoc = target.getLocation().add(target.getLocation().getDirection().getX()*-1,2,target.getLocation().getDirection().getZ()*-1);
-//            firstLoc = target.getLocation().add(0,2,0);
-//        }
+        rotX %= 360;
+        rotY %= 360;
+        rotZ %= 360;
+        /**繞Y軸旋轉**/
+        double cosY = Math.cos(Math.toRadians(rotY));
+        double sinY = Math.sin(Math.toRadians(rotY));
+        /**繞X軸旋轉**/
+        double cosX = Math.cos(Math.toRadians(rotX));
+        double sinX = Math.sin(Math.toRadians(rotX));
+        /**繞Z軸旋轉**/
+        double cosZ = Math.cos(Math.toRadians(rotZ));
+        double sinZ = Math.sin(Math.toRadians(rotZ));
 
         Map<Location,Integer> particles = new HashMap<>();
         for(int i=0 ; i < height ; i++) {
@@ -445,6 +420,7 @@ public class SendParticles {
                     }else {
                         addHeight = (heightHalf-(i));
                     }
+                    addHeight = addHeight * imgSize;
                     /**把寬度置中**/
                     double addWidth = 0;
                     if(j == (widthHalf-0.5)){
@@ -454,101 +430,52 @@ public class SendParticles {
                     }else {
                         addWidth = (widthHalf-(j))*-1;
                     }
+                    addWidth = addWidth * imgSize;
 
-//                    /**水平公式**/
-//                    double hyx = ((addWidth*Math.cos(Math.toRadians(rotX)))+(addHeight*Math.sin(Math.toRadians(rotX)))) * imgSize; //-Math.cos(Math.toRadians(0)) *
-//                    double hyy = addWidth * imgSize;
-//                    double hyz = ((addWidth*Math.sin(Math.toRadians(rotX))*-1)+(addHeight*Math.cos(Math.toRadians(rotX)))) * imgSize;
-//
-//                    /**pngSytle選擇水平還是垂直**/
-//                    if(imgStyle.toLowerCase().contains("v")){
-//                        /**垂直**/
-//                        /**pngRotMeth選擇已哪軸旋轉**/
-//                        if(imgRotMeth.toLowerCase().contains("x")){ /**沿著X旋轉**/            /**pngSize為粒子位置縮放**/              /**count為粒子數量**/
-//                            double vyx = addHeight* imgSize;
-//                            double vyy = -Math.cos(Math.toRadians(rotY)) * addWidth * imgSize;
-//                            double vyz = -Math.sin(Math.toRadians(rotY)) * addWidth * imgSize;
-//                            Location lastLocation = firstLoc.clone().add(vyx, vyy, vyz);
-//                            lastLocation.add(cos90, 0, sin90);
-//                            particles.put(lastLocation, rgb);
-//                            //self.getWorld().spawnParticle(REDSTONE, location.clone().add(vy1*pngSize, vx1*pngSize, vz1*pngSize), count, 0, 0, 0, 0,new Particle.DustOptions(fromRGB(rgb), 1));
-//                            //particles.put(new Vector(vy1y*pngSize,vx1y*pngSize,vz1y*pngSize), rgb);
-//                        }else if(imgRotMeth.toLowerCase().contains("z")){ /**沿著Z旋轉**/
-//                            double vyx = -Math.cos(Math.toRadians(rotY)) * addWidth * imgSize;
-//                            double vyy = -Math.sin(Math.toRadians(rotY)) * addWidth * imgSize;
-//                            double vyz = addHeight* imgSize;
-//                            Location lastLocation = firstLoc.clone().add(vyx, vyy, vyz);
-//                            lastLocation.add(cos90, 0, sin90);
-//                            particles.put(lastLocation, rgb);
-//                            //self.getWorld().spawnParticle(REDSTONE, location.clone().add(vx1*pngSize, vz1*pngSize, vy1*pngSize), count, 0, 0, 0, 0,new Particle.DustOptions(fromRGB(rgb), 1));
-//                            //particles.put(new Vector(vx1*pngSize,vz1*pngSize,vy1*pngSize), rgb);
-//                        }else {  /**沿著Y旋轉**/
-//
-//                            double vyx = -Math.cos(Math.toRadians(rotX)) * addWidth * imgSize;
-//                            double vyy = addHeight* imgSize;
-//                            double vyz = -Math.sin(Math.toRadians(rotX)) * addWidth * imgSize;
-//                            Location lastLocation = firstLoc.clone().add(vyx, vyy, vyz);
-//                            lastLocation.add(cos90, 0, sin90);
-//                            particles.put(lastLocation, rgb);
-//                            //self.getWorld().spawnParticle(REDSTONE, lastLocation, count, 0, 0, 0, 0,new Particle.DustOptions(fromRGB(rgb), 1));
-//                            //particles.put(new Vector(vyx* imgSize,vyy* imgSize,vyz* imgSize), rgb);
-//                            //self.getWorld().spawnParticle(REDSTONE, firstLoc, count, 0, 0, 0, 0,new Particle.DustOptions(fromRGB(rgb), 1));
-//                        }
-//                    }else {
-//                        /**水平**/
-//                        if(imgRotMeth.toLowerCase().contains("x")){ /**沿著X旋轉**/
-//                            double vyx = ((addWidth*Math.cos(Math.toRadians(0)))+(addHeight*Math.sin(Math.toRadians(0)))) * imgSize; //-Math.cos(Math.toRadians(0)) *
-//                            double vyy = 0;
-//                            double vyz = ((addWidth*Math.sin(Math.toRadians(0))*-1)+(addHeight*Math.cos(Math.toRadians(0)))) * imgSize;
-//                            Location lastLocation = firstLoc.clone().add(vyx, vyy, vyz);
-//                            particles.put(lastLocation, rgb);
-//                            //self.getWorld().spawnParticle(REDSTONE, location.clone().add(hy1*pngSize, hx1*pngSize, hz1*pngSize), count, 0, 0, 0, 0,new Particle.DustOptions(fromRGB(rgb), 1));
-//                            //particles.put(new Vector(hy1* imgSize,hx1* imgSize,hz1* imgSize), rgb);
-//                        }else if(imgRotMeth.toLowerCase().contains("z")){ /**沿著Z旋轉**/
-//
-//                            //self.getWorld().spawnParticle(REDSTONE, location.clone().add(hx1*pngSize, hz1*pngSize, hy1*pngSize), count, 0, 0, 0, 0,new Particle.DustOptions(fromRGB(rgb), 1));
-//                            //particles.put(new Vector(hx1* imgSize,hz1* imgSize,hy1* imgSize), rgb);
-//                        }else { /**沿著Y旋轉**/
-//
-//                            Location lastLocation = firstLoc.clone().add(hyx, hyy, hyz);
-//                            particles.put(lastLocation, rgb);
-//                            //self.getWorld().spawnParticle(REDSTONE, location.clone().add(hx1*pngSize, hy1*pngSize, hz1*pngSize), count, 0, 0, 0, 0,new Particle.DustOptions(fromRGB(rgb), 1));
-//                            //particles.put(new Vector(hx1* imgSize,hy1* imgSize,hz1* imgSize), rgb);
-//                        }
-//                    }
+                    Location useLocation = location.clone();
+
+                    double nX = addWidth;
+                    double nY = addHeight;
+                    double nZ = 0;
+
+                    double r11 = cosY*cosZ - sinX*sinY*sinZ;
+                    double r13 = sinY*cosZ + sinX*cosY*sinZ;
+                    double r21 = cosY*sinZ + sinX*sinY*cosZ;
+                    double r23 = sinY*sinZ - sinX*cosY*cosZ;
+
+                    double rX = r11*nX - cosX*sinZ*nY + r13*nZ;
+                    double rY = r21*nX + cosX*cosZ*nY + r23*nZ;
+                    double rZ = -cosX*sinY*nX + sinX*nY + cosX*cosY*nZ;
+
+                    useLocation.add(rX,rY,rZ);
+
+                    particles.put(useLocation, rgb);
 
                 }
 
             }
         }
-//        particles.forEach((location, rgb) -> {
-//            location.getWorld().spawnParticle(REDSTONE, location, 1, new Particle.DustOptions(fromRGB(rgb), 1));
-//            //location.subtract(vector);
-//        });
-
-
-        //spawnAngularParticle(location, Math.toRadians(rotX), Math.toRadians(rotY), 0, 0, 0, particles);
+        particles.forEach((location, rgb) -> {
+            location.getWorld().spawnParticle(REDSTONE, location, 1, new Particle.DustOptions(fromRGB(rgb), 1));
+        });
 
     }
 
 
 
-    public static void spawnAngularParticle(Location location, double alpha, double beta, double offsetX, double offsetY, double offsetZ, Map<Vector, Integer> particles) {
+    public void spawnAngularParticle(Location location, double alpha, double beta, double offsetX, double offsetY, double offsetZ, Map<Vector, Integer> particles) {
         World world = location.getWorld();
         assert world != null;
 
-//        double x = Math.cos(alpha) * Math.cos(beta);
+//        double  x = Math.cos(alpha) * Math.cos(beta);
 //        double z = Math.sin(alpha) * Math.cos(beta);
 //        double y = Math.sin(beta);
+        double x = Math.cos(alpha) * Math.sin(alpha);
+        double z = 1;
+        double y = -Math.sin(alpha) * Math.cos(alpha);
 
-        double x = Math.cos(alpha) + Math.cos(alpha);
-        double z = (Math.sin(alpha)*-1) + Math.cos(alpha);
-        double y = 0;
-
-        //location.add(new Vector(x, y, z));
+        location.add(new Vector(x, y, z));
         particles.forEach((vector, rgb) -> {
-
-
             world.spawnParticle(REDSTONE, location.add(vector), 1, new Particle.DustOptions(fromRGB(rgb), 1));
             location.subtract(vector);
         });
@@ -577,37 +504,6 @@ public class SendParticles {
         };
         bukkitRunnable.runTaskTimer(cd,0,1);
 
-    }
-
-    public double vectorX(LivingEntity livingEntity){
-        double xVector = livingEntity.getLocation().getDirection().getX();
-        double rxVector = 0;
-        if(xVector > 0){
-            rxVector = 0.1;
-        }else{
-            rxVector = -0.1;
-        }
-        return rxVector;
-    }
-    public double vectorY(LivingEntity livingEntity){
-        double yVector = livingEntity.getLocation().getDirection().getY();
-        double ryVector = 0;
-        if(yVector > 0){
-            ryVector = 1;
-        }else{
-            ryVector = -1;
-        }
-        return ryVector;
-    }
-    public double vectorZ(LivingEntity livingEntity){
-        double zVector = livingEntity.getLocation().getDirection().getZ();
-        double rzVector = 0;
-        if(zVector > 0){
-            rzVector = 0.1;
-        }else{
-            rzVector = -0.1;
-        }
-        return rzVector;
     }
 
 }

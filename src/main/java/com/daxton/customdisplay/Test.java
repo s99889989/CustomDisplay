@@ -18,10 +18,9 @@ import java.util.stream.Collectors;
 public class Test {
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
+            System.out.println(""+Math.pow(5, 2));
 
-        double SinB = Math.sin(Math.toRadians(60));
-        double CosB = Math.cos(Math.toRadians(60));
 
     }
 

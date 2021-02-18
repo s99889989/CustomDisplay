@@ -59,7 +59,7 @@ dependencies {
 }
 
 group = 'com.daxton'
-version = '1.12.9'
+version = '1.12.10'
 description = 'CustomDisplay'
 sourceCompatibility = '1.8'
 

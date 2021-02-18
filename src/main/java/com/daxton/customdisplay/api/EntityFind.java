@@ -46,6 +46,12 @@ public class EntityFind {
                 return player;
             }
         }
+        if(entity instanceof Fireball){
+            if(((Fireball) entity).getShooter() instanceof Player){
+                player = (Player) ((Fireball) entity).getShooter();
+                return player;
+            }
+        }
 
         return player;
     }
@@ -104,7 +110,46 @@ public class EntityFind {
 
         return player;
     }
+    /**把一些攻擊轉換成生命體**/
+    public static LivingEntity convertLivingEntity(Entity entity){
+        LivingEntity livingEntity = null;
+        if(entity instanceof LivingEntity){
+            livingEntity = (LivingEntity) entity;
+            return livingEntity;
+        }
+        if(entity instanceof Arrow){
+            if(((Arrow) entity).getShooter() instanceof LivingEntity){
+                livingEntity = (LivingEntity) ((Arrow) entity).getShooter();
+                return livingEntity;
+            }
+        }
+        if(entity instanceof ThrownPotion){
+            if(((ThrownPotion) entity).getShooter() instanceof LivingEntity){
+                livingEntity = (LivingEntity) ((ThrownPotion) entity).getShooter();
+                return livingEntity;
+            }
+        }
+        if(entity instanceof TNTPrimed){
+            if(((TNTPrimed) entity).getSource() instanceof LivingEntity){
+                livingEntity = (LivingEntity) ((TNTPrimed) entity).getSource();
+                return livingEntity;
+            }
+        }
+        if(entity instanceof Projectile){
+            if(((Projectile) entity).getShooter() instanceof LivingEntity){
+                livingEntity = (LivingEntity) ((Projectile) entity).getShooter();
+                return livingEntity;
+            }
+        }
+        if(entity instanceof Fireball){
+            if(((Fireball) entity).getShooter() instanceof LivingEntity){
+                livingEntity = (LivingEntity) ((Fireball) entity).getShooter();
+                return livingEntity;
+            }
+        }
 
+        return livingEntity;
+    }
 
     public static Player crackShotPlayer(Entity entity){
         Player player = null;
