@@ -153,13 +153,14 @@ public class PackListener implements Listener{
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
 
-
                     if(packetType.equals(PacketType.Play.Server.CHAT)){
                         if(packet.getChatTypes().read(0) == GAME_INFO){
 //                            BaseComponent[] b = ( BaseComponent[]) packet.getModifier().read(1);
 //                            PlaceholderManager.getMmocore_ActionBar_Spell_Map().put(player.getUniqueId(),BaseComponent.toLegacyText(b));
                             String uuidString = player.getUniqueId().toString();
-                            if(PlaceholderManager.getActionBar_function().get(uuidString) != null){
+                            if(PlaceholderManager.getActionBar_function().get(uuidString) == null){
+                                PlaceholderManager.getActionBar_function().put(uuidString,false);
+                            }else {
                                 event.setCancelled(PlaceholderManager.getActionBar_function().get(uuidString));
                             }
 

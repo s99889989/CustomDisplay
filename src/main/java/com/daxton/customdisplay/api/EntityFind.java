@@ -117,6 +117,18 @@ public class EntityFind {
             livingEntity = (LivingEntity) entity;
             return livingEntity;
         }
+        if(entity instanceof TippedArrow){
+            if(((TippedArrow) entity).getShooter() instanceof LivingEntity){
+                livingEntity = (LivingEntity) ((TippedArrow) entity).getShooter();
+                return livingEntity;
+            }
+        }
+        if(entity instanceof WitherSkull){
+            if(((WitherSkull) entity).getShooter() instanceof LivingEntity){
+                livingEntity = (LivingEntity) ((WitherSkull) entity).getShooter();
+                return livingEntity;
+            }
+        }
         if(entity instanceof Arrow){
             if(((Arrow) entity).getShooter() instanceof LivingEntity){
                 livingEntity = (LivingEntity) ((Arrow) entity).getShooter();

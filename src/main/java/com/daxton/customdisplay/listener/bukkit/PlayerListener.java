@@ -44,7 +44,7 @@ public class PlayerListener implements Listener {
     private LivingEntity target = null;
 
     private BukkitRunnable bukkitRunnable;
-
+    /**登入時**/
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
@@ -65,7 +65,7 @@ public class PlayerListener implements Listener {
         ListenerManager.getCast_On_Stop().put(uuidString,false);
 
     }
-
+    /**登出時**/
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
@@ -157,7 +157,9 @@ public class PlayerListener implements Listener {
     public void onExpChange(PlayerExpChangeEvent event){
         Player player = event.getPlayer();
         String uuidString = player.getUniqueId().toString();
-        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_exp_type>","default");
+        int amount = event.getAmount();
+        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_up_exp_type>","default");
+        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_change_exp_amount>",String.valueOf(amount));
         new PlayerTrigger(player).onExpUp(player);
     }
 
@@ -179,7 +181,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-
+    /**當玩家聊天**/
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
@@ -192,7 +194,7 @@ public class PlayerListener implements Listener {
         //event.setCancelled(true);
     }
 
-
+    /**當玩家回血**/
     @EventHandler
     public void onRegainHealth(EntityRegainHealthEvent event){
         if(event.getEntity() instanceof Player){
@@ -202,14 +204,14 @@ public class PlayerListener implements Listener {
         }
 
     }
-
+    /**當玩移動**/
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
         Player player = event.getPlayer();
 
         new PlayerTrigger(player).onMove(player);
     }
-
+    /**當玩家死亡**/
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event){
         Player player = event.getEntity().getPlayer();
@@ -222,7 +224,7 @@ public class PlayerListener implements Listener {
         new PlayerTrigger(player).onDeath(player);
 
     }
-
+    /**當蹲下時**/
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event){
         Player player = event.getPlayer();
@@ -258,7 +260,7 @@ public class PlayerListener implements Listener {
 
 
 
-
+    /**當按下切換1~9時**/
     @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event){
         Player player = event.getPlayer();

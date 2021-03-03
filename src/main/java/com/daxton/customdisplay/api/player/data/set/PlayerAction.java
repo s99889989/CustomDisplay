@@ -314,6 +314,33 @@ public class PlayerAction {
                         action_Trigger_Map.get("~onmmobdeath").add(actionString);
                     }
                 }
+                /**當MythicMobs的怪物掉落經驗**/
+                if(actionString.toLowerCase().contains("~onmmobdropexp")){
+                    if(action_Trigger_Map.get("~onmmobdropexp") == null){
+                        action_Trigger_Map.put("~onmmobdropexp",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onmmobdropexp") != null){
+                        action_Trigger_Map.get("~onmmobdropexp").add(actionString);
+                    }
+                }
+                /**當MythicMobs的怪物掉落金錢**/
+                if(actionString.toLowerCase().contains("~onmmobdropmoney")){
+                    if(action_Trigger_Map.get("~onmmobdropmoney") == null){
+                        action_Trigger_Map.put("~onmmobdropmoney",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onmmobdropmoney") != null){
+                        action_Trigger_Map.get("~onmmobdropmoney").add(actionString);
+                    }
+                }
+                /**當MythicMobs的怪物掉落物品**/
+                if(actionString.toLowerCase().contains("~onmmobdropitem")){
+                    if(action_Trigger_Map.get("~onmmobdropitem") == null){
+                        action_Trigger_Map.put("~onmmobdropitem",new ArrayList<>());
+                    }
+                    if(action_Trigger_Map.get("~onmmobdropitem") != null){
+                        action_Trigger_Map.get("~onmmobdropitem").add(actionString);
+                    }
+                }
 
             }
         }

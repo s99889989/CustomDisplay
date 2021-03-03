@@ -149,7 +149,6 @@ public class PlayerTrigger {
     public void onMove(LivingEntity self){
         this.self = self;
         if(action_Trigger_Map.get("~onmove") != null){
-            cd.getLogger().info("~onmove");
             for(String actionString : action_Trigger_Map.get("~onmove")){
                 actionString = actionString.replace("~onMove","");
                 runExecute(actionString);
@@ -342,6 +341,7 @@ public class PlayerTrigger {
         if(action_Trigger_Map.get("~onexpup") != null){
             for(String actionString : action_Trigger_Map.get("~onexpup")){
                 actionString = actionString.replace("~onExpUp","");
+
                 runExecute(actionString);
             }
         }
@@ -379,7 +379,40 @@ public class PlayerTrigger {
             }
         }
     }
-
+    /**當MythicMobs的怪物掉落經驗**/
+    public void onMMobDropExp(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmmobdropexp") != null){
+            for(String actionString : action_Trigger_Map.get("~onmmobdropexp")){
+                actionString = actionString.replace("~onMMobDropExp","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當MythicMobs的怪物掉落金錢**/
+    public void onMMobDropMoney(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmmobdropmoney") != null){
+            for(String actionString : action_Trigger_Map.get("~onmmobdropmoney")){
+                actionString = actionString.replace("~onMMobDropMoney","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**當MythicMobs的怪物掉落物品**/
+    public void onMMobDropItem(LivingEntity self,LivingEntity target){
+        this.self = self;
+        this.target = target;
+        if(action_Trigger_Map.get("~onmmobdropitem") != null){
+            for(String actionString : action_Trigger_Map.get("~onmmobdropitem")){
+                actionString = actionString.replace("~onMMobDropItem","");
+                runExecute(actionString);
+            }
+        }
+    }
+    /**使用Gui動作**/
     public void onGuiClick(LivingEntity self,List<String> action){
         this.self = self;
         if(action.size() > 0){
@@ -388,7 +421,7 @@ public class PlayerTrigger {
             }
         }
     }
-
+    /**使用技能**/
     public void onSkill(LivingEntity self,LivingEntity target,List<String> action){
         this.self = self;
         this.target = target;

@@ -97,6 +97,7 @@ public class ActionBar {
             }
         }
 
+
         if(player != null){
             PlaceholderManager.getActionBar_function().put(player.getUniqueId().toString(),remove);
             sendActionBar();

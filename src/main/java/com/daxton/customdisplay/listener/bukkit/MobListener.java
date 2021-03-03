@@ -2,15 +2,21 @@ package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.ticxo.modelengine.api.events.ActiveModelStateEvent;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -106,6 +112,51 @@ public class MobListener implements Listener {
 
     }
 
+    /**無攻擊者的被攻擊傷害**/
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onDamaged(EntityDamageEvent event){
+        FileConfiguration configuration = ConfigMapManager.getFileConfigurationMap().get("Character_System_NoDamagerDamage.yml");
+        boolean bb = configuration.getBoolean("NoDamagerDamage.enable");
+
+        if(bb && event.getCause().toString().contains("CUSTOM")){
+            LivingEntity entity = (LivingEntity) event.getEntity();
+            Location location = entity.getLocation();
+            Hologram hologram = HologramsAPI.createHologram(cd, location.add(0,entity.getHeight(),0));
+
+            String number = new NumberUtil(event.getFinalDamage(),configuration.getString("NoDamagerDamage.decimal")).getDecimalString();
+            String numberString = configuration.getString("NoDamagerDamage.content");
+            numberString = numberString.replace("{number}",number);
+            numberString = "\uF80B"+numberString+"\uF80B";
+            numberString = new NumberUtil().NumberHead2(numberString,configuration.getString("NoDamagerDamage.head_conversion"));
+            numberString = new NumberUtil().NumberUnits2(numberString,configuration.getString("NoDamagerDamage.units_conversion"));
+
+            String[] containKeyList = configuration.getString("NoDamagerDamage.double_conversion").split(",");
+            for(String containKey : containKeyList){
+                String[] containKeyList2 = containKey.split(">");
+                if(containKeyList2.length == 2){
+                    numberString = numberString.replace(containKeyList2[0],containKeyList2[1]);
+                }
+            }
+
+            hologram.appendTextLine(numberString);
+            BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+                int tickRun = 0;
+                @Override
+                public void run() {
+                    if(tickRun > configuration.getInt("NoDamagerDamage.duration")){
+                        hologram.delete();
+                        cancel();
+                        return;
+                    }
+                    hologram.teleport(location.add(0,configuration.getDouble("NoDamagerDamage.tpHeight"),0));
+                    tickRun++;
+                }
+            };
+            bukkitRunnable.runTaskTimer(cd,0,configuration.getInt("NoDamagerDamage.period"));
+        }
+
+
+    }
 
 
 }

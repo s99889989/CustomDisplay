@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.character.placeholder;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.manager.PlaceholderManager;
 
 public class PlaceholderOther {
 
@@ -13,20 +14,21 @@ public class PlaceholderOther {
 
     }
     public String getOther(String firstString){
+        String outputString = "";
         String key = firstString.toLowerCase().replace("<cd_other_","").replace(">","");
         if(key.toLowerCase().contains("math_random_")){
             String randomKey = key.replace("math_random_","");
             try {
                 int randomNumber = Integer.valueOf(randomKey);
-                anser = String.valueOf((int)(Math.random()*randomNumber));
+                outputString = String.valueOf((int)(Math.random()*randomNumber));
             }catch (Exception exception){
-                anser = firstString + "內的" + randomKey + "只能放數字";
-                anser = "The "+ randomKey +" in "+firstString+" can only hold numbers";
+                outputString = "The "+ randomKey +" in "+firstString+" can only hold numbers";
             }
         }
 
 
-        return anser;
+
+        return outputString;
     }
 
 

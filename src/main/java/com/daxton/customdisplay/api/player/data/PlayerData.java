@@ -6,6 +6,7 @@ import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.config.PlayerConfig2;
 import com.daxton.customdisplay.api.player.data.set.*;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PermissionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.attribute.Attribute;
@@ -183,10 +184,13 @@ public class PlayerData {
 
         }
 
-        for(String stringConfig : PermissionManager.getPermission_String_Map().values()){
-            if(player.hasPermission(stringConfig)){
-                for(String list : PermissionManager.getPermission_FileConfiguration_Map().get(stringConfig).getStringList("Action")){
-                    thisList.add(list);
+        for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
+            if(configName.contains("Permission")){
+                String perName = configName.replace("Permission_","").replace(".yml","").toLowerCase();
+                if(player.hasPermission("customdisplay.permission."+perName)){
+                    for(String list : ConfigMapManager.getFileConfigurationMap().get(configName).getStringList("Action")){
+                        thisList.add(list);
+                    }
                 }
             }
         }
