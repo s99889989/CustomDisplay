@@ -18,7 +18,7 @@ public class PlaceholderTarget {
 
         if(entity instanceof Player){
             if(key.toLowerCase().contains("<cd_base_")){
-                outputString = new PlaceholderBase().valueOf(entity,key);
+                outputString = new PlaceholderBase().valueOf(entity,null,key);
             }
             if(key.toLowerCase().contains("<cd_player_")){
                 outputString = new PlaceholderPlayer().valueOf(entity,key);
@@ -31,7 +31,7 @@ public class PlaceholderTarget {
             }
         }else {
             if(key.toLowerCase().contains("<cd_base_")){
-                outputString = new PlaceholderBase().valueOf(entity,key);
+                outputString = new PlaceholderBase().valueOf(entity,null,key);
             }
             if(key.toLowerCase().contains("<cd_mythic_")){
                 outputString = new PlaceholderMythic().valueOf(entity,key);

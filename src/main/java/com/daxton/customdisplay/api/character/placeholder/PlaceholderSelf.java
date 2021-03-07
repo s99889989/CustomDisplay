@@ -9,13 +9,13 @@ public class PlaceholderSelf {
 
     }
 
-    public String valueOf(LivingEntity entity, String inputString){
+    public String valueOf(LivingEntity entity,LivingEntity target, String inputString){
         String outputString = "0";
         String key = inputString.replace("_self","").replace(">","");
 
         if(entity instanceof Player){
             if(key.toLowerCase().contains("<cd_base_")){
-                outputString = new PlaceholderBase().valueOf(entity,key);
+                outputString = new PlaceholderBase().valueOf(entity,target,key);
             }
             if(key.toLowerCase().contains("<cd_player_")){
                 outputString = new PlaceholderPlayer().valueOf(entity,key);
@@ -28,7 +28,7 @@ public class PlaceholderSelf {
             }
         }else {
             if(key.toLowerCase().contains("<cd_base_")){
-                outputString = new PlaceholderBase().valueOf(entity,key);
+                outputString = new PlaceholderBase().valueOf(entity,target,key);
             }
             if(key.toLowerCase().contains("<cd_mythic_")){
                 outputString = new PlaceholderMythic().valueOf(entity,key);

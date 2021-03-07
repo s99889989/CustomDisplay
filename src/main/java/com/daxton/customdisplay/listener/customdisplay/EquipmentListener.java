@@ -61,7 +61,8 @@ public class EquipmentListener implements Listener {
                     boolean needTarget = skillConfig.getBoolean(skillName+".NeedTarget");
                     /**目標最遠距離**/
                     int targetDistance = skillConfig.getInt(skillName+".TargetDistance");
-                    LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+
+                    LivingEntity target = EntityFind.getLivingTarget(player,targetDistance);
                     if(needTarget){
                         if(target != null){
                             /**技能動作延遲初始化**/

@@ -25,8 +25,6 @@ public class CDMythicLibListener implements Listener {
 
     private Player player;
 
-    private LivingEntity target;
-
     private String damageType = "";
 
     private boolean crit = false;
@@ -43,18 +41,23 @@ public class CDMythicLibListener implements Listener {
             }
         }
 
-        target = (LivingEntity) event.getEntity();
+        LivingEntity target = (LivingEntity) event.getEntity();
         double damageNumber = event.getFinalDamage();
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
 
             String uuidString = player.getUniqueId().toString();
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+            String tUUIDString = target.getUniqueId().toString();
+
 
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);
                 return;
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
             }
             if(damageType.contains("PHYSICAL")){
                 if(crit){

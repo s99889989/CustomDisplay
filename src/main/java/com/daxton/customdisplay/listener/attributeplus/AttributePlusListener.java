@@ -47,6 +47,8 @@ public class AttributePlusListener implements Listener {
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
             String uuidString = player.getUniqueId().toString();
+            String tUUIDSTring = target.getUniqueId().toString();
+            PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onAttack(player,target);
 
@@ -70,6 +72,8 @@ public class AttributePlusListener implements Listener {
         if(event.getDamager() instanceof Player){
             player = ((Player) event.getDamager()).getPlayer();
             String uuidString = player.getUniqueId().toString();
+            String tUUIDSTring = target.getUniqueId().toString();
+            PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             new PlayerTrigger(player).onCrit(player,target);
         }else {

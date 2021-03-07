@@ -1,15 +1,25 @@
 package com.daxton.customdisplay.api;
 
+import com.daxton.customdisplay.CustomDisplay;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static org.bukkit.Color.fromRGB;
+import static org.bukkit.Particle.REDSTONE;
 
 public class EntityFind {
+
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public EntityFind(){
 
@@ -191,7 +201,7 @@ public class EntityFind {
         return player;
     }
 
-    /**目標不包括自己**/
+    /**獲得目視目標不包括自己**/
     public Entity getTarget(LivingEntity self,int radius) {
         //List<Entity> targetList = getNearbyEntities(self,self.getLocation(), radius);
         List<Entity> targetList = self.getNearbyEntities(10, 10, 10);
@@ -231,8 +241,31 @@ public class EntityFind {
         return target;
     }
 
+    public static Entity getNearestEntityInSight(Player player, int range) {
+        ArrayList<Entity> entities = (ArrayList<Entity>) player.getNearbyEntities(range, range, range);
+        ArrayList<Block> sightBlock = (ArrayList<Block>) player.getLineOfSight( (Set<Material>) null, range);
+        ArrayList<Location> sight = new ArrayList<Location>();
+        for (int i = 0;i<sightBlock.size();i++)
+            sight.add(sightBlock.get(i).getLocation());
+        for (int i = 0;i<sight.size();i++) {
+            for (int k = 0;k<entities.size();k++) {
+                if (Math.abs(entities.get(k).getLocation().getX()-sight.get(i).getX())<1.3) {
+                    if (Math.abs(entities.get(k).getLocation().getY()-sight.get(i).getY())<1.5) {
+                        if (Math.abs(entities.get(k).getLocation().getZ()-sight.get(i).getZ())<1.3) {
+                            return entities.get(k);
+                        }
+                    }
+                }
+            }
+        }
+        return null; //Return null/nothing if no entity was found
+    }
+
+
+
+
     /**目標不包括自己**/
-    public List<Entity>  getNearbyEntities(Entity self,Location l, int radius){
+    public List<Entity> getNearbyEntities(Entity self,Location l, int radius){
         int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16))/16;
         HashSet<Entity> radiusEntities = new HashSet<Entity>();
         List<Entity> livingEntityList = new ArrayList<>();
@@ -251,6 +284,53 @@ public class EntityFind {
             }
         }
 
+        return livingEntityList;
+    }
+
+    /**獲得目視生命目標不包括自己**/
+    public static LivingEntity getLivingTarget(LivingEntity self, int radius) {
+        List<Entity> targetEntityList = self.getNearbyEntities(radius, radius, radius);
+        LivingEntity target = null;
+        if(targetEntityList.size() > 0){
+            double min = radius+1;
+            for(Entity targetEntity : targetEntityList){
+                if(targetEntity instanceof LivingEntity){
+                    Vector targetVector = targetEntity.getLocation().subtract(self.getLocation()).toVector();
+                    double rad = targetVector.angle(self.getEyeLocation().getDirection());
+                    if(rad < 0.2){
+                        Location st = targetEntity.getLocation().subtract(self.getLocation());
+                        double dd = Math.sqrt(Math.pow((st.getX()),2) + Math.pow((st.getY()),2) +Math.pow((st.getZ()),2));
+                        if(dd <= radius && dd < min){
+                            min = dd;
+                            target = (LivingEntity) targetEntity;
+                        }
+                    }
+                }
+            }
+        }
+        return target;
+    }
+
+    /**獲得圓半徑目標**/
+    public static List<LivingEntity> getRadiusLivingEntities(LivingEntity self,int radius) {
+        List<Entity> targetEntityList = self.getNearbyEntities(radius, radius, radius);
+        double sX = self.getLocation().getX();
+        double sY = self.getLocation().getY();
+        double sZ = self.getLocation().getZ();
+        List<LivingEntity> livingEntityList = new ArrayList<>();
+        if(targetEntityList.size() > 0){
+            for(Entity targetEntity : targetEntityList){
+                if(targetEntity instanceof LivingEntity){
+                    double tX = targetEntity.getLocation().getX();
+                    double tY = targetEntity.getLocation().getY();
+                    double tZ = targetEntity.getLocation().getZ();
+                    double dd = Math.sqrt(Math.pow((tX-sX),2) + Math.pow((tY-sY),2) +Math.pow((tZ-sZ),2));
+                    if(dd <= radius){
+                        livingEntityList.add((LivingEntity) targetEntity);
+                    }
+                }
+            }
+        }
         return livingEntityList;
     }
 

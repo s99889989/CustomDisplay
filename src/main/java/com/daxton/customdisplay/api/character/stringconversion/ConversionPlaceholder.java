@@ -25,12 +25,10 @@ public class ConversionPlaceholder {
                         continue;
                     }
                     if(inputString.substring(head,tail+1).toLowerCase().contains("<cd_self_")){
-
-                        inputString = inputString.replace(inputString.substring(head,tail+1),new PlaceholderSelf().valueOf(self,inputString.substring(head,tail+1)));
+                        inputString = inputString.replace(inputString.substring(head,tail+1),new PlaceholderSelf().valueOf(self,target,inputString.substring(head,tail+1)));
                         continue;
                     }
-                    if(inputString.substring(head,tail+1).toLowerCase().contains("<cd_target_")){
-
+                    if(target != null && inputString.substring(head,tail+1).toLowerCase().contains("<cd_target_")){
                         inputString = inputString.replace(inputString.substring(head,tail+1),new PlaceholderTarget().valueOf(target,inputString.substring(head,tail+1)));
                         continue;
                     }

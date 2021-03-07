@@ -29,8 +29,6 @@ public class MythicLib_MMOCore_Listener implements Listener {
 
     private Player player;
 
-    private LivingEntity target;
-
     private UUID playerUUID;
 
     private UUID targetUUID;
@@ -53,13 +51,13 @@ public class MythicLib_MMOCore_Listener implements Listener {
             }
         }
 
-        target = (LivingEntity) event.getEntity();
+        LivingEntity target = (LivingEntity) event.getEntity();
         damageNumber = event.getFinalDamage();
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
 
             String uuidString = player.getUniqueId().toString();
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+            String tUUIDString = target.getUniqueId().toString();
 
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
@@ -86,8 +84,12 @@ public class MythicLib_MMOCore_Listener implements Listener {
 
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);
                 return;
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
             }
 
             if(damageType.contains("PHYSICAL")){

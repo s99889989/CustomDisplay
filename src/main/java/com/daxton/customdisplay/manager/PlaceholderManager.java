@@ -3,6 +3,7 @@ package com.daxton.customdisplay.manager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlaceholderManager {
 
@@ -15,7 +16,7 @@ public class PlaceholderManager {
     /**佔位符訊息**/
     private static Map<String,String> cd_Placeholder_Map = new HashMap<>();
 
-
+    public static Map<String,String> cd_Attack_Number = new ConcurrentHashMap<>();
 
 
 

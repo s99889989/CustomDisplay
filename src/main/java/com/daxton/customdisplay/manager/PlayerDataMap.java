@@ -28,6 +28,8 @@ public class PlayerDataMap {
     public static Map<String, Boolean> attack_Boolean_Map = new HashMap<>();
     public static Map<String, Boolean> attack_Boolean2_Map = new HashMap<>();
     public static Map<String, Boolean> attack_Boolean3_Map = new HashMap<>();
+    /**多次攻擊時**/
+    public static Map<String, Boolean> attack_Boolean4_Map = new HashMap<>();
 
     /**施法時間**/
     public static Map<String, BukkitRunnable> cost_Time_Map = new HashMap<>();

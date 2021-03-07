@@ -35,13 +35,17 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             LivingEntity target = event.getTarget();
             double damageNumber = event.getDamage();
             String uuidString = player.getUniqueId().toString();
+            String tUUIDString = target.getUniqueId().toString();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);
-                return;
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
+                new PlayerTrigger(player).onMagic(player,target);
             }
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onMagic(player,target);
+
 
         }
 
@@ -62,13 +66,17 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             LivingEntity target = event.getTarget();
             double damageNumber = event.getDamage();
             String uuidString = player.getUniqueId().toString();
+            String tUUIDString = target.getUniqueId().toString();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);
-                return;
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
+                new PlayerTrigger(player).onAttack(player,target);
             }
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onAttack(player,target);
+
 
         }
 

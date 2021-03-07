@@ -145,13 +145,11 @@ public class FormulaDelay {
 
         if(castTime == 0){
             if(castDelay == 0){
-                //LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
 
                 new PlayerTrigger(player).onSkill(player,inputTarget,action);
 
                 PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
             }else {
-                LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
 
                 new PlayerTrigger(player).onSkill(player,inputTarget,action);
 
@@ -198,7 +196,7 @@ public class FormulaDelay {
                     if(costCount >= 1.0){
                         cancel();
                         if(castDelay == 0){
-                            LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+                            LivingEntity target = EntityFind.getLivingTarget(player,targetDistance);
                             if(hologram != null){
                                 hologram.delete();
                             }
@@ -209,7 +207,7 @@ public class FormulaDelay {
                             new SendBossBar().setSkillBarProgress(0);
                             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
                         }else {
-                            LivingEntity target = (LivingEntity) new EntityFind().getTarget(player,targetDistance);
+                            LivingEntity target = EntityFind.getLivingTarget(player,targetDistance);
                             if(hologram != null){
                                 hologram.delete();
                             }

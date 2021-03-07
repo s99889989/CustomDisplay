@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.listener.mmocore;
+package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.EntityFind;
@@ -31,8 +31,6 @@ public class MMOCoreListener implements Listener {
 
     private Player player;
 
-    private LivingEntity target;
-
     private UUID playerUUID;
 
     private UUID targetUUID;
@@ -55,13 +53,14 @@ public class MMOCoreListener implements Listener {
             }
         }
 
-        target = (LivingEntity) event.getEntity();
+        LivingEntity target = (LivingEntity) event.getEntity();
         damageNumber = event.getFinalDamage();
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
 
             String uuidString = player.getUniqueId().toString();
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+            String tUUIDSTring = target.getUniqueId().toString();
+
 
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
@@ -92,8 +91,12 @@ public class MMOCoreListener implements Listener {
 
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,"Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);
                 return;
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
             }
 
             if(damageType.contains("PHYSICAL")){

@@ -30,11 +30,14 @@ public class CrackShotListener implements Listener {
         LivingEntity target = (LivingEntity) event.getVictim();
         if(player != null && damageNumber > 0){
             String uuidString = player.getUniqueId().toString();
+            String tUUIDString = target.getUniqueId().toString();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
                 new PlayerTrigger(player).onAttack(player,target);
             }
         }

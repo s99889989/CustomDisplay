@@ -28,13 +28,9 @@ public class MythicLib_SkillAPI_Listener extends AttributeListener implements Li
 
     private Player player;
 
-    private LivingEntity target;
-
     private UUID playerUUID;
 
     private UUID targetUUID;
-
-    private double damageNumber = 0;
 
     private double damageNumberPAE = 0.0;
 
@@ -55,8 +51,11 @@ public class MythicLib_SkillAPI_Listener extends AttributeListener implements Li
         if(event.getDamager() instanceof Player & event.getTarget() instanceof LivingEntity){
             Player player = ((Player) event.getDamager()).getPlayer();
             LivingEntity target = event.getTarget();
+            String uuidString = player.getUniqueId().toString();
+            String tUUIDString = target.getUniqueId().toString();
             double damageNumber = event.getDamage();
-            PlaceholderManager.getCd_Placeholder_Map().put(player.getUniqueId().toString()+"<cd_attack_number>",String.valueOf(damageNumber));
+            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+            PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
             new PlayerTrigger(player).onMagic(player,target);
 
         }
@@ -77,17 +76,22 @@ public class MythicLib_SkillAPI_Listener extends AttributeListener implements Li
                 return;
             }
         }
-
-        damageNumber = event.getFinalDamage();
+        LivingEntity target = (LivingEntity) event.getEntity();
+        double damageNumber = event.getFinalDamage();
         player = EntityFind.convertPlayer(event.getDamager());
         if(player != null){
             String uuidString = player.getUniqueId().toString();
+            String tUUIDString = target.getUniqueId().toString();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
                 new PlayerTrigger(player).onAtkMiss(player,target);
                 return;
+            }else {
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
             }
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
+
             playerUUID = player.getUniqueId();
             targetUUID = target.getUniqueId();
 

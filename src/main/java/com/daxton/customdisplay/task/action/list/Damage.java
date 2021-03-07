@@ -5,8 +5,14 @@ import com.daxton.customdisplay.api.EntityFind;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.other.StringFind;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED;
 
 
 public class Damage {
@@ -25,9 +31,7 @@ public class Damage {
         this.self = self;
         this.target = target;
         this.firstString = firstString;
-        if(target == null){
-            this.target = (LivingEntity) new EntityFind().getTarget(self,10);
-        }
+
         setOther();
     }
 
@@ -66,22 +70,39 @@ public class Damage {
             }
 
         }
-
-        if(self != null && target != null){
-            if(type.equals("SKILL_MELEE_PHYSICAL_ATTACK")){
-                giveMeleePhysicalDamage(self,target,amount,operate);
-            }else if(type.equals("SKILL_RANGE_PHYSICAL_ATTACK")){
-                giveRangePhysicalDamage(self,target,amount,operate);
-            }else if(type.equals("SKILL_MAGIC_ATTACK")){
-                giveMagicDamage(self,target,amount,operate);
-            }else if(type.equals("SKILL_NO_ATTACK")){
-                giveNoDamage(self,target,amount);
-            }else {
-                giveMeleePhysicalDamage(self,target,amount,operate);
+        String aims = new StringFind().getKeyValue(self,target,firstString,"[]; ","@=");
+        List<LivingEntity> targetList = new ArrayList<>();
+        if(aims.toLowerCase().contains("selfradius")){
+            List<LivingEntity> livingEntityList = EntityFind.getRadiusLivingEntities(self,10);
+            for(LivingEntity le : livingEntityList){
+                targetList.add(le);
             }
+        }else if(aims.toLowerCase().contains("targetradius")){
+            List<LivingEntity> livingEntityList = EntityFind.getRadiusLivingEntities(target,10);
+            for(LivingEntity le : livingEntityList){
+                targetList.add(le);
+            }
+        }else if(aims.toLowerCase().contains("self")){
+            targetList.add(self);
+        }else {
+            if(target != null){
+                targetList.add(target);
+            }
+        }
 
-
-
+        if(self != null && target != null && !(targetList.isEmpty())){
+            PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);
+            if(type.equals("SKILL_MELEE_PHYSICAL_ATTACK")){
+                giveMeleePhysicalDamage(self,targetList,amount,operate);
+            }else if(type.equals("SKILL_RANGE_PHYSICAL_ATTACK")){
+                giveRangePhysicalDamage(self,targetList,amount,operate);
+            }else if(type.equals("SKILL_MAGIC_ATTACK")){
+                giveMagicDamage(self,targetList,amount,operate);
+            }else if(type.equals("SKILL_NO_ATTACK")){
+                giveNoDamage(self,targetList,amount);
+            }else {
+                giveMeleePhysicalDamage(self,targetList,amount,operate);
+            }
 
         }
 
@@ -89,7 +110,7 @@ public class Damage {
     }
 
     /**近距離物理攻擊**/
-    public void giveMeleePhysicalDamage(LivingEntity self,LivingEntity target,double amount,String operate){
+    public void giveMeleePhysicalDamage(LivingEntity self,List<LivingEntity> targetList,double amount,String operate){
         if(operate.toUpperCase().contains("MULTIPLY")){
             /**鸚鵡**/
             Parrot entity = (Parrot) self.getWorld().spawnEntity((self).getLocation().add(0,-10,0), EntityType.PARROT);
@@ -99,7 +120,10 @@ public class Damage {
             entity.setCollidable(false);
             entity.setGravity(false);
             entity.setOwner((AnimalTamer) self);
-            target.damage(amount,entity);
+            for(LivingEntity livingEntity : targetList){
+                livingEntity.damage(amount,entity);
+            }
+            PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),true);
             entity.remove();
         }else {
             /**貓**/
@@ -110,14 +134,16 @@ public class Damage {
             entity.setCollidable(false);
             entity.setGravity(false);
             entity.setOwner((AnimalTamer) self);
-            target.damage(amount,entity);
+            for(LivingEntity livingEntity : targetList){
+                livingEntity.damage(amount,entity);
+            }
             entity.remove();
         }
 
 
     }
     /**魔法攻擊**/
-    public void giveMagicDamage(LivingEntity self,LivingEntity target,double amount,String operate){
+    public void giveMagicDamage(LivingEntity self,List<LivingEntity> targetList,double amount,String operate){
         if(operate.toUpperCase().contains("MULTIPLY")){
             /**駱駝**/
             Llama entity = (Llama) self.getWorld().spawnEntity((self).getLocation().add(0,-10,0), EntityType.LLAMA);
@@ -127,7 +153,9 @@ public class Damage {
             entity.setCollidable(false);
             entity.setGravity(false);
             entity.setOwner((AnimalTamer) self);
-            target.damage(amount,entity);
+            for(LivingEntity livingEntity : targetList){
+                livingEntity.damage(amount,entity);
+            }
             entity.remove();
 
         }else {
@@ -139,14 +167,16 @@ public class Damage {
             entity.setCollidable(false);
             entity.setGravity(false);
             entity.setOwner((AnimalTamer) self);
-            target.damage(amount,entity);
+            for(LivingEntity livingEntity : targetList){
+                livingEntity.damage(amount,entity);
+            }
             entity.remove();
         }
 
 
     }
     /**遠距離物理攻擊**/
-    public void giveRangePhysicalDamage(LivingEntity self,LivingEntity target,double amount,String operate){
+    public void giveRangePhysicalDamage(LivingEntity self,List<LivingEntity> targetList,double amount,String operate){
         if(operate.toUpperCase().contains("MULTIPLY")){
             /**驢**/
             Donkey entity = (Donkey) self.getWorld().spawnEntity((self).getLocation().add(0,-10,0), EntityType.DONKEY);
@@ -156,7 +186,9 @@ public class Damage {
             entity.setCollidable(false);
             entity.setGravity(false);
             entity.setOwner((AnimalTamer) self);
-            target.damage(amount,entity);
+            for(LivingEntity livingEntity : targetList){
+                livingEntity.damage(amount,entity);
+            }
             entity.remove();
         }else {
             /**馬騾**/
@@ -167,7 +199,9 @@ public class Damage {
             entity.setCollidable(false);
             entity.setGravity(false);
             entity.setOwner((AnimalTamer) self);
-            target.damage(amount,entity);
+            for(LivingEntity livingEntity : targetList){
+                livingEntity.damage(amount,entity);
+            }
             entity.remove();
         }
 
@@ -176,9 +210,10 @@ public class Damage {
 
 
 
-    public void giveNoDamage(LivingEntity self,LivingEntity target,double amount){
-
-        target.damage(amount);
+    public void giveNoDamage(LivingEntity self,List<LivingEntity> targetList,double amount){
+        for(LivingEntity livingEntity : targetList){
+            livingEntity.damage(amount);
+        }
         PhysicalDamageEvent event = new PhysicalDamageEvent(self,target, amount, self instanceof Projectile,"MAGIC_ATTACK","");
         Bukkit.getPluginManager().callEvent(event);
 

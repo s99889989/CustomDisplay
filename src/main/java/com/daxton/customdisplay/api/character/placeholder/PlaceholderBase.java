@@ -14,9 +14,13 @@ public class PlaceholderBase {
 
     }
 
-    public String valueOf(LivingEntity entity, String inputString){
+    public String valueOf(LivingEntity entity,LivingEntity target, String inputString){
         String outputString = "";
         String uuidString = entity.getUniqueId().toString();
+        String tUUIDString = "";
+        if(target != null){
+            tUUIDString = target.getUniqueId().toString();
+        }
         if(inputString.toLowerCase().contains("<cd_base_name")){
             outputString = entity.getName();
         }
@@ -61,7 +65,16 @@ public class PlaceholderBase {
         }
         if(inputString.toLowerCase().contains("<cd_base_attack_number")){
             if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>") != null){
-                outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>");
+                if(target != null){
+                    if(PlaceholderManager.cd_Attack_Number.get(uuidString+tUUIDString) != null){
+                        outputString = PlaceholderManager.cd_Attack_Number.get(uuidString+tUUIDString);
+                    }else {
+                        outputString = "null";
+                    }
+                }else {
+                    outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>");
+                }
+
             }
 
         }
