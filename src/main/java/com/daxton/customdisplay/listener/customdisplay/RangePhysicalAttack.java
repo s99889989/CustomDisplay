@@ -1,22 +1,19 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
 import com.daxton.customdisplay.api.player.damageformula.FormulaChance;
 import com.daxton.customdisplay.api.player.damageformula.FormulaPhysics;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
-import java.io.File;
 
 public class RangePhysicalAttack implements Listener {
 
@@ -33,7 +30,7 @@ public class RangePhysicalAttack implements Listener {
                 return;
             }
 
-            Player player = EntityFind.convertPlayer(event.getDamager());
+            Player player = Convert.convertPlayer(event.getDamager());
             if (player != null) {
                 String uuidString = player.getUniqueId().toString();
 

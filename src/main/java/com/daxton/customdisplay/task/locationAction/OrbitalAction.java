@@ -1,21 +1,17 @@
 package com.daxton.customdisplay.task.locationAction;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.EntityFind;
 
+import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.other.ConfigFind;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.condition.Condition;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -172,7 +168,7 @@ public class OrbitalAction extends BukkitRunnable{
 
 
         if(target == null){
-            this.target = (LivingEntity) new EntityFind().getTarget(self,10);
+            this.target = LookTarget.getLivingTarget(self,10);
         }
 
         startX = startX*self.getEyeLocation().getDirection().getX();

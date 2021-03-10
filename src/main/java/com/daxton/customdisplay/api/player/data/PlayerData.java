@@ -10,6 +10,7 @@ import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PermissionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -45,9 +46,11 @@ public class PlayerData {
     public Map<String,String> attributes_Point_Map = new HashMap<>();
     /**玩家屬性**/
     public Map<String,String> attributes_Stats_Map = new HashMap<>();
+    public Map<String,String> attributes_Stats_Map2 = new HashMap<>();
     /**裝備屬性**/
     public Map<String,String> equipment_Stats_Map = new HashMap<>();
     public Map<String,String> name_Equipment_Map = new HashMap<>();
+    public Map<String,String> equipment_Stats_Map2 = new HashMap<>();
     /**技能**/
     public Map<String,String> skills_Map = new HashMap<>();
     /**技能綁定**/
@@ -63,7 +66,8 @@ public class PlayerData {
         this.player = player;
         uuidString = player.getUniqueId().toString();
 
-
+        /**清除所有屬性**/
+        new PlayerBukkitAttribute().removeAllAttribute(player);
 
         new PlayerConfig2(player);
         playerConfig = new LoadConfig().getPlayerConfig(player);

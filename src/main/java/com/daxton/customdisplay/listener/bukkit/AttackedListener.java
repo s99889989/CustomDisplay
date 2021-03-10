@@ -1,23 +1,23 @@
 package com.daxton.customdisplay.listener.bukkit;
 
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import static com.daxton.customdisplay.api.EntityFind.convertLivingEntity;
+import static com.daxton.customdisplay.api.entity.Convert.convertLivingEntity;
 
 
 public class AttackedListener implements Listener {
 
     @EventHandler
     public void onAttacked(EntityDamageByEntityEvent event){
-        Player player = EntityFind.convertPlayer(event.getEntity());
+        Player player = Convert.convertPlayer(event.getEntity());
         if(player != null){
             LivingEntity target = convertLivingEntity(event.getDamager());
             String uuidString = player.getUniqueId().toString();

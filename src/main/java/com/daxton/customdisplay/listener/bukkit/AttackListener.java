@@ -1,20 +1,17 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 
 import java.util.UUID;
@@ -46,7 +43,7 @@ public class AttackListener implements Listener {
         }
         double damageNumber = event.getFinalDamage();
         target = (LivingEntity) event.getEntity();
-        player = EntityFind.convertPlayer(event.getDamager());
+        player = Convert.convertPlayer(event.getDamager());
         if(player != null){
 
             String uuidString = player.getUniqueId().toString();

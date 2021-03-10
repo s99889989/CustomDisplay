@@ -28,14 +28,16 @@ public class MobConfig {
     public void setMod(ActiveMob activeMob,double mobLevel){
         String mobID = activeMob.getMobType();
         String uuidString = activeMob.getUniqueId().toString();
-
-
+        String faction = activeMob.getFaction();
 
 
         /**用UUID字串儲存MMID**/
         MobManager.mythicMobs_mobID_Map.put(uuidString,mobID);
-        /**用UUID字串儲存MMID**/
+        /**用UUID字串儲存MM等級**/
         MobManager.mythicMobs_Level_Map.put(uuidString,String.valueOf(mobLevel));
+        /**用UUID字串儲存MM派系**/
+        MobManager.mythicMobs_Faction_Map.put(uuidString,faction);
+
 
         File mobFilePatch = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");
         FileConfiguration mobConfig;

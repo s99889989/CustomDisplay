@@ -1,8 +1,9 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -62,7 +63,7 @@ public class Holographic {
         this.taskID = taskID;
         this.firstString = firstString;
         if(target == null){
-            this.target = (LivingEntity) new EntityFind().getTarget(self,10);
+            this.target = LookTarget.getLivingTarget(self,10);
 
         }
         if(setOther()){

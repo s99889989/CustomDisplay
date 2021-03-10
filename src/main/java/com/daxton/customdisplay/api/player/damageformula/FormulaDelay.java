@@ -1,8 +1,9 @@
 package com.daxton.customdisplay.api.player.damageformula;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -141,7 +142,11 @@ public class FormulaDelay {
         String cast_Item = skillStatusConfig.getString("Skill_Cast_Time.Hologram.Item");
         /**內容**/
         boolean line_Enable = skillStatusConfig.getBoolean("Skill_Cast_Time.Hologram.LineEnble");
+
         String cast_Line = skillStatusConfig.getString("Skill_Cast_Time.Hologram.Line");
+
+        /**技能是否需要目標**/
+        boolean needTarget = skillConfig.getBoolean(skillName+".NeedTarget");
 
         if(castTime == 0){
             if(castDelay == 0){
@@ -196,18 +201,20 @@ public class FormulaDelay {
                     if(costCount >= 1.0){
                         cancel();
                         if(castDelay == 0){
-                            LivingEntity target = EntityFind.getLivingTarget(player,targetDistance);
+                            LivingEntity target = LookTarget.getLivingTarget(player,targetDistance);
                             if(hologram != null){
                                 hologram.delete();
                             }
 
-                            if(inputTarget != null && target == inputTarget){
+                            if(needTarget && inputTarget != null && target == inputTarget){
+                                new PlayerTrigger(player).onSkill(player,inputTarget,action);
+                            }else {
                                 new PlayerTrigger(player).onSkill(player,inputTarget,action);
                             }
                             new SendBossBar().setSkillBarProgress(0);
                             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
                         }else {
-                            LivingEntity target = EntityFind.getLivingTarget(player,targetDistance);
+                            LivingEntity target = LookTarget.getLivingTarget(player,targetDistance);
                             if(hologram != null){
                                 hologram.delete();
                             }

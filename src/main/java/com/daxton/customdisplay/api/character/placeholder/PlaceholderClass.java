@@ -65,12 +65,34 @@ public class PlaceholderClass {
                 }
                 if(inputString.toLowerCase().contains("_class_attr_stats_")){
                     if(playerData.attributes_Stats_Map.get(value) != null){
-                        outputString = playerData.attributes_Stats_Map.get(value);
+                        if(playerData.attributes_Stats_Map2.get(value) != null){
+                            try {
+                                double attrNubmer = Double.valueOf(playerData.attributes_Stats_Map.get(value));
+                                double addNumber = Double.valueOf(playerData.attributes_Stats_Map2.get(value));
+                                outputString = String.valueOf(attrNubmer+addNumber);
+                            }catch (NumberFormatException exception){
+                                outputString = playerData.attributes_Stats_Map.get(value);
+                            }
+                        }else {
+                            outputString = playerData.attributes_Stats_Map.get(value);
+                        }
                     }
                 }
                 if(inputString.toLowerCase().contains("_class_eqm_stats_")){
                     if(playerData.equipment_Stats_Map.get(value) != null){
-                        outputString = playerData.equipment_Stats_Map.get(value);
+                        if(playerData.equipment_Stats_Map2.get(value) != null){
+                            try {
+                                double attrNubmer = Double.valueOf(playerData.equipment_Stats_Map.get(value));
+                                double addNumber = Double.valueOf(playerData.equipment_Stats_Map2.get(value));
+                                outputString = String.valueOf(attrNubmer+addNumber);
+                            }catch (NumberFormatException exception){
+                                outputString = playerData.equipment_Stats_Map.get(value);
+                            }
+                        }else {
+                            outputString = playerData.equipment_Stats_Map.get(value);
+                        }
+
+
                     }
                 }
                 if(inputString.toLowerCase().contains("_class_skill_")){

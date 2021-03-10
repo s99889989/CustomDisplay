@@ -4,6 +4,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,10 @@ public class ActionManager {
 
     /**SendParticles->ProtocolManager**/
     private static Map<String, ProtocolManager> sendParticles_ProtocolManager_Map = new HashMap<>();
+
+    /**短時間屬性地圖**/
+    public static Map<String, Boolean> setAttribute_Boolean_Map = new HashMap<>();
+    public static Map<String, BukkitRunnable> setAttribute_Run_Map = new HashMap<>();
 
     /**---------------------------------------------------------------------------------------------------------------**/
 

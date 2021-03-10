@@ -13,7 +13,7 @@ import com.daxton.customdisplay.listener.crackshot.CrackShotListener;
 import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmolib.MMOCoreListener;
 import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
-import com.daxton.customdisplay.listener.modelengine.ModelEngineListener;
+import com.daxton.customdisplay.listener.mythicmobs.ModelEngineListener;
 import com.daxton.customdisplay.listener.mythicLib.CDMythicLibListener;
 import com.daxton.customdisplay.listener.mythicLib.MythicLibListener;
 import com.daxton.customdisplay.listener.mythicLib.MythicLib_MMOCore_Listener;
@@ -81,11 +81,12 @@ public final class CustomDisplay extends JavaPlugin {
         if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
             Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
             getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
+            if (Bukkit.getServer().getPluginManager().getPlugin("ModelEngine") != null){
+                Bukkit.getPluginManager().registerEvents(new ModelEngineListener(),customDisplay);
+                getLogger().info(ChatColor.GREEN+"Loaded ModelEngine");
+            }
         }
-        if (Bukkit.getServer().getPluginManager().getPlugin("ModelEngine") != null){
-            Bukkit.getPluginManager().registerEvents(new ModelEngineListener(),customDisplay);
-            getLogger().info(ChatColor.GREEN+"Loaded ModelEngine");
-        }
+
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         configManager = new ConfigManager(customDisplay);
         Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());

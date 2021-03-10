@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.EntityFind;
+import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.player.*;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -45,7 +46,14 @@ public class EquipmentListener implements Listener {
         String uuidString = player.getUniqueId().toString();
         int key = event.getNewSlot();
         int old = event.getPreviousSlot();
-        new PlayerEquipment().reloadEquipment(player,key);
+
+        if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
+            boolean cast = ListenerManager.getCast_On_Stop().get(uuidString);
+            if(!cast){
+                new PlayerEquipment().reloadEquipment(player,key);
+            }
+        }
+
         //new PlayerAttribute(player);
 
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
@@ -62,7 +70,7 @@ public class EquipmentListener implements Listener {
                     /**目標最遠距離**/
                     int targetDistance = skillConfig.getInt(skillName+".TargetDistance");
 
-                    LivingEntity target = EntityFind.getLivingTarget(player,targetDistance);
+                    LivingEntity target = LookTarget.getLivingTarget(player,targetDistance);
                     if(needTarget){
                         if(target != null){
                             /**技能動作延遲初始化**/
@@ -164,6 +172,7 @@ public class EquipmentListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent event){
         Player player = (Player) event.getPlayer();
         new PlayerEquipment().reloadEquipment(player,10);
+
         //new PlayerAttribute(player);
         //new PlayerConfig(player).setAttrStats(player);
     }

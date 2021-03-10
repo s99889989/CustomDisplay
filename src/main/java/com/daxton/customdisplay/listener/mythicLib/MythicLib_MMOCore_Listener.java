@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.listener.mythicLib;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.Indyuce.mmocore.api.player.PlayerData;
@@ -16,7 +17,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -53,7 +53,7 @@ public class MythicLib_MMOCore_Listener implements Listener {
 
         LivingEntity target = (LivingEntity) event.getEntity();
         damageNumber = event.getFinalDamage();
-        player = EntityFind.convertPlayer(event.getDamager());
+        player = Convert.convertPlayer(event.getDamager());
         if(player != null){
 
             String uuidString = player.getUniqueId().toString();

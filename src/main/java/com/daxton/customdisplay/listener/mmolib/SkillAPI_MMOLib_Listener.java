@@ -1,14 +1,13 @@
 package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.sucy.skill.api.event.PhysicalDamageEvent;
 import com.sucy.skill.api.event.SkillDamageEvent;
 import com.sucy.skill.listener.AttributeListener;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import net.mmogroup.mmolib.api.player.MMOPlayerData;
 import org.bukkit.Bukkit;
@@ -81,7 +80,7 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
         }
 
         damageNumber = event.getFinalDamage();
-        player = EntityFind.convertPlayer(event.getDamager());
+        player = Convert.convertPlayer(event.getDamager());
         if(player != null){
             LivingEntity target = (LivingEntity) event.getEntity();
             String uuidString = player.getUniqueId().toString();

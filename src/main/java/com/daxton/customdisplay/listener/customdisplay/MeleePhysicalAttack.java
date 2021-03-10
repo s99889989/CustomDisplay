@@ -103,10 +103,12 @@ public class MeleePhysicalAttack implements Listener {
                     event.setDamageType("PHYSICAL_ATTACK");
                     attackNumber = new FormulaPhysics().setMeleePhysicalDamageNumber(player, target);
                     attackNumber = attackNumber* event.getDamage();
+
                     event.setDamage(attackNumber);
                 }else {
                     event.setDamageType("PHYSICAL_ATTACK");
                     attackNumber = new FormulaPhysics().setMeleePhysicalDamageNumber(player, target);
+
                     event.setDamage(attackNumber);
                 }
 

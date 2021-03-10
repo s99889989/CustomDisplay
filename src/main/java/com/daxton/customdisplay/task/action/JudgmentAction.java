@@ -196,6 +196,10 @@ public class JudgmentAction {
             new Command().setCommand(self,target,firstString,taskID);
         }
 
+        if(judgMent.toLowerCase().contains("setattribute")){
+            new SetAttribute().set(self,target,firstString,taskID);
+        }
+
     }
 
 

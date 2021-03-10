@@ -153,6 +153,58 @@ public class StringFind {
         return outPut;
     }
 
+    /**丟入字串,key和關鍵字 回傳值**/
+    public String getKeyValue2(LivingEntity self, LivingEntity target, String string, String cut, String defaultValue, String... key){
+        List<String> KeyList = getBlockList(string,cut);
+        String[] itemIDStrings = KeyList.stream().filter(s -> Arrays.stream(key).anyMatch(s.toLowerCase()::contains)).collect(Collectors.joining()).split("=");
+        String outPut = defaultValue;
+        if(itemIDStrings.length == 2){
+            outPut = itemIDStrings[1];
+
+            if(outPut.contains("&")){
+                outPut = new ConversionMain().valueOf(self,target,outPut);
+            }
+        }
+        return outPut;
+    }
+
+    /**丟入字串,key和關鍵字 回傳值**/
+    public String getAimsValue(String firstString,String key,String defaultValue){
+        String outPut = defaultValue;
+        if(firstString.contains("@=")){
+            String[] strings = firstString.split("@=");
+            if(key.equals("aims")){
+                String[] strings1 = strings[1].split("\\{");
+                outPut = strings1[0];
+            }
+            if(key.equals("r")){
+                for(String s : getBlockList(strings[1],"{;}")){
+                    if(s.toLowerCase().contains("r=")){
+                        String[] strings1 = s.split("=");
+                        outPut = strings1[1];
+                    }
+                }
+            }
+            if(key.equals("filters")){
+                for(String s : getBlockList(strings[1],"{;}")){
+                    if(s.toLowerCase().contains("filters=")){
+                        String[] strings1 = s.split("=");
+                        outPut = strings1[1];
+                    }
+                }
+            }
+            if(key.equals("f")){
+                for(String s : getBlockList(strings[1],"{;}")){
+                    if(s.toLowerCase().contains("f=")){
+                        String[] strings1 = s.split("=");
+                        outPut = strings1[1];
+                    }
+                }
+            }
+        }
+
+        return outPut;
+    }
 
 
     /**丟入字串和key 轉成List**/

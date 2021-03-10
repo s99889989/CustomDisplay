@@ -5,6 +5,7 @@ import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.Loop;
+import com.daxton.customdisplay.task.action.list.SendBossBar;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.UUID;
@@ -50,7 +51,11 @@ public class ClearAction {
 
         /**judgment2->SendBossBar2**/
         if(!(ActionManager.getJudgment2_SendBossBar2_Map().isEmpty())){
+            for (SendBossBar sendBossBar : ActionManager.getJudgment2_SendBossBar2_Map().values()){
+                sendBossBar.getBossBar().removeAll();
+            }
             ActionManager.getJudgment2_SendBossBar2_Map().clear();
+
         }
 
 

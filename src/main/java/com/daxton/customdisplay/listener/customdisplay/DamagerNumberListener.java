@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
@@ -12,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import static org.bukkit.entity.EntityType.ARMOR_STAND;
 
@@ -36,7 +36,7 @@ public class DamagerNumberListener implements Listener {
 
         double damageNumber = event.getDamage();
         LivingEntity target = event.getTarget();
-        Player player = EntityFind.convertPlayer(event.getDamager());
+        Player player = Convert.convertPlayer(event.getDamager());
         if(player != null){
             String uuidString = player.getUniqueId().toString();
             String tUUIDSTring = target.getUniqueId().toString();

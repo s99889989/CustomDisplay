@@ -1,34 +1,20 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.mob.MobConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.ticxo.modelengine.api.events.*;
-import com.ticxo.modelengine.api.model.ActiveModel;
-import com.ticxo.modelengine.api.model.ModeledEntity;
-import com.ticxo.modelengine.api.model.component.ModelOption;
+import com.ticxo.modelengine.model.MEModeledEntity;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobLootDropEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Parrot;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MythicMobSpawnListener implements Listener {
 
@@ -53,7 +39,7 @@ public class MythicMobSpawnListener implements Listener {
         LivingEntity killer = event.getKiller();
 
         Player player = null;
-        player = EntityFind.convertKillerPlayer(killer);
+        player = Convert.convertKillerPlayer(killer);
 
         if(player != null){
             String mobID = event.getMob().getMobType();

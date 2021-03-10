@@ -135,60 +135,23 @@ public class PlayerEquipment {
                 String key2 = (String)keys.next();
                 if(key2.equals(key)){
                     String attr = name_Equipment_Map.get(key2);
-                    attributes_EquipmentStats_Map.put(attr,keyNumberString);
-                    //player.sendMessage(attr+" : "+keyNumberString);
 
+
+                    try {
+                        double nowValue = Double.valueOf(attributes_EquipmentStats_Map.get(attr));
+                        nowValue += Double.valueOf(keyNumberString);
+                        attributes_EquipmentStats_Map.put(attr,String.valueOf(nowValue));
+
+                    }catch (NumberFormatException exception){
+                        attributes_EquipmentStats_Map.put(attr,keyNumberString);
+                    }
+
+                    //player.sendMessage(attr+" : "+keyNumberString);
 
                 }
             }
         }
 
-
-
-//        String uuidString = player.getUniqueId().toString();
-//
-//        File playerEqmFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/equipment-stats.yml");
-//        FileConfiguration playerEqmConfig = YamlConfiguration.loadConfiguration(playerEqmFilePatch);
-//
-//        File playerFilePatch = new File(cd.getDataFolder(),"Players/"+uuidString+"/"+uuidString+".yml");
-//        FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFilePatch);
-//        List<String> eqmSetNameList = playerConfig.getStringList(uuidString+".Equipment_Stats");
-//        if(eqmSetNameList.size() > 0){
-//            for(String eqmSetName : eqmSetNameList){
-//                File eqmStatsPatch = new File(cd.getDataFolder(),"Class/Attributes/EquipmentStats/"+eqmSetName+".yml");
-//                FileConfiguration eqmConfig = YamlConfiguration.loadConfiguration(eqmStatsPatch);
-//                ConfigurationSection eqmStatsSec = eqmConfig.getConfigurationSection(eqmSetName);
-//                if(eqmStatsSec.getKeys(false).size() > 0){
-//                    for(String eqmStatsName : eqmStatsSec.getKeys(false)){
-//                        String statsName = eqmConfig.getString(eqmSetName+"."+eqmStatsName+".name");
-//
-//
-//                        if(statsName.contains(key)){
-//                            String nowNumberString = playerEqmConfig.getString(uuidString+".Equipment_Stats."+eqmStatsName);
-//                            String end = "";
-//                            try {
-//                                double nowNumber = Arithmetic.eval(nowNumberString);
-//                                double keyNumber = Arithmetic.eval(keyNumberString);
-//                                double newNumber = nowNumber + keyNumber;
-//                                end = String.valueOf(newNumber);
-//                            }catch (Exception exception){
-//                                end = keyNumberString;
-//                            }
-//
-//                            playerEqmConfig.set(uuidString+".Equipment_Stats."+eqmStatsName,end);
-//
-//                            try {
-//                                playerEqmConfig.save(playerEqmFilePatch);
-//                            }catch (Exception exception){
-//                                exception.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                }
-//
-//            }
-//
-//        }
 
     }
 

@@ -27,6 +27,9 @@ public class PlaceholderMythic {
             if(inputString.toLowerCase().contains("<cd_mythic_level")){
                 outputString = MobManager.mythicMobs_Level_Map.get(uuidString);
             }
+            if(inputString.toLowerCase().contains("<cd_mythic_faction")){
+                outputString = MobManager.mythicMobs_Faction_Map.get(uuidString);
+            }
 
             if(inputString.toLowerCase().contains("<cd_mythic_class_stats_")){
                 outputString = MobManager.mythicMobs_Attr_Map.get(mobID+"."+key);

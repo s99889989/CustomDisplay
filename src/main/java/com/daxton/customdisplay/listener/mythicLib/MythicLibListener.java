@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.listener.mythicLib;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
@@ -49,7 +50,7 @@ public class MythicLibListener implements Listener {
         }
         LivingEntity target = (LivingEntity) event.getEntity();
         damageNumber = event.getFinalDamage();
-        player = EntityFind.convertPlayer(event.getDamager());
+        player = Convert.convertPlayer(event.getDamager());
         if(player != null){
             String uuidString = player.getUniqueId().toString();
             String tUUIDString = target.getUniqueId().toString();

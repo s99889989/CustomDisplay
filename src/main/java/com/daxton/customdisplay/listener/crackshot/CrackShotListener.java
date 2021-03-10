@@ -1,7 +1,8 @@
 package com.daxton.customdisplay.listener.crackshot;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
@@ -58,7 +59,7 @@ public class CrackShotListener implements Listener {
         }
         double damageNumber = event.getFinalDamage();
         LivingEntity target = (LivingEntity) event.getEntity();
-        Player player = EntityFind.crackShotPlayer(event.getDamager());
+        Player player = Convert.crackShotPlayer(event.getDamager());
         if(player != null && damageNumber > 0){
             String uuidString = player.getUniqueId().toString();
             if (event.isCancelled()) {

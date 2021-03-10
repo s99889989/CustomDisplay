@@ -1,8 +1,9 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
-import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.entity.EntityFind;
+import com.daxton.customdisplay.api.entity.RadiusTarget;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -11,8 +12,6 @@ import org.bukkit.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED;
 
 
 public class Damage {
@@ -36,59 +35,23 @@ public class Damage {
     }
 
     public void setOther(){
+
+
+
+        String type = new StringFind().getKeyValue2(self,target,firstString,"[];","SKILL_PHYSICAL_ATTACK","type=");
+        String operate = new StringFind().getKeyValue2(self,target,firstString,"[];","ADD","operate=","opa=");
         double amount = 1;
-        String type = "SKILL_PHYSICAL_ATTACK";
-        String operate = "ADD";
-        for(String allString : new StringFind().getStringMessageList(firstString)){
-
-            if(allString.toLowerCase().contains("type=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    type = strings[1];
-
-                }
-            }
-
-            if(allString.toLowerCase().contains("operate=") || allString.toLowerCase().contains("opa=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    operate = strings[1];
-
-                }
-            }
-
-
-            if(allString.toLowerCase().contains("amount=") || allString.toLowerCase().contains("a=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    try{
-                        amount = Double.valueOf(new ConversionMain().valueOf(self,target,strings[1]));
-                    }catch (NumberFormatException exception){
-                        cd.getLogger().info("Damage的amount=內只能放數字: "+strings[1]);
-                    }
-                }
-            }
-
+        try{
+            amount = Double.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","1","amount=","a="));
+        }catch (NumberFormatException exception){
+            amount = 1;
+            cd.getLogger().info("Damage的amount=內只能放數字: "+firstString);
         }
-        String aims = new StringFind().getKeyValue(self,target,firstString,"[]; ","@=");
-        List<LivingEntity> targetList = new ArrayList<>();
-        if(aims.toLowerCase().contains("selfradius")){
-            List<LivingEntity> livingEntityList = EntityFind.getRadiusLivingEntities(self,10);
-            for(LivingEntity le : livingEntityList){
-                targetList.add(le);
-            }
-        }else if(aims.toLowerCase().contains("targetradius")){
-            List<LivingEntity> livingEntityList = EntityFind.getRadiusLivingEntities(target,10);
-            for(LivingEntity le : livingEntityList){
-                targetList.add(le);
-            }
-        }else if(aims.toLowerCase().contains("self")){
-            targetList.add(self);
-        }else {
-            if(target != null){
-                targetList.add(target);
-            }
-        }
+
+
+
+
+        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
 
         if(self != null && target != null && !(targetList.isEmpty())){
             PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);

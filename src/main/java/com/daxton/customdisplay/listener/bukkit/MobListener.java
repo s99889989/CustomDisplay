@@ -1,14 +1,14 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.ticxo.modelengine.api.events.ActiveModelStateEvent;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
@@ -87,9 +87,9 @@ public class MobListener implements Listener {
 
             Player player = null;
             if(nEvent.getDamager() instanceof LivingEntity){
-                player = EntityFind.convertKillerPlayer((LivingEntity) nEvent.getDamager());
+                player = Convert.convertKillerPlayer((LivingEntity) nEvent.getDamager());
             }else {
-                player = EntityFind.convertPlayer(nEvent.getDamager());
+                player = Convert.convertPlayer(nEvent.getDamager());
             }
             if(player != null){
 

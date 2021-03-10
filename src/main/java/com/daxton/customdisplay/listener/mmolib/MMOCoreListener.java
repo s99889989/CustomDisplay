@@ -1,13 +1,13 @@
 package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.EntityFind;
+import com.daxton.customdisplay.api.entity.Convert;
+import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.player.stats.StatType;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import net.mmogroup.mmolib.api.event.PlayerAttackEvent;
 import net.mmogroup.mmolib.api.item.NBTItem;
 import net.mmogroup.mmolib.api.player.MMOPlayerData;
@@ -55,7 +55,7 @@ public class MMOCoreListener implements Listener {
 
         LivingEntity target = (LivingEntity) event.getEntity();
         damageNumber = event.getFinalDamage();
-        player = EntityFind.convertPlayer(event.getDamager());
+        player = Convert.convertPlayer(event.getDamager());
         if(player != null){
 
             String uuidString = player.getUniqueId().toString();
