@@ -200,6 +200,11 @@ public class JudgmentAction {
             new SetAttribute().set(self,target,firstString,taskID);
         }
 
+        /**Glow的相關判斷**/
+        if(judgMent.toLowerCase().contains("glow")){
+            new setGlow().setGlow(self,target,firstString,taskID);
+        }
+
     }
 
 

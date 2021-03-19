@@ -13,6 +13,19 @@ HealthScale:
   enable: true
   scale: 20
 
+#權限設定
+#Permission setting
+Permission:
+  #開啟這項功能可以在加上權限後，馬上使用該項動作。
+  #Enabling this function can use this action immediately after adding permissions.
+  fastUse: false
+
+#更改聊天(暫無)
+#Change chat (not yet)
+Message:
+  enable: true
+  content: "<Player> "
+
 #材質包設定
 #Texture Pack Settings
 ResourcePack:

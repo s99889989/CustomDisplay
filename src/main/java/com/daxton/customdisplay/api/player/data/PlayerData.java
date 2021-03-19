@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.player.data;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.character.ReplaceTrigger;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.config.SaveConfig;
@@ -67,7 +68,7 @@ public class PlayerData {
         uuidString = player.getUniqueId().toString();
 
         /**清除所有屬性**/
-        new PlayerBukkitAttribute().removeAllAttribute(player);
+        //new PlayerBukkitAttribute().removeAllAttribute(player);
 
         new PlayerConfig2(player);
         playerConfig = new LoadConfig().getPlayerConfig(player);
@@ -77,7 +78,9 @@ public class PlayerData {
             setPlayerData(player);
         }
 
+        /**設定動作列表**/
         setPlayerActionList();
+        /**依照觸發條件分配**/
         setActionList();
 
 
@@ -188,16 +191,34 @@ public class PlayerData {
 
         }
 
-        for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
-            if(configName.contains("Permission")){
-                String perName = configName.replace("Permission_","").replace(".yml","").toLowerCase();
-                if(player.hasPermission("customdisplay.permission."+perName)){
+        FileConfiguration configuration = cd.getConfigManager().config;
+        boolean b = configuration.getBoolean("Permission.fastUse");
+
+        if(!b){
+            for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
+                if(configName.contains("Permission")){
+                    String perName = configName.replace("Permission_","").replace(".yml","").toLowerCase();
+                    if(player.hasPermission("customdisplay.permission."+perName)){
+                        for(String list : ConfigMapManager.getFileConfigurationMap().get(configName).getStringList("Action")){
+                            thisList.add(list);
+                        }
+                    }
+                }
+            }
+        }else {
+            for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
+                if(configName.contains("Permission")){
                     for(String list : ConfigMapManager.getFileConfigurationMap().get(configName).getStringList("Action")){
+                        String perName = configName.replace("Permission_","").replace(".yml","").toLowerCase();
+                        //cd.getLogger().info(list);
+                        //cd.getLogger().info(new ReplaceTrigger().valueOf(list));
+                        PlayerDataMap.playerAction_Permission.put(uuidString+new ReplaceTrigger().valueOf(list),"customdisplay.permission."+perName);
                         thisList.add(list);
                     }
                 }
             }
         }
+
 
         playerActionList = thisList.stream().distinct().collect(Collectors.toList());
 

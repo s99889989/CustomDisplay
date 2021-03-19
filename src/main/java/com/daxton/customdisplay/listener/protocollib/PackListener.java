@@ -16,6 +16,7 @@ import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -95,6 +96,22 @@ public class PackListener implements Listener{
                     }
 
                 }
+                /**發送發光數據包**/
+                public void addGlow(Player player){
+                    PacketContainer packet = pm.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+                    packet.getIntegers().write(0,player.getEntityId());
+                    WrappedDataWatcher watcher = new WrappedDataWatcher();
+
+                    WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class);
+                    watcher.setEntity(player);
+                    watcher.setObject(0,serializer,(byte)(0x40));
+                    try {
+                        pm.sendServerPacket(player,packet);
+                    }catch (InvocationTargetException exception){
+                        exception.printStackTrace();
+                    }
+                }
+
 
                 public void sendNamePacket3(Player player) {
                     Location loc = player.getLocation();

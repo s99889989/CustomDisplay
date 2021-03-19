@@ -236,6 +236,21 @@ public class PlayerListener implements Listener {
 
     }
 
+    /**當重生時**/
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event){
+        Player player = event.getPlayer();
+
+        UUID playerUUID = player.getUniqueId();
+        String uuidString = player.getUniqueId().toString();
+        if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+            new PlayerTrigger(player).onKeyFOFF(player);
+            ListenerManager.getCast_On_Stop().put(uuidString,false);
+        }
+
+    }
+
+
     /**當按下F鍵**/
     @EventHandler
     public void onSwapHand(PlayerSwapHandItemsEvent event){

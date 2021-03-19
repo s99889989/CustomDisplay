@@ -14,6 +14,10 @@ public class PlayerDataMap {
     /**玩家動作資料**/
     private static Map<UUID, PlayerData> playerDataMap = new HashMap<>();
 
+
+    /**玩家動作權限**/
+    public static Map<String, String> playerAction_Permission = new HashMap<>();
+
     /**CustomCore屬性**/
     private static Map<String, CoreAttribute> core_Attribute_Map = new HashMap<>();
 

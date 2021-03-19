@@ -8,6 +8,7 @@ import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -433,6 +434,23 @@ public class PlayerTrigger {
     }
 
     public void runExecute(String actionString){
+
+        FileConfiguration configuration = cd.getConfigManager().config;
+        boolean b = configuration.getBoolean("Permission.fastUse");
+        if(b){
+            if(self instanceof Player){
+                Player player = (Player) self;
+                String uuidString = player.getUniqueId().toString();
+                if(PlayerDataMap.playerAction_Permission.get(uuidString+actionString) != null){
+                    String pp = PlayerDataMap.playerAction_Permission.get(uuidString+actionString);
+                    if(!player.hasPermission(pp)){
+                        return;
+                    }
+                }
+            }
+        }
+
+
         stop = false;
         taskID = String.valueOf((int)(Math.random()*100000));
         for(String allString : new StringFind().getStringList(actionString)){

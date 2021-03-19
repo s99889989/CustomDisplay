@@ -46,7 +46,7 @@ public class Aims {
 
             }
         }else if(target != null && aims.toLowerCase().contains("targetradius")){
-            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities(target,radius);
+            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities2(target,radius);
             for(LivingEntity le : livingEntityList){
                 if(filters.equals("null")){
                     targetList.add(le);

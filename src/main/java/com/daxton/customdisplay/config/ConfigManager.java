@@ -29,7 +29,7 @@ public class ConfigManager {
 
         config = new AutoConfig("resource/config.yml","config.yml").get();
         language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
-
+        config.getString("");
         File players_file = new File(cd.getDataFolder(),"Players");
         if(!players_file.exists()){
             players_file.mkdir();
