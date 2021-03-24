@@ -39,7 +39,7 @@ public class SetAttribute {
             duration = Integer.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","200","duration=","dt="));
         }catch (NumberFormatException exception){
             duration = 200;
-            cd.getLogger().info("Heal的amount=內只能放數字");
+
         }
 
         /**量**/
@@ -48,7 +48,7 @@ public class SetAttribute {
             amount = Double.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","1","amount=","a="));
         }catch (NumberFormatException exception){
             amount = 1;
-            cd.getLogger().info("Heal的amount=內只能放數字");
+
         }
 
         /**目標**/

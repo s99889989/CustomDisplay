@@ -32,11 +32,11 @@ public class RadiusTarget {
     }
 
     /**獲得圓半徑目標(包含自己)**/
-    public static List<LivingEntity> getRadiusLivingEntities2(LivingEntity self, double radius) {
-        List<Entity> targetEntityList = self.getNearbyEntities(radius, radius, radius);
-        double sX = self.getLocation().getX();
-        double sY = self.getLocation().getY();
-        double sZ = self.getLocation().getZ();
+    public static List<LivingEntity> getRadiusLivingEntities2(LivingEntity self, LivingEntity target, double radius) {
+        List<Entity> targetEntityList = target.getNearbyEntities(radius, radius, radius);
+        double sX = target.getLocation().getX();
+        double sY = target.getLocation().getY();
+        double sZ = target.getLocation().getZ();
         List<LivingEntity> livingEntityList = new ArrayList<>();
         if(targetEntityList.size() > 0){
             for(Entity targetEntity : targetEntityList){
@@ -51,7 +51,11 @@ public class RadiusTarget {
                 }
             }
         }
-        livingEntityList.add(self);
+        livingEntityList.add(target);
+        if(livingEntityList.contains(self)){
+            livingEntityList.remove(self);
+        }
+
         return livingEntityList;
     }
 

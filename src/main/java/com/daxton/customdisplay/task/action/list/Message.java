@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.other.StringFind;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
@@ -14,6 +15,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.List;
 
 import static org.bukkit.Color.fromRGB;
 
@@ -21,70 +23,46 @@ public class Message{
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private String message = "";
-
-    private Player player= null;
-    private LivingEntity self = null;
-    private LivingEntity target = null;
-
-
-    private String aims = "self";
-
     public Message(){
-
 
     }
 
     public void setMessage(LivingEntity self,LivingEntity target, String firstString,String taskID){
-        this.self = self;
-        this.target = target;
 
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("@=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    aims = strings[1];
+
+
+        /**獲得目標**/
+        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+        if(!(targetList.isEmpty())){
+            for (LivingEntity livingEntity : targetList){
+                if(livingEntity instanceof Player){
+                    Player player = (Player) livingEntity;
+
+                    /**獲得內容**/
+                    String message = new StringFind().getKeyValue2(self,player,firstString,"[];","","m=","message=");
+
+                    sendMessage(self, player, message);
                 }
             }
         }
 
-        for(String allString : new StringFind().getStringMessageList(firstString)){
-            if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    message = new ConversionMain().valueOf(self,target,strings[1]);
-                }
-            }
-
-        }
-        if(target instanceof Player & aims.toLowerCase().contains("target")){
-            player = (Player) target;
-        }else {
-            if(self instanceof Player){
-                player = (Player) self;
-            }
-        }
-        if(player != null){
-            sendMessage();
-        }
     }
 
-    public void sendMessage(){
+    public void sendMessage(LivingEntity self, Player player,  String message){
 
         if(message.contains("{") && message.contains("}")){
             TextComponent all = new TextComponent("");
             for(String me : new StringFind().getBlockList(message,"{}")){
-                all.addExtra(getKey(me));
+                all.addExtra(getKey(self, player, me));
             }
             player.spigot().sendMessage(all);
         }else {
             player.sendMessage(message);
         }
 
-
     }
 
-    public TextComponent getKey(String messageString){
+    public TextComponent getKey(LivingEntity self,LivingEntity target, String messageString){
         TextComponent textComponent = new TextComponent(messageString);
         File filePatch = new File(cd.getDataFolder(),"Message");
         for(String ymlName : filePatch.list()){

@@ -167,6 +167,7 @@ public class PackListener implements Listener{
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     Player player = event.getPlayer();
+
                     PacketContainer packet = event.getPacket();
                     PacketType packetType = event.getPacketType();
 
@@ -196,22 +197,22 @@ public class PackListener implements Listener{
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
                         Particle type = packet.getNewParticles().read(0).getParticle();
+                        String uuidString = player.getUniqueId().toString();
 
-                        if(PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"function") != null){
-                            String function = PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"function");
+                        if(PlaceholderManager.getParticles_function().get(uuidString+"function") != null){
+                            String function = PlaceholderManager.getParticles_function().get(uuidString+"function");
                             if(function.toLowerCase().contains("remove")){
-                                if(PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"particle") != null){
-                                    String particle = PlaceholderManager.getParticles_function().get(player.getUniqueId().toString()+"particle");
+                                if(PlaceholderManager.getParticles_function().get(uuidString+"particle") != null){
+                                    String particle = PlaceholderManager.getParticles_function().get(uuidString+"particle");
                                     if(type.toString().toLowerCase().contains(particle)){
                                         event.setCancelled(true);
                                     }
                                 }
                             }
 
+                        }else {
+                            PlaceholderManager.getParticles_function().put(uuidString+"function","false");
                         }
-
-
-
 
 
                     }

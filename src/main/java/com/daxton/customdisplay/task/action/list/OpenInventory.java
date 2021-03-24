@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.LoadConfig;
+import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
@@ -39,7 +40,7 @@ public class OpenInventory {
 
 
     private String function = "";
-    private String message = "";
+
     private String GuiID = "Default";
     private int amount = 27;
 
@@ -66,41 +67,43 @@ public class OpenInventory {
         this.target = target;
         this.taskID = taskID;
 
-        /**獲得內容**/
-        message = new StringFind().getKeyValue(self,target,firstString,"[];","m=","message=");
-
         /**獲得功能**/
-        function = new StringFind().getKeyValue(self,target,firstString,"[];","function=","fc=");
+        function = new StringFind().getKeyValue2(self,target,firstString,"[];","","function=","fc=");
 
         /**獲得GUIID**/
-        GuiID = new StringFind().getKeyValue(self,target,firstString,"[];","guiid=");
+        GuiID = new StringFind().getKeyValue2(self,target,firstString,"[];","Default","guiid=");
 
         /**獲得數量**/
-        String amountString = new StringFind().getKeyValue(self,target,firstString,"[];","amount=","a=");
+        String amountString = new StringFind().getKeyValue2(self,target,firstString,"[];","27","amount=","a=");
         try{
             amount = Integer.valueOf(amountString);
         }catch (NumberFormatException exception){
             //cd.getLogger().info("amount=內只能放整數數字");
         }
 
-        if(self instanceof Player){
-            Player player = ((Player) self).getPlayer();
+        /**獲得目標**/
+        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+        if(!(targetList.isEmpty())){
+            for (LivingEntity livingEntity : targetList){
+                if(livingEntity instanceof Player){
+                    Player player = (Player) livingEntity;
+                    /**獲得內容**/
+                    String message = new StringFind().getKeyValue2(self,player,firstString,"[];","","m=","message=");
 
-            if(function.toLowerCase().contains("gui")){
-                openGui(player,amount,message,GuiID,taskID);
-            }else if(function.toLowerCase().contains("close")){
-                player.closeInventory();
-            }else if(function.toLowerCase().contains("bind")){
-                next = next + 0;
-                skillNowName = new OpenInventoryBindGui().openBindGui(player,target,taskID,next);
+                    if(function.toLowerCase().contains("gui")){
+                        openGui(player,amount,message,GuiID,taskID);
+                    }else if(function.toLowerCase().contains("close")){
+                        player.closeInventory();
+                    }else if(function.toLowerCase().contains("bind")){
+                        next = next + 0;
+                        skillNowName = new OpenInventoryBindGui().openBindGui(player,target,taskID,next);
+                    }
+                    else {
+                        openInventory(player,amount,message,taskID);
+                    }
+                }
             }
-            else {
-                openInventory(player,amount,message,taskID);
-            }
-
         }
-
-
 
     }
 

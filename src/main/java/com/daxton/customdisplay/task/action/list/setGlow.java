@@ -36,11 +36,11 @@ public class setGlow {
 
 
 
-        cd.getLogger().info(firstString);
+        //cd.getLogger().info(firstString);
 
         String color = new StringFind().getKeyValue2(self,target,firstString,"[];","white","color=","c=");
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
-        cd.getLogger().info("顏色: "+color.toUpperCase());
+        //cd.getLogger().info("顏色: "+color.toUpperCase());
 
         if(self != null && !(targetList.isEmpty())){
             if(self instanceof Player){

@@ -3,6 +3,9 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 
+import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.location.AimsLocation;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 
@@ -10,6 +13,7 @@ import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.LivingEntity;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -38,27 +42,18 @@ public class SendParticles {
     private String taskID = "";
     private LivingEntity self = null;
     private LivingEntity target = null;
+    private String firstString = "";
 
     private String function = "";
     private Particle putParticle;
-    private Particle inParticle;
     private BlockData blockData;
     private ItemStack itemData;
-    private String img;
-    private double imgSize;
-    private String imgStyle;
-    private String imgRotMeth;
-    private String imgRotAngle;
-    private Boolean imgTargetAngle;
-    private double imgX;
-    private double imgY;
-    private double imgZ;
+
     private BufferedImage[] bufferedImages = null;
     private int gifCount = 0;
 
     private Particle.DustOptions color = new Particle.DustOptions(fromRGB(0xFF0000), 1);
     private Location location = new Location(Bukkit.getWorld("world"),0,0,0);
-    private String aims = "";
     private double extra = 0;
     private int count = 10;
     private double x = 0;
@@ -79,93 +74,37 @@ public class SendParticles {
         this.taskID = taskID;
         this.self = self;
         this.target = target;
-        stringSetting(firstString);
+        this.firstString = firstString;
+        stringSetting();
 
 
     }
 
-    public void stringSetting(String firstString){
+    public void stringSetting(){
 
         /**獲得功能**/
-        function = new StringFind().getKeyValue(self,target,firstString,"[];","fc=","function=");
-        /**目標**/
-        aims = new StringFind().getKeyValue(self,target,firstString,"[];","@=");
+        function = new SetValue(self,target,firstString,"[];","","fc=","function=").getString();
+
         /**粒子名稱**/
-        try{
-            putParticle = Enum.valueOf(Particle.class,new StringFind().getKeyValue(self,target,firstString,"[];","particle=").toUpperCase());
-        }catch (Exception exception){
-            putParticle = REDSTONE;
-        }
-        /**要使用的圖片名稱**/
-        img = new StringFind().getKeyValue(self,target,firstString,"[];","img=");
-        /**要使用的圖片大小**/
-        try {
-            imgSize = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","imgsize="));
-        }catch (NumberFormatException exception){
-            imgSize = 1;
-        }
-        /**圖片的樣式**/
-        imgStyle = new StringFind().getKeyValue(self,target,firstString,"[];","imgstyle=");
-        /**圖片的樣式**/
-        imgRotMeth = new StringFind().getKeyValue(self,target,firstString,"[];","imgrotmeth=");
-
-        /**是否加上目標角度角度**/
-        imgTargetAngle = Boolean.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","imgtargetangel="));
-
-        /**要使用的圖片角度**/
-        imgRotAngle = new StringFind().getKeyValue(self,target,firstString,"[];","imgrotangle=");
-        String[] pngRotAngles = imgRotAngle.split("\\|");
-        if(pngRotAngles.length == 3){
-            try {
-                imgX = Double.valueOf(pngRotAngles[0]);
-                imgY = Double.valueOf(pngRotAngles[1]);
-                imgZ = Double.valueOf(pngRotAngles[2]);
-            }catch (NumberFormatException exception){
-                imgX = 0;
-                imgY = 0;
-                imgZ = 0;
-            }
-        }
+        putParticle = new SetValue(self,target,firstString,"[];","REDSTONE","particle=").getParticle("REDSTONE");
 
         /**粒子的方塊材質**/
-        try {
-            blockData = Enum.valueOf(Material.class,new StringFind().getKeyValue(self,target,firstString,"[];","particledata=","pdata=").toUpperCase()).createBlockData();
-        }catch (Exception exception){
-            blockData = Material.REDSTONE_BLOCK.createBlockData();
-        }
-        /**粒子的物品材質**/
-        try {
-            itemData = new ItemStack(Enum.valueOf(Material.class,new StringFind().getKeyValue(self,target,firstString,"[];","particledata=","pdata=").toUpperCase()));
-        }catch (Exception exception){
-            itemData = new ItemStack(Material.COOKIE);
-        }
-        /**粒子的顏色**/
-        try{
-            BigInteger bigint = new BigInteger(new StringFind().getKeyValue(self,target,firstString,"[];","particledata=","pdata="), 16);
-            int numb = bigint.intValue();
-            color = new Particle.DustOptions(fromRGB(numb), 1);
-        }catch (NumberFormatException exception){
-            BigInteger bigint = new BigInteger("FF0000", 16);
-            int numb = bigint.intValue();
-            color = new Particle.DustOptions(fromRGB(numb), 1);
-        }
-        /**粒子的速度**/
-        try {
-            extra = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","extra="));
-        }catch (NumberFormatException exception){
-            extra = 0;
-        }
-        /**粒子的數量**/
-        try {
-            count = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","count="));
-        }catch (NumberFormatException exception){
-            count = 1;
-        }
+        blockData = new SetValue(self,target,firstString,"[];","REDSTONE_BLOCK","particledata=","pdata=").getBlockData("REDSTONE_BLOCK");
 
+        /**粒子的物品材質**/
+        itemData = new SetValue(self,target,firstString,"[];","COOKIE","particledata=","pdata=").getItemStack("COOKIE");
+
+        /**粒子的顏色**/
+        color = new SetValue(self,target,firstString,"[];","FF0000","particledata=","pdata=").getParticleColor("FF0000");
+
+        /**粒子的速度**/
+        extra = new SetValue(self,target,firstString,"[];","0","extra=").getDouble(0);
+
+        /**粒子的數量**/
+        count = new SetValue(self,target,firstString,"[];","1","count=").getInt(1);
 
         /**粒子中心點位置**/
-        String locAdd = new StringFind().getKeyValue(self,target,firstString,"[];","locationadd=","locadd=");
-        String[] locAdds = locAdd.split("\\|");
+        String[] locAdds = new SetValue(self,target,firstString,"[];","0|0|0","locationadd=","locadd=").getStringList("\\|");
         if(locAdds.length == 3){
             try {
                 x = Double.valueOf(locAdds[0]);
@@ -178,8 +117,7 @@ public class SendParticles {
             }
         }
         /**粒子擴散**/
-        String locOff = new StringFind().getKeyValue(self,target,firstString,"[];","locationoffset=","locoff=");
-        String[] locOffs = locOff.split("\\|");
+        String[] locOffs = new SetValue(self,target,firstString,"[];","0|0|0","locationoffset=","locoff=").getStringList("\\|");
         if(locOffs.length == 3){
             try {
                 xOffset = Double.valueOf(locAdds[0]);
@@ -192,45 +130,54 @@ public class SendParticles {
             }
         }
 
-
-
-        if(aims.toLowerCase().contains("target")){
-            if(putParticle != null){
-                String particle = putParticle.toString().toLowerCase();
-                PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"particle",particle);
-            }
-            PlaceholderManager.getParticles_function().put(target.getUniqueId().toString()+"function",function);
-            location = target.getLocation().add(x,y,z);
-        }else if(aims.toLowerCase().contains("self")){
-            if(putParticle != null){
-                String particle = putParticle.toString().toLowerCase();
-                PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"particle",particle);
-            }
-            PlaceholderManager.getParticles_function().put(self.getUniqueId().toString()+"function",function);
-            location = self.getLocation().add(x,y,z);
-        }else if(aims.toLowerCase().contains("world")){
-            location = new Location(self.getWorld(),x,y,z);
-        }else {
-            location = location.add(x,y,z);
-        }
-
         if(function.toLowerCase().contains("remove")){
-
+            List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+            if(!(targetList.isEmpty())){
+                for (LivingEntity livingEntity : targetList){
+                    if(livingEntity instanceof Player){
+                        Player player = (Player) livingEntity;
+                        String uuidString = player.getUniqueId().toString();
+                        if(putParticle != REDSTONE){
+                            String particle = putParticle.toString().toLowerCase();
+                            PlaceholderManager.particles_function.put(uuidString+"particle",particle);
+                        }
+                        PlaceholderManager.particles_function.put(uuidString+"function",function);
+                    }
+                }
+            }
         }else if(function.toLowerCase().contains("add")){
-            sendParticle();
+            List<Location> locationList = new  AimsLocation().valueOf(self,target,firstString,x,y,z);
+            if(!(locationList.isEmpty())){
+                for(Location location : locationList){
+                    sendParticle(putParticle, self, location);
+                }
+            }
         }else if(function.toLowerCase().contains("circular")){
-            sendParticleCircular();
+            //sendParticleCircular();
         }else if(function.toLowerCase().contains("img")){
-            //Test();
-            JavaImageIOTest();
-            //TestParticle(target,cd);
+            List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+            if(!(targetList.isEmpty())){
+                for (LivingEntity livingEntity : targetList){
+                    Location location = livingEntity.getLocation().add(x,y,z);
+                    if(firstString.contains("@=world")){
+                        location = new Location(self.getWorld(),x,y,z);
+                    }
+                    JavaImageIO(livingEntity, location);
+                }
+            }
         } else {
-            sendParticle();
+            List<Location> locationList = new  AimsLocation().valueOf(self,target,firstString,x,y,z);
+            if(!(locationList.isEmpty())){
+                for(Location location : locationList){
+                    sendParticle(putParticle, self, location);
+                }
+            }
         }
 
     }
+
     /**單點**/
-    public void sendParticle(){
+    public void sendParticle(Particle putParticle,LivingEntity self,Location location){
         try{
             if(putParticle == REDSTONE){
                 self.getWorld().spawnParticle(putParticle, location, count, xOffset, yOffset, zOffset, extra,color);
@@ -248,112 +195,43 @@ public class SendParticles {
 
     }
 
+    /**圖片設定**/
+    public void JavaImageIO(LivingEntity livingEntity, Location location){
 
+        /**要使用的圖片名稱**/
+        String img = new SetValue(self,target,firstString,"[];","","img=").getString();
+        /**要使用的圖片大小**/
+        double imgSize = new SetValue(self,target,firstString,"[];","1","imgsize=").getDouble(1);
 
-    /**圓圈**/
-    public void sendParticleCircular(){
-        cd.getLogger().info("圓圈");
-        try{
-            if(putParticle == REDSTONE){
-                List<Location> circleList = circle(location,20,0,true,true,0);
-//                for(Location location1 : circleList){
-//                    self.getWorld().spawnParticle(putParticle, location1, count, xOffset, yOffset, zOffset, extra,color);
-//                }
-
-            }else if(putParticle == BLOCK_CRACK || putParticle == BLOCK_DUST){
-                self.getWorld().spawnParticle(putParticle, location, count, xOffset, yOffset, zOffset, extra,blockData);
-            }else if(putParticle == ITEM_CRACK ){
-                self.getWorld().spawnParticle(ITEM_CRACK, location, count, xOffset, yOffset, zOffset, extra,itemData);
-            } else {
-                self.getWorld().spawnParticle(putParticle, location, count, xOffset, yOffset, zOffset, extra);
-            }
-        }catch (Exception e){
-
-        }
-
-
-
-    }
-
-    public static List<Location> circle (Location loc, Integer r, Integer h, Boolean hollow, Boolean sphere, int plus_y) {
-        List<Location> circleblocks = new ArrayList<Location>();
-        int cx = loc.getBlockX();
-        int cy = loc.getBlockY();
-        int cz = loc.getBlockZ();
-        for (int x = cx - r; x <= cx +r; x++)
-            for (int z = cz - r; z <= cz +r; z++)
-                for (int y = (sphere ? cy - r : cy); y < (sphere ? cy + r : cy + h); y++) {
-                    double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (sphere ? (cy - y) * (cy - y) : 0);
-                    if (dist < r*r && !(hollow && dist < (r-1)*(r-1))) {
-                        Location l = new Location(loc.getWorld(), x, y + plus_y, z);
-                        circleblocks.add(l);
-                    }
-                }
-
-        return circleblocks;
-    }
-
-    private static IIOMetadataNode getNode(IIOMetadataNode rootNode, String nodeName) {
-        int nNodes = rootNode.getLength();
-        for (int i = 0; i < nNodes; i++) {
-            if (rootNode.item(i).getNodeName().compareToIgnoreCase(nodeName)== 0) {
-                return((IIOMetadataNode) rootNode.item(i));
+        /**是否加上目標角度角度**/
+        boolean imgTargetAngle = new SetValue(self,target,firstString,"[];","false","imgtargetangel=").getBoolean();
+        /**要使用的圖片角度**/
+        String[] pngRotAngles = new SetValue(self,target,firstString,"[];","0|0|0","imgrotangle=").getStringList("\\|");
+        double imgX = 0;
+        double imgY = 0;
+        double imgZ = 0;
+        if(pngRotAngles.length == 3){
+            try {
+                imgX = Double.valueOf(pngRotAngles[0]);
+                imgY = Double.valueOf(pngRotAngles[1]);
+                imgZ = Double.valueOf(pngRotAngles[2]);
+            }catch (NumberFormatException exception){
+                imgX = 0;
+                imgY = 0;
+                imgZ = 0;
             }
         }
-        IIOMetadataNode node = new IIOMetadataNode(nodeName);
-        rootNode.appendChild(node);
-        return(node);
-    }
 
-    public void JavaImageIOTest(){
         try{
-            BufferedImage bi = ImageIO.read(new File(cd.getDataFolder(),"Png/"+ this.img+".png"));
-            sendPic(bi);
-//            BufferedImage bi = null;
-//            BufferedImage[] img = null;
-//            GIFImageReader reader = new GIFImageReader(new GIFImageReaderSpi());
-//            if(this.img.contains(".gif")){
-//                reader.setInput(new FileImageInputStream(new File(cd.getDataFolder(),"Png/"+ this.img)));
-//                int num = reader.getNumImages(true);
-//                img = new BufferedImage[num];
-//                for(int i = 0; i < num ;i++){
-//                    img[i] = reader.read(i);
-//                }
-//                bufferedImages = img;
-//                int delayTime = 0;
-//                for(int b = 0 ; b < img.length ;b++){
-//                    gifCount = b;
-//                    IIOMetadata imageMetaData =  reader.getImageMetadata(b);
-//                    String metaFormatName = imageMetaData.getNativeMetadataFormatName();
-//                    IIOMetadataNode root = (IIOMetadataNode)imageMetaData.getAsTree(metaFormatName);
-//                    IIOMetadataNode graphicsControlExtensionNode = getNode(root, "GraphicControlExtension");
-//                    delayTime = delayTime + Integer.valueOf(graphicsControlExtensionNode.getAttribute("delayTime"));
-//                    BukkitRunnable bukkitRunnable = new BukkitRunnable() {
-//                        @Override
-//                        public void run() {
-//                            sendPic(bufferedImages[gifCount]);
-//                        }
-//                    };
-//                    bukkitRunnable.runTaskLater(cd,delayTime);
-//                }
-//
-//
-//
-//
-//            }else {
-//                bi = ImageIO.read(new File(cd.getDataFolder(),"Png/"+ this.img));
-//                sendPic(bi);
-//            }
-
-
-
+            BufferedImage bi = ImageIO.read(new File(cd.getDataFolder(),"Png/"+ img+".png"));
+            sendPic(livingEntity, location, imgX, imgY, imgZ, imgSize, imgTargetAngle, bi);
 
         }catch (IOException exception){
 
         }
     }
-
-    public void sendPic(BufferedImage bi){
+    /**發送圖片粒子**/
+    public void sendPic(LivingEntity livingEntity, Location location, double imgX, double imgY, double imgZ, double imgSize, boolean imgTargetAngle, BufferedImage bi){
 
         int width = bi.getWidth();
 
@@ -370,15 +248,9 @@ public class SendParticles {
         double rotZ = 0;
 
         if(imgTargetAngle){
-            if(target != null && aims.toLowerCase().contains("target")){
-                rotX = target.getLocation().getPitch()+ imgX;
-                rotY = target.getLocation().getYaw()+ imgX;
-                rotZ = target.getLocation().getPitch()+ imgX;
-            }else {
-                rotX = self.getLocation().getPitch()+ imgX;
-                rotY = self.getLocation().getYaw()+ imgX;
-                rotZ = self.getLocation().getPitch()+ imgX;
-            }
+            rotX = livingEntity.getLocation().getPitch()+ imgX;
+            rotY = livingEntity.getLocation().getYaw()+ imgX;
+            rotZ = livingEntity.getLocation().getPitch()+ imgX;
         }else {
             rotX = imgX;
             rotY = imgY;
@@ -455,55 +327,92 @@ public class SendParticles {
 
             }
         }
-        particles.forEach((location, rgb) -> {
-            location.getWorld().spawnParticle(REDSTONE, location, 1, new Particle.DustOptions(fromRGB(rgb), 1));
+        particles.forEach((location1, rgb) -> {
+            location1.getWorld().spawnParticle(REDSTONE, location1, 1, new Particle.DustOptions(fromRGB(rgb), 1));
         });
 
     }
 
 
+    /**圓圈**/
+    public void sendParticleCircular(){
+        cd.getLogger().info("圓圈");
+        try{
+            if(putParticle == REDSTONE){
+                List<Location> circleList = circle(location,20,0,true,true,0);
+//                for(Location location1 : circleList){
+//                    self.getWorld().spawnParticle(putParticle, location1, count, xOffset, yOffset, zOffset, extra,color);
+//                }
 
-    public void spawnAngularParticle(Location location, double alpha, double beta, double offsetX, double offsetY, double offsetZ, Map<Vector, Integer> particles) {
-        World world = location.getWorld();
-        assert world != null;
-
-//        double  x = Math.cos(alpha) * Math.cos(beta);
-//        double z = Math.sin(alpha) * Math.cos(beta);
-//        double y = Math.sin(beta);
-        double x = Math.cos(alpha) * Math.sin(alpha);
-        double z = 1;
-        double y = -Math.sin(alpha) * Math.cos(alpha);
-
-        location.add(new Vector(x, y, z));
-        particles.forEach((vector, rgb) -> {
-            world.spawnParticle(REDSTONE, location.add(vector), 1, new Particle.DustOptions(fromRGB(rgb), 1));
-            location.subtract(vector);
-        });
-    }
-
-    public void spawnRun(Map<Vector, Integer> particles){
-        BukkitRunnable bukkitRunnable = new BukkitRunnable() {
-            int i = 0;
-            @Override
-            public void run() {
-                if(i >= 360){
-                    cancel();
-                    return;
-                }
-                double sinB = Math.sin(Math.toRadians(i));
-                double cosB = Math.cos(Math.toRadians(i));
-
-                particles.forEach((vector, rgb) -> {
-                    int j = i;
-                    location.getWorld().spawnParticle(REDSTONE, location.add(vector), 1, new Particle.DustOptions(fromRGB(rgb), 1));
-                    location.subtract(vector);
-                });
-
-                i+=10;
+            }else if(putParticle == BLOCK_CRACK || putParticle == BLOCK_DUST){
+                self.getWorld().spawnParticle(putParticle, location, count, xOffset, yOffset, zOffset, extra,blockData);
+            }else if(putParticle == ITEM_CRACK ){
+                self.getWorld().spawnParticle(ITEM_CRACK, location, count, xOffset, yOffset, zOffset, extra,itemData);
+            } else {
+                self.getWorld().spawnParticle(putParticle, location, count, xOffset, yOffset, zOffset, extra);
             }
-        };
-        bukkitRunnable.runTaskTimer(cd,0,1);
+        }catch (Exception e){
+
+        }
+
+
 
     }
+
+    /**圓圈**/
+    public static List<Location> circle (Location loc, Integer r, Integer h, Boolean hollow, Boolean sphere, int plus_y) {
+        List<Location> circleblocks = new ArrayList<Location>();
+        int cx = loc.getBlockX();
+        int cy = loc.getBlockY();
+        int cz = loc.getBlockZ();
+        for (int x = cx - r; x <= cx +r; x++)
+            for (int z = cz - r; z <= cz +r; z++)
+                for (int y = (sphere ? cy - r : cy); y < (sphere ? cy + r : cy + h); y++) {
+                    double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (sphere ? (cy - y) * (cy - y) : 0);
+                    if (dist < r*r && !(hollow && dist < (r-1)*(r-1))) {
+                        Location l = new Location(loc.getWorld(), x, y + plus_y, z);
+                        circleblocks.add(l);
+                    }
+                }
+
+        return circleblocks;
+    }
+
+
+    //            BufferedImage bi = null;
+//            BufferedImage[] img = null;
+//            GIFImageReader reader = new GIFImageReader(new GIFImageReaderSpi());
+//            if(this.img.contains(".gif")){
+//                reader.setInput(new FileImageInputStream(new File(cd.getDataFolder(),"Png/"+ this.img)));
+//                int num = reader.getNumImages(true);
+//                img = new BufferedImage[num];
+//                for(int i = 0; i < num ;i++){
+//                    img[i] = reader.read(i);
+//                }
+//                bufferedImages = img;
+//                int delayTime = 0;
+//                for(int b = 0 ; b < img.length ;b++){
+//                    gifCount = b;
+//                    IIOMetadata imageMetaData =  reader.getImageMetadata(b);
+//                    String metaFormatName = imageMetaData.getNativeMetadataFormatName();
+//                    IIOMetadataNode root = (IIOMetadataNode)imageMetaData.getAsTree(metaFormatName);
+//                    IIOMetadataNode graphicsControlExtensionNode = getNode(root, "GraphicControlExtension");
+//                    delayTime = delayTime + Integer.valueOf(graphicsControlExtensionNode.getAttribute("delayTime"));
+//                    BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+//                        @Override
+//                        public void run() {
+//                            sendPic(bufferedImages[gifCount]);
+//                        }
+//                    };
+//                    bukkitRunnable.runTaskLater(cd,delayTime);
+//                }
+//
+//
+//
+//
+//            }else {
+//                bi = ImageIO.read(new File(cd.getDataFolder(),"Png/"+ this.img));
+//                sendPic(bi);
+//            }
 
 }

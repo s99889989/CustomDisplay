@@ -207,8 +207,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄1時**/
-    public void onKey1(LivingEntity self){
+    public void onKey1(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey1") != null){
             for(String actionString : action_Trigger_Map.get("~onkey1")){
                 actionString = actionString.replace("~onKey1","");
@@ -217,8 +218,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄2時**/
-    public void onKey2(LivingEntity self){
+    public void onKey2(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey2") != null){
             for(String actionString : action_Trigger_Map.get("~onkey2")){
                 actionString = actionString.replace("~onKey2","");
@@ -227,8 +229,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄3時**/
-    public void onKey3(LivingEntity self){
+    public void onKey3(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey3") != null){
             for(String actionString : action_Trigger_Map.get("~onkey3")){
                 actionString = actionString.replace("~onKey3","");
@@ -237,8 +240,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄4時**/
-    public void onKey4(LivingEntity self){
+    public void onKey4(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey4") != null){
             for(String actionString : action_Trigger_Map.get("~onkey4")){
                 actionString = actionString.replace("~onKey4","");
@@ -247,8 +251,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄5時**/
-    public void onKey5(LivingEntity self){
+    public void onKey5(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey5") != null){
             for(String actionString : action_Trigger_Map.get("~onkey5")){
                 actionString = actionString.replace("~onKey5","");
@@ -257,8 +262,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄6時**/
-    public void onKey6(LivingEntity self){
+    public void onKey6(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey6") != null){
             for(String actionString : action_Trigger_Map.get("~onkey6")){
                 actionString = actionString.replace("~onKey6","");
@@ -267,8 +273,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄7時**/
-    public void onKey7(LivingEntity self){
+    public void onKey7(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey7") != null){
             for(String actionString : action_Trigger_Map.get("~onkey7")){
                 actionString = actionString.replace("~onKey7","");
@@ -277,8 +284,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄8時**/
-    public void onKey8(LivingEntity self){
+    public void onKey8(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey8") != null){
             for(String actionString : action_Trigger_Map.get("~onkey8")){
                 actionString = actionString.replace("~onKey8","");
@@ -287,8 +295,9 @@ public class PlayerTrigger {
         }
     }
     /**當切換到物品欄9時**/
-    public void onKey9(LivingEntity self){
+    public void onKey9(LivingEntity self,LivingEntity target){
         this.self = self;
+        this.target = target;
         if(action_Trigger_Map.get("~onkey9") != null){
             for(String actionString : action_Trigger_Map.get("~onkey9")){
                 actionString = actionString.replace("~onKey9","");
@@ -450,34 +459,22 @@ public class PlayerTrigger {
             }
         }
 
+        taskID = new StringFind().getKeyValue2(self,target,actionString,"[];",String.valueOf((int)(Math.random()*100000)),"mark=","m=");
 
-        stop = false;
-        taskID = String.valueOf((int)(Math.random()*100000));
-        for(String allString : new StringFind().getStringList(actionString)){
-            if(allString.toLowerCase().contains("mark=") || allString.toLowerCase().contains("m=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    taskID = new ConversionMain().valueOf(self,target,strings[1]);
-                }
-            }
-            if(allString.toLowerCase().contains("stop=") || allString.toLowerCase().contains("s=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    stop = Boolean.valueOf(strings[1]);
-                }
-            }
-        }
+        stop = Boolean.valueOf(new StringFind().getKeyValue2(self,target,actionString,"[];","false","stop=","s="));
 
-        if(stop){ //actionString.toLowerCase().contains("stop=true")
+        if(stop){
             if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
                 new ClearAction(taskID);
                 new ClearAction(self,target);
                 ActionManager.getOther_Judgment2_Map().remove(taskID);
             }
         }else{
-
-            //new JudgmentAction().execute(self,target,actionString,taskID);
-
+            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+                new ClearAction(taskID);
+                new ClearAction(self,target);
+                ActionManager.getOther_Judgment2_Map().remove(taskID);
+            }
             if(ActionManager.getOther_Judgment2_Map().get(taskID) == null){
                 ActionManager.getOther_Judgment2_Map().put(taskID,new JudgmentAction());
                 ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
@@ -487,7 +484,5 @@ public class PlayerTrigger {
 
 
 
-    public Map<String, List<String>> getAction_Trigger_Map() {
-        return action_Trigger_Map;
-    }
+
 }

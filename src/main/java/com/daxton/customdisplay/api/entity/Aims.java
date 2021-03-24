@@ -36,110 +36,36 @@ public class Aims {
         if(aims.toLowerCase().contains("selfradius")){
             List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities(self,radius);
             for(LivingEntity le : livingEntityList){
-                if(filters.equals("null")){
+                if(Filte.valueOf(le,filters)){
                     targetList.add(le);
-                }else {
-                    if(Filte(le,filters)){
-                        targetList.add(le);
-                    }
                 }
 
             }
         }else if(target != null && aims.toLowerCase().contains("targetradius")){
-            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities2(target,radius);
+            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities2(self,target,radius);
             for(LivingEntity le : livingEntityList){
-                if(filters.equals("null")){
+                if(Filte.valueOf(le,filters)){
+
                     targetList.add(le);
-                }else {
-                    if(Filte(le,filters)){
-                        targetList.add(le);
-                    }
                 }
             }
         }else if(aims.toLowerCase().contains("target")){
             if(target != null){
-                if(filters.equals("null")){
+                if(Filte.valueOf(target,filters)){
                     targetList.add(target);
-                }else {
-                    if(Filte(target,filters)){
-                        targetList.add(target);
-                    }
                 }
             }
+        }else if(aims.toLowerCase().contains("lself")){
+
         }else {
-            if(filters.equals("null")){
+            if(Filte.valueOf(self,filters)){
                 targetList.add(self);
-            }else {
-                if(Filte(self,filters)){
-                    targetList.add(self);
-                }
             }
         }
 
         return targetList;
     }
 
-    /**過濾不要的目標**/
-    public boolean Filte(LivingEntity livingEntity,String filteName){
-        boolean b = true;
 
-        FileConfiguration TargetFiltersConfig = ConfigMapManager.getFileConfigurationMap().get("Character_System_TargetFilters.yml");
-        List<String> filteList = TargetFiltersConfig.getStringList(filteName+".TargetFilters");
-
-        for(String filteKey : filteList){
-
-            /**篩選掉派系目標**/
-            if(filteKey.toLowerCase().contains("factions")){
-                if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
-                    String[] filteKey1 = filteKey.split("=");
-                    if(filteKey1.length == 2){
-                        String uuidString = livingEntity.getUniqueId().toString();
-                        String faction = MobManager.mythicMobs_Faction_Map.get(uuidString);
-                        if(filteKey1[1].equals(faction)){
-
-                            b = false;
-                        }
-                    }
-
-
-                }
-
-            }
-            /**篩選生物類別目標**/
-            if(filteKey.toLowerCase().contains("entitytypelist")){
-                String[] filteKey1 = filteKey.split("=");
-                if(filteKey1.length == 2){
-                    FileConfiguration entityTypeListConfig = ConfigMapManager.getFileConfigurationMap().get("Character_System_EntityTypeList.yml");
-                    List<String> entityTypeList = entityTypeListConfig.getStringList(filteKey1[1]+".entityTypeList");
-                    if(entityTypeList.contains(livingEntity.getType().toString())){
-                        b = false;
-                    }
-                }
-            }
-
-            /**篩選生物MM類別目標**/
-            if(filteKey.toLowerCase().contains("mythictypelist")){
-                if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
-                    String[] filteKey1 = filteKey.split("=");
-                    if(filteKey1.length == 2){
-                        FileConfiguration mythicTypeListConfig = ConfigMapManager.getFileConfigurationMap().get("Character_System_MythicTypeList.yml");
-                        List<String> mythicTypeList = mythicTypeListConfig.getStringList(filteKey1[1]+".mythicTypeList");
-                        String uuidString = livingEntity.getUniqueId().toString();
-                        String id = MobManager.mythicMobs_mobID_Map.get(uuidString);;
-                        if(mythicTypeList.contains(id)){
-
-                            b = false;
-                        }
-                    }
-                }
-            }
-
-
-
-        }
-
-
-        return b;
-    }
 
 }

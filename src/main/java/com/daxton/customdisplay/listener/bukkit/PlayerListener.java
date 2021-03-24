@@ -4,6 +4,7 @@ package com.daxton.customdisplay.listener.bukkit;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.SaveConfig;
+import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.config.ConfigManager;
@@ -109,47 +110,12 @@ public class PlayerListener implements Listener {
                 if(ActionManager.getJudgment2_OpenInventory_Map().get(taskID) != null){
                     ActionManager.getJudgment2_OpenInventory_Map().get(taskID).InventoryListener(event);
                 }
-                //player.sendMessage("移動GUI");
-//                event.setCancelled(true);
-//                if(event.getRawSlot() == 0){
-//
-//                    player.sendMessage(event.getClick().toString());
-//                }
-
 
             }
         }
 
     }
 
-//    @EventHandler
-//    public void anvilCost(PrepareAnvilEvent event){
-//        Player player = (Player) event.getViewers().get(0);
-//        ConfigMapManager.getFileConfigurationNameMap().values().forEach(s -> {
-//            if(s.contains("Items_")){
-//                FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get(s);
-//                itemConfig.getKeys(false).forEach(s1 -> {
-//                    AnvilInventory inv = event.getInventory();
-//                    ItemStack itemStack = inv.getFirstItem();
-//                    if(itemStack != null){
-//                        ItemMeta itemMeta = itemStack.getItemMeta();
-//                        if(itemMeta != null){
-//                            String itemName = itemConfig.getString(s1+".DisplayName");
-//                            itemName = new ConversionMain().valueOf(player,null,itemName);
-//                            String itemName2 = itemMeta.getDisplayName();
-//                            if(itemName.equals(itemName2)){
-//                                //inv.setRepairCost(100);
-//                                //player.sendMessage(inv.getRepairCost()+" : "+itemMeta.getDisplayName());
-//                            }
-//                        }
-//                    }
-//                });
-//
-//            }
-//        });
-//
-//
-//    }
 
 
     /**當經驗值改變時**/
@@ -280,35 +246,37 @@ public class PlayerListener implements Listener {
     public void onItemHeld(PlayerItemHeldEvent event){
         Player player = event.getPlayer();
 
+        LivingEntity target = LookTarget.getLivingTarget(player,10);
+
         int key = event.getNewSlot();
 
         switch(key){
             case 0:
-                new PlayerTrigger(player).onKey1(player);
+                new PlayerTrigger(player).onKey1(player, target);
                 break;
             case 1:
-                new PlayerTrigger(player).onKey2(player);
+                new PlayerTrigger(player).onKey2(player, target);
                 break;
             case 2:
-                new PlayerTrigger(player).onKey3(player);
+                new PlayerTrigger(player).onKey3(player, target);
                 break;
             case 3:
-                new PlayerTrigger(player).onKey4(player);
+                new PlayerTrigger(player).onKey4(player, target);
                 break;
             case 4:
-                new PlayerTrigger(player).onKey5(player);
+                new PlayerTrigger(player).onKey5(player, target);
                 break;
             case 5:
-                new PlayerTrigger(player).onKey6(player);
+                new PlayerTrigger(player).onKey6(player, target);
                 break;
             case 6:
-                new PlayerTrigger(player).onKey7(player);
+                new PlayerTrigger(player).onKey7(player, target);
                 break;
             case 7:
-                new PlayerTrigger(player).onKey8(player);
+                new PlayerTrigger(player).onKey8(player, target);
                 break;
             case 8:
-                new PlayerTrigger(player).onKey9(player);
+                new PlayerTrigger(player).onKey9(player, target);
                 break;
         }
 
@@ -316,62 +284,7 @@ public class PlayerListener implements Listener {
 
     }
 
-
-
-
-    public static Entity[]  getNearbyEntities(Location l, int radius){
-        int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16))/16;
-        HashSet<Entity> radiusEntities = new HashSet<Entity>();
-        for (int chX = 0 -chunkRadius; chX <= chunkRadius; chX ++){
-            for (int chZ = 0 -chunkRadius; chZ <= chunkRadius; chZ++){
-                int x=(int) l.getX(),y=(int) l.getY(),z=(int) l.getZ();
-                for (Entity e : new Location(l.getWorld(),x+(chX*16),y,z+(chZ*16)).getChunk().getEntities()){
-                    if (e.getLocation().distance(l) <= radius && e.getLocation().getBlock() != l.getBlock()) radiusEntities.add(e);
-                }
-            }
-        }
-
-        return radiusEntities.toArray(new Entity[radiusEntities.size()]);
-    }
-
-    public LivingEntity getTarget(Player player) {
-        Entity[] targetList = getNearbyEntities(player.getLocation(), 10);
-        //List<Entity> nearbyE = player.getNearbyEntities(20, 20, 20);
-        ArrayList<LivingEntity> nearPlayers = new ArrayList<>();
-        for (Entity e : targetList) {
-            if (e instanceof LivingEntity) {
-                nearPlayers.add((LivingEntity) e);
-            }
-        }
-        LivingEntity target = player;
-        BlockIterator bItr = new BlockIterator(player, 20);
-        Block block;
-        Location loc;
-        int bx, by, bz;
-        double ex, ey, ez;
-        while (bItr.hasNext()) {
-
-            block = bItr.next();
-            bx = block.getX();
-            by = block.getY();
-            bz = block.getZ();
-            for (LivingEntity e : nearPlayers) {
-                loc = e.getLocation();
-                ex = loc.getX();
-                ey = loc.getY();
-                ez = loc.getZ();
-                if ((bx - .75 <= ex && ex <= bx + 1.75) && (bz - .75 <= ez && ez <= bz + 1.75) && (by - 1 <= ey && ey <= by + 2.5)) {
-                    target = e;
-                    break;
-
-                }
-            }
-
-        }
-        return target;
-
-    }
-
+    /**材質包狀態**/
     @EventHandler
     public void onResourcePack(PlayerResourcePackStatusEvent event){
         Player player = event.getPlayer();
@@ -380,7 +293,7 @@ public class PlayerListener implements Listener {
         }
 
     }
-
+    /**材質包**/
     public void onResourcePackSend(Player player,String status){
 
         /**發送材質包**/

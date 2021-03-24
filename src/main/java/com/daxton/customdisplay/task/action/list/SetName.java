@@ -94,16 +94,16 @@ public class SetName {
 
     public void updateEntity() {
 
-//        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
-//        packet.getIntegers().write(0, target.getEntityId());
-//        packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(target).getWatchableObjects());
-//        if (player.getWorld().equals(target.getWorld())) {
-//            try {
-//                ActionManager.protocolManager.sendServerPacket(player, packet);
-//            } catch (InvocationTargetException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+        packet.getIntegers().write(0, target.getEntityId());
+        packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(target).getWatchableObjects());
+        if (player.getWorld().equals(target.getWorld())) {
+            try {
+                ActionManager.protocolManager.sendServerPacket(player, packet);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
         sendMetadataPacket();
     }
 

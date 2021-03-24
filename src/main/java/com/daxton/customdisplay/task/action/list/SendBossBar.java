@@ -1,11 +1,14 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -23,26 +26,16 @@ public class SendBossBar {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private BossBar bossBar;
+    public Map<String, BossBar> bossBarMap = new HashMap<>();
+    public Map<String, Player> playerMap = new HashMap<>();
 
-    private static BossBar skillBar0;
-    private static BossBar skillBar;
 
-    private String aims = "self";
-    private String function = "";
-    private String message = "";
-    private BarStyle style = Enum.valueOf(BarStyle.class , "SOLID");
-    private BarColor color = Enum.valueOf(BarColor.class , "BLUE");
-    private BarFlag flag = null;
-    private double progress = 0.0;
-
-    private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
     private String firstString = "";
     private String taskID = "";
 
-    private static Map<String, BossBar> bossBarMap = new HashMap<>();
+
 
 
     public SendBossBar(){
@@ -50,7 +43,6 @@ public class SendBossBar {
     }
 
     public void setBossBar(LivingEntity self, LivingEntity target, String firstString, String taskID){
-
         this.self = self;
         this.target = target;
         this.taskID = taskID;
@@ -60,193 +52,60 @@ public class SendBossBar {
 
     public void setSelfOther(){
 
+        String function = new SetValue(self,target,firstString,"[];","","fc=","function=").getString();
 
-        function = new StringFind().getKeyValue(self,target,firstString,"[];","fc=","function=");
+        BarStyle style = new SetValue(self,target,firstString,"[];","SOLID","style=").getBarStyle("SOLID");
 
+        BarColor color = new SetValue(self,target,firstString,"[];","BLUE","color=").getBarColor("BLUE");
 
-        aims = new StringFind().getKeyValue(self,target,firstString,"[]; ","@=");
-        try {
-            style = Enum.valueOf(BarStyle.class , new StringFind().getKeyValue(self,target,firstString,"[];","style="));
-        }catch (Exception exception){
-            style = Enum.valueOf(BarStyle.class , "SOLID");
-        }
+        BarFlag flag = new SetValue(self,target,firstString,"[];","","flag=").getBarFlag();
 
-        try {
-            color = Enum.valueOf(BarColor.class , new StringFind().getKeyValue(self,target,firstString,"[];","color="));
-        }catch (Exception exception){
-            color = Enum.valueOf(BarColor.class , "BLUE");
-        }
-        try {
-            flag = Enum.valueOf(BarFlag.class , new StringFind().getKeyValue(self,target,firstString,"[];","flag="));
-        }catch (Exception exception){
-            flag = null;
-        }
+        double progress = new SetValue(self,target,firstString,"[];","0","progress=").getDouble(0);
 
-        message = new StringFind().getKeyValue(self,target,firstString,"[];","m=","message=");
-
-        try {
-            progress = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","progress="));
-        }catch (NumberFormatException exception){
-            progress = 0;
-        }
-        if(progress > 1){
-            progress = 0;
-        }
-
-        //cd.getLogger().info(function+" : "+aims+" : "+style+" : "+color+" : "+flag+" : "+message+" : "+progress);
-
-        if(target instanceof Player & aims.toLowerCase().contains("target")){
-            player = (Player) target;
-        }else {
-            if(self instanceof Player){
-                player = (Player) self;
-            }
-        }
+        /**獲得目標**/
+        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
 
 
-        if(player != null){
-            if(bossBar == null & function.toLowerCase().contains("create")){
-                create();
-            }
-            if(bossBar != null & function.toLowerCase().contains("set")) {
-                change();
-            }
-            if(bossBar != null & function.toLowerCase().contains("delete")){
-                remove();
-            }
-
-        }
-
-    }
-
-    public void openSkill(Player player,int mainKey){
-        String uuidString = player.getUniqueId().toString();
-        UUID playerUUID = player.getUniqueId();
-
-        FileConfiguration skillStatusConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Status.yml");
-        /**主手顯示**/
-        String main_Hand_1_8 = skillStatusConfig.getString("BossBar1.Main_Hand.18");
-        String main_Hand_9 = skillStatusConfig.getString("BossBar1.Main_Hand.9");
-        /**技能間隔顯示**/
-        String skill_Blank = skillStatusConfig.getString("BossBar1.Skill_Blank");
-        /**技能空顯示**/
-        String skill_Null_18 = skillStatusConfig.getString("BossBar1.Skill_Null.18");
-        String skill_Null_9 = skillStatusConfig.getString("BossBar1.Skill_Null.9");
-
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-        if(playerData != null){
-            String skillNameString = "";
-            for(int i = 1 ; i < 9 ; i++){
-                int x = 0;
-                if(i-1 >= mainKey){
-                    x = i;
-                }else {
-                    x = i-1;
-                }
-
-                String skillName = playerData.binds_Map.get(i+"_skillName");
-
-                if(mainKey != 8 && i == mainKey+1){
-
-                    skillNameString = skillNameString + main_Hand_1_8;
-
-                }
-
-                if(!(skillName.contains("null"))){
-                    if(i == 8){
-                        File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
-                        FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
-                        String barName = skillConfig.getString(skillName+".BarName");
-                        skillNameString = skillNameString + barName;
-
-                        /**把Skill動作存到Map**/
-
-                        List<String> skillAction = skillConfig.getStringList(skillName+".Action");
-                        if(skillAction != null){
-                            PlayerDataMap.skill_Name_Map.put(uuidString+"."+x,skillName);
-                            PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
-                        }
-
-                    }else {
-                        File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+skillName+".yml");
-                        FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
-                        String barName = skillConfig.getString(skillName+".BarName");
-                        skillNameString = skillNameString + barName + skill_Blank;
-
-                        /**把Skill動作存到Map**/
-                        List<String> skillAction = skillConfig.getStringList(skillName+".Action");
-                        if(skillAction != null){
-                            PlayerDataMap.skill_Name_Map.put(uuidString+"."+x,skillName);
-                            PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
+            if(function.toLowerCase().contains("create")){
+                if(!(targetList.isEmpty())) {
+                    for (LivingEntity livingEntity : targetList) {
+                        if (livingEntity instanceof Player) {
+                            Player player = (Player) livingEntity;
+                            String uuidString = player.getUniqueId().toString();
+                            String message = new StringFind().getKeyValue(player, target, firstString, "[];", "m=", "message=");
+                            if(bossBarMap.get(uuidString) == null){
+                                playerMap.put(uuidString,player);
+                                bossBarMap.put(uuidString, create(player, message, color, style, flag, progress));
+                            }
                         }
                     }
-
-                }else {
-                    if(i == 8){
-                        skillNameString = skillNameString + skill_Null_9;
-                    }else {
-                        skillNameString = skillNameString + skill_Null_18;
-                    }
                 }
+            }else if(function.toLowerCase().contains("set")) {
+                BarColor color1 = color;
+                BarStyle style1 = style;
+                double progress1 = progress;
+                bossBarMap.forEach((s,bossBar1) -> {
+                    Player player = playerMap.get(s);
+                    String message = new StringFind().getKeyValue(player, target, firstString, "[];", "m=", "message=");
+                    change(bossBar1, message, color1, style1, progress1);
 
-                if(i == 8 && mainKey == 8){
+                });
 
-                    skillNameString = skillNameString + main_Hand_9;
-
-                }
-
+            }else if(function.toLowerCase().contains("delete")){
+                bossBarMap.forEach((s,bossBar1) -> {
+                    Player player = playerMap.get(s);
+                    remove(player, bossBar1);
+                });
+                bossBarMap.clear();
+                new ClearAction(taskID);
             }
 
-            /**技能第一行樣式**/
-            /**顏色**/
-            String bossBar1_BarColor = skillStatusConfig.getString("BossBar1.BarColor");
-            /**樣式**/
-            String bossBar1_BarStyle = skillStatusConfig.getString("BossBar1.BarStyle");
-            /**進度條**/
-            double bossBar1_Progress = skillStatusConfig.getDouble("BossBar1.Progress");
-
-            skillBar = Bukkit.createBossBar(skillNameString, Enum.valueOf(BarColor.class , bossBar1_BarColor), Enum.valueOf(BarStyle.class , bossBar1_BarStyle));
-            skillBar.setProgress(bossBar1_Progress);
-            skillBar.addPlayer(player);
-            /**技能第二行樣式**/
-            /**內容**/
-            String bossBar2_Title = skillStatusConfig.getString("BossBar2.Title");
-            /**顏色**/
-            String bossBar2_BarColor = skillStatusConfig.getString("BossBar2.BarColor");
-            /**樣式**/
-            String bossBar2_BarStyle = skillStatusConfig.getString("BossBar2.BarStyle");
-            skillBar0 = Bukkit.createBossBar(bossBar2_Title, Enum.valueOf(BarColor.class , bossBar2_BarColor), Enum.valueOf(BarStyle.class , bossBar2_BarStyle));
-            skillBar0.setProgress(0);
-            skillBar0.addPlayer(player);
-        }
-
 
     }
 
-    public void closeSkill(Player player){
-        if(skillBar != null && skillBar0 != null){
-            skillBar0.removePlayer(player);
-            skillBar.removePlayer(player);
-        }
-
-    }
-
-    public String getSkillMessage(){
-        return skillBar0.getTitle();
-    }
-
-    public void setSkillBar(String message){
-        skillBar0.setTitle(message);
-    }
-
-    public void setSkillBarProgress(double progress){
-        if(skillBar0 != null){
-            skillBar0.setProgress(progress);
-
-        }
-    }
-
-    public void create(){
+    /**建立新的BossBar**/
+    public BossBar create(Player player, String message, BarColor color, BarStyle style, BarFlag flag, double progress){
+        BossBar bossBar = null;
         try{
             bossBar = Bukkit.createBossBar(message, color, style, flag);
             bossBar.setProgress(progress);
@@ -254,11 +113,10 @@ public class SendBossBar {
         }catch (Exception exception){
             exception.printStackTrace();
         }
-
-
+        return bossBar;
     }
-
-    public void change(){
+    /**修改BossBar內容**/
+    public void change(BossBar bossBar, String message, BarColor color, BarStyle style, double progress){
         try{
             bossBar.setProgress(progress);
             bossBar.setTitle(message);
@@ -268,15 +126,17 @@ public class SendBossBar {
             exception.printStackTrace();
         }
     }
-
-    public void remove(){
-        new ClearAction(taskID);
+    /**移除BossBar**/
+    public void remove(Player player ,BossBar bossBar){
         bossBar.removePlayer(player);
         bossBar.removeAll();
-
     }
 
-    public BossBar getBossBar() {
-        return bossBar;
+    public Map<String, BossBar> getBossBarMap() {
+        return bossBarMap;
+    }
+
+    public Map<String, Player> getPlayerMap() {
+        return playerMap;
     }
 }

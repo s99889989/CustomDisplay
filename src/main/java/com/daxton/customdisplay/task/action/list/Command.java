@@ -1,8 +1,11 @@
 package com.daxton.customdisplay.task.action.list;
 
+import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 
 public class Command {
@@ -15,28 +18,19 @@ public class Command {
     public void setCommand(LivingEntity self, LivingEntity target, String firstString, String taskID){
 
         /**獲得內容**/
-        String message = new StringFind().getKeyValue(self,target,firstString,"[];","m=","message=");
+        String message = new StringFind().getKeyValue2(self,target,firstString,"[];","","m=","message=");
+
         /**獲得目標**/
-        String aims = new StringFind().getKeyValue(self,target,firstString,"[]; ","@=");
-
-
-
-        if(aims.toLowerCase().contains("target")){
-            if(target instanceof Player){
-                Player player = (Player) self;
-                sendCommand(player,message);
-            }
-        }else if(aims.toLowerCase().contains("self")){
-            if(self instanceof Player){
-                Player player = (Player) self;
-                sendCommand(player,message);
-            }
-        }else {
-            if(self instanceof Player){
-                Player player = (Player) self;
-                sendCommand(player,message);
+        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+        if(!(targetList.isEmpty())){
+            for (LivingEntity livingEntity : targetList){
+                if(livingEntity instanceof Player){
+                    Player player = (Player) livingEntity;
+                    sendCommand(player,message);
+                }
             }
         }
+
 
     }
 

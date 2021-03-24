@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.player.*;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
+import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -150,9 +151,9 @@ public class EquipmentListener implements Listener {
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
             boolean b = ListenerManager.getCast_On_Stop().get(uuidString);
             if(b){
-                new SendBossBar().closeSkill(player);
+                new BossBarSkill().closeSkill(player);
             }else {
-                new SendBossBar().openSkill(player,key);
+                new BossBarSkill().openSkill(player,key);
             }
         }
 

@@ -31,14 +31,16 @@ public class Damage {
         this.target = target;
         this.firstString = firstString;
 
+
+
         setOther();
     }
 
     public void setOther(){
 
-
-
         String type = new StringFind().getKeyValue2(self,target,firstString,"[];","SKILL_PHYSICAL_ATTACK","type=");
+
+
         String operate = new StringFind().getKeyValue2(self,target,firstString,"[];","ADD","operate=","opa=");
         double amount = 1;
         try{
@@ -47,7 +49,6 @@ public class Damage {
             amount = 1;
             cd.getLogger().info("Damage的amount=內只能放數字: "+firstString);
         }
-
 
 
 

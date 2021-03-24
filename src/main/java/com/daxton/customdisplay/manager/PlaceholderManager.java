@@ -11,7 +11,7 @@ public class PlaceholderManager {
     private static Map<String,Boolean> actionBar_function = new HashMap<>();
 
     /**Particles的function**/
-    private static Map<String,String> particles_function = new HashMap<>();
+    public static Map<String,String> particles_function = new HashMap<>();
 
     /**佔位符訊息**/
     private static Map<String,String> cd_Placeholder_Map = new HashMap<>();

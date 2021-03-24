@@ -5,10 +5,10 @@ AttackDisplayUp:
   - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
 AttackDisplayUp-Start:
   Action:
-  - Hologram[Function=create;m=&attack_number&;x=0;y=&attack_number_height&;z=0] @=target
+  - Hologram[Function=create;m=&attack_number&;LocAdd=0|&attack_number_height&|0] @=TargetRadius{R=2}
 AttackDisplayUp-Time:
   Action:
-  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+  - Hologram[Function=teleport;LocAdd=0|0.1|0]
 AttackDisplayUp-End:
   Action:
   - Hologram[Function=delete]
@@ -20,10 +20,10 @@ AttackDisplayUpCrit:
   - Loop[onStart=AttackDisplayUpCrit-Start;onTime=AttackDisplayUpCrit-Time;onEnd=AttackDisplayUpCrit-End;period=3;duration=20]
 AttackDisplayUpCrit-Start:
   Action:
-  - Hologram[Function=create;m=&attack_number_crit&;x=0;y=&attack_number_height&;z=0] @=target
+  - Hologram[Function=create;m=&attack_number_crit&;LocAdd=0|&attack_number_height&|0] @=target
 AttackDisplayUpCrit-Time:
   Action:
-  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+  - Hologram[Function=teleport;LocAdd=0|0.1|0]
 AttackDisplayUpCrit-End:
   Action:
   - Hologram[Function=delete]
@@ -35,10 +35,10 @@ AttackDisplayUpMiss:
   - Loop[onStart=AttackDisplayUpMiss-Start;onTime=AttackDisplayUpMiss-Time;onEnd=AttackDisplayUpMiss-End;period=3;duration=20]
 AttackDisplayUpMiss-Start:
   Action:
-  - Hologram[Function=create;m=&attack_number_miss&;x=0;y=&attack_number_height&;z=0] @=target
+  - Hologram[Function=create;m=&attack_number_miss&;LocAdd=0|&attack_number_height&|0] @=target
 AttackDisplayUpMiss-Time:
   Action:
-  - Hologram[Function=teleport;x=0;y=0.1;z=0]
+  - Hologram[Function=teleport;LocAdd=0|0.1|0]
 AttackDisplayUpMiss-End:
   Action:
   - Hologram[Function=delete]

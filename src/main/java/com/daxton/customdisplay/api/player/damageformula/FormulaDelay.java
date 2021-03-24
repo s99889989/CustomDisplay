@@ -4,7 +4,9 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.LookTarget;
+import com.daxton.customdisplay.api.item.CustomItem;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.list.Holographic;
@@ -34,7 +36,7 @@ public class FormulaDelay {
     /**技能CD**/
     public void skillCD(Player player,String skillName, int key){
         String uuidString = player.getUniqueId().toString();
-        StringBuilder newString = new StringBuilder(new SendBossBar().getSkillMessage());
+        StringBuilder newString = new StringBuilder(new BossBarSkill().getSkillMessage());
         /**技能設定檔**/
         FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillName+".yml");
         /**技能獨立延遲時間**/
@@ -69,40 +71,40 @@ public class FormulaDelay {
 
 
                     if(costCount == 12){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover12).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover12).toString());
                     }
                     if(costCount == 11){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover11).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover11).toString());
                     }
                     if(costCount == 10){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover10).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover10).toString());
                     }
                     if(costCount == 9){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover9).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover9).toString());
                     }
                     if(costCount == 8){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover8).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover8).toString());
                     }
                     if(costCount == 7){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover7).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover7).toString());
                     }
                     if(costCount == 6){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover6).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover6).toString());
                     }
                     if(costCount == 5){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover5).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover5).toString());
                     }
                     if(costCount == 4){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover4).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover4).toString());
                     }
                     if(costCount == 3){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover3).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover3).toString());
                     }
                     if(costCount == 2){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover2).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover2).toString());
                     }
                     if(costCount == 1){
-                        new SendBossBar().setSkillBar(newString.replace(start,end,cover1).toString());
+                        new BossBarSkill().setSkillBar(newString.replace(start,end,cover1).toString());
                         PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
                         PlayerDataMap.skill_Cool_Down_Run_Map.remove(uuidString+"."+key);
                         cancel();
@@ -158,13 +160,13 @@ public class FormulaDelay {
 
                 new PlayerTrigger(player).onSkill(player,inputTarget,action);
 
-                new SendBossBar().setSkillBarProgress(1);
+                new BossBarSkill().setSkillBarProgress(1);
                 PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                     double costCount = 1.0;
                     @Override
                     public void run() {
                         if(costCount >= 0.0){
-                            new SendBossBar().setSkillBarProgress(costCount);
+                            new BossBarSkill().setSkillBarProgress(costCount);
                             costCount = costCount-0.1;
                         }else {
                             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
@@ -184,7 +186,7 @@ public class FormulaDelay {
                 hologram = HologramsAPI.createHologram(cd, inputTarget.getLocation().add(0,cast_Hight,0));
 
                 if(item_Enable){
-                    ItemStack newItemStack = new Holographic().giveItem(player,inputTarget, cast_Item);
+                    ItemStack newItemStack = CustomItem.valueOf(player,inputTarget, cast_Item, 1);
                     hologram.appendItemLine(newItemStack);
                 }
                 if(line_Enable){
@@ -211,7 +213,7 @@ public class FormulaDelay {
                             }else {
                                 new PlayerTrigger(player).onSkill(player,inputTarget,action);
                             }
-                            new SendBossBar().setSkillBarProgress(0);
+                            new BossBarSkill().setSkillBarProgress(0);
                             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
                         }else {
                             LivingEntity target = LookTarget.getLivingTarget(player,targetDistance);
@@ -227,7 +229,7 @@ public class FormulaDelay {
                                 @Override
                                 public void run() {
                                     if(costCount >= 0.0){
-                                        new SendBossBar().setSkillBarProgress(costCount);
+                                        new BossBarSkill().setSkillBarProgress(costCount);
                                         costCount = costCount-0.1;
                                     }else {
                                         PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
@@ -244,7 +246,7 @@ public class FormulaDelay {
                             hologram.teleport(inputTarget.getLocation().add(0,0.6,0));
                         }
 
-                        new SendBossBar().setSkillBarProgress(costCount);
+                        new BossBarSkill().setSkillBarProgress(costCount);
                         costCount = costCount+0.1;
                     }
 

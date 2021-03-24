@@ -205,6 +205,16 @@ public class JudgmentAction {
             new setGlow().setGlow(self,target,firstString,taskID);
         }
 
+        /**ItemEntity的相關判斷**/
+        if(judgMent.toLowerCase().contains("itementity")){
+            new ItemEntity().setItemEntity(self,target,firstString,taskID);
+        }
+
+        /**Velocity的相關判斷**/
+        if(judgMent.toLowerCase().contains("velocity")){
+            new Velocity().setVelocity(self,target,firstString,taskID);
+        }
+
     }
 
 

@@ -1,0 +1,15 @@
+#目標過濾
+##Target Filter
+Monster:
+  TargetFilters:
+  - Add=EntityTypeList=Monster
+
+Animal:
+  TargetFilters:
+  - Add=EntityTypeList=Animal
+
+Player:
+  TargetFilters:
+  - Add=EntityTypeList=Player
+
+
