@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
@@ -68,18 +69,14 @@ public class OpenInventory {
         this.taskID = taskID;
 
         /**獲得功能**/
-        function = new StringFind().getKeyValue2(self,target,firstString,"[];","","function=","fc=");
+        function = new SetValue(self,target,firstString,"[];","","function=","fc=").getString();
 
         /**獲得GUIID**/
-        GuiID = new StringFind().getKeyValue2(self,target,firstString,"[];","Default","guiid=");
+        GuiID = new SetValue(self,target,firstString,"[];","Default","guiid=").getString();
 
         /**獲得數量**/
-        String amountString = new StringFind().getKeyValue2(self,target,firstString,"[];","27","amount=","a=");
-        try{
-            amount = Integer.valueOf(amountString);
-        }catch (NumberFormatException exception){
-            //cd.getLogger().info("amount=內只能放整數數字");
-        }
+        amount =  new SetValue(self,target,firstString,"[];","27","amount=","a=").getInt(27);
+
 
         /**獲得目標**/
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
@@ -88,7 +85,7 @@ public class OpenInventory {
                 if(livingEntity instanceof Player){
                     Player player = (Player) livingEntity;
                     /**獲得內容**/
-                    String message = new StringFind().getKeyValue2(self,player,firstString,"[];","","m=","message=");
+                    String message = new SetValue(self,player,firstString,"[];","","m=","message=").getString();
 
                     if(function.toLowerCase().contains("gui")){
                         openGui(player,amount,message,GuiID,taskID);

@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.entity.EntityFind;
 
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.other.ConfigFind;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.condition.Condition;
@@ -81,64 +82,48 @@ public class OrbitalAction extends BukkitRunnable{
     public void startParabolicAttack(String firstString){
 
         /**如果自身死亡任務是否取消**/
-        selfDead = Boolean.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","selfdead="));
+        selfDead = new SetValue(self,target,firstString,"[];","true","selfdead=").getBoolean();
 
         /**如果目標死亡任務是否取消**/
-        targetDead = Boolean.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","targetdead="));
+        targetDead = new SetValue(self,target,firstString,"[];","true","targetdead=").getBoolean();
 
         /**初始動作**/
-        onStart = new StringFind().getKeyValue(self,target,firstString,"[];","onstart=");
+        onStart = new SetValue(self,target,firstString,"[];","","onstart=").getString();
 
         /**過程中命中動作**/
-        onTimeHit = new StringFind().getKeyValue(self,target,firstString,"[];","ontimehit=");
+        onTimeHit = new SetValue(self,target,firstString,"[];","","ontimehit=").getString();
 
         /**過程中動作**/
-        onTime = new StringFind().getKeyValue(self,target,firstString,"[];","ontime=");
+        onTime = new SetValue(self,target,firstString,"[];","","ontime=").getString();
 
         /**最後命中動作**/
-        onEndHit = new StringFind().getKeyValue(self,target,firstString,"[];","onendhit=");
+        onEndHit = new SetValue(self,target,firstString,"[];","","onendhit=").getString();
 
         /**最後動作**/
-        onEnd = new StringFind().getKeyValue(self,target,firstString,"[];","onend=");
+        onEnd = new SetValue(self,target,firstString,"[];","","onend=").getString();
 
         /**執行間隔時間**/
-        try {
-            period = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","period="));
-        }catch (NumberFormatException exception){
-            period = 0;
-        }
+        period = new SetValue(self,target,firstString,"[];","0","period=").getInt(0);
+
 
         /**目標最遠距離**/
-        try {
-            distance = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","distance="));
-        }catch (NumberFormatException exception){
-            distance = 1;
-        }
+        distance = new SetValue(self,target,firstString,"[];","1","distance=").getDouble(1);
+
 
         /**命中判定範圍**/
-        try {
-            hitRange = Double.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","hitrange="));
-        }catch (NumberFormatException exception){
-            hitRange = 0.8;
-        }
+        hitRange = new SetValue(self,target,firstString,"[];","0.8","distance=").getDouble(0.8);
+
 
         /**此動作要持續多久**/
-        try {
-            duration = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","duration="));
-        }catch (NumberFormatException exception){
-            duration = 20;
-        }
+        duration = new SetValue(self,target,firstString,"[];","20","duration=").getInt(20);
+
 
         /**技能運行速度**/
-        try {
-            speed = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","speed="));
-        }catch (NumberFormatException exception){
-            speed = 20;
-        }
+        speed = new SetValue(self,target,firstString,"[];","20","speed=").getInt(20);
+
 
         /**終點座標偏移**/
-        String endlocadd = new StringFind().getKeyValue(self,target,firstString,"[];","endlocadd=");
-        String[] endlocadds = endlocadd.split("\\|");
+        String[] endlocadds = new SetValue(self,target,firstString,"[];","0|0|0","endlocadd=").getStringList("\\|");
         if(endlocadds.length == 3){
             try {
                 endX = Double.valueOf(endlocadds[0]);
@@ -152,8 +137,7 @@ public class OrbitalAction extends BukkitRunnable{
         }
 
         /**起始座標偏移**/
-        String startlocadd = new StringFind().getKeyValue(self,target,firstString,"[];","startlocadd=");
-        String[] startlocadds = startlocadd.split("\\|");
+        String[] startlocadds = new SetValue(self,target,firstString,"[];","0|0|0","startlocadd=").getStringList("\\|");
         if(startlocadds.length == 3){
             try {
                 startX = Double.valueOf(startlocadds[0]);

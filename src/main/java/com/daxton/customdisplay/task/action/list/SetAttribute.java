@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerBukkitAttribute;
@@ -29,38 +30,28 @@ public class SetAttribute {
     public void set(LivingEntity self, LivingEntity target, String firstString, String taskID){
 
         /**屬性名稱**/
-        String attributes = new StringFind().getKeyValue2(self,target,firstString,"[];","GENERIC_MAX_HEALTH","attributes=","attr=");
+        String attributes = new SetValue(self,target,firstString,"[];","GENERIC_MAX_HEALTH","attributes=","attr=").getString();
 
-        String type = new StringFind().getKeyValue2(self,target,firstString,"[];","default","type=");
+        String type = new SetValue(self,target,firstString,"[];","default","type=").getString();
 
         /**持續時間**/
-        int duration = 200;
-        try{
-            duration = Integer.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","200","duration=","dt="));
-        }catch (NumberFormatException exception){
-            duration = 200;
+        int duration = new SetValue(self,target,firstString,"[];","200","type=").getInt(200);
 
-        }
 
         /**量**/
-        double amount = 1;
-        try{
-            amount = Double.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","1","amount=","a="));
-        }catch (NumberFormatException exception){
-            amount = 1;
+        double amount = new SetValue(self,target,firstString,"[];","1","type=").getDouble(1);
 
-        }
 
         /**目標**/
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
-
-        for(LivingEntity livingEntity : targetList){
-            if(livingEntity instanceof Player){
-                Player player = (Player) livingEntity;
-                giveAttr(player,attributes,type,amount,duration);
+        if(!(targetList.isEmpty())){
+            for(LivingEntity livingEntity : targetList){
+                if(livingEntity instanceof Player){
+                    Player player = (Player) livingEntity;
+                    giveAttr(player,attributes,type,amount,duration);
+                }
             }
         }
-
 
     }
 

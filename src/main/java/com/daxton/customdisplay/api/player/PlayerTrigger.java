@@ -2,6 +2,7 @@ package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -459,9 +460,9 @@ public class PlayerTrigger {
             }
         }
 
-        taskID = new StringFind().getKeyValue2(self,target,actionString,"[];",String.valueOf((int)(Math.random()*100000)),"mark=","m=");
+        taskID = new SetValue(self,target,actionString,"[];",String.valueOf((int)(Math.random()*100000)),"mark=","m=").getString();
 
-        stop = Boolean.valueOf(new StringFind().getKeyValue2(self,target,actionString,"[];","false","stop=","s="));
+        stop = new SetValue(self,target,actionString,"[];","false","stop=","s=").getBoolean();
 
         if(stop){
             if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){

@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action.list;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
@@ -39,7 +40,7 @@ public class Message{
                     Player player = (Player) livingEntity;
 
                     /**獲得內容**/
-                    String message = new StringFind().getKeyValue2(self,player,firstString,"[];","","m=","message=");
+                    String message = new SetValue(self,player,firstString,"[];","","m=","message=").getString();
 
                     sendMessage(self, player, message);
                 }

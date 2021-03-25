@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.other.Arithmetic;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
@@ -35,13 +36,8 @@ public class Heal {
     public void setOther(){
 
         /**補量**/
-        double amount = 1;
-        try{
-            amount = Double.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","1","amount=","a="));
-        }catch (NumberFormatException exception){
-            amount = 1;
-            cd.getLogger().info("Heal的amount=內只能放數字");
-        }
+        double amount = new SetValue(self,target,firstString,"[];","1","amount=","a=").getDouble(1);
+
 
         /**目標**/
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);

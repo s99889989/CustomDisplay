@@ -35,16 +35,17 @@ public class Sound {
 
     public void setOther(){
 
+        /**聲音名稱**/
         String sound = new SetValue(self,target,firstString,"[];","","sound=","s=").getString();
-
+        /**音量**/
         float volume = new SetValue(self,target,firstString,"[];","","volume","v=").getFloat(1);
-
+        /**音調**/
         float pitch = new SetValue(self,target,firstString,"[];","","pitch=","p=").getFloat(1);
-
+        /**聲音的分類**/
         SoundCategory category = new SetValue(self,target,firstString,"[];","PLAYERS","category=","c=").getSoundCategory("PLAYERS");
 
-        String locAdd = new StringFind().getKeyValue2(self,target,firstString,"[]; ","","locadd=");
-        String[] locAdds = locAdd.split("\\|");
+        /**增加座標**/
+        String[] locAdds = new SetValue(self,target,firstString,"[];","0|0|0","locadd=").getStringList("\\|");
         double x = 0;
         double y = 0;
         double z = 0;
@@ -60,6 +61,7 @@ public class Sound {
             }
         }
 
+        /**座標**/
         List<Location> locationList = new AimsLocation().valueOf(self ,target, firstString, x, y, z);
         if(!(locationList.isEmpty())){
             double xx = x;
@@ -74,7 +76,7 @@ public class Sound {
     }
 
     public void playSound(Location location, String sound, SoundCategory category, float volume, float pitch){
-        self.getWorld().playSound(location, sound, category, volume, pitch);
+        location.getWorld().playSound(location, sound, category, volume, pitch);
     }
 
 

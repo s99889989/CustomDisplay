@@ -7,6 +7,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
@@ -32,9 +33,9 @@ public class ActionBar {
 
     public void setActionBar(LivingEntity self,LivingEntity target, String firstString,String taskID){
 
-        boolean remove = Boolean.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","false","remove="));
+        boolean remove = new SetValue(self,target,firstString,"[];","false","remove=").getBoolean();
 
-        String message = new StringFind().getKeyValue2(self,target,firstString,"[];","","message=","m=");
+        String message = new SetValue(self,target,firstString,"[];","","message=","m=").getString();
 
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
 

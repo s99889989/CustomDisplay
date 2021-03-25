@@ -72,7 +72,7 @@ public class SendBossBar {
                         if (livingEntity instanceof Player) {
                             Player player = (Player) livingEntity;
                             String uuidString = player.getUniqueId().toString();
-                            String message = new StringFind().getKeyValue(player, target, firstString, "[];", "m=", "message=");
+                            String message = new SetValue(player, target, firstString, "[];","", "m=", "message=").getString();
                             if(bossBarMap.get(uuidString) == null){
                                 playerMap.put(uuidString,player);
                                 bossBarMap.put(uuidString, create(player, message, color, style, flag, progress));
@@ -86,7 +86,7 @@ public class SendBossBar {
                 double progress1 = progress;
                 bossBarMap.forEach((s,bossBar1) -> {
                     Player player = playerMap.get(s);
-                    String message = new StringFind().getKeyValue(player, target, firstString, "[];", "m=", "message=");
+                    String message = new SetValue(player, target, firstString, "[];","", "m=", "message=").getString();
                     change(bossBar1, message, color1, style1, progress1);
 
                 });

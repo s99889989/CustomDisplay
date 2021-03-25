@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.skills.Skill;
@@ -29,7 +30,7 @@ public class MythicAction {
             return;
         }
 
-        String skillName = new StringFind().getKeyValue2(self,target,firstString,"[];","SKILL_PHYSICAL_ATTACK","skill=","s=");
+        String skillName = new SetValue(self,target,firstString,"[];","SmashAttack","skill=","s=").getString();
 
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
 

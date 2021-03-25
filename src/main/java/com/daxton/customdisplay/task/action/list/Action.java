@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.ConfigFind;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
@@ -43,46 +44,22 @@ public class Action {
     }
 
     public void stringSetting(){
-//        for(String allString : new StringFind().getStringList(firstString)){
-//            if(allString.toLowerCase().contains("action=") || allString.toLowerCase().contains("a=")){
-//                String[] strings = allString.split("=");
-//                if(strings.length == 2){
-//                    actionList = new ConfigFind().getActionKeyList(strings[1]);
-//                }
-//            }
-//        }
+
         /**動作列表**/
-        String action = new StringFind().getKeyValue(self,target,firstString,"[];","action=","a=");
+        String action = new SetValue(self,target,firstString,"[];","","action=","a=").getString();
         actionList = new ConfigFind().getActionKeyList(action);
 
         /**動作次數**/
-        try {
-
-            count = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","count="));
-
-        }catch (NumberFormatException exception){
-            count = 1;
-        }
-        if(count < 1){
-            count = 1;
-        }
+        count = new SetValue(self,target,firstString,"[];","1","count=","a=").getInt(1);
 
         /**動作間隔**/
-        try {
-            countPeriod = Integer.valueOf(new StringFind().getKeyValue(self,target,firstString,"[];","countperiod=","countp="));
-        }catch (NumberFormatException exception){
-            countPeriod = 10;
-        }
-        if(countPeriod < 0){
-            countPeriod = 1;
-        }
-
+        countPeriod = new SetValue(self,target,firstString,"[];","10","countperiod=","countp=").getInt(1);
+        
         new BukkitRunnable(){
             int tickRun = 0;
             @Override
             public void run() {
                 tickRun++;
-
 
                 startAction();
 
@@ -92,11 +69,8 @@ public class Action {
                     return;
                 }
 
-
-
             }
         }.runTaskTimer(cd,0,countPeriod);
-
 
 
     }

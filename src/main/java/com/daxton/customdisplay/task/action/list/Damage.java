@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.entity.RadiusTarget;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.Bukkit;
@@ -38,23 +39,15 @@ public class Damage {
 
     public void setOther(){
 
-        String type = new StringFind().getKeyValue2(self,target,firstString,"[];","SKILL_PHYSICAL_ATTACK","type=");
+        String type = new SetValue(self,target,firstString,"[];","SKILL_PHYSICAL_ATTACK","type=").getString();
 
+        String operate = new SetValue(self,target,firstString,"[];","ADD","operate=","opa=").getString();
 
-        String operate = new StringFind().getKeyValue2(self,target,firstString,"[];","ADD","operate=","opa=");
-        double amount = 1;
-        try{
-            amount = Double.valueOf(new StringFind().getKeyValue2(self,target,firstString,"[];","1","amount=","a="));
-        }catch (NumberFormatException exception){
-            amount = 1;
-            cd.getLogger().info("Damage的amount=內只能放數字: "+firstString);
-        }
-
-
+        double amount = new SetValue(self,target,firstString,"[];","1","amount=","a=").getDouble(1);
 
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
 
-        if(self != null && target != null && !(targetList.isEmpty())){
+        if(self != null && !(targetList.isEmpty())){
             PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);
             if(type.equals("SKILL_MELEE_PHYSICAL_ATTACK")){
                 giveMeleePhysicalDamage(self,targetList,amount,operate);

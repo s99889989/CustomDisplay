@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.entity;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.MobManager;
@@ -19,7 +20,7 @@ public class Aims {
     public List<LivingEntity> valueOf(LivingEntity self, LivingEntity target, String firstString){
 
         /**目標**/
-        String aims = new StringFind().getAimsValue(firstString,"aims","self");
+        String aims = new SetValue(self,target,firstString,"[]; ","","@=").getString();
 
         /**距離**/
         double radius = 2;
@@ -49,12 +50,6 @@ public class Aims {
                     targetList.add(le);
                 }
             }
-        }else if(aims.toLowerCase().contains("target")){
-            if(target != null){
-                if(Filte.valueOf(target,filters)){
-                    targetList.add(target);
-                }
-            }
         }else if(aims.toLowerCase().contains("selfinworld")){
             self.getWorld().getEntities().forEach(entity -> {
                 if(entity instanceof LivingEntity){
@@ -75,10 +70,18 @@ public class Aims {
                     }
                 });
             });
-        } else {
+        }else if(aims.toLowerCase().contains("target")){
+            if(target != null){
+                if(Filte.valueOf(target,filters)){
+                    targetList.add(target);
+                }
+            }
+        }else if(aims.toLowerCase().contains("self")){
             if(Filte.valueOf(self,filters)){
                 targetList.add(self);
             }
+        } else {
+
         }
 
 

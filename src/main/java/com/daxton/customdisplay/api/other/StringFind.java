@@ -106,36 +106,6 @@ public class StringFind {
     }
 
     /**丟入字串,key和關鍵字 回傳值**/
-    public String getKeyValue(LivingEntity self, LivingEntity target, String string, String cut, String... key){
-        List<String> KeyList = getBlockList(string,cut);
-        String[] itemIDStrings = KeyList.stream().filter(s -> Arrays.stream(key).anyMatch(s.toLowerCase()::contains)).collect(Collectors.joining()).split("=");
-        String outPut = "null";
-        if(itemIDStrings.length == 2){
-            outPut = itemIDStrings[1];
-
-            if(outPut.contains("&")){
-                outPut = new ConversionMain().valueOf(self,target,outPut);
-            }
-        }
-        return outPut;
-    }
-
-    /**丟入字串,key和關鍵字 回傳值**/
-    public String getKeyValue2(LivingEntity self, LivingEntity target, String string, String cut, String defaultValue, String... key){
-        List<String> KeyList = getBlockList(string,cut);
-        String[] itemIDStrings = KeyList.stream().filter(s -> Arrays.stream(key).anyMatch(s.toLowerCase()::contains)).collect(Collectors.joining()).split("=");
-        String outPut = defaultValue;
-        if(itemIDStrings.length == 2){
-            outPut = itemIDStrings[1];
-
-            if(outPut.contains("&")){
-                outPut = new ConversionMain().valueOf(self,target,outPut);
-            }
-        }
-        return outPut;
-    }
-
-    /**丟入字串,key和關鍵字 回傳值**/
     public String getAimsValue(String firstString,String key,String defaultValue){
         String outPut = defaultValue;
         if(firstString.contains("@=")){

@@ -7,6 +7,7 @@ import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
 import com.daxton.customdisplay.api.location.AimsLocation;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -48,13 +49,14 @@ public class Holographic {
     public Map<String, Hologram> hologramMap = new HashMap<>();
     public Map<String, Location> locationMap = new HashMap<>();
     public Map<String, LivingEntity> livingEntityMap = new HashMap<>();
-    List<LivingEntity> targetList = new ArrayList<>();
+
 
     public Holographic(){
 
     }
 
     public void setHD(LivingEntity self, LivingEntity target, String firstString,String taskID) {
+
         this.self = self;
         this.target = target;
         this.taskID = taskID;
@@ -66,13 +68,12 @@ public class Holographic {
 
         //String message = new StringFind().getKeyValue2(self,target,firstString,"[];","","message=","m=");
 
-        String function = new StringFind().getKeyValue2(self,target,firstString,"[]; ","","function=","fc=");
+        String function = new SetValue(self,target,firstString,"[]; ","","function=","fc=").getString();
 
         double x = 0;
         double y = 0;
         double z = 0;
-        String locAdd = new StringFind().getKeyValue2(self,target,firstString,"[]; ","","locadd=");
-        String[] locAdds = locAdd.split("\\|");
+        String[] locAdds = new SetValue(self,target,firstString,"[];","","locadd=").getStringList("\\|");// locAdd.split("\\|");
         if(locAdds.length == 3){
 
             try {
@@ -86,72 +87,79 @@ public class Holographic {
             }
         }
 
-        targetList = new Aims().valueOf(self,target,firstString);
-        //targetList.forEach(livingEntity -> cd.getLogger().info(livingEntity.getName()));
-        if(!(targetList.isEmpty())){
+        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+        targetList.forEach(livingEntity -> cd.getLogger().info(livingEntity.getName()));
 
-                if(function.toLowerCase().contains("create")){
-                    for (LivingEntity livingEntity : targetList){
 
-                        String uuidString = livingEntity.getUniqueId().toString();
-                        if(hologramMap.get(taskID+uuidString) == null){
-                            String message2 = new StringFind().getKeyValue2(self,livingEntity,firstString,"[];","","message=","m=");
-                            locationMap.put(taskID+uuidString, livingEntity.getLocation().add(x,y,z));
-                            livingEntityMap.put(taskID+uuidString, livingEntity);
-                            hologramMap.put(taskID+uuidString, createHD(livingEntity.getLocation().add(x,y,z), message2));
-                        }
-                    }
+        if(function.toLowerCase().contains("create")){
+            if(!(targetList.isEmpty())){
+                for (LivingEntity livingEntity : targetList){
 
-                }
-                if(function.toLowerCase().contains("addtextline")){
-                    hologramMap.forEach((s, hologram1) -> {
-                        LivingEntity livingEntity = livingEntityMap.get(s);
-                        String message2 = new StringFind().getKeyValue2(self,livingEntity,firstString,"[];","","message=","m=");
-                        addLineHD(hologram1,message2);
-                    });
-                }
-                if(function.toLowerCase().contains("additemline")){
-                    hologramMap.forEach((s, hologram1) -> {
-                        LivingEntity livingEntity = livingEntityMap.get(s);
-                        String message2 = new StringFind().getKeyValue2(self,livingEntity,firstString,"[];","","message=","m=");
-                        addItemHD(self, livingEntity, hologram1, message2);
-                    });
-                }
-                if(function.toLowerCase().contains("removetextline")){
-                    hologramMap.forEach((s, hologram1) -> {
-                        LivingEntity livingEntity = livingEntityMap.get(s);
-                        String message2 = new StringFind().getKeyValue2(self,livingEntity,firstString,"[];","","message=","m=");
-                        removeLineHD(hologram1,message2);
-                    });
-                }
-                if(function.toLowerCase().contains("teleport") && !(hologramMap.isEmpty())){
-                    double xx = x;
-                    double yy = y;
-                    double zz = z;
-                    hologramMap.forEach((s, hologram1) -> {
-
-                        Location location = hologram1.getLocation().add(xx,yy,zz);
-                        for(LivingEntity livingEntity : targetList){
-                            String uuidString = livingEntity.getUniqueId().toString();
-                            if(livingEntityMap.get(taskID+uuidString) == livingEntityMap.get(s)){
-                                location = livingEntity.getLocation().add(xx,yy,zz);
-                            }
-                        }
-
-                        teleportHD(hologram1,location);
-
-                    });
-                }
-                if(function.toLowerCase().contains("delete")){
-                    hologramMap.forEach((s, hologram1) -> {
-                        deleteHD(hologram1);
-                    });
-                    new ClearAction(taskID);
-                    if(ActionManager.getJudgment2_Holographic2_Map().get(taskID) != null){
-                        ActionManager.getJudgment2_Holographic2_Map().remove(taskID);
+                    String uuidString = livingEntity.getUniqueId().toString();
+                    if(hologramMap.get(taskID+uuidString) == null){
+                        String message2 = new SetValue(self,livingEntity,firstString,"[];","","message=","m=").getString();
+                        locationMap.put(taskID+uuidString, livingEntity.getLocation().add(x,y,z));
+                        livingEntityMap.put(taskID+uuidString, livingEntity);
+                        hologramMap.put(taskID+uuidString, createHD(livingEntity.getLocation().add(x,y,z), message2));
                     }
                 }
+            }
         }
+        if(function.toLowerCase().contains("addtextline")){
+            hologramMap.forEach((s, hologram1) -> {
+                LivingEntity livingEntity = livingEntityMap.get(s);
+                String message2 = new SetValue(self,livingEntity,firstString,"[];","","message=","m=").getString();
+                addLineHD(hologram1,message2);
+            });
+        }
+        if(function.toLowerCase().contains("additemline")){
+            hologramMap.forEach((s, hologram1) -> {
+                LivingEntity livingEntity = livingEntityMap.get(s);
+                String message2 = new SetValue(self,livingEntity,firstString,"[];","","message=","m=").getString();
+                addItemHD(self, livingEntity, hologram1, message2);
+            });
+        }
+        if(function.toLowerCase().contains("removetextline")){
+            hologramMap.forEach((s, hologram1) -> {
+                LivingEntity livingEntity = livingEntityMap.get(s);
+                String message2 = new SetValue(self,livingEntity,firstString,"[];","","message=","m=").getString();
+                removeLineHD(hologram1,message2);
+            });
+        }
+        if(function.toLowerCase().contains("teleport")){
+            double xx = x;
+            double yy = y;
+            double zz = z;
+
+            hologramMap.forEach((s, hologram1) -> {
+
+                Location location = hologram1.getLocation().add(xx,yy,zz);
+
+                if(!(targetList.isEmpty())){
+                    cd.getLogger().info("不是空");
+                    for(LivingEntity livingEntity : targetList){
+                        String uuidString = livingEntity.getUniqueId().toString();
+                        if(livingEntityMap.get(taskID+uuidString) == livingEntityMap.get(s)){
+                            location = livingEntity.getLocation().add(xx,yy,zz);
+                        }
+                    }
+                }
+
+
+                teleportHD(hologram1,location);
+
+            });
+        }
+        if(function.toLowerCase().contains("delete")){
+            hologramMap.forEach((s, hologram1) -> {
+                deleteHD(hologram1);
+            });
+            new ClearAction(taskID);
+            if(ActionManager.getJudgment2_Holographic2_Map().get(taskID) != null){
+                ActionManager.getJudgment2_Holographic2_Map().remove(taskID);
+            }
+        }
+
 
     }
 

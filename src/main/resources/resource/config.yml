@@ -23,7 +23,7 @@ Permission:
 #更改聊天(暫無)
 #Change chat (not yet)
 Message:
-  enable: true
+  enable: false
   content: "<Player> "
 
 #材質包設定

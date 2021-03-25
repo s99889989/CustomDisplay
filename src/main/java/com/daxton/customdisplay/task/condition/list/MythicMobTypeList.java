@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.condition.list;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.MobManager;
@@ -19,8 +20,8 @@ public class MythicMobTypeList {
 
     public boolean valueOf(LivingEntity self, LivingEntity target, String firstString, String taskID){
         boolean b = false;
-        String aims = new StringFind().getKeyValue(self,target,firstString,"[];","@=");
-        String mythicTypeListString = new StringFind().getKeyValue(self,target,firstString,"[];","mythictypelist=");
+        String aims = new SetValue(self,target,firstString,"[];","self","@=").getString();
+        String mythicTypeListString = new SetValue(self,target,firstString,"[];","","mythictypelist=").getString();
         List<String> mythicTypeList = ConfigMapManager.getFileConfigurationMap().get("Character_System_MythicTypeList.yml").getStringList(mythicTypeListString+".mythicTypeList");
 
         if(aims.toLowerCase().contains("target")){
@@ -31,7 +32,6 @@ public class MythicMobTypeList {
                     b = true;
                 }
             }
-
 
         }else {
             String uuidString = self.getUniqueId().toString();

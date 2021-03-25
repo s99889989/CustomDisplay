@@ -39,7 +39,7 @@ public class setGlow {
 
         //cd.getLogger().info(firstString);
 
-        ChatColor color = new SetValue(self,target,firstString,"[];","GREEN","color=","c=").getChatColor("GREEN");
+        ChatColor color = new SetValue(self,target,firstString,"[];","WHITE","color=","c=").getChatColor("WHITE");
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
         //cd.getLogger().info("顏色: "+color.toUpperCase());
 
