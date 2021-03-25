@@ -211,8 +211,8 @@ public class JudgmentAction {
         }
 
         /**Velocity的相關判斷**/
-        if(judgMent.toLowerCase().contains("velocity")){
-            new Velocity().setVelocity(self,target,firstString,taskID);
+        if(judgMent.toLowerCase().contains("move")){
+            new Move().setVelocity(self,target,firstString,taskID);
         }
 
     }

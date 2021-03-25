@@ -6,6 +6,7 @@ import com.comphenix.protocol.utility.MinecraftReflection;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 
@@ -38,7 +39,7 @@ public class setGlow {
 
         //cd.getLogger().info(firstString);
 
-        String color = new StringFind().getKeyValue2(self,target,firstString,"[];","white","color=","c=");
+        ChatColor color = new SetValue(self,target,firstString,"[];","GREEN","color=","c=").getChatColor("GREEN");
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
         //cd.getLogger().info("顏色: "+color.toUpperCase());
 
@@ -47,7 +48,7 @@ public class setGlow {
                 targetList.forEach(livingEntity -> {
                     createTeam(livingEntity);
                     setGlowing(livingEntity);
-                    addEntity(livingEntity);
+                    addEntity(livingEntity, color);
                     upTeam(livingEntity);
                 });
 
@@ -87,13 +88,13 @@ public class setGlow {
     }
 
     /**將生物添加到隊伍中**/
-    public void addEntity(LivingEntity livingEntity){
+    public void addEntity(LivingEntity livingEntity, ChatColor color){
         PacketContainer packet = ActionManager.protocolManager.createPacket( PacketType.Play.Server.SCOREBOARD_TEAM );
 
         packet.getStrings().write(0, "TestTeam");
         packet.getIntegers().write(0, 3);
 
-        packet.getEnumModifier(ChatColor.class, MinecraftReflection.getMinecraftClass("EnumChatFormat")).write(0, ChatColor.BLUE);
+        packet.getEnumModifier(ChatColor.class, MinecraftReflection.getMinecraftClass("EnumChatFormat")).write(0, color);
         packet.getStrings().write(1, "ALWAYS");
         packet.getSpecificModifier(Collection.class).write(0, Arrays.asList( new String[]{livingEntity.getUniqueId().toString()} ));
         packets.add(packet);

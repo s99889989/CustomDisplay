@@ -55,13 +55,33 @@ public class Aims {
                     targetList.add(target);
                 }
             }
-        }else if(aims.toLowerCase().contains("lself")){
-
-        }else {
+        }else if(aims.toLowerCase().contains("selfinworld")){
+            self.getWorld().getEntities().forEach(entity -> {
+                if(entity instanceof LivingEntity){
+                    LivingEntity livingEntity = (LivingEntity) entity;
+                    if(Filte.valueOf(livingEntity,filters)){
+                        targetList.add(livingEntity);
+                    }
+                }
+            });
+        }else if(aims.toLowerCase().contains("server")){
+            cd.getServer().getWorlds().forEach(world -> {
+                world.getEntities().forEach(entity -> {
+                    if(entity instanceof LivingEntity){
+                        LivingEntity livingEntity = (LivingEntity) entity;
+                        if(Filte.valueOf(livingEntity,filters)){
+                            targetList.add(livingEntity);
+                        }
+                    }
+                });
+            });
+        } else {
             if(Filte.valueOf(self,filters)){
                 targetList.add(self);
             }
         }
+
+
 
         return targetList;
     }

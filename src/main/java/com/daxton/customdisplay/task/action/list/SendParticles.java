@@ -248,9 +248,9 @@ public class SendParticles {
         double rotZ = 0;
 
         if(imgTargetAngle){
-            rotX = livingEntity.getLocation().getPitch()+ imgX;
-            rotY = livingEntity.getLocation().getYaw()+ imgX;
-            rotZ = livingEntity.getLocation().getPitch()+ imgX;
+            rotX = livingEntity.getLocation().getYaw()+ imgX;
+            rotY = livingEntity.getLocation().getPitch()+ imgY;
+            rotZ = livingEntity.getLocation().getYaw()+ imgZ;
         }else {
             rotX = imgX;
             rotY = imgY;

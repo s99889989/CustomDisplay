@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.action.list;
 
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ public class Command {
     public void setCommand(LivingEntity self, LivingEntity target, String firstString, String taskID){
 
         /**獲得內容**/
-        String message = new StringFind().getKeyValue2(self,target,firstString,"[];","","m=","message=");
+        String message = new SetValue(self,target,firstString,"[];","","m=","message=").getString();
 
         /**獲得目標**/
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);

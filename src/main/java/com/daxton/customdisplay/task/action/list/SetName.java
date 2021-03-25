@@ -6,28 +6,26 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.other.SetValue;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Optional;
 
 public class SetName {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private String message = "";
-
     private String taskID = "";
-    private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
     private String firstString = "";
 
-    private String aims = "self";
-    private boolean always = false;
 
     public SetName(){
 
@@ -45,54 +43,37 @@ public class SetName {
 
     public void setOther(){
 
-        for(String string : new StringFind().getStringList(firstString)){
+        /**獲得目標**/
+        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+        if(!(targetList.isEmpty())){
+            for (LivingEntity livingEntity : targetList){
 
-            if(string.toLowerCase().contains("@=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    aims = strings[1];
-                }
-            }
-        }
+                    /**獲得內容**/
+                    String message = new SetValue(self,livingEntity,firstString,"[];","","m=","message=").getString();
 
-        for(String allString : new StringFind().getStringMessageList(firstString)){
-            if(allString.toLowerCase().contains("message=") || allString.toLowerCase().contains("m=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    message = strings[1];
-                }
-            }
-
-            if(allString.toLowerCase().contains("always=")){
-                String[] strings = allString.split("=");
-                if(strings.length == 2){
-                    if(strings[1].toLowerCase().contains("true")){
-                        always = true;
-                    }else {
-                        always = false;
+                    boolean always = new SetValue(self,livingEntity,firstString,"[];","false","always=").getBoolean();
+                    if(self instanceof Player){
+                        Player player = (Player) self;
+                        sendMetadataPacket(player, livingEntity, message, always);
                     }
-                }
-
-            }
-
-
-        }
-
-        if(target instanceof Player & aims.toLowerCase().contains("target")){
-            player = (Player) target;
-        }else {
-            if(self instanceof Player){
-                player = (Player) self;
             }
         }
 
-        if(player != null){
-            updateEntity();
-        }
+//        if(target instanceof Player & aims.toLowerCase().contains("target")){
+//            player = (Player) target;
+//        }else {
+//            if(self instanceof Player){
+//                player = (Player) self;
+//            }
+//        }
+//
+//        if(player != null){
+//            updateEntity();
+//        }
     }
 
 
-    public void updateEntity() {
+    public void updateEntity(Player player) {
 
         PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, target.getEntityId());
@@ -104,15 +85,15 @@ public class SetName {
                 e.printStackTrace();
             }
         }
-        sendMetadataPacket();
+        //sendMetadataPacket();
     }
 
-    public void sendMetadataPacket() {
+    public void sendMetadataPacket(Player player, LivingEntity livingEntity, String message, Boolean always) {
 
-        message = new ConversionMain().valueOf(self,target,message);
+        //message = new ConversionMain().valueOf(self,target,message);
 
         PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
-        packet.getIntegers().write(0, target.getEntityId());
+        packet.getIntegers().write(0, livingEntity.getEntityId());
         WrappedDataWatcher watcher = new WrappedDataWatcher();
 
         Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage(message)[0].getHandle());

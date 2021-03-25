@@ -2,8 +2,10 @@ package com.daxton.customdisplay.api.other;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -83,6 +85,18 @@ public class SetValue {
 
         return output;
     }
+
+    public float getFloat(float defaultKey){
+        float output = defaultKey;
+        try {
+            output = Float.valueOf(inputString);
+        }catch (NumberFormatException exception){
+
+        }
+
+        return output;
+    }
+
     /**BossBarFlag**/
     public BarFlag getBarFlag(){
         BarFlag output = null;
@@ -156,6 +170,28 @@ public class SetValue {
             bigint = new BigInteger(inputString, 16);
             numb = bigint.intValue();
             output = new Particle.DustOptions(fromRGB(numb), 1);
+        }catch (IllegalArgumentException exception){
+
+        }
+        return output;
+    }
+
+    /**顏色**/
+    public ChatColor getChatColor(String defaultKey){
+        ChatColor output = Enum.valueOf(ChatColor.class ,defaultKey);
+        try {
+            output = Enum.valueOf(ChatColor.class ,inputString.toUpperCase());
+        }catch (IllegalArgumentException exception){
+
+        }
+        return output;
+    }
+
+    /**聲音的分類**/
+    public SoundCategory getSoundCategory(String defaultKey){
+        SoundCategory output = Enum.valueOf(SoundCategory.class ,defaultKey);
+        try {
+            output = Enum.valueOf(SoundCategory.class ,inputString.toUpperCase());
         }catch (IllegalArgumentException exception){
 
         }
