@@ -2,9 +2,9 @@ package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -95,7 +95,7 @@ public class MobListener implements Listener {
 
                 String uuidString = player.getUniqueId().toString();
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_kill_mob_type>",entityType);
-                new PlayerTrigger(player).onMobDeath(player,target);
+                new PlayerTrigger2(player).onMobDeath(player,target);
             }
         }
 

@@ -1,11 +1,10 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.SetValue;
-import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.action.ClearAction;
 import com.daxton.customdisplay.task.action.JudgmentAction;
@@ -19,11 +18,8 @@ public class PlayerTrigger {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private Player player = null;
     private LivingEntity self = null;
     private LivingEntity target = null;
-    private List<LivingEntity> targetList = new ArrayList<>();
-    private String firstString = "";
 
     private boolean stop = false;
     private String taskID = "";
@@ -445,45 +441,56 @@ public class PlayerTrigger {
 
     public void runExecute(String actionString){
 
-        FileConfiguration configuration = cd.getConfigManager().config;
-        boolean b = configuration.getBoolean("Permission.fastUse");
-        if(b){
-            if(self instanceof Player){
-                Player player = (Player) self;
-                String uuidString = player.getUniqueId().toString();
-                if(PlayerDataMap.playerAction_Permission.get(uuidString+actionString) != null){
-                    String pp = PlayerDataMap.playerAction_Permission.get(uuidString+actionString);
-                    if(!player.hasPermission(pp)){
-                        return;
-                    }
-                }
-            }
+        /**確認觸發者權限**/
+        if(checkPermission(self, actionString)){
+            return;
         }
+
+
+
 
         taskID = new SetValue(self,target,actionString,"[];",String.valueOf((int)(Math.random()*100000)),"mark=","m=").getString();
 
         stop = new SetValue(self,target,actionString,"[];","false","stop=","s=").getBoolean();
 
         if(stop){
-            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+            if(ActionManager.getOther_Judgment_Map().get(taskID) != null){
                 new ClearAction(taskID);
                 new ClearAction(self,target);
-                ActionManager.getOther_Judgment2_Map().remove(taskID);
+                ActionManager.getOther_Judgment_Map().remove(taskID);
             }
         }else{
-            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
+            if(ActionManager.getOther_Judgment_Map().get(taskID) != null){
                 new ClearAction(taskID);
                 new ClearAction(self,target);
-                ActionManager.getOther_Judgment2_Map().remove(taskID);
+                ActionManager.getOther_Judgment_Map().remove(taskID);
             }
-            if(ActionManager.getOther_Judgment2_Map().get(taskID) == null){
-                ActionManager.getOther_Judgment2_Map().put(taskID,new JudgmentAction());
-                ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+            if(ActionManager.getOther_Judgment_Map().get(taskID) == null){
+                ActionManager.getOther_Judgment_Map().put(taskID,new JudgmentAction());
+                ActionManager.getOther_Judgment_Map().get(taskID).execute(self,target,actionString,taskID);
             }
         }
     }
 
+    public boolean checkPermission(LivingEntity livingEntity, String actionString){
+        boolean bb = false;
+        FileConfiguration configuration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        boolean setting = configuration.getBoolean("Permission.fastUse");
+        if(setting){
+            if(livingEntity instanceof Player){
+                Player player = (Player) self;
+                String uuidString = player.getUniqueId().toString();
+                if(PlayerDataMap.playerAction_Permission.get(uuidString+actionString) != null){
+                    String pp = PlayerDataMap.playerAction_Permission.get(uuidString+actionString);
+                    if(!player.hasPermission(pp)){
+                        bb = true;
+                    }
+                }
+            }
+        }
 
+        return bb;
+    }
 
 
 }

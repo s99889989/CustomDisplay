@@ -3,15 +3,13 @@ package com.daxton.customdisplay.task.action.list.setplayer;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.api.player.data.set.PlayerLevel;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +102,7 @@ public class Experience {
         String uuidString = player.getUniqueId().toString();
         if(amount < 0){
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_exp_type>","default");
-            new PlayerTrigger(player).onExpDown(player);
+            new PlayerTrigger2(player).onExpDown(player);
         }
 
         player.giveExp(amount);

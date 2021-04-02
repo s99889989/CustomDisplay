@@ -1,8 +1,13 @@
 package com.daxton.customdisplay.api.character.placeholder;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.entity.LivingEntity;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class PlaceholderPlayer {
 
@@ -16,6 +21,10 @@ public class PlaceholderPlayer {
 
         String outputString = "";
         String uuidString = entity.getUniqueId().toString();
+        UUID playerUUID = entity.getUniqueId();
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        Map<String, Integer> equipment_Enchants_Map = playerData.equipment_Enchants_Map;
+
         if(inputString.toLowerCase().contains("<cd_player_last_chat")){
             if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_last_chat>") != null){
                 outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_last_chat>");
@@ -81,6 +90,21 @@ public class PlaceholderPlayer {
         if(inputString.toLowerCase().contains("<cd_player_kill_mythic_mob_item")){
             if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_player_kill_mythic_mob_item>") != null){
                 outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_player_kill_mythic_mob_item>");
+            }
+        }
+        if(inputString.toLowerCase().contains("<cd_player_enchants_")){
+            String key = inputString.replace("<cd_player_enchants_","");
+            try {
+                outputString = String.valueOf(equipment_Enchants_Map.get(key));
+            }catch (NullPointerException exception){
+                outputString = "0";
+            }
+
+        }
+        /**主手裝備類型**/
+        if(inputString.toLowerCase().contains("<cd_player_equipment_type_mainhand")){
+            if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_player_equipment_type_mainhand>") != null){
+                outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_player_equipment_type_mainhand>");
             }
         }
         return outputString;

@@ -82,6 +82,7 @@ public class ConversionMath {
             }catch (NumberFormatException exception){
                 outputString =  "0";
             }
+
         }
         if(function.toLowerCase().contains("greater")){
 

@@ -66,18 +66,18 @@ public class PlayerBukkitAttribute {
 
     public void removeAllAttribute(Player player){
         removeAttribute(player,"GENERIC_MAX_HEALTH");
-        removeAttribute(player,"GENERIC_FOLLOW_RANGE");
+        //removeAttribute(player,"GENERIC_FOLLOW_RANGE");
         removeAttribute(player,"GENERIC_KNOCKBACK_RESISTANCE");
         removeAttribute(player,"GENERIC_MOVEMENT_SPEED");
-        removeAttribute(player,"GENERIC_FLYING_SPEED");
+        //removeAttribute(player,"GENERIC_FLYING_SPEED");
         removeAttribute(player,"GENERIC_ATTACK_DAMAGE");
-        removeAttribute(player,"GENERIC_ATTACK_KNOCKBACK");
+        //removeAttribute(player,"GENERIC_ATTACK_KNOCKBACK");
         removeAttribute(player,"GENERIC_ATTACK_SPEED");
         removeAttribute(player,"GENERIC_ARMOR");
         removeAttribute(player,"GENERIC_ARMOR_TOUGHNESS");
         removeAttribute(player,"GENERIC_LUCK");
-        removeAttribute(player,"HORSE_JUMP_STRENGTH");
-        removeAttribute(player,"ZOMBIE_SPAWN_REINFORCEMENTS");
+        //removeAttribute(player,"HORSE_JUMP_STRENGTH");
+        //removeAttribute(player,"ZOMBIE_SPAWN_REINFORCEMENTS");
     }
 
 

@@ -1,8 +1,11 @@
 package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.LoadConfig;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -44,28 +47,54 @@ public class PlayerSkills {
     }
 
     /**設定單個技能等級**/
-    public void setOneMap(Player player, String attrName, int amount){
+    public void setOneMap(Player player, String skillName, int amount){
 
         UUID uuid = player.getUniqueId();
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
         if(playerData != null){
             Map<String,String> skills_Map = playerData.skills_Map;
+            Map<String,List<CustomLineConfig>> action_Trigger_Map2 = playerData.getAction_Trigger_Map2();
             if(!(skills_Map.isEmpty()) && skills_Map.size() > 0){
                 try {
-                    int nowValue = Integer.valueOf(skills_Map.get(attrName));
+                    int nowValue = Integer.valueOf(skills_Map.get(skillName));
                     int newValue = nowValue + amount;
                     if(newValue >= 0){
-                        skills_Map.put(attrName,String.valueOf(newValue));
-
+                        skills_Map.put(skillName,String.valueOf(newValue));
+                        setAction(player, action_Trigger_Map2, skillName, newValue);
                     }
                 }catch (NumberFormatException exception){
 
                 }
+
+
             }
 
         }
 
 
     }
+
+    public void setAction(Player player, Map<String,List<CustomLineConfig>> action_Trigger_Map2, String skillName, int skillLevel){
+        if(skillName.contains("_level")){
+            String skillKey = skillName.replace("_level","");
+            FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillKey+".yml");
+            boolean passiveSkill = skillConfig.getBoolean(skillKey+".PassiveSkill");
+
+            if(passiveSkill && skillLevel > 0){
+                //CustomDisplay.getCustomDisplay().getLogger().info("技能: "+skillName+" : "+skillLevel+" : "+passiveSkill);
+                List<String> skillList = skillConfig.getStringList(skillKey+".Action");
+                new PlayerAction2(action_Trigger_Map2).setPlayerAction(skillList);
+                skillList.forEach(s1 -> {
+                    if(s1.toLowerCase().contains("~onjoin")){
+                        new PlayerTrigger2(player).onSkill2(player,null,new CustomLineConfig(s1));
+                    }
+                    //CustomDisplay.getCustomDisplay().getLogger().info(s1);
+                });
+            }
+
+        }
+    }
+
+
 
 }

@@ -1,0 +1,57 @@
+#技能狀態(顯示在BossBar)
+#Skill status (displayed in BossBar)
+BossBar1:
+  BarColor: 'BLUE'
+  BarStyle: 'SEGMENTED_10'
+  Progress: 0
+  #技能主手顯示
+  Main_Hand: 
+    #1~8格
+    18: '䂴'
+    #9格
+    9: '䂴'
+  #技能間隔顯示
+  Skill_Blank: ''
+
+#技能空顯示
+  Skill_Null:
+    #1~8格
+    18: '䂶'
+    #9格
+    9: '䂶'
+
+BossBar2:
+  Title: '䃍䃍䃍䃍䃍䃍䃍䃍䃍'
+  BarColor: 'BLUE'
+  BarStyle: 'SEGMENTED_10'
+#技能獨立延遲覆蓋
+  Skill_CD:
+    12: '䃘'
+    11: '䃗'
+    10: '䃖'
+    9: '䃕'
+    8: '䃔'
+    7: '䃓'
+    6: '䃒'
+    5: '䃑'
+    4: '䃐'
+    3: '䃏'
+    2: '䃎'
+    1: '䃍'
+
+#施法設定
+#Cast settings.
+Skill_Cast_Time:
+  
+  Sound: 'skills_casttime'
+  Hologram:
+    HDEnable: true
+    Hight: 0.5
+    ItemEnble: true
+    Item: 'LawTown'
+    LineEnble: false
+    Line: ''
+
+
+
+

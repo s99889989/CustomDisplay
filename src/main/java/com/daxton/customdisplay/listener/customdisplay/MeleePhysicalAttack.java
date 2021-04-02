@@ -37,15 +37,15 @@ public class MeleePhysicalAttack implements Listener {
                 LivingEntity target = event.getTarget();
 
                 /**攻速**/
-                if(PlayerDataMap.attack_Boolean4_Map.get(uuidString) == null){
-                    PlayerDataMap.attack_Boolean4_Map.put(uuidString,true);
-                }
+//                if(PlayerDataMap.attack_Boolean4_Map.get(uuidString) == null){
+//                    PlayerDataMap.attack_Boolean4_Map.put(uuidString,true);
+//                }
                 if(PlayerDataMap.attack_Boolean_Map.get(uuidString) == null){
                     PlayerDataMap.attack_Boolean_Map.put(uuidString,false);
                 }
                 boolean attack_speed = PlayerDataMap.attack_Boolean_Map.get(uuidString);
-                boolean attack_mut = PlayerDataMap.attack_Boolean4_Map.get(uuidString);
-                if(attack_mut){
+//                boolean attack_mut = PlayerDataMap.attack_Boolean4_Map.get(uuidString);
+//                if(attack_mut){
                     if (attack_speed) {
                         event.setDamageType("PHYSICAL_NON");
                         event.setCancelled(true);
@@ -60,7 +60,7 @@ public class MeleePhysicalAttack implements Listener {
                             new FormulaDelay().setAttackSpeed(player, target, uuidString);
                         }
                     }
-                }
+                //}
 
 
                 /**命中**/

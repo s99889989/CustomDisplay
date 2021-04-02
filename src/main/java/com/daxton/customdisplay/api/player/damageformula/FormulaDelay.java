@@ -1,7 +1,6 @@
 package com.daxton.customdisplay.api.player.damageformula;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
@@ -9,8 +8,6 @@ import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import com.daxton.customdisplay.task.action.list.Holographic;
-import com.daxton.customdisplay.task.action.list.SendBossBar;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.SoundCategory;

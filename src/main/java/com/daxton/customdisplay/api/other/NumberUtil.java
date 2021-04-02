@@ -23,9 +23,13 @@ public class NumberUtil {
     public NumberUtil(double number, String decimal){
         DecimalFormat decimalFormat = new DecimalFormat(decimal);
         String string = decimalFormat.format(number);
-        if(string.endsWith(".")){
+        if(string.contains(",")){
+            string = string.replace(",",".");
+        }
+        if(string.endsWith(".0")){
             string = string.replace(".0","");
         }
+
         decimalString = string;
     }
 

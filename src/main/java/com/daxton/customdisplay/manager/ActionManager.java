@@ -1,16 +1,13 @@
 package com.daxton.customdisplay.manager;
 
 import com.comphenix.protocol.ProtocolManager;
+import com.daxton.customdisplay.task.JudgmentAction2;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.action.list.*;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -43,7 +40,8 @@ public class ActionManager {
     private static Map<String, OpenInventory> judgment2_OpenInventory_Map = new HashMap<>();
 
     /**Other->judgment2**/
-    private static Map<String , JudgmentAction> other_Judgment2_Map = new HashMap<>();
+    private static Map<String , JudgmentAction> other_Judgment_Map = new HashMap<>();
+    public static Map<String , JudgmentAction2> other_Judgment2_Map = new HashMap<>();
 
     /**SendParticles->ProtocolManager**/
     private static Map<String, ProtocolManager> sendParticles_ProtocolManager_Map = new HashMap<>();
@@ -97,8 +95,8 @@ public class ActionManager {
     }
 
     /**Other->judgment2**/
-    public static Map<String, JudgmentAction> getOther_Judgment2_Map() {
-        return other_Judgment2_Map;
+    public static Map<String, JudgmentAction> getOther_Judgment_Map() {
+        return other_Judgment_Map;
     }
 
     /**SendParticles->ProtocolManager**/

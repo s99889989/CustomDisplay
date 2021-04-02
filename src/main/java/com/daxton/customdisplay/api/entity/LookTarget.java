@@ -20,9 +20,10 @@ public class LookTarget {
             double min = radius+1;
             for(Entity targetEntity : targetEntityList){
                 if(targetEntity instanceof LivingEntity){
-                    Vector targetVector = targetEntity.getLocation().subtract(self.getLocation()).toVector();
+
+                    Vector targetVector = ((LivingEntity) targetEntity).getEyeLocation().subtract(self.getEyeLocation()).toVector();
                     double rad = targetVector.angle(self.getEyeLocation().getDirection());
-                    if(rad < 0.2){
+                    if(rad < 0.4){
                         Location st = targetEntity.getLocation().subtract(self.getLocation());
                         double dd = Math.sqrt(Math.pow((st.getX()),2) + Math.pow((st.getY()),2) +Math.pow((st.getZ()),2));
                         if(dd <= radius && dd < min){

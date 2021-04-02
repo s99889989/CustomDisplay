@@ -1,8 +1,8 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -24,10 +24,10 @@ public class AttackedListener implements Listener {
             double damagedNumber = event.getFinalDamage();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_damaged_number>","Miss");
-                new PlayerTrigger(player).onDamagedMiss(player,target);
+                new PlayerTrigger2(player).onDamagedMiss(player,target);
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_damaged_number>",String.valueOf(damagedNumber));
-                new PlayerTrigger(player).onDamaged(player,target);
+                new PlayerTrigger2(player).onDamaged(player,target);
             }
 
 

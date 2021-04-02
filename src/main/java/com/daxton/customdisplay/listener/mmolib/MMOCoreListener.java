@@ -2,8 +2,8 @@ package com.daxton.customdisplay.listener.mmolib;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.player.stats.StatType;
@@ -92,7 +92,7 @@ public class MMOCoreListener implements Listener {
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,"Miss");
-                new PlayerTrigger(player).onAtkMiss(player,target);
+                new PlayerTrigger2(player).onAtkMiss(player,target);
                 return;
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
@@ -101,16 +101,16 @@ public class MMOCoreListener implements Listener {
 
             if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
-                    new PlayerTrigger(player).onCrit(player,target);
+                    new PlayerTrigger2(player).onCrit(player,target);
                 }else {
-                    new PlayerTrigger(player).onAttack(player,target);
+                    new PlayerTrigger2(player).onAttack(player,target);
                 }
             }
             if(damageType.contains("MAGIC")){
                 if(damageNumber > ((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER)){
-                    new PlayerTrigger(player).onMCrit(player,target);
+                    new PlayerTrigger2(player).onMCrit(player,target);
                 }else {
-                    new PlayerTrigger(player).onMagic(player,target);
+                    new PlayerTrigger2(player).onMagic(player,target);
                 }
             }
 

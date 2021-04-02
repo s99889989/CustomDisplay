@@ -29,6 +29,7 @@ public class PlayerBinds {
         if(attrStatsList.size() > 0){
             for(String attrName : attrStatsList){
                 String skillName = playerConfig.getString(uuidString+".Binds."+attrName+".SkillName");
+
                 int use = playerConfig.getInt(uuidString+".Binds."+attrName+".UseLevel");
                 point_Map.put(attrName+"_skillName",skillName);
                 point_Map.put(attrName+"_use",String.valueOf(use));

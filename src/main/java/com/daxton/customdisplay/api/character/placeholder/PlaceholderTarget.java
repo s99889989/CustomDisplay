@@ -29,6 +29,9 @@ public class PlaceholderTarget {
             if(key.toLowerCase().contains("<cd_mmocore_")){
                 outputString = new PlaceholderMMOCore().valueOf(entity);
             }
+            if(key.toLowerCase().contains("<cd_attribute_")){
+                outputString = PlaceholderAttributes.valueOf(entity, key);
+            }
         }else {
             if(key.toLowerCase().contains("<cd_base_")){
                 outputString = new PlaceholderBase().valueOf(entity,null,key);
@@ -38,6 +41,9 @@ public class PlaceholderTarget {
             }
             if(key.toLowerCase().contains("<cd_modelengine_")){
                 outputString = new PlaceholderModelEngine().valueOf(entity,key);
+            }
+            if(key.toLowerCase().contains("<cd_attribute_")){
+                outputString = PlaceholderAttributes.valueOf(entity, key);
             }
         }
         return outputString;

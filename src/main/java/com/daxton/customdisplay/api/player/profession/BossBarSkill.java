@@ -132,9 +132,12 @@ public class BossBarSkill {
     }
 
     public void closeSkill(Player player){
-        if(skillBar != null && skillBar0 != null){
-            skillBar0.removePlayer(player);
+        if(skillBar != null){
+
             skillBar.removePlayer(player);
+        }
+        if(skillBar0 != null){
+            skillBar0.removePlayer(player);
         }
 
     }

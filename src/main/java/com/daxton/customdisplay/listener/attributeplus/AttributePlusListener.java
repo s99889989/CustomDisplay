@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.attributeplus;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -50,7 +51,7 @@ public class AttributePlusListener implements Listener {
             String tUUIDSTring = target.getUniqueId().toString();
             PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onAttack(player,target);
+            new PlayerTrigger2(player).onAttack(player,target);
 
         }else {
             return;
@@ -75,7 +76,7 @@ public class AttributePlusListener implements Listener {
             String tUUIDSTring = target.getUniqueId().toString();
             PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onCrit(player,target);
+            new PlayerTrigger2(player).onCrit(player,target);
         }else {
             return;
         }

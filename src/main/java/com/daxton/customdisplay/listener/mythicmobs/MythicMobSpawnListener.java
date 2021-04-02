@@ -2,11 +2,10 @@ package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.mob.MobConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.ticxo.modelengine.model.MEModeledEntity;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobLootDropEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
@@ -67,9 +66,9 @@ public class MythicMobSpawnListener implements Listener {
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_item>",item);
 
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
-            new PlayerTrigger(player).onMythicMobDeath(player,target);
+            new PlayerTrigger2(player).onMythicMobDeath(player,target);
             if(!(item.contains("Air"))){
-                new PlayerTrigger(player).onMMobDropItem(player,target);
+                new PlayerTrigger2(player).onMMobDropItem(player,target);
             }
         }
 
@@ -91,10 +90,10 @@ public class MythicMobSpawnListener implements Listener {
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_exp>",String.valueOf(event.getExp()));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_money>",String.valueOf(event.getMoney()));
             if(event.getExp() != 0){
-                new PlayerTrigger(player).onMMobDropExp(player,target);
+                new PlayerTrigger2(player).onMMobDropExp(player,target);
             }
             if(event.getMoney() != 0){
-                new PlayerTrigger(player).onMMobDropMoney(player,target);
+                new PlayerTrigger2(player).onMMobDropMoney(player,target);
             }
 
         }

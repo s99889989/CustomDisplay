@@ -2,6 +2,7 @@ package com.daxton.customdisplay.listener.skillapi;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.sucy.skill.api.event.PhysicalDamageEvent;
 import com.sucy.skill.api.event.SkillDamageEvent;
@@ -10,7 +11,6 @@ import com.sucy.skill.listener.AttributeListener;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -39,11 +39,11 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger(player).onAtkMiss(player,target);
+                new PlayerTrigger2(player).onAtkMiss(player,target);
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onMagic(player,target);
+                new PlayerTrigger2(player).onMagic(player,target);
             }
 
 
@@ -70,11 +70,11 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger(player).onAtkMiss(player,target);
+                new PlayerTrigger2(player).onAtkMiss(player,target);
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onAttack(player,target);
+                new PlayerTrigger2(player).onAttack(player,target);
             }
 
 

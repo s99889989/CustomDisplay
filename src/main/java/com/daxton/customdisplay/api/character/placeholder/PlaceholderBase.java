@@ -32,6 +32,7 @@ public class PlaceholderBase {
         }
         if(inputString.toLowerCase().contains("<cd_base_nowhealth")){
             outputString = String.valueOf(entity.getHealth());
+
         }
         if(inputString.toLowerCase().contains("<cd_base_maxhealth")){
             outputString = String.valueOf(entity.getAttribute(GENERIC_MAX_HEALTH).getValue());

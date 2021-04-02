@@ -20,6 +20,13 @@ Permission:
   #Enabling this function can use this action immediately after adding permissions.
   fastUse: false
 
+#職業
+#Class
+Class:
+  #技能
+  #Skill
+  Skill: false
+
 #更改聊天(暫無)
 #Change chat (not yet)
 Message:

@@ -36,13 +36,12 @@ public class SendBossBar {
     private String taskID = "";
 
 
-
-
     public SendBossBar(){
 
     }
 
     public void setBossBar(LivingEntity self, LivingEntity target, String firstString, String taskID){
+
         this.self = self;
         this.target = target;
         this.taskID = taskID;
@@ -65,14 +64,14 @@ public class SendBossBar {
         /**獲得目標**/
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
 
-
             if(function.toLowerCase().contains("create")){
                 if(!(targetList.isEmpty())) {
                     for (LivingEntity livingEntity : targetList) {
-                        if (livingEntity instanceof Player) {
-                            Player player = (Player) livingEntity;
+                        if (self instanceof Player) {
+                            Player player = (Player) self;
                             String uuidString = player.getUniqueId().toString();
-                            String message = new SetValue(player, target, firstString, "[];","", "m=", "message=").getString();
+                            String message = new SetValue(player, livingEntity, firstString, "[];","", "m=", "message=").getString();
+
                             if(bossBarMap.get(uuidString) == null){
                                 playerMap.put(uuidString,player);
                                 bossBarMap.put(uuidString, create(player, message, color, style, flag, progress));
@@ -105,6 +104,7 @@ public class SendBossBar {
 
     /**建立新的BossBar**/
     public BossBar create(Player player, String message, BarColor color, BarStyle style, BarFlag flag, double progress){
+
         BossBar bossBar = null;
         try{
             bossBar = Bukkit.createBossBar(message, color, style, flag);

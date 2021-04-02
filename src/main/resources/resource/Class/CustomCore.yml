@@ -1,90 +1,114 @@
 CoreAttribute:
   #原版血量
+  #Minecraft HP
   Health:
     enable: true
     formula: '&self_attr_Hp&'
 
   #原版移動速度
+  #Minecraft Move Speed
   Move_Speed:
     enable: true
     formula: '&self_attr_Moving_Speed_Core&'
 
   #每10秒回多少血
+  #How much blood is returned every 10 seconds.
   Health_Regeneration:
     formula: '&self_attr_Hp_Regeneration&'
   
   #魔量
+  #Sp
   Max_Mana:
     formula: '&self_attr_Sp&'
   
   #每10秒回多少魔
+  #How many Sp are returned every 10 seconds.
   Mana_Regeneration:
     formula: '&self_attr_Sp_Regeneration&'
   
   #攻擊速度，攻擊後延遲多久，才能再次攻擊(單位為0.1秒，10=1秒)
+  #Attack speed, how long after the attack is delayed before attacking again (unit is 0.1 second, 10=1 second)
   Attack_Speed:
     formula: '&self_attr_Attack_Speed_Core&'
   
   #近距離物理攻擊(玩家攻擊玩家)
+  #Close physical attack (player attacking player).
   Melee_Physics_Player_Player:
     formula: '&Player_Player_Final_Damage_Melee&'
   #近距離物理攻擊(玩家攻擊其他生物)
+  #Close physical attack (player attacks other creatures)
   Melee_Physics_Player_Other:
     formula: '&Player_Mob_Final_Damage_Melee&'
   
   #遠距離物理攻擊(弓箭)(玩家攻擊玩家)
+  #Long-range physical attack (bow and arrow) (player attacking player)
   Range_Physics_Player_Player:
     formula: '&Player_Player_Final_Damage_Range&'
   #遠距離物理攻擊(弓箭)(玩家攻擊其他生物)
+  #Long-range physical attack (bow and arrow) (player attacks other creatures)
   Range_Physics_Player_Other:
     formula: '&Player_Mob_Final_Damage_Range&'
   
   #魔法攻擊(玩家攻擊玩家)
+  #Magic attack (player attacking player)
   Magic_Attack_Player_Player:
     formula: '&Player_Player_Final_Damage_Magic&'
   #魔法攻擊(玩家攻擊其他生物)
+  #Magic attack (player attacks other creatures)
   Magic_Attack_Player_Other:
     formula: '&Player_Mob_Final_Damage_Magic&'
   
   #近距離物理暴擊(玩家攻擊玩家)
+  #Close physical crit (player attacking player)
   Melee_Physics_Critical_Strike_Power_Player_Player:
     formula: '&Player_Player_Final_Damage_Melee_Crit&'
   #近距離物理暴擊(玩家攻擊其他生物)
+  #Close physical crit (player attacks other creatures)
   Melee_Physics_Critical_Strike_Power_Player_Other:
     formula: '&Player_Mob_Final_Damage_Melee_Crit&'
   
   #遠距離物理暴擊(弓箭)(玩家攻擊玩家)
+  #Long-range physical crit (bow and arrow) (player attacking player)
   Range_Physics_Critical_Strike_Power_Player_Player:
     formula: '&Player_Player_Final_Damage_Range_Crit&'
   #遠距離物理暴擊(弓箭)(玩家攻擊其他生物)
+  #Long-range physical crit (bow and arrow) (player attacks other creatures)
   Range_Physics_Critical_Strike_Power_Player_Other:
     formula: '&Player_Mob_Final_Damage_Range_Crit&'
   
   #命中(機率為1~100)(玩家攻擊玩家)
+  #Hit (1~100 chance) (player attacking player)
   Hit_Rate_Player_Player:
     formula: '&Player_Player_Hit_Rate&'
   #命中(機率為1~100)(玩家攻擊其他生物)
+  #Hit (1~100 chance) (player attacks other creatures)
   Hit_Rate_Player_Other:
     formula: '&Player_Mob_Hit_Rate%&'
   
   #迴避(算目標的)(機率為1~100)(玩家攻擊玩家)
+  #Evasion (counting as the target) (1~100 chance) (player attacking player)
   Dodge_Rate_Player_Player:
     formula: '&Player_Player_Dodge_Rate&'
   #迴避(算目標的)(機率為1~100)(玩家攻擊其他生物)
+  #Evasion (counting as the target) (1~100 chance) (the player attacks other creatures)
   Dodge_Rate_Player_Other:
     formula: '&Player_Mob_Dodge_Rate%&'
   
   #格檔(算目標的)(機率為1~100)(玩家攻擊玩家)
+  #Grid (counted as the target) (probability 1~100) (player attacking player)
   Block_Rate_Player_Player:
     formula: '0'
   #格檔(算目標的)(機率為1~100)(玩家攻擊其他生物)
+  #Grid (counted as target) (1~100 chance) (player attacks other creatures)
   Block_Rate_Player_Other:
     formula: '0'
   
   #暴擊率(機率為1~100)(玩家攻擊玩家)
+  #Critical rate (1~100 chance) (player attacking player)
   Critical_Strike_Chance_Player_Player:
     formula: '&Player_Player_Critical_Strike_Chance%&'
   #暴擊率(機率為1~100)(玩家攻擊其他生物)
+  #Critical rate (1~100 chance) (player attacks other creatures)
   Critical_Strike_Chance_Player_Other:
     formula: '&Player_Mob_Critical_Strike_Chance%&'
   

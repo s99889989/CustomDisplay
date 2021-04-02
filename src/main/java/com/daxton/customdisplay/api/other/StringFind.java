@@ -108,8 +108,8 @@ public class StringFind {
     /**丟入字串,key和關鍵字 回傳值**/
     public String getAimsValue(String firstString,String key,String defaultValue){
         String outPut = defaultValue;
-        if(firstString.contains("@=")){
-            String[] strings = firstString.split("@=");
+        if(firstString.contains("@")){
+            String[] strings = firstString.split("@");
             if(key.equals("aims")){
                 String[] strings1 = strings[1].split("\\{");
                 outPut = strings1[0];

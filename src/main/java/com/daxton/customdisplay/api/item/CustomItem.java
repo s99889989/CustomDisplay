@@ -5,10 +5,7 @@ import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +68,7 @@ public class CustomItem {
                         /**物品CustomModelData**/
                         int cmd = itemConfig.getInt(itemID+".CustomModelData");
                         itemMeta.setCustomModelData(cmd);
-
+                        itemMeta.getPersistentDataContainer();
                         /**物品Lore**/
                         List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
                         List<String> nextItemLore = new ArrayList<>();
@@ -94,18 +93,33 @@ public class CustomItem {
                         try {
                             List<String> attrList = new ArrayList<>(itemConfig.getConfigurationSection(itemID+".Attributes").getKeys(false));
                             if(attrList != null){
-                                attrList.forEach(s -> {
-                                    itemConfig.getStringList(itemID+".Attributes."+s).forEach(s1 -> {
-                                        String[] attrValues = s1.split(":");
-                                        if(attrValues.length == 2){
-                                            if(s.toLowerCase().contains("all")){
-                                                itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrValues[0].toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), Double.valueOf(attrValues[1]), Enum.valueOf(AttributeModifier.Operation.class,"ADD_NUMBER")));
-                                            }else {
-                                                itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrValues[0].toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), Double.valueOf(attrValues[1]), Enum.valueOf(AttributeModifier.Operation.class,"ADD_NUMBER"), Enum.valueOf(EquipmentSlot.class,s.toUpperCase())));
-                                            }
+                                attrList.forEach(attributesKey -> {
+                                    //cd.getLogger().info(attributesKey);
+                                    String inherit = itemConfig.getString(itemID+".Attributes."+attributesKey+".Inherit");
+                                    String operation = itemConfig.getString(itemID+".Attributes."+attributesKey+".Operation");
+                                    double attrAmount = itemConfig.getDouble(itemID+".Attributes."+attributesKey+".Amount");
+                                    String equipmentSlot = itemConfig.getString(itemID+".Attributes."+attributesKey+".EquipmentSlot");
 
-                                        }
-                                    });
+                                    if(equipmentSlot.toLowerCase().contains("all")) {
+                                        itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,inherit.toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), attrAmount, Enum.valueOf(AttributeModifier.Operation.class,operation)));
+                                    }else {
+                                        itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,inherit.toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), attrAmount, Enum.valueOf(AttributeModifier.Operation.class,operation), Enum.valueOf(EquipmentSlot.class,equipmentSlot.toUpperCase())));
+                                    }
+
+                                    //itemConfig.getStringList(itemID+".Attributes."+s).forEach(s1 -> {
+
+
+//                                        String[] attrValues = s1.split(":");
+//                                        if(attrValues.length == 2){
+//                                            if(s.toLowerCase().contains("all")){
+//                                                itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrValues[0].toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), Double.valueOf(attrValues[1]), Enum.valueOf(AttributeModifier.Operation.class,"ADD_NUMBER")));
+//                                            }else {
+//                                                itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,attrValues[0].toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), Double.valueOf(attrValues[1]), Enum.valueOf(AttributeModifier.Operation.class,"ADD_NUMBER"), Enum.valueOf(EquipmentSlot.class,s.toUpperCase())));
+//                                            }
+//
+//                                        }
+
+                                    //});
                                 });
                             }
                         }catch (Exception exception){
@@ -127,8 +141,22 @@ public class CustomItem {
                             itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
                         }
 
+                        List<String> actionList = itemConfig.getStringList(itemID+".Action");
+                        if(!actionList.isEmpty()){
+                            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+                            int i = 0;
+                            for(String action : actionList){
+                                i++;
+                                NamespacedKey xd = new NamespacedKey(cd, "Action"+i);
+                                data.set(xd , PersistentDataType.STRING, action);
+                            }
 
-                        itemStack.setItemMeta(itemMeta);
+
+                        }
+
+
+
+                       itemStack.setItemMeta(itemMeta);
 
                         if(itemMaterial.contains("PLAYER_HEAD")){
                             SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
@@ -154,7 +182,13 @@ public class CustomItem {
                             }
                         }
 
-
+//                        if(self instanceof Player){
+//                            Player player = (Player) self;
+//                            player.sendMessage("You have recieved 1x TeleportScroll");
+//                            cd.getLogger().info(data.get(xd, PersistentDataType.STRING));
+//                        }
+                        //String ss = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "data"), PersistentDataType.STRING);
+                        //cd.getLogger().info("職: "+ss);
                         newItemStack = itemStack;
 
                     }

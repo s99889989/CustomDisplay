@@ -8,15 +8,12 @@ import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.action.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition;
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class Loop extends BukkitRunnable {
 
@@ -127,8 +124,8 @@ public class Loop extends BukkitRunnable {
                 bukkitRunnableStart.runTaskLater(cd,delay);
             }
 
-            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
-                ActionManager.getOther_Judgment2_Map().remove(taskID);
+            if(ActionManager.getOther_Judgment_Map().get(taskID) != null){
+                ActionManager.getOther_Judgment_Map().remove(taskID);
             }
         }
     }
@@ -166,8 +163,8 @@ public class Loop extends BukkitRunnable {
             }
 
 
-            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
-                ActionManager.getOther_Judgment2_Map().remove(taskID);
+            if(ActionManager.getOther_Judgment_Map().get(taskID) != null){
+                ActionManager.getOther_Judgment_Map().remove(taskID);
             }
         }
     }
@@ -205,8 +202,8 @@ public class Loop extends BukkitRunnable {
 
             }
 
-            if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
-                ActionManager.getOther_Judgment2_Map().remove(taskID);
+            if(ActionManager.getOther_Judgment_Map().get(taskID) != null){
+                ActionManager.getOther_Judgment_Map().remove(taskID);
             }
         }
         if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
@@ -216,11 +213,11 @@ public class Loop extends BukkitRunnable {
 
     public void gogo(String actionString){
 
-        if(ActionManager.getOther_Judgment2_Map().get(taskID) == null){
-            ActionManager.getOther_Judgment2_Map().put(taskID,new JudgmentAction());
-            ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+        if(ActionManager.getOther_Judgment_Map().get(taskID) == null){
+            ActionManager.getOther_Judgment_Map().put(taskID,new JudgmentAction());
+            ActionManager.getOther_Judgment_Map().get(taskID).execute(self,target,actionString,taskID);
         }else {
-            ActionManager.getOther_Judgment2_Map().get(taskID).execute(self,target,actionString,taskID);
+            ActionManager.getOther_Judgment_Map().get(taskID).execute(self,target,actionString,taskID);
         }
 
     }
@@ -228,12 +225,16 @@ public class Loop extends BukkitRunnable {
     public boolean condition(String actionString){
 
         boolean b = false;
+
         if(ConditionManager.getAction_Condition_Map().get(taskID) == null){
             ConditionManager.getAction_Condition_Map().put(taskID,new Condition());
         }
         if(ConditionManager.getAction_Condition_Map().get(taskID) != null){
             ConditionManager.getAction_Condition_Map().get(taskID).setCondition(self,target,actionString,taskID);
             b = ConditionManager.getAction_Condition_Map().get(taskID).getResult2();
+        }
+        if(b){
+            ConditionManager.getAction_Condition_Map().remove(taskID);
         }
         return b;
     }

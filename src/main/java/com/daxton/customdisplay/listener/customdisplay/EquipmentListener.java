@@ -1,15 +1,13 @@
 package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.entity.LookTarget;
-import com.daxton.customdisplay.api.player.*;
+import com.daxton.customdisplay.api.item.PlayerEquipment;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.ListenerManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import com.daxton.customdisplay.task.action.list.SendBossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

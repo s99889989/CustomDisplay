@@ -30,8 +30,8 @@ public class ClearAction {
         }
 
         /**Other->judgment2**/
-        if(!(ActionManager.getOther_Judgment2_Map().isEmpty())){
-            ActionManager.getOther_Judgment2_Map().clear();
+        if(!(ActionManager.getOther_Judgment_Map().isEmpty())){
+            ActionManager.getOther_Judgment_Map().clear();
         }
 
 
@@ -114,8 +114,8 @@ public class ClearAction {
     public ClearAction(String taskID){
 
         /**Other->judgment2**/
-        if(ActionManager.getOther_Judgment2_Map().get(taskID) != null){
-            ActionManager.getOther_Judgment2_Map().remove(taskID);
+        if(ActionManager.getOther_Judgment_Map().get(taskID) != null){
+            ActionManager.getOther_Judgment_Map().remove(taskID);
         }
 
         /**judgment2->Loop2**/
@@ -160,6 +160,10 @@ public class ClearAction {
             ActionManager.getJudgment2_SendParticles_Map().remove(taskID);
         }
 
+
+    }
+
+    public void clearAction2(String taskID){
 
     }
 

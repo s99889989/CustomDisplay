@@ -89,6 +89,76 @@ public class Aims {
         return targetList;
     }
 
+    /**選擇目標**/
+    public List<LivingEntity> valueOf2(LivingEntity self, LivingEntity target, String firstString){
 
+        /**距離**/
+        double radius = 2;
+        try {
+            radius = Double.valueOf(new StringFind().getAimsValue(firstString,"r","1"));
+        }catch (NumberFormatException exception){
+            radius = 2;
+        }
+
+        /**瞄準目標**/
+        String filters = new StringFind().getAimsValue(firstString,"filters","null");
+
+        List<LivingEntity> targetList = new ArrayList<>();
+        if(firstString.toLowerCase().contains("selfradius")){
+            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities(self,radius);
+            for(LivingEntity le : livingEntityList){
+                if(Filte.valueOf(le,filters)){
+                    targetList.add(le);
+                }
+
+            }
+        }else if(target != null && firstString.toLowerCase().contains("targetradius")){
+            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities2(self,target,radius);
+            for(LivingEntity le : livingEntityList){
+                if(Filte.valueOf(le,filters)){
+
+                    targetList.add(le);
+                }
+            }
+        }else if(firstString.toLowerCase().contains("selfinworld")){
+            self.getWorld().getEntities().forEach(entity -> {
+                if(entity instanceof LivingEntity){
+                    LivingEntity livingEntity = (LivingEntity) entity;
+                    if(Filte.valueOf(livingEntity,filters)){
+                        targetList.add(livingEntity);
+                    }
+                }
+            });
+        }else if(firstString.toLowerCase().contains("server")){
+            cd.getServer().getWorlds().forEach(world -> {
+                world.getEntities().forEach(entity -> {
+                    if(entity instanceof LivingEntity){
+                        LivingEntity livingEntity = (LivingEntity) entity;
+                        if(Filte.valueOf(livingEntity,filters)){
+                            targetList.add(livingEntity);
+                        }
+                    }
+                });
+            });
+        }else if(firstString.toLowerCase().contains("target")){
+            if(target != null){
+                if(Filte.valueOf(target,filters)){
+                    targetList.add(target);
+                }
+            }
+        }else if(firstString.toLowerCase().contains("self")){
+            if(Filte.valueOf(self,filters)){
+                targetList.add(self);
+            }
+        } else {
+
+            targetList.add(self);
+
+        }
+
+
+
+        return targetList;
+    }
 
 }

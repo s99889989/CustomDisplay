@@ -3,11 +3,10 @@ package com.daxton.customdisplay.command;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.api.player.config.PlayerChangeClass;
-import com.daxton.customdisplay.api.player.config.PlayerConfig2;
 import com.daxton.customdisplay.api.player.config.PlayerRebirth;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,11 +14,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
 import java.io.File;
 import java.util.*;
 import java.util.List;
@@ -149,7 +146,7 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
                 if(!(args[1].isEmpty())){
                     if(sender instanceof Player){
                         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
-                        new PlayerTrigger(player).onCommand(player);
+                        new PlayerTrigger2(player).onCommand(player);
                     }
                     return true;
                 }

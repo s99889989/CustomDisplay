@@ -1,5 +1,7 @@
 package com.daxton.customdisplay.api.player.data.set;
 
+import com.daxton.customdisplay.CustomDisplay;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,7 @@ public class PlayerAction {
     public Map<String,List<String>> setPlayerAction(List<String> actionList){
         if(actionList.size() > 0){
             for(String actionString : actionList){
+
                 /**當攻擊時**/
                 if(actionString.toLowerCase().contains("~onattack")){
                     if(action_Trigger_Map.get("~onattack") == null){

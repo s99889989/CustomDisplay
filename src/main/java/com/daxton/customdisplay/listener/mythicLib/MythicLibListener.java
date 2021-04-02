@@ -2,8 +2,8 @@ package com.daxton.customdisplay.listener.mythicLib;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
 import io.lumine.mythic.lib.api.player.MMOPlayerData;
@@ -57,7 +57,7 @@ public class MythicLibListener implements Listener {
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger(player).onAtkMiss(player,target);
+                new PlayerTrigger2(player).onAtkMiss(player,target);
                 return;
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
@@ -85,13 +85,13 @@ public class MythicLibListener implements Listener {
 
             if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
-                    new PlayerTrigger(player).onCrit(player,target);
+                    new PlayerTrigger2(player).onCrit(player,target);
                 }else {
-                    new PlayerTrigger(player).onAttack(player,target);
+                    new PlayerTrigger2(player).onAttack(player,target);
                 }
             }
             if(damageType.contains("MAGIC")){
-                new PlayerTrigger(player).onMagic(player,target);
+                new PlayerTrigger2(player).onMagic(player,target);
             }
 
         }

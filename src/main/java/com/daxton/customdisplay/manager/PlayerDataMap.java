@@ -1,7 +1,9 @@
 package com.daxton.customdisplay.manager;
 
+import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.CoreAttribute;
 import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -48,9 +50,13 @@ public class PlayerDataMap {
 
     /**技能綁定**/
     public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
+    public static Map<String, List<CustomLineConfig>> skill_Custom_Map = new HashMap<>();
     public static Map<String, String> skill_Name_Map = new HashMap<>();
     /**事件的取消**/
     public static Map<String, Boolean> even_Cancel_Map = new ConcurrentHashMap<>();
+
+    /**玩家技能狀態攔**/
+    public static Map<String, BossBarSkill2> keyF_BossBarSkill_Map = new HashMap<>();
 
     /**玩家動作資料**/
     public static Map<UUID, PlayerData> getPlayerDataMap() {
@@ -62,6 +68,7 @@ public class PlayerDataMap {
     public static Map<String, CoreAttribute> getCore_Attribute_Map() {
         return core_Attribute_Map;
     }
+
 
 
 

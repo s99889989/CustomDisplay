@@ -5,14 +5,14 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.entity.LookTarget;
+import com.daxton.customdisplay.api.item.PlayerEquipment2;
+import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
+import com.daxton.customdisplay.api.player.profession.UseSkill;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.*;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,14 +20,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.BlockIterator;
 
 import java.util.*;
 
@@ -60,11 +57,18 @@ public class PlayerListener implements Listener {
         }
 
         PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
-        new PlayerTrigger(player).onJoin(player);
+        new PlayerTrigger2(player).onJoin(player);
 
         /**設定F**/
         ListenerManager.getCast_On_Stop().put(uuidString,false);
 
+
+        /**讀取屬性**/
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        boolean attr = fileConfiguration.getBoolean("Class.Skill");
+        if(attr){
+            new PlayerEquipment2().reloadEquipment(player,10);
+        }
     }
     /**登出時**/
     @EventHandler
@@ -75,7 +79,7 @@ public class PlayerListener implements Listener {
         /**刪除玩家資料物件  和   刪除OnTime物件**/
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
-            new PlayerTrigger(player).onQuit(player);
+            new PlayerTrigger2(player).onQuit(player);
 
             String attackCore = cd.getConfigManager().config.getString("AttackCore");
             if(attackCore.toLowerCase().contains("customcore")){
@@ -102,21 +106,64 @@ public class PlayerListener implements Listener {
         }
         Player player = (Player) event.getWhoClicked();
         UUID playerUUID = player.getUniqueId();
+        String uuidString = playerUUID.toString();
         Inventory inventory = event.getInventory();
 
-        if(ActionManager.getInventory_name_Map().get(playerUUID) != null){
-            String taskID = ActionManager.getInventory_name_Map().get(playerUUID);
-            if(ActionManager.getInventory_Map().get(taskID) == inventory) {
-                if(ActionManager.getJudgment2_OpenInventory_Map().get(taskID) != null){
-                    ActionManager.getJudgment2_OpenInventory_Map().get(taskID).InventoryListener(event);
-                }
 
+
+        if(ActionManager2.playerUUID_taskID_Map.get(uuidString) != null){
+            String taskID = ActionManager2.playerUUID_taskID_Map.get(uuidString);
+
+            if(ActionManager2.taskID_Inventory_Map.get(taskID) != null){
+                if(ActionManager2.taskID_Inventory_Map.get(taskID) == inventory) {
+
+                    if(ActionManager2.judgment_Inventory_Map.get(taskID) != null){
+                        ActionManager2.judgment_Inventory_Map.get(taskID).InventoryListener(event);
+                    }
+
+
+                }
             }
+
         }
+
+//        if(ActionManager.getInventory_name_Map().get(playerUUID) != null){
+//            String taskID = ActionManager.getInventory_name_Map().get(playerUUID);
+//            if(ActionManager.getInventory_Map().get(taskID) == inventory) {
+//                if(ActionManager.getJudgment2_OpenInventory_Map().get(taskID) != null){
+//                    ActionManager.getJudgment2_OpenInventory_Map().get(taskID).InventoryListener(event);
+//                }
+//
+//            }
+//        }
 
     }
 
+    /**當玩家點擊時**/
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event){
+        Player player = event.getPlayer();
 
+        String actionName = event.getAction().name();
+
+        if(actionName.equals("LEFT_CLICK_AIR")){
+            new PlayerTrigger2(player).onLeftClickAir(player,target);
+        }
+        if(actionName.equals("LEFT_CLICK_BLOCK")){
+            new PlayerTrigger2(player).onLeftClickBlock(player,target);
+        }
+        if(actionName.equals("RIGHT_CLICK_AIR")){
+            //new PlayerTrigger2(player).onRightClickAir(player,target);
+            new PlayerTrigger2(player).onTwo(player, target, "~rightclickair");
+        }
+        if(actionName.equals("RIGHT_CLICK_BLOCK")){
+            new PlayerTrigger2(player).onRightClickBlock(player,target);
+        }
+        if(actionName.equals("PHYSICAL")){
+            new PlayerTrigger2(player).onPressurePlate(player,target);
+        }
+
+    }
 
     /**當經驗值改變時**/
     @EventHandler
@@ -126,7 +173,7 @@ public class PlayerListener implements Listener {
         int amount = event.getAmount();
         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_up_exp_type>","default");
         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_change_exp_amount>",String.valueOf(amount));
-        new PlayerTrigger(player).onExpUp(player);
+        new PlayerTrigger2(player).onExpUp(player);
     }
 
     /**當等級改變時**/
@@ -139,11 +186,11 @@ public class PlayerListener implements Listener {
         if(oldLevel > newLevel){
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_level_type>","default");
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_exp_type>","default");
-            new PlayerTrigger(player).onLevelDown(player);
-            new PlayerTrigger(player).onExpDown(player);
+            new PlayerTrigger2(player).onLevelDown(player);
+            new PlayerTrigger2(player).onExpDown(player);
         }else {
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_level_type>","default");
-            new PlayerTrigger(player).onLevelUp(player);
+            new PlayerTrigger2(player).onLevelUp(player);
         }
     }
 
@@ -156,7 +203,7 @@ public class PlayerListener implements Listener {
         message = new ConversionMain().valueOf(player,null,message);
 
         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
-        new PlayerTrigger(player).onChat(player);
+        new PlayerTrigger2(player).onChat(player);
         //event.setCancelled(true);
     }
 
@@ -165,7 +212,7 @@ public class PlayerListener implements Listener {
     public void onRegainHealth(EntityRegainHealthEvent event){
         if(event.getEntity() instanceof Player){
             Player player = ((Player) event.getEntity()).getPlayer();
-            new PlayerTrigger(player).onRegainHealth(player);
+            new PlayerTrigger2(player).onRegainHealth(player);
 
         }
 
@@ -175,19 +222,26 @@ public class PlayerListener implements Listener {
     public void onPlayerMove(PlayerMoveEvent event){
         Player player = event.getPlayer();
 
-        new PlayerTrigger(player).onMove(player);
+        new PlayerTrigger2(player).onMove(player);
     }
     /**當玩家死亡**/
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event){
         Player player = event.getEntity().getPlayer();
-//        //player.sendMessage("值: ");
-//        int maxExp = player.getExpToLevel();
-//        float ExpB = player.getExp();
-//        double newExp = maxExp/ExpB*0.3;
-//
-//        player.setExp((float) newExp);
-        new PlayerTrigger(player).onDeath(player);
+        String uuidString = player.getUniqueId().toString();
+
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        boolean skill = fileConfiguration.getBoolean("Class.Skill");
+        if(skill){
+
+            if(PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString) == null){
+                PlayerDataMap.keyF_BossBarSkill_Map.put(uuidString, new BossBarSkill2());
+            }
+            PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString).closeSkill(player);
+
+        }
+
+        new PlayerTrigger2(player).onDeath(player);
 
     }
     /**當蹲下時**/
@@ -195,9 +249,9 @@ public class PlayerListener implements Listener {
     public void onSneak(PlayerToggleSneakEvent event){
         Player player = event.getPlayer();
         if(event.isSneaking()){
-            new PlayerTrigger(player).onSneak(player);
+            new PlayerTrigger2(player).onSneak(player);
         }else {
-            new PlayerTrigger(player).onStandup(player);
+            new PlayerTrigger2(player).onStandup(player);
         }
 
     }
@@ -210,7 +264,7 @@ public class PlayerListener implements Listener {
         UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();
         if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-            new PlayerTrigger(player).onKeyFOFF(player);
+            new PlayerTrigger2(player).onKeyFOFF(player);
             ListenerManager.getCast_On_Stop().put(uuidString,false);
         }
 
@@ -226,14 +280,35 @@ public class PlayerListener implements Listener {
         String uuidString = player.getUniqueId().toString();
         if(ListenerManager.getCast_On_Stop().get(uuidString) == true){
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                new PlayerTrigger(player).onKeyFOFF(player);
+                new PlayerTrigger2(player).onKeyFOFF(player);
             }
             ListenerManager.getCast_On_Stop().put(uuidString,false);
         }else {
             if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
-                new PlayerTrigger(player).onKeyFON(player);
+                new PlayerTrigger2(player).onKeyFON(player);
             }
             ListenerManager.getCast_On_Stop().put(uuidString,true);
+        }
+
+
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        boolean skill = fileConfiguration.getBoolean("Class.Skill");
+        if(skill){
+            event.setCancelled(true);
+            int key = player.getInventory().getHeldItemSlot();
+
+            boolean b = ListenerManager.getCast_On_Stop().get(uuidString);
+
+            if(PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString) == null){
+                PlayerDataMap.keyF_BossBarSkill_Map.put(uuidString, new BossBarSkill2());
+            }
+
+            if(b){
+                PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString).openSkill(player, key);
+            }else {
+                PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString).closeSkill(player);
+            }
+
         }
 
 
@@ -245,40 +320,80 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event){
         Player player = event.getPlayer();
-
-        LivingEntity target = LookTarget.getLivingTarget(player,10);
+        String uuidString = player.getUniqueId().toString();
 
         int key = event.getNewSlot();
+        int key2 = event.getPreviousSlot();
 
-        switch(key){
-            case 0:
-                new PlayerTrigger(player).onKey1(player, target);
-                break;
-            case 1:
-                new PlayerTrigger(player).onKey2(player, target);
-                break;
-            case 2:
-                new PlayerTrigger(player).onKey3(player, target);
-                break;
-            case 3:
-                new PlayerTrigger(player).onKey4(player, target);
-                break;
-            case 4:
-                new PlayerTrigger(player).onKey5(player, target);
-                break;
-            case 5:
-                new PlayerTrigger(player).onKey6(player, target);
-                break;
-            case 6:
-                new PlayerTrigger(player).onKey7(player, target);
-                break;
-            case 7:
-                new PlayerTrigger(player).onKey8(player, target);
-                break;
-            case 8:
-                new PlayerTrigger(player).onKey9(player, target);
-                break;
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        boolean skill = fileConfiguration.getBoolean("Class.Skill");
+        if(skill){
+            boolean fOn = ListenerManager.getCast_On_Stop().get(uuidString);
+            if(fOn){
+                event.setCancelled(true);
+                if(key != key2){
+                    new UseSkill().use(player, key);
+                }
+            }
+
+        }else {
+            LivingEntity target = LookTarget.getLivingTarget(player,10);
+            switch(key){
+                case 0:
+                    new PlayerTrigger2(player).onKey1(player, target);
+                    break;
+                case 1:
+                    new PlayerTrigger2(player).onKey2(player, target);
+                    break;
+                case 2:
+                    new PlayerTrigger2(player).onKey3(player, target);
+                    break;
+                case 3:
+                    new PlayerTrigger2(player).onKey4(player, target);
+                    break;
+                case 4:
+                    new PlayerTrigger2(player).onKey5(player, target);
+                    break;
+                case 5:
+                    new PlayerTrigger2(player).onKey6(player, target);
+                    break;
+                case 6:
+                    new PlayerTrigger2(player).onKey7(player, target);
+                    break;
+                case 7:
+                    new PlayerTrigger2(player).onKey8(player, target);
+                    break;
+                case 8:
+                    new PlayerTrigger2(player).onKey9(player, target);
+                    break;
+            }
         }
+        /**讀取屬性**/
+        //boolean attr = fileConfiguration.getBoolean("Class.Attributes");
+        //if(attr){
+            boolean fOn = ListenerManager.getCast_On_Stop().get(uuidString);
+            if(!fOn){
+                if(key != key2){
+                    new PlayerEquipment2().reloadEquipment(player,key);
+                }
+            }
+        //}
+
+    }
+
+    /**關閉背包**/
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event){
+        Player player = (Player) event.getPlayer();
+
+        /**讀取屬性**/
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        boolean attr = fileConfiguration.getBoolean("Class.Skill");
+        if(attr){
+            new PlayerEquipment2().reloadEquipment(player,10);
+        }
+
+
 
 
 

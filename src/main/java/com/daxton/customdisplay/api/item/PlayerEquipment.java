@@ -1,4 +1,4 @@
-package com.daxton.customdisplay.api.player;
+package com.daxton.customdisplay.api.item;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.other.Arithmetic;

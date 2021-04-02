@@ -88,8 +88,6 @@ public class Holographic {
         }
 
         List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
-        targetList.forEach(livingEntity -> cd.getLogger().info(livingEntity.getName()));
-
 
         if(function.toLowerCase().contains("create")){
             if(!(targetList.isEmpty())){
@@ -136,7 +134,7 @@ public class Holographic {
                 Location location = hologram1.getLocation().add(xx,yy,zz);
 
                 if(!(targetList.isEmpty())){
-                    cd.getLogger().info("不是空");
+
                     for(LivingEntity livingEntity : targetList){
                         String uuidString = livingEntity.getUniqueId().toString();
                         if(livingEntityMap.get(taskID+uuidString) == livingEntityMap.get(s)){
