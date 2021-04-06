@@ -31,7 +31,7 @@ public class ActionBar2 {
 
     public void setActionBar(LivingEntity self, LivingEntity target, CustomLineConfig customLineConfig, String taskID){
 
-        boolean remove = customLineConfig.getBoolean(new String[]{"remove"},self,target);
+        boolean remove = customLineConfig.getBoolean(new String[]{"remove"}, false,self,target);
 
         String message = customLineConfig.getString(new String[]{"message","m"},"",self,target);
 

@@ -8,7 +8,7 @@ CoreAttribute:
   #原版移動速度
   #Minecraft Move Speed
   Move_Speed:
-    enable: true
+    enable: false
     formula: '&self_attr_Moving_Speed_Core&'
 
   #每10秒回多少血
@@ -25,7 +25,12 @@ CoreAttribute:
   #How many Sp are returned every 10 seconds.
   Mana_Regeneration:
     formula: '&self_attr_Sp_Regeneration&'
-  
+
+#以下需要開啟攻擊修改才能使用。(暫無)
+#The following need to open the attack modification to use. (Not yet)
+########################################################
+########################################################
+
   #攻擊速度，攻擊後延遲多久，才能再次攻擊(單位為0.1秒，10=1秒)
   #Attack speed, how long after the attack is delayed before attacking again (unit is 0.1 second, 10=1 second)
   Attack_Speed:

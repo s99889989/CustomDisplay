@@ -24,10 +24,11 @@ public class AttackedListener implements Listener {
             double damagedNumber = event.getFinalDamage();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_damaged_number>","Miss");
-                new PlayerTrigger2(player).onDamagedMiss(player,target);
+                new PlayerTrigger2(player).onTwo(player, target, "~ondamagedmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_damaged_number>",String.valueOf(damagedNumber));
-                new PlayerTrigger2(player).onDamaged(player,target);
+
+                new PlayerTrigger2(player).onTwo(player, target, "~ondamaged");
             }
 
 

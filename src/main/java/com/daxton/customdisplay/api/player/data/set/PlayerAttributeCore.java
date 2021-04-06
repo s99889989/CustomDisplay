@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 
 import org.bukkit.attribute.AttributeInstance;
@@ -43,40 +44,45 @@ public class PlayerAttributeCore {
 
     /**設定原版屬性**/
     public void setBukkitAttribute(Player player){
-
-
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("Class_CustomCore.yml");
+        boolean healthB = fileConfiguration.getBoolean("CoreAttribute.Health.enable");
         /**設置血量**/
-        boolean healthBoolean = Boolean.valueOf(PlayerDataMap.core_Boolean_Map.get("Health"));
-        if(healthBoolean){
-            String healthString = PlayerDataMap.core_Formula_Map.get("Health");
+        if(healthB){
+            String healthString =  fileConfiguration.getString("CoreAttribute.Health.formula");
             healthString = new ConversionMain().valueOf(player,null,healthString);
             double health = 20;
             try{
                 health = Double.valueOf(healthString);
-                AttributeInstance attribute_Max_Health = player.getAttribute(GENERIC_MAX_HEALTH);
-                attribute_Max_Health.setBaseValue(health);
             }catch (NumberFormatException exception){
-                AttributeInstance attribute_Max_Health = player.getAttribute(GENERIC_MAX_HEALTH);
-                attribute_Max_Health.setBaseValue(health);
+
             }
 
+
+
+            new PlayerBukkitAttribute().addAttribute(player,"GENERIC_MAX_HEALTH","ADD_NUMBER",health,"setBaseValue");
+//            AttributeInstance attribute_Max_Health = player.getAttribute(GENERIC_MAX_HEALTH);
+//            attribute_Max_Health.setBaseValue(health);
         }
+
+
+
+
 
         /**設置移動速度**/
 
-        boolean moveBoolean = Boolean.valueOf(PlayerDataMap.core_Boolean_Map.get("Move_Speed"));;
+        boolean moveBoolean = fileConfiguration.getBoolean("CoreAttribute.Move_Speed.enable");
         if(moveBoolean){
-            String moveString = PlayerDataMap.core_Formula_Map.get("Move_Speed");
+            String moveString = fileConfiguration.getString("CoreAttribute.Move_Speed.formula");
             moveString = new ConversionMain().valueOf(player,null,moveString);
             double move = 0.12;
             try {
                 move = Double.valueOf(moveString);
-                AttributeInstance attribute_Move_Speed = player.getAttribute(GENERIC_MOVEMENT_SPEED);
-                attribute_Move_Speed.setBaseValue(move);
             }catch (NumberFormatException exception){
-                AttributeInstance attribute_Move_Speed = player.getAttribute(GENERIC_MOVEMENT_SPEED);
-                attribute_Move_Speed.setBaseValue(move);
+
             }
+            //cd.getLogger().info("移動速度: "+move);
+            AttributeInstance attribute_Move_Speed = player.getAttribute(GENERIC_MOVEMENT_SPEED);
+            attribute_Move_Speed.setBaseValue(move);
 
         }
 

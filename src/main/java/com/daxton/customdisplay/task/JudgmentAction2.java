@@ -2,18 +2,15 @@ package com.daxton.customdisplay.task;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
-import com.daxton.customdisplay.api.other.StringFind;
-import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ActionManager2;
-import com.daxton.customdisplay.task.action.list.*;
-import com.daxton.customdisplay.task.action.list.setplayer.*;
-import com.daxton.customdisplay.task.action.list.setplayer.CoreSkill;
 import com.daxton.customdisplay.task.action2.*;
 import com.daxton.customdisplay.task.action2.location.*;
+import com.daxton.customdisplay.task.action2.orbital.FixedPoint;
+import com.daxton.customdisplay.task.action2.orbital.LocPng;
+import com.daxton.customdisplay.task.action2.orbital.OrbitalAction2;
 import com.daxton.customdisplay.task.action2.noplayer.SetName2;
 import com.daxton.customdisplay.task.action2.player.*;
 import com.daxton.customdisplay.task.action2.server.LoggerInfo2;
-import com.daxton.customdisplay.task.locationAction.OrbitalAction;
 import org.bukkit.entity.LivingEntity;
 
 public class JudgmentAction2 {
@@ -144,6 +141,11 @@ public class JudgmentAction2 {
             new Heal2().setHeal(self,target,customLineConfig,taskID);
         }
 
+        /**Mana的相關判斷**/
+        if(judgMent.toLowerCase().contains("mana")){
+            new setMana().setMana(self,target,customLineConfig,taskID);
+        }
+
         /**GiveItem的相關判斷**/
         if(judgMent.toLowerCase().contains("item")){
             new GiveItem2().setItem(self,target,customLineConfig,taskID);
@@ -175,9 +177,15 @@ public class JudgmentAction2 {
             new setGlow2().setGlow(self,target,customLineConfig,taskID);
         }
 
-        /**ItemEntity的相關判斷**/
-        if(judgMent.toLowerCase().contains("itementity")){
-            new ItemEntity2().setItemEntity(self,target,customLineConfig,taskID);
+        /**Guise的相關判斷**/
+        if(judgMent.toLowerCase().contains("guise")){
+
+            if(ActionManager2.judgment_Guise_Map.get(taskID) == null){
+                ActionManager2.judgment_Guise_Map.put(taskID, new Guise());
+                ActionManager2.judgment_Guise_Map.get(taskID).setItemEntity(self,target,customLineConfig,taskID);
+            }else {
+                ActionManager2.judgment_Guise_Map.get(taskID).setItemEntity(self,target,customLineConfig,taskID);
+            }
         }
 
         /**Velocity的相關判斷**/
@@ -205,17 +213,27 @@ public class JudgmentAction2 {
         if(judgMent.toLowerCase().contains("coreskill")){
             new CoreSkill2().setCoreSkill(self,target,customLineConfig,taskID);
         }
-//        /**ParabolicAttack的相關判斷**/
-//        if(judgMent.toLowerCase().contains("parabolicattack")){
-//
-//            new OrbitalAction2().setParabolicAttack(self,target,customLineConfig,taskID+(Math.random()*100000));
-//        }
+        /**OrbitalAttack的相關判斷**/
+        if(judgMent.toLowerCase().contains("orbital")){
 
+            new OrbitalAction2().setParabolicAttack(self,target,customLineConfig,taskID); //+(Math.random()*100000)
+        }
+        /**FixedPoint的相關判斷**/
+        if(judgMent.toLowerCase().contains("fixedpoint")){
+
+            new FixedPoint().set(self,target,customLineConfig,taskID+(Math.random()*100000));
+        }
 
 
         /**AttributePoint的相關判斷**/
         if(judgMent.toLowerCase().contains("attributepoint")){
             new AttributePoint2().setAttributePoint(self,target,customLineConfig,taskID);
+        }
+
+        /**LocPng的相關判斷**/
+        if(judgMent.toLowerCase().contains("locpng")){
+
+            new LocPng().set(self,target,customLineConfig,taskID);
         }
 
     }

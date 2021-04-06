@@ -26,4 +26,24 @@ public class LookLocation {
         return location;
     }
 
+    /**給向量移動**/
+    public Location get2(LivingEntity livingEntity, double hight, double angle, double distance){
+
+        Location location = livingEntity.getLocation();
+
+        double pitch = ((livingEntity.getLocation().getPitch() + 90 + hight) * Math.PI) / 180;
+        double yaw  = ((livingEntity.getLocation().getYaw() + 90 + angle)  * Math.PI) / 180;
+
+
+        double x = Math.sin(pitch) * Math.cos(yaw);
+        double y = Math.cos(pitch);
+        double z = Math.sin(pitch) * Math.sin(yaw);
+
+        Vector vector = new Vector(x, y, z).multiply(distance);
+        location.add(vector);
+
+
+        return location;
+    }
+
 }

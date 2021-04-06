@@ -1,9 +1,11 @@
 package com.daxton.customdisplay.manager;
 
 import com.daxton.customdisplay.task.JudgmentAction2;
-import com.daxton.customdisplay.task.action.list.OpenInventory;
 import com.daxton.customdisplay.task.action2.Loop2;
+import com.daxton.customdisplay.task.action2.location.Guise;
 import com.daxton.customdisplay.task.action2.location.Holographic2;
+import com.daxton.customdisplay.task.action2.orbital.LocGuise;
+import com.daxton.customdisplay.task.action2.orbital.LocationHolographic2;
 import com.daxton.customdisplay.task.action2.player.ActionBar2;
 import com.daxton.customdisplay.task.action2.player.OpenInventory2;
 import com.daxton.customdisplay.task.action2.player.SendBossBar2;
@@ -25,6 +27,8 @@ public class ActionManager2 {
 
     public static Map<String, OpenInventory2> judgment_Inventory_Map = new HashMap<>();
 
+    public static Map<String, Guise> judgment_Guise_Map = new HashMap<>();
+
     /**--------------------------------------------------------------**/
 
     public static Map<String, JudgmentAction2> trigger_Judgment_Map = new HashMap<>();
@@ -37,10 +41,18 @@ public class ActionManager2 {
 
     public static Map<String, Condition2> loop_Condition_Map = new HashMap<>();
 
+    public static Map<String, Condition2> orbital_Condition_Map = new HashMap<>();
+
     /**---------------------------------------------------------------**/
 
     public static Map<String, String> playerUUID_taskID_Map = new HashMap<>();
 
     public static Map<String , Inventory> taskID_Inventory_Map = new HashMap<>();
+
+    /**---------------------------------------------------------------**/
+
+    public static Map<String, LocationHolographic2> judgment_LocHolographic_Map = new HashMap<>();
+
+    public static Map<String, LocGuise> judgment_LocItemEntity_Map = new HashMap<>();
 
 }

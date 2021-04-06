@@ -55,118 +55,79 @@ public class SetAttribute2 {
         String uuidString = player.getUniqueId().toString();
         UUID playerUUID = player.getUniqueId();
 
-
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
-
-
 
         ActionManager.setAttribute_Boolean_Map.put(uuidString+attributes,true);
 
+        /**如果原本技能效果還存在**/
         if(ActionManager.setAttribute_Run_Map.get(uuidString+attributes) == null){
 
-            if(type.toLowerCase().equals("status")){
-                if(playerData != null){
-                    Map<String,String> attributes_EquipmentStats_Map = playerData.attributes_Stats_Map2;
-                    attributes_EquipmentStats_Map.put(attributes,String.valueOf(amount));
-                }
-            }else if(type.toLowerCase().equals("equipment")){
-                if(playerData != null){
-                    Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map2;
-                    attributes_EquipmentStats_Map.put(attributes,String.valueOf(amount));
+            setAttr(player, type, attributes, amount, label, duration);
 
-                }
-            }else {
-                new PlayerBukkitAttribute().addAttribute(player,attributes.toUpperCase(),"ADD_NUMBER",amount,label);
-            }
-
-            if(duration > 0){
-                ActionManager.setAttribute_Run_Map.put(uuidString + attributes, new BukkitRunnable() {
-                    @Override
-                    public void run() {
-
-                        if(type.toLowerCase().equals("status")){
-                            if(playerData != null){
-                                Map<String,String> attributes_EquipmentStats_Map = playerData.attributes_Stats_Map2;
-                                attributes_EquipmentStats_Map.put(attributes,"0");
-                            }
-                        }else if(type.toLowerCase().equals("equipment")){
-                            if(playerData != null){
-                                Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map2;
-                                attributes_EquipmentStats_Map.put(attributes,"0");
-
-                            }
-
-                        }else {
-                            new PlayerBukkitAttribute().removeAttribute(player,attributes.toUpperCase());
-                        }
-
-
-                        ActionManager.setAttribute_Run_Map.remove(uuidString+attributes);
-                        return;
-
-                    }
-                });
-
-                ActionManager.setAttribute_Run_Map.get(uuidString+attributes).runTaskLater(cd,duration);
-            }
-
-
-
+        /**如果原本技能效果不存在**/
         }else {
 
             ActionManager.setAttribute_Run_Map.get(uuidString+attributes).cancel();
 
-            if(type.toLowerCase().equals("status")){
-                if(playerData != null){
-                    Map<String,String> attributes_EquipmentStats_Map = playerData.attributes_Stats_Map2;
-                    attributes_EquipmentStats_Map.put(attributes,"0");
-                }
-            }else if(type.toLowerCase().equals("equipment")){
-                if(playerData != null){
-                    Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map2;
-                    attributes_EquipmentStats_Map.put(attributes,String.valueOf(amount));
-                }
-            }else {
-                new PlayerBukkitAttribute().addAttribute(player,attributes.toUpperCase(),"ADD_NUMBER",amount,label);
-            }
-
-
-            if(duration > 0){
-                ActionManager.setAttribute_Run_Map.put(uuidString + attributes, new BukkitRunnable() {
-                    @Override
-                    public void run() {
-
-
-                        if(type.toLowerCase().equals("status")){
-
-                        }else if(type.toLowerCase().equals("equipment")){
-                            if(playerData != null){
-                                Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map2;
-                                attributes_EquipmentStats_Map.put(attributes,"0");
-                            }
-                        }else {
-                            new PlayerBukkitAttribute().removeAttribute(player,attributes.toUpperCase());
-                        }
-
-
-                        ActionManager.setAttribute_Run_Map.remove(uuidString+attributes);
-                        return;
-
-                    }
-                });
-
-                ActionManager.setAttribute_Run_Map.get(uuidString+attributes).runTaskLater(cd,duration);
-            }
-
-
-
+            setAttr(player, type, attributes, amount, label, duration);
 
         }
 
 
+    }
+
+    public void setAttr(Player player, String type, String attributes, Double amount, String label, int duration){
+
+        String uuidString = player.getUniqueId().toString();
+        UUID playerUUID = player.getUniqueId();
+
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+
+        if(type.toLowerCase().equals("status")){
+            if(playerData != null){
+                Map<String,String> attributes_EquipmentStats_Map = playerData.attributes_Stats_Map2;
+                attributes_EquipmentStats_Map.put(attributes,String.valueOf(amount));
+            }
+        }else if(type.toLowerCase().equals("equipment")){
+            if(playerData != null){
+                Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map2;
+                attributes_EquipmentStats_Map.put(attributes,String.valueOf(amount));
+
+            }
+        }else {
+            new PlayerBukkitAttribute().addAttribute(player,attributes.toUpperCase(),"ADD_NUMBER",amount,label);
+        }
+
+        if(duration > 0){
+            ActionManager.setAttribute_Run_Map.put(uuidString + attributes, new BukkitRunnable() {
+                @Override
+                public void run() {
+
+                    if(type.toLowerCase().equals("status")){
+                        if(playerData != null){
+                            Map<String,String> attributes_EquipmentStats_Map = playerData.attributes_Stats_Map2;
+                            attributes_EquipmentStats_Map.put(attributes,"0");
+                        }
+                    }else if(type.toLowerCase().equals("equipment")){
+                        if(playerData != null){
+                            Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map2;
+                            attributes_EquipmentStats_Map.put(attributes,"0");
+
+                        }
+
+                    }else {
+                        new PlayerBukkitAttribute().removeAttribute(player,attributes.toUpperCase());
+                    }
 
 
+                    ActionManager.setAttribute_Run_Map.remove(uuidString+attributes);
+                    return;
 
+                }
+            });
+
+            ActionManager.setAttribute_Run_Map.get(uuidString+attributes).runTaskLater(cd,duration);
+        }
 
     }
 

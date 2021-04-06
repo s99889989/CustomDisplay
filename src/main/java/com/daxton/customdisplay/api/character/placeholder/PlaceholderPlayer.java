@@ -107,6 +107,7 @@ public class PlaceholderPlayer {
                 outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_player_equipment_type_mainhand>");
             }
         }
+
         return outputString;
     }
 

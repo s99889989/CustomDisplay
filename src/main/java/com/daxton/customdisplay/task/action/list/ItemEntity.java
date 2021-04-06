@@ -9,6 +9,7 @@ import com.comphenix.protocol.wrappers.Pair;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.item.CustomItem;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -36,7 +37,7 @@ public class ItemEntity {
             Player player = (Player) self;
             int entityID = (int)(Math.random() * Integer.MAX_VALUE);
             setEntity(entityID,player,target);
-            setSlotStackPair(entityID,player);
+            //setSlotStackPair(entityID,player, target);
             BukkitRunnable bukkitRunnable = new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -72,12 +73,14 @@ public class ItemEntity {
 
 
 
-    public void setSlotStackPair(int entityID,Player player) {
+    public void setSlotStackPair(int entityID,Player player, LivingEntity target) {
+
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_EQUIPMENT);
         packet.getIntegers().write(0, entityID);
 
+        ItemStack itemStack = new ItemStack(Material.WOODEN_AXE);
         List<Pair<EnumWrappers.ItemSlot, ItemStack>> pairList = new ArrayList<>();
-        pairList.add(new Pair<>(EnumWrappers.ItemSlot.HEAD, new ItemStack(Material.STONE)));
+        pairList.add(new Pair<>(EnumWrappers.ItemSlot.HEAD, itemStack));
         packet.getSlotStackPairLists().write(0, pairList);
 
         try {

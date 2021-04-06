@@ -14,6 +14,8 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionEffectTypeWrapper;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -126,8 +128,8 @@ public class CustomLineConfig implements Cloneable{
         return def;
     }
 
-    public boolean getBoolean(String[] key, LivingEntity self, LivingEntity target){
-        boolean output = false;
+    public boolean getBoolean(String[] key, boolean def, LivingEntity self, LivingEntity target){
+        boolean output = def;
         String inputString = getString(key,null, self ,target);
         if(inputString != null){
             output = Boolean.valueOf(inputString);
@@ -268,7 +270,9 @@ public class CustomLineConfig implements Cloneable{
         BigInteger bigint = new BigInteger(defaultKey, 16);
         int numb = bigint.intValue();
         Particle.DustOptions output = new Particle.DustOptions(fromRGB(numb), 1);
-        String inputString = getString(key,null, self ,target);
+
+        String inputString = getString(key,defaultKey, self ,target);
+
         if(inputString != null){
             try {
                 bigint = new BigInteger(inputString, 16);
@@ -312,14 +316,34 @@ public class CustomLineConfig implements Cloneable{
         return output;
     }
 
+    /**藥水的類型**/
+    public PotionEffectType getPotionEffectType(String[] key, PotionEffectType defaultKey, LivingEntity self, LivingEntity target){
+        PotionEffectType output = PotionEffectType.INCREASE_DAMAGE;
+
+        String inputString = getString(key,null, self ,target);
+        if(inputString != null){
+            try {
+                for (PotionEffectType pe : PotionEffectType.values()) {
+                    if(pe.getName().equals(inputString.toUpperCase())){
+                        output = pe;
+                    }
+                }
+            }catch (IllegalArgumentException exception){
+
+            }
+        }
+
+        return output;
+    }
+
     public String getActionKey() {
         return actionKey;
     }
 
     /**根據動作名稱 返回動作列表**/
-    public List<CustomLineConfig> getActionKeyList(String[] key){
+    public List<CustomLineConfig> getActionKeyList(String[] key, String def, LivingEntity self, LivingEntity target){
         List<CustomLineConfig> customLineConfigList = new ArrayList<>();
-        String inputString = getString(key,null, null, null);
+        String inputString = getString(key,def, self, target);
 
         if(inputString != null){
             //cd.getLogger().info(inputString);

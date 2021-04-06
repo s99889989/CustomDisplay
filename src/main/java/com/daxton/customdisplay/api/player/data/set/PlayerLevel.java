@@ -53,13 +53,15 @@ public class PlayerLevel {
                     int count = amount - nowLevel;
                     for(int i = 0; i < count;i++){
                         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_level_type>",levelName);
-                        new PlayerTrigger2(player).onLevelUp(player);
+
+                        new PlayerTrigger2(player).onTwo(player, null, "~onlevelup");
                     }
                 }else {
                     int count = nowLevel - amount;
                     for(int i = 0; i < count;i++){
                         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_level_type>",levelName);
-                        new PlayerTrigger2(player).onLevelDown(player);
+
+                        new PlayerTrigger2(player).onTwo(player, null, "~onleveldown");
                     }
                 }
             }
@@ -86,12 +88,12 @@ public class PlayerLevel {
                 if(amount > 0){
                     for(int i = 0; i < amount ;i++){
                         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_level_type>",levelName);
-                        new PlayerTrigger2(player).onLevelUp(player);
+                        new PlayerTrigger2(player).onTwo(player, null, "~onlevelup");
                     }
                 }else {
                     for(int i = 0; i < amount*-1 ;i++){
                         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_level_type>",levelName);
-                        new PlayerTrigger2(player).onLevelDown(player);
+                        new PlayerTrigger2(player).onTwo(player, null, "~onleveldown");
                     }
                 }
             }
@@ -159,7 +161,7 @@ public class PlayerLevel {
                     level_Map.put(levelName+"_exp_max",String.valueOf(needExp));
 
                     PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_level_type>",levelName);
-                    new PlayerTrigger2(player).onLevelUp(player);
+                    new PlayerTrigger2(player).onTwo(player, null, "~onlevelup");
                 }
 
 

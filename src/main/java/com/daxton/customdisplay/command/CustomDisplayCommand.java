@@ -146,7 +146,8 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
                 if(!(args[1].isEmpty())){
                     if(sender instanceof Player){
                         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
-                        new PlayerTrigger2(player).onCommand(player);
+
+                        new PlayerTrigger2(player).onTwo(player, null, "~oncommand");
                     }
                     return true;
                 }

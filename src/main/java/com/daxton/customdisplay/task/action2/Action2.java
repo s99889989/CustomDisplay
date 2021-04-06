@@ -30,8 +30,8 @@ public class Action2 {
     private List<CustomLineConfig> customLineConfigList = new ArrayList<>();
     private BukkitRunnable bukkitRunnable;
 
-    private int count = 1;
-    private int countPeriod = 1;
+
+
 
     public Action2(){
     }
@@ -48,41 +48,39 @@ public class Action2 {
 
     public void stringSetting(){
 
-
         /**動作列表**/
-        customLineConfigList = customLineConfig.getActionKeyList(new String[]{"action","a"});
+        customLineConfigList = customLineConfig.getActionKeyList(new String[]{"action","a"},null, self, target);
         /**動作次數**/
-        count = customLineConfig.getInt(new String[]{"count","c"},1, self, target);
-
+        int count = customLineConfig.getInt(new String[]{"count","c"},1, self, target);
 
         /**動作間隔**/
-        countPeriod = customLineConfig.getInt(new String[]{"countperiod","cp"},10, self, target);
+        int countPeriod = customLineConfig.getInt(new String[]{"countperiod","cp"},10, self, target);
         if(count > 1){
-            new BukkitRunnable(){
-                int tickRun = 0;
-                @Override
-                public void run() {
-                    tickRun++;
+            int delay = 0;
+            for(int i = 0 ; i < count; i++){
 
-                    startAction();
+                new BukkitRunnable(){
 
-                    if(tickRun == count){
+                    @Override
+                    public void run() {
 
-                        cancel();
+                        startAction(String.valueOf((int)(Math.random()*100000)));
+
                         return;
-                    }
 
-                }
-            }.runTaskTimer(cd,0,countPeriod);
-        }else if(count == 1){
-            startAction();
+                    }
+                }.runTaskLater(cd,delay);
+                delay += countPeriod;
+            }
+        }else {
+            startAction(taskID);
         }
 
 
 
     }
 
-    public void startAction(){
+    public void startAction(String taskID){
 
         if(customLineConfigList.size() > 0){
 

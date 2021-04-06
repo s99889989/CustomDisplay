@@ -1,5 +1,7 @@
 package com.daxton.customdisplay.api.entity;
 
+import com.daxton.customdisplay.CustomDisplay;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -51,7 +53,9 @@ public class RadiusTarget {
                 }
             }
         }
-        livingEntityList.add(target);
+        if(!livingEntityList.contains(target)){
+            livingEntityList.add(target);
+        }
         if(livingEntityList.contains(self)){
             livingEntityList.remove(self);
         }
@@ -59,7 +63,99 @@ public class RadiusTarget {
         return livingEntityList;
     }
 
+    /**獲得圓半徑目標(不包含自己)**/
+    public static List<LivingEntity> getRadiusLivingEntities3(LivingEntity self, Location location, double radius) {
+        List<Entity> targetEntityList = new ArrayList<>(location.getWorld().getNearbyEntities(location,radius,radius,radius));
+        double sX = location.getX();
+        double sY = location.getY();
+        double sZ = location.getZ();
+        List<LivingEntity> livingEntityList = new ArrayList<>();
+        if(targetEntityList.size() > 0){
+            for(Entity targetEntity : targetEntityList){
+                if(targetEntity instanceof LivingEntity){
+                    double tX = targetEntity.getLocation().getX();
+                    double tY = targetEntity.getLocation().getY();
+                    double tZ = targetEntity.getLocation().getZ();
+                    double dd = Math.sqrt(Math.pow((tX-sX),2) + Math.pow((tY-sY),2) +Math.pow((tZ-sZ),2));
+                    if(dd <= radius){
+                        livingEntityList.add((LivingEntity) targetEntity);
+                    }
+                }
+            }
+        }
+        if(livingEntityList.contains(self)){
+            livingEntityList.remove(self);
+        }
+        return livingEntityList;
+    }
 
+    /**---------------------新方法-------------------------**/
 
+    /**獲得圓半徑目標(不包含自己)**/
+    public static List<LivingEntity> getRadiusLivingEntities4(LivingEntity self, Location location, double radius) {
+        List<Entity> targetEntityList = new ArrayList<>(location.getWorld().getNearbyEntities(location,radius,radius,radius));
+
+        List<LivingEntity> livingEntityList = new ArrayList<>();
+        if(targetEntityList.size() > 0){
+            for(Entity targetEntity : targetEntityList){
+                if(targetEntity instanceof LivingEntity){
+                    LivingEntity livingEntity = (LivingEntity) targetEntity;
+                    CustomDisplay.getCustomDisplay().getLogger().info(livingEntity.getName()+" : "+location.distanceSquared(livingEntity.getEyeLocation())+" : "+radius);
+
+                    if(location.distanceSquared(livingEntity.getEyeLocation()) <= radius){
+                        livingEntityList.add(livingEntity);
+                    }
+
+                }
+            }
+        }
+        if(livingEntityList.contains(self)){
+            livingEntityList.remove(self);
+        }
+        return livingEntityList;
+    }
+
+    /**獲得圓半徑目標(不包含自己)**/
+    public static List<LivingEntity> getRadiusLivingEntities5(LivingEntity self, double radius) {
+        List<Entity> targetEntityList = self.getNearbyEntities(radius, radius, radius);
+        List<LivingEntity> livingEntityList = new ArrayList<>();
+        if(targetEntityList.size() > 0){
+            for(Entity targetEntity : targetEntityList){
+                if(targetEntity instanceof LivingEntity){
+                    if(self.getLocation().distanceSquared(((LivingEntity) targetEntity).getEyeLocation()) <= radius){
+                        livingEntityList.add((LivingEntity) targetEntity);
+                    }
+                }
+            }
+        }
+        if(livingEntityList.contains(self)){
+            livingEntityList.remove(self);
+        }
+        return livingEntityList;
+    }
+
+    /**獲得圓半徑目標(包含自己)**/
+    public static List<LivingEntity> getRadiusLivingEntities6(LivingEntity self, LivingEntity target, double radius) {
+        List<Entity> targetEntityList = target.getNearbyEntities(radius, radius, radius);
+
+        List<LivingEntity> livingEntityList = new ArrayList<>();
+        if(targetEntityList.size() > 0){
+            for(Entity targetEntity : targetEntityList){
+                if(targetEntity instanceof LivingEntity){
+                    if(target.getLocation().distanceSquared(((LivingEntity) targetEntity).getEyeLocation()) <= radius){
+                        livingEntityList.add((LivingEntity) targetEntity);
+                    }
+                }
+            }
+        }
+        if(!livingEntityList.contains(target)){
+            livingEntityList.add(target);
+        }
+        if(livingEntityList.contains(self)){
+            livingEntityList.remove(self);
+        }
+
+        return livingEntityList;
+    }
 
 }

@@ -95,7 +95,8 @@ public class MobListener implements Listener {
 
                 String uuidString = player.getUniqueId().toString();
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_kill_mob_type>",entityType);
-                new PlayerTrigger2(player).onMobDeath(player,target);
+
+                new PlayerTrigger2(player).onTwo(player, target, "~onmobdeath");
             }
         }
 

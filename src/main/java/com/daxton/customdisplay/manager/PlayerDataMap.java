@@ -16,6 +16,8 @@ public class PlayerDataMap {
     /**玩家動作資料**/
     private static Map<UUID, PlayerData> playerDataMap = new HashMap<>();
 
+    /**目前魔量**/
+    public static Map<String, Double> player_nowMana = new HashMap<>();
 
     /**玩家動作權限**/
     public static Map<String, String> playerAction_Permission = new HashMap<>();

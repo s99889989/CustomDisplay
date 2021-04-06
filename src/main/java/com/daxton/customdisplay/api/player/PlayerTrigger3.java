@@ -562,7 +562,7 @@ public class PlayerTrigger3 {
         for(LivingEntity livingEntity : livingEntityList){
             String taskID = customLineConfig.getString(new String[]{"mark","m"},String.valueOf((int)(Math.random()*100000)),self,livingEntity);
 
-            boolean stop = customLineConfig.getBoolean(new String[]{"stop","s"},self, livingEntity);
+            boolean stop = customLineConfig.getBoolean(new String[]{"stop","s"}, false,self, livingEntity);
 
             if(stop){
                 if(ActionManager2.trigger_Judgment_Map.get(taskID) != null){

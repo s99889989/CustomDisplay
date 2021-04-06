@@ -46,9 +46,9 @@ public class Message2 {
             for(String me : new StringFind().getBlockList(message,"{}")){
                 all.addExtra(getKey(self, player, me));
             }
-            player.spigot().sendMessage(all);
+            self.spigot().sendMessage(all);
         }else {
-            player.sendMessage(message);
+            self.sendMessage(message);
         }
 
     }

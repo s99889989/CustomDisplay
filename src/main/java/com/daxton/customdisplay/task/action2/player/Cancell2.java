@@ -19,7 +19,7 @@ public class Cancell2 {
 
         String cancellName = customLineConfig.getString(new String[]{"name"},"",self,target);
 
-        boolean enable = customLineConfig.getBoolean(new String[]{"enable"},self,target);
+        boolean enable = customLineConfig.getBoolean(new String[]{"enable"}, false,self,target);
 
         setOther(self, cancellName, enable);
     }

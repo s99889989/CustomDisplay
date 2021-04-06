@@ -246,16 +246,16 @@ public class OpenInventory2 {
 
             if(event.getClick().toString().contains("LEFT")){
 
-                new PlayerTrigger2(player).onGuiClick(player,left_Click.get(i));
+                new PlayerTrigger2(player).onSkill(player, null, left_Click.get(i));
             }
             if(event.getClick().toString().contains("SHIFT_LEFT")){
-                new PlayerTrigger2(player).onGuiClick(player,left_Shift_Click.get(i));
+                new PlayerTrigger2(player).onSkill(player, null, left_Shift_Click.get(i));
             }
             if(event.getClick().toString().contains("RIGHT")){
-                new PlayerTrigger2(player).onGuiClick(player,right_Click.get(i));
+                new PlayerTrigger2(player).onSkill(player, null, right_Click.get(i));
             }
             if(event.getClick().toString().contains("SHIFT_RIGHT")){
-                new PlayerTrigger2(player).onGuiClick(player,right_Shift_Click.get(i));
+                new PlayerTrigger2(player).onSkill(player, null, right_Shift_Click.get(i));
             }
 
         }

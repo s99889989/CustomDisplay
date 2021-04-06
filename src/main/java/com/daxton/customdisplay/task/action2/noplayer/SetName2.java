@@ -48,7 +48,7 @@ public class SetName2 {
         /**獲得內容**/
         String message = customLineConfig.getString(new String[]{"message","m"},"",self,target);
 
-        boolean always = customLineConfig.getBoolean(new String[]{"always"},self,target);
+        boolean always = customLineConfig.getBoolean(new String[]{"always"}, false,self,target);
 
         if(self instanceof Player){
             Player player = (Player) self;

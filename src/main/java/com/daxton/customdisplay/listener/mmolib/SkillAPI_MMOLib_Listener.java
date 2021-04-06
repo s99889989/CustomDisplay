@@ -58,7 +58,7 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             double damageNumber = event.getDamage();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
             PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
-            new PlayerTrigger2(player).onMagic(player,target);
+            new PlayerTrigger2(player).onTwo(player, target, "~onmagic");
 
         }
 
@@ -88,7 +88,7 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,"Miss");
-                new PlayerTrigger2(player).onAtkMiss(player,target);
+                new PlayerTrigger2(player).onTwo(player, target, "~onatkmiss");
                 return;
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
@@ -108,9 +108,9 @@ public class SkillAPI_MMOLib_Listener extends AttributeListener implements Liste
             physical_STRIKE_POWER = (attack_damage+physical_damage)*((physical_STRIKE_POWER+180)/100);
             if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
-                    new PlayerTrigger2(player).onCrit(player,target);
+                    new PlayerTrigger2(player).onTwo(player, target, "~oncrit");
                 }else {
-                    new PlayerTrigger2(player).onAttack(player,target);
+                    new PlayerTrigger2(player).onTwo(player, target, "~onattack");
                 }
             }
 

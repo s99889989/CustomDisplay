@@ -42,9 +42,6 @@ public class SendParticles2 {
     private BlockData blockData;
     private ItemStack itemData;
 
-    private BufferedImage[] bufferedImages = null;
-    private int gifCount = 0;
-
     private DustOptions color = new DustOptions(fromRGB(0xFF0000), 1);
     private Location location = new Location(Bukkit.getWorld("world"),0,0,0);
     private double extra = 0;
@@ -200,7 +197,7 @@ public class SendParticles2 {
         double imgSize = customLineConfig.getDouble(new String[]{"imgsize"},1,self,target);
 
         /**是否加上目標角度角度**/
-        boolean imgTargetAngle = customLineConfig.getBoolean(new String[]{"imgtargetangel"},self,target);
+        boolean imgTargetAngle = customLineConfig.getBoolean(new String[]{"imgtargetangel"}, false,self,target);
 
         /**要使用的圖片角度**/
         String[] pngRotAngles = customLineConfig.getStringList(new String[]{"imgrotangle"},new String[]{"0","0","0"},"\\|",3,self,target);
@@ -326,9 +323,9 @@ public class SendParticles2 {
             }
         }
         particles.forEach((location1, rgb) -> {
-            location1.getWorld().spawnParticle(REDSTONE, location1, 1, new DustOptions(fromRGB(rgb), 1));
+            location1.getWorld().spawnParticle(REDSTONE, location1, count, xOffset, yOffset, zOffset, extra, new DustOptions(fromRGB(rgb), 1));
         });
-
+        //self.getWorld().spawnParticle(putParticle, location, count, xOffset, yOffset, zOffset, extra,color);
     }
 
 

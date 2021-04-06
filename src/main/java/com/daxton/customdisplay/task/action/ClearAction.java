@@ -2,10 +2,12 @@ package com.daxton.customdisplay.task.action;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ActionManager2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.task.action.list.Holographic;
 import com.daxton.customdisplay.task.action.list.Loop;
 import com.daxton.customdisplay.task.action.list.SendBossBar;
+import com.daxton.customdisplay.task.action2.orbital.LocGuise;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.UUID;
@@ -15,6 +17,19 @@ public class ClearAction {
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public ClearAction(){
+
+        /***************************新********************************/
+
+
+        for(LocGuise locGuise : ActionManager2.judgment_LocItemEntity_Map.values()){
+            if(locGuise.getPacketEntity() != null){
+                locGuise.getPacketEntity().delete();
+            }
+        }
+        ActionManager2.judgment_LocItemEntity_Map.clear();
+
+
+        /***************************舊********************************/
 
         /**judgment2->Loop2**/
         if(!(ActionManager.getJudgment2_Loop2_Map().values().isEmpty())){

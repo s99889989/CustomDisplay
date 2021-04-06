@@ -28,9 +28,7 @@ public class PlayerData {
 
     private Player player;
 
-    private double mana = 0;
-
-    private double maxmana = 0;
+    public double maxmana = 0;
 
     private double manaRegeneration = 0;
 
@@ -89,6 +87,7 @@ public class PlayerData {
             /**清除所有屬性**/
             new PlayerBukkitAttribute().removeAllAttribute(player);
 
+            /**先設預設值**/
             new PlayerBinds().setMap(player,binds_Map,playerConfig);
             new PlayerLevel().setMap(player,level_Map,playerConfig);
             new PlayerPoint().setMap(player,point_Map,playerConfig);
@@ -97,6 +96,13 @@ public class PlayerData {
             new PlayerEquipmentStats().setMap(player,equipment_Stats_Map,playerConfig,name_Equipment_Map);
             new PlayerSkills().setMap(player,skills_Map,playerConfig);
 
+            /**2次計算**/
+            new PlayerAttributesStats().setFormula(player,attributes_Stats_Map,playerConfig);
+
+            /**核心屬性設置**/
+            new PlayerAttributeCore().setBukkitAttribute(player);
+            /**設置回血**/
+            health_Regeneration(player);
         }
 
         /**設定動作列表**/
@@ -109,23 +115,8 @@ public class PlayerData {
 
     public void setPlayerData(Player player){
 
-        /**先設預設值**/
-
-
-
-
-
-        /**2次計算**/
-        new PlayerAttributesStats().setFormula(player,attributes_Stats_Map,playerConfig);
-
-
-        /**核心屬性設置**/
-        new PlayerAttributeCore().setBukkitAttribute(player);
         /**其他屬性設置**/
-        new PlayerAttributeCore().setCoreAttribute(player);
-
-        /**設置回血**/
-        health_Regeneration(player);
+        //new PlayerAttributeCore().setCoreAttribute(player);
 
     }
 
@@ -133,20 +124,27 @@ public class PlayerData {
 
     /**設置回血回魔**/
     public void health_Regeneration(Player player){
-        /**回血量**/
-        String amountString = PlayerDataMap.core_Formula_Map.get("Health_Regeneration");
+        String uuidString = player.getUniqueId().toString();
         /**魔量**/
-        String maxmanaString = PlayerDataMap.core_Formula_Map.get("Max_Mana");
-        maxmanaString = new ConversionMain().valueOf(player,null,maxmanaString);
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("Class_CustomCore.yml");
+        String maxManaString = fileConfiguration.getString("CoreAttribute.Max_Mana.formula");
+        String maxManaString2 = new ConversionMain().valueOf(player,null,maxManaString);
+        double mana = 0;
         try {
-            mana = Double.valueOf(maxmanaString);
-            maxmana = Double.valueOf(maxmanaString);
+            mana = Double.valueOf(maxManaString2);
+            maxmana = Double.valueOf(maxManaString2);
         }catch (NumberFormatException exception){
             mana = 20;
             maxmana = 20;
         }
+        //cd.getLogger().info(mana+" : "+maxmana);
+        if(PlayerDataMap.player_nowMana.get(uuidString) == null){
+            PlayerDataMap.player_nowMana.put(uuidString, mana);
+        }
+        Map<String, Double> player_nowMana = PlayerDataMap.player_nowMana;
+
         /**回魔量**/
-        String manaRegString = PlayerDataMap.core_Formula_Map.get("Mana_Regeneration");
+        String manaRegString = fileConfiguration.getString("CoreAttribute.Mana_Regeneration.formula");
         manaRegString = new ConversionMain().valueOf(player,null,manaRegString);
         try {
             manaRegeneration = Double.valueOf(manaRegString);
@@ -154,25 +152,34 @@ public class PlayerData {
             manaRegeneration = 1;
         }
 
+        /**回血量**/
+        String healthRegenerationString = fileConfiguration.getString("CoreAttribute.Health_Regeneration.formula");
+        String healthRegenerationString2 = new ConversionMain().valueOf(player,null,healthRegenerationString);
 
         bukkitRunnable = new BukkitRunnable(){
+
             @Override
             public void run() {
-                String amountString2 = new ConversionMain().valueOf(player,null,amountString);
-                double amount = 0;
-                try {
-                    amount = Double.valueOf(amountString2);
-                }catch (NumberFormatException exception){
-                    amount = 0;
-                }
+                /**回魔**/
 
-                if(mana != maxmana){
-                    if((mana += manaRegeneration) > maxmana){
+                double mana = player_nowMana.get(uuidString);
+                if(mana <= maxmana){
+                    mana += manaRegeneration;
+                    if(mana > maxmana){
                         mana = maxmana;
+                        player_nowMana.put(uuidString,mana);
+                    }else {
+                        player_nowMana.put(uuidString,mana);
                     }
                 }
 
-
+                /**回血**/
+                double amount = 0;
+                try {
+                    amount = Double.valueOf(healthRegenerationString2);
+                }catch (NumberFormatException exception){
+                    amount = 0;
+                }
                 if(player.getHealth() != player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()){
                     double giveHealth = player.getHealth()+amount;
                     double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();

@@ -36,7 +36,7 @@ public class Loop2 extends BukkitRunnable {
     private List<CustomLineConfig> onEnd = new ArrayList<>();
 
 
-    private boolean unlimited = true;
+    private boolean unlimited = false;
     private BukkitRunnable bukkitRunnableStart;
     private BukkitRunnable bukkitRunnableTime;
     private BukkitRunnable bukkitRunnableEnd;
@@ -63,18 +63,19 @@ public class Loop2 extends BukkitRunnable {
 
     public void setLoop(){
 
-        onStart = customLineConfig.getActionKeyList(new String[]{"onstart"});
+        onStart = customLineConfig.getActionKeyList(new String[]{"onstart"},null, self, target);
 
-        onTime = customLineConfig.getActionKeyList(new String[]{"ontime"});
+        onTime = customLineConfig.getActionKeyList(new String[]{"ontime"},null, self, target);
 
-        onEnd = customLineConfig.getActionKeyList(new String[]{"onend"});
+        onEnd = customLineConfig.getActionKeyList(new String[]{"onend"},null, self, target);
 
         period = customLineConfig.getInt(new String[]{"period"},5, self, target);
 
-        unlimited = customLineConfig.getBoolean(new String[]{"unlimitedtime","ut"}, self, target);
-
         duration = customLineConfig.getInt(new String[]{"duration"},20, self, target);
-
+        if(duration == 0){
+            unlimited = true;
+        }
+        //unlimited = customLineConfig.getBoolean(new String[]{"unlimitedtime","ut"}, self, target);
     }
 
     public void onStart(){
@@ -121,6 +122,7 @@ public class Loop2 extends BukkitRunnable {
             int delay = 0;
             for(CustomLineConfig customLineConfig : stringList){
                 String judgMent = customLineConfig.getActionKey();
+                //cd.getLogger().info(judgMent);
                 if(judgMent.toLowerCase().contains("condition")){
 
                     if(!(condition(customLineConfig))){

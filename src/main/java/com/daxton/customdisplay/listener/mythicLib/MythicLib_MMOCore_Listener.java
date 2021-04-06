@@ -85,7 +85,7 @@ public class MythicLib_MMOCore_Listener implements Listener {
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger2(player).onAtkMiss(player,target);
+                new PlayerTrigger2(player).onTwo(player, target, "~onatkmiss");
                 return;
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
@@ -94,16 +94,16 @@ public class MythicLib_MMOCore_Listener implements Listener {
 
             if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
-                    new PlayerTrigger2(player).onCrit(player,target);
+                    new PlayerTrigger2(player).onTwo(player, target, "~oncrit");
                 }else {
-                    new PlayerTrigger2(player).onAttack(player,target);
+                    new PlayerTrigger2(player).onTwo(player, target, "~onattack");
                 }
             }
             if(damageType.contains("MAGIC")){
                 if(damageNumber > ((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER)){
-                    new PlayerTrigger2(player).onMCrit(player,target);
+                    new PlayerTrigger2(player).onTwo(player, target, "~onmcrit");
                 }else {
-                    new PlayerTrigger2(player).onMagic(player,target);
+                    new PlayerTrigger2(player).onTwo(player, target, "~onmagic");
                 }
             }
 
