@@ -38,12 +38,15 @@ public class PlayerData {
 
     private String uuidString = "";
 
+    /**標記動作列表**/
+    public Map<String, String> taskIDList = new HashMap<>();
     /**等級**/
     public Map<String,String> level_Map = new HashMap<>();
     /**點數**/
     public Map<String,String> point_Map = new HashMap<>();
     /**屬性點數**/
     public Map<String,String> attributes_Point_Map = new HashMap<>();
+    public Map<String,String> attributes_Point_Map2 = new HashMap<>();
     /**玩家屬性**/
     public Map<String,String> attributes_Stats_Map = new HashMap<>();
     public Map<String,String> attributes_Stats_Map2 = new HashMap<>();
@@ -56,6 +59,9 @@ public class PlayerData {
     public Map<String,String> skills_Map = new HashMap<>();
     /**技能綁定**/
     public Map<String,String> binds_Map = new HashMap<>();
+    public static Map<String, List<CustomLineConfig>> skill_Custom_Map = new HashMap<>();
+    public static Map<String, String> skill_Name_Map = new HashMap<>();
+    public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
 
     /**動作列表**/
     private List<String> playerActionList = new ArrayList<>();

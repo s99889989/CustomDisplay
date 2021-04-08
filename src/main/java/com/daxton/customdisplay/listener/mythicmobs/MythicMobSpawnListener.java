@@ -4,7 +4,6 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
 import com.daxton.customdisplay.api.mob.MobConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobLootDropEvent;
@@ -67,9 +66,9 @@ public class MythicMobSpawnListener implements Listener {
 
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
 
-            new PlayerTrigger2(player).onTwo(player, target, "~onmmobdeath");
+            new PlayerTrigger(player).onTwo(player, target, "~onmmobdeath");
             if(!(item.contains("Air"))){
-                new PlayerTrigger2(player).onTwo(player, target, "~onmmobdropitem");
+                new PlayerTrigger(player).onTwo(player, target, "~onmmobdropitem");
             }
         }
 
@@ -91,10 +90,10 @@ public class MythicMobSpawnListener implements Listener {
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_exp>",String.valueOf(event.getExp()));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_money>",String.valueOf(event.getMoney()));
             if(event.getExp() != 0){
-                new PlayerTrigger2(player).onTwo(player, target, "~onmmobdropexp");
+                new PlayerTrigger(player).onTwo(player, target, "~onmmobdropexp");
             }
             if(event.getMoney() != 0){
-                new PlayerTrigger2(player).onTwo(player, target, "~onmmobdropmoney");
+                new PlayerTrigger(player).onTwo(player, target, "~onmmobdropmoney");
             }
 
         }

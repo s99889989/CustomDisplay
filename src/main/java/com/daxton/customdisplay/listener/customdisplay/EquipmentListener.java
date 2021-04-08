@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.PlayerEquipment;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.ListenerManager;
@@ -45,7 +46,7 @@ public class EquipmentListener implements Listener {
         String uuidString = player.getUniqueId().toString();
         int key = event.getNewSlot();
         int old = event.getPreviousSlot();
-
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
             boolean cast = ListenerManager.getCast_On_Stop().get(uuidString);
             if(!cast){
@@ -58,8 +59,8 @@ public class EquipmentListener implements Listener {
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
             boolean cast = ListenerManager.getCast_On_Stop().get(uuidString);
             if(cast){
-                List<String> action = PlayerDataMap.skill_Key_Map.get(uuidString+"."+key);
-                String skillName = PlayerDataMap.skill_Name_Map.get(uuidString+"."+key);
+                List<String> action = playerData.skill_Key_Map.get(uuidString+"."+key);
+                String skillName = playerData.skill_Name_Map.get(uuidString+"."+key);
 
                 if(skillName != null && action != null && action.size() > 0){
                     /**技能設定檔**/

@@ -2,13 +2,11 @@ package com.daxton.customdisplay.api.item;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
-import com.daxton.customdisplay.api.player.PlayerTrigger2;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerAction2;
-import com.daxton.customdisplay.api.player.data.set.PlayerEquipmentStats;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,7 +29,7 @@ public class PlayerEquipment2 {
 
 
         loadAllEq(player, key);
-        new PlayerTrigger2(player).onTwo(player, null, "~eqmcheck");
+        new PlayerTrigger(player).onTwo(player, null, "~eqmcheck");
 
     }
 

@@ -46,6 +46,14 @@ public class BossBarSkill2 {
         String skill_Null = skillStatusConfig.getString("BossBar1.Skill_Show.Skill_Null");
 
         PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+
+        if(!playerData.skill_Name_Map.isEmpty()){
+            playerData.skill_Name_Map.clear();
+        }
+        if(!playerData.skill_Custom_Map.isEmpty()){
+            playerData.skill_Custom_Map.clear();
+        }
+
         if(playerData != null){
         int binds = 0;
         for(int i = 1; i < 10 ; i++){
@@ -69,9 +77,9 @@ public class BossBarSkill2 {
                         List<String> skillAction = skillConfig.getStringList(skillName+".Action");
                         List<CustomLineConfig> skillCustom = new CustomLineConfigList().valueOf(skillAction);
                         if(skillAction != null){
-                            PlayerDataMap.skill_Name_Map.put(uuidString+"."+i,skillName);
+                            playerData.skill_Name_Map.put(uuidString+"."+i,skillName);
                             //PlayerDataMap.skill_Key_Map.put(uuidString+"."+i,skillAction);
-                            PlayerDataMap.skill_Custom_Map.put(uuidString+"."+i, skillCustom);
+                            playerData.skill_Custom_Map.put(uuidString+"."+i, skillCustom);
                         }
 
                         skillBarShow1[i-1] = barName;

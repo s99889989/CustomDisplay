@@ -66,6 +66,7 @@ public class RadiusTarget {
     /**獲得圓半徑目標(不包含自己)**/
     public static List<LivingEntity> getRadiusLivingEntities3(LivingEntity self, Location location, double radius) {
         List<Entity> targetEntityList = new ArrayList<>(location.getWorld().getNearbyEntities(location,radius,radius,radius));
+
         double sX = location.getX();
         double sY = location.getY();
         double sZ = location.getZ();
@@ -73,13 +74,17 @@ public class RadiusTarget {
         if(targetEntityList.size() > 0){
             for(Entity targetEntity : targetEntityList){
                 if(targetEntity instanceof LivingEntity){
-                    double tX = targetEntity.getLocation().getX();
-                    double tY = targetEntity.getLocation().getY();
-                    double tZ = targetEntity.getLocation().getZ();
+                    LivingEntity livingEntity = (LivingEntity) targetEntity;
+                    //CustomDisplay.getCustomDisplay().getLogger().info("範圍"+livingEntity.getName());
+                    double tX = livingEntity.getEyeLocation().getX();
+                    double tY = livingEntity.getEyeLocation().getY();
+                    double tZ = livingEntity.getEyeLocation().getZ();
                     double dd = Math.sqrt(Math.pow((tX-sX),2) + Math.pow((tY-sY),2) +Math.pow((tZ-sZ),2));
                     if(dd <= radius){
+                        //CustomDisplay.getCustomDisplay().getLogger().info("範圍內"+livingEntity.getName());
                         livingEntityList.add((LivingEntity) targetEntity);
                     }
+                    //livingEntityList.add(livingEntity);
                 }
             }
         }

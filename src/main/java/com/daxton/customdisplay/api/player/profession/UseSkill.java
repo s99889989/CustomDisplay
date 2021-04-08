@@ -6,8 +6,7 @@ import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
 import com.daxton.customdisplay.api.location.LookLocation;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.api.player.PlayerTrigger2;
-import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -35,10 +34,10 @@ public class UseSkill {
     public void use(Player player,int key){
         String uuidString = player.getUniqueId().toString();
         int useKey = key+1;
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(player.getUniqueId());
 
-
-        String skillName = PlayerDataMap.skill_Name_Map.get(uuidString+"."+useKey);
-        List<CustomLineConfig> actionCustom = PlayerDataMap.skill_Custom_Map.get(uuidString+"."+useKey);
+        String skillName = playerData.skill_Name_Map.get(uuidString+"."+useKey);
+        List<CustomLineConfig> actionCustom = playerData.skill_Custom_Map.get(uuidString+"."+useKey);
 
         if(skillName != null && actionCustom != null && actionCustom.size() > 0){
             /**技能設定檔**/
@@ -47,16 +46,32 @@ public class UseSkill {
             boolean needTarget = skillConfig.getBoolean(skillName+".NeedTarget");
             /**目標最遠距離**/
             int targetDistance = skillConfig.getInt(skillName+".TargetDistance");
-
-            LivingEntity target = LookTarget.getLivingTarget(player,targetDistance);
-
-            if(needTarget){
-                if(target != null){
-                    runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
-                }
-            }else {
-                runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
+            /**需要魔量**/
+            double needMand = skillConfig.getDouble(skillName+".Mana");
+            double nowMans = 0;
+            if(PlayerDataMap.player_nowMana.get(uuidString) != null){
+                nowMans = PlayerDataMap.player_nowMana.get(uuidString);
             }
+
+            LivingEntity target = LookTarget.getLivingTarget(player, targetDistance);
+                if(needTarget){
+                    if(target != null){
+                        if(nowMans >= needMand) {
+                            nowMans = nowMans - needMand;
+                            PlayerDataMap.player_nowMana.put(uuidString, nowMans);
+                            runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
+                        }
+
+                    }
+                }else {
+                    if(nowMans >= needMand) {
+                        nowMans = nowMans - needMand;
+                        PlayerDataMap.player_nowMana.put(uuidString, nowMans);
+                        runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
+                    }
+                }
+
+
 
         }
 
@@ -123,12 +138,12 @@ public class UseSkill {
     public void castTime0(Player player, String uuidString, int castDelay, LivingEntity inputTarget, List<CustomLineConfig> customLineConfigList){
         if(castDelay == 0){
 
-            new PlayerTrigger2(player).onSkill(player,inputTarget,customLineConfigList);
+            new PlayerTrigger(player).onSkill(player,inputTarget,customLineConfigList);
 
             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
         }else {
 
-            new PlayerTrigger2(player).onSkill(player,inputTarget,customLineConfigList);
+            new PlayerTrigger(player).onSkill(player,inputTarget,customLineConfigList);
 
             new BossBarSkill().setSkillBarProgress(1);
             PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
@@ -201,7 +216,7 @@ public class UseSkill {
 //                        }else {
 //                            new PlayerTrigger2(player).onSkill(player,inputTarget,customLineConfigList);
 //                        }
-                        new PlayerTrigger2(player).onSkill(player,target,customLineConfigList);
+                        new PlayerTrigger(player).onSkill(player,target,customLineConfigList);
                         bossBarSkill2.setSkillBar2Progress(0);
                         PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
                     }else {
@@ -211,7 +226,7 @@ public class UseSkill {
                         }
 
                         //if(inputTarget != null && target == inputTarget){
-                            new PlayerTrigger2(player).onSkill(player,target,customLineConfigList);
+                            new PlayerTrigger(player).onSkill(player,target,customLineConfigList);
                         //}
                         PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                             double costCount = 1.0;

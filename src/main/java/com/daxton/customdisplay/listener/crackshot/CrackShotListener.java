@@ -3,7 +3,6 @@ package com.daxton.customdisplay.listener.crackshot;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
 import net.citizensnpcs.api.CitizensAPI;
@@ -35,11 +34,11 @@ public class CrackShotListener implements Listener {
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger2(player).onTwo(player, target, "~onatkmiss");
+                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
-                new PlayerTrigger2(player).onTwo(player, target, "~onattack");
+                new PlayerTrigger(player).onTwo(player, target, "~onattack");
             }
         }
 
@@ -64,10 +63,10 @@ public class CrackShotListener implements Listener {
             String uuidString = player.getUniqueId().toString();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
-                new PlayerTrigger2(player).onTwo(player, target, "~onatkmiss");
+                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                new PlayerTrigger2(player).onTwo(player, target, "~onattack");
+                new PlayerTrigger(player).onTwo(player, target, "~onattack");
             }
 
         }

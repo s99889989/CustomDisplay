@@ -3,7 +3,6 @@ package com.daxton.customdisplay.command;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.api.player.config.PlayerChangeClass;
 import com.daxton.customdisplay.api.player.config.PlayerRebirth;
 import com.daxton.customdisplay.config.ConfigManager;
@@ -147,7 +146,7 @@ public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
                     if(sender instanceof Player){
                         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
 
-                        new PlayerTrigger2(player).onTwo(player, null, "~oncommand");
+                        new PlayerTrigger(player).onTwo(player, null, "~oncommand");
                     }
                     return true;
                 }

@@ -7,6 +7,7 @@ import com.daxton.customdisplay.api.player.PlayerReload;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.task.ClearAction;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -27,6 +28,13 @@ public class PlayerChangeClass {
 
     /**轉職**/
     public void changeClass(Player player, String className){
+
+        /**清除標記動作**/
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(player.getUniqueId());
+        playerData.taskIDList.forEach((s, s2) -> {
+            new ClearAction().taskID(s2);
+        });
+
         /**讀取玩家設定檔**/
         FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
         /**讀取Class設定檔**/

@@ -4,7 +4,10 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.PlayerReload;
+import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.task.ClearAction;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,6 +28,14 @@ public class PlayerRebirth {
 
     /**轉生**/
     public void rebirth(Player player, String className){
+
+        /**清除標記動作**/
+        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(player.getUniqueId());
+        playerData.taskIDList.forEach((s, s2) -> {
+            new ClearAction().taskID(s2);
+        });
+
+
         /**讀取玩家設定檔**/
         FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
         /**清空原本設定**/

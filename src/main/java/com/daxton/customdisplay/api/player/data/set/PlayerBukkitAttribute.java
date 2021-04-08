@@ -6,6 +6,7 @@ import io.lumine.xikage.mythicmobs.utils.config.file.YamlConfiguration;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -23,7 +24,7 @@ public class PlayerBukkitAttribute {
 
     }
 
-    public void addAttribute(Player player,String inherit,String operation,double addNumber,String attributeName){
+    public void addAttribute(LivingEntity player, String inherit, String operation, double addNumber, String attributeName){
 
 
         AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
@@ -52,7 +53,7 @@ public class PlayerBukkitAttribute {
     }
 
     /**清除屬性**/
-    public void removeAttribute(Player player,String inherit){
+    public void removeAttribute(LivingEntity player,String inherit){
         AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
         if(attributeInstance != null){
             for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){

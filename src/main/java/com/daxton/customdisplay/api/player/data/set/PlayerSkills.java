@@ -1,17 +1,13 @@
 package com.daxton.customdisplay.api.player.data.set;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
-import com.daxton.customdisplay.api.config.LoadConfig;
-import com.daxton.customdisplay.api.player.PlayerTrigger2;
+import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +82,7 @@ public class PlayerSkills {
                 new PlayerAction2(action_Trigger_Map2).setPlayerAction(skillList);
                 skillList.forEach(s1 -> {
                     if(s1.toLowerCase().contains("~onjoin")){
-                        new PlayerTrigger2(player).onSkill2(player,null,new CustomLineConfig(s1));
+                        new PlayerTrigger(player).onSkill2(player,null,new CustomLineConfig(s1));
                     }
                     //CustomDisplay.getCustomDisplay().getLogger().info(s1);
                 });

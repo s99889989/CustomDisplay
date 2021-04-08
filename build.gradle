@@ -63,7 +63,7 @@ dependencies {
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.3-D.jar'])
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.5-D.jar'])
 
-//compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
+compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
 }
 
 group = 'com.daxton'

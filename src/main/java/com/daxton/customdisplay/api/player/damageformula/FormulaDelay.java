@@ -4,7 +4,6 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
@@ -150,12 +149,12 @@ public class FormulaDelay {
         if(castTime == 0){
             if(castDelay == 0){
 
-                new PlayerTrigger(player).onSkill(player,inputTarget,action);
+                //new PlayerTrigger(player).onSkill(player,inputTarget,action);
 
                 PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
             }else {
 
-                new PlayerTrigger(player).onSkill(player,inputTarget,action);
+                //new PlayerTrigger(player).onSkill(player,inputTarget,action);
 
                 new BossBarSkill().setSkillBarProgress(1);
                 PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
@@ -206,9 +205,9 @@ public class FormulaDelay {
                             }
 
                             if(needTarget && inputTarget != null && target == inputTarget){
-                                new PlayerTrigger(player).onSkill(player,inputTarget,action);
+                                //new PlayerTrigger(player).onSkill(player,inputTarget,action);
                             }else {
-                                new PlayerTrigger(player).onSkill(player,inputTarget,action);
+                                //new PlayerTrigger(player).onSkill(player,inputTarget,action);
                             }
                             new BossBarSkill().setSkillBarProgress(0);
                             PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
@@ -219,7 +218,7 @@ public class FormulaDelay {
                             }
 
                             if(inputTarget != null && target == inputTarget){
-                                new PlayerTrigger(player).onSkill(player,inputTarget,action);
+                                //new PlayerTrigger(player).onSkill(player,inputTarget,action);
                             }
                             PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                                 double costCount = 1.0;

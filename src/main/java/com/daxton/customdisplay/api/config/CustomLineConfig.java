@@ -31,6 +31,7 @@ public class CustomLineConfig implements Cloneable{
 
     private String actionKey;
     private String aimsKey = "@Self";
+    private String aimsKey2 = "@Target";
     private String permission;
 
 
@@ -59,10 +60,12 @@ public class CustomLineConfig implements Cloneable{
                 if(input.substring(input.indexOf("]")).contains("@")){
                     if(input.substring(input.indexOf("]")).contains("#")){
                         this.aimsKey = input.substring(input.indexOf("]") + 1,input.indexOf("#")).trim();
+                        this.aimsKey2 = this.aimsKey;
                         String s2 = input.substring(input.indexOf("]"));
                         this.permission = s2.substring(s2.indexOf("#") + 1).trim();
                     }else {
                         this.aimsKey = input.substring(input.indexOf("]") + 1).trim();
+                        this.aimsKey2 = this.aimsKey;
                     }
                 }else {
                     if(input.substring(input.indexOf("]")).contains("#")){
@@ -99,6 +102,12 @@ public class CustomLineConfig implements Cloneable{
         return livingEntityList;
     }
 
+    /**獲取對象**/
+    public List<LivingEntity> getLivingEntityList2(LivingEntity self, LivingEntity target){
+
+        livingEntityList = new Aims().valueOf2(self, target,this.aimsKey2);
+        return livingEntityList;
+    }
 
     public String getString(String[] key, String def, LivingEntity self, LivingEntity target) {
         String output = null;

@@ -3,7 +3,6 @@ package com.daxton.customdisplay.listener.mythicLib;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.api.player.PlayerTrigger2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.api.player.stats.StatType;
@@ -85,7 +84,7 @@ public class MythicLib_MMOCore_Listener implements Listener {
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger2(player).onTwo(player, target, "~onatkmiss");
+                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
                 return;
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
@@ -94,16 +93,16 @@ public class MythicLib_MMOCore_Listener implements Listener {
 
             if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
-                    new PlayerTrigger2(player).onTwo(player, target, "~oncrit");
+                    new PlayerTrigger(player).onTwo(player, target, "~oncrit");
                 }else {
-                    new PlayerTrigger2(player).onTwo(player, target, "~onattack");
+                    new PlayerTrigger(player).onTwo(player, target, "~onattack");
                 }
             }
             if(damageType.contains("MAGIC")){
                 if(damageNumber > ((damageNumberPAE*magical_damage)*spell_CRITICAL_STRIKE_POWER)){
-                    new PlayerTrigger2(player).onTwo(player, target, "~onmcrit");
+                    new PlayerTrigger(player).onTwo(player, target, "~onmcrit");
                 }else {
-                    new PlayerTrigger2(player).onTwo(player, target, "~onmagic");
+                    new PlayerTrigger(player).onTwo(player, target, "~onmagic");
                 }
             }
 

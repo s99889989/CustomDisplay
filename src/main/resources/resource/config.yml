@@ -26,9 +26,9 @@ Class:
   #技能
   #Skill
   Skill: false
-  #攻擊修改(暫無)
-  #Attack modification (not yet)
-  AttackModification: false
+  #近戰攻擊修改(暫無)
+  #Melee attack modification (not yet)
+  MeleeAttackModification: false
 
 
 #更改聊天(暫無)
