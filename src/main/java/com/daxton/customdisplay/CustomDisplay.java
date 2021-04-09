@@ -23,10 +23,13 @@ import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
 import com.daxton.customdisplay.listener.mmolib.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.ClearAction;
+import discord4j.core.DiscordClientBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -96,12 +99,22 @@ public final class CustomDisplay extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
 
-        String attackCore = getConfigManager().config.getString("AttackCore");
+        FileConfiguration fileConfig = getConfigManager().config;
+
+        String attackCore = fileConfig.getString("AttackCore");
         if(attackCore.toLowerCase().contains("customcore")){
             /**設置核心公式字串**/
             new PlayerAttributeCore().setFormula();
         }
 
+        boolean discordEnable = fileConfig.getBoolean("Discord.enable");
+        if(discordEnable){
+            String token = fileConfig.getString("Discord.token");
+            DiscordManager.client = DiscordClientBuilder.create(token)
+                    .build()
+                    .login()
+                    .block();
+        }
 
     }
 
@@ -273,7 +286,6 @@ public final class CustomDisplay extends JavaPlugin {
                 PlayerDataMap.getPlayerDataMap().remove(playerUUID);
             }
         }
-
 
         getLogger().info("Plugin disable");
         getLogger().info("插件卸載");

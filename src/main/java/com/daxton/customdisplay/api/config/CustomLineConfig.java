@@ -141,7 +141,21 @@ public class CustomLineConfig implements Cloneable{
         boolean output = def;
         String inputString = getString(key,null, self ,target);
         if(inputString != null){
-            output = Boolean.valueOf(inputString);
+            output = Boolean.parseBoolean(inputString);
+        }
+        return output;
+    }
+
+    public long getLong(String[] key, long defaultKey, LivingEntity self, LivingEntity target){
+        long output = defaultKey;
+
+        String inputString = getString(key,null, self ,target);
+        if(inputString != null){
+            try {
+                output = Long.parseLong(inputString);
+            }catch (NumberFormatException exception){
+
+            }
         }
         return output;
     }
@@ -152,7 +166,7 @@ public class CustomLineConfig implements Cloneable{
         String inputString = getString(key,null, self ,target);
         if(inputString != null){
             try {
-                output = Integer.valueOf(inputString);
+                output = Integer.parseInt(inputString);
             }catch (NumberFormatException exception){
 
             }
@@ -164,7 +178,7 @@ public class CustomLineConfig implements Cloneable{
         String inputString = getString(key,null, self ,target);
         if(inputString != null){
             try {
-                output = Double.valueOf(inputString);
+                output = Double.parseDouble(inputString);
             }catch (NumberFormatException exception){
 
             }
@@ -178,7 +192,7 @@ public class CustomLineConfig implements Cloneable{
         String inputString = getString(key,null, self ,target);
         if(inputString != null){
             try {
-                output = Float.valueOf(inputString);
+                output = Float.parseFloat(inputString);
             }catch (NumberFormatException exception){
 
             }

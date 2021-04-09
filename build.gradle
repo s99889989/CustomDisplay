@@ -3,8 +3,10 @@
  */
 
 plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'java'
     id "de.undercouch.download" version "4.1.1"
+
 }
 
 repositories {
@@ -36,9 +38,17 @@ repositories {
     maven {
         url = uri('https://jitpack.io')
     }
+
+    mavenCentral() // for transitive dependencies
+    maven {
+        name = 'm2-dv8tion'
+        url = 'https://m2.dv8tion.net/releases'
+    }
 }
 
 dependencies {
+    shadow localGroovy()
+    shadow gradleApi()
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.3-R0.1-SNAPSHOT'
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.6.0'
     compileOnly 'me.clip:placeholderapi:2.10.9'
@@ -63,32 +73,58 @@ dependencies {
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.3-D.jar'])
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.5-D.jar'])
 
-compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
+    compile 'com.discord4j:discord4j-core:3.1.3'
+//    compile('net.dv8tion:JDA:4.2.1_253') {
+//        exclude module: 'opus-java'
+//    }
+
+    //compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
+
+    }
+
+
+    group = 'com.daxton'
+    version = '1.14.1'
+    description = 'CustomDisplay'
+    sourceCompatibility = '1.8'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+//    def mmoLibVersion = '1.7.4'
+//
+//    task downloadMMOLib(type: Download) {
+//        src "https://github.com/mmopluginteam/mmolib/releases/download/${mmoLibVersion}/MMOLib-${mmoLibVersion}.jar"
+//        dest "libs/MMOLib-${mmoLibVersion}.jar"
+//        overwrite false
+//    }
+//
+//    compileJava.dependsOn(downloadMMOLib)
+
+    processResources {
+        // force utf-8 encoding
+        filteringCharset = "UTF-8"
+        expand(project.properties)
+        // re-run the task if the version changed
+        inputs.property("version", version)
+    }
+
+//shadowJar {
+//    //baseName = 'net.dv8tion', 'magibridge.net.dv8tion'
+//    relocate 'io.netty', 'com.discord4j.shaded.io.netty'
+//}
+
+jar {
+    manifest {
+        attributes(
+                "Manifest-Version": 1.0,
+                "Main-Class": "net.dv8tion.JDA"
+        )
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    into('assets') {
+        from 'assets'
+    }
 }
 
-group = 'com.daxton'
-version = '1.13.1'
-description = 'CustomDisplay'
-sourceCompatibility = '1.8'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-def mmoLibVersion = '1.7.4'
-
-task downloadMMOLib(type: Download) {
-    src "https://github.com/mmopluginteam/mmolib/releases/download/${mmoLibVersion}/MMOLib-${mmoLibVersion}.jar"
-    dest "libs/MMOLib-${mmoLibVersion}.jar"
-    overwrite false
-}
-
-compileJava.dependsOn(downloadMMOLib)
-
-processResources {
-    // force utf-8 encoding
-    filteringCharset = "UTF-8"
-    expand(project.properties)
-    // re-run the task if the version changed
-    inputs.property("version", version)
-}

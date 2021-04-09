@@ -35,7 +35,13 @@ Class:
 #Change chat (not yet)
 Message:
   enable: false
-  content: "<Player> "
+  content: '<Player> '
+
+#Discord功能設定
+#Discord function setting
+Discord:
+  enable: false
+  Token: ''
 
 #材質包設定
 #Texture Pack Settings
