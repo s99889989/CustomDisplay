@@ -70,12 +70,12 @@ public class PlaceholderBase {
                     if(PlaceholderManager.cd_Attack_Number.get(uuidString+tUUIDString) != null){
                         outputString = PlaceholderManager.cd_Attack_Number.get(uuidString+tUUIDString);
                     }else {
-                        outputString = "null";
+                        outputString = "";
                     }
                 }else {
                     outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_attack_number>");
                 }
-
+                return outputString;
             }
 
         }

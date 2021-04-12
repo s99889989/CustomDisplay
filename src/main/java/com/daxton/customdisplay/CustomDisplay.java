@@ -27,6 +27,8 @@ import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.PlayerDataMap;
 import com.daxton.customdisplay.task.ClearAction;
 import discord4j.core.DiscordClientBuilder;
+import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.entity.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -114,6 +116,16 @@ public final class CustomDisplay extends JavaPlugin {
                     .build()
                     .login()
                     .block();
+
+
+//            DiscordManager.client.getEventDispatcher().on(MessageCreateEvent.class)
+//                    .map(MessageCreateEvent::getMessage)
+//                    .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
+//                    .filter(message -> {
+//                        getLogger().info(message.getAuthor().get().getTag()+message.getContent());
+//                        return true;
+//                    }  )
+//                    .subscribe();
         }
 
     }

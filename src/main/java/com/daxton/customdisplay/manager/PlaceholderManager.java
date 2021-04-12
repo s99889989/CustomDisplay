@@ -16,7 +16,8 @@ public class PlaceholderManager {
     /**佔位符訊息**/
     private static Map<String,String> cd_Placeholder_Map = new HashMap<>();
 
-    public static Map<String,String> cd_Attack_Number = new ConcurrentHashMap<>();
+    /**攻擊數字**/
+    public static Map<String,String> cd_Attack_Number = new HashMap<>();
 
 
 

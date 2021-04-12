@@ -84,6 +84,7 @@ public class Loop2 extends BukkitRunnable {
             int delay = 0;
             for(CustomLineConfig customLineConfig : stringList){
                 String judgMent = customLineConfig.getActionKey();
+
                 if(judgMent.toLowerCase().contains("condition")){
 
                     if(!(condition(customLineConfig))){
@@ -101,6 +102,7 @@ public class Loop2 extends BukkitRunnable {
                     }
                 }
                 if(!judgMent.toLowerCase().contains("condition") && !judgMent.toLowerCase().contains("delay")){
+
                     bukkitRunnableStart = new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -122,7 +124,7 @@ public class Loop2 extends BukkitRunnable {
             int delay = 0;
             for(CustomLineConfig customLineConfig : stringList){
                 String judgMent = customLineConfig.getActionKey();
-                //cd.getLogger().info(judgMent);
+
                 if(judgMent.toLowerCase().contains("condition")){
 
                     if(!(condition(customLineConfig))){

@@ -4,7 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
-import com.daxton.customdisplay.api.location.LookLocation;
+import com.daxton.customdisplay.api.location.DirectionLocation;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -251,7 +251,7 @@ public class UseSkill {
                         if(target != null){
                             hologram.teleport(target.getLocation().add(0,0.6,0));
                         }else {
-                            Location ll = new LookLocation().get(player,targetDistance);
+                            Location ll = new DirectionLocation().getLook(player,targetDistance);
                             hologram.teleport(ll.add(0,0.6,0));
                         }
                     }

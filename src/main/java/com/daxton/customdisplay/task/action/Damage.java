@@ -41,7 +41,7 @@ public class Damage {
 
         double amount = new SetValue(self,target,firstString,"[];","1","amount=","a=").getDouble(1);
 
-        List<LivingEntity> targetList = new Aims().valueOf(self,target,firstString);
+        List<LivingEntity> targetList = new Aims().getLivintEntityList(self,target,firstString,"@Target");
 
         if(self != null && !(targetList.isEmpty())){
             PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);

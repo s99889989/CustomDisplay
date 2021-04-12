@@ -93,23 +93,22 @@ public class PlayerTrigger {
         }
 
 
-        String taskID = String.valueOf((int)(Math.random()*100000));
+        String taskID = customLineConfig.getString(new String[]{"mark","m"},String.valueOf((int)(Math.random()*100000)),self,target);
 
+//        String judgMent = customLineConfig.getActionKey();
+//        String actionName = customLineConfig.getString(new String[]{"action","a"},null,self,target);
+//        if(judgMent.toLowerCase().contains("action") && actionName != null){
+//            boolean markBoolean = customLineConfig.getBoolean(new String[]{"mark","m"},false,self,target);
+//            if(markBoolean){
+//                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(self.getUniqueId());
+//
+//                String uuidString = self.getUniqueId().toString();
+//                taskID = uuidString+actionName;
+//                playerData.taskIDList.put(taskID, taskID);
+//            }
+//
+//        }
 
-        String judgMent = customLineConfig.getActionKey();
-        String actionName = customLineConfig.getString(new String[]{"action","a"},null,self,target);
-        if(judgMent.toLowerCase().contains("action") && actionName != null){
-            boolean markBoolean = customLineConfig.getBoolean(new String[]{"mark","m"},false,self,target);
-            if(markBoolean){
-                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(self.getUniqueId());
-
-                String uuidString = self.getUniqueId().toString();
-                taskID = uuidString+actionName;
-                playerData.taskIDList.put(taskID, taskID);
-            }
-            //cd.getLogger().info(judgMent+" : "+actionName);
-        }
-        //cd.getLogger().info(taskID);
         boolean stop = customLineConfig.getBoolean(new String[]{"stop","s"}, false,self, target);
 
         if(stop){

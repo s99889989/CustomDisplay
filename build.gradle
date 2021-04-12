@@ -39,11 +39,8 @@ repositories {
         url = uri('https://jitpack.io')
     }
 
-    mavenCentral() // for transitive dependencies
-    maven {
-        name = 'm2-dv8tion'
-        url = 'https://m2.dv8tion.net/releases'
-    }
+    mavenCentral()
+
 }
 
 dependencies {
@@ -73,10 +70,9 @@ dependencies {
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.3-D.jar'])
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.5-D.jar'])
 
-    compile 'com.discord4j:discord4j-core:3.1.3'
-//    compile('net.dv8tion:JDA:4.2.1_253') {
-//        exclude module: 'opus-java'
-//    }
+
+    implementation 'com.discord4j:discord4j-core:3.1.5'
+
 
     //compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
 
@@ -84,7 +80,7 @@ dependencies {
 
 
     group = 'com.daxton'
-    version = '1.14.1'
+    version = '1.14.3'
     description = 'CustomDisplay'
     sourceCompatibility = '1.8'
 
@@ -110,21 +106,10 @@ dependencies {
         inputs.property("version", version)
     }
 
-//shadowJar {
-//    //baseName = 'net.dv8tion', 'magibridge.net.dv8tion'
-//    relocate 'io.netty', 'com.discord4j.shaded.io.netty'
-//}
-
-jar {
-    manifest {
-        attributes(
-                "Manifest-Version": 1.0,
-                "Main-Class": "net.dv8tion.JDA"
-        )
-    }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    into('assets') {
-        from 'assets'
-    }
+shadowJar {
+    classifier = null
+    relocate 'io.netty', 'com.daxton.discord4j.shaded.io.netty'
 }
+build.dependsOn shadowJar
+
 

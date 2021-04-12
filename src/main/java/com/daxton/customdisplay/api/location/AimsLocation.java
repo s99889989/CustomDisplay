@@ -1,9 +1,11 @@
 package com.daxton.customdisplay.api.location;
 
+import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.entity.Filte;
 import com.daxton.customdisplay.api.entity.RadiusTarget;
 import com.daxton.customdisplay.api.other.StringFind;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
@@ -81,6 +83,24 @@ public class AimsLocation {
         }
 
         return locationList;
+    }
+
+    public Location valueOf2(LivingEntity self, LivingEntity target, String firstString, String defalut, Location inputLocation){
+        Location location = null;
+        LivingEntity livingEntity = new Aims().getOneLivingEntity(self, target, firstString, defalut);
+        if(livingEntity != null){
+            location = livingEntity.getLocation();
+            return location;
+        }
+        if(inputLocation != null){
+            location = inputLocation;
+            return location;
+        }
+        if(location == null){
+            location = new Location(Bukkit.getWorld("world"),0,0,0);
+        }
+
+        return location;
     }
 
     public Map<String,Location> valueOfMap(LivingEntity self, LivingEntity target, String firstString, String taskID, double x, double y, double z, Map<String,Location> inputLocationMap){

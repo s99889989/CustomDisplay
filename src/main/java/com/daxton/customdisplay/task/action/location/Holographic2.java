@@ -3,6 +3,9 @@ package com.daxton.customdisplay.task.action.location;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.item.CustomItem;
+import com.daxton.customdisplay.api.location.AimsLocation;
+import com.daxton.customdisplay.api.location.DirectionLocation;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
@@ -10,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Random;
 
 public class Holographic2 {
@@ -24,7 +28,7 @@ public class Holographic2 {
     private LivingEntity target = null;
 
     private Hologram hologram;
-    private Location location = new Location(Bukkit.getWorld("world"),0,0,0);
+    private Location location;
 
 
     public Holographic2(){
@@ -42,9 +46,15 @@ public class Holographic2 {
 
     public void setOther(){
 
-        String message = customLineConfig.getString(new String[]{"message","m"},"", self, target);
+        String message = customLineConfig.getString(new String[]{"message","m"},null, self, target);
 
-        String function = customLineConfig.getString(new String[]{"function","fc"},"", self, target);
+        int removeMessage = customLineConfig.getInt(new String[]{"removemessage","rm"},0, self, target);
+
+        boolean teleport = customLineConfig.getBoolean(new String[]{"teleport","tp"},false, self, target);
+
+        String itemID = customLineConfig.getString(new String[]{"itemid","iid"},null, self, target);
+
+        boolean delete = customLineConfig.getBoolean(new String[]{"delete"},false, self, target);
 
         double x = 0;
         double y = 0;
@@ -63,69 +73,98 @@ public class Holographic2 {
             }
         }
 
-        String locTarget = customLineConfig.getString(new String[]{"loctarget","lt"},"", self, target);
-        if(locTarget.toLowerCase().contains("self")){
-            location = self.getLocation().add(x,y,z);
-        }else if(locTarget.toLowerCase().contains("target")){
-            if(target != null){
-                location = target.getLocation().add(x,y,z);
+        /**向量增加座標**/
+        String[] directionAdd = customLineConfig.getStringList(new String[]{"directionadd","da"},new String[]{"self","0","0","0"},"\\|",4, self, target);
+        String directionT = "self";
+        double daX = 0;
+        double daY = 0;
+        double daZ = 0;
+        if(directionAdd.length == 4){
+            directionT = directionAdd[0];
+            try {
+                daX = Double.parseDouble(directionAdd[1]);
+                daY = Double.parseDouble(directionAdd[2]);
+                daZ = Double.parseDouble(directionAdd[3]);
+            }catch (NumberFormatException exception){
+                daX = 0;
+                daY = 0;
+                daZ = 0;
             }
-        }else if(locTarget.toLowerCase().contains("world")){
-            location = new Location(self.getWorld(),x,y,z);
-        }else {
-            location = location.add(x,y,z);
+        }
+
+        location = customLineConfig.getLocation(self, target, location);
+
+        if(daX != 0 || daY != 0 || daZ != 0){
+            if(directionT.toLowerCase().contains("target")){
+                location = DirectionLocation.getSetDirection(location, location, daX , daY, daZ);
+            }else {
+                location = DirectionLocation.getSetDirection(location, self.getLocation(), daX , daY, daZ);
+            }
+        }
+
+        if(x != 0 || y != 0 || z != 0){
+            location.add(x,y,z);
+        }
+
+        if(hologram == null){
+            createHD(location);
+        }
+        if(hologram != null){
+            if(itemID != null){
+                addItemHD(self,target, hologram, itemID);
+            }
+            if(message != null){
+                addLineHD(hologram, message);
+            }
+            if(removeMessage > 0){
+                removeLineHD(hologram, removeMessage-1);
+            }
+            if(teleport){
+                teleportHD(hologram, location);
+            }
+            if(delete){
+                deleteHD(hologram);
+            }
         }
 
 
-
-        if(function.toLowerCase().contains("create") && hologram == null){
-            createHD(location, message);
-        }else if(function.toLowerCase().contains("additemline") && hologram != null){
-            addItemHD(self,target, hologram, message);
-        }else if(function.toLowerCase().contains("addtextline") && hologram != null){
-            addLineHD(hologram, message);
-        }else if(function.toLowerCase().contains("removetextline") && hologram != null){
-            removeLineHD(hologram, message);
-        }else if(function.toLowerCase().contains("teleport") && hologram != null){
-            teleportHD(hologram, location);
-        }else if(function.toLowerCase().contains("delete") && hologram != null){
-            deleteHD(hologram);
-        }
 
     }
 
-
-    public Hologram createHD(Location location, String message){
+    /**建立新的全息**/
+    public Hologram createHD(Location location){
 
         hologram = HologramsAPI.createHologram(cd, location);
-        hologram.appendTextLine(message);
+
         return hologram;
     }
 
+    /**增加訊息**/
     public void addLineHD(Hologram hologram, String message){
         hologram.appendTextLine(message);
     }
 
+    /**增加物品訊息**/
     public void addItemHD(LivingEntity self,LivingEntity target, Hologram hologram, String itemID){
         //ItemStack itemStack = giveItem(self,target, itemID);
         ItemStack itemStack = CustomItem.valueOf(self, target, itemID,1);
         hologram.appendItemLine(itemStack);
     }
 
-    public void removeLineHD(Hologram hologram, String message){
-        try{
-            hologram.removeLine(Integer.valueOf(message));
-        }catch (NumberFormatException exception){
-            hologram.removeLine(0);
-        }
+    /**移除訊息**/
+    public void removeLineHD(Hologram hologram, int removeMessage){
+        hologram.removeLine(removeMessage);
     }
 
+    /**移動全息**/
     public void teleportHD(Hologram hologram, Location location){
         hologram.teleport(location);
     }
 
+    /**刪除全息**/
     public void deleteHD(Hologram hologram){
         hologram.delete();
+        ActionManager.judgment_Holographic_Map.remove(taskID);
     }
 
     public Hologram getHologram() {

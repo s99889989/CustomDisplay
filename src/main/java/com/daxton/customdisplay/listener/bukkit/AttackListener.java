@@ -46,16 +46,16 @@ public class AttackListener implements Listener {
         if(player != null){
 
             String uuidString = player.getUniqueId().toString();
-            String tUUIDSTring = target.getUniqueId().toString();
+            String tUUIDString = target.getUniqueId().toString();
 
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
-                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,"Miss");
+                PlaceholderManager.cd_Attack_Number.put(uuidString+ tUUIDString,"Miss");
 
                 new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-                PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
+                PlaceholderManager.cd_Attack_Number.put(uuidString+ tUUIDString,String.valueOf(damageNumber));
                 new PlayerTrigger(player).onTwo(player, target, "~onattack");
             }
         }

@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.ReplaceTrigger;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.Aims;
+import com.daxton.customdisplay.api.location.AimsLocation;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.*;
@@ -15,7 +16,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionEffectTypeWrapper;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -30,8 +30,7 @@ public class CustomLineConfig implements Cloneable{
     private LivingEntity target;
 
     private String actionKey;
-    private String aimsKey = "@Self";
-    private String aimsKey2 = "@Target";
+    private String aimsKey = null;
     private String permission;
 
 
@@ -60,12 +59,12 @@ public class CustomLineConfig implements Cloneable{
                 if(input.substring(input.indexOf("]")).contains("@")){
                     if(input.substring(input.indexOf("]")).contains("#")){
                         this.aimsKey = input.substring(input.indexOf("]") + 1,input.indexOf("#")).trim();
-                        this.aimsKey2 = this.aimsKey;
+
                         String s2 = input.substring(input.indexOf("]"));
                         this.permission = s2.substring(s2.indexOf("#") + 1).trim();
                     }else {
                         this.aimsKey = input.substring(input.indexOf("]") + 1).trim();
-                        this.aimsKey2 = this.aimsKey;
+
                     }
                 }else {
                     if(input.substring(input.indexOf("]")).contains("#")){
@@ -95,18 +94,23 @@ public class CustomLineConfig implements Cloneable{
     }
 
 
-    /**獲取對象**/
+    /**獲取對象-預設對象是自己-數量不限**/
     public List<LivingEntity> getLivingEntityList(LivingEntity self, LivingEntity target){
 
-        livingEntityList = new Aims().valueOf2(self, target,this.aimsKey);
+        livingEntityList = new Aims().getLivintEntityList(self, target,this.aimsKey,"@Self");
         return livingEntityList;
     }
 
-    /**獲取對象**/
+    /**獲取對象-預設對象是目標-數量不限**/
     public List<LivingEntity> getLivingEntityList2(LivingEntity self, LivingEntity target){
 
-        livingEntityList = new Aims().valueOf2(self, target,this.aimsKey2);
+        livingEntityList = new Aims().getLivintEntityList(self, target,this.aimsKey,"@Target");
         return livingEntityList;
+    }
+
+    public Location getLocation(LivingEntity self, LivingEntity target, Location inputLocation){
+        Location location = new AimsLocation().valueOf2(self, target, this.aimsKey,"",inputLocation);
+        return location;
     }
 
     public String getString(String[] key, String def, LivingEntity self, LivingEntity target) {
@@ -217,7 +221,8 @@ public class CustomLineConfig implements Cloneable{
 
     /**BossBar顏色**/
     public BarColor getBarColor(String[] key, String defaultKey, LivingEntity self, LivingEntity target){
-        BarColor output = Enum.valueOf(BarColor.class ,defaultKey);
+        //BarColor output = Enum.valueOf(BarColor.class ,defaultKey);
+        BarColor output = null;
         String inputString = getString(key,null, self ,target);
         if(inputString != null){
             try {
@@ -231,7 +236,8 @@ public class CustomLineConfig implements Cloneable{
 
     /**BossBar樣式**/
     public BarStyle getBarStyle(String[] key, String defaultKey, LivingEntity self, LivingEntity target){
-        BarStyle output = Enum.valueOf(BarStyle.class ,defaultKey);
+        //BarStyle output = Enum.valueOf(BarStyle.class ,defaultKey);
+        BarStyle output = null;
         String inputString = getString(key,null, self ,target);
         if(inputString != null){
             try {

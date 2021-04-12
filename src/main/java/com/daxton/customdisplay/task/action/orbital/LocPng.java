@@ -2,7 +2,7 @@ package com.daxton.customdisplay.task.action.orbital;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
-import com.daxton.customdisplay.api.location.LookLocation;
+import com.daxton.customdisplay.api.location.DirectionLocation;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.JudgmentLocAction;
 import com.daxton.customdisplay.task.condition.Condition2;
@@ -135,7 +135,7 @@ public class LocPng {
             }
         }
 
-        Location location = new LookLocation().get2(self,daX,daY,daZ).add(startX, startY, startZ).setDirection(moveEntity());
+        Location location = new DirectionLocation().getSetDirection(self.getLocation(), self.getLocation(), daX, daY, daZ).add(startX, startY, startZ).setDirection(moveEntity());
 
 
         try{

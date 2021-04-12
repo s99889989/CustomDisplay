@@ -9,7 +9,7 @@ import com.daxton.customdisplay.task.action.orbital.LocGuise;
 import com.daxton.customdisplay.task.action.orbital.LocationHolographic2;
 import com.daxton.customdisplay.task.action.player.ActionBar2;
 import com.daxton.customdisplay.task.action.player.OpenInventory2;
-import com.daxton.customdisplay.task.action.player.SendBossBar2;
+import com.daxton.customdisplay.task.action.player.SendBossBar;
 import com.daxton.customdisplay.task.condition.Condition2;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,7 +30,7 @@ public class ActionManager {
 
     public static Map<String, Holographic2> judgment_Holographic_Map = new HashMap<>();
 
-    public static Map<String, SendBossBar2> judgment_SendBossBar_Map = new HashMap<>();
+    public static Map<String, SendBossBar> judgment_SendBossBar_Map = new HashMap<>();
 
     public static Map<String, OpenInventory2> judgment_Inventory_Map = new HashMap<>();
 

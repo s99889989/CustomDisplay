@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Action2 {
+public class Action {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
@@ -28,7 +28,7 @@ public class Action2 {
 
 
 
-    public Action2(){
+    public Action(){
     }
 
     public void setAction(LivingEntity self, LivingEntity target, CustomLineConfig customLineConfig, String taskID){

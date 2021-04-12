@@ -15,6 +15,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import static com.comphenix.protocol.wrappers.EnumWrappers.TitleAction.ACTIONBAR;
 
@@ -32,11 +33,17 @@ public class ActionBar2 {
 
         String message = customLineConfig.getString(new String[]{"message","m"},"",self,target);
 
-        if(self instanceof Player){
-            Player player = (Player) self;
-            PlaceholderManager.getActionBar_function().put(player.getUniqueId().toString(),remove);
-            sendActionBar(player,message);
-        }
+        List<LivingEntity> livingEntityList = customLineConfig.getLivingEntityList(self,target);
+
+        livingEntityList.forEach(livingEntity -> {
+            if(livingEntity instanceof Player){
+                Player player = (Player) livingEntity;
+
+                PlaceholderManager.getActionBar_function().put(player.getUniqueId().toString(),remove);
+                sendActionBar(player,message);
+            }
+        });
+
     }
 
 
@@ -51,6 +58,7 @@ public class ActionBar2 {
     }
 
     public void sendPacket(Player player, String text, EnumWrappers.TitleAction action, int fadeIn, int time, int fadeOut) {
+
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.TITLE);
 
         packet.getTitleActions().write(0, action);

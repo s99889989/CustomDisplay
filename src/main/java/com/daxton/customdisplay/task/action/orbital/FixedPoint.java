@@ -3,7 +3,7 @@ package com.daxton.customdisplay.task.action.orbital;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.entity.RadiusTarget;
-import com.daxton.customdisplay.api.location.LookLocation;
+import com.daxton.customdisplay.api.location.DirectionLocation;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.JudgmentLocAction;
 import com.daxton.customdisplay.task.condition.Condition2;
@@ -118,7 +118,7 @@ public class FixedPoint extends BukkitRunnable {
 
         if(startLocation == null){
             //new LookLocation().get2(self,daX,daY,daZ);
-            startLocation = new LookLocation().get2(self,daX,daY,daZ).add(startX, startY, startZ);
+            startLocation = new DirectionLocation().getSetDirection(self.getLocation(), self.getLocation(), daX, daY, daZ).add(startX, startY, startZ);
         }
 
         if(startLocation != null){

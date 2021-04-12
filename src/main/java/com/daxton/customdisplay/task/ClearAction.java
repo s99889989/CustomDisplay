@@ -9,10 +9,7 @@ import com.daxton.customdisplay.task.action.location.Guise;
 import com.daxton.customdisplay.task.action.location.Holographic2;
 import com.daxton.customdisplay.task.action.orbital.LocGuise;
 import com.daxton.customdisplay.task.action.orbital.LocationHolographic2;
-import com.daxton.customdisplay.task.action.player.SendBossBar2;
-import org.bukkit.entity.LivingEntity;
-
-import java.util.UUID;
+import com.daxton.customdisplay.task.action.player.SendBossBar;
 
 public class ClearAction {
 
@@ -39,9 +36,10 @@ public class ClearAction {
         }
         ActionManager.judgment_Holographic_Map.clear();
 
-        for(SendBossBar2 bossBar2 : ActionManager.judgment_SendBossBar_Map.values()){
+        for(SendBossBar bossBar2 : ActionManager.judgment_SendBossBar_Map.values()){
             if(bossBar2.getBossBar() != null){
                 bossBar2.getBossBar().removeAll();
+                cd.getLogger().info("清除");
             }
         }
         ActionManager.judgment_SendBossBar_Map.clear();
