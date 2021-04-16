@@ -2,8 +2,7 @@ package com.daxton.customdisplay.api.player.damageformula;
 
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
-import com.daxton.customdisplay.manager.PlayerDataMap;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -20,9 +19,9 @@ public class FormulaPhysics {
 
         String plysical = "0";
         if(target instanceof Player){
-            plysical = PlayerDataMap.core_Formula_Map.get("Melee_Physics_Critical_Strike_Power_Player_Player");
+            plysical = PlayerManager.core_Formula_Map.get("Melee_Physics_Critical_Strike_Power_Player_Player");
         }else {
-            plysical = PlayerDataMap.core_Formula_Map.get("Melee_Physics_Critical_Strike_Power_Player_Other");
+            plysical = PlayerManager.core_Formula_Map.get("Melee_Physics_Critical_Strike_Power_Player_Other");
         }
 
         plysical = new ConversionMain().valueOf(player,target,plysical);
@@ -43,9 +42,9 @@ public class FormulaPhysics {
 
         String plysical = "0";
         if(target instanceof Player){
-            plysical = PlayerDataMap.core_Formula_Map.get("Melee_Physics_Player_Player");
+            plysical = PlayerManager.core_Formula_Map.get("Melee_Physics_Player_Player");
         }else {
-            plysical = PlayerDataMap.core_Formula_Map.get("Melee_Physics_Player_Other");
+            plysical = PlayerManager.core_Formula_Map.get("Melee_Physics_Player_Other");
         }
 
         plysical = new ConversionMain().valueOf(player,target,plysical);
@@ -68,9 +67,9 @@ public class FormulaPhysics {
 
         String plysical = "0";
         if(target instanceof Player){
-            plysical = PlayerDataMap.core_Formula_Map.get("Range_Physics_Critical_Strike_Power_Player_Player");
+            plysical = PlayerManager.core_Formula_Map.get("Range_Physics_Critical_Strike_Power_Player_Player");
         }else {
-            plysical = PlayerDataMap.core_Formula_Map.get("Range_Physics_Critical_Strike_Power_Player_Other");
+            plysical = PlayerManager.core_Formula_Map.get("Range_Physics_Critical_Strike_Power_Player_Other");
         }
         plysical = new ConversionMain().valueOf(player,target,plysical);
         try {
@@ -89,9 +88,9 @@ public class FormulaPhysics {
 
         String plysical = "0";
         if(target instanceof Player){
-            plysical = PlayerDataMap.core_Formula_Map.get("Range_Physics_Player_Player");
+            plysical = PlayerManager.core_Formula_Map.get("Range_Physics_Player_Player");
         }else {
-            plysical = PlayerDataMap.core_Formula_Map.get("Range_Physics_Player_Other");
+            plysical = PlayerManager.core_Formula_Map.get("Range_Physics_Player_Other");
         }
         plysical = new ConversionMain().valueOf(player,target,plysical);
         try {

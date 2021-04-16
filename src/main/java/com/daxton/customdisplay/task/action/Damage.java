@@ -4,7 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.other.SetValue;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 
@@ -44,7 +44,7 @@ public class Damage {
         List<LivingEntity> targetList = new Aims().getLivintEntityList(self,target,firstString,"@Target");
 
         if(self != null && !(targetList.isEmpty())){
-            PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);
+            PlayerManager.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);
             if(type.equals("SKILL_MELEE_PHYSICAL_ATTACK")){
                 giveMeleePhysicalDamage(self,targetList,amount,operate);
             }else if(type.equals("SKILL_RANGE_PHYSICAL_ATTACK")){
@@ -76,7 +76,7 @@ public class Damage {
             for(LivingEntity livingEntity : targetList){
                 livingEntity.damage(amount,entity);
             }
-            PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),true);
+            PlayerManager.attack_Boolean4_Map.put(self.getUniqueId().toString(),true);
             entity.remove();
         }else {
             /**貓**/

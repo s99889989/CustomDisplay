@@ -1,8 +1,7 @@
 package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.config.LoadConfig;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class PlayerBinds {
 
@@ -51,7 +49,7 @@ public class PlayerBinds {
                 File skillFile = new File(cd.getDataFolder(),"Class/Skill/Skills/"+bindSkill+".yml");
                 FileConfiguration skillConfig = YamlConfiguration.loadConfiguration(skillFile);
                 List<String> skillAction = skillConfig.getStringList(bindSkill+".Action");
-                PlayerDataMap.skill_Key_Map.put(uuidString+"."+key,skillAction);
+                PlayerManager.skill_Key_Map.put(uuidString+"."+key,skillAction);
             }
 
         }

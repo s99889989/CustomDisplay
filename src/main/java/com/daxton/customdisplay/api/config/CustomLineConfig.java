@@ -129,6 +129,8 @@ public class CustomLineConfig implements Cloneable{
         return def;
     }
 
+
+
     public String[] getStringList(String[] key, String[] def, String split, int amount, LivingEntity self, LivingEntity target){
         String[] output = null;
         String inputString = getString(key,null, self ,target);
@@ -424,6 +426,7 @@ public class CustomLineConfig implements Cloneable{
         return customLineConfig;
     }
 
-
-
+    public String getAimsKey() {
+        return aimsKey;
+    }
 }

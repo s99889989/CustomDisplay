@@ -5,15 +5,12 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.JudgmentAction;
-import com.daxton.customdisplay.task.condition.Condition;
 import com.daxton.customdisplay.task.condition.Condition2;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Loop2 extends BukkitRunnable {
 
@@ -42,8 +39,7 @@ public class Loop2 extends BukkitRunnable {
 
 
 
-    /**條件判斷**/
-    private static Map<String,Condition> conditionMap = new HashMap<>();
+
 
     public Loop2(){
 
@@ -81,6 +77,7 @@ public class Loop2 extends BukkitRunnable {
     public void onStart(){
         List<CustomLineConfig> stringList = onStart;
         if(stringList.size() > 0){
+
             int delay = 0;
             for(CustomLineConfig customLineConfig : stringList){
                 String judgMent = customLineConfig.getActionKey();
@@ -121,9 +118,11 @@ public class Loop2 extends BukkitRunnable {
     public void onTime(){
         List<CustomLineConfig> stringList = onTime;
         if(stringList.size() > 0){
+
             int delay = 0;
             for(CustomLineConfig customLineConfig : stringList){
                 String judgMent = customLineConfig.getActionKey();
+                String conKey = customLineConfig.getString(new String[]{"condition"},"",self,target);
 
                 if(judgMent.toLowerCase().contains("condition")){
 

@@ -71,6 +71,7 @@ public class Aims {
         }else if(aims.toLowerCase().contains("target")){
             if(target != null){
                 if(Filte.valueOf(target,filters)){
+
                     targetList.add(target);
                 }
             }
@@ -104,6 +105,7 @@ public class Aims {
 
         /**瞄準目標**/
         String filters = new StringFind().getAimsValue(firstString,"filters","null");
+
 
         List<LivingEntity> targetList = new ArrayList<>();
         if(firstString.toLowerCase().contains("selfradius")){
@@ -143,8 +145,10 @@ public class Aims {
                 });
             });
         }else if(firstString.toLowerCase().contains("target")){
+
             if(target != null){
                 if(Filte.valueOf(target,filters)){
+
                     targetList.add(target);
                 }
             }

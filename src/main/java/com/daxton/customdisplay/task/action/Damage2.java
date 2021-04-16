@@ -3,7 +3,7 @@ package com.daxton.customdisplay.task.action;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 
@@ -88,7 +88,7 @@ public class Damage2 {
             entity.setGravity(false);
             entity.setOwner((AnimalTamer) self);
             target.damage(amount,entity);
-            PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),true);
+            PlayerManager.attack_Boolean4_Map.put(self.getUniqueId().toString(),true);
             entity.remove();
         }else {
             /**貓**/

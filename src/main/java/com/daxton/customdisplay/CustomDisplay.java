@@ -4,7 +4,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
-import com.daxton.customdisplay.command.CustomDisplayCommand;
+import com.daxton.customdisplay.command.MainCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
@@ -24,29 +24,73 @@ import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
 import com.daxton.customdisplay.listener.mmolib.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.DiscordManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
 import discord4j.core.DiscordClientBuilder;
-import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.object.entity.Message;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public final class CustomDisplay extends JavaPlugin {
+public final class CustomDisplay extends JavaPlugin implements Listener {
 
     public static CustomDisplay customDisplay;
 
     private ConfigManager configManager;
 
+    public static final int IDX = 233;
+    public static final String channel = "msgtutor:test";
+
+    public String read(byte[] array) {
+        ByteBuf buf = Unpooled.wrappedBuffer(array);
+        if (buf.readUnsignedByte() == IDX) {
+            return buf.toString(StandardCharsets.UTF_8);
+        } else throw new RuntimeException();
+    }
+
+    public void send(Player player, String msg) {
+        byte[] bytes = msg.getBytes(StandardCharsets.UTF_8);
+        ByteBuf buf = Unpooled.buffer(bytes.length + 1);
+        buf.writeByte(IDX);
+        buf.writeBytes(bytes);
+        player.sendPluginMessage(this, channel, buf.array());
+    }
+
+    public void sendMessage(Player player, String message){
+        try {
+            Class<? extends CommandSender> senderClass = player.getClass();
+            Method addChannel = senderClass.getDeclaredMethod("addChannel", String.class);
+            addChannel.setAccessible(true);
+            addChannel.invoke(player, channel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Bukkit.getScheduler().runTaskLater(this, () -> send(player, message), 100);
+    }
+
     @Override
     public void onEnable() {
+
+
+        getServer().getMessenger().registerIncomingPluginChannel(this, channel,
+                (channel, player, message) ->
+                        System.out.println("awsl " + read(message)));
+        getServer().getMessenger().registerOutgoingPluginChannel(this, channel);
+
+
+
 
         customDisplay = this;
 
@@ -94,7 +138,7 @@ public final class CustomDisplay extends JavaPlugin {
 
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         configManager = new ConfigManager(customDisplay);
-        Bukkit.getPluginCommand("customdisplay").setExecutor(new CustomDisplayCommand());
+        Bukkit.getPluginCommand("customdisplay").setExecutor(new MainCommand());
         /**傷害判斷的核心插件.**/
         AttackCore();
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
@@ -259,13 +303,13 @@ public final class CustomDisplay extends JavaPlugin {
         new PlayerAttributeCore().setFormula();
 
         /**清除所有動作**/
-        new ClearAction();
+        new ClearAction().all();
 
         /**重新讀取玩家資料**/
         for(Player player : Bukkit.getOnlinePlayers()){
 
             UUID playerUUID = player.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
             if(playerData != null){
                 /**玩家資料**/
                 String attackCore = getConfigManager().config.getString("AttackCore");
@@ -274,12 +318,12 @@ public final class CustomDisplay extends JavaPlugin {
                 }
                 /**儲存人物資料**/
                 new SaveConfig().setConfig(player);
-                PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+                PlayerManager.getPlayerDataMap().remove(playerUUID);
             }
 
-            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) == null){
+            if(PlayerManager.getPlayerDataMap().get(playerUUID) == null){
                 /**玩家資料**/
-                PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
+                PlayerManager.getPlayerDataMap().put(playerUUID,new PlayerData(player));
             }
 
         }
@@ -290,12 +334,12 @@ public final class CustomDisplay extends JavaPlugin {
     public void onDisable() {
         for(Player player : Bukkit.getOnlinePlayers()){
             UUID playerUUID = player.getUniqueId();
-            PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+            PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
             if(playerData != null){
                 /**儲存人物資料**/
                 new SaveConfig().setConfig(player);
                 //PlayerDataMap.getPlayerDataMap().get(playerUUID).removeAttribute(player);
-                PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+                PlayerManager.getPlayerDataMap().remove(playerUUID);
             }
         }
 
@@ -358,4 +402,11 @@ public final class CustomDisplay extends JavaPlugin {
         return configManager;
     }
 
+    public static int getIDX() {
+        return IDX;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
 }

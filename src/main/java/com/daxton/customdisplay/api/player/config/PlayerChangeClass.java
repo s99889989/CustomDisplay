@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.PlayerReload;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class PlayerChangeClass {
 
@@ -30,7 +29,7 @@ public class PlayerChangeClass {
     public void changeClass(Player player, String className){
 
         /**清除標記動作**/
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(player.getUniqueId());
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(player.getUniqueId());
         playerData.taskIDList.forEach((s, s2) -> {
             new ClearAction().taskID(s2);
         });

@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.player.data.set.PlayerBukkitAttribute;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -66,7 +66,7 @@ public class PlayerAttribute {
 
                             new PlayerBukkitAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
                         }else if(coreattr != null){
-                            PlayerDataMap.getCore_Attribute_Map().get(playerUUIDString).setAttribute(coreattr,operation,statsNumber);
+                            PlayerManager.getCore_Attribute_Map().get(playerUUIDString).setAttribute(coreattr,operation,statsNumber);
                         }
                     }
                 }

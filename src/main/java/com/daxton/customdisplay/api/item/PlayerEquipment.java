@@ -1,25 +1,15 @@
 package com.daxton.customdisplay.api.item;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerEquipmentStats;
-import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
-import org.bukkit.ChatColor;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.File;
 import java.util.*;
-
-import static org.bukkit.inventory.EquipmentSlot.HAND;
 
 public class PlayerEquipment {
 
@@ -126,7 +116,7 @@ public class PlayerEquipment {
 
 
         UUID playerUUID = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map;
             Map<String,String> name_Equipment_Map = playerData.name_Equipment_Map;

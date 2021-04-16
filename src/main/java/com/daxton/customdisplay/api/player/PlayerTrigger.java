@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
 import com.daxton.customdisplay.task.JudgmentAction;
 import org.bukkit.attribute.Attribute;
@@ -33,7 +33,7 @@ public class PlayerTrigger {
 
     public PlayerTrigger(Player player){
         UUID playerUUID = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
 
         if(playerData != null){
             action_Trigger_Map = playerData.getAction_Trigger_Map2();
@@ -108,27 +108,20 @@ public class PlayerTrigger {
 //            }
 //
 //        }
-
+        //cd.getLogger().info(taskID);
         boolean stop = customLineConfig.getBoolean(new String[]{"stop","s"}, false,self, target);
 
         if(stop){
-            if(ActionManager.trigger_Judgment_Map.get(taskID) != null){
-                new ClearAction().taskID(taskID);
 
-                ActionManager.trigger_Judgment_Map.remove(taskID);
-            }
+            new ClearAction().taskID(taskID);
         }else{
-            if(ActionManager.trigger_Judgment_Map.get(taskID) != null){
-                new ClearAction().taskID(taskID);
+            //new ClearAction().taskID(taskID);
 
-                ActionManager.trigger_Judgment_Map.remove(taskID);
-            }
-            if(ActionManager.trigger_Judgment_Map.get(taskID) == null){
-                ActionManager.trigger_Judgment_Map.put(taskID,new JudgmentAction());
+            ActionManager.trigger_Judgment_Map.put(taskID,new JudgmentAction());
 
-                ActionManager.trigger_Judgment_Map.get(taskID).execute(self,target,customLineConfig,taskID);
+            ActionManager.trigger_Judgment_Map.get(taskID).execute(self,target,customLineConfig,taskID);
 
-            }
+
         }
 
 

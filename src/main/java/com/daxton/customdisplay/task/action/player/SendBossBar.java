@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
+import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -74,6 +75,7 @@ public class SendBossBar {
                     if(bossBar != null){
                         if(message != null){
                             bossBar.setTitle(message);
+
                         }
                         if(color != null){
                             bossBar.setColor(color);
@@ -108,6 +110,7 @@ public class SendBossBar {
 //            if(bossBar != null){
 //                if(message != null){
 //                    bossBar.setTitle(message);
+//                    CustomDisplay.customDisplay.sendMessage(player, message);
 //                }
 //                if(color != null){
 //                    bossBar.setColor(color);
@@ -122,14 +125,18 @@ public class SendBossBar {
 //                if(delete){
 //                    bossBar.removeAll();
 //                    bossBar = null;
+//                    ActionManager.judgment_SendBossBar_Map.remove(taskID);
 //                }
 //            }
-//
 //        }
 
     }
 
     public BossBar getBossBar() {
         return bossBar;
+    }
+
+    public void setBossBar(BossBar bossBar) {
+        this.bossBar = bossBar;
     }
 }

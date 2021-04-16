@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerBukkitAttribute;
 import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -75,7 +75,7 @@ public class SetAttribute2 {
         String uuidString = player.getUniqueId().toString();
         UUID playerUUID = player.getUniqueId();
 
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
 
         switch (type.toLowerCase()){
             case "status":

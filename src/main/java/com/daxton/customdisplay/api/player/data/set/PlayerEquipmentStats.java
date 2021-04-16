@@ -4,7 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -60,7 +60,7 @@ public class PlayerEquipmentStats {
         String uuidString = player.getUniqueId().toString();
         UUID playerUUID = player.getUniqueId();
         FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             Map<String,String> attributes_EquipmentStats_Map = playerData.equipment_Stats_Map;
             Map<String,String> attributes_EquipmentStats_Map2 = playerData.equipment_Stats_Map2;

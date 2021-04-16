@@ -1,18 +1,14 @@
 package com.daxton.customdisplay.api.player.data;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.character.ReplaceTrigger;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.LoadConfig;
-import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.config.PlayerConfig2;
 import com.daxton.customdisplay.api.player.data.set.*;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PermissionManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -144,10 +140,10 @@ public class PlayerData {
             maxmana = 20;
         }
         //cd.getLogger().info(mana+" : "+maxmana);
-        if(PlayerDataMap.player_nowMana.get(uuidString) == null){
-            PlayerDataMap.player_nowMana.put(uuidString, mana);
+        if(PlayerManager.player_nowMana.get(uuidString) == null){
+            PlayerManager.player_nowMana.put(uuidString, mana);
         }
-        Map<String, Double> player_nowMana = PlayerDataMap.player_nowMana;
+        Map<String, Double> player_nowMana = PlayerManager.player_nowMana;
 
         /**回魔量**/
         String manaRegString = fileConfiguration.getString("CoreAttribute.Mana_Regeneration.formula");

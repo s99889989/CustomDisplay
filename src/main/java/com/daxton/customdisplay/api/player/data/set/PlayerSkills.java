@@ -4,7 +4,7 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -46,7 +46,7 @@ public class PlayerSkills {
     public void setOneMap(Player player, String skillName, int amount){
 
         UUID uuid = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
         if(playerData != null){
             Map<String,String> skills_Map = playerData.skills_Map;
             Map<String,List<CustomLineConfig>> action_Trigger_Map2 = playerData.getAction_Trigger_Map2();

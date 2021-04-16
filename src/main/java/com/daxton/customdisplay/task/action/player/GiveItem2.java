@@ -17,7 +17,7 @@ public class GiveItem2 {
 
     public void setItem(LivingEntity self, LivingEntity target, CustomLineConfig customLineConfig, String taskID){
 
-
+        cd.getLogger().info("物品");
         /**獲得物品的ID**/
         String itemID = customLineConfig.getString(new String[]{"itemid"},"",self,target);
 

@@ -113,11 +113,11 @@ public class Holographic2 {
             if(itemID != null){
                 addItemHD(self,target, hologram, itemID);
             }
-            if(message != null){
-                addLineHD(hologram, message);
-            }
             if(removeMessage > 0){
                 removeLineHD(hologram, removeMessage-1);
+            }
+            if(message != null){
+                addLineHD(hologram, message);
             }
             if(teleport){
                 teleportHD(hologram, location);

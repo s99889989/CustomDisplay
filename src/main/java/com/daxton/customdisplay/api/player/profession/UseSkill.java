@@ -8,7 +8,7 @@ import com.daxton.customdisplay.api.location.DirectionLocation;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
@@ -34,7 +34,7 @@ public class UseSkill {
     public void use(Player player,int key){
         String uuidString = player.getUniqueId().toString();
         int useKey = key+1;
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(player.getUniqueId());
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(player.getUniqueId());
 
         String skillName = playerData.skill_Name_Map.get(uuidString+"."+useKey);
         List<CustomLineConfig> actionCustom = playerData.skill_Custom_Map.get(uuidString+"."+useKey);
@@ -49,8 +49,8 @@ public class UseSkill {
             /**需要魔量**/
             double needMand = skillConfig.getDouble(skillName+".Mana");
             double nowMans = 0;
-            if(PlayerDataMap.player_nowMana.get(uuidString) != null){
-                nowMans = PlayerDataMap.player_nowMana.get(uuidString);
+            if(PlayerManager.player_nowMana.get(uuidString) != null){
+                nowMans = PlayerManager.player_nowMana.get(uuidString);
             }
 
             LivingEntity target = LookTarget.getLivingTarget(player, targetDistance);
@@ -58,7 +58,7 @@ public class UseSkill {
                     if(target != null){
                         if(nowMans >= needMand) {
                             nowMans = nowMans - needMand;
-                            PlayerDataMap.player_nowMana.put(uuidString, nowMans);
+                            PlayerManager.player_nowMana.put(uuidString, nowMans);
                             runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
                         }
 
@@ -66,7 +66,7 @@ public class UseSkill {
                 }else {
                     if(nowMans >= needMand) {
                         nowMans = nowMans - needMand;
-                        PlayerDataMap.player_nowMana.put(uuidString, nowMans);
+                        PlayerManager.player_nowMana.put(uuidString, nowMans);
                         runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
                     }
                 }
@@ -81,25 +81,25 @@ public class UseSkill {
     public void runSKill(Player player,LivingEntity target, String uuidString, int key, int targetDistance, String skillName, List<CustomLineConfig> actionCustom){
 
         /**技能獨立延遲初始化**/
-        if(PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
-            PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+        if(PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
+            PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
         }
 
         /**技能動作延遲初始化**/
-        if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
-            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+        if(PlayerManager.cost_Delay_Boolean_Map.get(uuidString) == null){
+            PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
         }
 
         /**技能動作延遲**/
 
 
         /**技能獨立延遲**/
-        if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
-            boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
-            boolean coolDown = PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
+        if(PlayerManager.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
+            boolean costDelay = PlayerManager.cost_Delay_Boolean_Map.get(uuidString);
+            boolean coolDown = PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
             if(costDelay && coolDown){
-                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
-                PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
+                PlayerManager.cost_Delay_Boolean_Map.put(uuidString,false);
+                PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
                 setCost(player,target, skillName, actionCustom, targetDistance);
                 skillCD(player, uuidString, skillName, key);
             }
@@ -140,13 +140,13 @@ public class UseSkill {
 
             new PlayerTrigger(player).onSkill(player,inputTarget,customLineConfigList);
 
-            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+            PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
         }else {
 
             new PlayerTrigger(player).onSkill(player,inputTarget,customLineConfigList);
 
             new BossBarSkill().setSkillBarProgress(1);
-            PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+            PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                 double costCount = 1.0;
                 @Override
                 public void run() {
@@ -154,13 +154,13 @@ public class UseSkill {
                         new BossBarSkill().setSkillBarProgress(costCount);
                         costCount = costCount-0.1;
                     }else {
-                        PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                        PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                         cancel();
                     }
 
                 }
             });
-            PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
+            PlayerManager.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
         }
     }
     /**有施法時間**/
@@ -184,7 +184,7 @@ public class UseSkill {
 
         player.getWorld().playSound(player.getLocation(), cast_Sound, Enum.valueOf(SoundCategory.class , "PLAYERS"), 1, 1);
 
-        BossBarSkill2 bossBarSkill2 = PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString);
+        BossBarSkill2 bossBarSkill2 = PlayerManager.keyF_BossBarSkill_Map.get(uuidString);
 
         if(hd_Enable && inputTarget != null){
             hologram = HologramsAPI.createHologram(cd, inputTarget.getLocation().add(0,cast_Hight,0));
@@ -198,7 +198,7 @@ public class UseSkill {
             }
         }
 
-        PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+        PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
             //int count = PlayerDataMap.cost_Count_Map.get(uuidString);
             double costCount = 0.0;
             @Override
@@ -218,7 +218,7 @@ public class UseSkill {
 //                        }
                         new PlayerTrigger(player).onSkill(player,target,customLineConfigList);
                         bossBarSkill2.setSkillBar2Progress(0);
-                        PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                        PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                     }else {
                         LivingEntity target = LookTarget.getLivingTarget(player,targetDistance);
                         if(hologram != null){
@@ -228,7 +228,7 @@ public class UseSkill {
                         //if(inputTarget != null && target == inputTarget){
                             new PlayerTrigger(player).onSkill(player,target,customLineConfigList);
                         //}
-                        PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+                        PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                             double costCount = 1.0;
                             @Override
                             public void run() {
@@ -236,13 +236,13 @@ public class UseSkill {
                                     bossBarSkill2.setSkillBar2Progress(costCount);
                                     costCount = costCount-0.1;
                                 }else {
-                                    PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                                    PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                                     cancel();
                                 }
 
                             }
                         });
-                        PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
+                        PlayerManager.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
                     }
 
                 }else {
@@ -261,13 +261,13 @@ public class UseSkill {
 
             }
         });
-        PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castTime);
+        PlayerManager.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castTime);
     }
 
     /**技能CD**/
     public void skillCD(Player player, String uuidString,String skillName, int key){
 
-        if(PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString) != null){
+        if(PlayerManager.keyF_BossBarSkill_Map.get(uuidString) != null){
             FileConfiguration skillStatusConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Status.yml");
             /**技能獨立延遲覆蓋**/
             String cover12 = skillStatusConfig.getString("BossBar2.Skill_CD.12");
@@ -290,10 +290,10 @@ public class UseSkill {
             /**技能獨立延遲時間**/
             int coolDown = skillConfig.getInt(skillName+".CoolDown");
             /**技能顯示**/
-            String[] skillBarShow2 = PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString).getSkillBarShow2();
-            BossBarSkill2 bossBarSkill2 = PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString);
-            if(PlayerDataMap.skill_Cool_Down_Run_Map.get(uuidString+"."+key) == null){
-                PlayerDataMap.skill_Cool_Down_Run_Map.put(uuidString+"."+key, new BukkitRunnable() {
+            String[] skillBarShow2 = PlayerManager.keyF_BossBarSkill_Map.get(uuidString).getSkillBarShow2();
+            BossBarSkill2 bossBarSkill2 = PlayerManager.keyF_BossBarSkill_Map.get(uuidString);
+            if(PlayerManager.skill_Cool_Down_Run_Map.get(uuidString+"."+key) == null){
+                PlayerManager.skill_Cool_Down_Run_Map.put(uuidString+"."+key, new BukkitRunnable() {
                     int costCount = 12;
                     @Override
                     public void run() {
@@ -349,15 +349,15 @@ public class UseSkill {
                         if(costCount == 1){
                             skillBarShow2[key-1] = cover1;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
-                            PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+                            PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
                             cancel();
-                            PlayerDataMap.skill_Cool_Down_Run_Map.remove(uuidString+"."+key);
+                            PlayerManager.skill_Cool_Down_Run_Map.remove(uuidString+"."+key);
                         }
                         costCount--;
 
                     }
                 });
-                PlayerDataMap.skill_Cool_Down_Run_Map.get(uuidString+"."+key).runTaskTimer(cd,0,2*coolDown);
+                PlayerManager.skill_Cool_Down_Run_Map.get(uuidString+"."+key).runTaskTimer(cd,0,2*coolDown);
             }
 
         }

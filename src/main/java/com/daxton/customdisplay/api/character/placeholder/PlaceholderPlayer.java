@@ -3,7 +3,7 @@ package com.daxton.customdisplay.api.character.placeholder;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.Map;
@@ -22,7 +22,7 @@ public class PlaceholderPlayer {
         String outputString = "";
         String uuidString = entity.getUniqueId().toString();
         UUID playerUUID = entity.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         Map<String, Integer> equipment_Enchants_Map = playerData.equipment_Enchants_Map;
 
         if(inputString.toLowerCase().contains("<cd_player_last_chat")){

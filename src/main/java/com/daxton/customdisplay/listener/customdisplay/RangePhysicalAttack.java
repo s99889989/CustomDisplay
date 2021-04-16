@@ -2,12 +2,11 @@ package com.daxton.customdisplay.listener.customdisplay;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.entity.EntityFind;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
 import com.daxton.customdisplay.api.player.damageformula.FormulaChance;
 import com.daxton.customdisplay.api.player.damageformula.FormulaPhysics;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -37,21 +36,21 @@ public class RangePhysicalAttack implements Listener {
                 LivingEntity target = event.getTarget();
 
                 /**攻速**/
-                if(PlayerDataMap.attack_Boolean_Map.get(uuidString) == null){
-                    PlayerDataMap.attack_Boolean_Map.put(uuidString,false);
+                if(PlayerManager.attack_Boolean_Map.get(uuidString) == null){
+                    PlayerManager.attack_Boolean_Map.put(uuidString,false);
                 }
-                boolean attack_speed = PlayerDataMap.attack_Boolean_Map.get(uuidString);
+                boolean attack_speed = PlayerManager.attack_Boolean_Map.get(uuidString);
                 if (attack_speed) {
                     event.setDamageType("PHYSICAL_NON");
                     event.setCancelled(true);
                     return;
                 }else {
-                    if(PlayerDataMap.attack_Boolean2_Map.get(uuidString) == null){
-                        PlayerDataMap.attack_Boolean2_Map.put(uuidString,true);
+                    if(PlayerManager.attack_Boolean2_Map.get(uuidString) == null){
+                        PlayerManager.attack_Boolean2_Map.put(uuidString,true);
                     }
-                    if(PlayerDataMap.attack_Boolean2_Map.get(uuidString)){
-                        PlayerDataMap.attack_Boolean_Map.put(uuidString,true);
-                        PlayerDataMap.attack_Boolean2_Map.put(uuidString,false);
+                    if(PlayerManager.attack_Boolean2_Map.get(uuidString)){
+                        PlayerManager.attack_Boolean_Map.put(uuidString,true);
+                        PlayerManager.attack_Boolean2_Map.put(uuidString,false);
                         new FormulaDelay().setAttackSpeed(player, target, uuidString);
                     }
                 }

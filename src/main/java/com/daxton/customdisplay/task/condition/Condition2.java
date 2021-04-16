@@ -40,8 +40,10 @@ public class Condition2 {
         boolean b = false;
         String firstString = customLineConfig.getString(new String[]{"condition"},"",self,target);
 
+        String aimsKey = customLineConfig.getAimsKey();
+
         if(firstString != null){
-            //cd.getLogger().info("條件:" +firstString);
+            //cd.getLogger().info("條件:" +firstString+" : "+aimsKey);
             if(firstString.toLowerCase().contains("contains=")){
                 b = new Contains(self,target,firstString,taskID).get();
             }
@@ -67,7 +69,7 @@ public class Condition2 {
                     ConditionManager.getCondition_Health_Map().put(taskID,new Health());
                 }
                 if(ConditionManager.getCondition_Health_Map().get(taskID) != null){
-                    ConditionManager.getCondition_Health_Map().get(taskID).setHealth(self,target,firstString,taskID);
+                    ConditionManager.getCondition_Health_Map().get(taskID).setHealth(self,target,firstString, aimsKey,taskID);
                     b = ConditionManager.getCondition_Health_Map().get(taskID).get();
                 }
             }

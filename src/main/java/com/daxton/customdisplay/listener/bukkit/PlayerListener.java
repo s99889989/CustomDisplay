@@ -1,6 +1,8 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketContainer;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.SaveConfig;
@@ -12,11 +14,16 @@ import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
 import com.daxton.customdisplay.api.player.profession.UseSkill;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.*;
+import net.minecraft.server.v1_16_R3.EntityHuman;
+import org.bukkit.EntityEffect;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -25,6 +32,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 
@@ -41,9 +50,13 @@ public class PlayerListener implements Listener {
     private LivingEntity target = null;
 
     private BukkitRunnable bukkitRunnable;
+
     /**登入時**/
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
+
+
+
         Player player = event.getPlayer();
 
         UUID playerUUID = player.getUniqueId();
@@ -55,7 +68,7 @@ public class PlayerListener implements Listener {
             onResourcePackSend(player,null);
         }
 
-        PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
+        PlayerManager.getPlayerDataMap().put(playerUUID,new PlayerData(player));
 
         new PlayerTrigger(player).onTwo(player, target, "~onjoin");
 
@@ -77,7 +90,7 @@ public class PlayerListener implements Listener {
         UUID playerUUID = player.getUniqueId();
         String uuidString = playerUUID.toString();
         /**刪除玩家資料物件  和   刪除OnTime物件**/
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
 
             new PlayerTrigger(player).onTwo(player, target, "~onquit");
@@ -88,7 +101,7 @@ public class PlayerListener implements Listener {
             }
             /**儲存人物資料**/
             new SaveConfig().setConfig(player);
-            PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+            PlayerManager.getPlayerDataMap().remove(playerUUID);
 
 
         }
@@ -143,25 +156,32 @@ public class PlayerListener implements Listener {
     /**當玩家點擊時**/
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
-        Player player = event.getPlayer();
 
+
+        Player player = event.getPlayer();
+        String uuidString = player.getUniqueId().toString();
         String actionName = event.getAction().name();
 
         LivingEntity target = LookTarget.getLivingTarget(player,10);
+        Action action = event.getAction();
 
-        if(actionName.equals("LEFT_CLICK_AIR")){
+        if(action == Action.LEFT_CLICK_AIR){
             new PlayerTrigger(player).onTwo(player, target, "~leftclickair");
         }
-        if(actionName.equals("LEFT_CLICK_BLOCK")){
+        if(action == Action.LEFT_CLICK_BLOCK){
             new PlayerTrigger(player).onTwo(player, target, "~leftclickblock");
         }
-        if(actionName.equals("RIGHT_CLICK_AIR")){
+        if(action == Action.RIGHT_CLICK_AIR){
+
             new PlayerTrigger(player).onTwo(player, target, "~rightclickair");
+
         }
-        if(actionName.equals("RIGHT_CLICK_BLOCK")){
+        if(action == Action.RIGHT_CLICK_BLOCK){
+
             new PlayerTrigger(player).onTwo(player, target, "~rightclickblock");
+
         }
-        if(actionName.equals("PHYSICAL")){
+        if(action == Action.PHYSICAL){
             new PlayerTrigger(player).onTwo(player, target, "~pressureplate");
         }
 
@@ -206,11 +226,14 @@ public class PlayerListener implements Listener {
         String message = event.getMessage();
         message = new ConversionMain().valueOf(player,null,message);
 
+
         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
 
         new PlayerTrigger(player).onTwo(player, null, "~onchat");
         //event.setCancelled(true);
     }
+
+
 
     /**當玩家回血**/
     @EventHandler
@@ -240,10 +263,10 @@ public class PlayerListener implements Listener {
         boolean skill = fileConfiguration.getBoolean("Class.Skill");
         if(skill){
 
-            if(PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString) == null){
-                PlayerDataMap.keyF_BossBarSkill_Map.put(uuidString, new BossBarSkill2());
+            if(PlayerManager.keyF_BossBarSkill_Map.get(uuidString) == null){
+                PlayerManager.keyF_BossBarSkill_Map.put(uuidString, new BossBarSkill2());
             }
-            PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString).closeSkill(player);
+            PlayerManager.keyF_BossBarSkill_Map.get(uuidString).closeSkill(player);
 
         }
 
@@ -271,7 +294,7 @@ public class PlayerListener implements Listener {
 
         UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();
-        if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+        if(PlayerManager.getPlayerDataMap().get(playerUUID) != null){
             new PlayerTrigger(player).onTwo(player, target, "~onkeyfoff");
             ListenerManager.getCast_On_Stop().put(uuidString,false);
         }
@@ -287,12 +310,12 @@ public class PlayerListener implements Listener {
         UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();
         if(ListenerManager.getCast_On_Stop().get(uuidString) == true){
-            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+            if(PlayerManager.getPlayerDataMap().get(playerUUID) != null){
                 new PlayerTrigger(player).onTwo(player, target, "~onkeyfoff");
             }
             ListenerManager.getCast_On_Stop().put(uuidString,false);
         }else {
-            if(PlayerDataMap.getPlayerDataMap().get(playerUUID) != null){
+            if(PlayerManager.getPlayerDataMap().get(playerUUID) != null){
                 new PlayerTrigger(player).onTwo(player, target, "~onkeyfon");
             }
             ListenerManager.getCast_On_Stop().put(uuidString,true);
@@ -307,14 +330,14 @@ public class PlayerListener implements Listener {
 
             boolean b = ListenerManager.getCast_On_Stop().get(uuidString);
 
-            if(PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString) == null){
-                PlayerDataMap.keyF_BossBarSkill_Map.put(uuidString, new BossBarSkill2());
+            if(PlayerManager.keyF_BossBarSkill_Map.get(uuidString) == null){
+                PlayerManager.keyF_BossBarSkill_Map.put(uuidString, new BossBarSkill2());
             }
 
             if(b){
-                PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString).openSkill(player, key);
+                PlayerManager.keyF_BossBarSkill_Map.get(uuidString).openSkill(player, key);
             }else {
-                PlayerDataMap.keyF_BossBarSkill_Map.get(uuidString).closeSkill(player);
+                PlayerManager.keyF_BossBarSkill_Map.get(uuidString).closeSkill(player);
             }
 
         }

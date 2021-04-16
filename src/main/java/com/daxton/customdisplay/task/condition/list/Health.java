@@ -21,8 +21,10 @@ public class Health {
     private LivingEntity target = null;
 
     private String firstString = "";
-    private String aims = "self";
+
     private String taskID = "";
+
+    private String aimsKey = "";
 
     private static Map<UUID,Double> healthMap = new HashMap<>();
 
@@ -30,29 +32,18 @@ public class Health {
 
     }
 
-    public void setHealth(LivingEntity self,LivingEntity target, String firstString, String taskID){
+    public void setHealth(LivingEntity self,LivingEntity target, String firstString, String aimsKey, String taskID){
         this.self = self;
         this.target = target;
         this.firstString = firstString;
         this.taskID = taskID;
-        setOther();
-    }
-
-    public void setOther(){
-        for(String string : new StringFind().getStringList(firstString)){
-            if(string.toLowerCase().contains("@=")){
-                String[] strings = string.split("=");
-                if(strings.length == 2){
-                    aims = strings[1];
-                }
-            }
-        }
+        this.aimsKey = aimsKey;
     }
 
     public boolean get(){
         boolean b = false;
         if(firstString.toLowerCase().contains("targetchange")){
-            if(aims.toLowerCase().contains("target")){
+            if(this.aimsKey.toLowerCase().contains("target")){
                 b = targetChange(target);
             }else {
                 b = targetChange(self);

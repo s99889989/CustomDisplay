@@ -2,7 +2,7 @@ package com.daxton.customdisplay.api.config;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -33,7 +33,7 @@ public class SaveConfig {
     public void setConfig(Player player){
         UUID uuid = player.getUniqueId();
         String uuidString = uuid.toString();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
         FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
 
         if(playerData != null){

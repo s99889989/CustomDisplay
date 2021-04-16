@@ -2,7 +2,7 @@ package com.daxton.customdisplay.task.action.player;
 
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -38,7 +38,7 @@ public class setMana {
     public void giveMana(Player player,double amount){
         String uuidString = player.getUniqueId().toString();
         UUID uuid = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
 //        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("Class_CustomCore.yml");
 //        String maxManaString = fileConfiguration.getString("CoreAttribute.Max_Mana.formula");
 //        String maxManaString2 = new ConversionMain().valueOf(player,null,maxManaString);
@@ -48,7 +48,7 @@ public class setMana {
 //        }catch (NumberFormatException exception){
 //
 //        }
-        double nowMana = PlayerDataMap.player_nowMana.get(uuidString);
+        double nowMana = PlayerManager.player_nowMana.get(uuidString);
 
         double giveMana = nowMana+amount;
 
@@ -60,7 +60,7 @@ public class setMana {
             giveMana = 0;
         }
 
-        PlayerDataMap.player_nowMana.put(uuidString, giveMana);
+        PlayerManager.player_nowMana.put(uuidString, giveMana);
     }
 
 }

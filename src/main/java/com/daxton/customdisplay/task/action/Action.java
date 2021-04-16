@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task.action;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.task.ClearAction;
 import com.daxton.customdisplay.task.JudgmentAction;
 import com.daxton.customdisplay.task.condition.Condition2;
 import org.bukkit.entity.LivingEntity;
@@ -67,7 +68,9 @@ public class Action {
                                 startAction(taskID+uuidString+(int)(Math.random()*1000), livingEntity);
                             }
                         }else {
-                            startAction(taskID, target);
+                            if(target == null){
+                                startAction(taskID, null);
+                            }
                         }
 
                         return;
@@ -83,7 +86,9 @@ public class Action {
                     startAction(taskID+uuidString, livingEntity);
                 }
             }else {
-                startAction(taskID, target);
+                if(target == null){
+                    startAction(taskID, null);
+                }
             }
 
 
@@ -94,13 +99,13 @@ public class Action {
     }
 
     public void startAction(String taskID, LivingEntity livingEntity){
-
+        new ClearAction().taskID(taskID);
         if(customLineConfigList.size() > 0){
 
                 int delay = 0;
                 for(CustomLineConfig customLineConfig : customLineConfigList){
                     String judgMent = customLineConfig.getActionKey();
-
+                    //cd.getLogger().info(judgMent);
                     if(judgMent.toLowerCase().contains("condition")){
 
                         if(!(condition(customLineConfig))){

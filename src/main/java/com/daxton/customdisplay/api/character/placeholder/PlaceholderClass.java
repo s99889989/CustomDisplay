@@ -3,7 +3,7 @@ package com.daxton.customdisplay.api.character.placeholder;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class PlaceholderClass {
         String outputString = "0";
         String uuidString = player.getUniqueId().toString();
         UUID playerUUID = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         FileConfiguration playerConfig = new LoadConfig().getPlayerConfig(player);
         String value = inputString.replace(" ","").replace("<cd_class_level_","").replace("<cd_class_point_","").replace("<cd_class_attr_point_","").replace("<cd_class_attr_stats_","").replace("<cd_class_eqm_stats_","");
 
@@ -46,8 +46,8 @@ public class PlaceholderClass {
             /**目前魔量**/
             if(inputString.toLowerCase().contains("_class_nowmana")){
 
-                if(PlayerDataMap.player_nowMana.get(uuidString) != null){
-                    outputString = String.valueOf(PlayerDataMap.player_nowMana.get(uuidString));
+                if(PlayerManager.player_nowMana.get(uuidString) != null){
+                    outputString = String.valueOf(PlayerManager.player_nowMana.get(uuidString));
 
                 }
             }

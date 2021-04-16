@@ -17,6 +17,12 @@ public class ClearAction {
 
     public ClearAction(){
 
+
+
+
+    }
+
+    public void all(){
         /***************************新********************************/
 
 
@@ -39,7 +45,7 @@ public class ClearAction {
         for(SendBossBar bossBar2 : ActionManager.judgment_SendBossBar_Map.values()){
             if(bossBar2.getBossBar() != null){
                 bossBar2.getBossBar().removeAll();
-                cd.getLogger().info("清除");
+
             }
         }
         ActionManager.judgment_SendBossBar_Map.clear();
@@ -102,15 +108,15 @@ public class ClearAction {
         if(!(PlaceholderManager.particles_function.isEmpty())){
             PlaceholderManager.particles_function.clear();
         }
-
-
     }
+
 
 
     public void taskID(String taskID){
 
         if(ActionManager.judgment_Loop_Map.get(taskID) != null){
             if(!ActionManager.judgment_Loop_Map.get(taskID).isCancelled()){
+
                 ActionManager.judgment_Loop_Map.get(taskID).cancel();
             }
             ActionManager.judgment_Loop_Map.remove(taskID);
@@ -123,11 +129,18 @@ public class ClearAction {
             ActionManager.judgment_Holographic_Map.remove(taskID);
         }
 
+        if(ActionManager.judgment_Guise_Map.get(taskID) != null){
+            if(ActionManager.judgment_Guise_Map.get(taskID).getPacketEntity() != null){
+                ActionManager.judgment_Guise_Map.get(taskID).getPacketEntity().delete();
+                ActionManager.judgment_Guise_Map.get(taskID).setPacketEntity(null);
+            }
+            ActionManager.judgment_Guise_Map.remove(taskID);
+        }
 
         if(ActionManager.judgment_SendBossBar_Map.get(taskID) != null){
             if(ActionManager.judgment_SendBossBar_Map.get(taskID).getBossBar() != null){
                 ActionManager.judgment_SendBossBar_Map.get(taskID).getBossBar().removeAll();
-                //cd.getLogger().info("刪除BossBar");
+                ActionManager.judgment_SendBossBar_Map.get(taskID).setBossBar(null);
             }
             ActionManager.judgment_SendBossBar_Map.remove(taskID);
         }

@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.player;
 
 import com.daxton.customdisplay.api.config.CustomLineConfig;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -29,11 +29,11 @@ public class Cancell2 {
             Player player = (Player) self;
             String uuidString = self.getUniqueId().toString();
             if(cancellName.toLowerCase().contains("playeritemheldevent")){
-                PlayerDataMap.even_Cancel_Map.put(uuidString,enable);
+                PlayerManager.even_Cancel_Map.put(uuidString,enable);
             }
             if(cancellName.toLowerCase().contains("playerswaphanditemsevent")){
                 //player.sendMessage("開關"+enable);
-                PlayerDataMap.even_Cancel_Map.put(uuidString,enable);
+                PlayerManager.even_Cancel_Map.put(uuidString,enable);
             }
 
 

@@ -1,8 +1,7 @@
 package com.daxton.customdisplay.api.player.data.set;
 
-import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -35,7 +34,7 @@ public class PlayerAttributesPoint {
 
 
         UUID uuid = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
         if(playerData != null){
             Map<String,String> point_Map = playerData.attributes_Point_Map;
             if(!(point_Map.isEmpty()) && point_Map.size() > 0){

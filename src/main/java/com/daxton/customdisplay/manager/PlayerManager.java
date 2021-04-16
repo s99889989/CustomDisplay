@@ -12,15 +12,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PlayerDataMap {
+public class PlayerManager {
     /**玩家動作資料**/
     private static Map<UUID, PlayerData> playerDataMap = new HashMap<>();
 
     /**目前魔量**/
     public static Map<String, Double> player_nowMana = new HashMap<>();
-
-    /**玩家動作權限**/
-    public static Map<String, String> playerAction_Permission = new HashMap<>();
 
     /**CustomCore屬性**/
     private static Map<String, CoreAttribute> core_Attribute_Map = new HashMap<>();
@@ -29,6 +26,10 @@ public class PlayerDataMap {
     public static Map<String, String> core_Formula_Map = new HashMap<>();
     /**CustomCore布林**/
     public static Map<String, Boolean> core_Boolean_Map = new HashMap<>();
+
+    /**盾牌延遲**/
+    public static Map<String, Boolean> shield_Delay_Boolean_Map = new HashMap<>();
+    public static Map<String, BukkitRunnable> shield_Delay_Run_Map = new HashMap<>();
 
     /**攻擊速度計時**/
     public static Map<String, BukkitRunnable> attack_Speed_Map = new HashMap<>();
@@ -43,8 +44,6 @@ public class PlayerDataMap {
     public static Map<String, BukkitRunnable> cost_Time_Map = new HashMap<>();
     public static Map<String, Integer> cost_Count_Map = new HashMap<>();
     /**施法延遲時間**/
-    public static Map<String, BukkitRunnable> cost_Delay_Time_Map = new HashMap<>();
-    public static Map<String, Integer> cost_Delay_Count_Map = new HashMap<>();
     public static Map<String, Boolean> cost_Delay_Boolean_Map = new HashMap<>();
     /**技能CD時間**/
     public static Map<String, BukkitRunnable> skill_Cool_Down_Run_Map = new HashMap<>();
@@ -52,7 +51,6 @@ public class PlayerDataMap {
 
     /**技能綁定**/
     public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
-    public static Map<String, List<CustomLineConfig>> skill_Custom_Map = new HashMap<>();
     public static Map<String, String> skill_Name_Map = new HashMap<>();
     /**事件的取消**/
     public static Map<String, Boolean> even_Cancel_Map = new ConcurrentHashMap<>();

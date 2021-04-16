@@ -74,32 +74,32 @@ public class MobListener implements Listener {
 
     }
 
-    /**怪物死亡**/
-    @EventHandler
-    public void onDeath(EntityDeathEvent event) {
-        LivingEntity target = event.getEntity();
-
-        String entityType = event.getEntityType().toString();
-
-        if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
-            EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
-
-            Player player = null;
-            if(nEvent.getDamager() instanceof LivingEntity){
-                player = Convert.convertKillerPlayer((LivingEntity) nEvent.getDamager());
-            }else {
-                player = Convert.convertPlayer(nEvent.getDamager());
-            }
-            if(player != null){
-
-                String uuidString = player.getUniqueId().toString();
-                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_kill_mob_type>",entityType);
-
-                new PlayerTrigger(player).onTwo(player, target, "~onmobdeath");
-            }
-        }
-
-    }
+//    /**怪物死亡**/
+//    @EventHandler
+//    public void onDeath(EntityDeathEvent event) {
+//        LivingEntity target = event.getEntity();
+//
+//        String entityType = event.getEntityType().toString();
+//
+//        if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+//            EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
+//
+//            Player player = null;
+//            if(nEvent.getDamager() instanceof LivingEntity){
+//                player = Convert.convertKillerPlayer((LivingEntity) nEvent.getDamager());
+//            }else {
+//                player = Convert.convertPlayer(nEvent.getDamager());
+//            }
+//            if(player != null){
+//
+//                String uuidString = player.getUniqueId().toString();
+//                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_kill_mob_type>",entityType);
+//
+//                new PlayerTrigger(player).onTwo(player, target, "~onmobdeath");
+//            }
+//        }
+//
+//    }
 
 
 

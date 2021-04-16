@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.CustomLineConfigList;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -45,7 +45,7 @@ public class BossBarSkill2 {
         /**技能空顯示**/
         String skill_Null = skillStatusConfig.getString("BossBar1.Skill_Show.Skill_Null");
 
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
 
         if(!playerData.skill_Name_Map.isEmpty()){
             playerData.skill_Name_Map.clear();

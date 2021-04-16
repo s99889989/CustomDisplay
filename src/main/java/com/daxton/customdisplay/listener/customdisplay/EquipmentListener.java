@@ -8,7 +8,7 @@ import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.ListenerManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ public class EquipmentListener implements Listener {
         String uuidString = player.getUniqueId().toString();
         int key = event.getNewSlot();
         int old = event.getPreviousSlot();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
             boolean cast = ListenerManager.getCast_On_Stop().get(uuidString);
             if(!cast){
@@ -74,23 +74,23 @@ public class EquipmentListener implements Listener {
                     if(needTarget){
                         if(target != null){
                             /**技能動作延遲初始化**/
-                            if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
-                                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                            if(PlayerManager.cost_Delay_Boolean_Map.get(uuidString) == null){
+                                PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                             }
                             /**技能獨立延遲初始化**/
-                            if(PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
-                                PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+                            if(PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
+                                PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
                             }
                             /**技能動作延遲**/
                             /**技能獨立延遲**/
-                            if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
-                                boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
-                                boolean coolDown = PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
+                            if(PlayerManager.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
+                                boolean costDelay = PlayerManager.cost_Delay_Boolean_Map.get(uuidString);
+                                boolean coolDown = PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
                                 if(costDelay && coolDown){ //
-                                    PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
+                                    PlayerManager.cost_Delay_Boolean_Map.put(uuidString,false);
                                     new FormulaDelay().setCost(player,target,skillName,action,targetDistance);
 
-                                    PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
+                                    PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
                                     new FormulaDelay().skillCD(player,skillName,key);
 
                                 }
@@ -99,23 +99,23 @@ public class EquipmentListener implements Listener {
                         }
                     }else {
                         /**技能動作延遲初始化**/
-                        if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) == null){
-                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                        if(PlayerManager.cost_Delay_Boolean_Map.get(uuidString) == null){
+                            PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                         }
                         /**技能獨立延遲初始化**/
-                        if(PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
-                            PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+                        if(PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
+                            PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
                         }
                         /**技能動作延遲**/
                         /**技能獨立延遲**/
-                        if(PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
-                            boolean costDelay = PlayerDataMap.cost_Delay_Boolean_Map.get(uuidString);
-                            boolean coolDown = PlayerDataMap.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
+                        if(PlayerManager.cost_Delay_Boolean_Map.get(uuidString) != null && PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) != null){
+                            boolean costDelay = PlayerManager.cost_Delay_Boolean_Map.get(uuidString);
+                            boolean coolDown = PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key);
                             if(costDelay && coolDown){
-                                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,false);
+                                PlayerManager.cost_Delay_Boolean_Map.put(uuidString,false);
                                 new FormulaDelay().setCost(player,target,skillName,action,targetDistance);
 
-                                PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
+                                PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
                                 new FormulaDelay().skillCD(player,skillName,key);
 
                             }
@@ -129,8 +129,8 @@ public class EquipmentListener implements Listener {
         }
 
 
-        if(PlayerDataMap.even_Cancel_Map.get(uuidString) != null){
-            boolean cc = PlayerDataMap.even_Cancel_Map.get(uuidString);
+        if(PlayerManager.even_Cancel_Map.get(uuidString) != null){
+            boolean cc = PlayerManager.even_Cancel_Map.get(uuidString);
             if(cc == true){
                 event.setCancelled(true);
             }

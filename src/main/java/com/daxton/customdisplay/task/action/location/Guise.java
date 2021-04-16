@@ -294,4 +294,8 @@ public class Guise {
     public PacketEntity getPacketEntity() {
         return packetEntity;
     }
+
+    public void setPacketEntity(PacketEntity packetEntity) {
+        this.packetEntity = packetEntity;
+    }
 }

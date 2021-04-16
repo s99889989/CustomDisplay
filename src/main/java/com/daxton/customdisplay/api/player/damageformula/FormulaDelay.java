@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.SoundCategory;
@@ -53,8 +53,8 @@ public class FormulaDelay {
         String cover2 = skillStatusConfig.getString("BossBar2.Skill_CD.2");
         String cover1 = skillStatusConfig.getString("BossBar2.Skill_CD.1");
 
-        if(PlayerDataMap.skill_Cool_Down_Run_Map.get(uuidString+"."+key) == null){
-            PlayerDataMap.skill_Cool_Down_Run_Map.put(uuidString+"."+key, new BukkitRunnable() {
+        if(PlayerManager.skill_Cool_Down_Run_Map.get(uuidString+"."+key) == null){
+            PlayerManager.skill_Cool_Down_Run_Map.put(uuidString+"."+key, new BukkitRunnable() {
                 int costCount = 12;
                 int start = 0;
                 int end = 1;
@@ -101,15 +101,15 @@ public class FormulaDelay {
                     }
                     if(costCount == 1){
                         new BossBarSkill().setSkillBar(newString.replace(start,end,cover1).toString());
-                        PlayerDataMap.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
-                        PlayerDataMap.skill_Cool_Down_Run_Map.remove(uuidString+"."+key);
+                        PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
+                        PlayerManager.skill_Cool_Down_Run_Map.remove(uuidString+"."+key);
                         cancel();
                     }
                     costCount--;
 
                 }
             });
-            PlayerDataMap.skill_Cool_Down_Run_Map.get(uuidString+"."+key).runTaskTimer(cd,0,2*coolDown);
+            PlayerManager.skill_Cool_Down_Run_Map.get(uuidString+"."+key).runTaskTimer(cd,0,2*coolDown);
         }
 
 
@@ -151,13 +151,13 @@ public class FormulaDelay {
 
                 //new PlayerTrigger(player).onSkill(player,inputTarget,action);
 
-                PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
             }else {
 
                 //new PlayerTrigger(player).onSkill(player,inputTarget,action);
 
                 new BossBarSkill().setSkillBarProgress(1);
-                PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+                PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                     double costCount = 1.0;
                     @Override
                     public void run() {
@@ -165,13 +165,13 @@ public class FormulaDelay {
                             new BossBarSkill().setSkillBarProgress(costCount);
                             costCount = costCount-0.1;
                         }else {
-                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                            PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                             cancel();
                         }
 
                     }
                 });
-                PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
+                PlayerManager.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
             }
 
         }else {
@@ -191,7 +191,7 @@ public class FormulaDelay {
             }
 
 
-            PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+            PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                 //int count = PlayerDataMap.cost_Count_Map.get(uuidString);
                 double costCount = 0.0;
                 @Override
@@ -210,7 +210,7 @@ public class FormulaDelay {
                                 //new PlayerTrigger(player).onSkill(player,inputTarget,action);
                             }
                             new BossBarSkill().setSkillBarProgress(0);
-                            PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                            PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                         }else {
                             LivingEntity target = LookTarget.getLivingTarget(player,targetDistance);
                             if(hologram != null){
@@ -220,7 +220,7 @@ public class FormulaDelay {
                             if(inputTarget != null && target == inputTarget){
                                 //new PlayerTrigger(player).onSkill(player,inputTarget,action);
                             }
-                            PlayerDataMap.cost_Time_Map.put(uuidString, new BukkitRunnable() {
+                            PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                                 double costCount = 1.0;
                                 @Override
                                 public void run() {
@@ -228,13 +228,13 @@ public class FormulaDelay {
                                         new BossBarSkill().setSkillBarProgress(costCount);
                                         costCount = costCount-0.1;
                                     }else {
-                                        PlayerDataMap.cost_Delay_Boolean_Map.put(uuidString,true);
+                                        PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                                         cancel();
                                     }
 
                                 }
                             });
-                            PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
+                            PlayerManager.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castDelay);
                         }
 
                     }else {
@@ -248,7 +248,7 @@ public class FormulaDelay {
 
                 }
             });
-            PlayerDataMap.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castTime);
+            PlayerManager.cost_Time_Map.get(uuidString).runTaskTimer(cd,0,2*castTime);
         }
 
 
@@ -259,15 +259,15 @@ public class FormulaDelay {
     public void setAttackSpeed(Player player, LivingEntity target, String uuidString){
 
 
-        if(PlayerDataMap.attack_Boolean3_Map.get(uuidString) == null){
-            PlayerDataMap.attack_Boolean3_Map.put(uuidString,true);
+        if(PlayerManager.attack_Boolean3_Map.get(uuidString) == null){
+            PlayerManager.attack_Boolean3_Map.put(uuidString,true);
         }
 
-        if(PlayerDataMap.attack_Boolean3_Map.get(uuidString)){
+        if(PlayerManager.attack_Boolean3_Map.get(uuidString)){
 
-            PlayerDataMap.attack_Boolean3_Map.put(uuidString,false);
+            PlayerManager.attack_Boolean3_Map.put(uuidString,false);
 
-            String tickRunString = PlayerDataMap.core_Formula_Map.get("Attack_Speed");
+            String tickRunString = PlayerManager.core_Formula_Map.get("Attack_Speed");
             tickRunString = new ConversionMain().valueOf(player,target,tickRunString);
 
             try {
@@ -276,7 +276,7 @@ public class FormulaDelay {
                 attackSpeed = 10;
             }
 
-            PlayerDataMap.attack_Speed_Map.put(uuidString, new BukkitRunnable() {
+            PlayerManager.attack_Speed_Map.put(uuidString, new BukkitRunnable() {
 
                 int tickRun = 0;
 
@@ -285,14 +285,14 @@ public class FormulaDelay {
                     tickRun++;
                     if(tickRun >= attackSpeed){
 
-                        PlayerDataMap.attack_Boolean3_Map.put(uuidString,true);
-                        PlayerDataMap.attack_Boolean2_Map.put(uuidString,true);
-                        PlayerDataMap.attack_Boolean_Map.put(uuidString,false);
+                        PlayerManager.attack_Boolean3_Map.put(uuidString,true);
+                        PlayerManager.attack_Boolean2_Map.put(uuidString,true);
+                        PlayerManager.attack_Boolean_Map.put(uuidString,false);
                         cancel();
                     }
                 }
             });
-            PlayerDataMap.attack_Speed_Map.get(uuidString).runTaskTimer(cd,0,2);
+            PlayerManager.attack_Speed_Map.get(uuidString).runTaskTimer(cd,0,2);
         }
 
 

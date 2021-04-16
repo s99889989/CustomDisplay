@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CustomDisplayCommand implements CommandExecutor, TabCompleter {
+public class MainCommand implements CommandExecutor, TabCompleter {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 

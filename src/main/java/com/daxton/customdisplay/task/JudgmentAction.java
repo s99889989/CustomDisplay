@@ -32,12 +32,13 @@ public class JudgmentAction {
 
         /**ActionBar的相關判斷**/
         if(judgMent.toLowerCase().contains("actionbar")){
-            if(ActionManager.judgment_ActionBar_Map.get(taskID) == null){
-                ActionManager.judgment_ActionBar_Map.put(taskID,new ActionBar2());
-            }
-            if(ActionManager.judgment_ActionBar_Map.get(taskID) != null){
-                ActionManager.judgment_ActionBar_Map.get(taskID).setActionBar(self,target, customLineConfig,taskID);
-            }
+            new ActionBar2().setActionBar(self,target, customLineConfig,taskID);
+//            if(ActionManager.judgment_ActionBar_Map.get(taskID) == null){
+//                ActionManager.judgment_ActionBar_Map.put(taskID,new ActionBar2());
+//            }
+//            if(ActionManager.judgment_ActionBar_Map.get(taskID) != null){
+//                ActionManager.judgment_ActionBar_Map.get(taskID).setActionBar(self,target, customLineConfig,taskID);
+//            }
             return;
         }
 
@@ -133,8 +134,8 @@ public class JudgmentAction {
 
             if(ActionManager.judgment_Guise_Map.get(taskID) == null){
                 ActionManager.judgment_Guise_Map.put(taskID, new Guise());
-                ActionManager.judgment_Guise_Map.get(taskID).setItemEntity(self,target,customLineConfig,taskID);
-            }else {
+            }
+            if(ActionManager.judgment_Guise_Map.get(taskID) != null){
                 ActionManager.judgment_Guise_Map.get(taskID).setItemEntity(self,target,customLineConfig,taskID);
             }
             return;
@@ -180,18 +181,15 @@ public class JudgmentAction {
 
         /**Loop的相關判斷**/
         if(judgMent.toLowerCase().contains("loop")){
-
             if(ActionManager.judgment_Loop_Map.get(taskID) == null){
                 ActionManager.judgment_Loop_Map.put(taskID,new Loop2());
                 ActionManager.judgment_Loop_Map.get(taskID).onLoop(self,target,customLineConfig,taskID);
-            }else {
-                if(!ActionManager.judgment_Loop_Map.get(taskID).isCancelled()){
-                    ActionManager.judgment_Loop_Map.get(taskID).cancel();
-                }
-                ActionManager.judgment_Loop_Map.remove(taskID);
-                ActionManager.judgment_Loop_Map.put(taskID,new Loop2());
-                ActionManager.judgment_Loop_Map.get(taskID).onLoop(self,target,customLineConfig,taskID);
             }
+//            else {
+//                //new ClearAction().taskID(taskID);
+//                ActionManager.judgment_Loop_Map.put(taskID,new Loop2());
+//                ActionManager.judgment_Loop_Map.get(taskID).onLoop(self,target,customLineConfig,taskID);
+//            }
             return;
         }
 
@@ -207,6 +205,12 @@ public class JudgmentAction {
             return;
         }
 
+
+        /**ModMessage的相關判斷**/
+        if(judgMent.toLowerCase().contains("modmessage")){
+            new ModMessage().setMessage(self,target,customLineConfig,taskID);
+            return;
+        }
 
         /**Message的相關判斷**/
         if(judgMent.toLowerCase().contains("message")){

@@ -3,7 +3,7 @@ package com.daxton.customdisplay.api.player.profession;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -41,7 +41,7 @@ public class BossBarSkill {
         String skill_Null_18 = skillStatusConfig.getString("BossBar1.Skill_Null.18");
         String skill_Null_9 = skillStatusConfig.getString("BossBar1.Skill_Null.9");
 
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             String skillNameString = "";
             for(int i = 1 ; i < 9 ; i++){
@@ -71,8 +71,8 @@ public class BossBarSkill {
 
                         List<String> skillAction = skillConfig.getStringList(skillName+".Action");
                         if(skillAction != null){
-                            PlayerDataMap.skill_Name_Map.put(uuidString+"."+x,skillName);
-                            PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
+                            PlayerManager.skill_Name_Map.put(uuidString+"."+x,skillName);
+                            PlayerManager.skill_Key_Map.put(uuidString+"."+x,skillAction);
                         }
 
                     }else {
@@ -84,8 +84,8 @@ public class BossBarSkill {
                         /**把Skill動作存到Map**/
                         List<String> skillAction = skillConfig.getStringList(skillName+".Action");
                         if(skillAction != null){
-                            PlayerDataMap.skill_Name_Map.put(uuidString+"."+x,skillName);
-                            PlayerDataMap.skill_Key_Map.put(uuidString+"."+x,skillAction);
+                            PlayerManager.skill_Name_Map.put(uuidString+"."+x,skillName);
+                            PlayerManager.skill_Key_Map.put(uuidString+"."+x,skillAction);
                         }
                     }
 

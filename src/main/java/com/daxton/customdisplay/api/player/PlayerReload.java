@@ -2,7 +2,7 @@ package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -17,19 +17,19 @@ public class PlayerReload {
 
     public void reloadPlayerData(Player player){
         UUID playerUUID = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             /**玩家資料**/
             String attackCore = cd.getConfigManager().config.getString("AttackCore");
             if(attackCore.toLowerCase().contains("customcore")){
                 playerData.getBukkitRunnable().cancel();
             }
-            PlayerDataMap.getPlayerDataMap().remove(playerUUID);
+            PlayerManager.getPlayerDataMap().remove(playerUUID);
         }
 
-        if(PlayerDataMap.getPlayerDataMap().get(playerUUID) == null){
+        if(PlayerManager.getPlayerDataMap().get(playerUUID) == null){
             /**玩家資料**/
-            PlayerDataMap.getPlayerDataMap().put(playerUUID,new PlayerData(player));
+            PlayerManager.getPlayerDataMap().put(playerUUID,new PlayerData(player));
         }
     }
 

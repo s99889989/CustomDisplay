@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerAction2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +38,7 @@ public class PlayerEquipment2 {
 
         UUID playerUUID = player.getUniqueId();
         String uuidString = playerUUID.toString();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(playerUUID);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
             Map<String, Integer> equipment_Enchants_Map = playerData.equipment_Enchants_Map;//new HashMap<>();
             Map<String,List<CustomLineConfig>> action_Item_Trigger_Map = playerData.getAction_Item_Trigger_Map();

@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,7 +34,7 @@ public class OpenInventoryBindGui2 {
     /**設定綁定**/
     public void setBind(Player player,int first,String skillNowName,String taskID){
         UUID uuid = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
         if(playerData != null){
             String uuidString = player.getUniqueId().toString();
 
@@ -62,7 +62,7 @@ public class OpenInventoryBindGui2 {
     /**移除綁定**/
     public void removeBind(Player player,int first,String taskID){
         UUID uuid = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
         if(playerData != null){
             String uuidString = player.getUniqueId().toString();
 
@@ -97,7 +97,7 @@ public class OpenInventoryBindGui2 {
         String uuidString = player.getUniqueId().toString();
 
         UUID uuid = player.getUniqueId();
-        PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(uuid);
+        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
         if(playerData != null){
             List<String> skillList = new ArrayList<>();
             Iterator skillKeyList = playerData.skills_Map.keySet().iterator();

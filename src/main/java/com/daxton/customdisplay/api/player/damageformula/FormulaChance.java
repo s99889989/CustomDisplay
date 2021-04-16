@@ -3,8 +3,7 @@ package com.daxton.customdisplay.api.player.damageformula;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
-import com.daxton.customdisplay.manager.PlayerDataMap;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -22,9 +21,9 @@ public class FormulaChance {
         int  r = (int)(Math.random()*randomNumber);
         String blockRateString = "0";
         if(target instanceof Player){
-            blockRateString = PlayerDataMap.core_Formula_Map.get("Block_Rate_Player_Player");
+            blockRateString = PlayerManager.core_Formula_Map.get("Block_Rate_Player_Player");
         }else {
-            blockRateString = PlayerDataMap.core_Formula_Map.get("Block_Rate_Player_Other");
+            blockRateString = PlayerManager.core_Formula_Map.get("Block_Rate_Player_Other");
         }
         blockRateString = new ConversionMain().valueOf(player,target,blockRateString);
 
@@ -61,9 +60,9 @@ public class FormulaChance {
         int  r = (int)(Math.random()*randomNumber);
         String dodgeRateString = "0";
         if(target instanceof Player){
-            dodgeRateString = PlayerDataMap.core_Formula_Map.get("Dodge_Rate_Player_Player");
+            dodgeRateString = PlayerManager.core_Formula_Map.get("Dodge_Rate_Player_Player");
         }else {
-            dodgeRateString = PlayerDataMap.core_Formula_Map.get("Dodge_Rate_Player_Other");
+            dodgeRateString = PlayerManager.core_Formula_Map.get("Dodge_Rate_Player_Other");
         }
         dodgeRateString = new ConversionMain().valueOf(player,target,dodgeRateString);
 
@@ -98,9 +97,9 @@ public class FormulaChance {
         int  r2 = (int)(Math.random()*randomNumber2);
         String crit_chanceString = "0";
         if(target instanceof Player){
-            crit_chanceString = PlayerDataMap.core_Formula_Map.get("Critical_Strike_Chance_Player_Player");
+            crit_chanceString = PlayerManager.core_Formula_Map.get("Critical_Strike_Chance_Player_Player");
         }else {
-            crit_chanceString = PlayerDataMap.core_Formula_Map.get("Critical_Strike_Chance_Player_Other");
+            crit_chanceString = PlayerManager.core_Formula_Map.get("Critical_Strike_Chance_Player_Other");
         }
         crit_chanceString = new ConversionMain().valueOf(player,target,crit_chanceString);
         int crit_chance = 0;
@@ -129,9 +128,9 @@ public class FormulaChance {
         int  r = (int)(Math.random()*randomNumber);
         String hitRateString = "0";
         if(target instanceof Player){
-            hitRateString = PlayerDataMap.core_Formula_Map.get("Hit_Rate_Player_Player");
+            hitRateString = PlayerManager.core_Formula_Map.get("Hit_Rate_Player_Player");
         }else {
-            hitRateString = PlayerDataMap.core_Formula_Map.get("Hit_Rate_Player_Other");
+            hitRateString = PlayerManager.core_Formula_Map.get("Hit_Rate_Player_Other");
         }
         hitRateString = new ConversionMain().valueOf(player,target,hitRateString);
 

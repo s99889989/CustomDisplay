@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 
 import java.util.UUID;
@@ -40,6 +41,7 @@ public class AttackListener implements Listener {
                 return;
             }
         }
+
         double damageNumber = event.getFinalDamage();
         target = (LivingEntity) event.getEntity();
         player = Convert.convertPlayer(event.getDamager());

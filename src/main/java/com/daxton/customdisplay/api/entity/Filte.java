@@ -11,6 +11,8 @@ import java.util.List;
 
 public class Filte {
 
+    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
     public Filte(){
 
     }
@@ -43,13 +45,14 @@ public class Filte {
                             if(filteKey1[2].equals(faction)){
                                 b = false;
                             }
-                        }else if(filteKey1[0].toLowerCase().equals("add")){
+                        }
+                        if(filteKey1[0].toLowerCase().equals("add")){
                             b = false;
                             if(filteKey1[2].equals(faction)){
                                 b = true;
                             }
                         }
-
+                        return b;
                     }
                 }
 
@@ -65,11 +68,14 @@ public class Filte {
                         if(entityTypeList.contains(livingEntity.getType().toString())){
                             b = false;
                         }
-                    }else if(filteKey1[0].toLowerCase().equals("add")){
+                    }
+                    if(filteKey1[0].toLowerCase().equals("add")){
                         b = false;
                         if(entityTypeList.contains(livingEntity.getType().toString())){
                             b = true;
                         }
+                        return b;
+                       // CustomDisplay.getCustomDisplay().getLogger().info(filteKey1[0]+"判斷"+b);
                     }
 
                 }
@@ -90,13 +96,14 @@ public class Filte {
 
                                 b = false;
                             }
-                        }else if(filteKey1[0].toLowerCase().equals("add")){
+                        }
+                        if(filteKey1[0].toLowerCase().equals("add")){
                             b = false;
                             if(mythicTypeList.contains(id)){
                                 b = true;
                             }
                         }
-
+                        return b;
                     }
                 }
             }

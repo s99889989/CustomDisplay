@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerDataMap;
+import com.daxton.customdisplay.manager.PlayerManager;
 
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
-import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
 import static org.bukkit.attribute.Attribute.GENERIC_MOVEMENT_SPEED;
 
 public class PlayerAttributeCore {
@@ -34,8 +33,8 @@ public class PlayerAttributeCore {
         coreConfig.getConfigurationSection("CoreAttribute").getKeys(false).forEach(s -> {
             String formulaString = coreConfig.getString("CoreAttribute."+s+".formula");
             boolean b = coreConfig.getBoolean("CoreAttribute."+s+".enable");
-            PlayerDataMap.core_Formula_Map.put(s,formulaString);
-            PlayerDataMap.core_Boolean_Map.put(s,b);
+            PlayerManager.core_Formula_Map.put(s,formulaString);
+            PlayerManager.core_Boolean_Map.put(s,b);
         ;});
 
 
@@ -94,7 +93,7 @@ public class PlayerAttributeCore {
         String uuidString = player.getUniqueId().toString();
 
         /**攻擊速度**/
-        String attackSpeedString = PlayerDataMap.core_Formula_Map.get("Attack_Speed");
+        String attackSpeedString = PlayerManager.core_Formula_Map.get("Attack_Speed");
         attackSpeedString = new ConversionMain().valueOf(player,null,attackSpeedString);
         int  attackSpeed = 10;
         try {
@@ -104,8 +103,8 @@ public class PlayerAttributeCore {
         }catch (Exception exception){
             attackSpeed = 10;
         }
-        PlayerDataMap.attack_Count_Map.put(uuidString,attackSpeed);
-        PlayerDataMap.cost_Count_Map.put(uuidString,0);
+        PlayerManager.attack_Count_Map.put(uuidString,attackSpeed);
+        PlayerManager.cost_Count_Map.put(uuidString,0);
 
     }
 
