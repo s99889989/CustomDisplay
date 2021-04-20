@@ -1,9 +1,10 @@
 package com.daxton.customdisplay.manager;
 
-import com.daxton.customdisplay.api.config.CustomLineConfig;
+import com.daxton.customdisplay.api.item.gui.*;
 import com.daxton.customdisplay.api.player.CoreAttribute;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -57,6 +58,33 @@ public class PlayerManager {
 
     /**玩家技能狀態攔**/
     public static Map<String, BossBarSkill2> keyF_BossBarSkill_Map = new HashMap<>();
+
+    //物品主Menu
+    public static Map<String , Inventory> menu_Inventory_Map = new HashMap<>();
+    public static Map<String , ItemMenuMain> menu_Inventory_ItemMenu_Map = new HashMap<>();
+
+    //物品分列表
+    public static Map<String , Inventory> menu_Inventory2_Map = new HashMap<>();
+    public static Map<String , ItemMenuType> menu_Inventory_ItemMenuType_Map = new HashMap<>();
+    public static Map<String , Boolean> menu_Chat_ItemMenuType_Map = new HashMap<>();
+    //編輯物品
+    public static Map<String , Inventory> menu_Inventory3_Map = new HashMap<>();
+    public static Map<String , ItemMenuEdit> menu_Inventory_ItemMenuEdit_Map = new HashMap<>();
+    public static Map<String , Boolean> menu_Chat_ItemMenuEdit_Map = new HashMap<>();
+    //編輯物品附魔
+    public static Map<String , Inventory> menu_Inventory4_Map = new HashMap<>();
+    public static Map<String , ItemEnchantmentEdit> menu_Inventory_ItemEnchantmentEdit_Map = new HashMap<>();
+    public static Map<String , Boolean> menu_Chat_ItemEnchantmentEdit_Map = new HashMap<>();
+    //編輯物品屬性
+    public static Map<String , Inventory> menu_Inventory5_Map = new HashMap<>();
+    public static Map<String , ItemAttributesEdit> menu_Inventory_ItemAttributesEdit_Map = new HashMap<>();
+    public static Map<String , Boolean> menu_Chat_ItemAttributesEdit_Map = new HashMap<>();
+    //物品材質清單
+    public static Map<String , Inventory> menu_Inventory6_Map = new HashMap<>();
+    public static Map<String , ItemListMenu> menu_Inventory_ItemListMenu_Map = new HashMap<>();
+    //編輯物品Flag
+    public static Map<String , Inventory> menu_Inventory7_Map = new HashMap<>();
+    public static Map<String , ItemFlagsEdit> menu_Inventory_ItemFlagsEdit_Map = new HashMap<>();
 
     /**玩家動作資料**/
     public static Map<UUID, PlayerData> getPlayerDataMap() {

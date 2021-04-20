@@ -1,24 +1,20 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.entity.LookTarget;
-import com.daxton.customdisplay.api.item.PlayerEquipment2;
+import com.daxton.customdisplay.api.item.*;
+import com.daxton.customdisplay.api.item.gui.*;
+import com.daxton.customdisplay.api.other.ResourcePackSend;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
 import com.daxton.customdisplay.api.player.profession.UseSkill;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.*;
-import net.minecraft.server.v1_16_R3.EntityHuman;
-import org.bukkit.EntityEffect;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +29,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 
@@ -64,9 +59,9 @@ public class PlayerListener implements Listener {
         if(configManager.config.getBoolean("HealthScale.enable")){
             player.setHealthScale(configManager.config.getInt("HealthScale.scale"));
         }
-        if(config.getBoolean("ResourcePack.enable")){
-            onResourcePackSend(player,null);
-        }
+
+        //材質包
+        ResourcePackSend.send(player,null);
 
         PlayerManager.getPlayerDataMap().put(playerUUID,new PlayerData(player));
 
@@ -122,9 +117,49 @@ public class PlayerListener implements Listener {
         UUID playerUUID = player.getUniqueId();
         String uuidString = playerUUID.toString();
         Inventory inventory = event.getInventory();
-
-
-
+        ///////////////////////////////
+        if(PlayerManager.menu_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_Inventory_Map.get(uuidString) == inventory){
+                ItemMenuMain.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(PlayerManager.menu_Inventory2_Map.get(uuidString) != null){
+            if(PlayerManager.menu_Inventory2_Map.get(uuidString) == inventory){
+                ItemMenuType.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(PlayerManager.menu_Inventory3_Map.get(uuidString) != null){
+            if(PlayerManager.menu_Inventory3_Map.get(uuidString) == inventory){
+                ItemMenuEdit.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(PlayerManager.menu_Inventory4_Map.get(uuidString) != null){
+            if(PlayerManager.menu_Inventory4_Map.get(uuidString) == inventory){
+                ItemEnchantmentEdit.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(PlayerManager.menu_Inventory5_Map.get(uuidString) != null){
+            if(PlayerManager.menu_Inventory5_Map.get(uuidString) == inventory){
+                ItemAttributesEdit.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(PlayerManager.menu_Inventory6_Map.get(uuidString) != null){
+            if(PlayerManager.menu_Inventory6_Map.get(uuidString) == inventory){
+                ItemListMenu.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(PlayerManager.menu_Inventory7_Map.get(uuidString) != null){
+            if(PlayerManager.menu_Inventory7_Map.get(uuidString) == inventory){
+                ItemFlagsEdit.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
         if(ActionManager.playerUUID_taskID_Map.get(uuidString) != null){
             String taskID = ActionManager.playerUUID_taskID_Map.get(uuidString);
 
@@ -141,15 +176,6 @@ public class PlayerListener implements Listener {
 
         }
 
-//        if(ActionManager.getInventory_name_Map().get(playerUUID) != null){
-//            String taskID = ActionManager.getInventory_name_Map().get(playerUUID);
-//            if(ActionManager.getInventory_Map().get(taskID) == inventory) {
-//                if(ActionManager.getJudgment2_OpenInventory_Map().get(taskID) != null){
-//                    ActionManager.getJudgment2_OpenInventory_Map().get(taskID).InventoryListener(event);
-//                }
-//
-//            }
-//        }
 
     }
 
@@ -230,9 +256,57 @@ public class PlayerListener implements Listener {
         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
 
         new PlayerTrigger(player).onTwo(player, null, "~onchat");
-        //event.setCancelled(true);
-    }
 
+
+    }
+    @EventHandler
+    public void onChat(PlayerChatEvent event){
+        String uuidString = event.getPlayer().getUniqueId().toString();
+        if(PlayerManager.menu_Chat_ItemMenuEdit_Map.get(uuidString) == null){
+            PlayerManager.menu_Chat_ItemMenuEdit_Map.put(uuidString, false);
+        }
+        if(PlayerManager.menu_Chat_ItemMenuEdit_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_Chat_ItemMenuEdit_Map.get(uuidString);
+            if(b){
+                ItemMenuEdit.onChat(event);
+            }
+
+        }
+
+        if(PlayerManager.menu_Chat_ItemMenuType_Map.get(uuidString) == null){
+            PlayerManager.menu_Chat_ItemMenuType_Map.put(uuidString, false);
+        }
+        if(PlayerManager.menu_Chat_ItemMenuType_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_Chat_ItemMenuType_Map.get(uuidString);
+            if(b){
+                ItemMenuType.onChat(event);
+            }
+
+        }
+
+        if(PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.get(uuidString) == null){
+            PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.put(uuidString, false);
+        }
+        if(PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.get(uuidString);
+            if(b){
+                ItemEnchantmentEdit.onChat(event);
+            }
+
+        }
+
+        if(PlayerManager.menu_Chat_ItemAttributesEdit_Map.get(uuidString) == null){
+            PlayerManager.menu_Chat_ItemAttributesEdit_Map.put(uuidString, false);
+        }
+        if(PlayerManager.menu_Chat_ItemAttributesEdit_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_Chat_ItemAttributesEdit_Map.get(uuidString);
+            if(b){
+                ItemAttributesEdit.onChat(event);
+            }
+
+        }
+
+    }
 
 
     /**當玩家回血**/
@@ -434,105 +508,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onResourcePack(PlayerResourcePackStatusEvent event){
         Player player = event.getPlayer();
-        if(config.getBoolean("ResourcePack.enable")){
-            onResourcePackSend(player,event.getStatus().toString());
-        }
 
-    }
-    /**材質包**/
-    public void onResourcePackSend(Player player,String status){
-
-        /**發送材質包**/
-        if(status == null){
-            int time = 2;
-            String timeString = "";
-            try{
-                time = config.getInt("ResourcePack.download-delay");
-                timeString = String.valueOf(time);
-            }catch (NumberFormatException exception){
-                time = 1;
-            }
-            player.sendMessage(info.getString("Language.ResourcePack.join").replace("{time}",timeString));
-
-            bukkitRunnable = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    try {
-                        player.setResourcePack(config.getString("ResourcePack.url"),config.getString("ResourcePack.hash"));
-                    }catch (NoSuchMethodError exception){
-
-                    }
-
-
-
-                }
-            };
-            bukkitRunnable.runTaskLater(cd,time*20);
-
-
-
-        }
-        if(status !=null){
-            /**發送材質包成功**/
-            if(status.contains("SUCCESSFULLY_LOADED")){
-                player.sendMessage(info.getString("Language.ResourcePack.successfully-loaded"));
-                return;
-            }
-
-            /**材質包下載失敗**/
-            if(status.contains("FAILED_DOWNLOAD")){
-                int time = 1;
-                String timeString = "";
-                try{
-                    time = config.getInt("ResourcePack.kick-error-delay");
-                    timeString = String.valueOf(time);
-                }catch (NumberFormatException exception){
-                    time = 1;
-                }
-                if(config.getBoolean("ResourcePack.kick-error-download")){
-                    player.sendMessage(info.getString("Language.ResourcePack.download-error").replace("{time}",timeString));
-                    bukkitRunnable = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.kickPlayer(info.getString("Language.ResourcePack.download-error-kick"));
-                        }
-                    };
-                    bukkitRunnable.runTaskLater(cd,time*20);
-                    return;
-                }else {
-                    player.sendMessage(info.getString("Language.ResourcePack.download-error-pass"));
-                }
-                return;
-            }
-
-            /**拒絕接受材質包**/
-            if(status.contains("DECLINED")){
-                int time = 1;
-                String timeString = "";
-                try{
-                    time = config.getInt("ResourcePack.kick-no-delay");
-                    timeString = String.valueOf(time);
-                }catch (NumberFormatException exception){
-                    time = 1;
-                }
-                if(config.getBoolean("ResourcePack.kick-no-download")){
-                    player.sendMessage(info.getString("Language.ResourcePack.kick-delay").replace("{time}",timeString));
-                    bukkitRunnable = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.kickPlayer(info.getString("Language.ResourcePack.kick"));
-                        }
-                    };
-                    bukkitRunnable.runTaskLater(cd,time*20);
-
-
-                }else {
-                    player.sendMessage(info.getString("Language.ResourcePack.kick-pass"));
-                }
-                return;
-            }
-        }
-
+        ResourcePackSend.send(player,event.getStatus().toString());
 
     }
 

@@ -3,10 +3,12 @@ package com.daxton.customdisplay.config;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.AutoConfig;
 import com.daxton.customdisplay.api.config.AutoConfig2;
+import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.auras.Aura;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -47,6 +49,24 @@ public class ConfigManager {
             png_file.mkdir();
         }
         new AutoConfig2();
+
+        FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
+        String[] strings = MenuSet.getItemMenuButtomNameArray(itemMenuConfig, "Items");
+        for(String name : strings){
+            String patchString = "Items/item/"+ name +".yml";
+            String patchString2 = patchString.replace("/","_");
+            File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(), patchString);
+            if(!itemPatch.exists()){
+                try {
+                    itemPatch.createNewFile();
+                }catch (Exception exception){
+
+                }
+            }
+            FileConfiguration saveFileConfig3 = YamlConfiguration.loadConfiguration(itemPatch);
+            ConfigMapManager.getFileConfigurationMap().put(patchString2, saveFileConfig3);
+            ConfigMapManager.getFileConfigurationNameMap().put(patchString2,patchString2);
+        }
 
         //ConfigMapManager.getFileConfigurationNameMap().forEach((s, s2) -> cd.getLogger().info(s));
 

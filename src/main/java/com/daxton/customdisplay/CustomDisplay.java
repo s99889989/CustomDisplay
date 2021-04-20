@@ -2,9 +2,11 @@ package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.daxton.customdisplay.api.config.SaveConfig;
+import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
 import com.daxton.customdisplay.command.MainCommand;
+import com.daxton.customdisplay.command.TabCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
@@ -23,6 +25,7 @@ import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
 import com.daxton.customdisplay.listener.mmolib.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
@@ -139,11 +142,14 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         configManager = new ConfigManager(customDisplay);
         Bukkit.getPluginCommand("customdisplay").setExecutor(new MainCommand());
+        Bukkit.getPluginCommand("customdisplay").setTabCompleter(new TabCommand());
         /**傷害判斷的核心插件.**/
         AttackCore();
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
+
+
 
         FileConfiguration fileConfig = getConfigManager().config;
 
@@ -161,15 +167,6 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
                     .login()
                     .block();
 
-
-//            DiscordManager.client.getEventDispatcher().on(MessageCreateEvent.class)
-//                    .map(MessageCreateEvent::getMessage)
-//                    .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-//                    .filter(message -> {
-//                        getLogger().info(message.getAuthor().get().getTag()+message.getContent());
-//                        return true;
-//                    }  )
-//                    .subscribe();
         }
 
     }
@@ -299,6 +296,21 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
     }
     public void mapReload(){
 
+        //儲存物品資訊
+        FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
+        String[] strings = MenuSet.getItemMenuButtomNameArray(itemMenuConfig, "Items");
+        for(String name : strings){
+
+            FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ name +".yml");
+
+            File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Items/item/"+ name +".yml");
+            try {
+                itemConfig.save(itemPatch);
+            }catch (Exception exception){
+                exception.printStackTrace();
+            }
+        }
+
         /**設置核心公式字串**/
         new PlayerAttributeCore().setFormula();
 
@@ -340,6 +352,20 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
                 new SaveConfig().setConfig(player);
                 //PlayerDataMap.getPlayerDataMap().get(playerUUID).removeAttribute(player);
                 PlayerManager.getPlayerDataMap().remove(playerUUID);
+            }
+        }
+        //儲存物品資訊
+        FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
+        String[] strings = MenuSet.getItemMenuButtomNameArray(itemMenuConfig, "Items");
+        for(String name : strings){
+
+            FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ name +".yml");
+
+            File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Items/item/"+ name +".yml");
+            try {
+                itemConfig.save(itemPatch);
+            }catch (Exception exception){
+                exception.printStackTrace();
             }
         }
 

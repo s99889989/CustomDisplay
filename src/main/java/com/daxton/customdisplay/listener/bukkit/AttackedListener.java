@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.EntityEffect;
 import org.bukkit.Material;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
@@ -36,6 +37,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -65,7 +67,8 @@ public class AttackedListener implements Listener {
             LivingEntity target = convertLivingEntity(event.getDamager());
             String uuidString = player.getUniqueId().toString();
 
-            if(player.isBlocking()){ // && player.isBlocking() event.getFinalDamage() == 0 && material == Material.SHIELD
+            Material offMaterial = player.getInventory().getItemInOffHand().getType();
+            if(player.isBlocking() && offMaterial == Material.SHIELD){ // && player.isBlocking() event.getFinalDamage() == 0 && material == Material.SHIELD
 
                 onSheild(player, uuidString);
 
@@ -115,8 +118,24 @@ public class AttackedListener implements Listener {
         }
         if(PlayerManager.shield_Delay_Boolean_Map.get(uuidString) != null){
             boolean sheildBoolean = PlayerManager.shield_Delay_Boolean_Map.get(uuidString);
-            if(sheildBoolean){
-                player.setCooldown(Material.SHIELD,100);
+            ItemStack offitemStack = player.getInventory().getItemInOffHand();
+            int cool = 0;
+            if(offitemStack != null){
+                String ss = offitemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "CoolDown"), PersistentDataType.STRING);
+
+                if(offitemStack.getType() == Material.SHIELD && ss != null){
+                    try {
+                        cool = Integer.parseInt(ss);
+                    }catch (NumberFormatException exception){
+
+                    }
+                }
+            }
+
+
+            if(sheildBoolean && cool > 0){
+                //player.sendMessage("時間: "+cool);
+                player.setCooldown(Material.SHIELD,cool);
                 player.playEffect(EntityEffect.SHIELD_BREAK);
                 ItemStack itemStackOFF = player.getInventory().getItemInOffHand();
                 ItemStack itemStack = new ItemStack(Material.AIR);
@@ -134,7 +153,7 @@ public class AttackedListener implements Listener {
                         PlayerManager.shield_Delay_Boolean_Map.put(uuidString, true);
                     }
                 });
-                PlayerManager.shield_Delay_Run_Map.get(uuidString).runTaskLater(cd,100);
+                PlayerManager.shield_Delay_Run_Map.get(uuidString).runTaskLater(cd,cool);
             }
         }
     }

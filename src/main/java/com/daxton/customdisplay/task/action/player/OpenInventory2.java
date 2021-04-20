@@ -235,6 +235,7 @@ public class OpenInventory2 {
         Player player = (Player) event.getWhoClicked();
 
 
+
         int i = event.getRawSlot();
         if(RawSlot.get(i) != null && RawSlot.get(i) == i){
             event.setCancelled(Move.get(i));
