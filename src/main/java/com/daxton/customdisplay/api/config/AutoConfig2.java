@@ -21,7 +21,7 @@ public class AutoConfig2 {
 
     public AutoConfig2(){
 
-        File testFile = new File("plugins/CustomDisplay-1.14.6.jar");
+        File testFile = new File("plugins/CustomDisplay-1.15.jar");
         try {
             List<String> testList = readZipFile(testFile.toString());
 

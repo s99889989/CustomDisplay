@@ -1,12 +1,4 @@
 Language:
-  Command:
-    isOP: '§e[CustomDisplay] §aSomente jogadores com OP podem usar este comando'
-    reload: '§e[CustomDisplay] §aPlugin reiniciado com sucesso'
-    help:
-      Description: '§e[CustomDisplay]'
-      info:
-      - '§7/cd help §6Mostrar todos os comandos'
-      - '§7/cd reload §6Reiniciar o plugin'
   ResourcePack:
     join: "§e[CustomDisplay] §aA texture pack do servidor começara a ser instalada e carregada em {time} segundos."
     

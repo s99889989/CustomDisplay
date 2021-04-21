@@ -65,13 +65,18 @@ public class Loop2 extends BukkitRunnable {
 
         onEnd = customLineConfig.getActionKeyList(new String[]{"onend"},null, self, target);
 
-        period = customLineConfig.getInt(new String[]{"period"},5, self, target);
+        period = customLineConfig.getInt(new String[]{"period"},1, self, target);
 
         duration = customLineConfig.getInt(new String[]{"duration"},20, self, target);
+
+        if(period <= 0){
+            period = 1;
+        }
+
         if(duration == 0){
             unlimited = true;
         }
-        //unlimited = customLineConfig.getBoolean(new String[]{"unlimitedtime","ut"}, self, target);
+
     }
 
     public void onStart(){
@@ -237,10 +242,12 @@ public class Loop2 extends BukkitRunnable {
 
         ticksRun = ticksRun + period;
         onTime();
+
         if(!unlimited){
             if(ticksRun > duration){
                 onEnd();
                 cancel();
+                return;
             }
         }
     }

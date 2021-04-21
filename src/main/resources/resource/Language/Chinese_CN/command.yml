@@ -1,0 +1,9 @@
+Language:
+  Command:
+    isOp: '§e[CustomDisplay] §a只有OP能使用此指令'
+    reload: '§e[CustomDisplay] §a插件重载成功'
+    help:
+      Description: '§e[CustomDisplay]'
+      info:
+      - '§7/cd help §6显示所有指令'
+      - '§7/cd reload §6重载插件'

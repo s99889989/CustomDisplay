@@ -291,25 +291,13 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
     }
 
     public void load(){
+        //儲存物品資訊
+        SaveConfig.saveItemFile();
         configManager = new ConfigManager(customDisplay);
+
         mapReload();
     }
     public void mapReload(){
-
-        //儲存物品資訊
-        FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
-        String[] strings = MenuSet.getItemMenuButtomNameArray(itemMenuConfig, "Items");
-        for(String name : strings){
-
-            FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ name +".yml");
-
-            File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Items/item/"+ name +".yml");
-            try {
-                itemConfig.save(itemPatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
-        }
 
         /**設置核心公式字串**/
         new PlayerAttributeCore().setFormula();
@@ -355,19 +343,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
             }
         }
         //儲存物品資訊
-        FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
-        String[] strings = MenuSet.getItemMenuButtomNameArray(itemMenuConfig, "Items");
-        for(String name : strings){
-
-            FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ name +".yml");
-
-            File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Items/item/"+ name +".yml");
-            try {
-                itemConfig.save(itemPatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
-        }
+        SaveConfig.saveItemFile();
 
         getLogger().info("Plugin disable");
         getLogger().info("插件卸載");

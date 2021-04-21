@@ -1,6 +1,5 @@
 package com.daxton.customdisplay.api.item.gui;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.api.item.MenuSet;
@@ -18,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemListMenu {
+public class ItemList {
 
     public Map<Integer,Integer> RawSlot = new HashMap<>();
 
@@ -35,7 +34,7 @@ public class ItemListMenu {
     public boolean havePrevioust;
 
 
-    public ItemListMenu(){
+    public ItemList(){
 
     }
 
@@ -43,14 +42,14 @@ public class ItemListMenu {
         this.nextPageCount = itemCount;
 
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_Inventory6_Map.get(uuidString) == null){
-            PlayerManager.menu_Inventory6_Map.put(uuidString, getInventory(typeName, itemName, itemCount));
-            Inventory inventory = PlayerManager.menu_Inventory6_Map.get(uuidString);
+        if(PlayerManager.menu_ItemList_Inventory_Map.get(uuidString) == null){
+            PlayerManager.menu_ItemList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, itemCount));
+            Inventory inventory = PlayerManager.menu_ItemList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }else{
-            PlayerManager.menu_Inventory6_Map.remove(uuidString);
-            PlayerManager.menu_Inventory6_Map.put(uuidString, getInventory(typeName, itemName, itemCount));
-            Inventory inventory = PlayerManager.menu_Inventory6_Map.get(uuidString);
+            PlayerManager.menu_ItemList_Inventory_Map.remove(uuidString);
+            PlayerManager.menu_ItemList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, itemCount));
+            Inventory inventory = PlayerManager.menu_ItemList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }
 
@@ -61,16 +60,16 @@ public class ItemListMenu {
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString) != null){
+        if(PlayerManager.menu_ItemList_Map.get(uuidString) != null){
             int i = event.getRawSlot();
-            Map<Integer,Integer> RawSlot = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).RawSlot;
-            Map<Integer,String> materialName = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).materialName;
-            String typeName = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).itemName;
-            int nextPageCount = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).nextPageCount;
-            boolean haveNext = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).haveNext;
-            int previousPageCount = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).previousPageCount;
-            boolean havePrevioust = PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).havePrevioust;
+            Map<Integer,Integer> RawSlot = PlayerManager.menu_ItemList_Map.get(uuidString).RawSlot;
+            Map<Integer,String> materialName = PlayerManager.menu_ItemList_Map.get(uuidString).materialName;
+            String typeName = PlayerManager.menu_ItemList_Map.get(uuidString).typeName;
+            String itemName = PlayerManager.menu_ItemList_Map.get(uuidString).itemName;
+            int nextPageCount = PlayerManager.menu_ItemList_Map.get(uuidString).nextPageCount;
+            boolean haveNext = PlayerManager.menu_ItemList_Map.get(uuidString).haveNext;
+            int previousPageCount = PlayerManager.menu_ItemList_Map.get(uuidString).previousPageCount;
+            boolean havePrevioust = PlayerManager.menu_ItemList_Map.get(uuidString).havePrevioust;
 
             ItemSet itemSet = new ItemSet(player, typeName, itemName);
             if(event.getClick() == ClickType.LEFT){
@@ -78,26 +77,31 @@ public class ItemListMenu {
                 if(RawSlot.get(i) != null && RawSlot.get(i) == i){
                     itemSet.setMaterial(materialName.get(i));
                     itemSet.openItemListMenu(nextPageCount-28);
+                    return;
                 }
-
 
                 //給物品
                 if(i == 4){
                     itemSet.giveItem();
+                    return;
                 }
 
                 if(i == 8){
                     player.closeInventory();
+                    return;
                 }
 
                 if(i == 0){
-                    PlayerManager.menu_Inventory_ItemMenuEdit_Map.get(uuidString).openMenu(player, typeName, itemName);
+                    new OpenMenuGUI(player).EditItem(typeName, itemName);
+                    return;
+
                 }
                 if(havePrevioust && i == 45){
-                    PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).openMenu(player, typeName, itemName, previousPageCount);
+                    new OpenMenuGUI(player).ItemList(typeName, itemName, previousPageCount);
+                    return;
                 }
                 if(haveNext && i == 53){
-                    PlayerManager.menu_Inventory_ItemListMenu_Map.get(uuidString).openMenu(player, typeName, itemName, nextPageCount);
+                    new OpenMenuGUI(player).ItemList(typeName, itemName, nextPageCount);
                 }
 
 
@@ -116,24 +120,24 @@ public class ItemListMenu {
         this.itemName = itemName;
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+typeName+".yml");
 
-        Inventory inventory = Bukkit.createInventory(null, 54 , typeName);
+        Inventory inventory = Bukkit.createInventory(null, 54 , MenuSet.getGuiTitle("ItemList"));
 
         int i = 10;
         this.havePrevioust = false;
         if(itemCount > 0){
             this.havePrevioust = true;
             this.previousPageCount = this.nextPageCount-28;
-            inventory.setItem(45, MenuSet.getItemMenuButtom("ItemsButtom","PreviousPage"));
+            inventory.setItem(45, MenuSet.getItemButtom("Buttom", "ItemList","PreviousPage"));
         }
         this.RawSlot.clear();
 
         Material[] stringArray = Material.values();
         int itmeAmount = stringArray.length-112;
-        for(int k = 0+itemCount; k < stringArray.length ;k++){
+        for(int k = itemCount; k < stringArray.length ;k++){
             if(i == 44){
                 break;
             }
-            if(i == 17 || i == 26 || i == 35 || i == 44){
+            if(i == 17 || i == 26 || i == 35){
                 i+=2;
             }
             this.RawSlot.put(i,i);
@@ -146,15 +150,15 @@ public class ItemListMenu {
         this.haveNext = false;
         if(itmeAmount-itemCount > 28){
             this.haveNext = true;
-            inventory.setItem(53,MenuSet.getItemMenuButtom("ItemsButtom","NextPage"));
+            inventory.setItem(53,MenuSet.getItemButtom("Buttom", "ItemList","NextPage"));
         }
 
         inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
-        inventory.setItem(0, MenuSet.getItemMenuButtom("ItemListButtom","ToTypeMenu"));
-        inventory.setItem(8,MenuSet.getItemMenuButtom("ItemsButtom","CloseMenu"));
-        inventory.setItem(47,MenuSet.getItemMenuButtom("ItemsButtom","Delete"));
-        inventory.setItem(49,MenuSet.getItemMenuButtom("ItemsButtom","Description"));
-        inventory.setItem(51,MenuSet.getItemMenuButtom("ItemsButtom","Create"));
+
+        inventory.setItem(0, MenuSet.getItemButtom("Buttom", "ItemList","ToEditItem"));
+        inventory.setItem(8,MenuSet.getItemButtom("Buttom", "ItemList","Exit"));
+        inventory.setItem(49,MenuSet.getItemButtom("Buttom", "ItemList","Description"));
+
 
         return inventory;
     }

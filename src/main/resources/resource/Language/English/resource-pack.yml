@@ -1,12 +1,4 @@
 Language:
-  Command:
-    isOp: '§e[CustomDisplay] §aOnly OP can use this command'
-    reload: '§e[CustomDisplay] §aPlugin reload successfully'
-    help:
-      Description: '§e[CustomDisplay]'
-      info:
-      - '§7/cd help §6Show all command'
-      - '§7/cd reload §6Reload plugin'
   ResourcePack:
     join: "§e[CustomDisplay] §aThe server resource pack will start downloading and loading in {time} seconds."
     

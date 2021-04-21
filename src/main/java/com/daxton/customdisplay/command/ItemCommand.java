@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.command;
 
-import com.daxton.customdisplay.api.item.gui.ItemMenuMain;
+import com.daxton.customdisplay.api.item.gui.ItemCategorySelection;
+import com.daxton.customdisplay.api.item.gui.OpenMenuGUI;
 import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,25 +19,13 @@ public class ItemCommand {
             if(sender instanceof Player){
                 Player player = (Player) sender;
                 //打開物品清單
-                if(args[1].contains("menu")){
-                    openMenu(player);
+                if(args[1].equalsIgnoreCase("edit")){
+                    new OpenMenuGUI(player).ItemCategorySelection();
                 }
             }
 
         }
         return true;
     }
-
-    public static void openMenu(Player player){
-        String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_Inventory_ItemMenu_Map.get(uuidString) == null){
-            PlayerManager.menu_Inventory_ItemMenu_Map.put(uuidString, new ItemMenuMain());
-        }
-        if(PlayerManager.menu_Inventory_ItemMenu_Map.get(uuidString) != null){
-            PlayerManager.menu_Inventory_ItemMenu_Map.get(uuidString).openMenu(player);
-        }
-
-    }
-
 
 }

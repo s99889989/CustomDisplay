@@ -1,0 +1,630 @@
+Language:
+  GuiTitle:
+    ItemCategorySelection: 'Item category selection interface'
+    SelectItems: 'Item selection interface'
+    EditItem: 'Item editing interface'
+    EditFlags: 'Flag Editing Interface'
+    EditEnchantment: 'Enchant editing interface'
+    EditAttributes: 'Attribute editing interface'
+    ItemList: 'Item Type List'
+  Buttom:
+    ItemCategorySelection:
+    
+      Exit: '§eClose the menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      Save: '§eSave the modified item data'
+      SaveInfo:
+      - ''
+      - '§7 Store modified item data'
+      - '§7 Reread the plug-in or'
+      - '§7 When the server is turned off'
+      - '§7 also store item information'
+      
+    SelectItems:
+    
+      ToItemCategorySelection: '§eBack to the item category selection interface'
+      ToItemCategorySelectionInfo:
+      - ''
+      - '§7Item classification selection interface'
+      
+      Exit: '§eClose the menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      PreviousPage: '§ePrevious Page'
+      PreviousPageInfo:
+      - ''
+      - '§7Previous Page'
+      
+      NextPage: '§eNext Page'
+      NextPageInfo:
+      - ''
+      - '§7Next Page'
+      
+      Description: '§eDescription'
+      DescriptionInfo:
+      - ''
+      - '§7Left click to get items'
+      - '§7Right click to edit items'
+      - '§7Shift+right click to delete items'
+      
+      Create: '§eCreate'
+      CreateInfo:
+      - ''
+      - '§7Left click to create items'
+      CreateMessage: '§eEnter in the dialog'
+      CreateSubMessage: '§aItem ID to be set'
+    
+    EditItem:
+    
+      ToSelectItems: '§eBack to the item selection interface'
+      ToSelectItemsInfo:
+      - ''
+      - '§7Back to the item selection interface'
+      
+      Exit: '§eClose menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      Description: '§eDescription'
+      DescriptionInfo:
+      - ''
+      - '§7Left click to get items'
+      
+      EditDisplayName: '§athe name of the item'
+      EditDisplayNameInfo:
+      - ''
+      - '§7Edit the name of the item'
+      - ''
+      - '§eLeft click to edit the name of the item'
+      - '§eRight click to remove the name of the item'
+      EditDisplayNameMessage: '§eEnter in the dialog'
+      EditDisplayNameSubMessage: '§aThe name of the item to be modified'
+      
+      EditMaerial: '§aType of item'
+      EditMaerialInfo:
+      - ''
+      - '§7Edit the type of item'
+      - ''
+      - '§eLeft click to edit the type of item (click)'
+      - '§eShift+Left click to edit the type of the item (enter in the dialog box)'
+      - '§eRight click to give the item type to the default value'
+      EditMaerialMessage: '§eEnter in the dialog'
+      EditMaerialSubMessage: '§aType name of the item to be modified'
+      
+      EditData: '§aItem durability'
+      EditDataInfo:
+      - ''
+      - '§7requires integer numbers'
+      - ''
+      - '§eLeft click to edit durable data'
+      - '§eRight click to remove durable data'
+      EditDataMessage: '§eEnter in the dialog'
+      EditDataSubMessage: '§aThe durability value of the item to be modified Data'
+      
+      EditCustomModelData: '§aCustomModelData of the item'
+      EditCustomModelDataInfo:
+      - ''
+      - '§7Only 1.14 and above versions'
+      - '§7Edit the CustomModelData of an item'
+      - '§7requires integer numbers'
+      - ''
+      - '§eLeft click to edit CustomModelData'
+      - '§eRight click to remove CustomModelData'
+      EditCustomModelDataMessage: '§eEnter in the dialog'
+      EditCustomModelDataSubMessage: '§aItem CustomModelData to be modified'
+      
+      EditLore: '§aLore of an item'
+      EditLoreInfo:
+      - ''
+      - '§7Lore of Editing Items'
+      - ''
+      - '§eLeft click to edit Lore of the item'
+      - '§eRight click on Lore to remove items'
+      
+      EditUnbreakable: '§aUnbreakable'
+      EditUnbreakableInfo:
+      - ''
+      - '§7Attributes only available in tools or weapons'
+      - ''
+      - '§eLeft click to set as non-destructible'
+      - '§eRight click to set as destructible'
+      
+      EditItemFlags: '§aItemFlags'
+      EditItemFlagsInfo:
+      - ''
+      - '§7Hide and show some information about enchanting, etc.'
+      - ''
+      - '§eLeft click to edit content'
+      - '§eRight click to remove content'
+      
+      EditEnchantments: '§aEnchants'
+      EditEnchantmentsInfo:
+      - ''
+      - '§7Equipment Enchantment'
+      - ''
+      - '§eLeft click to edit content'
+      - '§eRight click to remove content'
+      
+      EditAttributes: '§aAttribute'
+      EditAttributesInfo:
+      - ''
+      - '§7Equipment attributes'
+      - ''
+      - '§eLeft click to edit content'
+      - '§eRight click to remove content'
+      
+      EditHeadValue: '§aheader value'
+      EditHeadValueInfo:
+      - ''
+      - '§7You can set the name of the player'
+      - '§7or the value of the item'
+      - ''
+      - '§eLeft click to edit content'
+      - '§eRight click to remove content'
+      EditHeadValueMessage: '§eEnter in the dialog'
+      EditHeadValueSubMessage: '§aHead value'
+
+    EditFlags:
+    
+      ToEditItem: '§eBack to the item selection interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the item selection interface'
+      
+      Exit: '§eClose menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      HideAttributes: '§eHide display attributes'
+      HideAttributesInfo:
+      - ''
+      - '§7Hide display attributes'
+      
+      HideDestroys: '§eHide and show the blocks that can be destroyed by items'
+      HideDestroysInfo:
+      - ''
+      - '§7Hide and show the blocks that can be destroyed by items'
+      
+      HideDye: '§eHide Dye'
+      HideDyeInfo:
+      - ''
+      - '§7Hide Dye'
+      
+      HideEnchants: '§eHide and Show Enchants'
+      HideEnchantsInfo:
+      - ''
+      - '§7Hide and Show Enchants'
+      
+      HidePlacedOn: '§eHide and show the block where items can be placed'
+      HidePlacedOnInfo:
+      - ''
+      - '§7Hide and show the block where items can be placed'
+      
+      HidePotionEffects: '§eHide Potion Effect'
+      HidePotionEffectsInfo:
+      - ''
+      - '§7Hide Potion Effect'
+      
+      HideUnbreakable: '§eHidden display cannot be broken'
+      HideUnbreakableInfo:
+      - ''
+      - '§7Hidden display cannot be broken'
+
+    EditEnchantment:
+    
+      ToEditItem: '§eBack to the item selection interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the item selection interface'
+      
+      Exit: '§eClose menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      Description: '§eDescription'
+      DescriptionInfo:
+      - ''
+      - '§7Left click to get items'
+
+      DescriptionMessage: '§eEnter in the dialog'
+      DescriptionSubMessage: '§aEnchanting level'
+      
+      PreviousPage: '§ePrevious Page'
+      PreviousPageInfo:
+      - ''
+      - '§7Previous Page'
+      
+      NextPage: '§eNext Page'
+      NextPageInfo:
+      - ''
+      - '§7Next Page'
+      
+      fire_protection: '§aFire Protection'
+      fire_protectionInfo:
+      - ''
+      - '§7Fire Protection'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      sharpness: '§aSharpness'
+      sharpnessInfo:
+      - ''
+      - '§7Sharpness'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      flame: '§aFlame'
+      flameInfo:
+      - ''
+      - '§7Flame'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      soul_speed: '§aSoul Speed'
+      soul_speedInfo:
+      - ''
+      - '§7Soul Speed'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      aqua_affinity: '§aAqua Affinity'
+      aqua_affinityInfo:
+      - ''
+      - '§7Aqua Affinity'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      punch: '§aPunch'
+      punchInfo:
+      - ''
+      - '§7Punch'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      loyalty: '§aLoyalty'
+      loyaltyInfo:
+      - ''
+      - '§7Loyalty'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      depth_strider: '§aDepth Strider'
+      depth_striderInfo:
+      - ''
+      - '§7Depth Strider'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      vanishing_curse: '§aCurse of Vanishing'
+      vanishing_curseInfo:
+      - ''
+      - '§7Curse of Vanishing'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      unbreaking: '§aUnbreaking'
+      unbreakingInfo:
+      - ''
+      - '§7Unbreaking'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      knockback: '§aKnockback'
+      knockbackInfo:
+      - ''
+      - '§7Knockback'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      luck_of_the_sea: '§aLuck of the Sea'
+      luck_of_the_seaInfo:
+      - ''
+      - '§7Luck of the Sea'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      binding_curse: '§aCurse of Binding'
+      binding_curseInfo:
+      - ''
+      - '§7Curse of Binding'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      fortune: '§aFortune'
+      fortuneInfo:
+      - ''
+      - '§7Fortune'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      protection: '§aProtection'
+      protectionInfo:
+      - ''
+      - '§7Protection'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      efficiency: '§aEfficiency'
+      efficiencyInfo:
+      - ''
+      - '§7Efficiency'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      mending: '§aMending'
+      mendingInfo:
+      - ''
+      - '§7Mending'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      frost_walker: '§aFrost Walker'
+      frost_walkerInfo:
+      - ''
+      - '§7Frost Walker'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      lure: '§aLure'
+      lureInfo:
+      - ''
+      - '§7Lure'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      looting: '§aLooting'
+      lootingInfo:
+      - ''
+      - '§7Looting'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      piercing: '§aPiercing'
+      piercingInfo:
+      - ''
+      - '§7Piercing'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      blast_protection: '§aBlast Protection'
+      blast_protectionInfo:
+      - ''
+      - '§7Blast Protection'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      smite: '§aSmite'
+      smiteInfo:
+      - ''
+      - '§7Smite'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      multishot: '§aMultishot'
+      multishotInfo:
+      - ''
+      - '§7Multishot'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      fire_aspect: '§aFire Aspect'
+      fire_aspectInfo:
+      - ''
+      - '§7Fire Aspect'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      channeling: '§aChanneling'
+      channelingInfo:
+      - ''
+      - '§7Channeling'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      sweeping: '§aSweeping Edge'
+      sweepingInfo:
+      - ''
+      - '§7Sweeping Edge'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      thorns: '§aThorns'
+      thornsInfo:
+      - ''
+      - '§7Thorns'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      bane_of_arthropods: '§aBane of Arthropods'
+      bane_of_arthropodsInfo:
+      - ''
+      - '§7Bane of Arthropods'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      respiration: '§aRespiration'
+      respirationInfo:
+      - ''
+      - '§7Respiration'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      riptide: '§aRiptide'
+      riptideInfo:
+      - ''
+      - '§7Riptide'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      silk_touch: '§aSkill Touch'
+      silk_touchInfo:
+      - ''
+      - '§7Skill Touch'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      quick_charge: '§aQuick Charge'
+      quick_chargeInfo:
+      - ''
+      - '§7Quick Charge'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      projectile_protection: '§aProjectile Protection'
+      projectile_protectionInfo:
+      - ''
+      - '§7Projectile Protection'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      impaling: '§aImpaling'
+      impalingInfo:
+      - ''
+      - '§7Impaling'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      feather_falling: '§aFeather Falling'
+      feather_fallingInfo:
+      - ''
+      - '§7Feather Falling'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      power: '§aPower'
+      powerInfo:
+      - ''
+      - '§7Power'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+      
+      infinity: '§aInfinity'
+      infinityInfo:
+      - ''
+      - '§7Infinity'
+      - ''
+      - '§eLeft click to enter the enchantment level'
+    
+    EditAttributes:
+      ToEditItem: '§eBack to the item selection interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the item selection interface'
+      
+      Exit: '§eClose menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      Application: '§eApplication'
+      ApplicationInfo:
+      - ''
+      - '§7Left click to apply the set attributes to the items'
+      - '§7Right-click to remove attributes (remove from the top)'
+      
+      EquipmentSlot: '§aEquipment part{value}'
+      EquipmentSlotInfo:
+      - ''
+      - '§7CHEST : Body'
+      - '§7FEET : Feet'
+      - '§7HAND : Main hand'
+      - '§7HEAD : Head'
+      - '§7LEGS : Legs'
+      - '§7OFF_HAND : Deputy'
+      - '§7ALL : All parts'
+      - ''
+      - '§eLeft click to switch equipment parts'
+      - '§eRight click to switch equipment parts'
+      
+      Inherit: '§aAttributes name{value}'
+      InheritInfo:
+      - ''
+      - '§7GENERIC_MAX_HEALTH : HP'
+      - '§7GENERIC_KNOCKBACK_RESISTANCE : Fight back'
+      - '§7GENERIC_MOVEMENT_SPEED : Movement speed'
+      - '§7GENERIC_ATTACK_DAMAGE : Attack damage'
+      - '§7GENERIC_ATTACK_SPEED : Attack rate'
+      - '§7GENERIC_ARMOR : Defense value of armor'
+      - '§7GENERIC_ARMOR_TOUGHNESS :  armor toughness'
+      - '§7GENERIC_LUCK : Luck of dropped items'
+      - ''
+      - '§eLeft click to switch properties'
+      - '§eRight-click to switch properties'
+      
+      Operation: '§aCalculation method{value}'
+      OperationInfo:
+      - ''
+      - '§7ADD_NUMBER : Directly add or subtract the amount'
+      - '§7ADD_SCALAR : Base value multiplier'
+      - '§7MULTIPLY_SCALAR_1 : Multiply the base value by the amount, then subtract 1'
+      - ''
+      - '§eLeft click to switch calculation method'
+      - '§eRight click to switch calculation method'
+      
+      Amount: '§aAmount{value}'
+      AmountInfo:
+      - ''
+      - '§7Amount'
+      - ''
+      - '§eLeft click to enter a number in the dialog box'
+      AmountMessage: '§eEnter in the dialog'
+      AmountSubMessage: '§aNumerical value'
+    
+    EditLore:
+      LoreDisplay: '§aLine {value}'
+      LoreDisplayInfo:
+      - ''
+      - '{value}'
+      - ''
+      - '§eShift+left click to increase Lore'
+      - '§eLeft click to edit Lore'
+      - '§eRight click to delete Lore'
+      LoreDisplayMessage: '§ePlease enter in the dialog'
+      LoreDisplaySubMessage: '§aLore content to be modified'
+      LoreDisplayMessage2: '§ePlease enter in the dialog'
+      LoreDisplaySubMessage2: '§aThe content to be inserted in the previous line'
+      
+      LoreAdd: '§aLine {value}'
+      LoreAddInfo:
+      - ''
+      - '§7air'
+      - ''
+      - '§eLeft click to increase Lore'
+      LoreAddMessage: '§ePlease enter in the dialog'
+      LoreAddSubMessage: '§aLore to increase'
+    
+    ItemList:
+      ToEditItem: '§eBack to the item selection interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the item selection interface'
+      
+      Exit: '§eClose menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      PreviousPage: '§ePrevious Page'
+      PreviousPageInfo:
+      - ''
+      - '§7Previous Page'
+      
+      NextPage: '§eNext Page'
+      NextPageInfo:
+      - ''
+      - '§7Next Page'
+      
+      Description: '§eDescription'
+      DescriptionInfo:
+      - ''
+      - '§7Left click on the item to select the desired type'
+      
+      

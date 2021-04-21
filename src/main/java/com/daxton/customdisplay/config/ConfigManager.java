@@ -34,7 +34,7 @@ public class ConfigManager {
 
         config = new AutoConfig("resource/config.yml","config.yml").get();
 
-        language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
+        //language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
 
         File players_file = new File(cd.getDataFolder(),"Players");
         if(!players_file.exists()){
@@ -51,7 +51,7 @@ public class ConfigManager {
         new AutoConfig2();
 
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
-        String[] strings = MenuSet.getItemMenuButtomNameArray(itemMenuConfig, "Items");
+        String[] strings = MenuSet.getItemMenuButtomNameArray();
         for(String name : strings){
             String patchString = "Items/item/"+ name +".yml";
             String patchString2 = patchString.replace("/","_");

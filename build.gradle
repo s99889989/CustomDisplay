@@ -80,7 +80,7 @@ dependencies {
 
 
     group = 'com.daxton'
-    version = '1.14.6'
+    version = '1.15'
     description = 'CustomDisplay'
     sourceCompatibility = '1.8'
 

@@ -1,0 +1,223 @@
+MenuName: '自訂物品選單'
+
+Items:
+  Type:
+    Default:
+      DisplayMaterial: Coal:400
+      ShowName: '§eMiscellaneous'
+      Lore:
+      - ''
+      - '§7Clutter area'
+    Weapon:
+      DisplayMaterial: diamond_sword:0
+      ShowName: '§eWeapon'
+      Lore:
+      - ''
+      - '§7Attack equipment'
+    Armor:
+      DisplayMaterial: shield:0
+      ShowName: '§eArmor'
+      Lore:
+      - ''
+      - '§7Defensive equipment'
+    Potion:
+      DisplayMaterial: POTION:0
+      ShowName: '§ePotion'
+      Lore:
+      - ''
+      - '§7Potion area'
+
+Buttom:
+  ItemCategorySelection:
+    Exit:
+      DisplayMaterial: spruce_door:0
+    Save:
+      DisplayMaterial: 'Map:0'
+      
+  SelectItems:
+    ToItemCategorySelection:
+      DisplayMaterial: Arrow:0
+    Exit:
+      DisplayMaterial: spruce_door:0
+    PreviousPage:
+      DisplayMaterial: Arrow:0
+    NextPage:
+      DisplayMaterial: Arrow:0
+    Description:
+      DisplayMaterial: Book:0
+    Create:
+      DisplayMaterial: Writable_book:0
+      
+  EditItem:
+    ToSelectItems:
+      DisplayMaterial: Arrow:0
+    Exit:
+      DisplayMaterial: spruce_door:0
+    Description:
+      DisplayMaterial: Book:0
+    EditDisplayName:
+      DisplayMaterial: BIRCH_SIGN:0
+    EditMaerial:
+      DisplayMaterial: ITEM_FRAME:0
+    EditData:
+      DisplayMaterial: iron_hoe:0
+    EditCustomModelData:
+      DisplayMaterial: PAINTING:0
+    EditLore:
+      DisplayMaterial: WRITABLE_BOOK:0
+    EditUnbreakable:
+      DisplayMaterial: BEDROCK:0
+    EditItemFlags:
+      DisplayMaterial: BOOKSHELF:0
+    EditEnchantments:
+      DisplayMaterial: ENCHANTING_TABLE:0
+    EditAttributes:
+      DisplayMaterial: MAGMA_CREAM:0
+    EditHeadValue:
+      DisplayMaterial: PLAYER_HEAD:0
+      
+  EditFlags:
+    ToEditItem:
+      DisplayMaterial: Arrow:0
+    Exit:
+      DisplayMaterial: spruce_door:0
+    HideAttributes:
+      DisplayMaterial: MAGMA_CREAM:0
+    HideDestroys:
+      DisplayMaterial: BEDROCK:0
+    HideDye:
+      DisplayMaterial: PURPLE_DYE:0
+    HideEnchants:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    HidePlacedOn:
+      DisplayMaterial: GRASS_BLOCK:0
+    HidePotionEffects:
+      DisplayMaterial: POTION:0
+    HideUnbreakable:
+      DisplayMaterial: FLINT:0
+      
+  EditEnchantment:
+    ToEditItem:
+      DisplayMaterial: Arrow:0
+    Exit:
+      DisplayMaterial: spruce_door:0
+    Description:
+      DisplayMaterial: Book:0
+    PreviousPage:
+      DisplayMaterial: Arrow:0
+    NextPage:
+      DisplayMaterial: Arrow:0
+    fire_protection:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    sharpness:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    flame:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    soul_speed:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    aqua_affinity:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    punch:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    loyalty:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    depth_strider:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    vanishing_curse:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    unbreaking:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    knockback:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    luck_of_the_sea:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    binding_curse:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    fortune:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    protection:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    efficiency:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    mending:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    frost_walker:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    lure:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    looting:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    piercing:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    piercing:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    blast_protection:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    smite:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    multishot:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    fire_aspect:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    channeling:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    sweeping:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    thorns:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    bane_of_arthropods:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    respiration:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    riptide:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    silk_touch:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    quick_charge:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    projectile_protection:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    impaling:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    feather_falling:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    power:
+      DisplayMaterial: ENCHANTED_BOOK:0
+    infinity:
+      DisplayMaterial: ENCHANTED_BOOK:0
+      
+  EditAttributes:
+    ToEditItem:
+      DisplayMaterial: Arrow:0
+    Exit:
+      DisplayMaterial: spruce_door:0
+    Application:
+      DisplayMaterial: Book:0
+    EquipmentSlot:
+      DisplayMaterial: IRON_CHESTPLATE:0
+    Inherit:
+      DisplayMaterial: MAGMA_CREAM:0
+    Operation:
+      DisplayMaterial: REPEATER:0
+    Amount:
+      DisplayMaterial: WHEAT_SEEDS:0
+
+  EditLore:
+    LoreDisplay:
+      DisplayMaterial: WRITABLE_BOOK:0
+    LoreAdd:
+      DisplayMaterial: BOOK:0
+
+  ItemList:
+    ToEditItem:
+      DisplayMaterial: Arrow:0
+    Exit:
+      DisplayMaterial: spruce_door:0
+    PreviousPage:
+      DisplayMaterial: Arrow:0
+    NextPage:
+      DisplayMaterial: Arrow:0
+    Description:
+      DisplayMaterial: Book:0
+
+

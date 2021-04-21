@@ -41,7 +41,7 @@ public class TabCommand implements TabCompleter {
                 commandList = Arrays.stream(playerName).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
             }
             if(args[0].contains("items")){
-                String[] itemsArray = {"menu"};
+                String[] itemsArray = {"edit"};
                 commandList = Arrays.stream(itemsArray).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
 
             }

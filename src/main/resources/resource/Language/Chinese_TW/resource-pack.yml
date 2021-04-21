@@ -1,12 +1,4 @@
 Language:
-  Command:
-    isOp: '§e[CustomDisplay] §a只有OP能使用此指令'
-    reload: '§e[CustomDisplay] §a插件重載成功'
-    help:
-      Description: '§e[CustomDisplay]'
-      info:
-      - '§7/cd help §6顯示所有指令'
-      - '§7/cd reload §6重載插件'
   ResourcePack:
     join: "§e[CustomDisplay] §a服務器資源包將在{time}秒後開始下載和載入。"
     

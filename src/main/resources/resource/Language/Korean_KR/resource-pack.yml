@@ -1,12 +1,4 @@
 Language:
-  Command:
-    isOp: '§e[CustomDisplay] §aOP만 해당 명령어를 사용할 수 있습니다'
-    reload: '§e[CustomDisplay] §a플러그인 재적용이 완료되었습니다'
-    help:
-      Description: '§e[CustomDisplay]'
-      info:
-      - '§7/cd help §6모든 명령어를 보여줍니다'
-      - '§7/cd reload §6플러그인 재적용이 완료되었습니다'
   ResourcePack:
     join: "§e[CustomDisplay] §a서버 리소스팩 다운로드가 {time} 초 후에 시작됩니다."
     

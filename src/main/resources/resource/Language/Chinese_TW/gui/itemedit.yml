@@ -1,0 +1,629 @@
+Language:
+  GuiTitle:
+    ItemCategorySelection: '物品分類選擇介面'
+    SelectItems: '物品選擇介面'
+    EditItem: '物品編輯介面'
+    EditFlags: '標誌編輯介面'
+    EditEnchantment: '附魔編輯介面'
+    EditAttributes: '屬性編輯介面'
+    ItemList: '物品類型列表'
+  Buttom:
+    ItemCategorySelection:
+    
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      Save: '§e儲存修改的物品資料'
+      SaveInfo:
+      - ''
+      - '§7儲存修改的物品資料'
+      - '§7重新讀取插件或'
+      - '§7關閉伺服器時'
+      - '§7也會儲存物品資料'
+      
+    SelectItems:
+    
+      ToItemCategorySelection: '§e回到物品分類選擇介面'
+      ToItemCategorySelectionInfo:
+      - ''
+      - '§7物品分類選擇介面'
+      
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      PreviousPage: '§e上一頁'
+      PreviousPageInfo:
+      - ''
+      - '§7上一頁'
+      
+      NextPage: '§e下一頁'
+      NextPageInfo:
+      - ''
+      - '§7下一頁'
+      
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7左鍵點擊獲得物品'
+      - '§7右鍵點擊編輯物品'
+      - '§7Shift+右鍵點擊刪除物品'
+      
+      Create: '§e新增'
+      CreateInfo:
+      - ''
+      - '§7左鍵點擊新增物品'
+      CreateMessage: '§e請在對話框輸入'
+      CreateSubMessage: '§a要設定的物品ID'
+    
+    EditItem:
+    
+      ToSelectItems: '§e回到物品選擇介面'
+      ToSelectItemsInfo:
+      - ''
+      - '§7回到物品選擇介面'
+      
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7左鍵點擊獲得物品'
+      
+      EditDisplayName: '§a物品的名稱'
+      EditDisplayNameInfo:
+      - ''
+      - '§7編輯物品的名稱'
+      - ''
+      - '§e左鍵點擊編輯物品名稱'
+      - '§e右鍵點擊移除物品名稱'
+      EditDisplayNameMessage: '§e請在對話框輸入'
+      EditDisplayNameSubMessage: '§a要修改的物品名稱'
+      
+      EditMaerial: '§a物品的類型'
+      EditMaerialInfo:
+      - ''
+      - '§7編輯物品的類型'
+      - ''
+      - '§e左鍵點擊編輯物品的類型(點選)'
+      - '§eShift+左鍵點擊編輯物品的類型(對話框輸入)'
+      - '§e右鍵點擊把物品類型給為預設值'
+      EditMaerialMessage: '§e請在對話框輸入'
+      EditMaerialSubMessage: '§a要修改的物品的類型名稱'
+      
+      EditData: '§a物品的耐久'
+      EditDataInfo:
+      - ''
+      - '§7需要整數數字'
+      - ''
+      - '§e左鍵點擊編輯耐久Data'
+      - '§e右鍵點擊移除耐久Data'
+      EditDataMessage: '§e請在對話框輸入'
+      EditDataSubMessage: '§a要修改的物品的耐久值Data'
+      
+      EditCustomModelData: '§a物品的CustomModelData'
+      EditCustomModelDataInfo:
+      - ''
+      - '§7限定1.14以上版本'
+      - '§7編輯物品的CustomModelData'
+      - '§7需要整數數字'
+      - ''
+      - '§e左鍵點擊編輯CustomModelData'
+      - '§e右鍵點擊移除CustomModelData'
+      EditCustomModelDataMessage: '§e請在對話框輸入'
+      EditCustomModelDataSubMessage: '§a要修改的物品CustomModelData'
+      
+      EditLore: '§a物品的Lore'
+      EditLoreInfo:
+      - ''
+      - '§7編輯物品的Lore'
+      - ''
+      - '§e左鍵點擊編輯物品的Lore'
+      - '§e右鍵點擊移除物品的Lore'
+      
+      EditUnbreakable: '§a不可破壞'
+      EditUnbreakableInfo:
+      - ''
+      - '§7工具或武器類才會有的屬性'
+      - ''
+      - '§e左鍵點擊設置為不可破壞'
+      - '§e右鍵點擊設置為可破壞'
+      
+      EditItemFlags: '§a隱藏標籤'
+      EditItemFlagsInfo:
+      - ''
+      - '§7隱藏顯示附魔等的一些訊息'
+      - ''
+      - '§e左鍵點擊編輯內容'
+      - '§e右鍵點擊移除內容'
+      
+      EditEnchantments: '§a附魔'
+      EditEnchantmentsInfo:
+      - ''
+      - '§7裝備的附魔'
+      - ''
+      - '§e左鍵點擊編輯內容'
+      - '§e右鍵點擊移除內容'
+      
+      EditAttributes: '§a屬性'
+      EditAttributesInfo:
+      - ''
+      - '§7裝備的屬性'
+      - ''
+      - '§e左鍵點擊編輯內容'
+      - '§e右鍵點擊移除內容'
+      
+      EditHeadValue: '§a頭的值'
+      EditHeadValueInfo:
+      - ''
+      - '§7可以設定玩家的名稱'
+      - '§7或是物品的值'
+      - ''
+      - '§e左鍵點擊編輯內容'
+      - '§e右鍵點擊移除內容'
+      EditHeadValueMessage: '§e請在對話框輸入'
+      EditHeadValueSubMessage: '§a頭的值'
+
+    EditFlags:
+    
+      ToEditItem: '§e回到物品選擇介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到物品選擇介面'
+      
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      HideAttributes: '§e隱藏顯示屬性'
+      HideAttributesInfo:
+      - ''
+      - '§7隱藏顯示屬性'
+      
+      HideDestroys: '§e隱藏顯示物品可破壞的方塊'
+      HideDestroysInfo:
+      - ''
+      - '§7隱藏顯示物品可破壞的方塊'
+      
+      HideDye: '§e隱藏顯示染料'
+      HideDyeInfo:
+      - ''
+      - '§7隱藏顯示染料'
+      
+      HideEnchants: '§e隱藏顯示附魔'
+      HideEnchantsInfo:
+      - ''
+      - '§7隱藏顯示附魔'
+      
+      HidePlacedOn: '§e隱藏顯示物品可放置的方塊'
+      HidePlacedOnInfo:
+      - ''
+      - '§7隱藏顯示物品可放置的方塊'
+      
+      HidePotionEffects: '§e隱藏顯示藥水效果'
+      HidePotionEffectsInfo:
+      - ''
+      - '§7隱藏顯示藥水效果'
+      
+      HideUnbreakable: '§e隱藏顯示無法破壞'
+      HideUnbreakableInfo:
+      - ''
+      - '§7隱藏顯示無法破壞'
+
+    EditEnchantment:
+    
+      ToEditItem: '§e回到物品選擇介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到物品選擇介面'
+      
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7左鍵點擊獲得物品'
+      DescriptionMessage: '§e請在對話框輸入'
+      DescriptionSubMessage: '§a附魔等級'
+      
+      PreviousPage: '§e上一頁'
+      PreviousPageInfo:
+      - ''
+      - '§7上一頁'
+      
+      NextPage: '§e下一頁'
+      NextPageInfo:
+      - ''
+      - '§7下一頁'
+      
+      fire_protection: '§a火焰保護'
+      fire_protectionInfo:
+      - ''
+      - '§7火焰保護'
+      - ''
+      - '§e左鍵點擊編輯內容'
+      
+      sharpness: '§a鋒利'
+      sharpnessInfo:
+      - ''
+      - '§7鋒利'
+      - ''
+      - '§e左鍵點擊編輯內容'
+      
+      flame: '§a火焰'
+      flameInfo:
+      - ''
+      - '§7火焰'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      soul_speed: '§a靈魂疾走'
+      soul_speedInfo:
+      - ''
+      - '§7靈魂疾走'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      aqua_affinity: '§a親水性'
+      aqua_affinityInfo:
+      - ''
+      - '§7親水性'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      punch: '§a衝擊'
+      punchInfo:
+      - ''
+      - '§7衝擊'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      loyalty: '§a忠誠'
+      loyaltyInfo:
+      - ''
+      - '§7忠誠'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      depth_strider: '§a深海漫遊'
+      depth_striderInfo:
+      - ''
+      - '§7深海漫遊'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      vanishing_curse: '§a消失詛咒'
+      vanishing_curseInfo:
+      - ''
+      - '§7消失詛咒'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      unbreaking: '§a耐久'
+      unbreakingInfo:
+      - ''
+      - '§7耐久'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      knockback: '§a擊退'
+      knockbackInfo:
+      - ''
+      - '§7擊退'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      luck_of_the_sea: '§a海洋的祝福'
+      luck_of_the_seaInfo:
+      - ''
+      - '§7海洋的祝福'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      binding_curse: '§a綁定詛咒'
+      binding_curseInfo:
+      - ''
+      - '§7綁定詛咒'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      fortune: '§a幸運'
+      fortuneInfo:
+      - ''
+      - '§7幸運'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      protection: '§a保護'
+      protectionInfo:
+      - ''
+      - '§7保護'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      efficiency: '§a效率'
+      efficiencyInfo:
+      - ''
+      - '§7效率'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      mending: '§a修補'
+      mendingInfo:
+      - ''
+      - '§7修補'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      frost_walker: '§a冰霜行者'
+      frost_walkerInfo:
+      - ''
+      - '§7冰霜行者'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      lure: '§a魚餌'
+      lureInfo:
+      - ''
+      - '§7魚餌'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      looting: '§a掠奪'
+      lootingInfo:
+      - ''
+      - '§7掠奪'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      piercing: '§a貫穿'
+      piercingInfo:
+      - ''
+      - '§7貫穿'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      blast_protection: '§a爆炸保護'
+      blast_protectionInfo:
+      - ''
+      - '§7爆炸保護'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      smite: '§a不死剋星'
+      smiteInfo:
+      - ''
+      - '§7不死剋星'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      multishot: '§a分裂箭矢'
+      multishotInfo:
+      - ''
+      - '§7分裂箭矢'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      fire_aspect: '§a燃燒'
+      fire_aspectInfo:
+      - ''
+      - '§7燃燒'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      channeling: '§a喚雷'
+      channelingInfo:
+      - ''
+      - '§7喚雷'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      sweeping: '§a橫掃之刃'
+      sweepingInfo:
+      - ''
+      - '§7橫掃之刃'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      thorns: '§a尖刺'
+      thornsInfo:
+      - ''
+      - '§7尖刺'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      bane_of_arthropods: '§a截肢剋星'
+      bane_of_arthropodsInfo:
+      - ''
+      - '§7截肢剋星'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      respiration: '§a水中呼吸'
+      respirationInfo:
+      - ''
+      - '§7水中呼吸'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      riptide: '§a波濤'
+      riptideInfo:
+      - ''
+      - '§7波濤'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      silk_touch: '§a絲綢之觸'
+      silk_touchInfo:
+      - ''
+      - '§7絲綢之觸'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      quick_charge: '§a快速上弦'
+      quick_chargeInfo:
+      - ''
+      - '§7快速上弦'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      projectile_protection: '§a投射物保護'
+      projectile_protectionInfo:
+      - ''
+      - '§7投射物保護'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      impaling: '§a魚叉'
+      impalingInfo:
+      - ''
+      - '§7魚叉'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      feather_falling: '§a輕盈'
+      feather_fallingInfo:
+      - ''
+      - '§7輕盈'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      power: '§a強力'
+      powerInfo:
+      - ''
+      - '§7強力'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+      
+      infinity: '§a無限'
+      infinityInfo:
+      - ''
+      - '§7無限'
+      - ''
+      - '§e左鍵點擊輸入附魔等級'
+    
+    EditAttributes:
+      ToEditItem: '§e回到物品選擇介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到物品選擇介面'
+      
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      Application: '§e應用'
+      ApplicationInfo:
+      - ''
+      - '§7左鍵點擊把設定好的屬性應用在物品上'
+      - '§7右鍵點擊移除屬性(從上方開始移除)'
+      
+      EquipmentSlot: '§a裝備部位{value}'
+      EquipmentSlotInfo:
+      - ''
+      - '§7CHEST : 身體'
+      - '§7FEET : 腳'
+      - '§7HAND : 主手'
+      - '§7HEAD : 頭'
+      - '§7LEGS : 腿'
+      - '§7OFF_HAND : 副手'
+      - '§7ALL : 全部部位'
+      - ''
+      - '§e左鍵點擊切換裝備部位'
+      - '§e右鍵點擊切換裝備部位'
+      
+      Inherit: '§a屬性名稱{value}'
+      InheritInfo:
+      - ''
+      - '§7GENERIC_MAX_HEALTH : 血量'
+      - '§7GENERIC_KNOCKBACK_RESISTANCE : 抗擊退'
+      - '§7GENERIC_MOVEMENT_SPEED : 移動速度'
+      - '§7GENERIC_ATTACK_DAMAGE : 攻擊傷害'
+      - '§7GENERIC_ATTACK_SPEED : 攻擊速率'
+      - '§7GENERIC_ARMOR : 護甲的防禦值'
+      - '§7GENERIC_ARMOR_TOUGHNESS :  護甲的韌性'
+      - '§7GENERIC_LUCK : 掉落物品的運氣'
+      - ''
+      - '§e左鍵點擊切換屬性'
+      - '§e右鍵點擊切換屬性'
+      
+      Operation: '§a計算方式{value}'
+      OperationInfo:
+      - ''
+      - '§7ADD_NUMBER : 直接加上或減去量'
+      - '§7ADD_SCALAR : 基礎值乘量'
+      - '§7MULTIPLY_SCALAR_1 : 基礎值乘量，再減去1'
+      - ''
+      - '§e左鍵點擊切換計算方式'
+      - '§e右鍵點擊切換計算方式'
+      
+      Amount: '§a量{value}'
+      AmountInfo:
+      - ''
+      - '§7量'
+      - ''
+      - '§e左鍵點擊在對話框輸入數字'
+      AmountMessage: '§e請在對話框輸入'
+      AmountSubMessage: '§a數值'
+      
+    EditLore:
+      LoreDisplay: '§a第{value}行'
+      LoreDisplayInfo:
+      - ''
+      - '{value}'
+      - ''
+      - '§eShift+左鍵點擊向上一行增加Lore'
+      - '§e左鍵點擊編輯Lore'
+      - '§e右鍵點擊刪除Lore'
+      LoreDisplayMessage: '§e請在對話框輸入'
+      LoreDisplaySubMessage: '§a要修改的內容'
+      LoreDisplayMessage2: '§e請在對話框輸入'
+      LoreDisplaySubMessage2: '§a要在前一行插入的內容'
+      
+      LoreAdd: '§a第{value}行'
+      LoreAddInfo:
+      - ''
+      - '§7空'
+      - ''
+      - '§e左鍵點擊增加Lore'
+      LoreAddMessage: '§e請在對話框輸入'
+      LoreAddSubMessage: '§a要增加的Lore'
+      
+    ItemList:
+      ToEditItem: '§e回到物品選擇介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到物品選擇介面'
+      
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      PreviousPage: '§e上一頁'
+      PreviousPageInfo:
+      - ''
+      - '§7上一頁'
+      
+      NextPage: '§e下一頁'
+      NextPageInfo:
+      - ''
+      - '§7下一頁'
+      
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7左鍵點擊物品選擇'
+      
+      

@@ -40,8 +40,6 @@ public class PlayerListener implements Listener {
 
     private FileConfiguration config = configManager.config;
 
-    private FileConfiguration info = configManager.language;
-
     private LivingEntity target = null;
 
     private BukkitRunnable bukkitRunnable;
@@ -118,45 +116,51 @@ public class PlayerListener implements Listener {
         String uuidString = playerUUID.toString();
         Inventory inventory = event.getInventory();
         ///////////////////////////////
-        if(PlayerManager.menu_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_Inventory_Map.get(uuidString) == inventory){
-                ItemMenuMain.onInventoryClick(event);
+        if(PlayerManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) == inventory){
+                ItemCategorySelection.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_Inventory2_Map.get(uuidString) != null){
-            if(PlayerManager.menu_Inventory2_Map.get(uuidString) == inventory){
-                ItemMenuType.onInventoryClick(event);
+        if(PlayerManager.menu_SelectItems_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_SelectItems_Inventory_Map.get(uuidString) == inventory){
+                SelectItems.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_Inventory3_Map.get(uuidString) != null){
-            if(PlayerManager.menu_Inventory3_Map.get(uuidString) == inventory){
-                ItemMenuEdit.onInventoryClick(event);
+        if(PlayerManager.menu_EditItem_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_EditItem_Inventory_Map.get(uuidString) == inventory){
+                EditItem.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_Inventory4_Map.get(uuidString) != null){
-            if(PlayerManager.menu_Inventory4_Map.get(uuidString) == inventory){
-                ItemEnchantmentEdit.onInventoryClick(event);
+        if(PlayerManager.menu_EditEnchantment_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_EditEnchantment_Inventory_Map.get(uuidString) == inventory){
+                EditEnchantment.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_Inventory5_Map.get(uuidString) != null){
-            if(PlayerManager.menu_Inventory5_Map.get(uuidString) == inventory){
-                ItemAttributesEdit.onInventoryClick(event);
+        if(PlayerManager.menu_EditAttributes_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_EditAttributes_Inventory_Map.get(uuidString) == inventory){
+                EditAttributes.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_Inventory6_Map.get(uuidString) != null){
-            if(PlayerManager.menu_Inventory6_Map.get(uuidString) == inventory){
-                ItemListMenu.onInventoryClick(event);
+        if(PlayerManager.menu_ItemList_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_ItemList_Inventory_Map.get(uuidString) == inventory){
+                ItemList.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_Inventory7_Map.get(uuidString) != null){
-            if(PlayerManager.menu_Inventory7_Map.get(uuidString) == inventory){
-                ItemFlagsEdit.onInventoryClick(event);
+        if(PlayerManager.menu_EditFlags_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_EditFlags_Inventory_Map.get(uuidString) == inventory){
+                EditFlags.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(PlayerManager.menu_EditLore_Inventory_Map.get(uuidString) != null){
+            if(PlayerManager.menu_EditLore_Inventory_Map.get(uuidString) == inventory){
+                EditLore.onInventoryClick(event);
             }
         }
         ///////////////////////////////
@@ -262,46 +266,57 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onChat(PlayerChatEvent event){
         String uuidString = event.getPlayer().getUniqueId().toString();
-        if(PlayerManager.menu_Chat_ItemMenuEdit_Map.get(uuidString) == null){
-            PlayerManager.menu_Chat_ItemMenuEdit_Map.put(uuidString, false);
+        if(PlayerManager.menu_EditItem_Chat_Map.get(uuidString) == null){
+            PlayerManager.menu_EditItem_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_Chat_ItemMenuEdit_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_Chat_ItemMenuEdit_Map.get(uuidString);
+        if(PlayerManager.menu_EditItem_Chat_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_EditItem_Chat_Map.get(uuidString);
             if(b){
-                ItemMenuEdit.onChat(event);
+                EditItem.onChat(event);
             }
 
         }
 
-        if(PlayerManager.menu_Chat_ItemMenuType_Map.get(uuidString) == null){
-            PlayerManager.menu_Chat_ItemMenuType_Map.put(uuidString, false);
+        if(PlayerManager.menu_SelectItems_Chat_Map.get(uuidString) == null){
+            PlayerManager.menu_SelectItems_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_Chat_ItemMenuType_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_Chat_ItemMenuType_Map.get(uuidString);
+        if(PlayerManager.menu_SelectItems_Chat_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_SelectItems_Chat_Map.get(uuidString);
             if(b){
-                ItemMenuType.onChat(event);
+                SelectItems.onChat(event);
             }
 
         }
 
-        if(PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.get(uuidString) == null){
-            PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.put(uuidString, false);
+        if(PlayerManager.menu_EditEnchantment_Chat_Map.get(uuidString) == null){
+            PlayerManager.menu_EditEnchantment_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_Chat_ItemEnchantmentEdit_Map.get(uuidString);
+        if(PlayerManager.menu_EditEnchantment_Chat_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_EditEnchantment_Chat_Map.get(uuidString);
             if(b){
-                ItemEnchantmentEdit.onChat(event);
+                EditEnchantment.onChat(event);
             }
 
         }
 
-        if(PlayerManager.menu_Chat_ItemAttributesEdit_Map.get(uuidString) == null){
-            PlayerManager.menu_Chat_ItemAttributesEdit_Map.put(uuidString, false);
+        if(PlayerManager.menu_EditAttributes_Chat_Map.get(uuidString) == null){
+            PlayerManager.menu_EditAttributes_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_Chat_ItemAttributesEdit_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_Chat_ItemAttributesEdit_Map.get(uuidString);
+        if(PlayerManager.menu_EditAttributes_Chat_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_EditAttributes_Chat_Map.get(uuidString);
             if(b){
-                ItemAttributesEdit.onChat(event);
+                EditAttributes.onChat(event);
+            }
+
+        }
+
+        if(PlayerManager.menu_EditLore_Chat_Map.get(uuidString) == null){
+            PlayerManager.menu_EditLore_Chat_Map.put(uuidString, false);
+        }
+        if(PlayerManager.menu_EditLore_Chat_Map.get(uuidString) != null){
+            boolean b = PlayerManager.menu_EditLore_Chat_Map.get(uuidString);
+            if(b){
+                EditLore.onChat(event);
             }
 
         }
