@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.player.PlayerReload;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

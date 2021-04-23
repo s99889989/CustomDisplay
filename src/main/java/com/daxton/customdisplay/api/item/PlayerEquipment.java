@@ -3,7 +3,7 @@ package com.daxton.customdisplay.api.item;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerEquipmentStats;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

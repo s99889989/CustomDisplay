@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.config;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -20,6 +21,9 @@ public class LoadConfig {
         String uuidString = player.getUniqueId().toString();
         File playerFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+        if(ConfigMapManager.getFileConfigurationMap().get("Players_"+uuidString+".yml") == null){
+            ConfigMapManager.getFileConfigurationMap().put("Players_"+uuidString+".yml", playerConfig);
+        }
         return playerConfig;
     }
     /**讀取職業設定**/

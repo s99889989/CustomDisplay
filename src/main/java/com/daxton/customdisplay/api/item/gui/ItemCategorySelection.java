@@ -3,7 +3,8 @@ package com.daxton.customdisplay.api.item.gui;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.item.MenuSet;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -27,14 +28,14 @@ public class ItemCategorySelection {
 
     public void openMenu(Player player){
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) == null){
-            PlayerManager.menu_ItemCategorySelection_Inventory_Map.put(uuidString, getInventory());
-            Inventory inventory = PlayerManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString);
+        if(EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) == null){
+            EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.put(uuidString, getInventory());
+            Inventory inventory = EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }else {
-            PlayerManager.menu_ItemCategorySelection_Inventory_Map.remove(uuidString);
-            PlayerManager.menu_ItemCategorySelection_Inventory_Map.put(uuidString, getInventory());
-            Inventory inventory = PlayerManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString);
+            EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.remove(uuidString);
+            EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.put(uuidString, getInventory());
+            Inventory inventory = EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }
 
@@ -69,9 +70,9 @@ public class ItemCategorySelection {
         String uuidString = player.getUniqueId().toString();
 
         int i = event.getRawSlot();
-        if(PlayerManager.menu_ItemCategorySelection_Map.get(uuidString) != null){
-            Map<Integer,Integer> RawSlot = PlayerManager.menu_ItemCategorySelection_Map.get(uuidString).RawSlot;
-            Map<Integer,String> typeName = PlayerManager.menu_ItemCategorySelection_Map.get(uuidString).typeName;
+        if(EditorGUIManager.menu_ItemCategorySelection_Map.get(uuidString) != null){
+            Map<Integer,Integer> RawSlot = EditorGUIManager.menu_ItemCategorySelection_Map.get(uuidString).RawSlot;
+            Map<Integer,String> typeName = EditorGUIManager.menu_ItemCategorySelection_Map.get(uuidString).typeName;
             if(RawSlot.get(i) != null && RawSlot.get(i) == i){
                 if(event.getClick() == ClickType.LEFT){
                     new OpenMenuGUI(player).SelectItems(typeName.get(i), 0);

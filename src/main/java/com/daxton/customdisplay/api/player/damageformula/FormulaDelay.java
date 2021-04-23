@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.SoundCategory;

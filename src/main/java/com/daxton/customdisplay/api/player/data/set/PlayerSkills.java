@@ -4,7 +4,7 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 

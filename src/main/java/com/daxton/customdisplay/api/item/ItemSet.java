@@ -3,7 +3,8 @@ package com.daxton.customdisplay.api.item;
 import com.daxton.customdisplay.api.item.gui.EditItem;
 import com.daxton.customdisplay.api.item.gui.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -91,7 +92,7 @@ public class ItemSet {
     //使用預設物品使用材質
     public void setDefaultMaterial(){
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
-        String displayMaterial = itemMenuConfig.getString("Items."+ this.typeName +".DisplayMaterial");
+        String displayMaterial = itemMenuConfig.getString("Items.Type."+ this.typeName +".DisplayMaterial");
         String[] displayMaterialArray = displayMaterial.split(":");
 
         String materialString = "STONE";
@@ -319,8 +320,8 @@ public class ItemSet {
         this.player.closeInventory();
         sendTitle(message, subMessage);
 
-        PlayerManager.menu_EditItem_Map.get(uuidString).editType = clickType;
-        PlayerManager.menu_EditItem_Chat_Map.put(uuidString, true);
+        EditorGUIManager.menu_EditItem_Map.get(uuidString).editType = clickType;
+        EditorGUIManager.menu_EditItem_Chat_Map.put(uuidString, true);
     }
 
     //點擊編輯物品Lore
@@ -330,8 +331,8 @@ public class ItemSet {
         this.player.closeInventory();
         sendTitle(message, subMessage);
 
-        PlayerManager.menu_EditLore_Map.get(uuidString).editType = clickType;
-        PlayerManager.menu_EditLore_Chat_Map.put(uuidString, true);
+        EditorGUIManager.menu_EditLore_Map.get(uuidString).editType = clickType;
+        EditorGUIManager.menu_EditLore_Chat_Map.put(uuidString, true);
     }
 
     //點擊功能
@@ -341,7 +342,7 @@ public class ItemSet {
         this.player.closeInventory();
         sendTitle(message, subMessage);
 
-        PlayerManager.menu_SelectItems_Chat_Map.put(uuidString, true);
+        EditorGUIManager.menu_SelectItems_Chat_Map.put(uuidString, true);
     }
 
     //點擊功能
@@ -351,7 +352,7 @@ public class ItemSet {
         this.player.closeInventory();
         sendTitle(message, subMessage);
 
-        PlayerManager.menu_EditEnchantment_Chat_Map.put(uuidString, true);
+        EditorGUIManager.menu_EditEnchantment_Chat_Map.put(uuidString, true);
     }
 
     //點擊功能
@@ -361,7 +362,7 @@ public class ItemSet {
         this.player.closeInventory();
         sendTitle(message, subMessage);
 
-        PlayerManager.menu_EditAttributes_Chat_Map.put(uuidString, true);
+        EditorGUIManager.menu_EditAttributes_Chat_Map.put(uuidString, true);
     }
 
 
@@ -377,51 +378,51 @@ public class ItemSet {
     //打開物品編輯介面
     public void openEditMenu(){
         String uuidString = this.player.getUniqueId().toString();
-        PlayerManager.menu_EditItem_Chat_Map.put(uuidString, false);
-        PlayerManager.menu_EditItem_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID);
+        EditorGUIManager.menu_EditItem_Chat_Map.put(uuidString, false);
+        EditorGUIManager.menu_EditItem_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID);
     }
 
     //打開物品編輯介面
     public void openEditLore(){
         String uuidString = this.player.getUniqueId().toString();
-        PlayerManager.menu_EditLore_Chat_Map.put(uuidString, false);
+        EditorGUIManager.menu_EditLore_Chat_Map.put(uuidString, false);
         new OpenMenuGUI(this.player).EditLore(this.typeName, this.itemID);
     }
 
     //打開物品編輯介面
     public void openItemMenuType(){
         String uuidString = this.player.getUniqueId().toString();
-        PlayerManager.menu_SelectItems_Chat_Map.put(uuidString, false);
-        if(PlayerManager.menu_EditItem_Map.get(uuidString) == null){
-            PlayerManager.menu_EditItem_Map.put(uuidString, new EditItem());
+        EditorGUIManager.menu_SelectItems_Chat_Map.put(uuidString, false);
+        if(EditorGUIManager.menu_EditItem_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditItem_Map.put(uuidString, new EditItem());
         }
-        if(PlayerManager.menu_EditItem_Map.get(uuidString) != null){
-            PlayerManager.menu_EditItem_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID);
+        if(EditorGUIManager.menu_EditItem_Map.get(uuidString) != null){
+            EditorGUIManager.menu_EditItem_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID);
         }
     }
 
     //打開物品Flags介面
     public void openItemFlagsEdit(){
         String uuidString = this.player.getUniqueId().toString();
-        PlayerManager.menu_EditFlags_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID);
+        EditorGUIManager.menu_EditFlags_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID);
     }
 
     //打開物品列表介面
     public void openItemListMenu(int page){
         String uuidString = this.player.getUniqueId().toString();
-        PlayerManager.menu_ItemList_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID,page);
+        EditorGUIManager.menu_ItemList_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID,page);
     }
 
     //打開物品編輯介面
     public void openEnchantmentMenu(){
         String uuidString = this.player.getUniqueId().toString();
-        PlayerManager.menu_EditEnchantment_Chat_Map.put(uuidString, false);
-        PlayerManager.menu_EditEnchantment_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID, 0);
+        EditorGUIManager.menu_EditEnchantment_Chat_Map.put(uuidString, false);
+        EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID, 0);
     }
     //打開物品編輯介面
     public void openAttributesMenu(int es, int it, int ot){
         String uuidString = this.player.getUniqueId().toString();
-        PlayerManager.menu_EditAttributes_Chat_Map.put(uuidString, false);
-        PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID, es, it, ot);
+        EditorGUIManager.menu_EditAttributes_Chat_Map.put(uuidString, false);
+        EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID, es, it, ot);
     }
 }

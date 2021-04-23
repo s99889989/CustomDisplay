@@ -2,7 +2,7 @@ package com.daxton.customdisplay.api.player.damageformula;
 
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.Arithmetic;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 

@@ -4,7 +4,8 @@ import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -45,12 +46,12 @@ public class EditLore {
     public static void onChat(PlayerChatEvent event){
         Player player = event.getPlayer();
         String uuidString = event.getPlayer().getUniqueId().toString();
-        if(PlayerManager.menu_EditLore_Map.get(uuidString) != null){
+        if(EditorGUIManager.menu_EditLore_Map.get(uuidString) != null){
             event.setCancelled(true);
-            String typeName = PlayerManager.menu_EditLore_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditLore_Map.get(uuidString).itemName;
-            String editType = PlayerManager.menu_EditLore_Map.get(uuidString).editType;
-            int orderKey = PlayerManager.menu_EditLore_Map.get(uuidString).orderKey;
+            String typeName = EditorGUIManager.menu_EditLore_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditLore_Map.get(uuidString).itemName;
+            String editType = EditorGUIManager.menu_EditLore_Map.get(uuidString).editType;
+            int orderKey = EditorGUIManager.menu_EditLore_Map.get(uuidString).orderKey;
             String chatString = event.getMessage().replace("&", "§");
             ItemSet itemSet = new ItemSet(player, typeName, itemName);
             switch (editType){
@@ -79,13 +80,13 @@ public class EditLore {
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_EditLore_Map.get(uuidString) != null){
-            String typeName = PlayerManager.menu_EditLore_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditLore_Map.get(uuidString).itemName;
-            Map<Integer,Integer> rawSlot = PlayerManager.menu_EditLore_Map.get(uuidString).rawSlot;
-            Map<Integer,Integer> order = PlayerManager.menu_EditLore_Map.get(uuidString).order;
-            Map<Integer,Integer> rawSlot2 = PlayerManager.menu_EditLore_Map.get(uuidString).rawSlot2;
-            Map<Integer,Integer> lastOrder = PlayerManager.menu_EditLore_Map.get(uuidString).lastOrder;
+        if(EditorGUIManager.menu_EditLore_Map.get(uuidString) != null){
+            String typeName = EditorGUIManager.menu_EditLore_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditLore_Map.get(uuidString).itemName;
+            Map<Integer,Integer> rawSlot = EditorGUIManager.menu_EditLore_Map.get(uuidString).rawSlot;
+            Map<Integer,Integer> order = EditorGUIManager.menu_EditLore_Map.get(uuidString).order;
+            Map<Integer,Integer> rawSlot2 = EditorGUIManager.menu_EditLore_Map.get(uuidString).rawSlot2;
+            Map<Integer,Integer> lastOrder = EditorGUIManager.menu_EditLore_Map.get(uuidString).lastOrder;
             int i = event.getRawSlot();
             ItemSet itemSet = new ItemSet(player, typeName, itemName);
 
@@ -94,7 +95,7 @@ public class EditLore {
                 if(rawSlot.get(i) != null && rawSlot.get(i) == i){
                     String ms1 = MenuSet.getItemMenuMessage("EditLore", "LoreDisplay","Message2");
                     String ms2 = MenuSet.getItemMenuMessage("EditLore", "LoreDisplay","SubMessage2");
-                    PlayerManager.menu_EditLore_Map.get(uuidString).orderKey = order.get(i);
+                    EditorGUIManager.menu_EditLore_Map.get(uuidString).orderKey = order.get(i);
                     itemSet.clickEditLore("AddOrderLore", ms1, ms2);
                 }
             }
@@ -120,7 +121,7 @@ public class EditLore {
                 if(rawSlot.get(i) != null && rawSlot.get(i) == i){
                     String ms1 = MenuSet.getItemMenuMessage("EditLore", "LoreDisplay","Message");
                     String ms2 = MenuSet.getItemMenuMessage("EditLore", "LoreDisplay","SubMessage");
-                    PlayerManager.menu_EditLore_Map.get(uuidString).orderKey = order.get(i);
+                    EditorGUIManager.menu_EditLore_Map.get(uuidString).orderKey = order.get(i);
                     itemSet.clickEditLore("EditLore", ms1, ms2);
                 }
                 if(rawSlot2.get(i) != null && rawSlot2.get(i) == i){
@@ -143,15 +144,15 @@ public class EditLore {
     public void openMenu(Player player, String typeName, String itemName){
         String uuidString = player.getUniqueId().toString();
 
-        if(PlayerManager.menu_EditLore_Inventory_Map.get(uuidString) == null){
-            PlayerManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
-            Inventory inventory = PlayerManager.menu_EditLore_Inventory_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            Inventory inventory = EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
-            PlayerManager.menu_EditLore_Inventory_Map.remove(uuidString);
-            PlayerManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
-            Inventory inventory = PlayerManager.menu_EditLore_Inventory_Map.get(uuidString);
+            EditorGUIManager.menu_EditLore_Inventory_Map.remove(uuidString);
+            EditorGUIManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            Inventory inventory = EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }

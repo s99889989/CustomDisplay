@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerBukkitAttribute;
 import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.task.action.player;
 
 import com.daxton.customdisplay.api.config.CustomLineConfig;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 

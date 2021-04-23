@@ -1,8 +1,8 @@
 package com.daxton.customdisplay;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.config.SaveConfig;
-import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
 import com.daxton.customdisplay.command.MainCommand;
@@ -25,9 +25,8 @@ import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
 import com.daxton.customdisplay.listener.mmolib.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.DiscordManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
 import discord4j.core.DiscordClientBuilder;
 import io.netty.buffer.ByteBuf;
@@ -152,6 +151,9 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
 
         FileConfiguration fileConfig = getConfigManager().config;
+
+        //設定動作
+        new SetActionMap();
 
         String attackCore = fileConfig.getString("AttackCore");
         if(attackCore.toLowerCase().contains("customcore")){
@@ -304,6 +306,10 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
         /**清除所有動作**/
         new ClearAction().all();
+        new ClearAction().all2();
+
+        //設定動作
+        new SetActionMap();
 
         /**重新讀取玩家資料**/
         for(Player player : Bukkit.getOnlinePlayers()){

@@ -1,23 +1,22 @@
 package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
 import com.daxton.customdisplay.task.JudgmentAction;
+import com.daxton.customdisplay.task.JudgmentAction2;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerTrigger {
 
@@ -31,6 +30,8 @@ public class PlayerTrigger {
     private Map<String, List<CustomLineConfig>> action_Trigger_Map = new HashMap<>();
     private Map<String, List<CustomLineConfig>> action_Item_Trigger_Map = new HashMap<>();
 
+    private static List<Map<String, String>> player_Action_List_Map = new ArrayList<>();
+
     public PlayerTrigger(Player player){
         UUID playerUUID = player.getUniqueId();
         PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
@@ -38,6 +39,7 @@ public class PlayerTrigger {
         if(playerData != null){
             action_Trigger_Map = playerData.getAction_Trigger_Map2();
             action_Item_Trigger_Map = playerData.getAction_Item_Trigger_Map();
+            player_Action_List_Map = playerData.getPlayer_Action_List_Map();
         }
     }
 
@@ -45,18 +47,40 @@ public class PlayerTrigger {
     public void onTwo(LivingEntity self,LivingEntity target, String triggerName){
         this.self = self;
         this.target = target;
-        if(action_Trigger_Map.get(triggerName) != null){
-            for(CustomLineConfig actionString : action_Trigger_Map.get(triggerName)){
 
-                runExecute(actionString);
-            }
-        }
-        if(action_Item_Trigger_Map.get(triggerName) != null){
-            for(CustomLineConfig actionString : action_Item_Trigger_Map.get(triggerName)){
 
-                runExecute(actionString);
+        this.player_Action_List_Map.forEach(stringStringMap -> {
+            if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
+                runExecute2(stringStringMap, self, target);
             }
+        });
+
+        if(self instanceof Player){
+            Player player = (Player) self;
+            ActionManager.permission_Action_Map.forEach((s, maps) -> {
+                if(player.hasPermission("customdisplay.permission."+s.toLowerCase())){
+                        maps.forEach(stringStringMap -> {
+                            if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
+                                runExecute2(stringStringMap, self, target);
+                            }
+                        });
+                }
+            });
         }
+
+
+//        if(action_Trigger_Map.get(triggerName) != null){
+//            for(CustomLineConfig actionString : action_Trigger_Map.get(triggerName)){
+//
+//                runExecute(actionString);
+//            }
+//        }
+//        if(action_Item_Trigger_Map.get(triggerName) != null){
+//            for(CustomLineConfig actionString : action_Item_Trigger_Map.get(triggerName)){
+//
+//                runExecute(actionString);
+//            }
+//        }
     }
 
     /**直接使用動作列表**/
@@ -79,6 +103,37 @@ public class PlayerTrigger {
 
     }
 
+    public void runExecute2(Map<String, String> action_Map, LivingEntity self, LivingEntity target){
+
+        String taskID = new ActionMapHandle(action_Map, self, target).getString(new String[]{"mark","m"}, String.valueOf((int)(Math.random()*100000)));
+
+        boolean stop = new ActionMapHandle(action_Map, self, target).getBoolean(new String[]{"stop","s"}, false);
+
+        if(stop){
+
+            new ClearAction().taskID2(taskID);
+        }else{
+            new ClearAction().taskID2(taskID);
+
+            ActionManager.trigger_Judgment_Map2.put(taskID,new JudgmentAction2());
+
+            ActionManager.trigger_Judgment_Map2.get(taskID).execute(self, target, action_Map, taskID);
+
+
+        }
+
+
+
+
+
+
+
+//        if(self instanceof Player){
+//            Player player = (Player) self;
+//            player.sendMessage(taskID);
+//        }
+
+    }
 
     public void runExecute(CustomLineConfig customLineConfig){
 

@@ -2,7 +2,7 @@ package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;

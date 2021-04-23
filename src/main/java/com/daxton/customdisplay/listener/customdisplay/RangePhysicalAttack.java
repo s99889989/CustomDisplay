@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.damageformula.FormulaDelay;
 import com.daxton.customdisplay.api.player.damageformula.FormulaChance;
 import com.daxton.customdisplay.api.player.damageformula.FormulaPhysics;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

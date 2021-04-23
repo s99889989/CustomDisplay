@@ -5,7 +5,7 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.CustomLineConfigList;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;

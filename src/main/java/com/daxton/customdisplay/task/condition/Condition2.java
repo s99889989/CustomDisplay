@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.condition;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.manager.ConditionManager;
 import com.daxton.customdisplay.task.condition.list.*;
@@ -19,7 +20,8 @@ public class Condition2 {
     private LivingEntity self = null;
     private LivingEntity target = null;
     private CustomLineConfig customLineConfig;
-    private double damageNumber = 0;
+    private Map<String, String> action_Map;
+
     private String taskID = "";
 
     private static Map<String, Health> healthMap = new HashMap<>();
@@ -34,6 +36,26 @@ public class Condition2 {
         this.target = target;
         this.customLineConfig = customLineConfig;
         this.taskID = taskID;
+    }
+
+    public void setCondition(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+        this.self = self;
+        this.target = target;
+        this.action_Map = action_Map;
+        this.taskID = taskID;
+    }
+
+    public boolean getResult(){
+        boolean b = false;
+//        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
+//        String firstString = actionMapHandle.getString(new String[]{"function","fc"}, null);
+//        if(firstString != null){
+//            cd.getLogger().info(firstString);
+//            if(firstString.toLowerCase().contains("compare=")){
+//
+//            }
+//        }
+        return b;
     }
 
     public boolean getResult2(){

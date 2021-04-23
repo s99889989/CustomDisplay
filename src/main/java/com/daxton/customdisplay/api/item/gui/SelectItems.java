@@ -4,7 +4,8 @@ import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -39,9 +40,9 @@ public class SelectItems {
     public static void onChat(PlayerChatEvent event){
         Player player = event.getPlayer();
         String uuidString = event.getPlayer().getUniqueId().toString();
-        if(PlayerManager.menu_SelectItems_Map.get(uuidString) != null){
+        if(EditorGUIManager.menu_SelectItems_Map.get(uuidString) != null){
             event.setCancelled(true);
-            String typeName = PlayerManager.menu_SelectItems_Map.get(uuidString).typeName;
+            String typeName = EditorGUIManager.menu_SelectItems_Map.get(uuidString).typeName;
 
             String itemName = event.getMessage().replace("&", "§");
 
@@ -63,15 +64,15 @@ public class SelectItems {
         String uuidString = player.getUniqueId().toString();
 
         int i = event.getRawSlot();
-        if(PlayerManager.menu_SelectItems_Map.get(uuidString) != null){
-            Map<Integer,Integer> RawSlot = PlayerManager.menu_SelectItems_Map.get(uuidString).RawSlot;
-            String typeName = PlayerManager.menu_SelectItems_Map.get(uuidString).typeName;
-            Map<Integer,String> itmeName = PlayerManager.menu_SelectItems_Map.get(uuidString).itmeID;
-            FileConfiguration itemMenuConfig = PlayerManager.menu_SelectItems_Map.get(uuidString).itemMenuConfig;
-            int nextPageCount = PlayerManager.menu_SelectItems_Map.get(uuidString).nextPageCount;
-            boolean haveNext = PlayerManager.menu_SelectItems_Map.get(uuidString).haveNext;
-            int previousPageCount = PlayerManager.menu_SelectItems_Map.get(uuidString).previousPageCount;
-            boolean havePrevioust = PlayerManager.menu_SelectItems_Map.get(uuidString).havePrevioust;
+        if(EditorGUIManager.menu_SelectItems_Map.get(uuidString) != null){
+            Map<Integer,Integer> RawSlot = EditorGUIManager.menu_SelectItems_Map.get(uuidString).RawSlot;
+            String typeName = EditorGUIManager.menu_SelectItems_Map.get(uuidString).typeName;
+            Map<Integer,String> itmeName = EditorGUIManager.menu_SelectItems_Map.get(uuidString).itmeID;
+            FileConfiguration itemMenuConfig = EditorGUIManager.menu_SelectItems_Map.get(uuidString).itemMenuConfig;
+            int nextPageCount = EditorGUIManager.menu_SelectItems_Map.get(uuidString).nextPageCount;
+            boolean haveNext = EditorGUIManager.menu_SelectItems_Map.get(uuidString).haveNext;
+            int previousPageCount = EditorGUIManager.menu_SelectItems_Map.get(uuidString).previousPageCount;
+            boolean havePrevioust = EditorGUIManager.menu_SelectItems_Map.get(uuidString).havePrevioust;
 
             ItemSet itemSet = new ItemSet(player, typeName);
 
@@ -143,14 +144,14 @@ public class SelectItems {
         this.nextPageCount = itemCount;
 
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_SelectItems_Inventory_Map.get(uuidString) == null){
-            PlayerManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(typeName, itemCount));
-            Inventory inventory = PlayerManager.menu_SelectItems_Inventory_Map.get(uuidString);
+        if(EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString) == null){
+            EditorGUIManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(typeName, itemCount));
+            Inventory inventory = EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }else{
-            PlayerManager.menu_SelectItems_Inventory_Map.remove(uuidString);
-            PlayerManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(typeName, itemCount));
-            Inventory inventory = PlayerManager.menu_SelectItems_Inventory_Map.get(uuidString);
+            EditorGUIManager.menu_SelectItems_Inventory_Map.remove(uuidString);
+            EditorGUIManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(typeName, itemCount));
+            Inventory inventory = EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }
     }

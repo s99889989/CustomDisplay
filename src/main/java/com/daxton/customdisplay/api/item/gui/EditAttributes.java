@@ -4,7 +4,8 @@ import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -42,14 +43,14 @@ public class EditAttributes {
     public static void onChat(PlayerChatEvent event){
         Player player = event.getPlayer();
         String uuidString = event.getPlayer().getUniqueId().toString();
-        if(PlayerManager.menu_EditAttributes_Map.get(uuidString) != null){
+        if(EditorGUIManager.menu_EditAttributes_Map.get(uuidString) != null){
             event.setCancelled(true);
 
-            String typeName = PlayerManager.menu_EditAttributes_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditAttributes_Map.get(uuidString).itemName;
-            int es = PlayerManager.menu_EditAttributes_Map.get(uuidString).es;
-            int it = PlayerManager.menu_EditAttributes_Map.get(uuidString).it;
-            int ot = PlayerManager.menu_EditAttributes_Map.get(uuidString).ot;
+            String typeName = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).itemName;
+            int es = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).es;
+            int it = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).it;
+            int ot = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).ot;
             ItemSet itemSet = new ItemSet(player, typeName, itemName);
 
             double amont = 0;
@@ -58,7 +59,7 @@ public class EditAttributes {
             }catch (NumberFormatException exception){
                 exception.printStackTrace();
             }
-            PlayerManager.menu_EditAttributes_Map.get(uuidString).attrAmount = amont;
+            EditorGUIManager.menu_EditAttributes_Map.get(uuidString).attrAmount = amont;
             itemSet.openAttributesMenu(es, it, ot);
         }
     }
@@ -67,18 +68,18 @@ public class EditAttributes {
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_EditAttributes_Map.get(uuidString) != null){
+        if(EditorGUIManager.menu_EditAttributes_Map.get(uuidString) != null){
             String[] equipmentSlot = {"CHEST", "FEET", "HAND", "HEAD", "LEGS", "OFF_HAND", "ALL"};
 
             String[] inherit = {"GENERIC_MAX_HEALTH", "GENERIC_KNOCKBACK_RESISTANCE", "GENERIC_MOVEMENT_SPEED", "GENERIC_ATTACK_DAMAGE", "GENERIC_ATTACK_SPEED", "GENERIC_ARMOR", "GENERIC_ARMOR_TOUGHNESS", "GENERIC_LUCK"};
 
             String[] operation = {"ADD_NUMBER", "ADD_SCALAR", "MULTIPLY_SCALAR_1"};
-            String typeName = PlayerManager.menu_EditAttributes_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditAttributes_Map.get(uuidString).itemName;
-            int es = PlayerManager.menu_EditAttributes_Map.get(uuidString).es;
-            int it = PlayerManager.menu_EditAttributes_Map.get(uuidString).it;
-            int ot = PlayerManager.menu_EditAttributes_Map.get(uuidString).ot;
-            double amount = PlayerManager.menu_EditAttributes_Map.get(uuidString).attrAmount;
+            String typeName = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).itemName;
+            int es = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).es;
+            int it = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).it;
+            int ot = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).ot;
+            double amount = EditorGUIManager.menu_EditAttributes_Map.get(uuidString).attrAmount;
             ItemSet itemSet = new ItemSet(player, typeName, itemName);
 
             int i = event.getRawSlot();
@@ -105,7 +106,7 @@ public class EditAttributes {
                     if(es > 6){
                         es = 0;
                     }
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                     return;
                 }
                 if(i == 11){
@@ -113,7 +114,7 @@ public class EditAttributes {
                     if(it > 7){
                         it = 0;
                     }
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                     return;
                 }
                 if(i == 12){
@@ -121,7 +122,7 @@ public class EditAttributes {
                     if(ot > 2){
                         ot = 0;
                     }
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                     return;
                 }
                 if(i == 13){
@@ -132,7 +133,7 @@ public class EditAttributes {
                 }
                 if(i == 49){
                     itemSet.setAttributes(equipmentSlot[es], inherit[it], operation[ot], amount);
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                     return;
                 }
             }
@@ -142,7 +143,7 @@ public class EditAttributes {
                     if(es < 0){
                         es = 6;
                     }
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                     return;
                 }
                 if(i == 11){
@@ -150,7 +151,7 @@ public class EditAttributes {
                     if(it < 0){
                         it = 7;
                     }
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                     return;
                 }
                 if(i == 12){
@@ -158,12 +159,12 @@ public class EditAttributes {
                     if(ot < 0){
                         ot = 2;
                     }
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                     return;
                 }
                 if(i == 49){
                     itemSet.removeAttributes();
-                    PlayerManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
+                    EditorGUIManager.menu_EditAttributes_Map.get(uuidString).openMenu(player, typeName, itemName, es, it, ot);
                 }
             }
 
@@ -175,15 +176,15 @@ public class EditAttributes {
     public void openMenu(Player player, String typeName, String itemName, int es, int it, int ot){
         String uuidString = player.getUniqueId().toString();
 
-        if(PlayerManager.menu_EditAttributes_Inventory_Map.get(uuidString) == null){
-            PlayerManager.menu_EditAttributes_Inventory_Map.put(uuidString, getInventory(typeName, itemName, es, it, ot));
-            Inventory inventory = PlayerManager.menu_EditAttributes_Inventory_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditAttributes_Inventory_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditAttributes_Inventory_Map.put(uuidString, getInventory(typeName, itemName, es, it, ot));
+            Inventory inventory = EditorGUIManager.menu_EditAttributes_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
-            PlayerManager.menu_EditAttributes_Inventory_Map.remove(uuidString);
-            PlayerManager.menu_EditAttributes_Inventory_Map.put(uuidString, getInventory(typeName, itemName, es, it, ot));
-            Inventory inventory = PlayerManager.menu_EditAttributes_Inventory_Map.get(uuidString);
+            EditorGUIManager.menu_EditAttributes_Inventory_Map.remove(uuidString);
+            EditorGUIManager.menu_EditAttributes_Inventory_Map.put(uuidString, getInventory(typeName, itemName, es, it, ot));
+            Inventory inventory = EditorGUIManager.menu_EditAttributes_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }

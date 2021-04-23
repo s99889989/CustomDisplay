@@ -19,14 +19,11 @@ public class Action {
 
     private LivingEntity self;
     private LivingEntity target;
-    private String firstString;
     private CustomLineConfig customLineConfig;
     private String taskID;
 
     private List<CustomLineConfig> customLineConfigList = new ArrayList<>();
     private BukkitRunnable bukkitRunnable;
-
-
 
 
     public Action(){

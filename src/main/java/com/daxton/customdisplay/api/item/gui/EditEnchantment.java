@@ -4,7 +4,8 @@ import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -39,11 +40,11 @@ public class EditEnchantment {
     public static void onChat(PlayerChatEvent event){
         Player player = event.getPlayer();
         String uuidString = event.getPlayer().getUniqueId().toString();
-        if(PlayerManager.menu_EditEnchantment_Map.get(uuidString) != null){
+        if(EditorGUIManager.menu_EditEnchantment_Map.get(uuidString) != null){
             event.setCancelled(true);
-            String enchantmentType = PlayerManager.menu_EditEnchantment_Map.get(uuidString).enchantmentType;
-            String typeName = PlayerManager.menu_EditEnchantment_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditEnchantment_Map.get(uuidString).itemID;
+            String enchantmentType = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).enchantmentType;
+            String typeName = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).itemID;
 
             String chatString = event.getMessage().replace("&", "§");
 
@@ -63,12 +64,12 @@ public class EditEnchantment {
         Player player = (Player) event.getWhoClicked();
         String uuidString = player.getUniqueId().toString();
 
-        if(PlayerManager.menu_EditEnchantment_Map.get(uuidString) != null){
-            int page = PlayerManager.menu_EditEnchantment_Map.get(uuidString).page;
-            Map<Integer,Integer> RawSlot = PlayerManager.menu_EditEnchantment_Map.get(uuidString).RawSlot;
-            Map<Integer,String> enchantmentName = PlayerManager.menu_EditEnchantment_Map.get(uuidString).enchantmentName;
-            String typeName = PlayerManager.menu_EditEnchantment_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditEnchantment_Map.get(uuidString).itemID;
+        if(EditorGUIManager.menu_EditEnchantment_Map.get(uuidString) != null){
+            int page = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).page;
+            Map<Integer,Integer> RawSlot = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).RawSlot;
+            Map<Integer,String> enchantmentName = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).enchantmentName;
+            String typeName = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).itemID;
             int i = event.getRawSlot();
             if(event.getClick() == ClickType.LEFT){
                 //到物品類別
@@ -84,7 +85,7 @@ public class EditEnchantment {
 
                 if(RawSlot.get(i) != null && RawSlot.get(i) == i){
                     ItemSet itemSet = new ItemSet(player, typeName, itemName);
-                    PlayerManager.menu_EditEnchantment_Map.get(uuidString).enchantmentType = enchantmentName.get(i);
+                    EditorGUIManager.menu_EditEnchantment_Map.get(uuidString).enchantmentType = enchantmentName.get(i);
                     String ms1 = MenuSet.getItemMenuMessage("EditEnchantment", "Description", "Message");
                     String ms2 = MenuSet.getItemMenuMessage("EditEnchantment", "Description", "SubMessage");
                     itemSet.clickEditEnchantment(ms1, ms2);
@@ -112,15 +113,15 @@ public class EditEnchantment {
     public void openMenu(Player player, String typeName, String itemName, int page){
         String uuidString = player.getUniqueId().toString();
 
-        if(PlayerManager.menu_EditEnchantment_Inventory_Map.get(uuidString) == null){
-            PlayerManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(typeName, itemName, page));
-            Inventory inventory = PlayerManager.menu_EditEnchantment_Inventory_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(typeName, itemName, page));
+            Inventory inventory = EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
-            PlayerManager.menu_EditEnchantment_Inventory_Map.remove(uuidString);
-            PlayerManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(typeName, itemName, page));
-            Inventory inventory = PlayerManager.menu_EditEnchantment_Inventory_Map.get(uuidString);
+            EditorGUIManager.menu_EditEnchantment_Inventory_Map.remove(uuidString);
+            EditorGUIManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(typeName, itemName, page));
+            Inventory inventory = EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }

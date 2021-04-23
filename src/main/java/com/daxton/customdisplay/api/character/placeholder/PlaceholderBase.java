@@ -83,7 +83,6 @@ public class PlaceholderBase {
             if(PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>") != null){
                 outputString = PlaceholderManager.getCd_Placeholder_Map().get(uuidString+"<cd_damaged_number>");
             }
-            cd.getLogger().info(outputString);
         }
 
         return outputString;

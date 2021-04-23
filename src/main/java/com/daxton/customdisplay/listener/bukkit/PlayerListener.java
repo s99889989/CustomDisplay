@@ -14,6 +14,9 @@ import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
 import com.daxton.customdisplay.api.player.profession.UseSkill;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.*;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
+import com.daxton.customdisplay.task.action2.player.OpenInventory3;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -116,54 +119,61 @@ public class PlayerListener implements Listener {
         String uuidString = playerUUID.toString();
         Inventory inventory = event.getInventory();
         ///////////////////////////////
-        if(PlayerManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_ItemCategorySelection_Inventory_Map.get(uuidString) == inventory){
                 ItemCategorySelection.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_SelectItems_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_SelectItems_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString) == inventory){
                 SelectItems.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_EditItem_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_EditItem_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString) == inventory){
                 EditItem.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_EditEnchantment_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_EditEnchantment_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString) == inventory){
                 EditEnchantment.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_EditAttributes_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_EditAttributes_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_EditAttributes_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_EditAttributes_Inventory_Map.get(uuidString) == inventory){
                 EditAttributes.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_ItemList_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_ItemList_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_ItemList_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_ItemList_Inventory_Map.get(uuidString) == inventory){
                 ItemList.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_EditFlags_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_EditFlags_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_EditFlags_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_EditFlags_Inventory_Map.get(uuidString) == inventory){
                 EditFlags.onInventoryClick(event);
             }
         }
         ///////////////////////////////
-        if(PlayerManager.menu_EditLore_Inventory_Map.get(uuidString) != null){
-            if(PlayerManager.menu_EditLore_Inventory_Map.get(uuidString) == inventory){
+        if(EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString) == inventory){
                 EditLore.onInventoryClick(event);
             }
         }
         ///////////////////////////////
+        if(EditorGUIManager.open_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.open_Inventory_Map.get(uuidString) == inventory){
+                OpenInventory3.onInventoryClick(event);
+            }
+        }
+
+
         if(ActionManager.playerUUID_taskID_Map.get(uuidString) != null){
             String taskID = ActionManager.playerUUID_taskID_Map.get(uuidString);
 
@@ -266,55 +276,56 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onChat(PlayerChatEvent event){
         String uuidString = event.getPlayer().getUniqueId().toString();
-        if(PlayerManager.menu_EditItem_Chat_Map.get(uuidString) == null){
-            PlayerManager.menu_EditItem_Chat_Map.put(uuidString, false);
+
+        if(EditorGUIManager.menu_EditItem_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditItem_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_EditItem_Chat_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_EditItem_Chat_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditItem_Chat_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_EditItem_Chat_Map.get(uuidString);
             if(b){
                 EditItem.onChat(event);
             }
 
         }
 
-        if(PlayerManager.menu_SelectItems_Chat_Map.get(uuidString) == null){
-            PlayerManager.menu_SelectItems_Chat_Map.put(uuidString, false);
+        if(EditorGUIManager.menu_SelectItems_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_SelectItems_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_SelectItems_Chat_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_SelectItems_Chat_Map.get(uuidString);
+        if(EditorGUIManager.menu_SelectItems_Chat_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_SelectItems_Chat_Map.get(uuidString);
             if(b){
                 SelectItems.onChat(event);
             }
 
         }
 
-        if(PlayerManager.menu_EditEnchantment_Chat_Map.get(uuidString) == null){
-            PlayerManager.menu_EditEnchantment_Chat_Map.put(uuidString, false);
+        if(EditorGUIManager.menu_EditEnchantment_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditEnchantment_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_EditEnchantment_Chat_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_EditEnchantment_Chat_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditEnchantment_Chat_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_EditEnchantment_Chat_Map.get(uuidString);
             if(b){
                 EditEnchantment.onChat(event);
             }
 
         }
 
-        if(PlayerManager.menu_EditAttributes_Chat_Map.get(uuidString) == null){
-            PlayerManager.menu_EditAttributes_Chat_Map.put(uuidString, false);
+        if(EditorGUIManager.menu_EditAttributes_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditAttributes_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_EditAttributes_Chat_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_EditAttributes_Chat_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditAttributes_Chat_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_EditAttributes_Chat_Map.get(uuidString);
             if(b){
                 EditAttributes.onChat(event);
             }
 
         }
 
-        if(PlayerManager.menu_EditLore_Chat_Map.get(uuidString) == null){
-            PlayerManager.menu_EditLore_Chat_Map.put(uuidString, false);
+        if(EditorGUIManager.menu_EditLore_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditLore_Chat_Map.put(uuidString, false);
         }
-        if(PlayerManager.menu_EditLore_Chat_Map.get(uuidString) != null){
-            boolean b = PlayerManager.menu_EditLore_Chat_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditLore_Chat_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_EditLore_Chat_Map.get(uuidString);
             if(b){
                 EditLore.onChat(event);
             }
@@ -327,6 +338,7 @@ public class PlayerListener implements Listener {
     /**當玩家回血**/
     @EventHandler
     public void onRegainHealth(EntityRegainHealthEvent event){
+
         if(event.getEntity() instanceof Player){
             Player player = ((Player) event.getEntity()).getPlayer();
 

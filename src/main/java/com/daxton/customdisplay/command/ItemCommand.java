@@ -1,8 +1,6 @@
 package com.daxton.customdisplay.command;
 
-import com.daxton.customdisplay.api.item.gui.ItemCategorySelection;
 import com.daxton.customdisplay.api.item.gui.OpenMenuGUI;
-import com.daxton.customdisplay.manager.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

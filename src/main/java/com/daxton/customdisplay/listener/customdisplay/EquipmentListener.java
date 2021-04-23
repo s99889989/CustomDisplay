@@ -8,7 +8,7 @@ import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.ListenerManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

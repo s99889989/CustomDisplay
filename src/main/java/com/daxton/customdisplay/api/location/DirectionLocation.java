@@ -24,7 +24,7 @@ public class DirectionLocation {
 
         Location location = inputLocation;
 
-        double pitch = ((dirLocation.getPitch() + 90 + hight) * Math.PI) / 180;
+        double pitch = ((dirLocation.getPitch() + 90 + (hight*-1)) * Math.PI) / 180;
         double yaw  = ((dirLocation.getYaw() + 90 + angle)  * Math.PI) / 180;
 
 

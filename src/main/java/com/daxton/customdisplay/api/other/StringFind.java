@@ -33,17 +33,6 @@ public class StringFind {
         return lastString;
     }
 
-    /**丟入整個動作 返回動作第一個關鍵字**/
-    public String getAction2(String string){
-        String lastString = "";
-        List<String> stringList = getStringMessageList(string);
-        if(stringList.size() > 0){
-            String[] strings = stringList.toArray(new String[stringList.size()]);
-            lastString = strings[0].replace(" ","");
-        }
-        return lastString;
-    }
-
     /**丟入整個自訂字 返回動作第一個關鍵字**/
     public String getHead(String string){
         String lastString = "";
@@ -145,7 +134,7 @@ public class StringFind {
 
 
     /**丟入字串和key 轉成List**/
-    public List<String> getBlockList(String string,String key){
+    public static List<String> getBlockList(String string,String key){
         List<String> stringList = new ArrayList<>();
         StringTokenizer stringTokenizer = new StringTokenizer(string,key);
         while(stringTokenizer.hasMoreElements()){

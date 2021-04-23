@@ -6,8 +6,9 @@ import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.LoadConfig;
 import com.daxton.customdisplay.api.player.config.PlayerConfig2;
 import com.daxton.customdisplay.api.player.data.set.*;
+import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -60,12 +61,10 @@ public class PlayerData {
     public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
 
     /**動作列表**/
-    private List<String> playerActionList = new ArrayList<>();
-
-
+    private static List<Map<String, String>> player_Action_List_Map = new ArrayList<>();
+    public static List<Map<String, String>> player_Item_Action_List_Map = new ArrayList<>();
 
     /**觸發的動作列表**/
-    private Map<String,List<String>> action_Trigger_Map = new HashMap<>();
     private Map<String,List<CustomLineConfig>> action_Trigger_Map2 = new HashMap<>();
     private Map<String,List<CustomLineConfig>> action_Item_Trigger_Map = new HashMap<>();
 
@@ -110,7 +109,7 @@ public class PlayerData {
         /**設定動作列表**/
         setPlayerActionList();
         /**依照觸發條件分配**/
-        setActionList();
+        //setActionList();
 
 
     }
@@ -202,96 +201,28 @@ public class PlayerData {
     /**獲取動作列表**/
     public void setPlayerActionList() {
         String uuidString = player.getUniqueId().toString();
-        playerActionList.clear();
+        ///////////////////////////////////////////////////////////////////
+        FileConfiguration playerConfig = ConfigMapManager.getFileConfigurationMap().get("Players_"+uuidString+".yml");
+        List<String> actionStringList = playerConfig.getStringList(uuidString+".Action");
+        player_Action_List_Map.clear();
+        ActionManager.class_Action_Map.forEach((s, maps) -> {
 
-        File inputFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
-        FileConfiguration inputConfig = YamlConfiguration.loadConfiguration(inputFile);
-        List<String> setList = inputConfig.getStringList(uuidString+".Action");
-        List<String> thisList = new ArrayList<>();
-
-        for(String set : setList){
-
-            File inputFile2 = new File(cd.getDataFolder(),"Class/Action/"+set+".yml");
-            FileConfiguration inputConfig2 = YamlConfiguration.loadConfiguration(inputFile2);
-            List<String> actionList = inputConfig2.getStringList("Action");
-            for(String string : actionList){
-                thisList.add(string);
-
-            }
-
-
-        }
-
-        FileConfiguration configuration = cd.getConfigManager().config;
-        boolean b = configuration.getBoolean("Permission.fastUse");
-
-        if(!b){
-            for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
-                if(configName.contains("Permission")){
-                    String perName = configName.replace("Permission_","").replace(".yml","").toLowerCase();
-                    if(player.hasPermission("customdisplay.permission."+perName)){
-                        for(String list : ConfigMapManager.getFileConfigurationMap().get(configName).getStringList("Action")){
-                            thisList.add(list);
-
-                        }
-                    }
-                }
-            }
-        }else {
-            for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
-                if(configName.contains("Permission")){
-                    for(String list : ConfigMapManager.getFileConfigurationMap().get(configName).getStringList("Action")){
-                        String perName = configName.replace("Permission_","").replace(".yml","").toLowerCase();
-                        //PlayerDataMap.playerAction_Permission.put(uuidString+ReplaceTrigger.valueOf(list),"customdisplay.permission."+perName);
-                        thisList.add(list+" #"+"customdisplay.permission."+perName);
-
-                    }
-                }
-            }
-        }
-
-        skills_Map.forEach((s, s2) -> {
-            if(s.contains("_level")){
-                String skillKey = s.replace("_level","");
-                FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillKey+".yml");
-                boolean passiveSkill = skillConfig.getBoolean(skillKey+".PassiveSkill");
-                int skillLevel = Integer.parseInt(s2);
-                if(passiveSkill && skillLevel > 0){
-                    //cd.getLogger().info("技能: "+s+" : "+s2+" : "+passiveSkill);
-                    List<String> skillList = skillConfig.getStringList(skillKey+".Action");
-                    skillList.forEach(s1 -> {
-                        thisList.add(s1);
-                        //cd.getLogger().info(s1);
+            actionStringList.forEach(s1 -> {
+                if(s1.equals(s)){
+                    maps.forEach(stringStringMap -> {
+                        player_Action_List_Map.add(stringStringMap);
                     });
-                }
 
-            }
+                }
+            });
 
         });
 
-        playerActionList = thisList.stream().distinct().collect(Collectors.toList());
-
     }
-    /**設定個個動作Map**/
-    public void setActionList(){
-        if(action_Trigger_Map.size() > 0){
-            action_Trigger_Map.clear();
-        }
-        //action_Trigger_Map = new PlayerAction().setPlayerAction(playerActionList);
-        action_Trigger_Map2 = new PlayerAction2().setPlayerAction(playerActionList);
 
-    }
 
     public Player getPlayer() {
         return player;
-    }
-    /**動作列表**/
-    public List<String> getPlayerActionList() {
-        return playerActionList;
-    }
-    /**觸發的動作列表**/
-    public Map<String, List<String>> getAction_Trigger_Map() {
-        return action_Trigger_Map;
     }
 
     public Map<String, List<CustomLineConfig>> getAction_Trigger_Map2() {
@@ -304,5 +235,9 @@ public class PlayerData {
 
     public Map<String, List<CustomLineConfig>> getAction_Item_Trigger_Map() {
         return action_Item_Trigger_Map;
+    }
+
+    public static List<Map<String, String>> getPlayer_Action_List_Map() {
+        return player_Action_List_Map;
     }
 }

@@ -4,7 +4,8 @@ import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.api.item.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.EditorGUIManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,11 +32,11 @@ public class EditItem {
     public static void onChat(PlayerChatEvent event){
         Player player = event.getPlayer();
         String uuidString = event.getPlayer().getUniqueId().toString();
-        if(PlayerManager.menu_EditItem_Map.get(uuidString) != null){
+        if(EditorGUIManager.menu_EditItem_Map.get(uuidString) != null){
             event.setCancelled(true);
-            String editType = PlayerManager.menu_EditItem_Map.get(uuidString).editType;
-            String typeName = PlayerManager.menu_EditItem_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditItem_Map.get(uuidString).itemID;
+            String editType = EditorGUIManager.menu_EditItem_Map.get(uuidString).editType;
+            String typeName = EditorGUIManager.menu_EditItem_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditItem_Map.get(uuidString).itemID;
             String chatString = event.getMessage().replace("&", "§");
             ItemSet itemSet = new ItemSet(player, typeName, itemName);
             switch (editType){
@@ -77,10 +78,10 @@ public class EditItem {
 
         Player player = (Player) event.getWhoClicked();
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.menu_EditItem_Map.get(uuidString) != null){
+        if(EditorGUIManager.menu_EditItem_Map.get(uuidString) != null){
 
-            String typeName = PlayerManager.menu_EditItem_Map.get(uuidString).typeName;
-            String itemName = PlayerManager.menu_EditItem_Map.get(uuidString).itemID;
+            String typeName = EditorGUIManager.menu_EditItem_Map.get(uuidString).typeName;
+            String itemName = EditorGUIManager.menu_EditItem_Map.get(uuidString).itemID;
 
             ItemSet itemSet = new ItemSet(player, typeName, itemName);
 
@@ -263,15 +264,15 @@ public class EditItem {
     public void openMenu(Player player, String typeName, String itemName){
         String uuidString = player.getUniqueId().toString();
 
-        if(PlayerManager.menu_EditItem_Inventory_Map.get(uuidString) == null){
-            PlayerManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
-            Inventory inventory = PlayerManager.menu_EditItem_Inventory_Map.get(uuidString);
+        if(EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            Inventory inventory = EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
-            PlayerManager.menu_EditItem_Inventory_Map.remove(uuidString);
-            PlayerManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
-            Inventory inventory = PlayerManager.menu_EditItem_Inventory_Map.get(uuidString);
+            EditorGUIManager.menu_EditItem_Inventory_Map.remove(uuidString);
+            EditorGUIManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            Inventory inventory = EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }

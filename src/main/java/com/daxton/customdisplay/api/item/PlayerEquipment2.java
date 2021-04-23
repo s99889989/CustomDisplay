@@ -6,7 +6,7 @@ import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.set.PlayerAction2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -40,12 +40,20 @@ public class PlayerEquipment2 {
         String uuidString = playerUUID.toString();
         PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
+
             Map<String, Integer> equipment_Enchants_Map = playerData.equipment_Enchants_Map;//new HashMap<>();
+
             Map<String,List<CustomLineConfig>> action_Item_Trigger_Map = playerData.getAction_Item_Trigger_Map();
+
             if(!action_Item_Trigger_Map.isEmpty()){
                 //cd.getLogger().info("清除");
                 action_Item_Trigger_Map.clear();
             }
+
+            List<Map<String, String>> player_Item_Action_List_Map  = playerData.player_Item_Action_List_Map;
+            player_Item_Action_List_Map.clear();
+
+
 
             if(!(equipment_Enchants_Map.isEmpty())){
                 equipment_Enchants_Map.clear();
@@ -66,6 +74,7 @@ public class PlayerEquipment2 {
 
                             });
                             loadActionEq(player, action_Item_Trigger_Map, itemStack);
+                            setItemActionList(player, player_Item_Action_List_Map, itemStack);
                         }
 
                     }
@@ -86,6 +95,7 @@ public class PlayerEquipment2 {
 
                             });
                             loadActionEq(player, action_Item_Trigger_Map, itemStack);
+                            setItemActionList(player, player_Item_Action_List_Map, itemStack);
                         }
 
                     }
@@ -103,6 +113,7 @@ public class PlayerEquipment2 {
 
                             });
                             loadActionEq(player, action_Item_Trigger_Map, itemStack);
+                            setItemActionList(player, player_Item_Action_List_Map, itemStack);
                         }
 
                     }
@@ -130,6 +141,18 @@ public class PlayerEquipment2 {
 //            cd.getLogger().info(s+" : "+integer);
 //        });
 //        cd.getLogger().info("-------------------------------");
+    }
+
+    public void setItemActionList(Player player, List<Map<String, String>> player_Item_Action_List_Map, ItemStack itemStack){
+        if(itemStack != null){
+            if(!itemStack.getItemMeta().getPersistentDataContainer().isEmpty()){
+                Set<NamespacedKey> k = itemStack.getItemMeta().getPersistentDataContainer().getKeys();
+                k.forEach(namespacedKey -> {
+                    String ss = itemStack.getItemMeta().getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING);
+                    player.sendMessage(ss);
+                });
+            }
+        }
     }
 
     public void loadActionEq(Player player, Map<String,List<CustomLineConfig>> action_Item_Trigger_Map, ItemStack itemStack){

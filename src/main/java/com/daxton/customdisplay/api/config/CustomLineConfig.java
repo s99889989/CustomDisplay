@@ -7,6 +7,7 @@ import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.location.AimsLocation;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
@@ -45,7 +46,7 @@ public class CustomLineConfig implements Cloneable{
     }
 
     public CustomLineConfig(String inputString){
-
+        //MythicLineConfig
         String input = ReplaceTrigger.valueOf(inputString);
 
         if (input.contains("[") && input.contains("]")) {

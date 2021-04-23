@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.manager.PlayerManager;
+import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
