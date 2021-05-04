@@ -134,7 +134,7 @@ public class JudgmentAction2 {
                 ActionManager.judgment_Guise_Map2.put(taskID, new Guise3());
             }
             if(ActionManager.judgment_Guise_Map2.get(taskID) != null){
-                ActionManager.judgment_Guise_Map2.get(taskID).setItemEntity(self,target,action_Map,taskID);
+                ActionManager.judgment_Guise_Map2.get(taskID).setGuise(self, target, action_Map, taskID);
             }
             return;
         }

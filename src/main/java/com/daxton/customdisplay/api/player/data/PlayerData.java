@@ -129,7 +129,7 @@ public class PlayerData {
         /**魔量**/
         FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("Class_CustomCore.yml");
         String maxManaString = fileConfiguration.getString("CoreAttribute.Max_Mana.formula");
-        String maxManaString2 = new ConversionMain().valueOf(player,null,maxManaString);
+        String maxManaString2 = ConversionMain.valueOf(player,null,maxManaString);
         double mana = 0;
         try {
             mana = Double.valueOf(maxManaString2);
@@ -146,7 +146,7 @@ public class PlayerData {
 
         /**回魔量**/
         String manaRegString = fileConfiguration.getString("CoreAttribute.Mana_Regeneration.formula");
-        manaRegString = new ConversionMain().valueOf(player,null,manaRegString);
+        manaRegString = ConversionMain.valueOf(player,null,manaRegString);
         try {
             manaRegeneration = Double.valueOf(manaRegString);
         }catch (NumberFormatException exception){
@@ -155,7 +155,7 @@ public class PlayerData {
 
         /**回血量**/
         String healthRegenerationString = fileConfiguration.getString("CoreAttribute.Health_Regeneration.formula");
-        String healthRegenerationString2 = new ConversionMain().valueOf(player,null,healthRegenerationString);
+        String healthRegenerationString2 = ConversionMain.valueOf(player,null,healthRegenerationString);
 
         bukkitRunnable = new BukkitRunnable(){
 

@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.item;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
@@ -25,7 +26,7 @@ public class PlayerEquipment2 {
 
     }
 
-    public void reloadEquipment(Player player, int key){
+    public static void reloadEquipment(Player player, int key){
 
 
         loadAllEq(player, key);
@@ -34,7 +35,7 @@ public class PlayerEquipment2 {
     }
 
 
-    public void loadAllEq(Player player, int key){
+    public static void loadAllEq(Player player, int key){
 
         UUID playerUUID = player.getUniqueId();
         String uuidString = playerUUID.toString();
@@ -73,8 +74,7 @@ public class PlayerEquipment2 {
                                 printE(equipment_Enchants_Map, enchantment.getKey().getKey(), integer);
 
                             });
-                            loadActionEq(player, action_Item_Trigger_Map, itemStack);
-                            setItemActionList(player, player_Item_Action_List_Map, itemStack);
+                            setItemActionList(player_Item_Action_List_Map, itemStack);
                         }
 
                     }
@@ -94,8 +94,7 @@ public class PlayerEquipment2 {
                                 printE(equipment_Enchants_Map, enchantment.getKey().getKey(), integer);
 
                             });
-                            loadActionEq(player, action_Item_Trigger_Map, itemStack);
-                            setItemActionList(player, player_Item_Action_List_Map, itemStack);
+                            setItemActionList(player_Item_Action_List_Map, itemStack);
                         }
 
                     }
@@ -112,8 +111,7 @@ public class PlayerEquipment2 {
                                 printE(equipment_Enchants_Map, enchantment.getKey().getKey(), integer);
 
                             });
-                            loadActionEq(player, action_Item_Trigger_Map, itemStack);
-                            setItemActionList(player, player_Item_Action_List_Map, itemStack);
+                            setItemActionList(player_Item_Action_List_Map, itemStack);
                         }
 
                     }
@@ -128,9 +126,9 @@ public class PlayerEquipment2 {
                         /**找出副手上的附魔屬性**/
                         itemMeta.getEnchants().forEach((enchantment, integer) -> {
                             printE(equipment_Enchants_Map, enchantment.getKey().getKey(), integer);
-
+                            setItemActionList(player_Item_Action_List_Map, itemStack);
                         });
-                        loadActionEq(player, action_Item_Trigger_Map, itemStack);
+
                     }
 
                 }
@@ -143,37 +141,26 @@ public class PlayerEquipment2 {
 //        cd.getLogger().info("-------------------------------");
     }
 
-    public void setItemActionList(Player player, List<Map<String, String>> player_Item_Action_List_Map, ItemStack itemStack){
+    //物品動作
+    public static void setItemActionList(List<Map<String, String>> player_Item_Action_List_Map, ItemStack itemStack){
         if(itemStack != null){
-            if(!itemStack.getItemMeta().getPersistentDataContainer().isEmpty()){
-                Set<NamespacedKey> k = itemStack.getItemMeta().getPersistentDataContainer().getKeys();
-                k.forEach(namespacedKey -> {
-                    String ss = itemStack.getItemMeta().getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING);
-                    player.sendMessage(ss);
-                });
+            try {
+                if(!itemStack.getItemMeta().getPersistentDataContainer().isEmpty()){
+                    Set<NamespacedKey> k = itemStack.getItemMeta().getPersistentDataContainer().getKeys();
+                    k.forEach(namespacedKey -> {
+                        String ss = itemStack.getItemMeta().getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING);
+                        player_Item_Action_List_Map.add(SetActionMap.setClassAction(ss));
+
+                    });
+                }
+            }catch (NoSuchMethodError exception){
+                //CustomDisplay.getCustomDisplay().getLogger().info("Item Error");
             }
         }
     }
 
-    public void loadActionEq(Player player, Map<String,List<CustomLineConfig>> action_Item_Trigger_Map, ItemStack itemStack){
-        if(itemStack != null){
-            if(!itemStack.getItemMeta().getPersistentDataContainer().isEmpty()){
-                Set<NamespacedKey> k = itemStack.getItemMeta().getPersistentDataContainer().getKeys();
-                k.forEach(namespacedKey -> {
-                    String ss = itemStack.getItemMeta().getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING);
-                    //player.sendMessage("職: "+ss);
-                    //cd.getLogger().info("職: "+ss);
-                    new PlayerAction2(action_Item_Trigger_Map).setAction(ss);
-
-
-                });
-            }
-        }
-
-
-    }
-
-    public void printE(Map<String, Integer> equipment_Enchants_Map, String enchant, int eValue){
+    //物品附魔
+    public static void printE(Map<String, Integer> equipment_Enchants_Map, String enchant, int eValue){
         if(equipment_Enchants_Map.get(enchant) == null){
             equipment_Enchants_Map.put(enchant, eValue);
         }else {

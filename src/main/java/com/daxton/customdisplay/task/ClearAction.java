@@ -40,8 +40,10 @@ public class ClearAction {
         ActionManager.judgment_Loop_Map2.clear();
 
         for(Holographic3 holographic2 : ActionManager.judgment_Holographic_Map2.values()){
-            if(holographic2.getHologram() != null){
-                holographic2.getHologram().delete();
+            if(holographic2.getHologram_Map() != null){
+                holographic2.getHologram_Map().forEach((s, hologram) -> {
+                    hologram.delete();
+                });
             }
         }
         ActionManager.judgment_Holographic_Map2.clear();
@@ -87,8 +89,10 @@ public class ClearAction {
         /**---------------------------------------------------------------**/
 
         for(LocationHolographic3 holographic2 : ActionManager.judgment_LocHolographic_Map2.values()){
-            if(holographic2.getHologram() != null){
-                holographic2.getHologram().delete();
+            if(holographic2.getHologram_Map() != null){
+                holographic2.getHologram_Map().forEach((s, hologram) -> {
+                    hologram.delete();
+                });
             }
         }
         ActionManager.judgment_LocHolographic_Map2.clear();
@@ -202,8 +206,10 @@ public class ClearAction {
         }
 
         if(ActionManager.judgment_Holographic_Map2.get(taskID) != null){
-            if(ActionManager.judgment_Holographic_Map2.get(taskID).getHologram() != null){
-                ActionManager.judgment_Holographic_Map2.get(taskID).getHologram().delete();
+            if(ActionManager.judgment_Holographic_Map2.get(taskID).getHologram_Map() != null){
+                ActionManager.judgment_Holographic_Map2.get(taskID).getHologram_Map().forEach((s, hologram) -> {
+                    hologram.delete();
+                });
             }
             ActionManager.judgment_Holographic_Map2.remove(taskID);
         }

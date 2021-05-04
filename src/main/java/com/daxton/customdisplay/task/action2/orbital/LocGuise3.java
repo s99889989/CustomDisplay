@@ -102,25 +102,9 @@ public class LocGuise3 {
                 this.packetEntity = new PacketEntity().createPacketEntity(entityType, player, location);
 
 
-                String ent = this.packetEntity.getEntityTypeName();
-                if(ent.equals("ARMOR_STAND")){
-                    setArmorStand(self ,target , action_Map, location);
-                }
-
 //                Vector vector = location.getDirection();
 //                this.packetEntity.velocity(vector);
 
-                if(!visible){
-                    this.packetEntity.setVisible();
-                }
-
-                if(itemID != null){
-                    this.packetEntity.appendItem(itemID,equipmentSlot);
-                }
-
-                if(entityName != null){
-                    packetEntity.appendTextLine(entityName);
-                }
 
             }
             if(this.packetEntity != null){

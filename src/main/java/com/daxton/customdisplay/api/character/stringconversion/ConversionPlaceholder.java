@@ -11,7 +11,7 @@ public class ConversionPlaceholder {
 
     }
 
-    public String valueOf(LivingEntity self, LivingEntity target, String inputString){
+    public static String valueOf(LivingEntity self, LivingEntity target, String inputString){
         String outputString = "";
         int numHead = NumberUtil.appearNumber(inputString, "<");
         int numTail = NumberUtil.appearNumber(inputString, ">");
@@ -21,15 +21,15 @@ public class ConversionPlaceholder {
                 int tail = inputString.indexOf(">");
                 if(inputString.contains("<") && inputString.contains(">")){
                     if(inputString.substring(head,tail+1).toLowerCase().contains("<cd_other_")){
-                        inputString = inputString.replace(inputString.substring(head,tail+1),new PlaceholderOther().getOther(inputString.substring(head,tail+1)));
+                        inputString = inputString.replace(inputString.substring(head,tail+1), PlaceholderOther.getOther(inputString.substring(head,tail+1)));
                         continue;
                     }
                     if(inputString.substring(head,tail+1).toLowerCase().contains("<cd_self_")){
-                        inputString = inputString.replace(inputString.substring(head,tail+1),new PlaceholderSelf().valueOf(self,target,inputString.substring(head,tail+1)));
+                        inputString = inputString.replace(inputString.substring(head,tail+1), PlaceholderSelf.valueOf(self,target,inputString.substring(head,tail+1)));
                         continue;
                     }
                     if(target != null && inputString.substring(head,tail+1).toLowerCase().contains("<cd_target_")){
-                        inputString = inputString.replace(inputString.substring(head,tail+1),new PlaceholderTarget().valueOf(target,inputString.substring(head,tail+1)));
+                        inputString = inputString.replace(inputString.substring(head,tail+1), PlaceholderTarget.valueOf(target,inputString.substring(head,tail+1)));
                         continue;
                     }
                 }else {

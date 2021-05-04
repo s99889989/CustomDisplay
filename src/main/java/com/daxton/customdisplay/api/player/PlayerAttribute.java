@@ -41,7 +41,7 @@ public class PlayerAttribute {
                         String statsNumberString = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".formula");
 
                         if(statsNumberString != null){
-                            statsNumberString = new ConversionMain().valueOf(player,null,statsNumberString);
+                            statsNumberString = ConversionMain.valueOf(player,null,statsNumberString);
                         }else {
                             statsNumberString = "0";
                         }

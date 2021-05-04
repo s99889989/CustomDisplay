@@ -40,7 +40,7 @@ public class SetValue {
             outPut = itemIDStrings[1];
 
             if(outPut.contains("&")){
-                outPut = new ConversionMain().valueOf(self,target,outPut);
+                outPut = ConversionMain.valueOf(self,target,outPut);
             }
         }
         inputString = outPut;

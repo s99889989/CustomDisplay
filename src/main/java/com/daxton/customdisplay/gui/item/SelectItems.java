@@ -1,11 +1,10 @@
-package com.daxton.customdisplay.api.item.gui;
+package com.daxton.customdisplay.gui.item;
 
-import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -79,7 +78,7 @@ public class SelectItems {
             if(event.getClick() == ClickType.LEFT){
                 //到物品類別介面
                 if(i == 0){
-                    new OpenMenuGUI(player).ItemCategorySelection();
+                    OpenMenuGUI.ItemCategorySelection(player);
                     return;
                 }
                 //關閉GUI
@@ -89,7 +88,7 @@ public class SelectItems {
                 }
                 //上一頁
                 if(havePrevioust && i == 45){
-                    new OpenMenuGUI(player).SelectItems(typeName, previousPageCount);
+                    OpenMenuGUI.SelectItems(player, typeName, previousPageCount);
                     return;
                 }
                 //建立新物品
@@ -101,7 +100,7 @@ public class SelectItems {
                 }
                 //下一頁
                 if(haveNext && i == 53){
-                    new OpenMenuGUI(player).SelectItems(typeName, nextPageCount);
+                    OpenMenuGUI.SelectItems(player, typeName, nextPageCount);
                     return;
                 }
                 //給物品
@@ -114,7 +113,7 @@ public class SelectItems {
             if(event.getClick() == ClickType.RIGHT){
                 //編輯物品
                 if(RawSlot.get(i) != null && RawSlot.get(i) == i){
-                    new OpenMenuGUI(player).EditItem(typeName, itmeName.get(i));
+                    OpenMenuGUI.EditItem(player, typeName, itmeName.get(i));
 
                 }
 
@@ -125,9 +124,9 @@ public class SelectItems {
                     ItemSet itemSet2 = new ItemSet(player, typeName, itmeName.get(i));
                     itemSet2.deleteItem();
                     if(haveNext){
-                        new OpenMenuGUI(player).SelectItems(typeName, nextPageCount-1);
+                        OpenMenuGUI.SelectItems(player, typeName, nextPageCount-1);
                     }else {
-                        new OpenMenuGUI(player).SelectItems(typeName, 0);
+                        OpenMenuGUI.SelectItems(player, typeName, 0);
                     }
 
                     return;
@@ -169,12 +168,12 @@ public class SelectItems {
         if(itemCount > 0){
             this.havePrevioust = true;
             this.previousPageCount = this.nextPageCount-28;
-            inventory.setItem(45,MenuSet.getItemButtom("Buttom", "ItemsButtom","PreviousPage"));
+            inventory.setItem(45, ButtomSet.getItemButtom("Buttom.ItemsButtom.PreviousPage", ""));
         }
         this.RawSlot.clear();
         this.itmeID.clear();
 
-        String[] stringArray = MenuSet.getItemList(typeName);
+        String[] stringArray = MenuSet.getActionList(typeName);
 
         for(int k = itemCount; k < stringArray.length ;k++){
             if(i == 44){
@@ -193,13 +192,13 @@ public class SelectItems {
         this.haveNext = false;
         if(stringArray.length-itemCount > 28){
             this.haveNext = true;
-            inventory.setItem(53,MenuSet.getItemButtom("Buttom", "SelectItems","NextPage"));
+            inventory.setItem(53, ButtomSet.getItemButtom("Buttom.SelectItems.NextPage", ""));
         }
 
-        inventory.setItem(0, MenuSet.getItemButtom("Buttom", "SelectItems","ToItemCategorySelection"));
-        inventory.setItem(8,MenuSet.getItemButtom("Buttom", "SelectItems","Exit"));
-        inventory.setItem(49,MenuSet.getItemButtom("Buttom", "SelectItems","Description"));
-        inventory.setItem(51,MenuSet.getItemButtom("Buttom", "SelectItems","Create"));
+        inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.SelectItems.ToItemCategorySelection", ""));
+        inventory.setItem(8, ButtomSet.getItemButtom("Buttom.SelectItems.Exit", ""));
+        inventory.setItem(49, ButtomSet.getItemButtom("Buttom.SelectItems.Description", ""));
+        inventory.setItem(51, ButtomSet.getItemButtom("Buttom.SelectItems.Create", ""));
 
         return inventory;
     }

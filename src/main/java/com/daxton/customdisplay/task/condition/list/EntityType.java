@@ -41,7 +41,7 @@ public class EntityType {
             }
             if(string.toLowerCase().contains("entitytype=")){
                 String[] strings = string.replace(" ","").split("=");
-                entityType = new ConversionMain().valueOf(self,target,strings[1]);
+                entityType = ConversionMain.valueOf(self,target,strings[1]);
             }
 
         }

@@ -27,19 +27,17 @@ public class PlayerTrigger {
 
 
     /**觸發的動作列表**/
-    private Map<String, List<CustomLineConfig>> action_Trigger_Map = new HashMap<>();
-    private Map<String, List<CustomLineConfig>> action_Item_Trigger_Map = new HashMap<>();
-
     private static List<Map<String, String>> player_Action_List_Map = new ArrayList<>();
+    private static List<Map<String, String>> player_Item_Action_List_Map = new ArrayList<>();
 
     public PlayerTrigger(Player player){
         UUID playerUUID = player.getUniqueId();
         PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
 
         if(playerData != null){
-            action_Trigger_Map = playerData.getAction_Trigger_Map2();
-            action_Item_Trigger_Map = playerData.getAction_Item_Trigger_Map();
+
             player_Action_List_Map = playerData.getPlayer_Action_List_Map();
+            player_Item_Action_List_Map = playerData.player_Item_Action_List_Map;
         }
     }
 
@@ -48,8 +46,13 @@ public class PlayerTrigger {
         this.self = self;
         this.target = target;
 
-
         this.player_Action_List_Map.forEach(stringStringMap -> {
+            if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
+                runExecute2(stringStringMap, self, target);
+            }
+        });
+
+        this.player_Item_Action_List_Map.forEach(stringStringMap -> {
             if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
                 runExecute2(stringStringMap, self, target);
             }
@@ -69,18 +72,6 @@ public class PlayerTrigger {
         }
 
 
-//        if(action_Trigger_Map.get(triggerName) != null){
-//            for(CustomLineConfig actionString : action_Trigger_Map.get(triggerName)){
-//
-//                runExecute(actionString);
-//            }
-//        }
-//        if(action_Item_Trigger_Map.get(triggerName) != null){
-//            for(CustomLineConfig actionString : action_Item_Trigger_Map.get(triggerName)){
-//
-//                runExecute(actionString);
-//            }
-//        }
     }
 
     /**直接使用動作列表**/

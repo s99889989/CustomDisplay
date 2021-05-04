@@ -29,8 +29,6 @@ public class Damage3 {
         this.target = target;
         this.action_Map = action_Map;
 
-
-
         setOther();
     }
 
@@ -44,7 +42,7 @@ public class Damage3 {
 
         double amount = actionMapHandle.getDouble(new String[]{"amount","a"},1);
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList2();
 
         if(!(livingEntityList.isEmpty())){
             for(LivingEntity livingEntity : livingEntityList){

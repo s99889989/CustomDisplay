@@ -1,10 +1,8 @@
-package com.daxton.customdisplay.api.item;
+package com.daxton.customdisplay.gui.item;
 
-import com.daxton.customdisplay.api.item.gui.EditItem;
-import com.daxton.customdisplay.api.item.gui.OpenMenuGUI;
+import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -148,7 +146,9 @@ public class ItemSet {
         }
     }
 
-    //移除全部Lore
+
+
+    //從上移除Lore
     public void removeLore(){
         List<String> lore = this.itemConfig.getStringList(this.itemID+".Lore");
         if(lore.size() > 0){
@@ -163,6 +163,31 @@ public class ItemSet {
         if(lore.size() > 0){
             lore.remove(order);
             this.itemConfig.set(this.itemID+".Lore", lore);
+        }
+    }
+
+    //在最後增加Action
+    public void addAction(String setValue){
+        List<String> lore = this.itemConfig.getStringList(this.itemID+".Action");
+        lore.add(setValue);
+        this.itemConfig.set(this.itemID+".Action", lore);
+    }
+
+    //從最上面移除Action
+    public void removeAction(){
+        List<String> lore = this.itemConfig.getStringList(this.itemID+".Action");
+        if(lore.size() > 0){
+            lore.remove(0);
+            this.itemConfig.set(this.itemID+".Action", lore);
+        }
+    }
+
+    //移除指定位置Action
+    public void removeOrderAction(int order){
+        List<String> lore = this.itemConfig.getStringList(this.itemID+".Action");
+        if(lore.size() > 0){
+            lore.remove(order);
+            this.itemConfig.set(this.itemID+".Action", lore);
         }
     }
 
@@ -386,7 +411,7 @@ public class ItemSet {
     public void openEditLore(){
         String uuidString = this.player.getUniqueId().toString();
         EditorGUIManager.menu_EditLore_Chat_Map.put(uuidString, false);
-        new OpenMenuGUI(this.player).EditLore(this.typeName, this.itemID);
+        OpenMenuGUI.EditLore(this.player, this.typeName, this.itemID);
     }
 
     //打開物品編輯介面
@@ -408,7 +433,7 @@ public class ItemSet {
     }
 
     //打開物品列表介面
-    public void openItemListMenu(int page){
+    public void openActionListMenu(int page){
         String uuidString = this.player.getUniqueId().toString();
         EditorGUIManager.menu_ItemList_Map.get(uuidString).openMenu(this.player, this.typeName, this.itemID,page);
     }

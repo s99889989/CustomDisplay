@@ -21,8 +21,8 @@ public class Equals {
         if(strings.length == 3){
             String keyLeft = strings[1];
             String keyRight = strings[2].replace("]","");
-            keyLeft = new ConversionMain().valueOf(self,target,keyLeft);
-            keyRight = new ConversionMain().valueOf(self,target,keyRight);
+            keyLeft = ConversionMain.valueOf(self,target,keyLeft);
+            keyRight = ConversionMain.valueOf(self,target,keyRight);
             if(keyLeft.equals(keyRight)){
                 outputBoolean = true;
             }

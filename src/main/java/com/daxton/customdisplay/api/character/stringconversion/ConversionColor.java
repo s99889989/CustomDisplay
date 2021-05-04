@@ -11,7 +11,7 @@ public class ConversionColor {
 
     }
 
-    public String valueOf(String inputString){
+    public static String valueOf(String inputString){
         String outputString = "";
         if(inputString.length() == 9){
             String key1 = inputString.substring(2,3);

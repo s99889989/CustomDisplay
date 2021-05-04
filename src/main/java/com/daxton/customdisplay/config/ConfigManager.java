@@ -3,18 +3,12 @@ package com.daxton.customdisplay.config;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.AutoConfig;
 import com.daxton.customdisplay.api.config.AutoConfig2;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
-import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
-import io.lumine.xikage.mythicmobs.skills.auras.Aura;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 public class ConfigManager {
 

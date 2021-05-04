@@ -30,8 +30,8 @@ public class Contains {
             if(string.toLowerCase().contains("contains=")){
                 String[] strings = string.split("=");
                 if(strings.length == 3){
-                    stringLeft = new ConversionMain().valueOf(self,target,strings[1]);
-                    stringRight = new ConversionMain().valueOf(self,target,strings[2]);
+                    stringLeft = ConversionMain.valueOf(self,target,strings[1]);
+                    stringRight = ConversionMain.valueOf(self,target,strings[2]);
                 }
             }
 

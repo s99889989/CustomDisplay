@@ -1,6 +1,8 @@
 package com.daxton.customdisplay.manager.player;
 
-import com.daxton.customdisplay.api.item.gui.*;
+import com.daxton.customdisplay.gui.item.*;
+import com.daxton.customdisplay.gui.item.edititem.*;
+import com.daxton.customdisplay.gui.item.edititem.editaction.*;
 import com.daxton.customdisplay.task.action2.player.OpenInventory3;
 import org.bukkit.inventory.Inventory;
 
@@ -42,6 +44,31 @@ public class EditorGUIManager {
     public static Map<String , Inventory> menu_EditLore_Inventory_Map = new HashMap<>();
     public static Map<String , EditLore> menu_EditLore_Map = new HashMap<>();
     public static Map<String , Boolean> menu_EditLore_Chat_Map = new HashMap<>();
+    //編輯物品Action
+    public static Map<String , Inventory> menu_EditAction_Inventory_Map = new HashMap<>();
+    public static Map<String , EditAction> menu_EditAction_Map = new HashMap<>();
+    public static Map<String , Boolean> menu_EditAction_Chat_Map = new HashMap<>();
+    //編輯物品Action細節
+    public static Map<String , Inventory> menu_EditActionDetail_Inventory_Map = new HashMap<>();
+    public static Map<String , EditActionDetail> menu_EditActionDetail_Map = new HashMap<>();
+    public static Map<String , Boolean> menu_EditActionDetail_Chat_Map = new HashMap<>();
+    //編輯物品Action類型清單
+    public static Map<String , Inventory> menu_ActionTypeList_Inventory_Map = new HashMap<>();
+    public static Map<String , ActionTypeList> menu_ActionTypeList_Map = new HashMap<>();
+    //編輯物品Action清單
+    public static Map<String , Inventory> menu_ActionList_Inventory_Map = new HashMap<>();
+    public static Map<String , ActionList> menu_ActionList_Map = new HashMap<>();
+    //編輯物品Action觸發清單
+    public static Map<String , Inventory> menu_ActionTriggerList_Inventory_Map = new HashMap<>();
+    public static Map<String , ActionTriggerList> menu_ActionTriggerList_Map = new HashMap<>();
+    //編輯物品Action目標
+    public static Map<String , Inventory> menu_ActionTargetEdit_Inventory_Map = new HashMap<>();
+    public static Map<String , ActionTargetEdit> menu_ActionTargetEdit_Map = new HashMap<>();
+    public static Map<String , Boolean> menu_ActionTargetEdit_Chat_Map = new HashMap<>();
+    //編輯物品Action篩選清單
+    public static Map<String , Inventory> menu_ActionFiltersList_Inventory_Map = new HashMap<>();
+    public static Map<String , ActionFiltersList> menu_ActionFiltersList_Map = new HashMap<>();
+
     //------------------------------------------------------------------------------------------------------
 
 }

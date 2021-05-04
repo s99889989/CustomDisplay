@@ -24,7 +24,7 @@ public class FormulaPhysics {
             plysical = PlayerManager.core_Formula_Map.get("Melee_Physics_Critical_Strike_Power_Player_Other");
         }
 
-        plysical = new ConversionMain().valueOf(player,target,plysical);
+        plysical = ConversionMain.valueOf(player,target,plysical);
 
         try {
             double number = Arithmetic.eval(plysical);
@@ -47,7 +47,7 @@ public class FormulaPhysics {
             plysical = PlayerManager.core_Formula_Map.get("Melee_Physics_Player_Other");
         }
 
-        plysical = new ConversionMain().valueOf(player,target,plysical);
+        plysical = ConversionMain.valueOf(player,target,plysical);
 
         try {
             double number = Arithmetic.eval(plysical);
@@ -71,7 +71,7 @@ public class FormulaPhysics {
         }else {
             plysical = PlayerManager.core_Formula_Map.get("Range_Physics_Critical_Strike_Power_Player_Other");
         }
-        plysical = new ConversionMain().valueOf(player,target,plysical);
+        plysical = ConversionMain.valueOf(player,target,plysical);
         try {
             double number = Arithmetic.eval(plysical);
             attackNumber = Double.valueOf(number);
@@ -92,7 +92,7 @@ public class FormulaPhysics {
         }else {
             plysical = PlayerManager.core_Formula_Map.get("Range_Physics_Player_Other");
         }
-        plysical = new ConversionMain().valueOf(player,target,plysical);
+        plysical = ConversionMain.valueOf(player,target,plysical);
         try {
             double number = Arithmetic.eval(plysical);
             attackNumber = Double.valueOf(number);

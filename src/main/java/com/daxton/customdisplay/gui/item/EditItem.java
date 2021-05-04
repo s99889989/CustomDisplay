@@ -1,11 +1,10 @@
-package com.daxton.customdisplay.api.item.gui;
+package com.daxton.customdisplay.gui.item;
 
-import com.daxton.customdisplay.api.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -114,7 +113,7 @@ public class EditItem {
                 }
                 //修改物品類型
                 if(i == 11){
-                    new OpenMenuGUI(player).ItemList(typeName, itemName, 0);
+                    OpenMenuGUI.ItemList(player, typeName, itemName, 0);
                     return;
                 }
                 //修改物品耐久Data
@@ -133,7 +132,7 @@ public class EditItem {
                 }
                 //修改物品Lore
                 if(i == 14){
-                    new OpenMenuGUI(player).EditLore(typeName, itemName);
+                    OpenMenuGUI.EditLore(player, typeName, itemName);
                     return;
                 }
                 //設置不可破壞
@@ -144,17 +143,17 @@ public class EditItem {
                 }
                 //設置隱藏Flag
                 if(i == 16){
-                    new OpenMenuGUI(player).EditFlags(typeName, itemName);
+                    OpenMenuGUI.EditFlags(player, typeName, itemName);
                     return;
                 }
                 //設置物品附魔
                 if(i == 19){
-                    new OpenMenuGUI(player).EditEnchantment(typeName, itemName, 0);
+                    OpenMenuGUI.EditEnchantment(player, typeName, itemName, 0);
                     return;
                 }
                 //設置物品屬性
                 if(i == 20){
-                    new OpenMenuGUI(player).EditAttributes(typeName, itemName, 0, 0, 0);
+                    OpenMenuGUI.EditAttributes(player, typeName, itemName, 0, 0, 0);
                     return;
                 }
                 //設置頭值
@@ -164,8 +163,13 @@ public class EditItem {
                     itemSet.clickEditItem("EditHeadValue", ms1, ms2);
                     return;
                 }
+                //修改物品Action
+                if(i == 22){
+                    OpenMenuGUI.EditAction(player, typeName, itemName);
+                    return;
+                }
                 //設置冷卻值
-//                if(i == 22){
+//                if(i == 23){
 //                    String m1 = MenuSet.getItemMenuMessage("ItemsEditButtom", "CoolDown", "Message");
 //                    itemSet.click("EditCoolDown", m1);
 //                    return;
@@ -173,7 +177,7 @@ public class EditItem {
 
                 //到物品類別
                 if(i == 0){
-                    new OpenMenuGUI(player).SelectItems(typeName, 0);
+                    OpenMenuGUI.SelectItems(player, typeName, 0);
                     return;
                 }
 
@@ -251,8 +255,14 @@ public class EditItem {
                     itemSet.openEditMenu();
 
                 }
+                //移除物品Action
+                if(i == 22){
+                    itemSet.removeAction();
+                    itemSet.openEditMenu();
+                    return;
+                }
                 //移除冷卻值
-//                if(i == 22){
+//                if(i == 23){
 //                    itemSet.removeCoolDown();
 //                    itemSet.openEditMenu();
 //                }
@@ -290,23 +300,23 @@ public class EditItem {
         inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
 
-        inventory.setItem(0, MenuSet.getItemButtom("Buttom", "EditItem","ToSelectItems"));
-        inventory.setItem(8, MenuSet.getItemButtom("Buttom", "EditItem","Exit"));
+        inventory.setItem(0, ButtomSet.getItemButtom("Buttom.EditItem.ToSelectItems", ""));
+        inventory.setItem(8, ButtomSet.getItemButtom("Buttom.EditItem.Exit", ""));
 
-        inventory.setItem(10, MenuSet.getItemButtom("Buttom", "EditItem","EditDisplayName"));
-        inventory.setItem(11, MenuSet.getItemButtom("Buttom", "EditItem","EditMaerial"));
-        inventory.setItem(12, MenuSet.getItemButtom("Buttom", "EditItem","EditData"));
-        inventory.setItem(13, MenuSet.getItemButtom("Buttom", "EditItem","EditCustomModelData"));
-        inventory.setItem(14, MenuSet.getItemButtom("Buttom", "EditItem","EditLore"));
-        inventory.setItem(15, MenuSet.getItemButtom("Buttom", "EditItem","EditUnbreakable"));
-        inventory.setItem(16, MenuSet.getItemButtom("Buttom", "EditItem","EditItemFlags"));
-        inventory.setItem(19, MenuSet.getItemButtom("Buttom", "EditItem","EditEnchantments"));
-        inventory.setItem(20, MenuSet.getItemButtom("Buttom", "EditItem","EditAttributes"));
-        inventory.setItem(21, MenuSet.getItemButtom("Buttom", "EditItem","EditHeadValue"));
-//        inventory.setItem(22, MenuSet.getItemButtom("Buttom", "EditItem","CoolDown"));
-//        inventory.setItem(23, MenuSet.getItemButtom("Buttom", "EditItem","Action"));
+        inventory.setItem(10, ButtomSet.getItemButtom("Buttom.EditItem.EditDisplayName", ""));
+        inventory.setItem(11, ButtomSet.getItemButtom("Buttom.EditItem.EditMaerial", ""));
+        inventory.setItem(12, ButtomSet.getItemButtom("Buttom.EditItem.EditData", ""));
+        inventory.setItem(13, ButtomSet.getItemButtom("Buttom.EditItem.EditCustomModelData", ""));
+        inventory.setItem(14, ButtomSet.getItemButtom("Buttom.EditItem.EditLore", ""));
+        inventory.setItem(15, ButtomSet.getItemButtom("Buttom.EditItem.EditUnbreakable", ""));
+        inventory.setItem(16, ButtomSet.getItemButtom("Buttom.EditItem.EditItemFlags", ""));
+        inventory.setItem(19, ButtomSet.getItemButtom("Buttom.EditItem.EditEnchantments", ""));
+        inventory.setItem(20, ButtomSet.getItemButtom("Buttom.EditItem.EditAttributes", ""));
+        inventory.setItem(21, ButtomSet.getItemButtom("Buttom.EditItem.EditHeadValue", ""));
+        inventory.setItem(22, ButtomSet.getItemButtom("Buttom.EditItem.EditAction", ""));
 
-        inventory.setItem(49,MenuSet.getItemButtom("Buttom", "EditItem","Description"));
+
+        inventory.setItem(49,ButtomSet.getItemButtom("Buttom.EditItem.Description", ""));
 
         return inventory;
     }

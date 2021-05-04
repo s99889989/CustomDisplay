@@ -52,7 +52,7 @@ public class PlayerAttributesStats {
                 for(String attrName2 : attrStatsNameList){
                     String value = attrConfig.getString(attrName+"."+attrName2+".formula");
                     if(value != null){
-                        value = new ConversionMain().valueOf(player,null,value);
+                        value = ConversionMain.valueOf(player,null,value);
                         attributes_Stats_Map.put(attrName2,value);
                     }
                 }

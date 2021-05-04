@@ -17,7 +17,7 @@ public class ConversionCustom {
 
     }
 
-    public String valueOf(LivingEntity self, LivingEntity target, String inputString){
+    public static String valueOf(LivingEntity self, LivingEntity target, String inputString){
 
         String outputString = "";
         inputString = inputString.replace(" ","").replace("&","");
@@ -43,17 +43,17 @@ public class ConversionCustom {
         return outputString;
     }
 
-    public String CustomConversion(LivingEntity self, LivingEntity target, String headKey, String content,String targetKey){
+    public static String CustomConversion(LivingEntity self, LivingEntity target, String headKey, String content,String targetKey){
         String outputString = "";
         if(headKey.toLowerCase().contains("content")){
             if(content.contains("%")){
-                content = new ConversionPlaceholderAPI().valueOf(self,target,content,targetKey);
+                content = ConversionPlaceholderAPI.valueOf(self,target,content,targetKey);
             }
             if(content.contains("&")){
-                content = new ConversionMain().valueOf(self,target,content);
+                content = ConversionMain.valueOf(self,target,content);
             }
             if(content.contains("<") && content.contains(">")){
-                content = new ConversionPlaceholder().valueOf(self,target,content);
+                content = ConversionPlaceholder.valueOf(self,target,content);
             }
             outputString = content;
         }
@@ -62,17 +62,17 @@ public class ConversionCustom {
         return outputString;
     }
 
-    public String CustomChange(LivingEntity self, LivingEntity target, String headKey, String content,String changeContent){
+    public static String CustomChange(LivingEntity self, LivingEntity target, String headKey, String content,String changeContent){
         String outputString = "";
 
         if(headKey.toLowerCase().contains("conver")){
-            outputString = new ConversionChange().valueOf(self,target,content,changeContent);
+            outputString = ConversionChange.valueOf(self,target,content,changeContent);
         }
 
 
         if(headKey.toLowerCase().contains("math")){
 
-            outputString = new ConversionMath().valueOf(content,changeContent);
+            outputString = ConversionMath.valueOf(content,changeContent);
         }
 
 

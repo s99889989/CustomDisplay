@@ -24,7 +24,7 @@ public class ArmorStand {
 
         EulerAngle eulerAngle = new EulerAngle(Math.toRadians(x), Math.toRadians(y), Math.toRadians(z));
 
-        Vector3f vector3f = Vector3.getVector3f(eulerAngle);
+        Vector3f vector3f = new Vector3().getVector3f(eulerAngle);
 
         switch (type.toLowerCase()){
             case "head":

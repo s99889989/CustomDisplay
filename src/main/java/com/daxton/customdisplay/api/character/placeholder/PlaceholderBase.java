@@ -14,7 +14,7 @@ public class PlaceholderBase {
 
     }
 
-    public String valueOf(LivingEntity entity,LivingEntity target, String inputString){
+    public static String valueOf(LivingEntity entity,LivingEntity target, String inputString){
         String outputString = "";
         String uuidString = entity.getUniqueId().toString();
         String tUUIDString = "";
@@ -88,7 +88,7 @@ public class PlaceholderBase {
         return outputString;
     }
 
-    public double vectorX(LivingEntity livingEntity){
+    public static double vectorX(LivingEntity livingEntity){
         double xVector = livingEntity.getLocation().getDirection().getX();
         double rxVector = 0;
         if(xVector > 0){
@@ -98,7 +98,7 @@ public class PlaceholderBase {
         }
         return rxVector;
     }
-    public double vectorY(LivingEntity livingEntity){
+    public static double vectorY(LivingEntity livingEntity){
         double yVector = livingEntity.getLocation().getDirection().getY();
         double ryVector = 0;
         if(yVector > 0){
@@ -108,7 +108,7 @@ public class PlaceholderBase {
         }
         return ryVector;
     }
-    public double vectorZ(LivingEntity livingEntity){
+    public static double vectorZ(LivingEntity livingEntity){
         double zVector = livingEntity.getLocation().getDirection().getZ();
         double rzVector = 0;
         if(zVector > 0){

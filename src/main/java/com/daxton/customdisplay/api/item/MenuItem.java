@@ -53,11 +53,7 @@ public class MenuItem {
         itemMeta.setCustomModelData(cmd);
         itemMeta.getPersistentDataContainer();
 
-        /**物品Lore**/
-        List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
-        List<String> nextItemLore = new ArrayList<>();
-        itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
-        itemMeta.setLore(itemLore);
+
 
         /**物品附魔**/
         List<String> itemEnchantment = itemConfig.getStringList(itemID+".Enchantments");
@@ -177,6 +173,11 @@ public class MenuItem {
             data.set(xd , PersistentDataType.STRING, String.valueOf(cool));
         }
 
+        /**物品Lore**/
+        List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
+        List<String> nextItemLore = new ArrayList<>();
+        itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
+        itemMeta.setLore(itemLore);
 
         List<String> actionList = itemConfig.getStringList(itemID+".Action");
         if(!actionList.isEmpty()){
@@ -185,7 +186,17 @@ public class MenuItem {
             for(String action : actionList){
                 i++;
                 NamespacedKey xd = new NamespacedKey(cd, "Action"+i);
-                data.set(xd , PersistentDataType.STRING, action);
+
+                String[] actionArray = action.split(":");
+                if(actionArray.length == 2){
+                    data.set(xd , PersistentDataType.STRING, actionArray[1]);
+                    if(!actionArray[0].equals("null")){
+                        itemLore.add(actionArray[0]);
+                        itemMeta.setLore(itemLore);
+                    }
+                }
+
+
             }
 
 

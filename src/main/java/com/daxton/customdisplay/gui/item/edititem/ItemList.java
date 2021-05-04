@@ -1,11 +1,12 @@
-package com.daxton.customdisplay.api.item.gui;
+package com.daxton.customdisplay.gui.item.edititem;
 
-import com.daxton.customdisplay.api.item.ItemSet;
+import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -77,7 +78,7 @@ public class ItemList {
 
                 if(RawSlot.get(i) != null && RawSlot.get(i) == i){
                     itemSet.setMaterial(materialName.get(i));
-                    itemSet.openItemListMenu(nextPageCount-28);
+                    itemSet.openActionListMenu(nextPageCount-28);
                     return;
                 }
 
@@ -93,16 +94,16 @@ public class ItemList {
                 }
 
                 if(i == 0){
-                    new OpenMenuGUI(player).EditItem(typeName, itemName);
+                    OpenMenuGUI.EditItem(player, typeName, itemName);
                     return;
 
                 }
                 if(havePrevioust && i == 45){
-                    new OpenMenuGUI(player).ItemList(typeName, itemName, previousPageCount);
+                    OpenMenuGUI.ItemList(player, typeName, itemName, previousPageCount);
                     return;
                 }
                 if(haveNext && i == 53){
-                    new OpenMenuGUI(player).ItemList(typeName, itemName, nextPageCount);
+                    OpenMenuGUI.ItemList(player, typeName, itemName, nextPageCount);
                 }
 
 
@@ -121,14 +122,14 @@ public class ItemList {
         this.itemName = itemName;
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+typeName+".yml");
 
-        Inventory inventory = Bukkit.createInventory(null, 54 , MenuSet.getGuiTitle("ItemList"));
+        Inventory inventory = Bukkit.createInventory(null, 54 , MenuSet.getGuiTitle("ActionList"));
 
         int i = 10;
         this.havePrevioust = false;
         if(itemCount > 0){
             this.havePrevioust = true;
             this.previousPageCount = this.nextPageCount-28;
-            inventory.setItem(45, MenuSet.getItemButtom("Buttom", "ItemList","PreviousPage"));
+            inventory.setItem(45,  ButtomSet.getItemButtom("Buttom.ActionList.PreviousPage", ""));
         }
         this.RawSlot.clear();
 
@@ -151,14 +152,14 @@ public class ItemList {
         this.haveNext = false;
         if(itmeAmount-itemCount > 28){
             this.haveNext = true;
-            inventory.setItem(53,MenuSet.getItemButtom("Buttom", "ItemList","NextPage"));
+            inventory.setItem(53, ButtomSet.getItemButtom("Buttom.ActionList.NextPage", ""));
         }
 
         inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
-        inventory.setItem(0, MenuSet.getItemButtom("Buttom", "ItemList","ToEditItem"));
-        inventory.setItem(8,MenuSet.getItemButtom("Buttom", "ItemList","Exit"));
-        inventory.setItem(49,MenuSet.getItemButtom("Buttom", "ItemList","Description"));
+        inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.ActionList.ToEditItem", ""));
+        inventory.setItem(8, ButtomSet.getItemButtom("Buttom.ActionList.Exit", ""));
+        inventory.setItem(49, ButtomSet.getItemButtom("Buttom.ActionList.Description", ""));
 
 
         return inventory;

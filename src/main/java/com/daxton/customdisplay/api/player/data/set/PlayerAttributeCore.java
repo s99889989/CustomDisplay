@@ -48,7 +48,7 @@ public class PlayerAttributeCore {
         /**設置血量**/
         if(healthB){
             String healthString =  fileConfiguration.getString("CoreAttribute.Health.formula");
-            healthString = new ConversionMain().valueOf(player,null,healthString);
+            healthString = ConversionMain.valueOf(player,null,healthString);
             double health = 20;
             try{
                 health = Double.valueOf(healthString);
@@ -72,7 +72,7 @@ public class PlayerAttributeCore {
         boolean moveBoolean = fileConfiguration.getBoolean("CoreAttribute.Move_Speed.enable");
         if(moveBoolean){
             String moveString = fileConfiguration.getString("CoreAttribute.Move_Speed.formula");
-            moveString = new ConversionMain().valueOf(player,null,moveString);
+            moveString = ConversionMain.valueOf(player,null,moveString);
             double move = 0.12;
             try {
                 move = Double.valueOf(moveString);
@@ -94,7 +94,7 @@ public class PlayerAttributeCore {
 
         /**攻擊速度**/
         String attackSpeedString = PlayerManager.core_Formula_Map.get("Attack_Speed");
-        attackSpeedString = new ConversionMain().valueOf(player,null,attackSpeedString);
+        attackSpeedString = ConversionMain.valueOf(player,null,attackSpeedString);
         int  attackSpeed = 10;
         try {
             double number = Arithmetic.eval(attackSpeedString);

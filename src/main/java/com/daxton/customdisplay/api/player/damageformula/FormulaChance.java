@@ -25,7 +25,7 @@ public class FormulaChance {
         }else {
             blockRateString = PlayerManager.core_Formula_Map.get("Block_Rate_Player_Other");
         }
-        blockRateString = new ConversionMain().valueOf(player,target,blockRateString);
+        blockRateString = ConversionMain.valueOf(player,target,blockRateString);
 
         int blockRate = 0;
         try {
@@ -64,7 +64,7 @@ public class FormulaChance {
         }else {
             dodgeRateString = PlayerManager.core_Formula_Map.get("Dodge_Rate_Player_Other");
         }
-        dodgeRateString = new ConversionMain().valueOf(player,target,dodgeRateString);
+        dodgeRateString = ConversionMain.valueOf(player,target,dodgeRateString);
 
         int dodgeRate = 0;
         try {
@@ -101,7 +101,7 @@ public class FormulaChance {
         }else {
             crit_chanceString = PlayerManager.core_Formula_Map.get("Critical_Strike_Chance_Player_Other");
         }
-        crit_chanceString = new ConversionMain().valueOf(player,target,crit_chanceString);
+        crit_chanceString = ConversionMain.valueOf(player,target,crit_chanceString);
         int crit_chance = 0;
         try {
             double number = Arithmetic.eval(crit_chanceString);
@@ -132,7 +132,7 @@ public class FormulaChance {
         }else {
             hitRateString = PlayerManager.core_Formula_Map.get("Hit_Rate_Player_Other");
         }
-        hitRateString = new ConversionMain().valueOf(player,target,hitRateString);
+        hitRateString = ConversionMain.valueOf(player,target,hitRateString);
 
         int hitRate = 0;
         try {

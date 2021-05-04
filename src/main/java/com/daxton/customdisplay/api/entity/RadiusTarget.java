@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RadiusTarget {
 
-    /**獲得圓半徑目標(不包含自己)**/
+    //獲得圓半徑目標(不包含自己)
     public static List<LivingEntity> getRadiusLivingEntities(LivingEntity self, double radius) {
         List<Entity> targetEntityList = self.getNearbyEntities(radius, radius, radius);
         double sX = self.getLocation().getX();
@@ -33,7 +33,7 @@ public class RadiusTarget {
         return livingEntityList;
     }
 
-    /**獲得圓半徑目標(包含自己)**/
+    //獲得圓半徑目標(包含自己)
     public static List<LivingEntity> getRadiusLivingEntities2(LivingEntity self, LivingEntity target, double radius) {
         List<Entity> targetEntityList = target.getNearbyEntities(radius, radius, radius);
         double sX = target.getLocation().getX();
@@ -63,8 +63,9 @@ public class RadiusTarget {
         return livingEntityList;
     }
 
-    /**獲得圓半徑目標(不包含自己)**/
+    //獲得圓半徑目標(不包含自己)
     public static List<LivingEntity> getRadiusLivingEntities3(LivingEntity self, Location location, double radius) {
+        //CustomDisplay.getCustomDisplay().getLogger().info(self.getName()+" : "+location.getX()+" : "+location.getY()+" : "+radius);
         List<Entity> targetEntityList = new ArrayList<>(location.getWorld().getNearbyEntities(location,radius,radius,radius));
 
         double sX = location.getX();
@@ -94,73 +95,6 @@ public class RadiusTarget {
         return livingEntityList;
     }
 
-    /**---------------------新方法-------------------------**/
 
-    /**獲得圓半徑目標(不包含自己)**/
-    public static List<LivingEntity> getRadiusLivingEntities4(LivingEntity self, Location location, double radius) {
-        List<Entity> targetEntityList = new ArrayList<>(location.getWorld().getNearbyEntities(location,radius,radius,radius));
-
-        List<LivingEntity> livingEntityList = new ArrayList<>();
-        if(targetEntityList.size() > 0){
-            for(Entity targetEntity : targetEntityList){
-                if(targetEntity instanceof LivingEntity){
-                    LivingEntity livingEntity = (LivingEntity) targetEntity;
-                    CustomDisplay.getCustomDisplay().getLogger().info(livingEntity.getName()+" : "+location.distanceSquared(livingEntity.getEyeLocation())+" : "+radius);
-
-                    if(location.distanceSquared(livingEntity.getEyeLocation()) <= radius){
-                        livingEntityList.add(livingEntity);
-                    }
-
-                }
-            }
-        }
-        if(livingEntityList.contains(self)){
-            livingEntityList.remove(self);
-        }
-        return livingEntityList;
-    }
-
-    /**獲得圓半徑目標(不包含自己)**/
-    public static List<LivingEntity> getRadiusLivingEntities5(LivingEntity self, double radius) {
-        List<Entity> targetEntityList = self.getNearbyEntities(radius, radius, radius);
-        List<LivingEntity> livingEntityList = new ArrayList<>();
-        if(targetEntityList.size() > 0){
-            for(Entity targetEntity : targetEntityList){
-                if(targetEntity instanceof LivingEntity){
-                    if(self.getLocation().distanceSquared(((LivingEntity) targetEntity).getEyeLocation()) <= radius){
-                        livingEntityList.add((LivingEntity) targetEntity);
-                    }
-                }
-            }
-        }
-        if(livingEntityList.contains(self)){
-            livingEntityList.remove(self);
-        }
-        return livingEntityList;
-    }
-
-    /**獲得圓半徑目標(包含自己)**/
-    public static List<LivingEntity> getRadiusLivingEntities6(LivingEntity self, LivingEntity target, double radius) {
-        List<Entity> targetEntityList = target.getNearbyEntities(radius, radius, radius);
-
-        List<LivingEntity> livingEntityList = new ArrayList<>();
-        if(targetEntityList.size() > 0){
-            for(Entity targetEntity : targetEntityList){
-                if(targetEntity instanceof LivingEntity){
-                    if(target.getLocation().distanceSquared(((LivingEntity) targetEntity).getEyeLocation()) <= radius){
-                        livingEntityList.add((LivingEntity) targetEntity);
-                    }
-                }
-            }
-        }
-        if(!livingEntityList.contains(target)){
-            livingEntityList.add(target);
-        }
-        if(livingEntityList.contains(self)){
-            livingEntityList.remove(self);
-        }
-
-        return livingEntityList;
-    }
 
 }

@@ -268,7 +268,7 @@ public class FormulaDelay {
             PlayerManager.attack_Boolean3_Map.put(uuidString,false);
 
             String tickRunString = PlayerManager.core_Formula_Map.get("Attack_Speed");
-            tickRunString = new ConversionMain().valueOf(player,target,tickRunString);
+            tickRunString = ConversionMain.valueOf(player,target,tickRunString);
 
             try {
                 attackSpeed = Double.valueOf(tickRunString);

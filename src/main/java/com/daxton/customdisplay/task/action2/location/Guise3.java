@@ -3,53 +3,75 @@ package com.daxton.customdisplay.task.action2.location;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.entity.PacketEntity;
+import com.daxton.customdisplay.api.location.DirectionLocation;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class Guise3 {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+    private final CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
+    private Map<String, String> action_Map;
+    private LivingEntity self = null;
+    private LivingEntity target = null;
+    private String taskID;
 
     private PacketEntity packetEntity;
+
+    private final Map<String, PacketEntity> packetEntity_Map = new ConcurrentHashMap<>();
+    private final Map<String, Location> location_Map = new ConcurrentHashMap<>();
 
     public Guise3(){
 
     }
 
-    public void setItemEntity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public void setGuise(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+        this.taskID = taskID;
+        this.self = self;
+        this.target = target;
+        this.action_Map = action_Map;
 
-        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
+        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
 
-        /**實體的類型**/
+        String mark = actionMapHandle.getString(new String[]{"mark","mk"},"0");
+
+        setOther(taskID+mark);
+
+    }
+
+    public void setOther(String livTaskID){
+
+        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
+
+        //實體的類型
         String entityType = actionMapHandle.getString(new String[]{"entitytype","et"},"ARMOR_STAND");
 
-        /**實體的顯示名稱**/
+        //實體的顯示名稱
         String entityName = actionMapHandle.getString(new String[]{"entityname","en"},null);
 
-        /**實體是否看的見**/
-        boolean visible = actionMapHandle.getBoolean(new String[]{"visible"},true);
+        //實體是否看的見
+        boolean visible = actionMapHandle.getBoolean(new String[]{"visible"},false);
 
-        /**獲得物品的ID**/
+        //獲得物品的ID
         String itemID = actionMapHandle.getString(new String[]{"itemid"},null);
 
-        /**要裝備的部位**/
+        //要裝備的部位
         String equipmentSlot = actionMapHandle.getString(new String[]{"equipmentslot","es"},"HEAD");
 
-        /**座標要加上自己還是目標**/
-        String locTarget = actionMapHandle.getString(new String[]{"loctarget","lt"},null);
+        //座標要加上自己還是目標
+        boolean teleport = actionMapHandle.getBoolean(new String[]{"teleport","tp"}, false);
 
-        /**顯示的時間**/
+        //顯示的時間
         int duration = actionMapHandle.getInt(new String[]{"duration","dt"},-1);
 
-        /**對目標增加座標量**/
+        //對目標增加座標量
         double x = 0;
         double y = 0;
         double z = 0;
@@ -66,73 +88,68 @@ public class Guise3 {
                 z = 0;
             }
         }
-        Location location = null;
-        if(locTarget != null){
-            if(locTarget.toLowerCase().contains("self")){
 
-                location = self.getLocation();
-
+        //向量增加座標
+        String[] directionAdd = actionMapHandle.getStringList(new String[]{"directionadd","da"},new String[]{"self","true","true","0","0","0"},"\\|",6);
+        String directionT = "self";
+        boolean pt = true;
+        boolean yw = true;
+        double daX = 0;
+        double daY = 0;
+        double daZ = 0;
+        if(directionAdd.length == 6){
+            directionT = directionAdd[0];
+            pt = Boolean.parseBoolean(directionAdd[1]);
+            yw = Boolean.parseBoolean(directionAdd[2]);
+            try {
+                daX = Double.parseDouble(directionAdd[3]);
+                daY = Double.parseDouble(directionAdd[4]);
+                daZ = Double.parseDouble(directionAdd[5]);
+            }catch (NumberFormatException exception){
+                daX = 0;
+                daY = 0;
+                daZ = 0;
             }
-            if(locTarget.toLowerCase().contains("target")){
-                if(target != null){
-                    location = target.getLocation();
+        }
+
+        LivingEntity locEntity = actionMapHandle.getOneLivingEntity();
+        if(self instanceof  Player){
+            Player player = (Player) self;
+            if(packetEntity_Map.get(livTaskID) == null && locEntity != null){
+                Location location = locEntity.getLocation();
+                if(directionT.toLowerCase().contains("target")){
+                    location = DirectionLocation.getDirectionLoction(location, this.target.getLocation(), pt, yw, daX , daY, daZ).add(x, y, z);
+                }else {
+                    location = DirectionLocation.getDirectionLoction(location, this.self.getLocation(), pt, yw, daX , daY, daZ).add(x, y, z);
                 }
+                location_Map.put(livTaskID, location);
+                packetEntity_Map.put(livTaskID, new PacketEntity().createPacketEntity(entityType, player, location));
             }
-        }else {
-            location = self.getLocation();
-        }
 
-        if(location != null){
-            location = location.add(x,y,z);
-        }
+            if(packetEntity_Map.get(livTaskID) != null && location_Map.get(livTaskID) != null){
+                PacketEntity packetEntity = packetEntity_Map.get(livTaskID);
+                Location location = location_Map.get(livTaskID);
+                if(directionT.toLowerCase().contains("target")){
+                    location = DirectionLocation.getSetDirection(location, this.target.getLocation(), daX , daY, daZ).add(x, y, z);
+                }else {
+                    location = DirectionLocation.getSetDirection(location, this.self.getLocation(), daX , daY, daZ).add(x, y, z);
+                }
 
-        runItemEntity(self, target, action_Map, entityType, location, visible, itemID, entityName, equipmentSlot, duration);
-
-    }
-
-    public void runItemEntity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String entityType, Location location, boolean visible, String itemID, String entityName, String equipmentSlot, int duration){
-        if(self instanceof Player){
-
-            Player player = ((Player) self).getPlayer();
-
-            if(this.packetEntity == null){
-
-                this.packetEntity = new PacketEntity().createPacketEntity(entityType, player, location);
-
-
-                String ent = this.packetEntity.getEntityTypeName();
+                if(teleport){
+                    packetEntity.teleport(location, player);
+                }
+                
+                String ent = packetEntity.getEntityTypeName();
                 if(ent.equals("ARMOR_STAND")){
-                    setArmorStand(self ,target , action_Map);
+                    setArmorStand(self , target, action_Map, packetEntity);
                 }
 
                 if(!visible){
-                    this.packetEntity.setVisible();
+                    packetEntity.setVisible();
                 }
 
                 if(itemID != null){
-                    this.packetEntity.appendItem(itemID,equipmentSlot);
-                }
-
-                if(entityName != null){
-                    packetEntity.appendTextLine(entityName);
-                }
-
-            }
-            if(this.packetEntity != null){
-
-                this.packetEntity.teleport(location, player);
-
-                String ent = this.packetEntity.getEntityTypeName();
-                if(ent.equals("ARMOR_STAND")){
-                    setArmorStand(self ,target , action_Map);
-                }
-
-                if(!visible){
-                    this.packetEntity.setVisible();
-                }
-
-                if(itemID != null){
-                    this.packetEntity.appendItem(itemID,equipmentSlot);
+                    packetEntity.appendItem(itemID,equipmentSlot);
                 }
 
                 if(entityName != null){
@@ -144,6 +161,7 @@ public class Guise3 {
                         @Override
                         public void run() {
                             packetEntity.delete();
+                            packetEntity_Map.remove(livTaskID);
                         }
                     };
                     bukkitRunnable.runTaskLater(cd,duration);
@@ -151,23 +169,18 @@ public class Guise3 {
                     packetEntity.delete();
                 }
 
+
             }
-
-
-
-            //DRAGON_FIREBALL ARMOR_STAND
-
-            //packetEntity.velocity(moveEntity(player));
-
-
         }
+
+
     }
 
-    public void setArmorStand(LivingEntity self, LivingEntity target, Map<String, String> action_Map){
+    public void setArmorStand(LivingEntity self, LivingEntity target, Map<String, String> action_Map, PacketEntity packetEntity){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        /**頭的角度**/
+        //頭的角度
         float headX = 0;
         float headY = 0;
         float headZ = 0;
@@ -184,8 +197,8 @@ public class Guise3 {
                 headZ = 0;
             }
         }
-        this.packetEntity.setArmorStandAngle("head",headX,headY,headZ);
-        /**身體的角度**/
+        packetEntity.setArmorStandAngle("head",headX,headY,headZ);
+        //身體的角度
         float bodyX = 0;
         float bodyY = 0;
         float bodyZ = 0;
@@ -202,8 +215,8 @@ public class Guise3 {
                 bodyZ = 0;
             }
         }
-        this.packetEntity.setArmorStandAngle("body",bodyX,bodyY,bodyZ);
-        /**左手的角度**/
+        packetEntity.setArmorStandAngle("body",bodyX,bodyY,bodyZ);
+        //左手的角度
         float leftArmX = 0;
         float leftArmY = 0;
         float leftArmZ = 0;
@@ -220,8 +233,8 @@ public class Guise3 {
                 leftArmZ = 0;
             }
         }
-        this.packetEntity.setArmorStandAngle("leftarm",leftArmX,leftArmY,leftArmZ);
-        /**右手的角度**/
+        packetEntity.setArmorStandAngle("leftarm",leftArmX,leftArmY,leftArmZ);
+        //右手的角度
         float rightArmX = 0;
         float rightArmY = 0;
         float rightArmZ = 0;
@@ -238,8 +251,8 @@ public class Guise3 {
                 rightArmZ = 0;
             }
         }
-        this.packetEntity.setArmorStandAngle("rightarm",rightArmX,rightArmY,rightArmZ);
-        /**左腿的角度**/
+        packetEntity.setArmorStandAngle("rightarm",rightArmX,rightArmY,rightArmZ);
+        //左腿的角度
         float leftLegX = 0;
         float leftLegY = 0;
         float leftLegZ = 0;
@@ -256,8 +269,8 @@ public class Guise3 {
                 leftLegZ = 0;
             }
         }
-        this.packetEntity.setArmorStandAngle("leftleg",leftLegX,leftLegY,leftLegZ);
-        /**右腿的角度**/
+        packetEntity.setArmorStandAngle("leftleg",leftLegX,leftLegY,leftLegZ);
+        //右腿的角度
         float rightLegX = 0;
         float rightLegY = 0;
         float rightLegZ = 0;
@@ -274,29 +287,9 @@ public class Guise3 {
                 rightLegZ = 0;
             }
         }
-        this.packetEntity.setArmorStandAngle("rightleg",rightLegX,rightLegY,rightLegZ);
+        packetEntity.setArmorStandAngle("rightleg",rightLegX,rightLegY,rightLegZ);
     }
 
-
-    /**給向量移動**/
-    public Vector moveEntity(Player player){
-
-
-        double angle = 180;
-        double hight = 1;
-
-        double pitch = ((player.getLocation().getPitch() + 90) * Math.PI) / 180;
-        double yaw  = ((player.getLocation().getYaw() + 90+angle)  * Math.PI) / 180;
-        double x = Math.sin(pitch) * Math.cos(yaw);
-        double z = Math.sin(pitch) * Math.sin(yaw);
-
-        Vector vector = new Vector(x, 0, z);
-        Vector vector1 = new Vector(0,hight,0);
-        Vector vector2 = vector.add(vector1);
-
-
-        return vector2;
-    }
 
     public PacketEntity getPacketEntity() {
         return packetEntity;

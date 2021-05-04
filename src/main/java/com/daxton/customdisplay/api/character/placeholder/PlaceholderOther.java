@@ -7,13 +7,11 @@ public class PlaceholderOther {
 
     private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private String anser = "";
-
     public PlaceholderOther(){
 
 
     }
-    public String getOther(String firstString){
+    public static String getOther(String firstString){
         String outputString = "";
         String key = firstString.toLowerCase().replace("<cd_other_","").replace(">","");
         if(key.toLowerCase().contains("math_random_")){

@@ -34,6 +34,10 @@ public class ActionMapHandle {
 
     }
 
+    public ActionMapHandle(Map<String, String> action_Map){
+        this.action_Map = action_Map;
+    }
+
     public ActionMapHandle(Map<String, String> action_Map, LivingEntity self, LivingEntity target){
         this.action_Map = action_Map;
         this.self = self;
@@ -47,7 +51,7 @@ public class ActionMapHandle {
             if(this.action_Map.get(ss.toLowerCase()) != null){
                 output = this.action_Map.get(ss.toLowerCase());
                 if(output.contains("&")){
-                    output = new ConversionMain().valueOf(this.self,this.target,output);
+                    output = ConversionMain.valueOf(this.self,this.target,output);
                 }
                 return output;
             }
@@ -307,22 +311,30 @@ public class ActionMapHandle {
         return customLineConfigList;
     }
 
-    public Location getLocation(LivingEntity self, LivingEntity target, Location inputLocation){
-        Location location = new AimsLocation().valueOf2(self, target, this.action_Map.get("targetkey"),"",inputLocation);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //獲取座標
+    public Location getLocation(Location inputLocation){
+        Location location = AimsLocation.getOneLocation(this.self, this.target, this.action_Map.get("targetkey"),"@LocSelf", inputLocation);
         return location;
     }
 
-    /**獲取對象-預設對象是自己-數量不限**/
+    //獲取對象-預設對象是自己-數量不限
     public List<LivingEntity> getLivingEntityList(){
-        List<LivingEntity> livingEntityList = new Aims().getLivintEntityList(this.self, this.target, this.action_Map.get("targetkey"),"@Self");
+        List<LivingEntity> livingEntityList = Aims.getLivintEntityList(this.self, this.target, this.action_Map.get("targetkey"),"@Self");
         return livingEntityList;
     }
 
-    /**獲取對象-預設對象是目標-數量不限**/
-    public List<LivingEntity> getLivingEntityList2(LivingEntity self, LivingEntity target){
-
-        List<LivingEntity> livingEntityList = new Aims().getLivintEntityList(self, target, this.action_Map.get("targetkey"),"@Target");
+    //獲取對象-預設對象是目標-數量不限
+    public List<LivingEntity> getLivingEntityList2(){
+        List<LivingEntity> livingEntityList = Aims.getLivintEntityList(this.self, this.target, this.action_Map.get("targetkey"),"@Target");
         return livingEntityList;
     }
 
+    //獲取對象-預設對象是目標-限定一個目標
+    public LivingEntity getOneLivingEntity(){
+        LivingEntity livingEntity = Aims.getOneLivintEntity2(this.self, this.target, this.action_Map.get("targetkey"),"@Target");
+        return livingEntity;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

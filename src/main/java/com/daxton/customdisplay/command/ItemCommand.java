@@ -1,6 +1,6 @@
 package com.daxton.customdisplay.command;
 
-import com.daxton.customdisplay.api.item.gui.OpenMenuGUI;
+import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public class ItemCommand {
                 Player player = (Player) sender;
                 //打開物品清單
                 if(args[1].equalsIgnoreCase("edit")){
-                    new OpenMenuGUI(player).ItemCategorySelection();
+                    OpenMenuGUI.ItemCategorySelection(player);
                 }
             }
 

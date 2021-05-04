@@ -17,15 +17,12 @@ import java.util.stream.Collectors;
 
 public class MobConfig {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private Map<String,String> stats_Map = new HashMap<>();
-
     public MobConfig(){
 
     }
 
-    public void setMod(ActiveMob activeMob,double mobLevel){
+    public static void setMod(ActiveMob activeMob,double mobLevel){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
         String mobID = activeMob.getMobType();
         String uuidString = activeMob.getUniqueId().toString();
         String faction = activeMob.getFaction();
@@ -55,14 +52,12 @@ public class MobConfig {
             MobManager.mythicMobs_Attr_Map.put(mobID+"."+s,value);
         });
 
-
-
-
-
-
     }
 
-    public void createNewConfig(String mobID){
+    public static void createNewConfig(String mobID){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
+        Map<String,String> stats_Map = new HashMap<>();
+
         File mobFilePatch = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");
         try {
             if(!mobFilePatch.exists()){

@@ -6,15 +6,25 @@ Language:
     EditFlags: 'Flag Editing Interface'
     EditEnchantment: 'Enchant editing interface'
     EditAttributes: 'Attribute editing interface'
+    EditLore: 'Lore editing interface'
+    EditAction: 'Action editing interface'
+    EditActionDetail: 'Action detail editing interface'
+    ActionTypeList: 'Action category list'
+    ActionList: 'Action list'
+    ActionTargetEdit: 'Action goaledit'
+    ActionTriggerList: 'Action trigger list'
+    ActionFiltersList: 'Action filter list'
     ItemList: 'Item Type List'
   Buttom:
     ItemCategorySelection:
-    
+      
+      ExitDM: spruce_door:0
       Exit: '§eClose the menu'
       ExitInfo:
       - ''
       - '§7Close menu'
       
+      SaveDM: Map:0
       Save: '§eSave the modified item data'
       SaveInfo:
       - ''
@@ -24,27 +34,32 @@ Language:
       - '§7 also store item information'
       
     SelectItems:
-    
+      
+      ToItemCategorySelectionDM: Arrow:0
       ToItemCategorySelection: '§eBack to the item category selection interface'
       ToItemCategorySelectionInfo:
       - ''
       - '§7Item classification selection interface'
       
+      ExitDM: spruce_door:0
       Exit: '§eClose the menu'
       ExitInfo:
       - ''
       - '§7Close menu'
       
+      PreviousPageDM: Arrow:0
       PreviousPage: '§ePrevious Page'
       PreviousPageInfo:
       - ''
       - '§7Previous Page'
       
+      NextPageDM: Arrow:0
       NextPage: '§eNext Page'
       NextPageInfo:
       - ''
       - '§7Next Page'
       
+      DescriptionDM: Book:0
       Description: '§eDescription'
       DescriptionInfo:
       - ''
@@ -52,6 +67,7 @@ Language:
       - '§7Right click to edit items'
       - '§7Shift+right click to delete items'
       
+      CreateDM: Writable_book:0
       Create: '§eCreate'
       CreateInfo:
       - ''
@@ -60,22 +76,26 @@ Language:
       CreateSubMessage: '§aItem ID to be set'
     
     EditItem:
-    
+      
+      ToSelectItemsDM: Arrow:0
       ToSelectItems: '§eBack to the item selection interface'
       ToSelectItemsInfo:
       - ''
       - '§7Back to the item selection interface'
       
+      ExitDM: spruce_door:0
       Exit: '§eClose menu'
       ExitInfo:
       - ''
       - '§7Close menu'
       
+      DescriptionDM: Book:0
       Description: '§eDescription'
       DescriptionInfo:
       - ''
       - '§7Left click to get items'
       
+      EditDisplayNameDM: BIRCH_SIGN:0
       EditDisplayName: '§athe name of the item'
       EditDisplayNameInfo:
       - ''
@@ -86,6 +106,7 @@ Language:
       EditDisplayNameMessage: '§eEnter in the dialog'
       EditDisplayNameSubMessage: '§aThe name of the item to be modified'
       
+      EditMaerialDM: ITEM_FRAME:0
       EditMaerial: '§aType of item'
       EditMaerialInfo:
       - ''
@@ -97,6 +118,7 @@ Language:
       EditMaerialMessage: '§eEnter in the dialog'
       EditMaerialSubMessage: '§aType name of the item to be modified'
       
+      EditDataDM: iron_hoe:0
       EditData: '§aItem durability'
       EditDataInfo:
       - ''
@@ -107,6 +129,7 @@ Language:
       EditDataMessage: '§eEnter in the dialog'
       EditDataSubMessage: '§aThe durability value of the item to be modified Data'
       
+      EditCustomModelDataDM: PAINTING:0
       EditCustomModelData: '§aCustomModelData of the item'
       EditCustomModelDataInfo:
       - ''
@@ -119,6 +142,7 @@ Language:
       EditCustomModelDataMessage: '§eEnter in the dialog'
       EditCustomModelDataSubMessage: '§aItem CustomModelData to be modified'
       
+      EditLoreDM: WRITABLE_BOOK:0
       EditLore: '§aLore of an item'
       EditLoreInfo:
       - ''
@@ -127,6 +151,7 @@ Language:
       - '§eLeft click to edit Lore of the item'
       - '§eRight click on Lore to remove items'
       
+      EditUnbreakableDM: BEDROCK:0
       EditUnbreakable: '§aUnbreakable'
       EditUnbreakableInfo:
       - ''
@@ -135,6 +160,7 @@ Language:
       - '§eLeft click to set as non-destructible'
       - '§eRight click to set as destructible'
       
+      EditItemFlagsDM: BOOKSHELF:0
       EditItemFlags: '§aItemFlags'
       EditItemFlagsInfo:
       - ''
@@ -143,6 +169,7 @@ Language:
       - '§eLeft click to edit content'
       - '§eRight click to remove content'
       
+      EditEnchantmentsDM: ENCHANTING_TABLE:0
       EditEnchantments: '§aEnchants'
       EditEnchantmentsInfo:
       - ''
@@ -151,6 +178,7 @@ Language:
       - '§eLeft click to edit content'
       - '§eRight click to remove content'
       
+      EditAttributesDM: MAGMA_CREAM:0
       EditAttributes: '§aAttribute'
       EditAttributesInfo:
       - ''
@@ -159,6 +187,7 @@ Language:
       - '§eLeft click to edit content'
       - '§eRight click to remove content'
       
+      EditHeadValueDM: PLAYER_HEAD:0
       EditHeadValue: '§aheader value'
       EditHeadValueInfo:
       - ''
@@ -169,84 +198,107 @@ Language:
       - '§eRight click to remove content'
       EditHeadValueMessage: '§eEnter in the dialog'
       EditHeadValueSubMessage: '§aHead value'
+      
+      EditActionDM: command_block:0
+      EditAction: '§aLore of an item'
+      EditActionInfo:
+      - ''
+      - '§7Lore of Editing action'
+      - ''
+      - '§eLeft click to edit action'
+      - '§eRight click to remove action'
 
     EditFlags:
-    
+      
+      ToEditItemDM: Arrow:0
       ToEditItem: '§eBack to the item selection interface'
       ToEditItemInfo:
       - ''
       - '§7Back to the item selection interface'
       
+      ExitDM: spruce_door:0
       Exit: '§eClose menu'
       ExitInfo:
       - ''
       - '§7Close menu'
       
+      HideAttributesDM: MAGMA_CREAM:0
       HideAttributes: '§eHide display attributes'
       HideAttributesInfo:
       - ''
       - '§7Hide display attributes'
       
+      HideDestroysDM: BEDROCK:0
       HideDestroys: '§eHide and show the blocks that can be destroyed by items'
       HideDestroysInfo:
       - ''
       - '§7Hide and show the blocks that can be destroyed by items'
       
+      HideDyeDM: PURPLE_DYE:0
       HideDye: '§eHide Dye'
       HideDyeInfo:
       - ''
       - '§7Hide Dye'
       
+      HideEnchantsDM: ENCHANTED_BOOK:0
       HideEnchants: '§eHide and Show Enchants'
       HideEnchantsInfo:
       - ''
       - '§7Hide and Show Enchants'
       
+      HidePlacedOnDM: GRASS_BLOCK:0
       HidePlacedOn: '§eHide and show the block where items can be placed'
       HidePlacedOnInfo:
       - ''
       - '§7Hide and show the block where items can be placed'
       
+      HidePotionEffectsDM: POTION:0
       HidePotionEffects: '§eHide Potion Effect'
       HidePotionEffectsInfo:
       - ''
       - '§7Hide Potion Effect'
       
+      HideUnbreakableDM: FLINT:0
       HideUnbreakable: '§eHidden display cannot be broken'
       HideUnbreakableInfo:
       - ''
       - '§7Hidden display cannot be broken'
 
     EditEnchantment:
-    
+      
+      ToEditItemDM: Arrow:0
       ToEditItem: '§eBack to the item selection interface'
       ToEditItemInfo:
       - ''
       - '§7Back to the item selection interface'
       
+      ExitDM: spruce_door:0
       Exit: '§eClose menu'
       ExitInfo:
       - ''
       - '§7Close menu'
       
+      DescriptionDM: Book:0
       Description: '§eDescription'
       DescriptionInfo:
       - ''
       - '§7Left click to get items'
-
       DescriptionMessage: '§eEnter in the dialog'
       DescriptionSubMessage: '§aEnchanting level'
       
+      PreviousPageDM: Arrow:0
       PreviousPage: '§ePrevious Page'
       PreviousPageInfo:
       - ''
       - '§7Previous Page'
       
+      NextPageDM: Arrow:0
       NextPage: '§eNext Page'
       NextPageInfo:
       - ''
       - '§7Next Page'
       
+      fire_protectionDM: ENCHANTED_BOOK:0
       fire_protection: '§aFire Protection'
       fire_protectionInfo:
       - ''
@@ -254,6 +306,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      sharpnessDM: ENCHANTED_BOOK:0
       sharpness: '§aSharpness'
       sharpnessInfo:
       - ''
@@ -261,6 +314,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      flameDM: ENCHANTED_BOOK:0
       flame: '§aFlame'
       flameInfo:
       - ''
@@ -268,6 +322,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      soul_speedDM: ENCHANTED_BOOK:0
       soul_speed: '§aSoul Speed'
       soul_speedInfo:
       - ''
@@ -275,6 +330,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      aqua_affinityDM: ENCHANTED_BOOK:0
       aqua_affinity: '§aAqua Affinity'
       aqua_affinityInfo:
       - ''
@@ -282,6 +338,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      punchDM: ENCHANTED_BOOK:0
       punch: '§aPunch'
       punchInfo:
       - ''
@@ -289,6 +346,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      loyaltyDM: ENCHANTED_BOOK:0
       loyalty: '§aLoyalty'
       loyaltyInfo:
       - ''
@@ -296,6 +354,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      depth_striderDM: ENCHANTED_BOOK:0
       depth_strider: '§aDepth Strider'
       depth_striderInfo:
       - ''
@@ -303,6 +362,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      vanishing_curseDM: ENCHANTED_BOOK:0
       vanishing_curse: '§aCurse of Vanishing'
       vanishing_curseInfo:
       - ''
@@ -310,6 +370,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      unbreakingDM: ENCHANTED_BOOK:0
       unbreaking: '§aUnbreaking'
       unbreakingInfo:
       - ''
@@ -317,6 +378,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      knockbackDM: ENCHANTED_BOOK:0
       knockback: '§aKnockback'
       knockbackInfo:
       - ''
@@ -324,6 +386,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      luck_of_the_seaDM: ENCHANTED_BOOK:0
       luck_of_the_sea: '§aLuck of the Sea'
       luck_of_the_seaInfo:
       - ''
@@ -331,6 +394,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      binding_curseDM: ENCHANTED_BOOK:0
       binding_curse: '§aCurse of Binding'
       binding_curseInfo:
       - ''
@@ -338,6 +402,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      fortuneDM: ENCHANTED_BOOK:0
       fortune: '§aFortune'
       fortuneInfo:
       - ''
@@ -345,6 +410,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      protectionDM: ENCHANTED_BOOK:0
       protection: '§aProtection'
       protectionInfo:
       - ''
@@ -352,6 +418,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      efficiencyDM: ENCHANTED_BOOK:0
       efficiency: '§aEfficiency'
       efficiencyInfo:
       - ''
@@ -359,6 +426,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      mendingDM: ENCHANTED_BOOK:0
       mending: '§aMending'
       mendingInfo:
       - ''
@@ -366,6 +434,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      frost_walkerDM: ENCHANTED_BOOK:0
       frost_walker: '§aFrost Walker'
       frost_walkerInfo:
       - ''
@@ -373,6 +442,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      lureDM: ENCHANTED_BOOK:0
       lure: '§aLure'
       lureInfo:
       - ''
@@ -380,6 +450,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      lootingDM: ENCHANTED_BOOK:0
       looting: '§aLooting'
       lootingInfo:
       - ''
@@ -387,6 +458,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      piercingDM: ENCHANTED_BOOK:0
       piercing: '§aPiercing'
       piercingInfo:
       - ''
@@ -394,6 +466,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      blast_protectionDM: ENCHANTED_BOOK:0
       blast_protection: '§aBlast Protection'
       blast_protectionInfo:
       - ''
@@ -401,6 +474,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      smiteDM: ENCHANTED_BOOK:0
       smite: '§aSmite'
       smiteInfo:
       - ''
@@ -408,6 +482,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      multishotDM: ENCHANTED_BOOK:0
       multishot: '§aMultishot'
       multishotInfo:
       - ''
@@ -415,6 +490,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      fire_aspectDM: ENCHANTED_BOOK:0
       fire_aspect: '§aFire Aspect'
       fire_aspectInfo:
       - ''
@@ -422,6 +498,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      channelingDM: ENCHANTED_BOOK:0
       channeling: '§aChanneling'
       channelingInfo:
       - ''
@@ -429,6 +506,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      sweepingDM: ENCHANTED_BOOK:0
       sweeping: '§aSweeping Edge'
       sweepingInfo:
       - ''
@@ -436,6 +514,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      thornsDM: ENCHANTED_BOOK:0
       thorns: '§aThorns'
       thornsInfo:
       - ''
@@ -443,6 +522,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      bane_of_arthropodsDM: ENCHANTED_BOOK:0
       bane_of_arthropods: '§aBane of Arthropods'
       bane_of_arthropodsInfo:
       - ''
@@ -450,6 +530,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      respirationDM: ENCHANTED_BOOK:0
       respiration: '§aRespiration'
       respirationInfo:
       - ''
@@ -457,6 +538,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      riptideDM: ENCHANTED_BOOK:0
       riptide: '§aRiptide'
       riptideInfo:
       - ''
@@ -464,6 +546,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      silk_touchDM: ENCHANTED_BOOK:0
       silk_touch: '§aSkill Touch'
       silk_touchInfo:
       - ''
@@ -471,6 +554,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      quick_chargeDM: ENCHANTED_BOOK:0
       quick_charge: '§aQuick Charge'
       quick_chargeInfo:
       - ''
@@ -478,6 +562,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      projectile_protectionDM: ENCHANTED_BOOK:0
       projectile_protection: '§aProjectile Protection'
       projectile_protectionInfo:
       - ''
@@ -485,6 +570,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      impalingDM: ENCHANTED_BOOK:0
       impaling: '§aImpaling'
       impalingInfo:
       - ''
@@ -492,6 +578,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      feather_fallingDM: ENCHANTED_BOOK:0
       feather_falling: '§aFeather Falling'
       feather_fallingInfo:
       - ''
@@ -499,6 +586,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      powerDM: ENCHANTED_BOOK:0
       power: '§aPower'
       powerInfo:
       - ''
@@ -506,6 +594,7 @@ Language:
       - ''
       - '§eLeft click to enter the enchantment level'
       
+      infinityDM: ENCHANTED_BOOK:0
       infinity: '§aInfinity'
       infinityInfo:
       - ''
@@ -514,22 +603,27 @@ Language:
       - '§eLeft click to enter the enchantment level'
     
     EditAttributes:
+      
+      ToEditItemDM: Arrow:0
       ToEditItem: '§eBack to the item selection interface'
       ToEditItemInfo:
       - ''
       - '§7Back to the item selection interface'
       
+      ExitDM: spruce_door:0
       Exit: '§eClose menu'
       ExitInfo:
       - ''
       - '§7Close menu'
       
+      ApplicationDM: Book:0
       Application: '§eApplication'
       ApplicationInfo:
       - ''
       - '§7Left click to apply the set attributes to the items'
       - '§7Right-click to remove attributes (remove from the top)'
       
+      EquipmentSlotDM: IRON_CHESTPLATE:0
       EquipmentSlot: '§aEquipment part{value}'
       EquipmentSlotInfo:
       - ''
@@ -544,6 +638,7 @@ Language:
       - '§eLeft click to switch equipment parts'
       - '§eRight click to switch equipment parts'
       
+      InheritDM: MAGMA_CREAM:0
       Inherit: '§aAttributes name{value}'
       InheritInfo:
       - ''
@@ -559,6 +654,7 @@ Language:
       - '§eLeft click to switch properties'
       - '§eRight-click to switch properties'
       
+      OperationDM: REPEATER:0
       Operation: '§aCalculation method{value}'
       OperationInfo:
       - ''
@@ -569,6 +665,7 @@ Language:
       - '§eLeft click to switch calculation method'
       - '§eRight click to switch calculation method'
       
+      AmountDM: WHEAT_SEEDS:0
       Amount: '§aAmount{value}'
       AmountInfo:
       - ''
@@ -579,6 +676,20 @@ Language:
       AmountSubMessage: '§aNumerical value'
     
     EditLore:
+      
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the item editing interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the item editing interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      LoreDisplayDM: WRITABLE_BOOK:0
       LoreDisplay: '§aLine {value}'
       LoreDisplayInfo:
       - ''
@@ -592,6 +703,7 @@ Language:
       LoreDisplayMessage2: '§ePlease enter in the dialog'
       LoreDisplaySubMessage2: '§aThe content to be inserted in the previous line'
       
+      LoreAddDM: BOOK:0
       LoreAdd: '§aLine {value}'
       LoreAddInfo:
       - ''
@@ -601,27 +713,313 @@ Language:
       LoreAddMessage: '§ePlease enter in the dialog'
       LoreAddSubMessage: '§aLore to increase'
     
-    ItemList:
-      ToEditItem: '§eBack to the item selection interface'
+    EditAction:
+      
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the item editing interface'
       ToEditItemInfo:
       - ''
-      - '§7Back to the item selection interface'
+      - '§7Back to the item editing interface'
       
+      ExitDM: spruce_door:0
       Exit: '§eClose menu'
       ExitInfo:
       - ''
       - '§7Close menu'
       
+      ActionDisplayDM: WRITABLE_BOOK:0
+      ActionDisplay: '§aLine{value}'
+      ActionDisplayInfo:
+      - ''
+      - '§fdisplay name={actionName}'
+      - '§fUse action={action}'
+      - '§fNumber of executions={count}'
+      - '§fExecution interval={countperiod}'
+      - '§fAction mark={mark}'
+      - '§fIs it clear action?={stop}'
+      - '§fthe goal={targetkey}'
+      - '§ftrigger={triggerkey}'
+      - ''
+      - '§eShift+left click to increase the action'
+      - '§eLeft click to edit action'
+      - '§eRight click to delete the action'
+      
+      ActionAddDM: BOOK:0
+      ActionAdd: '§aLine{value}'
+      ActionAddInfo:
+      - ''
+      - '§7Null'
+      - ''
+      - '§eLeft click to add action'
+    
+    EditActionDetail:
+      
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the action editing interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the action editing interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose Menu'
+      ExitInfo:
+      - ''
+      - '§7Close Menu'
+      
+      ActionShowDM: BIRCH_SIGN:0
+      ActionShow: '§edisplay name'
+      ActionShowInfo:
+      - ''
+      - '§7display name: §7{value}'
+      - ''
+      - '§eLeft click to edit the action display name'
+      - '§eRight-click to remove the action display name'
+      ActionShowMessage: '§ePlease enter in the dialog'
+      ActionShowSubMessage: '§aAction name to be displayed' 
+      
+      ActionDM: FIRE_CHARGE:0
+      Action: '§eUse action'
+      ActionInfo:
+      - ''
+      - '§7Use action: §7{value}'
+      - ''
+      - '§eLeft click to edit use action'
+      - '§eRight click to remove use action'
+      
+      CountDM: redstone_torch:0
+      Count: '§eNumber of executions'
+      CountInfo:
+      - ''
+      - '§7Number of executions: §7{value}'
+      - ''
+      - '§eLeft click to edit the number of executions of the action'
+      - '§eRight click to set as default'
+      CountMessage: '§ePlease enter in the dialog'
+      CountSubMessage: '§aThe number of times to execute' 
+      
+      CountPeriodDM: TRIPWIRE_HOOK:0
+      CountPeriod: '§eExecution interval'
+      CountPeriodInfo:
+      - ''
+      - '§7Execution interval: §7{value}'
+      - ''
+      - '§eLeft click to edit the action execution interval'
+      - '§eRight click to set as default'
+      CountPeriodMessage: '§ePlease enter in the dialog'
+      CountPeriodSubMessage: '§aInterval to be executed' 
+      
+      MarkDM: NETHER_WART:0
+      Mark: '§eAction mark'
+      MarkInfo:
+      - ''
+      - '§7Action mark: §7{value}'
+      - ''
+      - '§eLeft click to edit the action mark'
+      - '§eRight click to set as default'
+      MarkMessage: '§ePlease enter in the dialog'
+      MarkSubMessage: '§aMark name' 
+      
+      StopDM: ACTIVATOR_RAIL:0
+      Stop: '§eIs it clear action?'
+      StopInfo:
+      - ''
+      - '§7Is it clear action?: §7{value}'
+      - ''
+      - '§eLeft click to set as clear action'
+      - '§eRight-click is not a clear action'
+      
+      TargetKeyDM: SKELETON_SKULL:0
+      TargetKey: '§ethe goal'
+      TargetKeyInfo:
+      - ''
+      - '§7the goal: §7{value}'
+      - ''
+      - '§eLeft click to edit the action target'
+      - '§eRight click to clear target'
+      
+      TriggerKeyDM: STONE_BUTTON:0
+      TriggerKey: '§etrigger'
+      TriggerKeyInfo:
+      - ''
+      - '§7trigger: §7{value}'
+      - ''
+      - '§eLeft click to edit the action trigger'
+      - '§eRight click to set as default'
+    
+    ActionTypeList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the action detail editing interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the action detail editing interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose Menu'
+      ExitInfo:
+      - ''
+      - '§7Close Menu'
+      
+      DescriptionDM: Book:0
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7Left click to select action category'
+    
+    ActionList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the action category selection interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the action category selection interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose Menu'
+      ExitInfo:
+      - ''
+      - '§7Close Menu'
+      
+      PreviousPageDM: Arrow:0
       PreviousPage: '§ePrevious Page'
       PreviousPageInfo:
       - ''
       - '§7Previous Page'
       
+      NextPageDM: Arrow:0
       NextPage: '§eNext Page'
       NextPageInfo:
       - ''
       - '§7Next Page'
       
+      DescriptionDM: Book:0
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7Left click to select the action to be used'
+    
+    ActionTargetEdit:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the action detail editing interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the action detail editing interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose Menu'
+      ExitInfo:
+      - ''
+      - '§7Close Menu'
+      
+      ApplicationDM: Book:0
+      Application: '§eapplication'
+      ApplicationInfo:
+      - ''
+      - '§7Left click to apply the set goal to the item'
+      - '§7Right click to remove target'
+      
+      ActionTargetTypeDM: SKELETON_SKULL:0
+      ActionTargetType: '§aTarget type{value}'
+      ActionTargetTypeInfo:
+      - ''
+      - '§7@Self : itself'
+      - '§7@Target : the goal'
+      - '§7@SelfRadius : Around oneself'
+      - '§7@TargetRadius : Around the target'
+      - ''
+      - '§eLeft click to switch the target category'
+      - '§eRight click to switch target category'
+      
+      RadiusDM: tripwire_hook:0
+      Radius: '§aradius{value}'
+      RadiusInfo:
+      - ''
+      - '§7radius'
+      - ''
+      - '§eLeft click to enter numbers in the dialog'
+      - '§eRight click to set as default'
+      RadiusMessage: '§ePlease enter in the dialog'
+      RadiusSubMessage: '§aNumerical value'
+      
+      FiltersDM: Hopper:0
+      Filters: '§aFilter type{value}'
+      FiltersInfo:
+      - ''
+      - ''
+      - '§eLeft click to select filter type'
+      - '§eRight click to remove'
+      
+      
+    ActionTriggerList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the action detail editing interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the action detail editing interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose Menu'
+      ExitInfo:
+      - ''
+      - '§7Close Menu'
+      
+      
+    
+    ActionFiltersList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the target editing interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the target editing interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose Menu'
+      ExitInfo:
+      - ''
+      - '§7Close Menu'
+      
+      PreviousPageDM: Arrow:0
+      PreviousPage: '§ePrevious Page'
+      PreviousPageInfo:
+      - ''
+      - '§7Previous Page'
+      
+      NextPageDM: Arrow:0
+      NextPage: '§eNext Page'
+      NextPageInfo:
+      - ''
+      - '§7Next Page'
+    
+    ItemList:
+      
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§eBack to the item selection interface'
+      ToEditItemInfo:
+      - ''
+      - '§7Back to the item selection interface'
+      
+      ExitDM: spruce_door:0
+      Exit: '§eClose menu'
+      ExitInfo:
+      - ''
+      - '§7Close menu'
+      
+      PreviousPageDM: Arrow:0
+      PreviousPage: '§ePrevious Page'
+      PreviousPageInfo:
+      - ''
+      - '§7Previous Page'
+      
+      NextPageDM: Arrow:0
+      NextPage: '§eNext Page'
+      NextPageInfo:
+      - ''
+      - '§7Next Page'
+      
+      DescriptionDM: Book:0
       Description: '§eDescription'
       DescriptionInfo:
       - ''

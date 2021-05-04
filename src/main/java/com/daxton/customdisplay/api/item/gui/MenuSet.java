@@ -1,6 +1,7 @@
-package com.daxton.customdisplay.api.item;
+package com.daxton.customdisplay.api.item.gui;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.config.Config;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.destroystokyo.paper.profile.PlayerProfile;
@@ -16,10 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class MenuSet {
 
@@ -45,7 +43,7 @@ public class MenuSet {
         String[] array1 = set1.toArray(new String[set1.size()]);
         return array1;
     }
-    public static String[] getItemList(String typeName){
+    public static String[] getActionList(String typeName){
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ typeName +".yml");
         Set<String> set1 = itemMenuConfig.getConfigurationSection("").getKeys(false);
         String[] array1 = set1.toArray(new String[set1.size()]);
@@ -194,49 +192,7 @@ public class MenuSet {
         return customItem;
     }
 
-    //從ItemMenu.yml獲取按鈕顯示設定
-    public static ItemStack getItemButtom2( String headType,String buttomType, String buttomName, String addValue){
-        FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
-
-        //初始物品
-        ItemStack customItem = setMaterial(itemMenuConfig, headType, buttomType, buttomName);
-        //物品損壞值
-        customItem = setData(itemMenuConfig, headType, buttomType, buttomName, customItem);
-        //頭值
-        customItem = setHeadValue(itemMenuConfig, headType, buttomType, buttomName, customItem);
-
-        ItemMeta im = customItem.getItemMeta();
-
-        //移除物品的Flags
-        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        im.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        im.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        im.addItemFlags(ItemFlag.HIDE_DYE);
-
-        FileConfiguration itemMenuLanguageConfig = ConfigMapManager.getFileConfigurationMap().get("Language_"+ Config.getUseLanguage() +"_gui_itemedit.yml");
-        String buttomDisplayName = itemMenuLanguageConfig.getString("Language.Buttom."+buttomType+"."+buttomName);
-        List<String> buttomInfo = itemMenuLanguageConfig.getStringList("Language.Buttom."+buttomType+"."+buttomName+"Info");
-
-        //物品的showName
-        if(buttomDisplayName != null){
-            buttomDisplayName = buttomDisplayName.replace("{value}", addValue);
-            im.setDisplayName(buttomDisplayName);
-        }
-
-        //物品的Lore
-        if(buttomInfo.size() > 0){
-            im.setLore(buttomInfo);
-        }
-
-        customItem.setItemMeta(im);
-
-        return customItem;
-    }
-
-    //從ItemMenu.yml獲取按鈕顯示設定
+    //從ItemMenu.yml獲取Lore按鈕顯示設定
     public static ItemStack getLoreButtom( String headType,String buttomType, String buttomName, int order, String message){
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
         //初始物品
@@ -273,47 +229,6 @@ public class MenuSet {
         return customItem;
     }
 
-
-    //從ItemMenu.yml獲取按鈕顯示設定
-    public static ItemStack getItemButtom( String headType,String buttomType, String buttomName){
-        FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
-
-        //初始物品
-        ItemStack customItem = setMaterial(itemMenuConfig, headType, buttomType, buttomName);
-        //物品損壞值
-        customItem = setData(itemMenuConfig, headType, buttomType, buttomName, customItem);
-        //頭值
-        customItem = setHeadValue(itemMenuConfig, headType, buttomType, buttomName, customItem);
-
-        ItemMeta im = customItem.getItemMeta();
-
-        //移除物品的Flags
-        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        im.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        im.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        im.addItemFlags(ItemFlag.HIDE_DYE);
-
-        FileConfiguration itemMenuLanguageConfig = ConfigMapManager.getFileConfigurationMap().get("Language_"+ Config.getUseLanguage() +"_gui_itemedit.yml");
-        String buttomDisplayName = itemMenuLanguageConfig.getString("Language.Buttom."+buttomType+"."+buttomName);
-        List<String> buttomInfo = itemMenuLanguageConfig.getStringList("Language.Buttom."+buttomType+"."+buttomName+"Info");
-
-        //物品的showName
-        if(buttomDisplayName != null){
-            im.setDisplayName(buttomDisplayName);
-        }
-
-        //物品的Lore
-        if(buttomInfo.size() > 0){
-            im.setLore(buttomInfo);
-        }
-
-        customItem.setItemMeta(im);
-
-        return customItem;
-    }
     //頭值
     public static ItemStack setHeadValue(FileConfiguration itemMenuConfig, String headType, String buttomType, String buttomName, ItemStack itemStack){
         try {

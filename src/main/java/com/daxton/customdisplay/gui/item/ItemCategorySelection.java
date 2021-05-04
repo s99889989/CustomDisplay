@@ -1,10 +1,10 @@
-package com.daxton.customdisplay.api.item.gui;
+package com.daxton.customdisplay.gui.item;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.SaveConfig;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -56,8 +56,8 @@ public class ItemCategorySelection {
             i++;
         }
 
-        inventory.setItem(8, MenuSet.getItemButtom("Buttom", "ItemCategorySelection","Exit"));
-        inventory.setItem(49, MenuSet.getItemButtom("Buttom", "ItemCategorySelection","Save"));
+        inventory.setItem(8, ButtomSet.getItemButtom("Buttom.ItemCategorySelection.Exit",""));
+        inventory.setItem(49, ButtomSet.getItemButtom("Buttom.ItemCategorySelection.Save",""));
 
         return inventory;
     }
@@ -75,7 +75,7 @@ public class ItemCategorySelection {
             Map<Integer,String> typeName = EditorGUIManager.menu_ItemCategorySelection_Map.get(uuidString).typeName;
             if(RawSlot.get(i) != null && RawSlot.get(i) == i){
                 if(event.getClick() == ClickType.LEFT){
-                    new OpenMenuGUI(player).SelectItems(typeName.get(i), 0);
+                    OpenMenuGUI.SelectItems(player, typeName.get(i), 0);
                 }
             }
             if(i == 8){

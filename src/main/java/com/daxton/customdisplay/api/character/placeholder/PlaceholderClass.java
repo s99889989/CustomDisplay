@@ -18,7 +18,7 @@ public class PlaceholderClass {
 
     }
 
-    public String valueOf(LivingEntity entity, String inputString){
+    public static String valueOf(LivingEntity entity, String inputString){
         String outputString = "0";
         if(entity instanceof Player){
             Player player = (Player) entity;
@@ -28,7 +28,7 @@ public class PlaceholderClass {
         return outputString;
     }
 
-    public String entityPlayer(Player player, String inputString){
+    public static String entityPlayer(Player player, String inputString){
         String outputString = "0";
         String uuidString = player.getUniqueId().toString();
         UUID playerUUID = player.getUniqueId();

@@ -15,7 +15,7 @@ public class ConversionChange {
 
     }
 
-    public String valueOf(LivingEntity self, LivingEntity target, String inputString, String changeString){
+    public static String valueOf(LivingEntity self, LivingEntity target, String inputString, String changeString){
         String outputString = "";
         String function = null;
         String message = null;
@@ -44,7 +44,7 @@ public class ConversionChange {
         return outputString;
     }
 
-    public String ChangeConversion(LivingEntity self, LivingEntity target, String inputString,String function,String changeMessage){
+    public static String ChangeConversion(LivingEntity self, LivingEntity target, String inputString,String function,String changeMessage){
         String outputString = "";
 
         switch (function.toLowerCase()){
@@ -66,7 +66,7 @@ public class ConversionChange {
 
                         if(containallKeyList2[1].contains("&")){
 
-                            outputString = new ConversionMain().valueOf(self,target,containallKeyList2[1]);
+                            outputString = ConversionMain.valueOf(self,target,containallKeyList2[1]);
 
                         }else {
                             outputString = containallKeyList2[1];

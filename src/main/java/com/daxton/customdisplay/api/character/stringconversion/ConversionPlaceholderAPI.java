@@ -11,7 +11,7 @@ public class ConversionPlaceholderAPI {
 
     }
 
-    public String valueOf(LivingEntity self,LivingEntity target, String inputString,String targetKey){
+    public static String valueOf(LivingEntity self,LivingEntity target, String inputString,String targetKey){
         String outputString = "";
         if(target != null && targetKey.toLowerCase().contains("@=target")){
             if(target instanceof Player){

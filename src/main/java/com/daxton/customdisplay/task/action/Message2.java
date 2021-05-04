@@ -62,19 +62,19 @@ public class Message2 {
                     String text = messageConfig.getString(messageString+".Text");
                     boolean bold = messageConfig.getBoolean(messageString+".Bold");
                     if(text.contains("&")){
-                        text = new ConversionMain().valueOf(self,target,text);
+                        text = ConversionMain.valueOf(self,target,text);
                     }
                     String color = messageConfig.getString(messageString+".Color");
                     String click_action = messageConfig.getString(messageString+".ClickEvent.Action");
                     String click_value = messageConfig.getString(messageString+".ClickEvent.Text");
                     if(click_value.contains("&")){
-                        click_value = new ConversionMain().valueOf(self,target,click_value);
+                        click_value = ConversionMain.valueOf(self,target,click_value);
                     }
 
                     String hover_action = messageConfig.getString(messageString+".HoverEvent.Action");
                     String hover_value = messageConfig.getString(messageString+".HoverEvent.Text");
                     if(hover_value.contains("&")){
-                        hover_value = new ConversionMain().valueOf(self,target,hover_value);
+                        hover_value = ConversionMain.valueOf(self,target,hover_value);
                     }
                     textComponent.setBold(bold);
                     if(color != null){

@@ -1,0 +1,55 @@
+#打開物品編輯介面
+ItemEditMenu:
+  Action:
+  - Command[m=cd items edit]
+
+
+
+#發射箭矢
+Bow1_Shooting:
+  Action:
+  - Orbital[onStart=Bow1_Shooting-Start;onTime=Bow1_Shooting-Time;onTimeHit=Bow1_Shooting-TimeHit;onEndHit=Bow1_Shooting-EndHit;onEnd=Bow1_Shooting-End;period=1;duration=60;speed=1;StartLocAdd=0|0|0;EndLocAdd=0|2|0;hitRange=1;onTimeCount=1;ELD=&self_class_skill_Archer_VulturesEye_amount&] 
+  
+Bow1_Shooting-Start:
+  Action:
+  - Guise[ItemID=Weapon.Arrow1;Visible=false;dt=0;LocAdd=0|-1.7|0]
+  - Sound[sound=attack_attack_dagger;pitch=1;volume=1;category=PLAYERS]
+Bow1_Shooting-Time:
+  Action:
+  - Guise[dt=0;Visible=false;LocAdd=0|-1.8|0]
+
+Bow1_Shooting-TimeHit:
+  Action:
+  - Guise[LocAdd=0|-1.8|0;Visible=false]
+  - Damage[amount=&self_Class_Archer_Range_Physical_Attack&]
+  - Sound[sound=attack_hit_arrow;pitch=1;volume=1;category=PLAYERS]
+
+Bow1_Shooting-End:
+  Action:
+  - Guise[Visible=false]
+
+
+#向前攻擊
+FlashAttack:
+  Action:
+  - Guise[ItemID=Weapon.Arrow1;Visible=false;dt=0;LocAdd=0|-1.7|0]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

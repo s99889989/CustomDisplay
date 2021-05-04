@@ -121,7 +121,7 @@ public class CustomLineConfig implements Cloneable{
             output = this.actionMap.get(ss.toLowerCase());
             if(output != null){
                 if(output.contains("&")){
-                    output = new ConversionMain().valueOf(self,target,output);
+                    output = ConversionMain.valueOf(self,target,output);
                 }
                 return output;
             }

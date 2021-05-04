@@ -1,7 +1,7 @@
 package com.daxton.customdisplay.api.config;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;

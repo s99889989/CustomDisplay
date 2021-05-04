@@ -6,13 +6,15 @@ import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.*;
-import com.daxton.customdisplay.api.item.gui.*;
 import com.daxton.customdisplay.api.other.ResourcePackSend;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
 import com.daxton.customdisplay.api.player.profession.UseSkill;
 import com.daxton.customdisplay.config.ConfigManager;
+import com.daxton.customdisplay.gui.item.*;
+import com.daxton.customdisplay.gui.item.edititem.*;
+import com.daxton.customdisplay.gui.item.edititem.editaction.*;
 import com.daxton.customdisplay.manager.*;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
@@ -51,10 +53,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
 
-
-
         Player player = event.getPlayer();
-
+        //player.sendMessage("玩家登入");
         UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();
         if(configManager.config.getBoolean("HealthScale.enable")){
@@ -73,13 +73,13 @@ public class PlayerListener implements Listener {
 
 
         /**讀取屬性**/
-        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
-        boolean attr = fileConfiguration.getBoolean("Class.Skill");
-        if(attr){
-            new PlayerEquipment2().reloadEquipment(player,10);
-        }
+//        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+//        boolean attr = fileConfiguration.getBoolean("Class.Skill");
+//        if(attr){
+            PlayerEquipment2.reloadEquipment(player,10);
+//        }
     }
-    /**登出時**/
+    //登出時
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
@@ -167,11 +167,56 @@ public class PlayerListener implements Listener {
             }
         }
         ///////////////////////////////
+        if(EditorGUIManager.menu_EditAction_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_EditAction_Inventory_Map.get(uuidString) == inventory){
+                EditAction.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(EditorGUIManager.menu_EditActionDetail_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_EditActionDetail_Inventory_Map.get(uuidString) == inventory){
+                EditActionDetail.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(EditorGUIManager.menu_ActionTypeList_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_ActionTypeList_Inventory_Map.get(uuidString) == inventory){
+                ActionTypeList.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(EditorGUIManager.menu_ActionList_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_ActionList_Inventory_Map.get(uuidString) == inventory){
+                ActionList.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(EditorGUIManager.menu_ActionTriggerList_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_ActionTriggerList_Inventory_Map.get(uuidString) == inventory){
+                ActionTriggerList.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(EditorGUIManager.menu_ActionTargetEdit_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_ActionTargetEdit_Inventory_Map.get(uuidString) == inventory){
+                ActionTargetEdit.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
+        if(EditorGUIManager.menu_ActionFiltersList_Inventory_Map.get(uuidString) != null){
+            if(EditorGUIManager.menu_ActionFiltersList_Inventory_Map.get(uuidString) == inventory){
+                ActionFiltersList.onInventoryClick(event);
+            }
+        }
+        ///////////////////////////////
         if(EditorGUIManager.open_Inventory_Map.get(uuidString) != null){
             if(EditorGUIManager.open_Inventory_Map.get(uuidString) == inventory){
                 OpenInventory3.onInventoryClick(event);
             }
         }
+        ///////////////////////////////
+
+        ///////////////////////////////
 
 
         if(ActionManager.playerUUID_taskID_Map.get(uuidString) != null){
@@ -202,7 +247,7 @@ public class PlayerListener implements Listener {
         String uuidString = player.getUniqueId().toString();
         String actionName = event.getAction().name();
 
-        LivingEntity target = LookTarget.getLivingTarget(player,10);
+        LivingEntity target = null; //LookTarget.getLivingTarget(player,10);
         Action action = event.getAction();
 
         if(action == Action.LEFT_CLICK_AIR){
@@ -264,7 +309,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         String uuidString = event.getPlayer().getUniqueId().toString();
         String message = event.getMessage();
-        message = new ConversionMain().valueOf(player,null,message);
+        message = ConversionMain.valueOf(player,null,message);
 
 
         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
@@ -276,7 +321,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onChat(PlayerChatEvent event){
         String uuidString = event.getPlayer().getUniqueId().toString();
-
+        //////////////////////////////////////////////////////////////////////////
         if(EditorGUIManager.menu_EditItem_Chat_Map.get(uuidString) == null){
             EditorGUIManager.menu_EditItem_Chat_Map.put(uuidString, false);
         }
@@ -287,7 +332,7 @@ public class PlayerListener implements Listener {
             }
 
         }
-
+        //////////////////////////////////////////////////////////////////////////
         if(EditorGUIManager.menu_SelectItems_Chat_Map.get(uuidString) == null){
             EditorGUIManager.menu_SelectItems_Chat_Map.put(uuidString, false);
         }
@@ -298,7 +343,7 @@ public class PlayerListener implements Listener {
             }
 
         }
-
+        //////////////////////////////////////////////////////////////////////////
         if(EditorGUIManager.menu_EditEnchantment_Chat_Map.get(uuidString) == null){
             EditorGUIManager.menu_EditEnchantment_Chat_Map.put(uuidString, false);
         }
@@ -309,7 +354,7 @@ public class PlayerListener implements Listener {
             }
 
         }
-
+        //////////////////////////////////////////////////////////////////////////
         if(EditorGUIManager.menu_EditAttributes_Chat_Map.get(uuidString) == null){
             EditorGUIManager.menu_EditAttributes_Chat_Map.put(uuidString, false);
         }
@@ -320,7 +365,7 @@ public class PlayerListener implements Listener {
             }
 
         }
-
+        //////////////////////////////////////////////////////////////////////////
         if(EditorGUIManager.menu_EditLore_Chat_Map.get(uuidString) == null){
             EditorGUIManager.menu_EditLore_Chat_Map.put(uuidString, false);
         }
@@ -331,6 +376,42 @@ public class PlayerListener implements Listener {
             }
 
         }
+        //////////////////////////////////////////////////////////////////////////
+        if(EditorGUIManager.menu_EditAction_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditAction_Chat_Map.put(uuidString, false);
+        }
+        if(EditorGUIManager.menu_EditAction_Chat_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_EditAction_Chat_Map.get(uuidString);
+            if(b){
+                EditAction.onChat(event);
+            }
+
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if(EditorGUIManager.menu_EditActionDetail_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_EditActionDetail_Chat_Map.put(uuidString, false);
+        }
+        if(EditorGUIManager.menu_EditActionDetail_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_EditActionDetail_Chat_Map.get(uuidString);
+            if(b){
+                EditActionDetail.onChat(event);
+            }
+
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if(EditorGUIManager.menu_ActionTargetEdit_Chat_Map.get(uuidString) == null){
+            EditorGUIManager.menu_ActionTargetEdit_Chat_Map.put(uuidString, false);
+        }
+        if(EditorGUIManager.menu_ActionTargetEdit_Map.get(uuidString) != null){
+            boolean b = EditorGUIManager.menu_ActionTargetEdit_Chat_Map.get(uuidString);
+            if(b){
+                ActionTargetEdit.onChat(event);
+            }
+
+        }
+
+        //////////////////////////////////////////////////////////////////////////
+
 
     }
 
@@ -349,10 +430,15 @@ public class PlayerListener implements Listener {
     /**當玩移動**/
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
+
         Player player = event.getPlayer();
-
-
+//        try {
+//
+//        }catch (Exception exception){
+//
+//        }
         new PlayerTrigger(player).onTwo(player, target, "~onmove");
+
     }
     /**當玩家死亡**/
     @EventHandler
@@ -506,7 +592,7 @@ public class PlayerListener implements Listener {
             boolean fOn = ListenerManager.getCast_On_Stop().get(uuidString);
             if(!fOn){
                 if(key != key2){
-                    new PlayerEquipment2().reloadEquipment(player,key);
+                    PlayerEquipment2.reloadEquipment(player,key);
                 }
             }
         //}
@@ -517,12 +603,19 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
         Player player = (Player) event.getPlayer();
+        String uuidString = player.getUniqueId().toString();
 
-        /**讀取屬性**/
-        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
-        boolean attr = fileConfiguration.getBoolean("Class.Skill");
-        if(attr){
-            new PlayerEquipment2().reloadEquipment(player,10);
+//        /**讀取屬性**/
+////        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+////        boolean attr = fileConfiguration.getBoolean("Class.Skill");
+////        if(attr){
+////            PlayerEquipment2.reloadEquipment(player,10);
+////        }
+        if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
+            boolean fOn = ListenerManager.getCast_On_Stop().get(uuidString);
+            if(!fOn){
+                PlayerEquipment2.reloadEquipment(player,10);
+            }
         }
 
 

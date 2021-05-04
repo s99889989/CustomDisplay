@@ -1,11 +1,12 @@
-package com.daxton.customdisplay.api.item.gui;
+package com.daxton.customdisplay.gui.item.edititem;
 
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.ItemSet;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.gui.item.ItemSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -74,7 +75,7 @@ public class EditEnchantment {
             if(event.getClick() == ClickType.LEFT){
                 //到物品類別
                 if(i == 0){
-                    new OpenMenuGUI(player).EditItem(typeName, itemName);
+                    OpenMenuGUI.EditItem(player, typeName, itemName);
                     return;
                 }
                 //關閉選單
@@ -94,12 +95,12 @@ public class EditEnchantment {
 
 
                 if(page == 1 && i == 45){
-                    new OpenMenuGUI(player).EditEnchantment(typeName, itemName, 0);
+                    OpenMenuGUI.EditEnchantment(player, typeName, itemName, 0);
                     return;
                 }
 
                 if(page == 0 && i == 53){
-                    new OpenMenuGUI(player).EditEnchantment(typeName, itemName, 1);
+                    OpenMenuGUI.EditEnchantment(player, typeName, itemName, 1);
                 }
 
             }
@@ -149,20 +150,20 @@ public class EditEnchantment {
             this.RawSlot.put(i, i);
             this.enchantmentName.put(i, enchantments[k].getKey().getKey());
 
-            inventory.setItem(i, MenuSet.getItemButtom("Buttom", "EditEnchantment", enchantments[k].getKey().getKey()));
+            inventory.setItem(i,  ButtomSet.getItemButtom("Buttom.EditEnchantment."+enchantments[k].getKey().getKey(), ""));
             i++;
         }
 
-        inventory.setItem(0, MenuSet.getItemButtom("Buttom", "EditEnchantment", "ToEditItem"));
-        inventory.setItem(8, MenuSet.getItemButtom("Buttom", "EditEnchantment", "Exit"));
-        inventory.setItem(49, MenuSet.getItemButtom("Buttom", "EditEnchantment", "Description"));
+        inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.EditEnchantment.ToEditItem", ""));
+        inventory.setItem(8,  ButtomSet.getItemButtom("Buttom.EditEnchantment.Exit", ""));
+        inventory.setItem(49,  ButtomSet.getItemButtom("Buttom.EditEnchantment.Description", ""));
 
         if (page == 1) {
-            inventory.setItem(45, MenuSet.getItemButtom("Buttom", "EditEnchantment", "PreviousPage"));
+            inventory.setItem(45,  ButtomSet.getItemButtom("Buttom.EditEnchantment.PreviousPage", ""));
         }
 
         if (page == 0) {
-            inventory.setItem(53, MenuSet.getItemButtom("Buttom", "EditEnchantment", "NextPage"));
+            inventory.setItem(53,  ButtomSet.getItemButtom("Buttom.EditEnchantment.NextPage", ""));
         }
 
 

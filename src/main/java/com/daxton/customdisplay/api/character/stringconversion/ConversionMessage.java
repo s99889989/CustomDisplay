@@ -8,11 +8,11 @@ public class ConversionMessage {
 
     }
 
-    public String valueOf(LivingEntity self, String inputString){
+    public static String valueOf(String inputString){
         String outputString = "";
         if(inputString.contains("{#") && inputString.contains("}")){
 
-            outputString = new ConversionColor().valueOf(inputString);
+            outputString = ConversionColor.valueOf(inputString);
 
         }
 

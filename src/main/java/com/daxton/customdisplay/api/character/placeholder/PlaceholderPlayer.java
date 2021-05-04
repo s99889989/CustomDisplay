@@ -17,7 +17,7 @@ public class PlaceholderPlayer {
 
     }
 
-    public String valueOf(LivingEntity entity, String inputString){
+    public static String valueOf(LivingEntity entity, String inputString){
 
         String outputString = "";
         String uuidString = entity.getUniqueId().toString();

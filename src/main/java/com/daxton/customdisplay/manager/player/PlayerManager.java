@@ -1,10 +1,10 @@
 package com.daxton.customdisplay.manager.player;
 
-import com.daxton.customdisplay.api.item.gui.*;
+
 import com.daxton.customdisplay.api.player.CoreAttribute;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
-import org.bukkit.inventory.Inventory;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;

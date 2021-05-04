@@ -7,6 +7,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.item.CustomItem;
 
 
+import com.daxton.customdisplay.api.item.MenuItem2;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.nms.NMSVersion;
 
@@ -171,7 +172,7 @@ public class PacketEntity {
     /**裝備目標生物16以上**/
     public void appendItem16(String itemID, String itemSlot){
 
-        ItemStack itemStack = CustomItem.valueOf(null, null, itemID, 1);
+        ItemStack itemStack = MenuItem2.valueOf(itemID);
         ItemStack itemStack2 = new ItemStack(Material.STONE);
         EnumWrappers.ItemSlot itemSlot1 = Enum.valueOf(EnumWrappers.ItemSlot.class,itemSlot);
         if(itemStack != null){

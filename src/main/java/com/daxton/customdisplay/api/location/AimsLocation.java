@@ -1,8 +1,8 @@
 package com.daxton.customdisplay.api.location;
 
-import com.daxton.customdisplay.api.entity.Aims;
-import com.daxton.customdisplay.api.entity.Filte;
-import com.daxton.customdisplay.api.entity.RadiusTarget;
+import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.SetActionMap;
+import com.daxton.customdisplay.api.entity.*;
 import com.daxton.customdisplay.api.other.StringFind;
 
 import org.bukkit.Bukkit;
@@ -87,7 +87,7 @@ public class AimsLocation {
 
     public Location valueOf2(LivingEntity self, LivingEntity target, String firstString, String defalut, Location inputLocation){
         Location location = null;
-        LivingEntity livingEntity = new Aims().getOneLivingEntity(self, target, firstString, defalut);
+        LivingEntity livingEntity = Aims.getOneLivingEntity(self, target, firstString, defalut);
         if(livingEntity != null){
             location = livingEntity.getLocation();
             return location;
@@ -103,57 +103,96 @@ public class AimsLocation {
         return location;
     }
 
-    public Map<String,Location> valueOfMap(LivingEntity self, LivingEntity target, String firstString, String taskID, double x, double y, double z, Map<String,Location> inputLocationMap){
-        /**目標**/
-        String aims = new StringFind().getAimsValue(firstString,"aims","self");
+    public static Location getOneLocation(LivingEntity self, LivingEntity inputTarget, String inputString, String defaultTarget, Location inputLocation){
+        Location location = null;
 
-        /**距離**/
-        double radius = 2;
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
+        String firstString = inputString;
+        if(firstString == null){
+            firstString = defaultTarget;
+        }
+
+        Map<String, String> targetMap = SetActionMap.setTargetMap(firstString);
+
+        TargetMapHandle targetMapHandle = new TargetMapHandle(self, inputTarget, targetMap);
+
+        //瞄準目標
+        String targetKey = targetMapHandle.getString(new String[]{"targettype"},"null");
+
+        //距離
+        double distance = targetMapHandle.getDouble(new String[]{"distance","d"},0);
+
+        LivingEntity target = inputTarget;
+        if(target == null && distance > 0){
+            target = LookTarget.getLivingTarget(self,distance);
+        }
+
+        //座標向量偏移
+        String[] vecAdds = targetMapHandle.getStringList(new String[]{"vec"},new String[]{"self","true","true","0","0","0"},"\\|",6);
+        String directionT = vecAdds[0];
+        boolean targetPitch = Boolean.parseBoolean(vecAdds[1]);
+        boolean targetYaw = Boolean.parseBoolean(vecAdds[2]);
+        double addPitch = 0;
+        double addYaw = 0;
+        double addDistance = 0;
         try {
-            radius = Double.valueOf(new StringFind().getAimsValue(firstString,"r","1"));
+            addPitch = Double.parseDouble(vecAdds[3]);
+            addYaw = Double.parseDouble(vecAdds[4]);
+            addDistance = Double.parseDouble(vecAdds[5]);
         }catch (NumberFormatException exception){
-            radius = 2;
+            addPitch = 0;
+            addYaw = 0;
+            addDistance = 0;
         }
 
-        /**瞄準目標**/
-        String filters = new StringFind().getAimsValue(firstString,"filters","null");
-
-        Map<String,Location > locationMap = new HashMap<>();
-
-        if(aims.toLowerCase().contains("selfradius")){
-            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities(self,radius);
-            for(LivingEntity le : livingEntityList){
-                if(Filte.valueOf(le,filters)){
-                    String uuidString = le.getUniqueId().toString();
-                    locationMap.put(uuidString,le.getLocation().add(x, y, z));
-                }
-            }
-        }else if(target != null && aims.toLowerCase().contains("targetradius")){
-            List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities2(self,target,radius);
-            for(LivingEntity le : livingEntityList){
-                if(Filte.valueOf(le,filters)){
-                    String uuidString = le.getUniqueId().toString();
-                    locationMap.put(uuidString,le.getLocation().add(x, y, z));
-
-                }
-            }
-        }else if(target != null && aims.toLowerCase().contains("target")){
-
-            if(Filte.valueOf(target,filters)){
-                String uuidString = target.getUniqueId().toString();
-                locationMap.put(uuidString,target.getLocation().add(x, y, z));
-            }
-
-        }else if(aims.toLowerCase().contains("world")){
-            locationMap.put(taskID,new Location(self.getWorld(),x,y,z));
-        }else {
-            if(Filte.valueOf(self,filters)){
-                String uuidString = self.getUniqueId().toString();
-                locationMap.put(uuidString,self.getLocation().add(x, y, z));
-            }
+        //座標偏移
+        String[] locAdds = targetMapHandle.getStringList(new String[]{"loc"},new String[]{"0","0","0"},"\\|",3);
+        double addX = 0;
+        double addY = 0;
+        double addZ = 0;
+        try {
+            addX = Double.parseDouble(locAdds[0]);
+            addY = Double.parseDouble(locAdds[1]);
+            addZ = Double.parseDouble(locAdds[2]);
+        }catch (NumberFormatException exception){
+            addX = 0;
+            addY = 0;
+            addZ = 0;
         }
 
-        return locationMap;
+
+
+
+        switch (targetKey){
+            case "locself":
+                if(target != null && directionT.toLowerCase().contains("target")){
+                    location = DirectionLocation.getDirectionLoction(self.getLocation(), target.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
+                }else {
+                    location = DirectionLocation.getDirectionLoction(self.getLocation(), self.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
+                }
+                break;
+            case "loctarget":
+                if(target != null){
+                    if(directionT.toLowerCase().contains("target")){
+                        location = DirectionLocation.getDirectionLoction(target.getLocation(), target.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
+                    }else {
+                        location = DirectionLocation.getDirectionLoction(target.getLocation(), self.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
+                    }
+                }
+                break;
+            case "locadd":
+                if(inputLocation != null){
+                    if(target != null && directionT.toLowerCase().contains("target")){
+                        location = DirectionLocation.getDirectionLoction(inputLocation, target.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
+                    }else {
+                        location = DirectionLocation.getDirectionLoction(inputLocation, self.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
+                    }
+                }
+                break;
+        }
+
+
+        return location;
     }
 
 }

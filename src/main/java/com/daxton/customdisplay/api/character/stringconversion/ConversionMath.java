@@ -14,7 +14,7 @@ public class ConversionMath {
 
     }
 
-    public String valueOf(String inputString,String changeString){
+    public static String valueOf(String inputString,String changeString){
         String outputString = "";
         String function = null;
         String message = "#";
@@ -48,7 +48,7 @@ public class ConversionMath {
         return outputString;
     }
 
-    public String MathConversion(String inputString,String function,String message){
+    public static String MathConversion(String inputString,String function,String message){
         String outputString = "";
 
         if(function.toLowerCase().contains("arithmetic") || function.toLowerCase().contains("arith")){

@@ -42,18 +42,18 @@ public class Compare {
                 if(strings[1].toLowerCase().contains(">")){
                     symbol = ">";
                     String[] strings1 = strings[1].replace(" ","").split(">");
-                    stringLeft = new ConversionMain().valueOf(self,target,strings1[0]);
-                    stringRight = new ConversionMain().valueOf(self,target,strings1[1]);
+                    stringLeft = ConversionMain.valueOf(self,target,strings1[0]);
+                    stringRight = ConversionMain.valueOf(self,target,strings1[1]);
                 }else if(strings[1].toLowerCase().contains("<")){
                     symbol = "<";
                     String[] strings1 = strings[1].replace(" ","").split("<");
-                    stringLeft = new ConversionMain().valueOf(self,target,strings1[0]);
-                    stringRight = new ConversionMain().valueOf(self,target,strings1[1]);
+                    stringLeft = ConversionMain.valueOf(self,target,strings1[0]);
+                    stringRight = ConversionMain.valueOf(self,target,strings1[1]);
                 }else if(strings[1].toLowerCase().contains("~")){
                     symbol = "=";
                     String[] strings1 = strings[1].replace(" ","").split("~");
-                    stringLeft = new ConversionMain().valueOf(self,target,strings1[0]);
-                    stringRight = new ConversionMain().valueOf(self,target,strings1[1]);
+                    stringLeft = ConversionMain.valueOf(self,target,strings1[0]);
+                    stringRight = ConversionMain.valueOf(self,target,strings1[1]);
 
                 }
             }

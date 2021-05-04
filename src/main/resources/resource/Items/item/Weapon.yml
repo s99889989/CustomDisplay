@@ -1,0 +1,10 @@
+Bow1:
+  Material: 'Coal'
+  CustomModelData: 399
+  DisplayName: '§eBow'
+  Action:
+  - 'Launch an arrow:Action[a=Bow1_Shooting] ~RightClickAir'
+Arrow1:
+  Material: 'Coal'
+  CustomModelData: 398
+  DisplayName: '§eArrow'

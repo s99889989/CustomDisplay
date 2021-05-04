@@ -6,15 +6,25 @@ Language:
     EditFlags: '標誌編輯介面'
     EditEnchantment: '附魔編輯介面'
     EditAttributes: '屬性編輯介面'
+    EditLore: 'Lore編輯介面'
+    EditAction: '動作編輯介面'
+    EditActionDetail: '動作細節編輯介面'
+    ActionTypeList: '動作類別清單'
+    ActionList: '動作清單'
+    ActionTargetEdit: '動作目標編輯'
+    ActionTriggerList: '動作觸發清單'
+    ActionFiltersList: '動作篩選清單'
     ItemList: '物品類型列表'
   Buttom:
     ItemCategorySelection:
-    
+      
+      ExitDM: spruce_door:0
       Exit: '§e關閉選單'
       ExitInfo:
       - ''
       - '§7關閉選單'
       
+      SaveDM: Map:0
       Save: '§e儲存修改的物品資料'
       SaveInfo:
       - ''
@@ -25,26 +35,31 @@ Language:
       
     SelectItems:
     
+      ToItemCategorySelectionDM: Arrow:0
       ToItemCategorySelection: '§e回到物品分類選擇介面'
       ToItemCategorySelectionInfo:
       - ''
       - '§7物品分類選擇介面'
       
+      ExitDM: spruce_door:0
       Exit: '§e關閉選單'
       ExitInfo:
       - ''
       - '§7關閉選單'
       
+      PreviousPageDM: Arrow:0
       PreviousPage: '§e上一頁'
       PreviousPageInfo:
       - ''
       - '§7上一頁'
       
+      NextPageDM: Arrow:0
       NextPage: '§e下一頁'
       NextPageInfo:
       - ''
       - '§7下一頁'
       
+      DescriptionDM: Book:0
       Description: '§e說明'
       DescriptionInfo:
       - ''
@@ -52,6 +67,7 @@ Language:
       - '§7右鍵點擊編輯物品'
       - '§7Shift+右鍵點擊刪除物品'
       
+      CreateDM: Writable_book:0
       Create: '§e新增'
       CreateInfo:
       - ''
@@ -60,22 +76,26 @@ Language:
       CreateSubMessage: '§a要設定的物品ID'
     
     EditItem:
-    
+      
+      ToSelectItemsDM: Arrow:0
       ToSelectItems: '§e回到物品選擇介面'
       ToSelectItemsInfo:
       - ''
       - '§7回到物品選擇介面'
       
+      ExitDM: spruce_door:0
       Exit: '§e關閉選單'
       ExitInfo:
       - ''
       - '§7關閉選單'
       
+      DescriptionDM: Book:0
       Description: '§e說明'
       DescriptionInfo:
       - ''
       - '§7左鍵點擊獲得物品'
       
+      EditDisplayNameDM: BIRCH_SIGN:0
       EditDisplayName: '§a物品的名稱'
       EditDisplayNameInfo:
       - ''
@@ -86,6 +106,7 @@ Language:
       EditDisplayNameMessage: '§e請在對話框輸入'
       EditDisplayNameSubMessage: '§a要修改的物品名稱'
       
+      EditMaerialDM: ITEM_FRAME:0
       EditMaerial: '§a物品的類型'
       EditMaerialInfo:
       - ''
@@ -97,6 +118,7 @@ Language:
       EditMaerialMessage: '§e請在對話框輸入'
       EditMaerialSubMessage: '§a要修改的物品的類型名稱'
       
+      EditDataDM: iron_hoe:0
       EditData: '§a物品的耐久'
       EditDataInfo:
       - ''
@@ -107,6 +129,7 @@ Language:
       EditDataMessage: '§e請在對話框輸入'
       EditDataSubMessage: '§a要修改的物品的耐久值Data'
       
+      EditCustomModelDataDM: PAINTING:0
       EditCustomModelData: '§a物品的CustomModelData'
       EditCustomModelDataInfo:
       - ''
@@ -119,6 +142,7 @@ Language:
       EditCustomModelDataMessage: '§e請在對話框輸入'
       EditCustomModelDataSubMessage: '§a要修改的物品CustomModelData'
       
+      EditLoreDM: WRITABLE_BOOK:0
       EditLore: '§a物品的Lore'
       EditLoreInfo:
       - ''
@@ -127,6 +151,7 @@ Language:
       - '§e左鍵點擊編輯物品的Lore'
       - '§e右鍵點擊移除物品的Lore'
       
+      EditUnbreakableDM: BEDROCK:0
       EditUnbreakable: '§a不可破壞'
       EditUnbreakableInfo:
       - ''
@@ -135,6 +160,7 @@ Language:
       - '§e左鍵點擊設置為不可破壞'
       - '§e右鍵點擊設置為可破壞'
       
+      EditItemFlagsDM: BOOKSHELF:0
       EditItemFlags: '§a隱藏標籤'
       EditItemFlagsInfo:
       - ''
@@ -143,6 +169,7 @@ Language:
       - '§e左鍵點擊編輯內容'
       - '§e右鍵點擊移除內容'
       
+      EditEnchantmentsDM: ENCHANTING_TABLE:0
       EditEnchantments: '§a附魔'
       EditEnchantmentsInfo:
       - ''
@@ -151,6 +178,7 @@ Language:
       - '§e左鍵點擊編輯內容'
       - '§e右鍵點擊移除內容'
       
+      EditAttributesDM: MAGMA_CREAM:0
       EditAttributes: '§a屬性'
       EditAttributesInfo:
       - ''
@@ -159,6 +187,7 @@ Language:
       - '§e左鍵點擊編輯內容'
       - '§e右鍵點擊移除內容'
       
+      EditHeadValueDM: PLAYER_HEAD:0
       EditHeadValue: '§a頭的值'
       EditHeadValueInfo:
       - ''
@@ -169,66 +198,87 @@ Language:
       - '§e右鍵點擊移除內容'
       EditHeadValueMessage: '§e請在對話框輸入'
       EditHeadValueSubMessage: '§a頭的值'
+      
+      EditActionDM: command_block:0
+      EditAction: '§a動作編輯'
+      EditActionInfo:
+      - ''
+      - '§7動作編輯'
+      - ''
+      - '§e左鍵點擊編輯動作'
+      - '§e右鍵點擊移除動作'
 
     EditFlags:
     
+      ToEditItemDM: Arrow:0
       ToEditItem: '§e回到物品選擇介面'
       ToEditItemInfo:
       - ''
       - '§7回到物品選擇介面'
       
+      ExitDM: spruce_door:0
       Exit: '§e關閉選單'
       ExitInfo:
       - ''
       - '§7關閉選單'
       
+      HideAttributesDM: MAGMA_CREAM:0
       HideAttributes: '§e隱藏顯示屬性'
       HideAttributesInfo:
       - ''
       - '§7隱藏顯示屬性'
       
+      HideDestroysDM: BEDROCK:0
       HideDestroys: '§e隱藏顯示物品可破壞的方塊'
       HideDestroysInfo:
       - ''
       - '§7隱藏顯示物品可破壞的方塊'
       
+      HideDyeDM: PURPLE_DYE:0
       HideDye: '§e隱藏顯示染料'
       HideDyeInfo:
       - ''
       - '§7隱藏顯示染料'
       
+      HideEnchantsDM: ENCHANTED_BOOK:0
       HideEnchants: '§e隱藏顯示附魔'
       HideEnchantsInfo:
       - ''
       - '§7隱藏顯示附魔'
       
+      HidePlacedOnDM: GRASS_BLOCK:0
       HidePlacedOn: '§e隱藏顯示物品可放置的方塊'
       HidePlacedOnInfo:
       - ''
       - '§7隱藏顯示物品可放置的方塊'
       
+      HidePotionEffectsDM: POTION:0
       HidePotionEffects: '§e隱藏顯示藥水效果'
       HidePotionEffectsInfo:
       - ''
       - '§7隱藏顯示藥水效果'
       
+      HideUnbreakableDM: FLINT:0
       HideUnbreakable: '§e隱藏顯示無法破壞'
       HideUnbreakableInfo:
       - ''
       - '§7隱藏顯示無法破壞'
 
     EditEnchantment:
-    
+      
+      ToEditItemDM: Arrow:0
       ToEditItem: '§e回到物品選擇介面'
       ToEditItemInfo:
       - ''
       - '§7回到物品選擇介面'
       
+      ExitDM: spruce_door:0
       Exit: '§e關閉選單'
       ExitInfo:
       - ''
       - '§7關閉選單'
       
+      DescriptionDM: Book:0
       Description: '§e說明'
       DescriptionInfo:
       - ''
@@ -236,16 +286,19 @@ Language:
       DescriptionMessage: '§e請在對話框輸入'
       DescriptionSubMessage: '§a附魔等級'
       
+      PreviousPageDM: Arrow:0
       PreviousPage: '§e上一頁'
       PreviousPageInfo:
       - ''
       - '§7上一頁'
       
+      NextPageDM: Arrow:0
       NextPage: '§e下一頁'
       NextPageInfo:
       - ''
       - '§7下一頁'
       
+      fire_protectionDM: ENCHANTED_BOOK:0
       fire_protection: '§a火焰保護'
       fire_protectionInfo:
       - ''
@@ -253,6 +306,7 @@ Language:
       - ''
       - '§e左鍵點擊編輯內容'
       
+      sharpnessDM: ENCHANTED_BOOK:0
       sharpness: '§a鋒利'
       sharpnessInfo:
       - ''
@@ -260,6 +314,7 @@ Language:
       - ''
       - '§e左鍵點擊編輯內容'
       
+      flameDM: ENCHANTED_BOOK:0
       flame: '§a火焰'
       flameInfo:
       - ''
@@ -267,6 +322,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      soul_speedDM: ENCHANTED_BOOK:0
       soul_speed: '§a靈魂疾走'
       soul_speedInfo:
       - ''
@@ -274,6 +330,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      aqua_affinityDM: ENCHANTED_BOOK:0
       aqua_affinity: '§a親水性'
       aqua_affinityInfo:
       - ''
@@ -281,6 +338,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      punchDM: ENCHANTED_BOOK:0
       punch: '§a衝擊'
       punchInfo:
       - ''
@@ -288,6 +346,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      loyaltyDM: ENCHANTED_BOOK:0
       loyalty: '§a忠誠'
       loyaltyInfo:
       - ''
@@ -295,6 +354,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      depth_striderDM: ENCHANTED_BOOK:0
       depth_strider: '§a深海漫遊'
       depth_striderInfo:
       - ''
@@ -302,6 +362,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      vanishing_curseDM: ENCHANTED_BOOK:0
       vanishing_curse: '§a消失詛咒'
       vanishing_curseInfo:
       - ''
@@ -309,6 +370,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      unbreakingDM: ENCHANTED_BOOK:0
       unbreaking: '§a耐久'
       unbreakingInfo:
       - ''
@@ -316,6 +378,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      knockbackDM: ENCHANTED_BOOK:0
       knockback: '§a擊退'
       knockbackInfo:
       - ''
@@ -323,6 +386,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      luck_of_the_seaDM: ENCHANTED_BOOK:0
       luck_of_the_sea: '§a海洋的祝福'
       luck_of_the_seaInfo:
       - ''
@@ -330,6 +394,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      binding_curseDM: ENCHANTED_BOOK:0
       binding_curse: '§a綁定詛咒'
       binding_curseInfo:
       - ''
@@ -337,6 +402,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      fortuneDM: ENCHANTED_BOOK:0
       fortune: '§a幸運'
       fortuneInfo:
       - ''
@@ -344,6 +410,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      protectionDM: ENCHANTED_BOOK:0
       protection: '§a保護'
       protectionInfo:
       - ''
@@ -351,6 +418,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      efficiencyDM: ENCHANTED_BOOK:0
       efficiency: '§a效率'
       efficiencyInfo:
       - ''
@@ -358,6 +426,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      mendingDM: ENCHANTED_BOOK:0
       mending: '§a修補'
       mendingInfo:
       - ''
@@ -365,6 +434,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      frost_walkerDM: ENCHANTED_BOOK:0
       frost_walker: '§a冰霜行者'
       frost_walkerInfo:
       - ''
@@ -372,6 +442,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      lureDM: ENCHANTED_BOOK:0
       lure: '§a魚餌'
       lureInfo:
       - ''
@@ -379,6 +450,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      lootingDM: ENCHANTED_BOOK:0
       looting: '§a掠奪'
       lootingInfo:
       - ''
@@ -386,6 +458,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      piercingDM: ENCHANTED_BOOK:0
       piercing: '§a貫穿'
       piercingInfo:
       - ''
@@ -393,6 +466,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      blast_protectionDM: ENCHANTED_BOOK:0
       blast_protection: '§a爆炸保護'
       blast_protectionInfo:
       - ''
@@ -400,6 +474,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      smiteDM: ENCHANTED_BOOK:0
       smite: '§a不死剋星'
       smiteInfo:
       - ''
@@ -407,6 +482,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      multishotDM: ENCHANTED_BOOK:0
       multishot: '§a分裂箭矢'
       multishotInfo:
       - ''
@@ -414,6 +490,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      fire_aspectDM: ENCHANTED_BOOK:0
       fire_aspect: '§a燃燒'
       fire_aspectInfo:
       - ''
@@ -421,6 +498,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      channelingDM: ENCHANTED_BOOK:0
       channeling: '§a喚雷'
       channelingInfo:
       - ''
@@ -428,6 +506,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      sweepingDM: ENCHANTED_BOOK:0
       sweeping: '§a橫掃之刃'
       sweepingInfo:
       - ''
@@ -435,6 +514,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      thornsDM: ENCHANTED_BOOK:0
       thorns: '§a尖刺'
       thornsInfo:
       - ''
@@ -442,6 +522,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      bane_of_arthropodsDM: ENCHANTED_BOOK:0
       bane_of_arthropods: '§a截肢剋星'
       bane_of_arthropodsInfo:
       - ''
@@ -449,6 +530,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      respirationDM: ENCHANTED_BOOK:0
       respiration: '§a水中呼吸'
       respirationInfo:
       - ''
@@ -456,6 +538,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      riptideDM: ENCHANTED_BOOK:0
       riptide: '§a波濤'
       riptideInfo:
       - ''
@@ -463,6 +546,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      silk_touchDM: ENCHANTED_BOOK:0
       silk_touch: '§a絲綢之觸'
       silk_touchInfo:
       - ''
@@ -470,6 +554,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      quick_chargeDM: ENCHANTED_BOOK:0
       quick_charge: '§a快速上弦'
       quick_chargeInfo:
       - ''
@@ -477,6 +562,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      projectile_protectionDM: ENCHANTED_BOOK:0
       projectile_protection: '§a投射物保護'
       projectile_protectionInfo:
       - ''
@@ -484,6 +570,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      impalingDM: ENCHANTED_BOOK:0
       impaling: '§a魚叉'
       impalingInfo:
       - ''
@@ -491,6 +578,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      feather_fallingDM: ENCHANTED_BOOK:0
       feather_falling: '§a輕盈'
       feather_fallingInfo:
       - ''
@@ -498,6 +586,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      powerDM: ENCHANTED_BOOK:0
       power: '§a強力'
       powerInfo:
       - ''
@@ -505,6 +594,7 @@ Language:
       - ''
       - '§e左鍵點擊輸入附魔等級'
       
+      infinityDM: ENCHANTED_BOOK:0
       infinity: '§a無限'
       infinityInfo:
       - ''
@@ -513,22 +603,27 @@ Language:
       - '§e左鍵點擊輸入附魔等級'
     
     EditAttributes:
+    
+      ToEditItemDM: Arrow:0
       ToEditItem: '§e回到物品選擇介面'
       ToEditItemInfo:
       - ''
       - '§7回到物品選擇介面'
       
+      ExitDM: spruce_door:0
       Exit: '§e關閉選單'
       ExitInfo:
       - ''
       - '§7關閉選單'
       
+      ApplicationDM: Book:0
       Application: '§e應用'
       ApplicationInfo:
       - ''
       - '§7左鍵點擊把設定好的屬性應用在物品上'
       - '§7右鍵點擊移除屬性(從上方開始移除)'
       
+      EquipmentSlotDM: IRON_CHESTPLATE:0
       EquipmentSlot: '§a裝備部位{value}'
       EquipmentSlotInfo:
       - ''
@@ -543,6 +638,7 @@ Language:
       - '§e左鍵點擊切換裝備部位'
       - '§e右鍵點擊切換裝備部位'
       
+      InheritDM: MAGMA_CREAM:0
       Inherit: '§a屬性名稱{value}'
       InheritInfo:
       - ''
@@ -558,6 +654,7 @@ Language:
       - '§e左鍵點擊切換屬性'
       - '§e右鍵點擊切換屬性'
       
+      OperationDM: REPEATER:0
       Operation: '§a計算方式{value}'
       OperationInfo:
       - ''
@@ -568,6 +665,7 @@ Language:
       - '§e左鍵點擊切換計算方式'
       - '§e右鍵點擊切換計算方式'
       
+      AmountDM: WHEAT_SEEDS:0
       Amount: '§a量{value}'
       AmountInfo:
       - ''
@@ -578,6 +676,20 @@ Language:
       AmountSubMessage: '§a數值'
       
     EditLore:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到物品編輯介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到物品編輯介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+    
+      LoreDisplayDM: WRITABLE_BOOK:0
       LoreDisplay: '§a第{value}行'
       LoreDisplayInfo:
       - ''
@@ -591,6 +703,7 @@ Language:
       LoreDisplayMessage2: '§e請在對話框輸入'
       LoreDisplaySubMessage2: '§a要在前一行插入的內容'
       
+      LoreAddDM: BOOK:0
       LoreAdd: '§a第{value}行'
       LoreAddInfo:
       - ''
@@ -599,28 +712,314 @@ Language:
       - '§e左鍵點擊增加Lore'
       LoreAddMessage: '§e請在對話框輸入'
       LoreAddSubMessage: '§a要增加的Lore'
+    
+    EditAction:
       
-    ItemList:
-      ToEditItem: '§e回到物品選擇介面'
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e物品編輯介面'
       ToEditItemInfo:
       - ''
-      - '§7回到物品選擇介面'
+      - '§7物品編輯介面'
       
+      ExitDM: spruce_door:0
       Exit: '§e關閉選單'
       ExitInfo:
       - ''
       - '§7關閉選單'
       
+      ActionDisplayDM: WRITABLE_BOOK:0
+      ActionDisplay: '§a第{value}行'
+      ActionDisplayInfo:
+      - ''
+      - '§f顯示名稱={actionName}'
+      - '§f使用動作={action}'
+      - '§f執行次數={count}'
+      - '§f執行間隔={countperiod}'
+      - '§f動作標記={mark}'
+      - '§f是否為清除動作={stop}'
+      - '§f目標={targetkey}'
+      - '§f觸發={triggerkey}'
+      - ''
+      - '§eShift+左鍵點擊向上一行增加動作'
+      - '§e左鍵點擊編輯動作'
+      - '§e右鍵點擊刪除動作'
+      
+      ActionAddDM: BOOK:0
+      ActionAdd: '§a第{value}行'
+      ActionAddInfo:
+      - ''
+      - '§7空'
+      - ''
+      - '§e左鍵點擊增加動作'
+    
+    EditActionDetail:
+      
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到動作編輯介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到物品選擇介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      ActionShowDM: BIRCH_SIGN:0
+      ActionShow: '§e顯示名稱'
+      ActionShowInfo:
+      - ''
+      - '§7顯示名稱: §7{value}'
+      - ''
+      - '§e左鍵點擊編輯動作顯示名稱'
+      - '§e右鍵點擊移除動作顯示名稱'
+      ActionShowMessage: '§e請在對話框輸入'
+      ActionShowSubMessage: '§a要顯示的動作名稱' 
+      
+      ActionDM: FIRE_CHARGE:0
+      Action: '§e使用動作'
+      ActionInfo:
+      - ''
+      - '§7使用動作: §7{value}'
+      - ''
+      - '§e左鍵點擊編輯使用動作'
+      - '§e右鍵點擊移除使用動作'
+      
+      CountDM: redstone_torch:0
+      Count: '§e執行次數'
+      CountInfo:
+      - ''
+      - '§7執行次數: §7{value}'
+      - ''
+      - '§e左鍵點擊編輯動作執行次數'
+      - '§e右鍵點擊設為預設值'
+      CountMessage: '§e請在對話框輸入'
+      CountSubMessage: '§a要執行的次數' 
+      
+      CountPeriodDM: TRIPWIRE_HOOK:0
+      CountPeriod: '§e執行間隔'
+      CountPeriodInfo:
+      - ''
+      - '§7執行間隔: §7{value}'
+      - ''
+      - '§e左鍵點擊編輯動作執行間隔'
+      - '§e右鍵點擊設為預設值'
+      CountPeriodMessage: '§e請在對話框輸入'
+      CountPeriodSubMessage: '§a要執行的間隔' 
+      
+      MarkDM: NETHER_WART:0
+      Mark: '§e動作標記'
+      MarkInfo:
+      - ''
+      - '§7動作標記: §7{value}'
+      - ''
+      - '§e左鍵點擊編輯動作標記'
+      - '§e右鍵點擊設為預設值'
+      MarkMessage: '§e請在對話框輸入'
+      MarkSubMessage: '§a標記名稱' 
+      
+      StopDM: ACTIVATOR_RAIL:0
+      Stop: '§e是否為清除動作'
+      StopInfo:
+      - ''
+      - '§7是否為清除動作: §7{value}'
+      - ''
+      - '§e左鍵點擊設為清除動作'
+      - '§e右鍵點擊設為不是清除動作'
+      
+      TargetKeyDM: SKELETON_SKULL:0
+      TargetKey: '§e目標'
+      TargetKeyInfo:
+      - ''
+      - '§7目標: §7{value}'
+      - ''
+      - '§e左鍵點擊編輯動作目標'
+      - '§e右鍵點擊清除目標'
+      
+      TriggerKeyDM: STONE_BUTTON:0
+      TriggerKey: '§e觸發'
+      TriggerKeyInfo:
+      - ''
+      - '§7觸發: §7{value}'
+      - ''
+      - '§e左鍵點擊編輯動作觸發'
+      - '§e右鍵點擊設為預設值'
+    
+    ActionTypeList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到動作細節編輯介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到動作細節編輯介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      DescriptionDM: Book:0
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7左鍵點擊選擇動作類別'
+    
+    ActionList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到動作類別選擇介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到動作類別選擇介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      PreviousPageDM: Arrow:0
       PreviousPage: '§e上一頁'
       PreviousPageInfo:
       - ''
       - '§7上一頁'
       
+      NextPageDM: Arrow:0
       NextPage: '§e下一頁'
       NextPageInfo:
       - ''
       - '§7下一頁'
       
+      DescriptionDM: Book:0
+      Description: '§e說明'
+      DescriptionInfo:
+      - ''
+      - '§7左鍵點擊選擇要使用的動作'
+    
+    ActionTargetEdit:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到動作細節編輯介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到動作細節編輯介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      ApplicationDM: Book:0
+      Application: '§e應用'
+      ApplicationInfo:
+      - ''
+      - '§7左鍵點擊把設定好的目標應用在物品上'
+      - '§7右鍵點擊移除目標'
+      
+      ActionTargetTypeDM: SKELETON_SKULL:0
+      ActionTargetType: '§a目標類型{value}'
+      ActionTargetTypeInfo:
+      - ''
+      - '§7@Self : 自身'
+      - '§7@Target : 目標'
+      - '§7@SelfRadius : 自身周圍'
+      - '§7@TargetRadius : 目標周圍'
+      - ''
+      - '§e左鍵點擊切換目標類別'
+      - '§e右鍵點擊切換目標類別'
+      
+      RadiusDM: tripwire_hook:0
+      Radius: '§a半徑{value}'
+      RadiusInfo:
+      - ''
+      - '§7半徑'
+      - ''
+      - '§e左鍵點擊在對話框輸入數字'
+      - '§e右鍵點擊設為預設值'
+      RadiusMessage: '§e請在對話框輸入'
+      RadiusSubMessage: '§a數值'
+      
+      FiltersDM: Hopper:0
+      Filters: '§a篩選類型{value}'
+      FiltersInfo:
+      - ''
+      - ''
+      - '§e左鍵點擊選擇篩選類型'
+      - '§e右鍵點擊移除'
+      
+      
+    ActionTriggerList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到動作細節編輯介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到動作細節編輯介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      
+    
+    ActionFiltersList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到目標編編輯介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到目標編編輯介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      PreviousPageDM: Arrow:0
+      PreviousPage: '§e上一頁'
+      PreviousPageInfo:
+      - ''
+      - '§7上一頁'
+      
+      NextPageDM: Arrow:0
+      NextPage: '§e下一頁'
+      NextPageInfo:
+      - ''
+      - '§7下一頁'
+    
+    ItemList:
+    
+      ToEditItemDM: Arrow:0
+      ToEditItem: '§e回到物品選擇介面'
+      ToEditItemInfo:
+      - ''
+      - '§7回到物品選擇介面'
+      
+      ExitDM: spruce_door:0
+      Exit: '§e關閉選單'
+      ExitInfo:
+      - ''
+      - '§7關閉選單'
+      
+      PreviousPageDM: Arrow:0
+      PreviousPage: '§e上一頁'
+      PreviousPageInfo:
+      - ''
+      - '§7上一頁'
+      
+      NextPageDM: Arrow:0
+      NextPage: '§e下一頁'
+      NextPageInfo:
+      - ''
+      - '§7下一頁'
+      
+      DescriptionDM: Book:0
       Description: '§e說明'
       DescriptionInfo:
       - ''

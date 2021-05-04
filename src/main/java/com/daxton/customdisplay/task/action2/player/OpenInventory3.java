@@ -150,7 +150,7 @@ public class OpenInventory3 {
                 boolean flag = itemConfig.getBoolean("Buttons."+key+".RemoveItemFlags");
                 String itemMaterial = itemConfig.getString("Buttons."+key+".Material");
                 String itemName = itemConfig.getString("Buttons."+key+".Name");
-                itemName = new ConversionMain().valueOf(self,target,itemName);
+                itemName = ConversionMain.valueOf(self,target,itemName);
                 List<String> itemLore = itemConfig.getStringList("Buttons."+key+".Lore");
                 List<String> nextItemLore = new ArrayList<>();
                 itemLore.forEach((line) -> {
@@ -158,7 +158,7 @@ public class OpenInventory3 {
                 });
                 List<String> lastItemLore = new ArrayList<>();
                 nextItemLore.forEach((line) -> {
-                    lastItemLore.add(ChatColor.GRAY + new ConversionMain().valueOf(self,target,line));
+                    lastItemLore.add(ChatColor.GRAY + ConversionMain.valueOf(self,target,line));
                 });
                 List<String> leftClick = itemConfig.getStringList("Buttons."+key+".Left");
                 List<String> leftShiftClick = itemConfig.getStringList("Buttons."+key+".Left_Shift");
@@ -182,7 +182,7 @@ public class OpenInventory3 {
                 String headValue = itemConfig.getString("Buttons."+key+".HeadValue");
                 if(headValue != null){
                     if(headValue.length() < 50){
-                        headValue = new ConversionMain().valueOf(self,target,headValue);
+                        headValue = ConversionMain.valueOf(self,target,headValue);
                         OfflinePlayer targetPlayer = player.getServer().getOfflinePlayer(headValue);
                         skullMeta.setOwningPlayer(targetPlayer);
                         customItem.setItemMeta(skullMeta);

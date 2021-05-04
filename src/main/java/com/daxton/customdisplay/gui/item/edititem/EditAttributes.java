@@ -1,11 +1,12 @@
-package com.daxton.customdisplay.api.item.gui;
+package com.daxton.customdisplay.gui.item.edititem;
 
-import com.daxton.customdisplay.api.item.ItemSet;
+import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -87,7 +88,7 @@ public class EditAttributes {
             if(event.getClick() == ClickType.LEFT){
                 //到物品類別
                 if(i == 0){
-                    new OpenMenuGUI(player).EditItem(typeName, itemName);
+                    OpenMenuGUI.EditItem(player, typeName, itemName);
                     return;
                 }
                 //給物品
@@ -202,16 +203,16 @@ public class EditAttributes {
 
         inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
-        inventory.setItem(0, MenuSet.getItemButtom("Buttom", "EditAttributes","ToEditItem"));
-        inventory.setItem(8, MenuSet.getItemButtom("Buttom", "EditAttributes","Exit"));
+        inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.EditAttributes.ToEditItem", ""));
+        inventory.setItem(8,  ButtomSet.getItemButtom("Buttom.EditAttributes.Exit", ""));
 
-        inventory.setItem(10, MenuSet.getItemButtom2("Buttom", "EditAttributes","EquipmentSlot", this.equipmentSlot[es]));
-        inventory.setItem(11, MenuSet.getItemButtom2("Buttom", "EditAttributes","Inherit", this.inherit[it]));
-        inventory.setItem(12, MenuSet.getItemButtom2("Buttom", "EditAttributes","Operation", this.operation[ot]));
-        inventory.setItem(13, MenuSet.getItemButtom2("Buttom", "EditAttributes","Amount", String.valueOf(this.attrAmount)));
+        inventory.setItem(10, ButtomSet.getItemButtom("Buttom.EditAttributes.EquipmentSlot", this.equipmentSlot[es]));
+        inventory.setItem(11, ButtomSet.getItemButtom("Buttom.EditAttributes.Inherit", this.inherit[it]));
+        inventory.setItem(12, ButtomSet.getItemButtom("Buttom.EditAttributes.Operation", this.operation[ot]));
+        inventory.setItem(13, ButtomSet.getItemButtom("Buttom.EditAttributes.Amount", String.valueOf(this.attrAmount)));
 
 
-        inventory.setItem(49,MenuSet.getItemButtom("Buttom", "EditAttributes","Application"));
+        inventory.setItem(49, ButtomSet.getItemButtom("Buttom.EditAttributes.Application", ""));
 
 
         return inventory;

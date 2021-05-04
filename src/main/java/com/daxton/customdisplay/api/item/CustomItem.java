@@ -33,80 +33,86 @@ public class CustomItem {
 
     }
 
-    public static ItemStack valueOf(LivingEntity self, LivingEntity target, String itemID, int amount){
+    public static ItemStack valueOf(LivingEntity self, LivingEntity target, String itemInputID, int amount){
+
         CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
         ItemStack newItemStack = new ItemStack(Material.SPONGE);
+        if(itemInputID.contains(".")){
+            String[] itemArray = itemInputID.split("\\.");
+            if(itemArray.length == 2){
 
-        for(String configString : ConfigMapManager.getFileConfigurationNameMap().values()){
-            if(configString.contains("Items_")){
-                FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get(configString);
-                for (String itemKey : itemConfig.getKeys(false)){
-                    if(itemKey.equals(itemID)){
-
-                        /**物品材質**/
-                        String itemMaterial = itemConfig.getString(itemID+".Material");
-
-                        Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
-                        ItemStack itemStack = new ItemStack(material,amount);
-
-                        /**物品損壞值**/
-                        int itemData = itemConfig.getInt(itemID+".Data");
-                        ItemMeta itemMeta0 = itemStack.getItemMeta();
-                        ((Damageable) itemMeta0).setDamage(itemData);
-                        itemStack.setItemMeta(itemMeta0);
-
-                        ItemMeta itemMeta = itemStack.getItemMeta();
-
-                        /**物品名稱**/
-                        String itemName = itemConfig.getString(itemID+".DisplayName");
-                        itemName = new ConversionMain().valueOf(self,target,itemName);
-                        itemMeta.setDisplayName(itemName);
+                String itemType = itemArray[0];
+                String itemID = itemArray[1];
+                cd.getLogger().info(itemType+" : "+itemID);
+                if(ConfigMapManager.getFileConfigurationMap().get("Items_item_"+itemType+".yml") != null){
+                    FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+itemType+".yml");
 
 
+                    /**物品材質**/
+                    String itemMaterial = itemConfig.getString(itemID+".Material");
+
+                    Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+                    ItemStack itemStack = new ItemStack(material,amount);
+
+                    /**物品損壞值**/
+                    int itemData = itemConfig.getInt(itemID+".Data");
+                    ItemMeta itemMeta0 = itemStack.getItemMeta();
+                    ((Damageable) itemMeta0).setDamage(itemData);
+                    itemStack.setItemMeta(itemMeta0);
+
+                    ItemMeta itemMeta = itemStack.getItemMeta();
+
+                    /**物品名稱**/
+                    String itemName = itemConfig.getString(itemID+".DisplayName");
+                    itemName = ConversionMain.valueOf(self,target,itemName);
+                    itemMeta.setDisplayName(itemName);
 
 
-                        /**物品CustomModelData**/
-                        int cmd = itemConfig.getInt(itemID+".CustomModelData");
-                        itemMeta.setCustomModelData(cmd);
-                        itemMeta.getPersistentDataContainer();
-                        /**物品Lore**/
-                        List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
-                        List<String> nextItemLore = new ArrayList<>();
-                        itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
-                        List<String> lastItemLore = new ArrayList<>();
-                        nextItemLore.forEach((line) -> { lastItemLore.add(ChatColor.GRAY + new ConversionMain().valueOf(self,target,line)); });
-                        itemMeta.setLore(lastItemLore);
-
-                        /**物品附魔**/
-                        List<String> itemEnchantment = itemConfig.getStringList(itemID+".Enchantments");
-                        itemEnchantment.forEach(s -> {
-                            String[] strings = s.split(":");
-                            if(strings.length == 2){
-                                Enchantment enchantment1 = Enchantment.getByName(strings[0]);
-                                //Enchantment enchantment1 = Enchantment.getByKey(new NamespacedKey(cd,strings[0]));
-                                itemMeta.addEnchant(enchantment1,Integer.valueOf(strings[1]),false);
-                            }
-                        });
 
 
-                        /**物品屬性**/
-                        try {
-                            List<String> attrList = new ArrayList<>(itemConfig.getConfigurationSection(itemID+".Attributes").getKeys(false));
-                            if(attrList != null){
-                                attrList.forEach(attributesKey -> {
-                                    //cd.getLogger().info(attributesKey);
-                                    String inherit = itemConfig.getString(itemID+".Attributes."+attributesKey+".Inherit");
-                                    String operation = itemConfig.getString(itemID+".Attributes."+attributesKey+".Operation");
-                                    double attrAmount = itemConfig.getDouble(itemID+".Attributes."+attributesKey+".Amount");
-                                    String equipmentSlot = itemConfig.getString(itemID+".Attributes."+attributesKey+".EquipmentSlot");
+                    /**物品CustomModelData**/
+                    int cmd = itemConfig.getInt(itemID+".CustomModelData");
+                    itemMeta.setCustomModelData(cmd);
+                    itemMeta.getPersistentDataContainer();
+                    /**物品Lore**/
+                    List<String> itemLore = itemConfig.getStringList(itemID+".Lore");
+                    List<String> nextItemLore = new ArrayList<>();
+                    itemLore.forEach((line) -> { nextItemLore.add(ChatColor.GRAY + line); });
+                    List<String> lastItemLore = new ArrayList<>();
+                    nextItemLore.forEach((line) -> { lastItemLore.add(ChatColor.GRAY + ConversionMain.valueOf(self,target,line)); });
+                    itemMeta.setLore(lastItemLore);
 
-                                    if(equipmentSlot.toLowerCase().contains("all")) {
-                                        itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,inherit.toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), attrAmount, Enum.valueOf(AttributeModifier.Operation.class,operation)));
-                                    }else {
-                                        itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,inherit.toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), attrAmount, Enum.valueOf(AttributeModifier.Operation.class,operation), Enum.valueOf(EquipmentSlot.class,equipmentSlot.toUpperCase())));
-                                    }
+                    /**物品附魔**/
+                    List<String> itemEnchantment = itemConfig.getStringList(itemID+".Enchantments");
+                    itemEnchantment.forEach(s -> {
+                        String[] strings = s.split(":");
+                        if(strings.length == 2){
+                            Enchantment enchantment1 = Enchantment.getByName(strings[0]);
+                            //Enchantment enchantment1 = Enchantment.getByKey(new NamespacedKey(cd,strings[0]));
+                            itemMeta.addEnchant(enchantment1,Integer.valueOf(strings[1]),false);
+                        }
+                    });
 
-                                    //itemConfig.getStringList(itemID+".Attributes."+s).forEach(s1 -> {
+
+                    /**物品屬性**/
+                    try {
+                        List<String> attrList = new ArrayList<>(itemConfig.getConfigurationSection(itemID+".Attributes").getKeys(false));
+                        if(attrList != null){
+                            attrList.forEach(attributesKey -> {
+                                //cd.getLogger().info(attributesKey);
+                                String inherit = itemConfig.getString(itemID+".Attributes."+attributesKey+".Inherit");
+                                String operation = itemConfig.getString(itemID+".Attributes."+attributesKey+".Operation");
+                                double attrAmount = itemConfig.getDouble(itemID+".Attributes."+attributesKey+".Amount");
+                                String equipmentSlot = itemConfig.getString(itemID+".Attributes."+attributesKey+".EquipmentSlot");
+
+                                if(equipmentSlot.toLowerCase().contains("all")) {
+                                    itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,inherit.toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), attrAmount, Enum.valueOf(AttributeModifier.Operation.class,operation)));
+                                }else {
+                                    itemMeta.addAttributeModifier(Enum.valueOf(Attribute.class,inherit.toUpperCase()),new AttributeModifier(UUID.randomUUID(), String.valueOf(UUID.randomUUID()), attrAmount, Enum.valueOf(AttributeModifier.Operation.class,operation), Enum.valueOf(EquipmentSlot.class,equipmentSlot.toUpperCase())));
+                                }
+
+                                //itemConfig.getStringList(itemID+".Attributes."+s).forEach(s1 -> {
 
 
 //                                        String[] attrValues = s1.split(":");
@@ -119,86 +125,94 @@ public class CustomItem {
 //
 //                                        }
 
-                                    //});
-                                });
-                            }
-                        }catch (Exception exception){
-
+                                //});
+                            });
                         }
+                    }catch (Exception exception){
 
-                        /**設置無法破壞**/
-                        itemMeta.setUnbreakable(itemConfig.getBoolean(itemID+".Unbreakable"));
+                    }
 
-                        /**設置無法附魔**/
-                        boolean flag = itemConfig.getBoolean(itemID+".HideItemFlags");
-                        if(flag){
-                            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                            itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-                            itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-                            itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-                            itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-                            itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
-                        }
+                    /**設置無法破壞**/
+                    itemMeta.setUnbreakable(itemConfig.getBoolean(itemID+".Unbreakable"));
 
-                        List<String> actionList = itemConfig.getStringList(itemID+".Action");
-                        if(!actionList.isEmpty()){
-                            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
-                            int i = 0;
-                            for(String action : actionList){
-                                i++;
-                                NamespacedKey xd = new NamespacedKey(cd, "Action"+i);
-                                data.set(xd , PersistentDataType.STRING, action);
-                            }
+                    /**設置無法附魔**/
+                    boolean flag = itemConfig.getBoolean(itemID+".HideItemFlags");
+                    if(flag){
+                        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+                        itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+                        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                        itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
+                    }
 
-
+                    List<String> actionList = itemConfig.getStringList(itemID+".Action");
+                    if(!actionList.isEmpty()){
+                        PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+                        int i = 0;
+                        for(String action : actionList){
+                            i++;
+                            NamespacedKey xd = new NamespacedKey(cd, "Action"+i);
+                            data.set(xd , PersistentDataType.STRING, action);
                         }
 
 
+                    }
 
-                       itemStack.setItemMeta(itemMeta);
 
-                        if(itemMaterial.contains("PLAYER_HEAD")){
-                            SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
-                            String headValue = itemConfig.getString(itemID+".HeadValue");
-                            if(headValue != null){
-                                if(headValue.length() < 50){
-                                    headValue = new ConversionMain().valueOf(self,target,headValue);
-                                    OfflinePlayer targetPlayer = cd.getServer().getOfflinePlayer(headValue);
-                                    skullMeta.setOwningPlayer(targetPlayer);
+
+                    itemStack.setItemMeta(itemMeta);
+
+                    if(itemMaterial.contains("PLAYER_HEAD")){
+                        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+                        String headValue = itemConfig.getString(itemID+".HeadValue");
+                        if(headValue != null){
+                            if(headValue.length() < 50){
+                                headValue = ConversionMain.valueOf(self,target,headValue);
+                                OfflinePlayer targetPlayer = cd.getServer().getOfflinePlayer(headValue);
+                                skullMeta.setOwningPlayer(targetPlayer);
+                                itemStack.setItemMeta(skullMeta);
+                            }else {
+                                try {
+                                    PlayerProfile playerProfile = Bukkit.createProfile(UUID.randomUUID(), null);
+                                    playerProfile.getProperties().add(new ProfileProperty("textures", headValue));
+                                    skullMeta.setPlayerProfile(playerProfile);
                                     itemStack.setItemMeta(skullMeta);
-                                }else {
-                                    try {
-                                        PlayerProfile playerProfile = Bukkit.createProfile(UUID.randomUUID(), null);
-                                        playerProfile.getProperties().add(new ProfileProperty("textures", headValue));
-                                        skullMeta.setPlayerProfile(playerProfile);
-                                        itemStack.setItemMeta(skullMeta);
-                                    }catch (Exception exception){
-                                        cd.getLogger().info("頭的值只能在paper伺服器使用。");
-                                        cd.getLogger().info("The value of the header can only be used on the paper server.");
-                                    }
+                                }catch (Exception exception){
+                                    cd.getLogger().info("頭的值只能在paper伺服器使用。");
+                                    cd.getLogger().info("The value of the header can only be used on the paper server.");
                                 }
-
                             }
+
                         }
+                    }
 
 //                        if(self instanceof Player){
 //                            Player player = (Player) self;
 //                            player.sendMessage("You have recieved 1x TeleportScroll");
 //                            cd.getLogger().info(data.get(xd, PersistentDataType.STRING));
 //                        }
-                        //String ss = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "data"), PersistentDataType.STRING);
-                        //cd.getLogger().info("職: "+ss);
-                        newItemStack = itemStack;
+                    //String ss = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "data"), PersistentDataType.STRING);
+                    //cd.getLogger().info("職: "+ss);
+                    newItemStack = itemStack;
 
-                    }
+
                 }
-
             }
         }
-
-
-
+//        for(String configString : ConfigMapManager.getFileConfigurationNameMap().values()){
+//            if(configString.contains("Items_")){
+//                FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get(configString);
+//                for (String itemKey : itemConfig.getKeys(false)){
+//                    if(itemKey.equals(itemID)){
+//
+//
+//                    }
+//                }
+//
+//            }
+//        }
 
         return newItemStack;
     }

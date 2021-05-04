@@ -41,7 +41,7 @@ public class PlayerEquipmentStats {
                         name_Equipment_Map.put(name,attrName2);
                     }
                     if(value != null){
-                        value = new ConversionMain().valueOf(player,null,value);
+                        value = ConversionMain.valueOf(player,null,value);
                         attributes_Stats_Map.put(attrName2,value);
                     }else {
                         attributes_Stats_Map.put(attrName2,"0");
@@ -75,7 +75,7 @@ public class PlayerEquipmentStats {
                         //String setValue = attributes_EquipmentStats_Map2.get()
 
                         if(value != null){
-                            value = new ConversionMain().valueOf(player,null,value);
+                            value = ConversionMain.valueOf(player,null,value);
 
                             attributes_EquipmentStats_Map.put(attrName2,value);
                             //cd.getLogger().info(attrName2+" : "+value);

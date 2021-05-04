@@ -23,7 +23,7 @@ public class FormulaMagic {
         }else {
             plysical = PlayerManager.core_Formula_Map.get("Magic_Attack_Player_Player");
         }
-        plysical = new ConversionMain().valueOf(player,target,plysical);
+        plysical = ConversionMain.valueOf(player,target,plysical);
         try {
             double number = Arithmetic.eval(plysical);
 

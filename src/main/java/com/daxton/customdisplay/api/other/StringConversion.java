@@ -29,7 +29,7 @@ public class StringConversion {
 
     public static String getString(LivingEntity self, LivingEntity target, String content) {
         String output = content;
-        output = new ConversionMain().valueOf(self, target, output);
+        output = ConversionMain.valueOf(self, target, output);
         return output;
     }
 

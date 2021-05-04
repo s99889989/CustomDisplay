@@ -27,6 +27,7 @@ import com.daxton.customdisplay.listener.mmolib.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
+import com.daxton.customdisplay.otherfunctions.CreatJson;
 import com.daxton.customdisplay.task.ClearAction;
 import discord4j.core.DiscordClientBuilder;
 import io.netty.buffer.ByteBuf;
@@ -54,33 +55,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
     public static final int IDX = 233;
     public static final String channel = "msgtutor:test";
 
-    public String read(byte[] array) {
-        ByteBuf buf = Unpooled.wrappedBuffer(array);
-        if (buf.readUnsignedByte() == IDX) {
-            return buf.toString(StandardCharsets.UTF_8);
-        } else throw new RuntimeException();
-    }
 
-    public void send(Player player, String msg) {
-        byte[] bytes = msg.getBytes(StandardCharsets.UTF_8);
-        ByteBuf buf = Unpooled.buffer(bytes.length + 1);
-        buf.writeByte(IDX);
-        buf.writeBytes(bytes);
-        player.sendPluginMessage(this, channel, buf.array());
-    }
-
-    public void sendMessage(Player player, String message){
-        try {
-            Class<? extends CommandSender> senderClass = player.getClass();
-            Method addChannel = senderClass.getDeclaredMethod("addChannel", String.class);
-            addChannel.setAccessible(true);
-            addChannel.invoke(player, channel);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Bukkit.getScheduler().runTaskLater(this, () -> send(player, message), 100);
-    }
 
     @Override
     public void onEnable() {
@@ -170,6 +145,10 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
                     .block();
 
         }
+
+        //建立Json檔案
+        CreatJson.createMain();
+        CreatJson.createAll();
 
     }
 
@@ -301,6 +280,10 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
     }
     public void mapReload(){
 
+        //建立Json檔案
+        CreatJson.createMain();
+        CreatJson.createAll();
+
         /**設置核心公式字串**/
         new PlayerAttributeCore().setFormula();
 
@@ -401,6 +384,33 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         }
     }
 
+    public String read(byte[] array) {
+        ByteBuf buf = Unpooled.wrappedBuffer(array);
+        if (buf.readUnsignedByte() == IDX) {
+            return buf.toString(StandardCharsets.UTF_8);
+        } else throw new RuntimeException();
+    }
+
+    public void send(Player player, String msg) {
+        byte[] bytes = msg.getBytes(StandardCharsets.UTF_8);
+        ByteBuf buf = Unpooled.buffer(bytes.length + 1);
+        buf.writeByte(IDX);
+        buf.writeBytes(bytes);
+        player.sendPluginMessage(this, channel, buf.array());
+    }
+
+    public void sendMessage(Player player, String message){
+        try {
+            Class<? extends CommandSender> senderClass = player.getClass();
+            Method addChannel = senderClass.getDeclaredMethod("addChannel", String.class);
+            addChannel.setAccessible(true);
+            addChannel.invoke(player, channel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Bukkit.getScheduler().runTaskLater(this, () -> send(player, message), 100);
+    }
 
     public static CustomDisplay getCustomDisplay() {
         return customDisplay;

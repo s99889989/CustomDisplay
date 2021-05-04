@@ -23,10 +23,7 @@ public class MythicMobSpawnListener implements Listener {
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
         ActiveMob activeMob = event.getMob();
-        new MobConfig().setMod(activeMob,event.getMobLevel());
-
-
-
+        MobConfig.setMod(activeMob,event.getMobLevel());
 
     }
 
@@ -38,39 +35,43 @@ public class MythicMobSpawnListener implements Listener {
 
         Player player = null;
         player = Convert.convertKillerPlayer(killer);
-
-        if(player != null){
-            String mobID = event.getMob().getMobType();
-            String item = "Air";
-            if(event.getDrops().size() > 0){
-                item = "";
-                for(int i = 0;i < event.getDrops().size();i++){
-                    if(i == 0){
-                        if(event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty() == false){
-                            item = event.getDrops().get(i).getItemMeta().getDisplayName();
+        try {
+            if(player != null){
+                String mobID = event.getMob().getMobType();
+                String item = "Air";
+                if(event.getDrops().size() > 0){
+                    item = "";
+                    for(int i = 0;i < event.getDrops().size();i++){
+                        if(i == 0){
+                            if(event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty() == false){
+                                item = event.getDrops().get(i).getItemMeta().getDisplayName();
+                            }else {
+                                item = event.getDrops().get(i).getI18NDisplayName();
+                            }
                         }else {
-                            item = event.getDrops().get(i).getI18NDisplayName();
-                        }
-                    }else {
-                        if(event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty() == false){
-                            item = item + "," + event.getDrops().get(i).getItemMeta().getDisplayName();
-                        }else {
-                            item = item + "," + event.getDrops().get(i).getI18NDisplayName();
+                            if(event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty() == false){
+                                item = item + "," + event.getDrops().get(i).getItemMeta().getDisplayName();
+                            }else {
+                                item = item + "," + event.getDrops().get(i).getI18NDisplayName();
+                            }
                         }
                     }
                 }
+                String uuidString = player.getUniqueId().toString();
+
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_item>",item);
+
+                PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
+
+                new PlayerTrigger(player).onTwo(player, target, "~onmmobdeath");
+                if(!(item.contains("Air"))){
+                    new PlayerTrigger(player).onTwo(player, target, "~onmmobdropitem");
+                }
             }
-            String uuidString = player.getUniqueId().toString();
+        }catch (NoSuchMethodError error){
 
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_item>",item);
-
-            PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
-
-            new PlayerTrigger(player).onTwo(player, target, "~onmmobdeath");
-            if(!(item.contains("Air"))){
-                new PlayerTrigger(player).onTwo(player, target, "~onmmobdropitem");
-            }
         }
+
 
 
 

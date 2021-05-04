@@ -13,7 +13,7 @@ public class PlaceholderMythic {
 
     }
 
-    public String valueOf(LivingEntity entity, String inputString){
+    public static String valueOf(LivingEntity entity, String inputString){
         String outputString = "0";
         String uuidString = entity.getUniqueId().toString();
         String key = inputString.replace(" ","").replace("<cd_mythic_class_stats_","");

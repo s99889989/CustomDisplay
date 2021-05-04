@@ -101,16 +101,20 @@ public class FixedPoint3 extends BukkitRunnable {
             }
         }
 
-        /**向量增加座標**/
-        String[] directionAdd = actionMapHandle.getStringList(new String[]{"directionadd","da"},new String[]{"0","0","0"},"\\|",3);
+        //向量增加座標
+        String[] directionAdd = actionMapHandle.getStringList(new String[]{"directionadd","da"},new String[]{"true","true","0","0","0"},"\\|",5);
+        boolean pt = true;
+        boolean yw = true;
         double daX = 0;
         double daY = 0;
         double daZ = 0;
-        if(directionAdd.length == 3){
+        if(directionAdd.length == 5){
+            pt = Boolean.parseBoolean(directionAdd[0]);
+            yw = Boolean.parseBoolean(directionAdd[1]);
             try {
-                daX = Double.parseDouble(directionAdd[0]);
-                daY = Double.parseDouble(directionAdd[1]);
-                daZ = Double.parseDouble(directionAdd[2]);
+                daX = Double.parseDouble(directionAdd[2]);
+                daY = Double.parseDouble(directionAdd[3]);
+                daZ = Double.parseDouble(directionAdd[4]);
             }catch (NumberFormatException exception){
                 daX = 0;
                 daY = 0;
@@ -121,16 +125,21 @@ public class FixedPoint3 extends BukkitRunnable {
         /**如果自身死亡任務是否取消**/
         selfDead = actionMapHandle.getBoolean(new String[]{"selfdead"},true);
 
-        if(startLocation == null){
-            //new LookLocation().get2(self,daX,daY,daZ);
-            startLocation = new DirectionLocation().getSetDirection(self.getLocation(), self.getLocation(), daX, daY, daZ).add(startX, startY, startZ);
-        }
 
-        if(startLocation != null){
-            if(onStartList.size() > 0){
-                actionRun(onStartList,startLocation,target);
+        LivingEntity livingEntity = actionMapHandle.getOneLivingEntity();
+        if(livingEntity != null){
+            if(startLocation == null){
+
+                startLocation = DirectionLocation.getDirectionLoction(livingEntity.getLocation(), livingEntity.getLocation(), pt, yw, daX, daY, daZ).add(startX, startY, startZ);
+
             }
-            runTaskTimer(cd, 0L, period);
+
+            if(startLocation != null){
+                if(onStartList.size() > 0){
+                    actionRun(onStartList,startLocation.clone(),target);
+                }
+                runTaskTimer(cd, 0L, period);
+            }
         }
 
     }
@@ -138,7 +147,7 @@ public class FixedPoint3 extends BukkitRunnable {
     public void run() {
         if(selfDead && self.isDead()){
             if(onEndList.size() > 0){
-                actionRun(onEndList,startLocation,target);
+                actionRun(onEndList,startLocation.clone(),target);
             }
 
             cancel();
@@ -147,7 +156,7 @@ public class FixedPoint3 extends BukkitRunnable {
 
         if(j > duration){
             if(onEndList.size() > 0){
-                actionRun(onEndList,startLocation,target);
+                actionRun(onEndList,startLocation.clone(),target);
             }
 
 
@@ -156,10 +165,10 @@ public class FixedPoint3 extends BukkitRunnable {
         }
 
         if(onTimeList.size() > 0){
-            actionRun(onTimeList,startLocation,target);
+            actionRun(onTimeList,startLocation.clone(),target);
         }
 
-        List<LivingEntity> entityList = RadiusTarget.getRadiusLivingEntities3(self, startLocation, hitRange);
+        List<LivingEntity> entityList = RadiusTarget.getRadiusLivingEntities3(self, startLocation.clone(), hitRange);
         if(entityList.size() > 0){
             if(hitCount > 0){
 

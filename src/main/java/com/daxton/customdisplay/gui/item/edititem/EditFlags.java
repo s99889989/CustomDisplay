@@ -1,11 +1,12 @@
-package com.daxton.customdisplay.api.item.gui;
+package com.daxton.customdisplay.gui.item.edititem;
 
-import com.daxton.customdisplay.api.item.ItemSet;
+import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.MenuSet;
+import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -46,7 +47,7 @@ public class EditFlags {
                 }
                 //到物品類別
                 if(i == 0){
-                    new OpenMenuGUI(player).EditItem(typeName, itemName);
+                    OpenMenuGUI.EditItem(player, typeName, itemName);
                     return;
                 }
 
@@ -162,16 +163,16 @@ public class EditFlags {
 
         inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
-        inventory.setItem(0, MenuSet.getItemButtom("Buttom", "EditFlags","ToEditItem"));
-        inventory.setItem(8, MenuSet.getItemButtom("Buttom", "EditFlags","Exit"));
+        inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.EditFlags.ToEditItem", ""));
+        inventory.setItem(8,  ButtomSet.getItemButtom("Buttom.EditFlags.Exit", ""));
 
-        inventory.setItem(10, MenuSet.getItemButtom("Buttom", "EditFlags","HideAttributes"));
-        inventory.setItem(11, MenuSet.getItemButtom("Buttom", "EditFlags","HideDestroys"));
-        inventory.setItem(12, MenuSet.getItemButtom("Buttom", "EditFlags","HideDye"));
-        inventory.setItem(13, MenuSet.getItemButtom("Buttom", "EditFlags","HideEnchants"));
-        inventory.setItem(14, MenuSet.getItemButtom("Buttom", "EditFlags","HidePlacedOn"));
-        inventory.setItem(15, MenuSet.getItemButtom("Buttom", "EditFlags","HidePotionEffects"));
-        inventory.setItem(16, MenuSet.getItemButtom("Buttom", "EditFlags","HideUnbreakable"));
+        inventory.setItem(10,  ButtomSet.getItemButtom("Buttom.EditFlags.HideAttributes", ""));
+        inventory.setItem(11,  ButtomSet.getItemButtom("Buttom.EditFlags.HideDestroys", ""));
+        inventory.setItem(12,  ButtomSet.getItemButtom("Buttom.EditFlags.HideDye", ""));
+        inventory.setItem(13,  ButtomSet.getItemButtom("Buttom.EditFlags.HideEnchants", ""));
+        inventory.setItem(14,  ButtomSet.getItemButtom("Buttom.EditFlags.HidePlacedOn", ""));
+        inventory.setItem(15,  ButtomSet.getItemButtom("Buttom.EditFlags.HidePotionEffects", ""));
+        inventory.setItem(16,  ButtomSet.getItemButtom("Buttom.EditFlags.HideUnbreakable", ""));
 
         return inventory;
     }

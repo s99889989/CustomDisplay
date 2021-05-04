@@ -94,23 +94,11 @@ public class Guise {
 
                 this.packetEntity = new PacketEntity().createPacketEntity(entityType, player, location);
 
+//                String ent = this.packetEntity.getEntityTypeName();
+//                if(ent.equals("ARMOR_STAND")){
+//                    setArmorStand(self ,target ,customLineConfig);
+//                }
 
-                String ent = this.packetEntity.getEntityTypeName();
-                if(ent.equals("ARMOR_STAND")){
-                    setArmorStand(self ,target ,customLineConfig);
-                }
-
-                if(!visible){
-                    this.packetEntity.setVisible();
-                }
-
-                if(itemID != null){
-                    this.packetEntity.appendItem(itemID,equipmentSlot);
-                }
-
-                if(entityName != null){
-                    packetEntity.appendTextLine(entityName);
-                }
 
             }
             if(this.packetEntity != null){

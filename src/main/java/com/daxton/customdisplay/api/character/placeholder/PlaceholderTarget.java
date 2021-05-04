@@ -12,35 +12,35 @@ public class PlaceholderTarget {
 
     }
 
-    public String valueOf(LivingEntity entity, String inputString){
+    public static String valueOf(LivingEntity entity, String inputString){
         String outputString = "0";
         String key = inputString.replace("_target","").replace(">","");
 
         if(entity instanceof Player){
             if(key.toLowerCase().contains("<cd_base_")){
-                outputString = new PlaceholderBase().valueOf(entity,null,key);
+                outputString = PlaceholderBase.valueOf(entity,null,key);
             }
             if(key.toLowerCase().contains("<cd_player_")){
-                outputString = new PlaceholderPlayer().valueOf(entity,key);
+                outputString = PlaceholderPlayer.valueOf(entity,key);
             }
             if(key.toLowerCase().contains("<cd_class_")){
-                outputString = new PlaceholderClass().valueOf(entity,key);
+                outputString = PlaceholderClass.valueOf(entity,key);
             }
             if(key.toLowerCase().contains("<cd_mmocore_")){
-                outputString = new PlaceholderMMOCore().valueOf(entity);
+                outputString = PlaceholderMMOCore.valueOf(entity);
             }
             if(key.toLowerCase().contains("<cd_attribute_")){
                 outputString = PlaceholderAttributes.valueOf(entity, key);
             }
         }else {
             if(key.toLowerCase().contains("<cd_base_")){
-                outputString = new PlaceholderBase().valueOf(entity,null,key);
+                outputString = PlaceholderBase.valueOf(entity,null,key);
             }
             if(key.toLowerCase().contains("<cd_mythic_")){
-                outputString = new PlaceholderMythic().valueOf(entity,key);
+                outputString = PlaceholderMythic.valueOf(entity,key);
             }
             if(key.toLowerCase().contains("<cd_modelengine_")){
-                outputString = new PlaceholderModelEngine().valueOf(entity,key);
+                outputString = PlaceholderModelEngine.valueOf(entity,key);
             }
             if(key.toLowerCase().contains("<cd_attribute_")){
                 outputString = PlaceholderAttributes.valueOf(entity, key);
