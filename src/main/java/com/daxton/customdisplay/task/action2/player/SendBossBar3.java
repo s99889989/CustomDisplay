@@ -1,8 +1,6 @@
 package com.daxton.customdisplay.task.action2.player;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.manager.ActionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -12,9 +10,9 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SendBossBar3 {
 
@@ -23,7 +21,7 @@ public class SendBossBar3 {
     private Map<String, String> action_Map;
     private String taskID = "";
 
-    private BossBar bossBar;
+    private static Map<String, BossBar> bossBar_Map = new ConcurrentHashMap<>();
 
     public SendBossBar3(){
 
@@ -35,14 +33,20 @@ public class SendBossBar3 {
         this.target = target;
         this.taskID = taskID;
         this.action_Map = action_Map;
-        setSelfOther();
+
+        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
+
+        String mark = actionMapHandle.getString(new String[]{"mark","mk"},"0");
+
+        setOther(taskID+mark);
     }
 
-    public void setSelfOther(){
 
-        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
+    public void setOther(String livTaskID){
 
-        String message = actionMapHandle.getString(new String[]{"message","m"},null);
+        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
+
+
 
         BarStyle style = actionMapHandle.getBarStyle(new String[]{"style"},"SOLID");
 
@@ -54,77 +58,60 @@ public class SendBossBar3 {
 
         boolean delete = actionMapHandle.getBoolean(new String[]{"delete"},false);
 
-//        if(this.self instanceof Player){
-//            Player player = (Player) this.self;
-//            if(this.bossBar == null){
-//
-//                if(message != null && color != null && style != null){
-//                    this.bossBar = Bukkit.createBossBar(message, color, style, flag);
-//                    this.bossBar.addPlayer(player);
-//                }
-//
-//
-//            }
-//            if(this.bossBar != null){
-//                if(message != null){
-//                    this.bossBar.setTitle(message);
-//
-//                }
-//                if(color != null){
-//                    this.bossBar.setColor(color);
-//                }
-//                if(style != null){
-//                    this.bossBar.setStyle(style);
-//                }
-//
-//                if(progress > 0.0 && progress < 1.0000000001){
-//                    this.bossBar.setProgress(progress);
-//                }
-//                if(delete){
-//                    this.bossBar.removeAll();
-//                    this.bossBar = null;
-//                    if(ActionManager.judgment_SendBossBar_Map2.get(taskID) != null){
-//                        ActionManager.judgment_SendBossBar_Map2.remove(taskID);
-//                    }
-//                }
-//            }
-//        }
+        boolean deleteAll = actionMapHandle.getBoolean(new String[]{"deleteAll"},false);
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListSelf();
 
         if(!(livingEntityList.isEmpty())){
             for(LivingEntity livingEntity : livingEntityList){
                 if(livingEntity instanceof Player){
                     Player player = (Player) livingEntity;
-                    if(bossBar == null){
 
+                    ActionMapHandle actionMapHandle2 = new ActionMapHandle(action_Map, player, target);
+
+                    String message = actionMapHandle2.getString(new String[]{"message","m"},null);
+
+                    if(bossBar_Map.get(livTaskID) == null){
                         if(message != null && color != null && style != null){
-                            bossBar = Bukkit.createBossBar(message, color, style, flag);
-                            bossBar.addPlayer(player);
+                            BossBar bossBar2 = Bukkit.createBossBar(message, color, style, flag);
+                            bossBar2.addPlayer(player);
+                            bossBar_Map.put(livTaskID, bossBar2);
                         }
-
-
-                    }
-                    if(bossBar != null){
+                    }else {
+                        BossBar bossBar1 = bossBar_Map.get(livTaskID);
                         if(message != null){
-                            bossBar.setTitle(message);
-
+                            bossBar1.setTitle(message);
                         }
+                    }
+
+                    if(bossBar_Map.get(livTaskID) != null){
+                        BossBar bossBar2 = bossBar_Map.get(livTaskID);
+
                         if(color != null){
-                            bossBar.setColor(color);
+                            bossBar2.setColor(color);
                         }
                         if(style != null){
-                            bossBar.setStyle(style);
+                            bossBar2.setStyle(style);
                         }
 
                         if(progress > 0.0 && progress < 1.0000000001){
-                            bossBar.setProgress(progress);
+                            bossBar2.setProgress(progress);
                         }
                         if(delete){
-                            bossBar.removeAll();
-                            bossBar = null;
+                            bossBar2.removeAll();
+                            bossBar_Map.remove(livTaskID);
                         }
+
+                        if(deleteAll){
+                            bossBar_Map.forEach((s, bossBar1) -> bossBar1.removeAll());
+                            bossBar_Map.clear();
+                            if(ActionManager.judgment_SendBossBar_Map2.get(taskID) != null){
+                                ActionManager.judgment_SendBossBar_Map2.remove(taskID);
+                            }
+                        }
+
                     }
+
                 }
             }
 
@@ -132,11 +119,12 @@ public class SendBossBar3 {
 
     }
 
-    public BossBar getBossBar() {
-        return bossBar;
+    public Map<String, BossBar> getBossBar_Map() {
+        return bossBar_Map;
     }
 
-    public void setBossBar(BossBar bossBar) {
-        this.bossBar = bossBar;
-    }
+
+
+
+
 }

@@ -1,7 +1,6 @@
 package com.daxton.customdisplay.task.action2.player;
 
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.entity.LivingEntity;
@@ -17,14 +16,14 @@ public class setMana3 {
 
     }
 
-    public void setMana(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static void setMana(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
         /**補量**/
         double amount = actionMapHandle.getDouble(new String[]{"amount","a"},10);
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListSelf();
 
         if(!(livingEntityList.isEmpty())){
             for(LivingEntity livingEntity : livingEntityList){
@@ -39,7 +38,7 @@ public class setMana3 {
 
     }
 
-    public void giveMana(Player player,double amount){
+    public static void giveMana(Player player,double amount){
         String uuidString = player.getUniqueId().toString();
         UUID uuid = player.getUniqueId();
         PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);

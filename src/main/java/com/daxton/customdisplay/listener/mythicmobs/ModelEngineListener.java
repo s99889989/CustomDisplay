@@ -1,25 +1,17 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.mob.MobConfig;
-import com.daxton.customdisplay.manager.MobManager;
 
 
 import com.ticxo.modelengine.api.ModelEngineAPI;
 import com.ticxo.modelengine.api.model.ActiveModel;
 import com.ticxo.modelengine.api.model.ModeledEntity;
-import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
-import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicTargeterLoadEvent;
-import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.management.Query;
 
 public class ModelEngineListener implements Listener {
 
@@ -37,9 +29,9 @@ public class ModelEngineListener implements Listener {
                         double eyeHight = modeledEntity.getEye();
                         double hitBoxHight = modeledEntity.getHeight();
                         double hitBoxWidth = modeledEntity.getWidth();
-                        if(!(modelID.isEmpty())){
-                            cd.getLogger().info(modelID+" : "+eyeHight+" : "+hitBoxHight+" : "+hitBoxWidth);
-                        }
+//                        if(!(modelID.isEmpty())){
+//                            cd.getLogger().info(modelID+" : "+eyeHight+" : "+hitBoxHight+" : "+hitBoxWidth);
+//                        }
                     }
                 }
             }
@@ -47,6 +39,9 @@ public class ModelEngineListener implements Listener {
         bukkitRunnable.runTaskLater(cd,20);
 
     }
+
+
+
 
 //    @EventHandler(priority = EventPriority.LOW)
 //    public void onEntityDamage(EntityDamageEvent event) {

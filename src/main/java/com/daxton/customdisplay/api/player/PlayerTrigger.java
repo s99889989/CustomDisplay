@@ -5,14 +5,12 @@ import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
-import com.daxton.customdisplay.task.JudgmentAction;
 import com.daxton.customdisplay.task.JudgmentAction2;
+import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -48,13 +46,13 @@ public class PlayerTrigger {
 
         this.player_Action_List_Map.forEach(stringStringMap -> {
             if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
-                runExecute2(stringStringMap, self, target);
+                runExecute(stringStringMap, self, target);
             }
         });
 
         this.player_Item_Action_List_Map.forEach(stringStringMap -> {
             if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
-                runExecute2(stringStringMap, self, target);
+                runExecute(stringStringMap, self, target);
             }
         });
 
@@ -64,7 +62,7 @@ public class PlayerTrigger {
                 if(player.hasPermission("customdisplay.permission."+s.toLowerCase())){
                         maps.forEach(stringStringMap -> {
                             if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
-                                runExecute2(stringStringMap, self, target);
+                                runExecute(stringStringMap, self, target);
                             }
                         });
                 }
@@ -76,25 +74,25 @@ public class PlayerTrigger {
 
     /**直接使用動作列表**/
     public void onSkill(LivingEntity self,LivingEntity target,List<CustomLineConfig> action){
-        this.self = self;
-        this.target = target;
-        if(action.size() > 0){
-            for(CustomLineConfig actionString : action){
-                runExecute(actionString);
-            }
-        }
+//        this.self = self;
+//        this.target = target;
+//        if(action.size() > 0){
+//            for(CustomLineConfig actionString : action){
+//                runExecute(actionString);
+//            }
+//        }
     }
 
     /**直接使用單個動作**/
     public void onSkill2(LivingEntity self,LivingEntity target,CustomLineConfig actionString){
-        this.self = self;
-        this.target = target;
-
-        runExecute(actionString);
+//        this.self = self;
+//        this.target = target;
+//
+//        runExecute(actionString);
 
     }
 
-    public void runExecute2(Map<String, String> action_Map, LivingEntity self, LivingEntity target){
+    public void runExecute(Map<String, String> action_Map, LivingEntity self, LivingEntity target){
 
         String taskID = new ActionMapHandle(action_Map, self, target).getString(new String[]{"mark","m"}, String.valueOf((int)(Math.random()*100000)));
 
@@ -113,88 +111,9 @@ public class PlayerTrigger {
 
         }
 
-
-
-
-
-
-
-//        if(self instanceof Player){
-//            Player player = (Player) self;
-//            player.sendMessage(taskID);
-//        }
-
     }
 
-    public void runExecute(CustomLineConfig customLineConfig){
 
-//        if(target != null){
-//            getAttr(self, target);
-//        }
-
-
-        /**確認觸發者權限**/
-        if(checkPermission(self, customLineConfig)){
-            return;
-        }
-
-
-        String taskID = customLineConfig.getString(new String[]{"mark","m"},String.valueOf((int)(Math.random()*100000)),self,target);
-
-//        String judgMent = customLineConfig.getActionKey();
-//        String actionName = customLineConfig.getString(new String[]{"action","a"},null,self,target);
-//        if(judgMent.toLowerCase().contains("action") && actionName != null){
-//            boolean markBoolean = customLineConfig.getBoolean(new String[]{"mark","m"},false,self,target);
-//            if(markBoolean){
-//                PlayerData playerData = PlayerDataMap.getPlayerDataMap().get(self.getUniqueId());
-//
-//                String uuidString = self.getUniqueId().toString();
-//                taskID = uuidString+actionName;
-//                playerData.taskIDList.put(taskID, taskID);
-//            }
-//
-//        }
-        //cd.getLogger().info(taskID);
-        boolean stop = customLineConfig.getBoolean(new String[]{"stop","s"}, false,self, target);
-
-        if(stop){
-
-            new ClearAction().taskID(taskID);
-        }else{
-            //new ClearAction().taskID(taskID);
-
-            ActionManager.trigger_Judgment_Map.put(taskID,new JudgmentAction());
-
-            ActionManager.trigger_Judgment_Map.get(taskID).execute(self,target,customLineConfig,taskID);
-
-
-        }
-
-
-
-    }
-
-    public boolean checkPermission(LivingEntity livingEntity, CustomLineConfig customLineConfig){
-        boolean bb = false;
-        if(customLineConfig.getPermission() == null){
-            return false;
-        }
-
-
-        FileConfiguration configuration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
-        boolean setting = configuration.getBoolean("Permission.fastUse");
-        if(setting){
-            if(livingEntity instanceof Player){
-                Player player = (Player) self;
-                String pp = customLineConfig.getPermission();
-                if(!player.hasPermission(pp)){
-                    bb = true;
-                }
-            }
-        }
-
-        return bb;
-    }
 
     public void getAttr(LivingEntity self, LivingEntity target){
 

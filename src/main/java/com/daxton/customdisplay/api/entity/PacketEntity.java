@@ -18,6 +18,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -68,8 +70,8 @@ public class PacketEntity {
             EntityType entityType1 = Enum.valueOf(EntityType.class ,entityType.toUpperCase());
             packet.getEntityTypeModifier().write(0, entityType1);
         }catch (NullPointerException exception){
-
             packet.getEntityTypeModifier().write(0, EntityType.ARMOR_STAND);
+
         }
 
         packet.getDoubles().write(0, location.getX());

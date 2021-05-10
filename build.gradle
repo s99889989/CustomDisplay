@@ -38,6 +38,9 @@ repositories {
     maven {
         url = uri('https://jitpack.io')
     }
+    maven {
+        url = uri('https://oss.sonatype.org/content/groups/public/')
+    }
 
     mavenCentral()
 
@@ -52,7 +55,8 @@ dependencies {
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.6'
     compileOnly 'org.serverct.ersha.jd:AttributePlus:2.2.5'
     compileOnly 'io.lumine.xikage:MythicMobs:4.9.1'
-    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
+    compileOnly 'io.github.qveshn:LightAPI-fork:3.4.6-SNAPSHOT'
+    //compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
     compileOnly 'com.github.Archy-x:AureliumSkills:Alpha1.5.2'
     compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.4.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MythicLib-1.0.0.jar'])
@@ -60,7 +64,8 @@ dependencies {
     compileOnly fileTree(dir: 'lib', include: ['MMOItems-6.5.2-619.jar'])
     compileOnly fileTree(dir: 'lib', include: ['SkillAPI-v3.108.jar'])
     compileOnly fileTree(dir: 'lib', include: ['CrackShot-0.98.11.jar'])
-    compileOnly fileTree(dir: 'lib', include: ['Model-Engine-b2.0.3.jar'])
+    compileOnly fileTree(dir: 'lib', include: ['Model-Engine-r2.1.5.jar'])
+    //compileOnly fileTree(dir: 'lib', include: ['MythicMobs-4.12.0-Build3625.jar'])
 
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.13-D.jar'])
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.13.2-D.jar'])
@@ -74,13 +79,13 @@ dependencies {
     implementation 'com.discord4j:discord4j-core:3.1.5'
 
 
-    //compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
+    compileOnly fileTree(dir: 'lib', include: ['Citizens-2.0.27-b2231.jar'])
 
     }
 
 
     group = 'com.daxton'
-    version = '1.16.4.4'
+    version = '1.16.6'
     description = 'CustomDisplay'
     sourceCompatibility = '1.8'
 
@@ -110,6 +115,6 @@ shadowJar {
     classifier = null
     relocate 'io.netty', 'com.daxton.discord4j.shaded.io.netty'
 }
-//build.dependsOn shadowJar
+build.dependsOn shadowJar
 
 

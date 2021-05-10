@@ -33,7 +33,12 @@ public class MobConfig {
         /**用UUID字串儲存MM等級**/
         MobManager.mythicMobs_Level_Map.put(uuidString,String.valueOf(mobLevel));
         /**用UUID字串儲存MM派系**/
-        MobManager.mythicMobs_Faction_Map.put(uuidString,faction);
+        if(faction != null){
+            MobManager.mythicMobs_Faction_Map.put(uuidString, faction);
+        }else {
+            MobManager.mythicMobs_Faction_Map.put(uuidString, "null");
+        }
+
 
 
         File mobFilePatch = new File(cd.getDataFolder(),"Mobs/"+mobID+".yml");

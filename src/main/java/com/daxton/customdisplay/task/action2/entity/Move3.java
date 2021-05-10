@@ -1,8 +1,7 @@
-package com.daxton.customdisplay.task.action2;
+package com.daxton.customdisplay.task.action2.entity;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.location.DirectionLocation;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -13,15 +12,11 @@ import java.util.Map;
 
 public class Move3 {
 
-    CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    LivingEntity self;
-
     public Move3(){
 
     }
 
-    public void setVelocity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static void setVelocity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
@@ -52,7 +47,7 @@ public class Move3 {
         }
 
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListSelf();
 
         if(!(livingEntityList.isEmpty())){
             for(LivingEntity livingEntity : livingEntityList){

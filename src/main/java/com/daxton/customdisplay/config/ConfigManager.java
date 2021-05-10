@@ -46,21 +46,24 @@ public class ConfigManager {
 
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
         String[] strings = MenuSet.getItemMenuButtomNameArray();
-        for(String name : strings){
-            String patchString = "Items/item/"+ name +".yml";
-            String patchString2 = patchString.replace("/","_");
-            File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(), patchString);
-            if(!itemPatch.exists()){
-                try {
-                    itemPatch.createNewFile();
-                }catch (Exception exception){
+        if(strings != null){
+            for(String name : strings){
+                String patchString = "Items/item/"+ name +".yml";
+                String patchString2 = patchString.replace("/","_");
+                File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(), patchString);
+                if(!itemPatch.exists()){
+                    try {
+                        itemPatch.createNewFile();
+                    }catch (Exception exception){
 
+                    }
                 }
+                FileConfiguration saveFileConfig3 = YamlConfiguration.loadConfiguration(itemPatch);
+                ConfigMapManager.getFileConfigurationMap().put(patchString2, saveFileConfig3);
+                ConfigMapManager.getFileConfigurationNameMap().put(patchString2,patchString2);
             }
-            FileConfiguration saveFileConfig3 = YamlConfiguration.loadConfiguration(itemPatch);
-            ConfigMapManager.getFileConfigurationMap().put(patchString2, saveFileConfig3);
-            ConfigMapManager.getFileConfigurationNameMap().put(patchString2,patchString2);
         }
+
 
         //ConfigMapManager.getFileConfigurationNameMap().forEach((s, s2) -> cd.getLogger().info(s));
 

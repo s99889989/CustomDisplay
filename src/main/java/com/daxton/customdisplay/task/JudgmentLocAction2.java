@@ -2,9 +2,7 @@ package com.daxton.customdisplay.task;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.task.action.orbital.*;
 import com.daxton.customdisplay.task.action2.orbital.*;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -47,7 +45,7 @@ public class JudgmentLocAction2 {
 
         /**PotionEffect的相關判斷**/
         if(judgMent.toLowerCase().contains("potioneffect")){
-            new LocParticle3().set(self, target, action_Map, taskID);
+            new LocPotionEffect3().set(self, target, action_Map, taskID);
         }
 
         /**Guise的相關判斷**/

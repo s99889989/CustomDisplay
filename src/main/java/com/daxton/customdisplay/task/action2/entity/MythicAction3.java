@@ -1,8 +1,7 @@
-package com.daxton.customdisplay.task.action2;
+package com.daxton.customdisplay.task.action2.entity;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.skills.Skill;
 import org.bukkit.Bukkit;
@@ -29,16 +28,18 @@ public class MythicAction3 {
             return;
         }
 
+
+
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
         String skillName = actionMapHandle.getString(new String[]{"skill","s"},"SmashAttack");
 
-        List<LivingEntity> targetList = actionMapHandle.getLivingEntityList();
+        List<LivingEntity> targetList = actionMapHandle.getLivingEntityListTarget();
 
-        setOther(self,skillName,targetList);
+        setOther(self, targetList, skillName);
     }
 
-    public void setOther(LivingEntity self,String skillName,List<LivingEntity> targetList){
+    public void setOther(LivingEntity self,List<LivingEntity> targetList,String skillName){
 
 
         Optional<Skill> opt = MythicMobs.inst().getSkillManager().getSkill(skillName);

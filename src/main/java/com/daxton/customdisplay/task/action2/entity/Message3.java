@@ -1,9 +1,10 @@
-package com.daxton.customdisplay.task.action2;
+package com.daxton.customdisplay.task.action2.entity;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
+import com.daxton.customdisplay.api.character.stringconversion.ConversionMessage;
+import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -16,34 +17,59 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 public class Message3 {
-
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public Message3(){
 
     }
 
-    public void setMessage(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static void setMessage(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        /**獲得內容**/
-        String message = actionMapHandle.getString(new String[]{"message","m"},"");
 
-        sendMessage(self, target, message);
+
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListTarget();
+
+        livingEntityList.forEach(livingEntity -> {
+
+            ActionMapHandle actionMapHandle2 = new ActionMapHandle(action_Map, self, livingEntity);
+
+            //獲得內容
+            String message = actionMapHandle2.getString(new String[]{"message","m"},"");
+
+            sendMessage(livingEntity, target, message);
+            //sendMessage2(livingEntity, target, message);
+        });
+
+
 
 
     }
 
-    public void sendMessage(LivingEntity self, LivingEntity player,  String message){
+    public static void sendMessage2(LivingEntity self, LivingEntity target, String message){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
+        char[] messageChar = message.toCharArray();
+        int charLength = messageChar.length;
+        String key = "";
+        for(int i = 0; i < charLength; ++i) {
+
+            key += String.valueOf(messageChar[i]);
+
+            cd.getLogger().info(String.valueOf(messageChar[i]));
+        }
+
+    }
+
+    public static void sendMessage(LivingEntity self, LivingEntity target, String message){
 
         if(message.contains("{") && message.contains("}")){
             TextComponent all = new TextComponent("");
-            for(String me : new StringFind().getBlockList(message,"{}")){
-                all.addExtra(getKey(self, player, me));
+            for(String me : StringFind.getBlockList(message,"{}")){
+                all.addExtra(getKey(self, target, me));
             }
             self.spigot().sendMessage(all);
         }else {
@@ -52,7 +78,9 @@ public class Message3 {
 
     }
 
-    public TextComponent getKey(LivingEntity self,LivingEntity target, String messageString){
+    public static TextComponent getKey(LivingEntity self,LivingEntity target, String messageString){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
         TextComponent textComponent = new TextComponent(messageString);
         File filePatch = new File(cd.getDataFolder(),"Message");
         for(String ymlName : filePatch.list()){

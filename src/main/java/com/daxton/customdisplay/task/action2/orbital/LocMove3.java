@@ -2,7 +2,6 @@ package com.daxton.customdisplay.task.action2.orbital;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.location.DirectionLocation;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -53,7 +52,7 @@ public class LocMove3 {
         }
 
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList2();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListTarget();
 
         if(!(livingEntityList.isEmpty())){
             for(LivingEntity livingEntity : livingEntityList){

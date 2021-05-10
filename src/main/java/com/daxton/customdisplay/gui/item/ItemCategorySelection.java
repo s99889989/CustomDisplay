@@ -47,14 +47,17 @@ public class ItemCategorySelection {
 
         int i = 10;
         String[] strings = MenuSet.getItemMenuButtomNameArray();
-        for(String key : strings){
+        if(strings != null){
+            for(String key : strings){
 
-            this.RawSlot.put(i,i);
-            this.typeName.put(i,key);
+                this.RawSlot.put(i,i);
+                this.typeName.put(i,key);
 
-            inventory.setItem(i,MenuSet.getItemTypeButtom("Items", "Type", key));
-            i++;
+                inventory.setItem(i,MenuSet.getItemTypeButtom("Items", "Type", key));
+                i++;
+            }
         }
+
 
         inventory.setItem(8, ButtomSet.getItemButtom("Buttom.ItemCategorySelection.Exit",""));
         inventory.setItem(49, ButtomSet.getItemButtom("Buttom.ItemCategorySelection.Save",""));

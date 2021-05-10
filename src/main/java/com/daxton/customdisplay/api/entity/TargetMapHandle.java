@@ -65,8 +65,17 @@ public class TargetMapHandle {
         return output;
     }
 
+    public boolean getBoolean(String[] key, boolean def){
+        boolean output = def;
+        String inputString = getString(key,null);
+        if(inputString != null){
+            output = Boolean.parseBoolean(inputString);
+        }
+        return output;
+    }
+
     public String[] getStringList(String[] key, String[] def, String split, int amount){
-        String[] output = null;
+        String[] output = def;
         String inputString = getString(key,null);
         if(inputString != null){
             output = inputString.split(split);
@@ -74,7 +83,7 @@ public class TargetMapHandle {
                 return output;
             }
         }
-        return def;
+        return output;
     }
 
 }

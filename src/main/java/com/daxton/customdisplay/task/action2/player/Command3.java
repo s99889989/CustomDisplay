@@ -1,10 +1,10 @@
 package com.daxton.customdisplay.task.action2.player;
 
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -15,23 +15,30 @@ public class Command3 {
 
     }
 
-    public void setCommand(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static void setCommand(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        /**獲得內容**/
-        String message = actionMapHandle.getString(new String[]{"message","m"},"");
+        List<LivingEntity> targetList = actionMapHandle.getLivingEntityListSelf();
 
+        targetList.forEach(livingEntity -> {
+            if(livingEntity instanceof Player){
 
-        if(self instanceof Player){
-            Player player = (Player) self;
-            sendCommand(player,message);
-        }
+                Player player = (Player) livingEntity;
+
+                ActionMapHandle actionMapHandle2 = new ActionMapHandle(action_Map, player, target);
+
+                /**獲得內容**/
+                String message = actionMapHandle2.getString(new String[]{"message","m"},"");
+
+                sendCommand(player,message);
+            }
+        });
 
 
     }
 
-    public void sendCommand(Player player,String command){
+    public static void sendCommand(Player player,String command){
 
         player.performCommand(command);
     }

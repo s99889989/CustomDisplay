@@ -319,13 +319,13 @@ public class ActionMapHandle {
     }
 
     //獲取對象-預設對象是自己-數量不限
-    public List<LivingEntity> getLivingEntityList(){
+    public List<LivingEntity> getLivingEntityListSelf(){
         List<LivingEntity> livingEntityList = Aims.getLivintEntityList(this.self, this.target, this.action_Map.get("targetkey"),"@Self");
         return livingEntityList;
     }
 
     //獲取對象-預設對象是目標-數量不限
-    public List<LivingEntity> getLivingEntityList2(){
+    public List<LivingEntity> getLivingEntityListTarget(){
         List<LivingEntity> livingEntityList = Aims.getLivintEntityList(this.self, this.target, this.action_Map.get("targetkey"),"@Target");
         return livingEntityList;
     }

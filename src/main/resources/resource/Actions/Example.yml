@@ -5,13 +5,13 @@ AttackDisplayUp:
   - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
 AttackDisplayUp-Start:
   Action:
-  - Hologram[m=&attack_number&;LocAdd=0|&attack_number_height&|0] @Target
+  - Hologram[m=&attack_number&] @LocTarget{LA=0|&attack_number_height&|0}
 AttackDisplayUp-Time:
   Action:
-  - Hologram[teleport=true;LocAdd=0|0.1|0]
+  - Hologram[teleport=true] @LocAdd{LA=0|0.1|0}
 AttackDisplayUp-End:
   Action:
-  - Hologram[delete=true]
+  - Hologram[deleteAll=true]
   
 #攻擊顯示傷害(向上)(爆擊)Crit
 #Attack display damage (up)(Critical)
@@ -20,13 +20,13 @@ AttackDisplayUpCrit:
   - Loop[onStart=AttackDisplayUpCrit-Start;onTime=AttackDisplayUpCrit-Time;onEnd=AttackDisplayUpCrit-End;period=3;duration=20]
 AttackDisplayUpCrit-Start:
   Action:
-  - Hologram[m=&attack_number_crit&;LocAdd=0|&attack_number_height&|0] @Target
+  - Hologram[m=&attack_number_crit&] @LocTarget{LA=0|&attack_number_height&|0}
 AttackDisplayUpCrit-Time:
   Action:
-  - Hologram[teleport=true;LocAdd=0|0.1|0]
+  - Hologram[teleport=true] @LocAdd{LA=0|0.1|0}
 AttackDisplayUpCrit-End:
   Action:
-  - Hologram[delete=true]
+  - Hologram[deleteAll=true]
 
 #攻擊顯示傷害(向上)(失敗)
 #Attack display damage (up)(Miss)
@@ -35,12 +35,18 @@ AttackDisplayUpMiss:
   - Loop[onStart=AttackDisplayUpMiss-Start;onTime=AttackDisplayUpMiss-Time;onEnd=AttackDisplayUpMiss-End;period=3;duration=20]
 AttackDisplayUpMiss-Start:
   Action:
-  - Hologram[m=&attack_number_miss&;LocAdd=0|&attack_number_height&|0] @Target
+  - Hologram[m=&attack_number_miss&] @LocTarget{LA=0|&attack_number_height&|0}
 AttackDisplayUpMiss-Time:
   Action:
-  - Hologram[teleport=true;LocAdd=0|0.1|0]
+  - Hologram[teleport=true] @LocAdd{LA=0|0.1|0}
 AttackDisplayUpMiss-End:
   Action:
-  - Hologram[delete=true]
+  - Hologram[deleteAll=true]
+
+####################################################################################
+
+
+
+
 
 

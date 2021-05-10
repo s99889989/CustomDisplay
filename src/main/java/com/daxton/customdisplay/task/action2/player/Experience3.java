@@ -16,53 +16,42 @@ import java.util.Map;
 
 public class Experience3 {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private LivingEntity self = null;
-    private LivingEntity target = null;
-    private Map<String, String> action_Map;
-
-    private List<Entity> EntityList = new ArrayList<>();
-
-    private String type = "沒有";
-    private int amount = 1;
-
-
     public Experience3(){
 
     }
 
-    public void setExp(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static void setExp(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
-        this.self = self;
-        this.target = target;
-        this.action_Map = action_Map;
+        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        setOther();
-    }
+        String type = actionMapHandle.getString(new String[]{"type"},"minecraft");
 
-    public void setOther(){
+        int amount = actionMapHandle.getInt(new String[]{"amount","a"},10);
 
-        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListSelf();
 
-        type = actionMapHandle.getString(new String[]{"type"},"minecraft");
+        if(!(livingEntityList.isEmpty())){
+            livingEntityList.forEach(livingEntity -> {
+                if(livingEntity instanceof Player){
+                    Player player = (Player) livingEntity;
 
-        amount = actionMapHandle.getInt(new String[]{"amount","a"},10);
+                    if(type.contains("minecraft")){
+                        expSet(player, target, amount);
+                    }else {
+                        expOtherSet(player, type, amount);
+                    }
 
-
-        if(self instanceof Player){
-            Player player = (Player) self;
-            if(type.contains("minecraft")){
-                expSet(player);
-            }else {
-                expOtherSet(player);
-            }
+                }
+            });
 
         }
 
+
     }
 
-    public void expSet(Player player){
+
+
+    public static void expSet(Player player, LivingEntity target, int amount){
         String uuidString = player.getUniqueId().toString();
         if(amount < 0){
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_exp_type>","default");
@@ -72,7 +61,7 @@ public class Experience3 {
         player.giveExp(amount);
     }
 
-    public void expOtherSet(Player player){
+    public static void expOtherSet(Player player, String type, int amount){
 
         new PlayerLevel().addExpMap(player,type,amount);
 

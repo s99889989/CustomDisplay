@@ -121,56 +121,32 @@ public class OrbitalAction3 extends BukkitRunnable{
 
         //起始座標偏移
         String[] startlocadds = actionMapHandle.getStringList(new String[]{"startlocadd","sla"},new String[]{"true","true","0","0","0","0"},"\\|",6);
-        boolean startTargetPitch = true;
-        boolean startTargetYaw = true;
+        boolean startTargetPitch = Boolean.parseBoolean(startlocadds[0]);
+        boolean startTargetYaw = Boolean.parseBoolean(startlocadds[1]);
         double startPitch = 0;
         double startYaw = 0;
         double startDistance = 0;
         double startHight = 0;
-        if(startlocadds.length == 8){
-            startTargetPitch = Boolean.parseBoolean(startlocadds[0]);
-            startTargetYaw = Boolean.parseBoolean(startlocadds[1]);
-            try {
-                startPitch = Double.parseDouble(startlocadds[2]);
-                startYaw = Double.parseDouble(startlocadds[3]);
-                startDistance = Double.parseDouble(startlocadds[4]);
-                startHight = Double.parseDouble(startlocadds[5]);
-            }catch (NumberFormatException exception){
-                startPitch = 0;
-                startYaw = 0;
-                startDistance = 0;
-                startHight = 0;
-            }
+        try {
+            startPitch = Double.parseDouble(startlocadds[2]);
+            startYaw = Double.parseDouble(startlocadds[3]);
+            startDistance = Double.parseDouble(startlocadds[4]);
+            startHight = Double.parseDouble(startlocadds[5]);
+        }catch (NumberFormatException exception){
+            startPitch = 0;
+            startYaw = 0;
+            startDistance = 0;
+            startHight = 0;
         }
+
+
+
+
         startLocation = DirectionLocation.getDirectionLoction(self.getLocation(), self.getLocation(), startTargetPitch, startTargetYaw, startPitch, startYaw, startDistance).add(0, startHight, 0);
 //        startX = startX*self.getEyeLocation().getDirection().getX();
 //        startZ = startZ*self.getEyeLocation().getDirection().getZ();
 //
 //        startLocation = self.getEyeLocation().add(startX, startY, startZ);
-
-        //終點座標偏移
-        String[] endLocAdds = actionMapHandle.getStringList(new String[]{"EndLocAdd","ELA"},new String[]{"true","true","0","0","0","0","0","0"},"\\|",8);
-        boolean endTargetPitch = true;
-        boolean endTargetYaw = true;
-        double endPitch = 0;
-        double endYaw = 0;
-        double endDistance = 0;
-        double endHight = 0;
-        if(endLocAdds.length == 8){
-            endTargetPitch = Boolean.parseBoolean(endLocAdds[0]);
-            endTargetYaw = Boolean.parseBoolean(endLocAdds[1]);
-            try {
-                endPitch = Double.parseDouble(endLocAdds[2]);
-                endYaw = Double.parseDouble(endLocAdds[3]);
-                endDistance = Double.parseDouble(endLocAdds[4]);
-                endHight = Double.parseDouble(endLocAdds[5]);
-            }catch (NumberFormatException exception){
-                endPitch = 0;
-                endYaw = 0;
-                endDistance = 0;
-                endHight = 0;
-            }
-        }
 
         //如果自身死亡任務是否取消
         selfDead = actionMapHandle.getBoolean(new String[]{"selfdead","sd"},true);
@@ -178,10 +154,11 @@ public class OrbitalAction3 extends BukkitRunnable{
         //如果目標死亡任務是否取消
         targetDead = actionMapHandle.getBoolean(new String[]{"targetdead","td"},true);
 
-        LivingEntity livingEntity = actionMapHandle.getOneLivingEntity();
-        if(livingEntity != null){
+        //LivingEntity livingEntity = actionMapHandle.getOneLivingEntity();
+        targetLocation = actionMapHandle.getLocation(null);
+        if(targetLocation != null){
 
-            targetLocation = DirectionLocation.getDirectionLoction(livingEntity.getLocation(), livingEntity.getLocation(), endTargetPitch, endTargetYaw, endPitch, endYaw, endDistance).add(0, endHight, 0);
+            //targetLocation = DirectionLocation.getDirectionLoction(livingEntity.getLocation(), livingEntity.getLocation(), endTargetPitch, endTargetYaw, endPitch, endYaw, endDistance).add(0, endHight, 0);
 
 
             fLocation = (floc) ->{return floc;};

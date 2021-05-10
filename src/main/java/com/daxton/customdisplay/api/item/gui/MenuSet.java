@@ -38,9 +38,14 @@ public class MenuSet {
 
     //從ItemMenu.yml獲取物品清單名稱
     public static String[] getItemMenuButtomNameArray(){
+        String[] array1 = null;
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
-        Set<String> set1 = itemMenuConfig.getConfigurationSection("Items.Type").getKeys(false);
-        String[] array1 = set1.toArray(new String[set1.size()]);
+        try {
+            Set<String> set1 = itemMenuConfig.getConfigurationSection("Items.Type").getKeys(false);
+            array1 = set1.toArray(new String[set1.size()]);
+        }catch (NullPointerException exception){
+
+        }
         return array1;
     }
     public static String[] getActionList(String typeName){

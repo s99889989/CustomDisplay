@@ -35,7 +35,7 @@ public class Holographic3 {
         this.target = target;
         this.action_Map = action_Map;
 
-        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
+        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
         String mark = actionMapHandle.getString(new String[]{"mark","mk"},"0");
 
@@ -56,9 +56,9 @@ public class Holographic3 {
 
         String itemID = actionMapHandle.getString(new String[]{"itemid","iid"}, null);
 
-        boolean delete = actionMapHandle.getBoolean(new String[]{"delete"}, false);
+        boolean delete = actionMapHandle.getBoolean(new String[]{"delete","d"}, false);
 
-        boolean deleteAll = actionMapHandle.getBoolean(new String[]{"deleteall"}, false);
+        boolean deleteAll = actionMapHandle.getBoolean(new String[]{"deleteall","dall"}, false);
 
 
         Location oldlocation = null;
@@ -77,7 +77,7 @@ public class Holographic3 {
             if(location != null){
                 if(teleport){
                     teleportHD(hologram , location);
-
+                    location_Map.put(livTaskID, location);
                 }
             }
         }
@@ -86,15 +86,17 @@ public class Holographic3 {
             Hologram hologram = hologram_Map.get(livTaskID);
 
             if(itemID != null){
-                addItemHD(hologram, itemID);
+                hologram = addItemHD(hologram, itemID);
+
             }
             if(removeMessage > 0){
-                removeLineHD(hologram, removeMessage-1);
+                hologram = removeLineHD(hologram, removeMessage-1);
             }
             if(message != null){
-
-                addLineHD(hologram, message);
+                hologram = addLineHD(hologram, message);
             }
+
+            hologram_Map.put(livTaskID, hologram);
 
             if(delete){
                 deleteHD(livTaskID);
@@ -115,25 +117,26 @@ public class Holographic3 {
     }
 
     /**增加訊息**/
-    public void addLineHD(Hologram hologram, String message){
+    public Hologram addLineHD(Hologram hologram, String message){
         hologram.appendTextLine(message);
+        return hologram;
     }
 
     /**增加物品訊息**/
-    public void addItemHD(Hologram hologram, String itemID){
-        //ItemStack itemStack = giveItem(self,target, itemID);
+    public Hologram addItemHD(Hologram hologram, String itemID){
         ItemStack itemStack = MenuItem2.valueOf(itemID);
         if(itemStack != null){
             hologram.appendItemLine(itemStack);
         }
+        return hologram;
     }
 
     /**移除訊息**/
-    public void removeLineHD(Hologram hologram, int removeMessage){
+    public Hologram removeLineHD(Hologram hologram, int removeMessage){
         if (hologram.size() > 0){
             hologram.removeLine(removeMessage);
         }
-
+        return hologram;
     }
 
     /**移動全息**/

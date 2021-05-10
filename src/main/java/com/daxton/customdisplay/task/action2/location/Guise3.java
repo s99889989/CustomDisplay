@@ -5,11 +5,19 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.entity.PacketEntity;
 import com.daxton.customdisplay.api.location.DirectionLocation;
+import com.daxton.customdisplay.manager.ActionManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -71,108 +79,92 @@ public class Guise3 {
         //顯示的時間
         int duration = actionMapHandle.getInt(new String[]{"duration","dt"},-1);
 
-        //對目標增加座標量
-        double x = 0;
-        double y = 0;
-        double z = 0;
-        String[] locAdds = actionMapHandle.getStringList(new String[]{"locadd","la"},new String[]{"0","0","0"},"\\|",3);
-        if(locAdds.length == 3){
+        List<Entity> entityList = Arrays.asList(self.getChunk().getEntities());
+        entityList.forEach(entity -> {
 
-            try {
-                x = Double.parseDouble(locAdds[0]);
-                y = Double.parseDouble(locAdds[1]);
-                z = Double.parseDouble(locAdds[2]);
-            }catch (NumberFormatException exception){
-                x = 0;
-                y = 0;
-                z = 0;
-            }
-        }
+            if(entity instanceof Player){
+                Player player = (Player) entity;
 
-        //向量增加座標
-        String[] directionAdd = actionMapHandle.getStringList(new String[]{"directionadd","da"},new String[]{"self","true","true","0","0","0"},"\\|",6);
-        String directionT = "self";
-        boolean pt = true;
-        boolean yw = true;
-        double daX = 0;
-        double daY = 0;
-        double daZ = 0;
-        if(directionAdd.length == 6){
-            directionT = directionAdd[0];
-            pt = Boolean.parseBoolean(directionAdd[1]);
-            yw = Boolean.parseBoolean(directionAdd[2]);
-            try {
-                daX = Double.parseDouble(directionAdd[3]);
-                daY = Double.parseDouble(directionAdd[4]);
-                daZ = Double.parseDouble(directionAdd[5]);
-            }catch (NumberFormatException exception){
-                daX = 0;
-                daY = 0;
-                daZ = 0;
-            }
-        }
+                Location oldlocation = null;
+                if(location_Map.get(livTaskID) != null){
+                    oldlocation = location_Map.get(livTaskID);
+                }
+                Location location = actionMapHandle.getLocation(oldlocation);
 
-        LivingEntity locEntity = actionMapHandle.getOneLivingEntity();
-        if(self instanceof  Player){
-            Player player = (Player) self;
-            if(packetEntity_Map.get(livTaskID) == null && locEntity != null){
-                Location location = locEntity.getLocation();
-                if(directionT.toLowerCase().contains("target")){
-                    location = DirectionLocation.getDirectionLoction(location, this.target.getLocation(), pt, yw, daX , daY, daZ).add(x, y, z);
+
+                if(packetEntity_Map.get(livTaskID) == null){
+                    if(location != null){
+                        // player.sendMessage(livTaskID+"高度: "+location.getY());
+                        location = location.add(0,-getEntityHight(entityType),0);
+                        packetEntity_Map.put(livTaskID, new PacketEntity().createPacketEntity(entityType, player, location));
+
+                        //location.setY(location.getY()-getEntityHight(entityType));
+                        location_Map.put(livTaskID, location);
+
+                    }
                 }else {
-                    location = DirectionLocation.getDirectionLoction(location, this.self.getLocation(), pt, yw, daX , daY, daZ).add(x, y, z);
-                }
-                location_Map.put(livTaskID, location);
-                packetEntity_Map.put(livTaskID, new PacketEntity().createPacketEntity(entityType, player, location));
-            }
-
-            if(packetEntity_Map.get(livTaskID) != null && location_Map.get(livTaskID) != null){
-                PacketEntity packetEntity = packetEntity_Map.get(livTaskID);
-                Location location = location_Map.get(livTaskID);
-                if(directionT.toLowerCase().contains("target")){
-                    location = DirectionLocation.getSetDirection(location, this.target.getLocation(), daX , daY, daZ).add(x, y, z);
-                }else {
-                    location = DirectionLocation.getSetDirection(location, this.self.getLocation(), daX , daY, daZ).add(x, y, z);
-                }
-
-                if(teleport){
-                    packetEntity.teleport(location, player);
-                }
-                
-                String ent = packetEntity.getEntityTypeName();
-                if(ent.equals("ARMOR_STAND")){
-                    setArmorStand(self , target, action_Map, packetEntity);
-                }
-
-                if(!visible){
-                    packetEntity.setVisible();
-                }
-
-                if(itemID != null){
-                    packetEntity.appendItem(itemID,equipmentSlot);
-                }
-
-                if(entityName != null){
-                    packetEntity.appendTextLine(entityName);
-                }
-
-                if(duration > 0){
-                    BukkitRunnable bukkitRunnable = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            packetEntity.delete();
-                            packetEntity_Map.remove(livTaskID);
+                    if(location != null){
+                        if(teleport){
+                            //player.sendMessage(livTaskID+"變換高度: "+location.getY());
+                            PacketEntity packetEntity1 = packetEntity_Map.get(livTaskID);
+                            location_Map.put(livTaskID, location);
+                            packetEntity1.teleport(location, player);
                         }
-                    };
-                    bukkitRunnable.runTaskLater(cd,duration);
-                }else if(duration < 0){
-                    packetEntity.delete();
+                    }
                 }
 
 
-            }
-        }
+                if(packetEntity_Map.get(livTaskID) != null){
+                    PacketEntity packetEntity = packetEntity_Map.get(livTaskID);
 
+                    String ent = packetEntity.getEntityTypeName();
+                    if(ent.equals("ARMOR_STAND")){
+                        setArmorStand(self , target, action_Map, packetEntity);
+                    }
+
+                    if(!visible){
+                        packetEntity.setVisible();
+                    }
+
+                    if(itemID != null){
+                        packetEntity.appendItem(itemID,equipmentSlot);
+                    }
+
+                    if(entityName != null){
+                        packetEntity.appendTextLine(entityName);
+                    }
+
+                    if(duration > 0){
+                        BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                //player.sendMessage("刪除: >0 ");
+                                packetEntity.delete();
+                                packetEntity_Map.remove(livTaskID);
+                                location_Map.remove(livTaskID);
+                                if(ActionManager.judgment_Guise_Map2.get(taskID) != null){
+                                    ActionManager.judgment_Guise_Map2.remove(taskID);
+                                }
+                            }
+                        };
+                        bukkitRunnable.runTaskLater(cd,duration);
+                    }else if(duration < 0){
+                        //player.sendMessage("刪除: <0 ");
+                        packetEntity.delete();
+                        packetEntity_Map.remove(livTaskID);
+                        location_Map.remove(livTaskID);
+                        if(ActionManager.judgment_Guise_Map2.get(taskID) != null){
+                            ActionManager.judgment_Guise_Map2.remove(taskID);
+                        }
+                    }
+
+
+                }
+
+
+
+            }
+        });
 
     }
 
@@ -290,6 +282,22 @@ public class Guise3 {
         packetEntity.setArmorStandAngle("rightleg",rightLegX,rightLegY,rightLegZ);
     }
 
+    public double getEntityHight(String entityType){
+        World world = Bukkit.getWorlds().get(0);
+        double hight = 0.5;
+        try {
+            EntityType entityType1 = Enum.valueOf(EntityType.class ,entityType.toUpperCase());
+            Entity entity = (Entity) world.spawnEntity(new Location(world, 0, 0, 0), entityType1);
+            hight += entity.getHeight();
+            entity.remove();
+        }catch (NullPointerException exception){
+
+            Entity entity = (Entity) world.spawnEntity(new Location(world, 0, 0, 0), EntityType.ARMOR_STAND);
+            hight += entity.getHeight();
+            entity.remove();
+        }
+        return hight;
+    }
 
     public PacketEntity getPacketEntity() {
         return packetEntity;

@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.injector.GamePhase;
+import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
@@ -23,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,7 +40,7 @@ public class PackListener implements Listener{
     public PackListener(){
 
             pm = ProtocolLibrary.getProtocolManager();
-            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE, PacketType.Play.Client.FLYING,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.CHAT, PacketType.Play.Server.ANIMATION)) {
+            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE, PacketType.Play.Client.FLYING,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.CHAT, PacketType.Play.Server.ANIMATION, PacketType.Play.Server.LIGHT_UPDATE)) {
                 @Override
                 public void onPacketReceiving(PacketEvent event) {
                     PacketContainer packet = event.getPacket();
@@ -196,7 +198,20 @@ public class PackListener implements Listener{
                         }
                     }
 
-
+//                    if(packetType.equals(PacketType.Play.Server.LIGHT_UPDATE)){
+//                        int x0 =  packet.getIntegers().read(0);
+//                        int x1 =  packet.getIntegers().read(1);
+//                        int x2 =  packet.getIntegers().read(2);
+//                        int x3 =  packet.getIntegers().read(3);
+//                        int x4 =  packet.getIntegers().read(4);
+//                        int x5 =  packet.getIntegers().read(5);
+//                        boolean b = packet.getBooleans().read(0);
+//
+//
+//
+//                        player.sendMessage("收到光"+b+":"+x0+" : "+x1+" : "+x2+" : "+x3+" : "+x4+" : "+x5);
+//
+//                    }
 
                     if(packetType.equals(PacketType.Play.Server.WORLD_PARTICLES)){
                         Particle type = packet.getNewParticles().read(0).getParticle();

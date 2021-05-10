@@ -23,7 +23,15 @@ public class MythicMobSpawnListener implements Listener {
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
         ActiveMob activeMob = event.getMob();
-        MobConfig.setMod(activeMob,event.getMobLevel());
+        double mobLevel = event.getMobLevel();
+        if(activeMob != null){
+            try {
+                MobConfig.setMod(activeMob, mobLevel);
+            }catch (NullPointerException exception){
+
+            }
+        }
+
 
     }
 

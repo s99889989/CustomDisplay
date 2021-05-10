@@ -128,7 +128,7 @@ public class AimsLocation {
         }
 
         //座標向量偏移
-        String[] vecAdds = targetMapHandle.getStringList(new String[]{"vec"},new String[]{"self","true","true","0","0","0"},"\\|",6);
+        String[] vecAdds = targetMapHandle.getStringList(new String[]{"VectorAdd","va"},new String[]{"self","true","true","0","0","0"},"\\|",6);
         String directionT = vecAdds[0];
         boolean targetPitch = Boolean.parseBoolean(vecAdds[1]);
         boolean targetYaw = Boolean.parseBoolean(vecAdds[2]);
@@ -146,7 +146,7 @@ public class AimsLocation {
         }
 
         //座標偏移
-        String[] locAdds = targetMapHandle.getStringList(new String[]{"loc"},new String[]{"0","0","0"},"\\|",3);
+        String[] locAdds = targetMapHandle.getStringList(new String[]{"LocationAdd","la"},new String[]{"0","0","0"},"\\|",3);
         double addX = 0;
         double addY = 0;
         double addZ = 0;
@@ -160,6 +160,7 @@ public class AimsLocation {
             addZ = 0;
         }
 
+        boolean onblock = targetMapHandle.getBoolean(new String[]{"onblock","ob"}, false);
 
 
 
@@ -191,6 +192,20 @@ public class AimsLocation {
                 break;
         }
 
+        if(onblock && location != null){
+            while(!location.getBlock().getTranslationKey().equals("block.minecraft.air")){
+                location.setY(location.getBlockY()+1);
+
+            }
+            while(location.getBlock().getTranslationKey().equals("block.minecraft.air")){
+                location.setY(location.getY()-0.1);
+
+            }
+            while(!location.getBlock().getTranslationKey().equals("block.minecraft.air")){
+                location.setY(location.getBlockY()+1);
+
+            }
+        }
 
         return location;
     }

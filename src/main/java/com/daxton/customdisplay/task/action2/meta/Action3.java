@@ -2,10 +2,8 @@ package com.daxton.customdisplay.task.action2.meta;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.task.ClearAction;
 import com.daxton.customdisplay.task.JudgmentAction2;
-import com.daxton.customdisplay.task.condition.Condition2;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -48,9 +46,7 @@ public class Action3 {
         /**動作間隔**/
         int countPeriod = actionMapHandle.getInt(new String[]{"countperiod","cp"},10);
 
-       // startAction(action_Map_List);
-
-        List<LivingEntity> targetList = actionMapHandle.getLivingEntityList2();
+        List<LivingEntity> targetList = actionMapHandle.getLivingEntityListTarget();
 
         if(count > 1){
             int delay = 0;
@@ -66,9 +62,9 @@ public class Action3 {
                                 startAction(action_Map_List, taskID+uuidString+(int)(Math.random()*1000), livingEntity);
                             }
                         }else {
-                            if(target == null){
+                            //if(target == null){
                                 startAction(action_Map_List, taskID, null);
-                            }
+                            //}
                         }
 
                         return;
@@ -81,13 +77,12 @@ public class Action3 {
             if(targetList.size() > 0){
                 for(LivingEntity livingEntity : targetList){
                     String uuidString = livingEntity.getUniqueId().toString();
-                    //cd.getLogger().info(taskID+" : "+livingEntity.getName());
                     startAction(action_Map_List, taskID+uuidString, livingEntity);
                 }
             }else {
-                if(target == null){
-                    startAction(action_Map_List ,taskID, null);
-                }
+
+                startAction(action_Map_List ,taskID, null);
+
             }
 
 

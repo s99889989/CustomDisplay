@@ -6,7 +6,6 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.md_5.bungee.api.ChatMessageType;
@@ -29,15 +28,15 @@ public class ActionBar3 {
 
     }
 
-    public void setActionBar(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static void setActionBar(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        boolean remove = actionMapHandle.getBoolean(new String[]{"remove"}, false);
+        boolean remove = actionMapHandle.getBoolean(new String[]{"remove","r"}, false);
 
         String message = actionMapHandle.getString(new String[]{"message","m"},"");
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListSelf();
 
         livingEntityList.forEach(livingEntity -> {
             if(livingEntity instanceof Player){
@@ -51,7 +50,7 @@ public class ActionBar3 {
     }
 
 
-    public void sendActionBar(Player player,String message){
+    public static void sendActionBar(Player player,String message){
 
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
             sendPacket(player, message, ACTIONBAR, 1, 1, 1);
@@ -61,7 +60,7 @@ public class ActionBar3 {
 
     }
 
-    public void sendPacket(Player player, String text, EnumWrappers.TitleAction action, int fadeIn, int time, int fadeOut) {
+    public static void sendPacket(Player player, String text, EnumWrappers.TitleAction action, int fadeIn, int time, int fadeOut) {
 
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.TITLE);
 

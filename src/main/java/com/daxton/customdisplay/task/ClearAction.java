@@ -49,12 +49,13 @@ public class ClearAction {
         ActionManager.judgment_Holographic_Map2.clear();
 
         for(SendBossBar3 bossBar2 : ActionManager.judgment_SendBossBar_Map2.values()){
-            if(bossBar2.getBossBar() != null){
-                bossBar2.getBossBar().removeAll();
-
+            if(!bossBar2.getBossBar_Map().isEmpty()){
+                bossBar2.getBossBar_Map().forEach((s, bossBar) -> bossBar.removeAll());
+                bossBar2.getBossBar_Map().clear();
             }
         }
         ActionManager.judgment_SendBossBar_Map2.clear();
+
 
         ActionManager.judgment_Inventory_Map2.clear();
 
@@ -223,12 +224,13 @@ public class ClearAction {
         }
 
         if(ActionManager.judgment_SendBossBar_Map2.get(taskID) != null){
-            if(ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar() != null){
-                ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar().removeAll();
-                ActionManager.judgment_SendBossBar_Map2.get(taskID).setBossBar(null);
+            if(!ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar_Map().isEmpty()){
+                ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar_Map().forEach((s, bossBar) -> bossBar.removeAll());
+                ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar_Map().clear();
             }
             ActionManager.judgment_SendBossBar_Map2.remove(taskID);
         }
+
 
         /**--------------------------------------------------------------**/
 

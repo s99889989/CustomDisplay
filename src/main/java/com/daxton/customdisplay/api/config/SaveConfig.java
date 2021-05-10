@@ -34,15 +34,18 @@ public class SaveConfig {
 
     public static void saveItemFile(){
         String[] strings = MenuSet.getItemMenuButtomNameArray();
-        for(String name : strings){
-            FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ name +".yml");
-            File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Items/item/"+ name +".yml");
-            try {
-                itemConfig.save(itemPatch);
-            }catch (Exception exception){
-                exception.printStackTrace();
+        if(strings != null){
+            for(String name : strings){
+                FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ name +".yml");
+                File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Items/item/"+ name +".yml");
+                try {
+                    itemConfig.save(itemPatch);
+                }catch (Exception exception){
+                    exception.printStackTrace();
+                }
             }
         }
+
     }
 
     /**把玩家記憶體資料存到yml設定檔**/

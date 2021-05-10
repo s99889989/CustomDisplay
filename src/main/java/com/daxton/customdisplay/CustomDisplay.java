@@ -113,6 +113,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
             }
         }
 
+
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
         configManager = new ConfigManager(customDisplay);
         Bukkit.getPluginCommand("customdisplay").setExecutor(new MainCommand());

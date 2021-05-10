@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.api.location;
 
+import com.daxton.customdisplay.CustomDisplay;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
@@ -41,9 +42,12 @@ public class DirectionLocation {
         return location;
     }
 
+
+
     public static Location getDirectionLoction(Location inputLocation, Location dirLocation, boolean pt, boolean yw, double hight, double angle, double distance){
 
-        Location location = inputLocation;
+        Location location = new Location(inputLocation.getWorld(),inputLocation.getX(),inputLocation.getY(),inputLocation.getZ());
+
         double pitch;
         if(pt){
             pitch = ((dirLocation.getPitch() + 90 + (hight*-1)) * Math.PI) / 180;
@@ -64,11 +68,10 @@ public class DirectionLocation {
 
         Vector vector = new Vector(x, y, z).multiply(distance);
         location.add(vector);
-
+        location.setDirection(vector);
 
         return location;
     }
-
 
     public static Vector getDirection(Location dirLocation, boolean pt, boolean yw, double hight, double angle, double distance){
 

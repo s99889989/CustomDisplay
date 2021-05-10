@@ -1,8 +1,7 @@
-package com.daxton.customdisplay.task.action2;
+package com.daxton.customdisplay.task.action2.entity;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
@@ -29,29 +28,20 @@ public class Damage3 {
         this.target = target;
         this.action_Map = action_Map;
 
-        setOther();
+        //setOther();
     }
 
-    public void setOther(){
+    public static void setOther(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
-        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
-
-        String type = actionMapHandle.getString(new String[]{"type"},"SKILL_PHYSICAL_ATTACK");
-
-        String operate = actionMapHandle.getString(new String[]{"operate","opa"},"ADD");
+        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
         double amount = actionMapHandle.getDouble(new String[]{"amount","a"},1);
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityList2();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListTarget();
 
-        if(!(livingEntityList.isEmpty())){
-            for(LivingEntity livingEntity : livingEntityList){
+        livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount));
 
-                setDamage(self, livingEntity, amount);
 
-            }
-
-        }
         //PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);
 //        if(target != null){
 //            setDamage(self, target, amount);
@@ -74,7 +64,7 @@ public class Damage3 {
 
     }
 
-    public void setDamage(LivingEntity self, LivingEntity target,double amount){
+    public static void setDamage(LivingEntity self, LivingEntity target,double amount){
         target.damage(amount, self);
     }
 
