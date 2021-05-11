@@ -12,23 +12,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-
-import java.util.UUID;
-
 import static org.bukkit.entity.EntityType.*;
 
 public class AttackListener implements Listener {
 
     CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private Player player = null;
-
-    private LivingEntity target;
-
-    private UUID playerUUID;
-
-    private UUID targetUUID;
-
 
     @EventHandler(priority = EventPriority.MONITOR )
     public void onAttack(EntityDamageByEntityEvent event){
@@ -42,9 +30,12 @@ public class AttackListener implements Listener {
         }
 
         double damageNumber = event.getFinalDamage();
-        target = (LivingEntity) event.getEntity();
-        player = Convert.convertPlayer(event.getDamager());
+        LivingEntity target = (LivingEntity) event.getEntity();
+        Player player = Convert.convertPlayer(event.getDamager());
         if(player != null){
+            if(target.getCustomName() != null && target.getCustomName().equals("ModleEngine")){
+                return;
+            }
 
             String uuidString = player.getUniqueId().toString();
             String tUUIDString = target.getUniqueId().toString();
@@ -53,11 +44,11 @@ public class AttackListener implements Listener {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+ tUUIDString,"Miss");
 
-                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
+                PlayerTrigger.onPlayer(player, target, "~onatkmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+ tUUIDString,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onTwo(player, target, "~onattack");
+                PlayerTrigger.onPlayer(player, target, "~onattack");
             }
         }
 

@@ -49,21 +49,21 @@ public class AttackedListener implements Listener {
             LivingEntity target = convertLivingEntity(event.getDamager());
             String uuidString = player.getUniqueId().toString();
 
-            Material offMaterial = player.getInventory().getItemInOffHand().getType();
-            if(player.isBlocking() && offMaterial == Material.SHIELD){ // && player.isBlocking() event.getFinalDamage() == 0 && material == Material.SHIELD
-
-                onSheild(player, uuidString);
-
-            }
+//            Material offMaterial = player.getInventory().getItemInOffHand().getType();
+//            if(player.isBlocking() && offMaterial == Material.SHIELD){ // && player.isBlocking() event.getFinalDamage() == 0 && material == Material.SHIELD
+//
+//                onSheild(player, uuidString);
+//
+//            }
 
             double damagedNumber = event.getFinalDamage();
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_damaged_number>","Miss");
-                new PlayerTrigger(player).onTwo(player, target, "~ondamagedmiss");
+                PlayerTrigger.onPlayer(player, target, "~ondamagedmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_damaged_number>",String.valueOf(damagedNumber));
 
-                new PlayerTrigger(player).onTwo(player, target, "~ondamaged");
+                PlayerTrigger.onPlayer(player, target, "~ondamaged");
             }
 
 
@@ -73,27 +73,8 @@ public class AttackedListener implements Listener {
 
     }
 
-    public void setSheild(Player player){
-        PacketContainer packet = new PacketContainer(PacketType.Play.Client.SET_COMMAND_BLOCK);
-        packet.getIntegers().write(0, player.getEntityId());
 
-        WrappedDataWatcher metadata = new WrappedDataWatcher();
-
-        metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(7, WrappedDataWatcher.Registry.get(Byte.class)), (byte)0x00);
-
-        packet.getWatchableCollectionModifier().write(0, metadata.getWatchableObjects());
-
-        try {
-            ActionManager.protocolManager.sendServerPacket( player, packet );
-        } catch ( InvocationTargetException exception ) {
-            exception.printStackTrace();
-        }
-
-    }
-
-
-
-    /**當拿盾牌格檔時**/
+    //當拿盾牌格檔時
     public void onSheild(Player player, String uuidString){
         if(PlayerManager.shield_Delay_Boolean_Map.get(uuidString) == null){
             PlayerManager.shield_Delay_Boolean_Map.put(uuidString, true);

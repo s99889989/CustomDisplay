@@ -172,16 +172,12 @@ public class MenuItem2 {
                         itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
                     }
 
-                    String coolDown = itemConfig.getString(itemID+".CoolDown");
-                    if(coolDown != null){
+                    int coolDown = itemConfig.getInt(itemID+".CoolDown.RightClick");
+                    if(coolDown != 0){
                         int cool = 0;
-                        try{
-                            cool = Integer.parseInt(coolDown);
-                        }catch (NumberFormatException exception){
 
-                        }
                         PersistentDataContainer data = itemMeta.getPersistentDataContainer();
-                        NamespacedKey xd = new NamespacedKey(cd, "CoolDown");
+                        NamespacedKey xd = new NamespacedKey(cd, "CoolDownRightClick");
                         data.set(xd , PersistentDataType.STRING, String.valueOf(cool));
                     }
 

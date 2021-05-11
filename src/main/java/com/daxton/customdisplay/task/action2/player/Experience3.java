@@ -55,7 +55,7 @@ public class Experience3 {
         String uuidString = player.getUniqueId().toString();
         if(amount < 0){
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_exp_type>","default");
-            new PlayerTrigger(player).onTwo(player, target, "~onexpdown");
+            PlayerTrigger.onPlayer(player, target, "~onexpdown");
         }
 
         player.giveExp(amount);

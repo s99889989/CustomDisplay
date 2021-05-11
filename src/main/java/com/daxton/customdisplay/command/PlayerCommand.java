@@ -26,7 +26,7 @@ public class PlayerCommand {
 
                         new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
 
-                        new PlayerTrigger(player).onTwo(player, null, "~oncommand");
+                        PlayerTrigger.onPlayer(player, null, "~oncommand");
                     }
                     return true;
                 }

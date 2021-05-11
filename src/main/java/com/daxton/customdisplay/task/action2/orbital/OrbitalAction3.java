@@ -197,7 +197,8 @@ public class OrbitalAction3 extends BukkitRunnable{
             return;
         }
 
-        j+=period;
+
+        j += period;
         for(int k = 0; k < 1; ++k) {
             double c = Math.min(1.0D, (double) j / speed);
             Location location = fLocation.apply(startLocation.add(targetLocation.clone().subtract(startLocation).toVector().normalize().multiply(c).add(vec.multiply(1.0D - c))));
@@ -210,15 +211,17 @@ public class OrbitalAction3 extends BukkitRunnable{
         List<LivingEntity> livingEntityList = RadiusTarget.getRadiusLivingEntities3(self, startLocation,hitRange);
         if(livingEntityList.size() > 0){
             for(LivingEntity livingEntity : livingEntityList){
-                    if(onTimeHitList.size() > 0){
-                        if(setHitCount != 0){
-                            if(hitCount < setHitCount){
-                                hitCount++;
-                                actionRun(onTimeHitList,targetLocation,livingEntity);
-                            }
-                        }else {
+                if(onTimeHitList.size() > 0){
+                    if(setHitCount != 0){
+                        if(hitCount < setHitCount){
+                            hitCount++;
                             actionRun(onTimeHitList,targetLocation,livingEntity);
+                        }else {
+                            cancel();
                         }
+                    }else {
+                        actionRun(onTimeHitList,targetLocation,livingEntity);
+                    }
                 }
 
             }
@@ -249,6 +252,7 @@ public class OrbitalAction3 extends BukkitRunnable{
 
             }
         }
+
 
     }
 

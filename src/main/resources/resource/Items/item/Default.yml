@@ -1,5 +1,5 @@
 Menu:
   Material: BOOK
-  DisplayName: '§eItem editing interface'
+  DisplayName: §eItem editing interface
   Action:
   - '§enull:Action[Action=ItemEditMenu;Count=1;CountPeriod=10;Stop=false] ~RightClickAir '

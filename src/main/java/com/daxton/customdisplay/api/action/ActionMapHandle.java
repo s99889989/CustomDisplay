@@ -318,6 +318,11 @@ public class ActionMapHandle {
         return location;
     }
 
+    public Location getLocation2(Location inputLocation){
+        Location location = AimsLocation.getOneLocation(this.self, this.target, this.action_Map.get("targetkey"),"", inputLocation);
+        return location;
+    }
+
     //獲取對象-預設對象是自己-數量不限
     public List<LivingEntity> getLivingEntityListSelf(){
         List<LivingEntity> livingEntityList = Aims.getLivintEntityList(this.self, this.target, this.action_Map.get("targetkey"),"@Self");

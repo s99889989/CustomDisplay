@@ -206,6 +206,9 @@ public class AimsLocation {
 
             }
         }
+        if(location == null){
+            location = inputLocation;
+        }
 
         return location;
     }

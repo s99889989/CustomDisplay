@@ -58,7 +58,7 @@ public class MMOLibListener implements Listener{
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,"Miss");
-                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
+                PlayerTrigger.onPlayer(player, target, "~onatkmiss");
                 return;
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
@@ -89,13 +89,13 @@ public class MMOLibListener implements Listener{
 
             if(damageType.contains("PHYSICAL")){
                 if(damageNumber > physical_STRIKE_POWER ){
-                    new PlayerTrigger(player).onTwo(player, target, "~oncrit");
+                    PlayerTrigger.onPlayer(player, target, "~oncrit");
                 }else {
-                    new PlayerTrigger(player).onTwo(player, target, "~onattack");
+                    PlayerTrigger.onPlayer(player, target, "~onattack");
                 }
             }
             if(damageType.contains("MAGIC")){
-                new PlayerTrigger(player).onTwo(player, target, "~onmagic");
+                PlayerTrigger.onPlayer(player, target, "~onmagic");
             }
 
         }

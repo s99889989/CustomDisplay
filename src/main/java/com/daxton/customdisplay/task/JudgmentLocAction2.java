@@ -3,6 +3,7 @@ package com.daxton.customdisplay.task;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.task.action2.location.CDModelEngine;
 import com.daxton.customdisplay.task.action2.orbital.*;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -28,6 +29,16 @@ public class JudgmentLocAction2 {
             }else {
                 ActionManager.judgment_LocHolographic_Map2.get(taskID).setHD(self, target, action_Map, taskID, location);
             }
+        }
+        //ModelEngine的相關判斷
+        if(judgMent.toLowerCase().contains("model")){
+            if(ActionManager.judgment_LocModelEngine_Map.get(taskID) == null){
+                ActionManager.judgment_LocModelEngine_Map.put(taskID, new LocModelEngine());
+            }
+            if(ActionManager.judgment_LocModelEngine_Map.get(taskID) != null){
+                ActionManager.judgment_LocModelEngine_Map.get(taskID).setGuise(self, target, action_Map, taskID, location);
+            }
+            return;
         }
         /**Damage的相關判斷**/
         if(judgMent.toLowerCase().contains("damage")){

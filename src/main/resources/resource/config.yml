@@ -43,6 +43,11 @@ Discord:
   enable: false
   Token: ''
 
+CMDJosonCreate:
+  enable: false
+  item: glowstone_dust
+  amount: 1000
+
 #材質包設定
 #Texture Pack Settings
 ResourcePack:

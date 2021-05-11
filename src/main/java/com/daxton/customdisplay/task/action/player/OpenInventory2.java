@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.task.action.player;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.CustomLineConfigList;
@@ -48,10 +49,10 @@ public class OpenInventory2 {
     private Map<Integer,Integer> RawSlot = new HashMap<>();
     private Map<Integer,Boolean> Move = new HashMap<>();
 
-    private Map<Integer,List<CustomLineConfig>> left_Shift_Click = new HashMap<>();
-    private Map<Integer,List<CustomLineConfig>> right_Shift_Click = new HashMap<>();
-    private Map<Integer,List<CustomLineConfig>> left_Click = new HashMap<>();
-    private Map<Integer,List<CustomLineConfig>> right_Click = new HashMap<>();
+    private Map<Integer,List<Map<String, String>>> left_Shift_Click = new HashMap<>();
+    private Map<Integer,List<Map<String, String>>> right_Shift_Click = new HashMap<>();
+    private Map<Integer,List<Map<String, String>>> left_Click = new HashMap<>();
+    private Map<Integer,List<Map<String, String>>> right_Click = new HashMap<>();
 
     public OpenInventory2(){
 
@@ -159,10 +160,10 @@ public class OpenInventory2 {
                 List<String> rightClick = itemConfig.getStringList("Buttons."+key+".Right");
                 List<String> rightShiftClick = itemConfig.getStringList("Buttons."+key+".Right_Shift");
 
-            List<CustomLineConfig> leftClickCustom = new CustomLineConfigList().valueOf(leftClick);
-            List<CustomLineConfig> leftShiftClickCustom = new CustomLineConfigList().valueOf(leftShiftClick);
-            List<CustomLineConfig> rightClickCustom = new CustomLineConfigList().valueOf(rightClick);
-            List<CustomLineConfig> rightShiftClickCustom = new CustomLineConfigList().valueOf(rightShiftClick);
+            List<Map<String, String>> leftClickCustom = SetActionMap.setClassActionList(leftClick);
+            List<Map<String, String>> leftShiftClickCustom = SetActionMap.setClassActionList(leftShiftClick);
+            List<Map<String, String>> rightClickCustom = SetActionMap.setClassActionList(rightClick);
+            List<Map<String, String>> rightShiftClickCustom = SetActionMap.setClassActionList(rightShiftClick);
 
 
 
@@ -242,16 +243,16 @@ public class OpenInventory2 {
 
             if(event.getClick().toString().contains("LEFT")){
 
-                new PlayerTrigger(player).onSkill(player, null, left_Click.get(i));
+                PlayerTrigger.onSkill(player, null, left_Click.get(i));
             }
             if(event.getClick().toString().contains("SHIFT_LEFT")){
-                new PlayerTrigger(player).onSkill(player, null, left_Shift_Click.get(i));
+                PlayerTrigger.onSkill(player, null, left_Shift_Click.get(i));
             }
             if(event.getClick().toString().contains("RIGHT")){
-                new PlayerTrigger(player).onSkill(player, null, right_Click.get(i));
+                PlayerTrigger.onSkill(player, null, right_Click.get(i));
             }
             if(event.getClick().toString().contains("SHIFT_RIGHT")){
-                new PlayerTrigger(player).onSkill(player, null, right_Shift_Click.get(i));
+                PlayerTrigger.onSkill(player, null, right_Shift_Click.get(i));
             }
 
         }

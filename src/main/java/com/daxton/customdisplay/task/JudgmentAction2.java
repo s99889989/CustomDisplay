@@ -240,6 +240,17 @@ public class JudgmentAction2 {
             return;
         }
 
+        //ModelEngine的相關判斷
+        if(judgMent.toLowerCase().contains("model")){
+            if(ActionManager.judgment_ModelEngine_Map.get(taskID) == null){
+                ActionManager.judgment_ModelEngine_Map.put(taskID, new CDModelEngine());
+            }
+            if(ActionManager.judgment_ModelEngine_Map.get(taskID) != null){
+                ActionManager.judgment_ModelEngine_Map.get(taskID).setGuise(self, target, action_Map, taskID);
+            }
+            return;
+        }
+
         //Name的相關判斷
         if(judgMent.toLowerCase().contains("name")){
             SetName3.setName(self,target,action_Map,taskID);

@@ -11,10 +11,12 @@ import com.daxton.customdisplay.task.action.orbital.LocationHolographic2;
 import com.daxton.customdisplay.task.action.player.ActionBar2;
 import com.daxton.customdisplay.task.action.player.OpenInventory2;
 import com.daxton.customdisplay.task.action.player.SendBossBar;
+import com.daxton.customdisplay.task.action2.location.CDModelEngine;
 import com.daxton.customdisplay.task.action2.location.Guise3;
 import com.daxton.customdisplay.task.action2.location.Holographic3;
 import com.daxton.customdisplay.task.action2.meta.Loop3;
 import com.daxton.customdisplay.task.action2.orbital.LocGuise3;
+import com.daxton.customdisplay.task.action2.orbital.LocModelEngine;
 import com.daxton.customdisplay.task.action2.orbital.LocationHolographic3;
 import com.daxton.customdisplay.task.action2.player.OpenInventory3;
 import com.daxton.customdisplay.task.action2.player.SendBossBar3;
@@ -64,6 +66,10 @@ public class ActionManager {
     public static Map<String, Guise> judgment_Guise_Map = new HashMap<>();
 
     public static Map<String, Guise3> judgment_Guise_Map2 = new HashMap<>();
+
+    public static Map<String, CDModelEngine> judgment_ModelEngine_Map = new HashMap<>();
+
+    public static Map<String, LocModelEngine> judgment_LocModelEngine_Map = new HashMap<>();
 
     /**短時間屬性地圖**/
     public static Map<String, Boolean> setAttribute_Boolean_Map = new HashMap<>();

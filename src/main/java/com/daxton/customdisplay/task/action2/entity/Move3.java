@@ -17,6 +17,7 @@ public class Move3 {
     }
 
     public static void setVelocity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
@@ -67,6 +68,7 @@ public class Move3 {
                         Vector vec = loctarget.subtract(locuser).toVector().normalize().multiply(daZ);
                         Vector vector1 = new Vector(0,awayHight,0);
                         vector = vec.add(vector1);
+
                         break;
                     case "targetaway":
                         Location locuser1 = livingEntity.getEyeLocation();

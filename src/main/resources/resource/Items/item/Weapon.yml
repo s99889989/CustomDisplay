@@ -1,10 +1,73 @@
 Bow1:
-  Material: 'Coal'
-  CustomModelData: 399
-  DisplayName: '§eBow'
+  Material: Glowstone_Dust
+  CustomModelData: 1
+  DisplayName: §eBow
+  CoolDown:
+    RightClick: 10
   Action:
-  - 'Launch an arrow:Action[a=Bow1_Shooting] ~RightClickAir'
+  - Launch an arrow:Action[a=Bow1_Shooting] ~RightClickAir
+  - null:Action[a=Bow1_Shooting] ~RightClickBlock
 Arrow1:
-  Material: 'Coal'
+  Material: Coal
   CustomModelData: 398
-  DisplayName: '§eArrow'
+  DisplayName: §eArrow
+test1:
+  Material: DIAMOND_SWORD
+  CoolDown:
+    RightClick: 10
+  Action:
+  - 閃擊:Action[Action=FlashAttack;Count=1;CountPeriod=10;Stop=false] @Target{Filters=null;R=0.0;d=5}  ~RightClickAir
+  - null:Action[Action=FlashAttack;Count=1;CountPeriod=10;Stop=false] @Target{Filters=null;R=0.0;d=5}  ~RightClickBlock
+explode:
+  Material: SLIME_BALL
+  CoolDown:
+    RightClick: 10
+  Action:
+  - 爆光:Action[Action=Explode;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
+  - null:Action[Action=Explode;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+light2:
+  Material: COAL
+  DisplayName: 閃光2
+  CustomModelData: 498
+  CoolDown:
+    RightClick: 10
+  Action:
+  - 閃光:Action[Action=Explode2;Count=1;CountPeriod=10;Stop=false] @SelfRadius{Filters=null;R=10.0}  ~RightClickAir
+  - null:Action[Action=Explode2;Count=1;CountPeriod=10;Stop=false] @SelfRadius{Filters=null;R=10.0}  ~RightClickBlock
+Collapse:
+  Material: GUNPOWDER
+  CoolDown:
+    RightClick: 10
+  Action:
+  - Collapse:Action[Action=Collapse;Count=1;CountPeriod=10;Stop=false] @Self{Filters=null;R=1.0}  ~RightClickAir
+  - null:Action[Action=Collapse;Count=1;CountPeriod=10;Stop=false] @Self{Filters=null;R=1.0}  ~RightClickBlock
+Frisbee:
+  Material: GUNPOWDER
+  DisplayName: 發射光盤
+  CoolDown:
+    RightClick: 10
+  Action:
+  - 光盤:Action[Action=Frisbee;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
+  - null:Action[Action=Frisbee;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+Tornado:
+  Material: STRING
+  DisplayName: 捲風
+  CoolDown:
+    RightClick: 10
+  Action:
+  - 捲風:Action[Action=Tornado;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
+  - null:Action[Action=Tornado;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+TornadoLine:
+  Material: SCUTE
+  CoolDown:
+    RightClick: 10
+  Action:
+  - 直向龍捲風:Action[Action=TornadoLine;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
+  - null:Action[Action=TornadoLine;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+ModelAttack:
+  Material: SLIME_BALL
+  CoolDown:
+    RightClick: 10
+  Action:
+  - 模型攻擊:Action[Action=ModelAttack;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
+  - null:Action[Action=ModelAttack;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock

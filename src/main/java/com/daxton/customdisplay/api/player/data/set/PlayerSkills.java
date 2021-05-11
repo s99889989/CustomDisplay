@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.api.player.data.set;
 
+import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.api.player.data.PlayerData;
@@ -82,7 +83,7 @@ public class PlayerSkills {
                 new PlayerAction2(action_Trigger_Map2).setPlayerAction(skillList);
                 skillList.forEach(s1 -> {
                     if(s1.toLowerCase().contains("~onjoin")){
-                        new PlayerTrigger(player).onSkill2(player,null,new CustomLineConfig(s1));
+                        PlayerTrigger.runExecute(SetActionMap.setTargetMap(s1), player, null);
                     }
                     //CustomDisplay.getCustomDisplay().getLogger().info(s1);
                 });

@@ -71,9 +71,9 @@ public class MythicMobSpawnListener implements Listener {
 
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_mythic_kill_mob_id>",mobID);
 
-                new PlayerTrigger(player).onTwo(player, target, "~onmmobdeath");
+                PlayerTrigger.onPlayer(player, target, "~onmmobdeath");
                 if(!(item.contains("Air"))){
-                    new PlayerTrigger(player).onTwo(player, target, "~onmmobdropitem");
+                    PlayerTrigger.onPlayer(player, target, "~onmmobdropitem");
                 }
             }
         }catch (NoSuchMethodError error){
@@ -99,10 +99,10 @@ public class MythicMobSpawnListener implements Listener {
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_exp>",String.valueOf(event.getExp()));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_kill_mythic_mob_money>",String.valueOf(event.getMoney()));
             if(event.getExp() != 0){
-                new PlayerTrigger(player).onTwo(player, target, "~onmmobdropexp");
+                PlayerTrigger.onPlayer(player, target, "~onmmobdropexp");
             }
             if(event.getMoney() != 0){
-                new PlayerTrigger(player).onTwo(player, target, "~onmmobdropmoney");
+                PlayerTrigger.onPlayer(player, target, "~onmmobdropmoney");
             }
 
         }

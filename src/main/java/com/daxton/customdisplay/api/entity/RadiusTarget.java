@@ -76,6 +76,9 @@ public class RadiusTarget {
             for(Entity targetEntity : targetEntityList){
                 if(targetEntity instanceof LivingEntity){
                     LivingEntity livingEntity = (LivingEntity) targetEntity;
+                    if(livingEntity.getCustomName() != null && livingEntity.getCustomName().equals("ModleEngine")){
+                        continue;
+                    }
                     //CustomDisplay.getCustomDisplay().getLogger().info("範圍"+livingEntity.getName());
                     double tX = livingEntity.getEyeLocation().getX();
                     double tY = livingEntity.getEyeLocation().getY();

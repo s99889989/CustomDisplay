@@ -1,9 +1,7 @@
 package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.entity.Convert;
 import com.daxton.customdisplay.api.other.NumberUtil;
-import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -17,28 +15,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class MobListener implements Listener {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+    private final CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private double damageNumber = 0;
-    private double damagedNumber = 0;
-
-    private String playerUUIDString = "";
-    private List<String> levelNameList = new ArrayList<>();
-    private File playerFilePatch;
-    private FileConfiguration playerConfig;
-    private File levelFilePatch;
-    private FileConfiguration levelConfig;
-
-    private String setModType = "";
-    private String killType = "";
-    private int amonut = 0;
 
     @EventHandler
     public void MobSpawn(EntitySpawnEvent event){
@@ -64,21 +46,22 @@ public class MobListener implements Listener {
             LivingEntity livingEntity = (LivingEntity) event.getEntity();
             UUID uuid = event.getEntity().getUniqueId();
             String uuidString = uuid.toString();
-            damagedNumber = event.getFinalDamage();
+            double damagedNumber = event.getFinalDamage();
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_damaged_number>",String.valueOf(damagedNumber));
 
 
-        }else {
-            return;
         }
 
     }
 
-//    /**怪物死亡**/
-//    @EventHandler
-//    public void onDeath(EntityDeathEvent event) {
-//        LivingEntity target = event.getEntity();
-//
+    /**怪物死亡**/
+    @EventHandler
+    public void onDeath(EntityDeathEvent event) {
+        LivingEntity target = event.getEntity();
+        if(target.getCustomName() != null && target.getCustomName().equals("ModleEngine")){
+            event.getDrops().clear();
+            event.setDroppedExp(0);
+        }
 //        String entityType = event.getEntityType().toString();
 //
 //        if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
@@ -98,19 +81,10 @@ public class MobListener implements Listener {
 //                new PlayerTrigger(player).onTwo(player, target, "~onmobdeath");
 //            }
 //        }
-//
-//    }
-
-
-
-
-
-    @EventHandler
-    public void onExplosionPrime(ExplosionPrimeEvent event){
-        final Entity entity = event.getEntity();
-
 
     }
+
+
 
     /**無攻擊者的被攻擊傷害**/
     @EventHandler(priority = EventPriority.MONITOR)

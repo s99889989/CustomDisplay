@@ -50,7 +50,7 @@ public class AttributePlusListener implements Listener {
             String tUUIDSTring = target.getUniqueId().toString();
             PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onTwo(player, target, "~onattack");
+            PlayerTrigger.onPlayer(player, target, "~onattack");
 
         }else {
             return;
@@ -75,7 +75,7 @@ public class AttributePlusListener implements Listener {
             String tUUIDSTring = target.getUniqueId().toString();
             PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
-            new PlayerTrigger(player).onTwo(player, target, "~oncrit");
+            PlayerTrigger.onPlayer(player, target, "~oncrit");
         }else {
             return;
         }

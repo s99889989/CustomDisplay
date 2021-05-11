@@ -2,6 +2,7 @@ package com.daxton.customdisplay.api.action;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.Config;
+import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -84,6 +85,14 @@ public class SetActionMap {
 //            cd.getLogger().info("動作: "+ss);
 //        });
 
+    }
+
+    public static List<Map<String, String>> setClassActionList(List<String> stringList){
+        List<Map<String, String>> customLineConfigList = new ArrayList<>();
+        for(String s : stringList){
+            customLineConfigList.add(setClassAction(s));
+        }
+        return customLineConfigList;
     }
 
     public static Map<String, String> setClassAction(String inputString){

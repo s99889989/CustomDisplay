@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.Map;
 
 public class UseSkill {
 
@@ -37,7 +38,7 @@ public class UseSkill {
         PlayerData playerData = PlayerManager.getPlayerDataMap().get(player.getUniqueId());
 
         String skillName = playerData.skill_Name_Map.get(uuidString+"."+useKey);
-        List<CustomLineConfig> actionCustom = playerData.skill_Custom_Map.get(uuidString+"."+useKey);
+        List<Map<String, String>> actionCustom = playerData.skill_Custom_Map.get(uuidString+"."+useKey);
 
         if(skillName != null && actionCustom != null && actionCustom.size() > 0){
             /**技能設定檔**/
@@ -78,7 +79,7 @@ public class UseSkill {
 
     }
 
-    public void runSKill(Player player,LivingEntity target, String uuidString, int key, int targetDistance, String skillName, List<CustomLineConfig> actionCustom){
+    public void runSKill(Player player,LivingEntity target, String uuidString, int key, int targetDistance, String skillName, List<Map<String, String>> actionCustom){
 
         /**技能獨立延遲初始化**/
         if(PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
@@ -108,7 +109,7 @@ public class UseSkill {
 
 
     /**施法**/
-    public void setCost(Player player,LivingEntity inputTarget,String skillName, List<CustomLineConfig> customLineConfigList,int targetDistance){
+    public void setCost(Player player,LivingEntity inputTarget,String skillName, List<Map<String, String>> customLineConfigList,int targetDistance){
 
         String uuidString = player.getUniqueId().toString();
         /**技能設定檔**/
@@ -135,15 +136,15 @@ public class UseSkill {
 
     }
     /**沒有施法時間**/
-    public void castTime0(Player player, String uuidString, int castDelay, LivingEntity inputTarget, List<CustomLineConfig> customLineConfigList){
+    public void castTime0(Player player, String uuidString, int castDelay, LivingEntity inputTarget, List<Map<String, String>> customLineConfigList){
         if(castDelay == 0){
 
-            new PlayerTrigger(player).onSkill(player,inputTarget,customLineConfigList);
+            PlayerTrigger.onSkill(player,inputTarget,customLineConfigList);
 
             PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
         }else {
 
-            new PlayerTrigger(player).onSkill(player,inputTarget,customLineConfigList);
+            PlayerTrigger.onSkill(player,inputTarget,customLineConfigList);
 
             new BossBarSkill().setSkillBarProgress(1);
             PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
@@ -164,7 +165,7 @@ public class UseSkill {
         }
     }
     /**有施法時間**/
-    public void castTime(Player player, String uuidString, int targetDistance, boolean needTarget, int castDelay, int castTime, LivingEntity inputTarget, List<CustomLineConfig> customLineConfigList){
+    public void castTime(Player player, String uuidString, int targetDistance, boolean needTarget, int castDelay, int castTime, LivingEntity inputTarget, List<Map<String, String>> customLineConfigList){
 
         /**施法時設定**/
         FileConfiguration skillStatusConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Status.yml");
@@ -216,7 +217,7 @@ public class UseSkill {
 //                        }else {
 //                            new PlayerTrigger2(player).onSkill(player,inputTarget,customLineConfigList);
 //                        }
-                        new PlayerTrigger(player).onSkill(player,target,customLineConfigList);
+                        PlayerTrigger.onSkill(player,target,customLineConfigList);
                         bossBarSkill2.setSkillBar2Progress(0);
                         PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                     }else {
@@ -226,7 +227,7 @@ public class UseSkill {
                         }
 
                         //if(inputTarget != null && target == inputTarget){
-                            new PlayerTrigger(player).onSkill(player,target,customLineConfigList);
+                        PlayerTrigger.onSkill(player,target,customLineConfigList);
                         //}
                         PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                             double costCount = 1.0;

@@ -28,9 +28,13 @@ public class PlayerManager {
     /**CustomCore布林**/
     public static Map<String, Boolean> core_Boolean_Map = new HashMap<>();
 
-    /**盾牌延遲**/
+    //盾牌延遲
     public static Map<String, Boolean> shield_Delay_Boolean_Map = new HashMap<>();
     public static Map<String, BukkitRunnable> shield_Delay_Run_Map = new HashMap<>();
+
+    //物品延遲
+    public static Map<String, Boolean> item_Delay_Boolean_Map = new HashMap<>();
+    public static Map<String, BukkitRunnable> item_Delay_Run_Map = new HashMap<>();
 
     /**攻擊速度計時**/
     public static Map<String, BukkitRunnable> attack_Speed_Map = new HashMap<>();

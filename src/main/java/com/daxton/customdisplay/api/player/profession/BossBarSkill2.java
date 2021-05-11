@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.api.player.profession;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.CustomLineConfigList;
 import com.daxton.customdisplay.api.player.data.PlayerData;
@@ -13,7 +14,9 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class BossBarSkill2 {
@@ -75,7 +78,10 @@ public class BossBarSkill2 {
 
                         /**把Skill動作存到Map**/
                         List<String> skillAction = skillConfig.getStringList(skillName+".Action");
-                        List<CustomLineConfig> skillCustom = new CustomLineConfigList().valueOf(skillAction);
+
+                        //List<CustomLineConfig> skillCustom = new CustomLineConfigList().valueOf(skillAction);
+                        List<Map<String, String>> skillCustom = SetActionMap.setClassActionList(skillAction);
+
                         if(skillAction != null){
                             playerData.skill_Name_Map.put(uuidString+"."+i,skillName);
                             //PlayerDataMap.skill_Key_Map.put(uuidString+"."+i,skillAction);

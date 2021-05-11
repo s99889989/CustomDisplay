@@ -1,0 +1,6 @@
+light1:
+  Material: FEATHER
+  CustomModelData: 2
+coal:
+  Material: FEATHER
+  CustomModelData: 1

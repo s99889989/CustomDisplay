@@ -44,30 +44,30 @@ public class DamagerNumberListener implements Listener {
             if(damageType.contains("PHYSICAL_MISS")){
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,"Miss");
-                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
+                PlayerTrigger.onPlayer(player, target, "~onatkmiss");
                 return;
             }
             if(damageType.contains("PHYSICAL_BLOCK")){
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","BLOCK");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,"BLOCK");
-                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
+                PlayerTrigger.onPlayer(player, target, "~onatkmiss");
                 return;
             }
             if(damageType.contains("PHYSICAL_CRITICAL")){
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onTwo(player, target, "~oncrit");
+                PlayerTrigger.onPlayer(player, target, "~oncrit");
                 return;
             }
             if(damageType.contains("PHYSICAL_ATTACK")){
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onTwo(player, target, "~onattack");
+                PlayerTrigger.onPlayer(player, target, "~onattack");
             }
             if(damageType.contains("MAGIC_ATTACK")){
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDSTring,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onTwo(player, target, "~onmagic");
+                PlayerTrigger.onPlayer(player, target, "~onmagic");
             }
 
         }

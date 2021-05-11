@@ -30,7 +30,7 @@ public class PlayerEquipment2 {
 
 
         loadAllEq(player, key);
-        new PlayerTrigger(player).onTwo(player, null, "~eqmcheck");
+        PlayerTrigger.onPlayer(player, null, "~eqmcheck");
 
     }
 

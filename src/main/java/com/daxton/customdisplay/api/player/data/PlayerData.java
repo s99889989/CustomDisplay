@@ -56,7 +56,7 @@ public class PlayerData {
     public Map<String,String> skills_Map = new HashMap<>();
     /**技能綁定**/
     public Map<String,String> binds_Map = new HashMap<>();
-    public static Map<String, List<CustomLineConfig>> skill_Custom_Map = new HashMap<>();
+    public static Map<String, List<Map<String, String>>> skill_Custom_Map = new HashMap<>();
     public static Map<String, String> skill_Name_Map = new HashMap<>();
     public static Map<String, List<String>> skill_Key_Map = new HashMap<>();
 

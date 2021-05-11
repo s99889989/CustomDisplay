@@ -147,6 +147,14 @@ public class CustomItem {
                         itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
                     }
 
+                    int coolDown = itemConfig.getInt(itemID+".CoolDown.RightClick");
+                    if(coolDown > 0){
+
+                        PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+                        NamespacedKey xd = new NamespacedKey(cd, "CoolDownRightClick");
+                        data.set(xd , PersistentDataType.STRING, String.valueOf(coolDown));
+                    }
+
                     List<String> actionList = itemConfig.getStringList(itemID+".Action");
                     if(!actionList.isEmpty()){
                         PersistentDataContainer data = itemMeta.getPersistentDataContainer();

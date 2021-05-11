@@ -19,6 +19,8 @@ import com.daxton.customdisplay.manager.*;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.task.action2.player.OpenInventory3;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -31,6 +33,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
@@ -39,11 +43,11 @@ import java.util.*;
 
 public class PlayerListener implements Listener {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+    private final CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-    private ConfigManager configManager = cd.getConfigManager();
+    private final ConfigManager configManager = cd.getConfigManager();
 
-    private FileConfiguration config = configManager.config;
+
 
     private LivingEntity target = null;
 
@@ -66,13 +70,13 @@ public class PlayerListener implements Listener {
 
         PlayerManager.getPlayerDataMap().put(playerUUID,new PlayerData(player));
 
-        new PlayerTrigger(player).onTwo(player, target, "~onjoin");
+        PlayerTrigger.onPlayer(player, target, "~onjoin");
 
-        /**設定F**/
+        //設定F
         ListenerManager.getCast_On_Stop().put(uuidString,false);
 
 
-        /**讀取屬性**/
+        //讀取屬性
 //        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
 //        boolean attr = fileConfiguration.getBoolean("Class.Skill");
 //        if(attr){
@@ -85,17 +89,17 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
         String uuidString = playerUUID.toString();
-        /**刪除玩家資料物件  和   刪除OnTime物件**/
+        //刪除玩家資料物件  和   刪除OnTime物件
         PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
         if(playerData != null){
 
-            new PlayerTrigger(player).onTwo(player, target, "~onquit");
+            PlayerTrigger.onPlayer(player, target, "~onquit");
 
             String attackCore = cd.getConfigManager().config.getString("AttackCore");
-            if(attackCore.toLowerCase().contains("customcore")){
+            if(attackCore != null && attackCore.toLowerCase().contains("customcore")){
                 playerData.getBukkitRunnable().cancel();
             }
-            /**儲存人物資料**/
+            //儲存人物資料
             new SaveConfig().setConfig(player);
             PlayerManager.getPlayerDataMap().remove(playerUUID);
 
@@ -111,7 +115,7 @@ public class PlayerListener implements Listener {
     /**當打開背包時**/
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
-        if(event.getWhoClicked() instanceof Player == false){
+        if(!(event.getWhoClicked() instanceof Player)){
             return;
         }
         Player player = (Player) event.getWhoClicked();
@@ -244,32 +248,77 @@ public class PlayerListener implements Listener {
 
 
         Player player = event.getPlayer();
-        String uuidString = player.getUniqueId().toString();
-        String actionName = event.getAction().name();
 
         LivingEntity target = null; //LookTarget.getLivingTarget(player,10);
         Action action = event.getAction();
 
         if(action == Action.LEFT_CLICK_AIR){
-            new PlayerTrigger(player).onTwo(player, target, "~leftclickair");
+            PlayerTrigger.onPlayer(player, target, "~leftclickair");
         }
         if(action == Action.LEFT_CLICK_BLOCK){
-            new PlayerTrigger(player).onTwo(player, target, "~leftclickblock");
+            PlayerTrigger.onPlayer(player, target, "~leftclickblock");
         }
         if(action == Action.RIGHT_CLICK_AIR){
 
-            new PlayerTrigger(player).onTwo(player, target, "~rightclickair");
+            if(getItemCoodDown(player)){
+                event.setCancelled(true);
+                return;
+            }
+            PlayerTrigger.onPlayer(player, target, "~rightclickair");
 
         }
         if(action == Action.RIGHT_CLICK_BLOCK){
-
-            new PlayerTrigger(player).onTwo(player, target, "~rightclickblock");
+            if(getItemCoodDown(player)){
+                event.setCancelled(true);
+                return;
+            }
+            PlayerTrigger.onPlayer(player, target, "~rightclickblock");
 
         }
         if(action == Action.PHYSICAL){
-            new PlayerTrigger(player).onTwo(player, target, "~pressureplate");
+            PlayerTrigger.onPlayer(player, target, "~pressureplate");
         }
 
+    }
+
+    public boolean getItemCoodDown(Player player){
+        boolean coodB = false;
+        String uuidString = player.getUniqueId().toString();
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
+        String coolDownString = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "CoolDownRightClick"), PersistentDataType.STRING);
+        int coolDown = 0;
+        try {
+            //player.sendMessage(coolDownString);
+            coolDown = Integer.parseInt(coolDownString);
+        }catch (NumberFormatException exception){
+
+        }
+        if(PlayerManager.item_Delay_Boolean_Map.get(uuidString) != null){
+            coodB = PlayerManager.item_Delay_Boolean_Map.get(uuidString);
+        }
+        if(coolDown > 0){
+
+            if(PlayerManager.item_Delay_Run_Map.get(uuidString) == null){
+                player.setCooldown(itemStack.getType(),coolDown);
+                PlayerManager.item_Delay_Boolean_Map.put(uuidString, true);
+
+                PlayerManager.item_Delay_Run_Map.put(uuidString, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        cancel();
+                        PlayerManager.item_Delay_Run_Map.remove(uuidString);
+                        PlayerManager.item_Delay_Boolean_Map.put(uuidString, false);
+                    }
+                });
+
+                PlayerManager.item_Delay_Run_Map.get(uuidString).runTaskLater(cd, coolDown);
+            }
+
+        }
+
+        //player.sendMessage(""+coodB);
+
+        return coodB;
     }
 
     /**當經驗值改變時**/
@@ -281,7 +330,7 @@ public class PlayerListener implements Listener {
         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_up_exp_type>","default");
         PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_player_change_exp_amount>",String.valueOf(amount));
 
-        new PlayerTrigger(player).onTwo(player, target, "~onexpup");
+        PlayerTrigger.onPlayer(player, target, "~onexpup");
     }
 
     /**當等級改變時**/
@@ -294,12 +343,12 @@ public class PlayerListener implements Listener {
         if(oldLevel > newLevel){
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_level_type>","default");
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_down_exp_type>","default");
-            new PlayerTrigger(player).onTwo(player, null, "~onleveldown");
+            PlayerTrigger.onPlayer(player, null, "~onleveldown");
 
-            new PlayerTrigger(player).onTwo(player, target, "~onexpdown");
+            PlayerTrigger.onPlayer(player, target, "~onexpdown");
         }else {
             PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_up_level_type>","default");
-            new PlayerTrigger(player).onTwo(player, null, "~onlevelup");
+            PlayerTrigger.onPlayer(player, null, "~onlevelup");
         }
     }
 
@@ -312,9 +361,9 @@ public class PlayerListener implements Listener {
         message = ConversionMain.valueOf(player,null,message);
 
 
-        new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
+        PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_last_chat>",message);
 
-        new PlayerTrigger(player).onTwo(player, null, "~onchat");
+        PlayerTrigger.onPlayer(player, null, "~onchat");
 
 
     }
@@ -423,7 +472,7 @@ public class PlayerListener implements Listener {
         if(event.getEntity() instanceof Player){
             Player player = ((Player) event.getEntity()).getPlayer();
 
-            new PlayerTrigger(player).onTwo(player, target, "~onregainhealth");
+            PlayerTrigger.onPlayer(player, target, "~onregainhealth");
         }
 
     }
@@ -432,12 +481,9 @@ public class PlayerListener implements Listener {
     public void onPlayerMove(PlayerMoveEvent event){
 
         Player player = event.getPlayer();
-//        try {
-//
-//        }catch (Exception exception){
-//
-//        }
-        new PlayerTrigger(player).onTwo(player, target, "~onmove");
+
+        PlayerTrigger.onPlayer(player, target, "~onmove");
+
 
     }
     /**當玩家死亡**/
@@ -458,7 +504,7 @@ public class PlayerListener implements Listener {
         }
 
 
-        new PlayerTrigger(player).onTwo(player, target, "~ondeath");
+        PlayerTrigger.onPlayer(player, target, "~ondeath");
 
     }
     /**當蹲下時**/
@@ -467,9 +513,9 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         if(event.isSneaking()){
 
-            new PlayerTrigger(player).onTwo(player, target, "~onsneak");
+            PlayerTrigger.onPlayer(player, target, "~onsneak");
         }else {
-            new PlayerTrigger(player).onTwo(player, target, "~onstandup");
+            PlayerTrigger.onPlayer(player, target, "~onstandup");
         }
 
     }
@@ -482,7 +528,7 @@ public class PlayerListener implements Listener {
         UUID playerUUID = player.getUniqueId();
         String uuidString = player.getUniqueId().toString();
         if(PlayerManager.getPlayerDataMap().get(playerUUID) != null){
-            new PlayerTrigger(player).onTwo(player, target, "~onkeyfoff");
+            PlayerTrigger.onPlayer(player, target, "~onkeyfoff");
             ListenerManager.getCast_On_Stop().put(uuidString,false);
         }
 
@@ -498,12 +544,12 @@ public class PlayerListener implements Listener {
         String uuidString = player.getUniqueId().toString();
         if(ListenerManager.getCast_On_Stop().get(uuidString) == true){
             if(PlayerManager.getPlayerDataMap().get(playerUUID) != null){
-                new PlayerTrigger(player).onTwo(player, target, "~onkeyfoff");
+                PlayerTrigger.onPlayer(player, target, "~onkeyfoff");
             }
             ListenerManager.getCast_On_Stop().put(uuidString,false);
         }else {
             if(PlayerManager.getPlayerDataMap().get(playerUUID) != null){
-                new PlayerTrigger(player).onTwo(player, target, "~onkeyfon");
+                PlayerTrigger.onPlayer(player, target, "~onkeyfon");
             }
             ListenerManager.getCast_On_Stop().put(uuidString,true);
         }
@@ -558,31 +604,31 @@ public class PlayerListener implements Listener {
             LivingEntity target = LookTarget.getLivingTarget(player,10);
             switch(key){
                 case 0:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey1");
+                    PlayerTrigger.onPlayer(player, target, "~onkey1");
                     break;
                 case 1:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey2");
+                    PlayerTrigger.onPlayer(player, target, "~onkey2");
                     break;
                 case 2:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey3");
+                    PlayerTrigger.onPlayer(player, target, "~onkey3");
                     break;
                 case 3:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey4");
+                    PlayerTrigger.onPlayer(player, target, "~onkey4");
                     break;
                 case 4:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey5");
+                    PlayerTrigger.onPlayer(player, target, "~onkey5");
                     break;
                 case 5:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey6");
+                    PlayerTrigger.onPlayer(player, target, "~onkey6");
                     break;
                 case 6:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey7");
+                    PlayerTrigger.onPlayer(player, target, "~onkey7");
                     break;
                 case 7:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey8");
+                    PlayerTrigger.onPlayer(player, target, "~onkey8");
                     break;
                 case 8:
-                    new PlayerTrigger(player).onTwo(player, target, "~onkey9");
+                    PlayerTrigger.onPlayer(player, target, "~onkey9");
                     break;
             }
         }

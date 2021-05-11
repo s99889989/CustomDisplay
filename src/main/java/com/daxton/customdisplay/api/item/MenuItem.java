@@ -160,17 +160,11 @@ public class MenuItem {
             itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         }
 
-        String coolDown = itemConfig.getString(itemID+".CoolDown");
-        if(coolDown != null){
-            int cool = 0;
-            try{
-                cool = Integer.parseInt(coolDown);
-            }catch (NumberFormatException exception){
-
-            }
+        int coolDown = itemConfig.getInt(itemID+".CoolDown.RightClick");
+        if(coolDown > 0){
             PersistentDataContainer data = itemMeta.getPersistentDataContainer();
-            NamespacedKey xd = new NamespacedKey(cd, "CoolDown");
-            data.set(xd , PersistentDataType.STRING, String.valueOf(cool));
+            NamespacedKey xd = new NamespacedKey(cd, "CoolDownRightClick");
+            data.set(xd , PersistentDataType.STRING, String.valueOf(coolDown));
         }
 
         /**物品Lore**/

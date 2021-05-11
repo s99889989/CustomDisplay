@@ -27,5 +27,11 @@ Items:
       - ''
       - '§7Potion area'
 
+    SkillEffect:
+      DisplayMaterial: FEATHER:2
+      ShowName: '§eSkillEffect'
+      Lore:
+      - ''
+      - '§7Skill Effect'
 
 

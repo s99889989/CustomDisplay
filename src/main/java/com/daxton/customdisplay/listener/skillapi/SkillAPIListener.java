@@ -38,11 +38,11 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
+                PlayerTrigger.onPlayer(player, target, "~onatkmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onTwo(player, target, "~onmagic");
+                PlayerTrigger.onPlayer(player, target, "~onmagic");
             }
 
 
@@ -69,11 +69,11 @@ public class SkillAPIListener extends AttributeListener implements Listener{
             if (event.isCancelled()) {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>","Miss");
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,"Miss");
-                new PlayerTrigger(player).onTwo(player, target, "~onatkmiss");
+                PlayerTrigger.onPlayer(player, target, "~onatkmiss");
             }else {
                 PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_attack_number>",String.valueOf(damageNumber));
                 PlaceholderManager.cd_Attack_Number.put(uuidString+tUUIDString,String.valueOf(damageNumber));
-                new PlayerTrigger(player).onTwo(player, target, "~onattack");
+                PlayerTrigger.onPlayer(player, target, "~onattack");
             }
 
 

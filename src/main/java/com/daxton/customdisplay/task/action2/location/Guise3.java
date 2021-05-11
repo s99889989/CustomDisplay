@@ -27,8 +27,8 @@ public class Guise3 {
     private final CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     private Map<String, String> action_Map;
-    private LivingEntity self = null;
-    private LivingEntity target = null;
+    private LivingEntity self;
+    private LivingEntity target;
     private String taskID;
 
     private PacketEntity packetEntity;
