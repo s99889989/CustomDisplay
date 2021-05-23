@@ -1,0 +1,26 @@
+
+Stats_Ro_Class:
+#人物屬性
+  #種族
+  Class_Race:
+    formula: '人形'
+  #體型
+  Class_Body:
+    formula: '中型'
+#基礎屬性
+#-------------------------------------------#
+  #物理攻擊
+  Class_Physical_Attack:
+    formula: '10'
+  #弓箭普通攻擊
+  Class_Range_Physical_Attack:
+    formula: '20'
+
+
+
+
+
+
+
+
+

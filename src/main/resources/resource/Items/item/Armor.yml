@@ -1,0 +1,5 @@
+head:
+  Material: IRON_HELMET
+  DisplayName: 測試用頭盔
+  CustomAttrs:
+  - '§7物理攻擊 : 10'

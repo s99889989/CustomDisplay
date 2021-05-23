@@ -104,6 +104,8 @@ public class CreatJson {
                         out.newLine();
                         out.write("    \"parent\": \"item/handheld\",");
                         out.newLine();
+                        out.write("    \"gui_light\": \"front\",");
+                        out.newLine();
                         out.write("    \"textures\": {");
                         out.newLine();
                         out.write("        \"layer0\": \"item/"+item+"/"+i+"\"");

@@ -1,0 +1,148 @@
+Title: '職業列表'
+
+Sort:
+- 'Class_Default|PlayerTotal.1.2.3.Novice.5.6.7.Class_Default|Close'
+- '9.Swordman.11.12.Magician.14.15.Archer.17'
+- 'Knight.19.Crusader.Wizard.22.Sage.Hunter.Bard.Dancer'
+- '27.28.29.30.31.32.33.34.35'
+- '36.37.38.39.40.41.42.43.44'
+- '45.46.47.48.49.50.51.52.53'
+
+
+Buttons:
+
+  Novice:
+    RawSlot: 4
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 300
+    RemoveItemFlags: true
+    Name: '{#f77703}初心者'
+    Lore:
+    - ''
+    Left:
+    - Action[a=rebirth_Novice]
+    
+  Swordman:
+    RawSlot: 10
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 301
+    RemoveItemFlags: true
+    Name: '{#f77703}劍士'
+    Lore:
+    - ''
+    Left:
+    - Action[a=changeclass_Swordman]
+
+  Knight:
+    RawSlot: 18
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 304
+    RemoveItemFlags: true
+    Name: '{#f77703}騎士'
+    Lore:
+    - ''
+    Left:
+    - Action[a=EmojiHelpHD]
+
+  Crusader:
+    RawSlot: 20
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 305
+    RemoveItemFlags: true
+    Name: '{#f77703}十字軍'
+    Lore:
+    - ''
+    Left:
+    - Action[a=EmojiHelpHD]
+
+  Magician:
+    RawSlot: 13
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 302
+    RemoveItemFlags: true
+    Name: '{#f77703}魔法師'
+    Lore:
+    - ''
+    Left:
+    - Action[a=changeclass_Magician]
+
+  Wizard:
+    RawSlot: 21
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 306
+    RemoveItemFlags: true
+    Name: '{#f77703}巫師'
+    Lore:
+    - ''
+    Left:
+    - Action[a=EmojiHelpHD]
+
+  Sage:
+    RawSlot: 23
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 307
+    RemoveItemFlags: true
+    Name: '{#f77703}賢者'
+    Lore:
+    - ''
+    Left:
+    - Action[a=EmojiHelpHD]
+
+  Archer:
+    RawSlot: 16
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 303
+    RemoveItemFlags: true
+    Name: '{#f77703}弓箭手'
+    Lore:
+    - ''
+    Left:
+    - Action[a=changeclass_Archer]
+
+  Hunter:
+    RawSlot: 24
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 308
+    RemoveItemFlags: true
+    Name: '{#f77703}獵人'
+    Lore:
+    - ''
+    Left:
+    - Action[a=EmojiHelpHD]
+
+  Bard:
+    RawSlot: 25
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 309
+    RemoveItemFlags: true
+    Name: '{#f77703}吟遊詩人'
+    Lore:
+    - ''
+    Left:
+    - Action[a=EmojiHelpHD]
+
+  Dancer:
+    RawSlot: 26
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 310
+    RemoveItemFlags: true
+    Name: '{#f77703}舞孃'
+    Lore:
+    - ''
+    Left:
+    - Action[a=EmojiHelpHD]
+
+
+
+

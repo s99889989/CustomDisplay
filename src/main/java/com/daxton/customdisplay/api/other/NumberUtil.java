@@ -33,6 +33,25 @@ public class NumberUtil {
         decimalString = string;
     }
 
+    //位數轉換**/
+    public static double valueOf(double number, String decimal){
+        DecimalFormat decimalFormat = new DecimalFormat(decimal);
+        String string = decimalFormat.format(number);
+        if(string.contains(",")){
+            string = string.replace(",",".");
+        }
+        if(string.endsWith(".0")){
+            string = string.replace(".0","");
+        }
+        double out;
+        try {
+            out = Double.parseDouble(string);
+        }catch (NumberFormatException exception){
+            out = 0;
+        }
+        return out;
+    }
+
     /**單字左右邊加上字**/
     public String stringAddRight2(String string, String content){
         String[] contests = content.split(",");

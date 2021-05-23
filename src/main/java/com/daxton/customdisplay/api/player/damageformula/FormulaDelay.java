@@ -4,6 +4,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
@@ -182,7 +183,7 @@ public class FormulaDelay {
                 hologram = HologramsAPI.createHologram(cd, inputTarget.getLocation().add(0,cast_Hight,0));
 
                 if(item_Enable){
-                    ItemStack newItemStack = CustomItem.valueOf(player,inputTarget, cast_Item, 1);
+                    ItemStack newItemStack = CustomItem2.valueOf(player,inputTarget, cast_Item, 1);
                     hologram.appendItemLine(newItemStack);
                 }
                 if(line_Enable){

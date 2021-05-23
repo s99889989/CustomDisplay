@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.gui.item;
 
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
@@ -334,7 +335,8 @@ public class ItemSet {
     //給物品
     public void giveItem(){
 
-        ItemStack itemStack = MenuItem.valueOf(this.itemConfig, this.itemID);
+        //ItemStack itemStack = MenuItem.valueOf(this.itemConfig, this.itemID);
+        ItemStack itemStack = CustomItem2.valueOf(this.player, null, this.typeName+"."+this.itemID, 1);
         this.player.getInventory().addItem(itemStack);
     }
 

@@ -1,9 +1,5 @@
 Novice:
-  FireBall:
-    level: 1
-    damage: 5
-    cooldown: 1
-    CastTime: 1
-    Delay: 1
-    mana: 10
-    
+  Novice_FirstAid:
+    base: 0
+  Novice_Slam:
+    base: 0

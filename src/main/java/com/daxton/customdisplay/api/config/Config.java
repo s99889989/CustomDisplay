@@ -44,6 +44,7 @@ public class Config {
         return headList;
     }
 
+    //以開頭獲取檔案列表
     public static List<FileConfiguration> getTypeConfigList(String typeName){
         List<FileConfiguration> configTypeList = new ArrayList<>();
         ConfigMapManager.getFileConfigurationMap().forEach((s, fileConfiguration) -> {
@@ -62,6 +63,19 @@ public class Config {
         ConfigMapManager.getFileConfigurationMap().forEach((s, fileConfiguration) -> {
             if(s.startsWith(typeName)){
                 class_Action_Map.put(s, fileConfiguration);
+            }
+        });
+
+        return class_Action_Map;
+    }
+
+    //移除類別
+    public static Map<String, FileConfiguration> getTypeConfigMap2(String typeName){
+        Map<String, FileConfiguration> class_Action_Map = new HashMap<>();
+
+        ConfigMapManager.getFileConfigurationMap().forEach((s, fileConfiguration) -> {
+            if(s.startsWith(typeName)){
+                class_Action_Map.put(s.replace(typeName, "").replace(".yml",""), fileConfiguration);
             }
         });
 

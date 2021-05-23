@@ -1,9 +1,10 @@
 package com.daxton.customdisplay.gui.item.edititem.editaction;
 
 import com.daxton.customdisplay.api.config.Config;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -39,6 +40,8 @@ public class ActionList {
 
     public String actionOrderType = "";
 
+    public String actionType;
+
     public ActionList(){
 
     }
@@ -61,6 +64,7 @@ public class ActionList {
             boolean haveNext = EditorGUIManager.menu_ActionList_Map.get(uuidString).haveNext;
             int previousPageCount = EditorGUIManager.menu_ActionList_Map.get(uuidString).previousPageCount;
             boolean havePrevioust = EditorGUIManager.menu_ActionList_Map.get(uuidString).havePrevioust;
+            String actionType = EditorGUIManager.menu_ActionList_Map.get(uuidString).actionType;
 
             int actionOrder = EditorGUIManager.menu_ActionList_Map.get(uuidString).actionOrder;
             String actionOrderType = EditorGUIManager.menu_ActionList_Map.get(uuidString).actionOrderType;
@@ -97,11 +101,11 @@ public class ActionList {
 
                 }
                 if(havePrevioust && i == 45){
-                    OpenMenuGUI.ItemList(player, typeName, itemName, previousPageCount);
+                    OpenMenuGUI.EditActionList(player, typeName, itemName, actionType, previousPageCount, actionOrder, actionOrderType);
                     return;
                 }
                 if(haveNext && i == 53){
-                    OpenMenuGUI.ItemList(player, typeName, itemName, nextPageCount);
+                    OpenMenuGUI.EditActionList(player, typeName, itemName, actionType, nextPageCount, actionOrder, actionOrderType);
                 }
 
 
@@ -119,23 +123,24 @@ public class ActionList {
 
         String uuidString = player.getUniqueId().toString();
         if(EditorGUIManager.menu_ActionList_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_ActionList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, actionType, itemCount, actionOrder, editType));
+            EditorGUIManager.menu_ActionList_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, actionType, itemCount, actionOrder, editType));
             Inventory inventory = EditorGUIManager.menu_ActionList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }else{
             EditorGUIManager.menu_ActionList_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_ActionList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, actionType, itemCount, actionOrder, editType));
+            EditorGUIManager.menu_ActionList_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, actionType, itemCount, actionOrder, editType));
             Inventory inventory = EditorGUIManager.menu_ActionList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }
 
     }
 
-    public Inventory getInventory(String typeName, String itemName, String actionType, int itemCount, int actionOrder, String editType){
+    public Inventory getInventory(Player player, String typeName, String itemName, String actionType, int itemCount, int actionOrder, String editType){
         this.typeName = typeName;
         this.itemName = itemName;
         this.actionOrder = actionOrder;
         this.actionOrderType = editType;
+        this.actionType = actionType;
 
         //CustomDisplay.getCustomDisplay().getLogger().info(typeName+" : "+itemName+" : "+actionType+" : "+itemCount+" : "+actionOrder+" : "+editType);
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+typeName+".yml");
@@ -174,7 +179,8 @@ public class ActionList {
             inventory.setItem(53, ButtomSet.getItemButtom("Buttom.ActionList.NextPage", ""));
         }
 
-        inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
+        inventory.setItem(4, CustomItem2.valueOf(player, null, typeName+"."+itemName, 1));
+        //inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
         inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.ActionList.ToEditItem", ""));
         inventory.setItem(8, ButtomSet.getItemButtom("Buttom.ActionList.Exit", ""));

@@ -73,7 +73,7 @@ public class Guise3 {
         //要裝備的部位
         String equipmentSlot = actionMapHandle.getString(new String[]{"equipmentslot","es"},"HEAD");
 
-        //座標要加上自己還是目標
+        //是否要移動
         boolean teleport = actionMapHandle.getBoolean(new String[]{"teleport","tp"}, false);
 
         //顯示的時間
@@ -94,11 +94,10 @@ public class Guise3 {
 
                 if(packetEntity_Map.get(livTaskID) == null){
                     if(location != null){
-                        // player.sendMessage(livTaskID+"高度: "+location.getY());
+
                         location = location.add(0,-getEntityHight(entityType),0);
                         packetEntity_Map.put(livTaskID, new PacketEntity().createPacketEntity(entityType, player, location));
 
-                        //location.setY(location.getY()-getEntityHight(entityType));
                         location_Map.put(livTaskID, location);
 
                     }
@@ -119,7 +118,7 @@ public class Guise3 {
 
                     String ent = packetEntity.getEntityTypeName();
                     if(ent.equals("ARMOR_STAND")){
-                        setArmorStand(self , target, action_Map, packetEntity);
+                        setArmorStand(self , target, action_Map, packetEntity, livTaskID);
                     }
 
                     if(!visible){
@@ -168,9 +167,13 @@ public class Guise3 {
 
     }
 
-    public void setArmorStand(LivingEntity self, LivingEntity target, Map<String, String> action_Map, PacketEntity packetEntity){
+    public void setArmorStand(LivingEntity self, LivingEntity target, Map<String, String> action_Map, PacketEntity packetEntity, String livTaskID){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
+
+        String[] HeadAddLoc = actionMapHandle.getStringList(new String[]{"HeadAddLoc","hal"},new String[]{"false","false"},"\\|",2);
+        boolean headPitch = Boolean.parseBoolean(HeadAddLoc[0]);
+        boolean headYaw = Boolean.parseBoolean(HeadAddLoc[1]);
 
         //頭的角度
         float headX = 0;
@@ -188,6 +191,16 @@ public class Guise3 {
                 headY = 0;
                 headZ = 0;
             }
+        }
+        if(location_Map.get(livTaskID) != null){
+            Location location = location_Map.get(livTaskID);
+            if(headPitch){
+                headX += location.getPitch();
+            }
+            if(headYaw){
+                headY += location.getYaw();
+            }
+
         }
         packetEntity.setArmorStandAngle("head",headX,headY,headZ);
         //身體的角度

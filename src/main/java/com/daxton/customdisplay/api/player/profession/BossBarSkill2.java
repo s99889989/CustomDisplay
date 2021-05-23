@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.config.CustomLineConfigList;
 import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public class BossBarSkill2 {
 
     public void openSkill(Player player, int mainKey){
         String uuidString = player.getUniqueId().toString();
-        UUID playerUUID = player.getUniqueId();
+
 
         FileConfiguration skillStatusConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Status.yml");
 
@@ -48,14 +49,14 @@ public class BossBarSkill2 {
         /**技能空顯示**/
         String skill_Null = skillStatusConfig.getString("BossBar1.Skill_Show.Skill_Null");
 
-        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
+        PlayerData2 playerData = PlayerManager.player_Data_Map.get(uuidString);
 
-        if(!playerData.skill_Name_Map.isEmpty()){
-            playerData.skill_Name_Map.clear();
-        }
-        if(!playerData.skill_Custom_Map.isEmpty()){
-            playerData.skill_Custom_Map.clear();
-        }
+//        if(!playerData.skill_Name_Map.isEmpty()){
+//            playerData.skill_Name_Map.clear();
+//        }
+//        if(!playerData.skill_Custom_Map.isEmpty()){
+//            playerData.skill_Custom_Map.clear();
+//        }
 
         if(playerData != null){
         int binds = 0;
@@ -67,7 +68,8 @@ public class BossBarSkill2 {
                 if(binds < 9){
                     binds++;
                 }
-                String skillName = playerData.binds_Map.get(binds+"_skillName");
+                String skillName = playerData.getBindName(String.valueOf(binds));
+                //playerData.binds_Map.get(binds+"_skillName");
 
                 if(skillName.equals("null")){
                     skillBarShow1[i-1] = skill_Null;
@@ -82,11 +84,11 @@ public class BossBarSkill2 {
                         //List<CustomLineConfig> skillCustom = new CustomLineConfigList().valueOf(skillAction);
                         List<Map<String, String>> skillCustom = SetActionMap.setClassActionList(skillAction);
 
-                        if(skillAction != null){
-                            playerData.skill_Name_Map.put(uuidString+"."+i,skillName);
-                            //PlayerDataMap.skill_Key_Map.put(uuidString+"."+i,skillAction);
-                            playerData.skill_Custom_Map.put(uuidString+"."+i, skillCustom);
-                        }
+//                        if(skillAction != null){
+//                            playerData.skill_Name_Map.put(uuidString+"."+i,skillName);
+//                            //PlayerDataMap.skill_Key_Map.put(uuidString+"."+i,skillAction);
+//                            playerData.skill_Custom_Map.put(uuidString+"."+i, skillCustom);
+//                        }
 
                         skillBarShow1[i-1] = barName;
                     }catch (NullPointerException exception){

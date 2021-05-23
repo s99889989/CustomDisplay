@@ -1,0 +1,36 @@
+Action:
+#顯示ActionBar狀態欄。
+#Show the ActionBar status bar.
+#-------------------------------------------------------------------------#
+- Action[a=Class_ActionBarDisplay;mark=&self_name&Class_ActionBarDisplay] ~onJoin
+- Action[mark=&self_name&Class_ActionBarDisplay;stop=true] ~onQuit
+
+#打開個人資訊GUI
+#Open the personal information GUI
+#-------------------------------------------------------------------------#
+- SwitchAction[cc=&self_class_name&;ct=equals;c=初心者|弓箭手|劍士|魔法師;a=Open_Gui_Player_Total_0|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1] ~onCommand
+
+#殺死怪物獲得Base經驗。
+#Kill monsters to gain Base experience.
+#-------------------------------------------------------------------------#
+- Action[a=GetBaseExp] ~onMMobDeath
+
+#Base等級上升獲得Base點數。
+#Increase your Base level to earn Base points.
+#-------------------------------------------------------------------------#
+- Action[a=GetBasePoint] ~onLevelUp
+
+#用名稱顯示寫量和一些屬性。
+#
+#-------------------------------------------------------------------------#
+- Action[a=NameDisplayMonster;mark=&nd_self_name&&nd_target_uuid&NameDisplayMonster] ~onAttack
+- Action[a=NameDisplayMonster;mark=&nd_self_name&&nd_target_uuid&NameDisplayMonster] ~onMagic
+
+
+
+
+
+
+
+
+

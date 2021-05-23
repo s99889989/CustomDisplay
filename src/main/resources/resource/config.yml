@@ -13,24 +13,6 @@ HealthScale:
   enable: true
   scale: 20
 
-#權限設定
-#Permission setting
-Permission:
-  #開啟這項功能可以在加上權限後，馬上使用該項動作。
-  #Enabling this function can use this action immediately after adding permissions.
-  fastUse: false
-
-#職業
-#Class
-Class:
-  #技能
-  #Skill
-  Skill: false
-  #近戰攻擊修改(暫無)
-  #Melee attack modification (not yet)
-  MeleeAttackModification: false
-
-
 #更改聊天(暫無)
 #Change chat (not yet)
 Message:
@@ -58,7 +40,7 @@ ResourcePack:
   
   #材質包連結
   #Texture Pack Link
-  url: "https://www.dropbox.com/s/5oqtspmg2sb4vr5/%E6%95%B8%E5%AD%97%E6%9D%90%E8%B3%AA-1.13.zip?dl=1" 
+  url: "https://www.dropbox.com/s/wbrijcvxaqhndrq/%E6%95%B8%E5%AD%97%E6%9D%90%E8%B3%AA-1.16.zip?dl=1" 
   #材質包標記。
   #Material package mark.
   hash: "1.12"

@@ -45,6 +45,43 @@ public class Convert {
         return player;
     }
 
+    //把一些攻擊轉換成玩家 去掉一些目標
+    public static Player convertPlayer2(Entity entity){
+        Player player = null;
+        if(entity instanceof Arrow){
+            if(((Arrow) entity).getShooter() instanceof Player){
+                player = (Player) ((Arrow) entity).getShooter();
+                return player;
+            }
+        }
+        if(entity instanceof ThrownPotion){
+            if(((ThrownPotion) entity).getShooter() instanceof Player){
+                player = (Player) ((ThrownPotion) entity).getShooter();
+                return player;
+            }
+        }
+        if(entity instanceof TNTPrimed){
+            if(((TNTPrimed) entity).getSource() instanceof Player){
+                player = (Player) ((TNTPrimed) entity).getSource();
+                return player;
+            }
+        }
+        if(entity instanceof Projectile){
+            if(((Projectile) entity).getShooter() instanceof Player){
+                player = (Player) ((Projectile) entity).getShooter();
+                return player;
+            }
+        }
+        if(entity instanceof Fireball){
+            if(((Fireball) entity).getShooter() instanceof Player){
+                player = (Player) ((Fireball) entity).getShooter();
+                return player;
+            }
+        }
+
+        return player;
+    }
+
     /**把寵物殺死的目標轉換為玩家**/
     public static Player convertKillerPlayer(LivingEntity killer){
         Player player = null;

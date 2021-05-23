@@ -1,10 +1,11 @@
 package com.daxton.customdisplay.gui.item.edititem.editaction;
 
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
@@ -227,13 +228,13 @@ public class EditActionDetail {
         String uuidString = player.getUniqueId().toString();
         //player.sendMessage(actionOrder+" : "+actionOrderType);
         if(EditorGUIManager.menu_EditActionDetail_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_EditActionDetail_Inventory_Map.put(uuidString, getInventory(typeName, itemName, actionOrder, actionOrderType));
+            EditorGUIManager.menu_EditActionDetail_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, actionOrder, actionOrderType));
             Inventory inventory = EditorGUIManager.menu_EditActionDetail_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
             EditorGUIManager.menu_EditActionDetail_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_EditActionDetail_Inventory_Map.put(uuidString, getInventory(typeName, itemName, actionOrder, actionOrderType));
+            EditorGUIManager.menu_EditActionDetail_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, actionOrder, actionOrderType));
             Inventory inventory = EditorGUIManager.menu_EditActionDetail_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
@@ -241,7 +242,7 @@ public class EditActionDetail {
 
     }
 
-    public Inventory getInventory(String typeName, String itemName, int actionOrder, String actionOrderType){
+    public Inventory getInventory(Player player, String typeName, String itemName, int actionOrder, String actionOrderType){
         this.typeName = typeName;
         this.itemName = itemName;
         this.actionOrder = actionOrder;
@@ -251,7 +252,8 @@ public class EditActionDetail {
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+typeName+".yml");
         Inventory inventory = Bukkit.createInventory(null, 54 , MenuSet.getGuiTitle("EditActionDetail"));
 
-        inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
+        inventory.setItem(4, CustomItem2.valueOf(player, null, typeName+"."+itemName, 1));
+        //inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
         inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.EditActionDetail.ToEditItem",""));
         inventory.setItem(8,  ButtomSet.getItemButtom("Buttom.EditActionDetail.Exit",""));

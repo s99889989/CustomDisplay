@@ -13,29 +13,14 @@ import java.util.Map;
 
 public class Action3 {
 
-    private final CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private LivingEntity self;
-    private LivingEntity target;
-    private Map<String, String> action_Map;
-    private String taskID;
 
     public Action3(){
     }
 
-    public void setAction(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static void setAction(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-        this.self = self;
-        this.target = target;
-        this.action_Map = action_Map;
-        this.taskID = taskID;
-
-        stringSetting();
-    }
-
-    public void stringSetting(){
-
-        ActionMapHandle actionMapHandle = new ActionMapHandle(this.action_Map, this.self, this.target);
+        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
         /**動作列表**/
         List<Map<String, String>> action_Map_List = actionMapHandle.getActionMapList(new String[]{"action","a"}, null);
@@ -59,11 +44,11 @@ public class Action3 {
                         if(targetList.size() > 0){
                             for(LivingEntity livingEntity : targetList){
                                 String uuidString = livingEntity.getUniqueId().toString();
-                                startAction(action_Map_List, taskID+uuidString+(int)(Math.random()*1000), livingEntity);
+                                startAction(action_Map_List, taskID+uuidString+(int)(Math.random()*1000), self, livingEntity);
                             }
                         }else {
                             //if(target == null){
-                                startAction(action_Map_List, taskID, null);
+                            startAction(action_Map_List, taskID, self, null);
                             //}
                         }
 
@@ -77,31 +62,33 @@ public class Action3 {
             if(targetList.size() > 0){
                 for(LivingEntity livingEntity : targetList){
                     String uuidString = livingEntity.getUniqueId().toString();
-                    startAction(action_Map_List, taskID+uuidString, livingEntity);
+                    startAction(action_Map_List, taskID+uuidString, self, livingEntity);
                 }
             }else {
 
-                startAction(action_Map_List ,taskID, null);
+                startAction(action_Map_List ,taskID, self, null);
 
             }
 
 
         }
-
-
     }
 
-    public void startAction(List<Map<String, String>> action_Map_List, String taskID, LivingEntity livingEntity){
+
+
+    public static void startAction(List<Map<String, String>> action_Map_List, String taskID, LivingEntity self, LivingEntity livingEntity){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
         new ClearAction().taskID2(taskID);
         int delay = 0;
 
         for(Map<String, String> stringStringMap : action_Map_List){
 
-            ActionMapHandle actionMapHandle = new ActionMapHandle(stringStringMap, this.self, livingEntity);
+            ActionMapHandle actionMapHandle = new ActionMapHandle(stringStringMap, self, livingEntity);
             String judgMent = actionMapHandle.getString(new String[]{"actiontype"}, "");
-
+            //cd.getLogger().info(judgMent+" : "+taskID);
             if(judgMent.toLowerCase().contains("break")){
-                if(!new Break(this.self, livingEntity, stringStringMap, this.taskID).isResult()){
+                if(!Break.valueOf(self, livingEntity, stringStringMap, taskID)){
                     return;
                 }
             }
@@ -113,13 +100,13 @@ public class Action3 {
 
             if(!judgMent.toLowerCase().contains("break") && !judgMent.toLowerCase().contains("delay")){
 
-                BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         new JudgmentAction2().execute(self, livingEntity, stringStringMap, taskID);
                     }
-                };
-                bukkitRunnable.runTaskLater(cd,delay);
+                }.runTaskLater(cd,delay);
+
             }
         }
 

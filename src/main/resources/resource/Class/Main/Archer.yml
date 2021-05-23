@@ -1,0 +1,24 @@
+Archer:
+  Class_Name: '弓箭手'
+  Action:
+  - 'Default'
+  - 'Class'
+  - 'Archer'
+  Level:
+  - 'base'
+  - 'job'
+  - 'job1'
+  Point:
+  - 'base'
+  - 'job'
+  - 'job1'
+  Attributes_Point:
+  - 'Point_Novice'
+  Attributes_Stats:
+  - 'Stats_Ro_Novice'
+  - 'Stats_Ro_Class'
+  Equipment_Stats:
+  - 'Stats_Equipment'
+  Skills:
+  - Novice
+  - Archer

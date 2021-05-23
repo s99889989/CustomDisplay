@@ -1,8 +1,9 @@
 package com.daxton.customdisplay.gui.item;
 
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
 import org.bukkit.Bukkit;
@@ -105,7 +106,8 @@ public class SelectItems {
                 }
                 //給物品
                 if(RawSlot.get(i) != null && RawSlot.get(i) == i){
-                    ItemStack itemStack = MenuItem.valueOf(itemMenuConfig, itmeName.get(i));
+                    ItemStack itemStack = CustomItem2.valueOf(player, null, typeName+"."+itmeName.get(i), 1);
+                    //ItemStack itemStack = MenuItem.valueOf(itemMenuConfig, itmeName.get(i));
                     player.getInventory().addItem(itemStack);
                     return;
                 }
@@ -144,19 +146,19 @@ public class SelectItems {
 
         String uuidString = player.getUniqueId().toString();
         if(EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(typeName, itemCount));
+            EditorGUIManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(player, typeName, itemCount));
             Inventory inventory = EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }else{
             EditorGUIManager.menu_SelectItems_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(typeName, itemCount));
+            EditorGUIManager.menu_SelectItems_Inventory_Map.put(uuidString, getInventory(player, typeName, itemCount));
             Inventory inventory = EditorGUIManager.menu_SelectItems_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }
     }
 
 
-    public Inventory getInventory(String typeName, int itemCount){
+    public Inventory getInventory(Player player, String typeName, int itemCount){
         this.typeName = typeName;
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+ typeName +".yml");
         this.itemMenuConfig = itemMenuConfig;
@@ -184,7 +186,8 @@ public class SelectItems {
             }
             this.RawSlot.put(i,i);
             this.itmeID.put(i,stringArray[k]);
-            inventory.setItem(i, MenuItem.valueOf(itemMenuConfig, stringArray[k]));
+            //inventory.setItem(i, MenuItem.valueOf(itemMenuConfig, stringArray[k]));
+            inventory.setItem(i, CustomItem2.valueOf(player, null, typeName+"."+stringArray[k], 1));
             i++;
             this.nextPageCount++;
         }

@@ -16,10 +16,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class SetName3 {
 
@@ -36,7 +33,7 @@ public class SetName3 {
 
         List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListTarget();
 
-        List<Entity> entityList = Arrays.asList(self.getChunk().getEntities());
+        List<Entity> entityList = new ArrayList<>(Bukkit.getOnlinePlayers());
         entityList.forEach(entity -> {
             if(entity instanceof Player){
                 Player player = (Player) entity;
@@ -62,12 +59,12 @@ public class SetName3 {
 
 
 
-//    public void updateEntity(Player player) {
+//    public static void updateEntity(Player player, LivingEntity livingEntity) {
 //
 //        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
-//        packet.getIntegers().write(0, target.getEntityId());
-//        packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(target).getWatchableObjects());
-//        if (player.getWorld().equals(target.getWorld())) {
+//        packet.getIntegers().write(0, livingEntity.getEntityId());
+//        packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(livingEntity).getWatchableObjects());
+//        if (player.getWorld().equals(livingEntity.getWorld())) {
 //            try {
 //                ActionManager.protocolManager.sendServerPacket(player, packet);
 //            } catch (InvocationTargetException e) {
@@ -87,9 +84,7 @@ public class SetName3 {
 
         Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage(message)[0].getHandle());
         watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true)), opt);
-
         watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), always);
-
         packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
 
         try {

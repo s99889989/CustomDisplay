@@ -1,8 +1,9 @@
 package com.daxton.customdisplay.gui.item;
 
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
 
@@ -275,13 +276,13 @@ public class EditItem {
         String uuidString = player.getUniqueId().toString();
 
         if(EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            EditorGUIManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName));
             Inventory inventory = EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
             EditorGUIManager.menu_EditItem_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            EditorGUIManager.menu_EditItem_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName));
             Inventory inventory = EditorGUIManager.menu_EditItem_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
@@ -289,7 +290,7 @@ public class EditItem {
 
     }
 
-    public Inventory getInventory(String typeName, String itemName){
+    public Inventory getInventory(Player player, String typeName, String itemName){
         this.typeName = typeName;
         this.itemID = itemName;
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+typeName+".yml");
@@ -297,8 +298,8 @@ public class EditItem {
         Inventory inventory = Bukkit.createInventory(null, 54 , MenuSet.getGuiTitle("EditItem"));
 
 
-        inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
-
+        inventory.setItem(4, CustomItem2.valueOf(player, null, typeName+"."+itemName, 1));
+        //inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
         inventory.setItem(0, ButtomSet.getItemButtom("Buttom.EditItem.ToSelectItems", ""));
         inventory.setItem(8, ButtomSet.getItemButtom("Buttom.EditItem.Exit", ""));

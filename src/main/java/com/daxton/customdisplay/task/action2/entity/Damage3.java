@@ -3,9 +3,11 @@ package com.daxton.customdisplay.task.action2.entity;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
+import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.Map;
@@ -13,59 +15,90 @@ import java.util.Map;
 
 public class Damage3 {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private LivingEntity self = null;
-    private LivingEntity target = null;
-    private Map<String, String> action_Map;
-
     public Damage3(){
 
-    }
-
-    public void setDamage(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
-        this.self = self;
-        this.target = target;
-        this.action_Map = action_Map;
-
-        //setOther();
     }
 
     public static void setOther(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        double amount = actionMapHandle.getDouble(new String[]{"amount","a"},1);
+        int amount = actionMapHandle.getInt(new String[]{"amount","a"},1);
+
+        String type = actionMapHandle.getString(new String[]{"type","t"},"");
 
         List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListTarget();
 
+        type = type.toLowerCase();
+
+
+        if(type.equals("range_multiply")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.3444440000000001));
+            return;
+        }
+        if(type.equals("range_add")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.3333330000000001));
+            return;
+        }
+        if(type.equals("range_attack")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.3222220000000001));
+            return;
+        }
+
+        if(type.equals("magic_multiply")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.2444440000000001));
+            return;
+        }
+        if(type.equals("magic_add")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.2333330000000001));
+            return;
+        }
+        if(type.equals("magic_attack")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.2222220000000001));
+            return;
+        }
+
+        if(type.equals("melee_multiply")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.1444440000000001));
+            return;
+        }
+        if(type.equals("melee_add")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount+0.1333330000000001));
+            return;
+        }
+        if(type.equals("melee_attack")){
+            livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount));
+            return;
+        }
         livingEntityList.forEach(livingEntity ->  setDamage(self, livingEntity, amount));
-
-
-        //PlayerDataMap.attack_Boolean4_Map.put(self.getUniqueId().toString(),false);
-//        if(target != null){
-//            setDamage(self, target, amount);
-//        }
-
-//        if(target != null){
-//            if(type.equals("SKILL_MELEE_PHYSICAL_ATTACK")){
-//                giveMeleePhysicalDamage(self,target,amount,operate);
-//            }else if(type.equals("SKILL_RANGE_PHYSICAL_ATTACK")){
-//                giveRangePhysicalDamage(self,target,amount,operate);
-//            }else if(type.equals("SKILL_MAGIC_ATTACK")){
-//                giveMagicDamage(self,target,amount,operate);
-//            }else if(type.equals("SKILL_NO_ATTACK")){
-//                giveNoDamage(self,target,amount);
-//            }else {
-//                giveMeleePhysicalDamage(self,target,amount,operate);
-//            }
-//        }
 
 
     }
 
     public static void setDamage(LivingEntity self, LivingEntity target,double amount){
         target.damage(amount, self);
+    }
+
+    public static void setSkillDamage(LivingEntity self, LivingEntity target,double amount){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
+        /**鸚鵡**/
+        Parrot entity = (Parrot) self.getWorld().spawnEntity((self).getLocation().add(0,-10,0), EntityType.PARROT);
+        entity.setSilent(true);
+        entity.setInvisible(true);
+        entity.setAI(false);
+        entity.setCollidable(false);
+        entity.setGravity(false);
+        entity.setOwner((AnimalTamer) self);
+        target.damage(amount,entity);
+        //PlayerManager.attack_Boolean4_Map.put(self.getUniqueId().toString(),true);
+        entity.remove();
+//        new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//                entity.remove();
+//            }
+//        }.runTaskLater(cd, 5);
+
     }
 
     /**近距離物理攻擊**/

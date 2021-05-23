@@ -1,0 +1,18 @@
+Swordman_SwordMastery:
+  Material: 'COAL'
+  CustomModelData: 16
+  Name: '§e劍術修煉(&self_class_skill_Swordman_SwordMastery_now&/&self_class_skill_Swordman_SwordMastery_max&)'
+  Lore:
+  - ''
+  - '§6使用長劍類武器時物理攻擊增加&self_class_skill_Swordman_SwordMastery_gui1&，普攻'
+  - '§6攻擊力增加&self_class_skill_Swordman_SwordMastery_gui2&'
+  BarName: '䂾'
+  PassiveSkill: true
+  NeedTarget: true
+  TargetDistance: 3
+  CoolDown: 2
+  CastTime: 1
+  CastDelay: 0
+  Mana: 1
+  Action:
+  - Action[a=Swordman_SwordMastery] ~EqmCheck

@@ -1,0 +1,329 @@
+#魔法師技能GUI按鈕
+#-------------------------------------------#
+#-------------------------------------------#
+
+#升級冰箭術
+up_level_Magician_ColdBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job1_last&>0]
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_ColdBolt_max&<10]
+  - CustomPoint[type=job1_last;a=-1]
+  - SetSkillLevel[skillname=Magician_ColdBolt_level;amount=1]
+#降級冰箭術
+down_level_Magician_ColdBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_ColdBolt_max&>0]
+  - CustomPoint[type=job1_last;a=1]
+  - SetSkillLevel[skillname=Magician_ColdBolt_level;amount=-1]
+#升級冰箭術(使用等級)
+up_use_Magician_ColdBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_ColdBolt_max&>&self_class_skill_Magician_ColdBolt_now&]
+  - SetSkillLevel[skillname=Magician_ColdBolt_use;amount=1]
+#降級冰箭術(使用等級)
+down_use_Magician_ColdBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_ColdBolt_max&>0]
+  - SetSkillLevel[skillname=Magician_ColdBolt_use;amount=-1]
+
+#-------------------------------------------#
+
+#升級火焰之環
+up_level_Magician_RingOfFlame:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job1_last&>0]
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_RingOfFlame_max&<10]
+  - CustomPoint[type=job1_last;a=-1]
+  - SetSkillLevel[skillname=Magician_RingOfFlame_level;amount=1]
+#降級火焰之環
+down_level_Magician_RingOfFlame:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_RingOfFlame_max&>0]
+  - CustomPoint[type=job1_last;a=1]
+  - SetSkillLevel[skillname=Magician_RingOfFlame_level;amount=-1]
+#升級火焰之環(使用等級)
+up_use_Magician_RingOfFlame:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_RingOfFlame_max&>&self_class_skill_Magician_RingOfFlame_now&]
+  - SetSkillLevel[skillname=Magician_RingOfFlame_use;amount=1]
+#降級火焰之環(使用等級)
+down_use_Magician_RingOfFlame:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_RingOfFlame_max&>0]
+  - SetSkillLevel[skillname=Magician_RingOfFlame_use;amount=-1]
+
+#-------------------------------------------#
+
+#升級聖靈召喚
+up_level_Magician_SoulStrike:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job1_last&>0]
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_SoulStrike_max&<10]
+  - CustomPoint[type=job1_last;a=-1]
+  - SetSkillLevel[skillname=Magician_SoulStrike_level;amount=1]
+#降級聖靈召喚
+down_level_Magician_SoulStrike:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_SoulStrike_max&>0]
+  - CustomPoint[type=job1_last;a=1]
+  - SetSkillLevel[skillname=Magician_SoulStrike_level;amount=-1]
+#升級聖靈召喚(使用等級)
+up_use_Magician_SoulStrike:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_SoulStrike_max&>&self_class_skill_Magician_SoulStrike_now&]
+  - SetSkillLevel[skillname=Magician_SoulStrike_use;amount=1]
+#降級聖靈召喚(使用等級)
+down_use_Magician_SoulStrike:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_SoulStrike_max&>0]
+  - SetSkillLevel[skillname=Magician_SoulStrike_use;amount=-1]
+
+#-------------------------------------------#
+
+#升級冰凍術
+up_level_Magician_FrostDiver:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job1_last&>0]
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FrostDiver_max&<10]
+  - CustomPoint[type=job1_last;a=-1]
+  - SetSkillLevel[skillname=Magician_FrostDiver_level;amount=1]
+#降級冰凍術
+down_level_Magician_FrostDiver:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FrostDiver_max&>0]
+  - CustomPoint[type=job1_last;a=1]
+  - SetSkillLevel[skillname=Magician_FrostDiver_level;amount=-1]
+#升級冰凍術(使用等級)
+up_use_Magician_FrostDiver:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FrostDiver_max&>&self_class_skill_Magician_FrostDiver_now&]
+  - SetSkillLevel[skillname=Magician_FrostDiver_use;amount=1]
+#降級冰凍術(使用等級)
+down_use_Magician_FrostDiver:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FrostDiver_max&>0]
+  - SetSkillLevel[skillname=Magician_FrostDiver_use;amount=-1]
+
+#-------------------------------------------#
+
+#升級火箭術
+up_level_Magician_FireBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job1_last&>0]
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FireBolt_max&<10]
+  - CustomPoint[type=job1_last;a=-1]
+  - SetSkillLevel[skillname=Magician_FireBolt_level;amount=1]
+#降級火箭術
+down_level_Magician_FireBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FireBolt_max&>0]
+  - CustomPoint[type=job1_last;a=1]
+  - SetSkillLevel[skillname=Magician_FireBolt_level;amount=-1]
+#升級火箭術(使用等級)
+up_use_Magician_FireBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FireBolt_max&>&self_class_skill_Magician_FireBolt_now&]
+  - SetSkillLevel[skillname=Magician_FireBolt_use;amount=1]
+#降級火箭術(使用等級)
+down_use_Magician_FireBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_FireBolt_max&>0]
+  - SetSkillLevel[skillname=Magician_FireBolt_use;amount=-1]
+
+#-------------------------------------------#
+
+#升級雷擊術
+up_level_Magician_LightningBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job1_last&>0]
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_LightningBolt_max&<10]
+  - CustomPoint[type=job1_last;a=-1]
+  - SetSkillLevel[skillname=Magician_LightningBolt_level;amount=1]
+#降級雷擊術
+down_level_Magician_LightningBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_LightningBolt_max&>0]
+  - CustomPoint[type=job1_last;a=1]
+  - SetSkillLevel[skillname=Magician_LightningBolt_level;amount=-1]
+#升級雷擊術(使用等級)
+up_use_Magician_LightningBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_LightningBolt_max&>&self_class_skill_Magician_LightningBolt_now&]
+  - SetSkillLevel[skillname=Magician_LightningBolt_use;amount=1]
+#降級雷擊術(使用等級)
+down_use_Magician_LightningBolt:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_LightningBolt_max&>0]
+  - SetSkillLevel[skillname=Magician_LightningBolt_use;amount=-1]
+
+#-------------------------------------------#
+
+#升級禪心
+up_level_Magician_IncreaseSpiritualPower:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job1_last&>0]
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_IncreaseSpiritualPower_max&<10]
+  - CustomPoint[type=job1_last;a=-1]
+  - SetSkillLevel[skillname=Magician_IncreaseSpiritualPower_level;amount=1]
+#降級禪心
+down_level_Magician_IncreaseSpiritualPower:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_IncreaseSpiritualPower_max&>0]
+  - CustomPoint[type=job1_last;a=1]
+  - SetSkillLevel[skillname=Magician_IncreaseSpiritualPower_level;amount=-1]
+#升級禪心(使用等級)
+up_use_Magician_IncreaseSpiritualPower:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_IncreaseSpiritualPower_max&>&self_class_skill_Magician_IncreaseSpiritualPower_now&]
+  - SetSkillLevel[skillname=Magician_IncreaseSpiritualPower_use;amount=1]
+#降級禪心(使用等級)
+down_use_Magician_IncreaseSpiritualPower:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_class_skill_Magician_IncreaseSpiritualPower_max&>0]
+  - SetSkillLevel[skillname=Magician_IncreaseSpiritualPower_use;amount=-1]
+
+
+#技能
+#-------------------------------------------#
+#-------------------------------------------#
+#法杖普通攻擊
+Magician_Shooting:
+  Action:
+  - Break[ConditionType=Contains;ConditionContent=&self_Eq_Class_Weapon_Type&~武器-法杖]
+  - Orbital[onStart=Magician_Shooting-Start;onTime=Magician_Shooting-Time;onTimeHit=Magician_Shooting-TimeHit;onEndHit=Magician_Shooting-EndHit;onEnd=Magician_Shooting-End;period=1;duration=60;speed=1;StartLocAdd=true|true|0|0|1|1.3;hitRange=1;HitCount=1;hitstop=true;od=true|true|false|0|0] @LocSelf{VA=Self|true|true|0|0|5;LA=0|1.55|0}
+Magician_Shooting-Start:
+  Action:
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+  #- Sound[sound=attack_attack_dagger;pitch=1;volume=1;category=PLAYERS]
+Magician_Shooting-Time:
+  Action:
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+Magician_Shooting-TimeHit:
+  Action:
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+  - Damage[amount=1;t=magic_add]
+  - Sound[sound=magician_hit;pitch=1;volume=1;category=PLAYERS]
+Magician_Shooting-End:
+  Action:
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+
+#冰箭術
+Magician_ColdBolt:
+  Action:
+  - Orbital[onStart=Magician_ColdBolt-Start;onTime=Magician_ColdBolt-Time;;onEndHit=Magician_ColdBolt-EndHit;period=1;duration=20;speed=10;StartLocAdd=true|true|0|0|0.6|5;hitRange=1.5;HitCount=1;hitstop=true;od=true|true|false|0|0] @LocTarget{LA=0|1|0}
+Magician_ColdBolt-Start:
+  Action:
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+Magician_ColdBolt-Time:
+  Action:
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+Magician_ColdBolt-EndHit:
+  Action:
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+  - Damage[amount=&Player_Mob_Final_Damage_Magic_Water&;t=magic_attack]
+  - Sound[sound=magician_hit;pitch=1;volume=1;category=PLAYERS]
+
+
+#火焰之環
+Magician_RingOfFlame:
+  Action:
+  - FixedPoint[onStart=Magician_RingOfFlame-Start;onTime=Magician_RingOfFlame-Time;onHit=Magician_RingOfFlame-Hit;onEnd=Magician_RingOfFlame-End;period=20;duration=200;HitRange=5]@LocSelf{LA=0|0.5|0}
+Magician_RingOfFlame-Start:
+  Action:
+  - Sound[sound=skills_soc_firewall;pitch=1;volume=1;category=PLAYERS]
+Magician_RingOfFlame-Time:
+  Action:
+  - Particle[fc=IMG;IMG=Magician_RingOfFlame;IMGSize=1;IMGRotAngle=90|0|0;IMGTargetAngel=false;count=1;LocTarget=Self;LocOff;10|10|10;LocAdd=0|0|0]
+Magician_RingOfFlame-Hit:
+  Action:
+  - Damage[amount=&Player_Mob_Final_Damage_Magic_Fire&;t=magic_attack]
+Magician_RingOfFlame-End:
+  Action:
+  - Particle[fc=IMG;IMG=Magician_RingOfFlame;IMGSize=1;IMGRotAngle=90|0|0;IMGTargetAngel=false;count=1;LocTarget=Self;LocOff;10|10|10;LocAdd=0|0|0]
+
+#聖靈召喚
+Magician_SoulStrike:
+  Action:
+  - Orbital[onStart=Magician_SoulStrike-Start;onTime=Magician_SoulStrike-Time;;onEndHit=Magician_SoulStrike-EndHit;onEnd=Magician_SoulStrike-End;period=1;duration=20;speed=10;StartLocAdd=true|true|0|0|0.6|2;hitRange=1.5;HitCount=1;hitstop=true;od=true|true|true|45|45] @LocTarget{LA=0|0.5|0}
+Magician_SoulStrike-Start:
+  Action:
+  - Hologram[m=䂱] @LocAdd{LA=0|1|0}
+  - Sound[sound=lf2_skillstart12;pitch=1;volume=1;category=PLAYERS]
+Magician_SoulStrike-Time:
+  Action:
+  - Hologram[teleport=true] @LocAdd{LA=0|1|0}
+Magician_SoulStrike-EndHit:
+  Action:
+  - Damage[amount=&Player_Mob_Final_Damage_Magic_Holy&;t=magic_attack]
+  - Sound[sound=lf2_damge2;pitch=1;volume=0.5;category=PLAYERS]
+  - Hologram[teleport=true] @LocAdd{LA=0|1|0}
+  - Delay[t=2]
+  - Hologram[deleteAll=true]
+Magician_SoulStrike-End:
+  Action:
+  - Hologram[deleteAll=true]
+
+#冰凍術
+Magician_FrostDiver:
+  Action:
+  - Orbital[onStart=Magician_FrostDiver-Start;onTime=Magician_FrostDiver-Time;onEndHit=Magician_FrostDiver-EndHit;onEnd=Magician_FrostDiver-End;period=1;duration=20;speed=20;StartLocAdd=true|true|0|0|0.6|5;hitRange=4;od=true|true|false|0|0] @LocTarget{LA=0|1|0}
+Magician_FrostDiver-Start:
+  Action:
+  - Guise[ItemID=SkillEffect.Ice;dt=0]
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+Magician_FrostDiver-Time:
+  Action:
+  - Guise[dt=0;tp=true] @LocAdd{LA=0|0|0}
+  - Particle[particle=REDSTONE;pdata=00FFFF;count=10]
+Magician_FrostDiver-EndHit:
+  Action:
+  - SetAttribute[Attr=GENERIC_KNOCKBACK_RESISTANCE;a=1;dt=100]
+  - ClassAttr[Attr=Mob_Attribute;a=水;dt=100;type=status]
+  - Guise[dt=100;tp=true] @LocAdd{LA=0|-1|0}
+  - PotionEffect[Potion=SLOW;dt=100;ap=5]
+  - Damage[amount=&Player_Mob_Final_Damage_Magic_Water&;t=magic_attack]
+  - Sound[sound=skills_soc_coin3;pitch=1;volume=1;category=PLAYERS]
+Magician_FrostDiver-End:
+  Action:
+  - SetAttribute[Attr=GENERIC_KNOCKBACK_RESISTANCE;a=1;dt=100]
+  - ClassAttr[Attr=Mob_Attribute;a=水;dt=100;type=status]
+  - Guise[dt=100;tp=true] @LocAdd{LA=0|-1|0}
+  - PotionEffect[Potion=SLOW;dt=100;ap=5]
+  - Damage[amount=&Player_Mob_Final_Damage_Magic_Water&;t=magic_attack]
+  - Sound[sound=skills_soc_coin3;pitch=1;volume=1;category=PLAYERS]
+
+#火箭術
+Magician_FireBolt:
+  Action:
+  - Orbital[onStart=Magician_FireBolt-Start;onTime=Magician_FireBolt-Time;;onEndHit=Magician_FireBolt-EndHit;period=1;duration=20;speed=10;StartLocAdd=true|true|0|0|0.6|5;hitRange=1.5;HitCount=1;hitstop=true;od=true|true|false|0|0] @LocTarget{LA=0|1|0}
+Magician_FireBolt-Start:
+  Action:
+  - Particle[particle=REDSTONE;pdata=FF0000;count=10]
+Magician_FireBolt-Time:
+  Action:
+  - Particle[particle=REDSTONE;pdata=FF0000;count=10]
+Magician_FireBolt-EndHit:
+  Action:
+  - Particle[particle=REDSTONE;pdata=FF0000;count=10]
+  - Damage[amount=&Player_Mob_Final_Damage_Magic_Fire&;t=magic_attack]
+  - Sound[sound=magician_hit;pitch=1;volume=1;category=PLAYERS]
+
+#雷擊術
+Magician_LightningBolt:
+  Action:
+  - Damage[amount=&Player_Mob_Final_Damage_Magic_Wind&;t=magic_attack]
+  - Sound[sound=skills_soc_thunderstorm;pitch=1;volume=1;category=PLAYERS]
+  - Guise[EntityType=LIGHTNING;dt=30] @LocTarget{LA=0|1|0}
+
+#禪心
+Magician_IncreaseSpiritualPower:
+  Action:
+  - Loop[onTime=Magician_IncreaseSpiritualPower-Time;period=200;duration=0]
+Magician_IncreaseSpiritualPower-Time:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_Sp_now&<&self_Sp_max&]
+  - Mana[a=&self_class_skill_Magician_IncreaseSpiritualPower_amount&]
+  - Sound[sound=ab_heal_effect;pitch=1;volume=1;category=PLAYERS] @LocSelf{LA=0|1|0}
+
+
+

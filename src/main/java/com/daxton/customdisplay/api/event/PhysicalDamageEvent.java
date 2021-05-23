@@ -11,9 +11,9 @@ public class PhysicalDamageEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private Entity damager;
     private LivingEntity target;
-    private double       damage;
-    private boolean      projectile;
-    private boolean      cancelled;
+    private double damage;
+    private boolean projectile;
+    private boolean cancelled;
     private String damageType = "";
     private String operate = "";
 

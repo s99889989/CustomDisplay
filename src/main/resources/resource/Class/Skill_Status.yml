@@ -4,26 +4,24 @@ BossBar1:
   BarColor: 'BLUE'
   BarStyle: 'SEGMENTED_10'
   Progress: 0
-  #技能主手顯示
-  Main_Hand: 
-    #1~8格
-    18: '䂴'
-    #9格
-    9: '䂴'
-  #技能間隔顯示
-  Skill_Blank: ''
+  #技能攔顯示
+  Skill_Show:
+    #技能主手顯示
+    Main_Hand: '䂴'
+    #技能空顯示
+    Skill_Null: '䂶'
+    #技能間隔顯示
+    Blank: ''
 
-#技能空顯示
-  Skill_Null:
-    #1~8格
-    18: '䂶'
-    #9格
-    9: '䂶'
-
+#技能背景
 BossBar2:
-  Title: '䃍䃍䃍䃍䃍䃍䃍䃍䃍'
   BarColor: 'BLUE'
   BarStyle: 'SEGMENTED_10'
+  BackGround_Show:
+    #技能主手顯示
+    BackGround: '䃍'
+    #技能間隔顯示
+    Blank: ''
 #技能獨立延遲覆蓋
   Skill_CD:
     12: '䃘'
@@ -48,7 +46,7 @@ Skill_Cast_Time:
     HDEnable: true
     Hight: 0.5
     ItemEnble: true
-    Item: 'LawTown'
+    Item: 'SkillEffect.LawTown'
     LineEnble: false
     Line: ''
 

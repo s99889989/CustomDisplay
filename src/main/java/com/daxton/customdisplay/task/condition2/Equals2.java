@@ -7,13 +7,16 @@ import org.bukkit.entity.LivingEntity;
 
 public class Equals2 {
 
-    private boolean result = false;
 
     public Equals2(){
 
     }
 
-    public Equals2(LivingEntity self, LivingEntity target, String content, String taskID){
+
+
+    public static boolean valueOf(LivingEntity self, LivingEntity target, String content, String taskID){
+        boolean result = false;
+
         if(content.contains("~")){
             String stringLeft = content.substring(0, content.indexOf("~"));
             String stringRight = content.substring(content.indexOf("~")+1);
@@ -25,10 +28,9 @@ public class Equals2 {
                 result = true;
             }
         }
-    }
-
-    public boolean isResult() {
         return result;
     }
+
+
 
 }

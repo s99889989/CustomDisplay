@@ -8,34 +8,35 @@ ItemEditMenu:
 #發射箭矢
 Bow1_Shooting:
   Action:
-  - Orbital[onStart=Bow1_Shooting-Start;onTime=Bow1_Shooting-Time;onTimeHit=Bow1_Shooting-TimeHit;onEndHit=Bow1_Shooting-EndHit;onEnd=Bow1_Shooting-End;period=1;duration=60;speed=1;StartLocAdd=true|true|0|0|0.6|1.6;hitRange=1;HitCount=1;od=true|true|false|0|0] @LocSelf{VA=Self|true|true|0|0|10;LA=0|1.55|0}
+  - Orbital[onStart=Bow1_Shooting-Start;onTime=Bow1_Shooting-Time;onTimeHit=Bow1_Shooting-TimeHit;onEndHit=Bow1_Shooting-EndHit;onEnd=Bow1_Shooting-End;period=1;duration=60;speed=1;StartLocAdd=true|true|0|0|0.6|1.6;hitRange=1;HitCount=1;hitstop=true;od=true|true|false|0|0] @LocSelf{VA=Self|true|true|0|0|10;LA=0|1.55|0}
   
 Bow1_Shooting-Start:
   Action:
-  - Guise[ItemID=Weapon.Arrow1;Visible=false;dt=0;LocAdd=0|-1.7|0]
+  - Guise[ItemID=SkillEffect.Arrow1;dt=0;hal=true|true;hal=true|true] @LocAdd{LA=0|-1.7|0}
   - Sound[sound=attack_attack_dagger;pitch=1;volume=1;category=PLAYERS]
 Bow1_Shooting-Time:
   Action:
-  - Guise[dt=0;Visible=false;LocAdd=0|-1.8|0]
+  - Guise[dt=0;tp=true;hal=true|true;hal=true|true] @LocAdd{LA=0|-1.7|0}
 
 Bow1_Shooting-TimeHit:
   Action:
-  - Guise[LocAdd=0|-1.8|0;Visible=false]
+  - Guise[dt=-1]
   - Damage[amount=10]
   - Sound[sound=attack_hit_arrow;pitch=1;volume=1;category=PLAYERS]
 
 Bow1_Shooting-End:
   Action:
-  - Guise[Visible=false]
+  - Guise[dt=-1]
 
 
 #向前攻擊
 FlashAttack:
   Action:
   - teleport[VA=Self|true|true|0|0|5;OB=true] @Self
-  #- Delay[t=5]
+  - Delay[t=20]
   - Damage[Amount=10] @Target
   - Hologram[m=䃝] @LocTarget{D=5;LA=0|&attack_number_height&|0}
+  - Light[ll=5;dt=10] @LocTarget{D=5;LA=0|2|0}
   - Sound[sound=attack_sword1;pitch=1;volume=1;category=PLAYERS] @LocTarget{D=5;LA=0|&attack_number_height&|0}
   - Delay[t=5]
   - Hologram[deleteAll=true]
@@ -43,18 +44,23 @@ FlashAttack:
 #光炸
 Explode:
   Action:
-  - Guise[dt=10;ItemID=SkillEffect.light1;Visible=false] @LocSelf{LA=0|1|0}
+  - Guise[dt=10;ItemID=SkillEffect.light1;Visible=false] @LocSelf{LA=0|2.3|0}
+  - Light[ll=15;dt=10] @LocSelf{LA=0|10|0}
   - Sound[sound=lf2_090;pitch=1;volume=1;category=PLAYERS] @LocSelf{LA=0|1|0}
   - Damage[Amount=10] @SelfRadius{R=2}
   - Move[da=Selfaway|true|true|0|0|1|;ah=1] @SelfRadius{R=2}
 
 #光擊
+Explode1:
+  Action:
+  - Sound[sound=lf2_darkdavis_c;pitch=1;volume=1;category=PLAYERS] @LocSelf
+
 Explode2:
   Action:
-  - Sound[sound=lf2_darkdavis_c;pitch=1;volume=1;category=PLAYERS] @LocTarget{D=5;LA=0|1|0}
   - Delay[t=10]
-  - Sound[sound=lf2_darkdavis_col;pitch=1;volume=1;category=PLAYERS] @LocTarget{D=5;LA=0|1|0}
-  - Hologram[m=䃡] @LocTarget{D=5;LA=0|5|0}
+  - Sound[sound=lf2_darkdavis_col;pitch=1;volume=1;category=PLAYERS] @LocTarget{LA=0|1|0}
+  - Hologram[m=䃡] @LocTarget{LA=0|5|0}
+  - Light[ll=15;dt=24] @LocTarget{LA=0|5|0}
   - Damage[Amount=10] @Target
   - Delay[t=1]
   - Hologram[RM=1;m=䃢]
@@ -112,24 +118,25 @@ Explode2:
 #地刺
 Collapse:
   Action:
-  - Guise[mk=0;dt=40;ItemID=SkillEffect.coal;Visible=false;LocAdd=0|0|0;DA=Self|false|true|0|0|2] @Self
-  - Guise[mk=1;dt=40;ItemID=SkillEffect.coal;Visible=false;LocAdd=0|0|0;DA=Self|false|true|0|0|4] @Self
-  - Guise[mk=2;dt=40;ItemID=SkillEffect.coal;Visible=false;LocAdd=0|0|0;DA=Self|false|true|0|0|6] @Self
-  - Sound[sound=skills_soc_collapsed;pitch=1;volume=1;category=PLAYERS]
+  - Guise[mk=0;dt=40;ItemID=SkillEffect.coal;Visible=false] @LocSelf{VA=Self|true|true|0|0|2;LA=0|2.6|0}
+  - Guise[mk=1;dt=40;ItemID=SkillEffect.coal;Visible=false] @LocSelf{VA=Self|true|true|0|0|4;LA=0|2.6|0}
+  - Guise[mk=2;dt=40;ItemID=SkillEffect.coal;Visible=false] @LocSelf{VA=Self|true|true|0|0|6;LA=0|2.6|0}
+  - Sound[sound=skills_soc_collapsed;pitch=1;volume=1;category=PLAYERS] @LocSelf
   - Damage[Amount=10] @SelfLine{R=7}
 
 
 #飛盤
 Frisbee:
   Action:
-  - Orbital[onStart=Frisbee-Start;onTime=Frisbee-Time;onTimeHit=Frisbee-TimeHit;onEndHit=Frisbee-EndHit;onEnd=Frisbee-End;period=3;duration=60;speed=40;StartLocAdd=0|0|0;EndLocAdd=0|2|0;hitRange=1;ELD=10;Angle=30] 
+  - Orbital[onStart=Frisbee-Start;onTime=Frisbee-Time;onTimeHit=Frisbee-TimeHit;onEndHit=Frisbee-EndHit;onEnd=Frisbee-End;period=3;duration=60;speed=40;StartLocAdd=true|true|0|0|0.6|1.6;hitRange=1;od=true|true|false|0|0] @LocSelf{VA=Self|true|true|0|0|10;LA=0|1.55|0}
   
 Frisbee-Start:
   Action:
-  - Hologram[m=䃜] @Self
+  - Hologram[m=䃜]
   - Sound[sound=lf2_skillstart1;pitch=1;volume=1;category=PLAYERS]
 Frisbee-Time:
   Action:
+  - Light[ll=10;dt=10]
   - Sound[sound=lf2_skilltime1;pitch=1;volume=1;category=PLAYERS]
   - Hologram[tp=true]
 Frisbee-TimeHit:
@@ -145,12 +152,12 @@ Frisbee-End:
 #定點龍卷風
 Tornado:
   Action:
-  - FixedPoint[onStart=Tornado-onStart;onHit=Tornado-onHit;duration=30;period=5] @Target{D=5}
+  - FixedPoint[onStart=Tornado-onStart;onHit=Tornado-onHit;duration=30;period=5] @LocTarget{D=5;LA=0|0|0}
   
 Tornado-onStart:
   Action:
   - Sound[sound=lf2_freeze_ww;pitch=1;volume=1;category=PLAYERS]
-  - Hologram[m=䃻;LocAdd=0|2.5|0] @Target{D=5}
+  - Hologram[m=䃻] @LocAdd{LA=0|2.8|0}
   - Delay[t=3]
   - Hologram[RM=1;m=䃼]
   - Delay[t=3]
@@ -170,12 +177,11 @@ Tornado-onStart:
   - Delay[t=3]
   - Hologram[RM=1;m=䄄]
   - Delay[t=3]
-  - Hologram[delete=true]
+  - Hologram[deleteAll=true]
   
 Tornado-onHit:
   Action:
   - Move[da=target|false|false|90|0|0.8] @Target
-  #- Damage[Amount=10] @Target
   
 Tornado-onEnd:
   Action:
@@ -185,11 +191,11 @@ Tornado-onEnd:
 #向前龍捲風
 TornadoLine:
   Action:
-  - Orbital[onStart=TornadoLine-Start;onTime=TornadoLine-Time;onTimeHit=TornadoLine-TimeHit;onEndHit=TornadoLine-EndHit;onEnd=TornadoLine-End;period=3;duration=30;speed=40;StartLocAdd=0|1|0;EndLocAdd=0|2|0;hitRange=2;EDA=true|true|0|0|8;od=true|true|true|0|30] @Self
+  - Orbital[onStart=TornadoLine-Start;onTime=TornadoLine-Time;onTimeHit=TornadoLine-TimeHit;onEndHit=TornadoLine-EndHit;onEnd=TornadoLine-End;period=3;duration=30;speed=40;StartLocAdd=true|true|0|0|0.6|1.6;hitRange=1;od=true|true|false|0|0] @LocSelf{VA=Self|true|true|0|0|10;LA=0|1.55|0}
   
 TornadoLine-Start:
   Action:
-  - Hologram[m=䃻]
+  - Hologram[m=䃻] @LocAdd{LA=0|1.5|0}
   - Sound[sound=lf2_freeze_ww;pitch=1;volume=1;category=PLAYERS]
   - Delay[t=3]
   - Hologram[RM=1;m=䃼]
@@ -210,23 +216,22 @@ TornadoLine-Start:
   - Delay[t=3]
   - Hologram[RM=1;m=䄄]
 
-#直線龍捲風
 TornadoLine-Time:
   Action:
-  - Hologram[tp=true]
+  - Hologram[tp=true] @LocAdd{LA=0|1.5|0}
 TornadoLine-TimeHit:
   Action:
   - Move[da=target|false|false|90|0|0.8] @Target
 
 TornadoLine-End:
   Action:
-  - Hologram[Delete=true]
+  - Hologram[DeleteAll=true]
 
 
 #發射模型攻擊
 ModelAttack:
   Action:
-  - Orbital[onStart=ModelAttack-Start;onTime=ModelAttack-Time;onTimeHit=ModelAttack-TimeHit;onEndHit=ModelAttack-EndHit;onEnd=ModelAttack-End;period=1;duration=60;speed=10;StartLocAdd=true|true|0|0|0.5|1.2;hitRange=2;HitCount=1;od=true|true|false|0|0] @LocSelf{VA=Self|true|true|0|0|10;LA=0|1.2|0}
+  - Orbital[onStart=ModelAttack-Start;onTime=ModelAttack-Time;onTimeHit=ModelAttack-TimeHit;onEndHit=ModelAttack-EndHit;onEnd=ModelAttack-End;period=1;duration=60;speed=10;StartLocAdd=true|true|0|0|0.5|1.2;hitRange=2;HitCount=1;hitstop=true;od=true|true|false|0|0] @LocSelf{VA=Self|true|true|0|0|10;LA=0|1.2|0}
   
 ModelAttack-Start:
   Action:
@@ -247,6 +252,16 @@ ModelAttack-End:
   - Model[d=true]
 
 
-
+#射線
+LaserBeam:
+  Action:
+  - Guise[mk=0;dt=10;ItemID=SkillEffect.LaserBeam;Visible=false;hal=true|true] @LocSelf{VA=Self|true|true|0|0|2;LA=0|2.5|0}
+  - Light[ll=5;dt=10] @LocSelf{VA=Self|true|true|0|0|2;LA=0|2.5|0}
+  - Guise[mk=1;dt=10;ItemID=SkillEffect.LaserBeam;Visible=false;hal=true|true] @LocSelf{VA=Self|true|true|0|0|4.5;LA=0|2.5|0}
+  - Light[ll=5;dt=10] @LocSelf{VA=Self|true|true|0|0|4.5;LA=0|2.5|0}
+  - Guise[mk=2;dt=10;ItemID=SkillEffect.LaserBeam;Visible=false;hal=true|true] @LocSelf{VA=Self|true|true|0|0|6.5;LA=0|2.5|0}
+  - Light[ll=5;dt=10] @LocSelf{VA=Self|true|true|0|0|6.5;LA=0|2.5|0}
+  - Sound[sound=lf2_086;pitch=1;volume=1;category=PLAYERS] @LocSelf
+  - Damage[Amount=10] @SelfLine{R=10}
 
 

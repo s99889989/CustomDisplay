@@ -1,0 +1,20 @@
+Swordman_IncreaseRecuperativePower:
+  Material: 'COAL'
+  CustomModelData: 15
+  Name: '§e快速回復(&self_class_skill_Swordman_Increase_Recuperative_Power_now&/&self_class_skill_Swordman_Increase_Recuperative_Power_max&)'
+  Lore:
+  - ''
+  - '§6永久提升HP自然恢復速度，每10秒恢復('
+  - '§6MaxHP*&self_class_skill_Swordman_IncreaseRecuperativePower_gui1&%+&self_class_skill_Swordman_IncreaseRecuperativePower_gui2&)，並且在使用HP恢復'
+  - '§6類道具時效果提升&self_class_skill_Swordman_IncreaseRecuperativePower_gui3&%'
+  BarName: '䂽'
+  PassiveSkill: true
+  NeedTarget: true
+  TargetDistance: 3
+  CoolDown: 2
+  CastTime: 1
+  CastDelay: 0
+  Mana: 1
+  Action:
+  - Action[a=Swordman_IncreaseRecuperativePower;mark=&self_name&Swordman_IncreaseRecuperativePower] ~onJoin
+  - Action[mark=&self_name&Swordman_IncreaseRecuperativePower;stop=true] ~onQuit

@@ -26,8 +26,8 @@ CoreAttribute:
   Mana_Regeneration:
     formula: '&self_attr_Sp_Regeneration&'
 
-#以下需要開啟攻擊修改才能使用。(暫無)
-#The following need to open the attack modification to use. (Not yet)
+#以下需要開啟攻擊修改才能使用。
+#The following need to open the attack modification to use.
 ########################################################
 ########################################################
 

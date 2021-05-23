@@ -1,0 +1,23 @@
+Magician_FrostDiver:
+  Material: 'COAL'
+  CustomModelData: 27
+  Name: '§e冰凍術(&self_class_skill_Magician_FrostDiver_now&/&self_class_skill_Magician_FrostDiver_max&)'
+  Lore:
+  - ''
+  - '§6對敵方單體造成魔法攻擊&self_class_skill_Magician_FrostDiver_gui1&%水屬性魔法'
+  - '§6傷害，並有&self_class_skill_Magician_FrostDiver_gui2&%機率使敵人陷入冰凍狀態'
+  - '§6，持續&self_class_skill_Magician_FrostDiver_gui3&秒'
+  - ''
+  - '§6施法距離 : 6.0m'
+  - '§6吟唱時間 : 0.8秒'
+  - '§6技能延遲: 1.0秒'
+  - '§6消耗SP: &self_class_skill_Magician_FrostDiver_Sp&'
+  BarName: '䃉'
+  NeedTarget: true
+  TargetDistance: 10
+  CoolDown: 2
+  CastTime: 1
+  CastDelay: 0
+  Mana: 10
+  Action:
+  - Action[a=Magician_FrostDiver] @Target

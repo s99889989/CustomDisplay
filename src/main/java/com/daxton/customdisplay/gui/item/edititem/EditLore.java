@@ -1,9 +1,10 @@
 package com.daxton.customdisplay.gui.item.edititem;
 
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
@@ -146,13 +147,13 @@ public class EditLore {
         String uuidString = player.getUniqueId().toString();
 
         if(EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            EditorGUIManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName));
             Inventory inventory = EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
             EditorGUIManager.menu_EditLore_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(typeName, itemName));
+            EditorGUIManager.menu_EditLore_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName));
             Inventory inventory = EditorGUIManager.menu_EditLore_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
@@ -160,7 +161,7 @@ public class EditLore {
 
     }
 
-    public Inventory getInventory(String typeName, String itemName){
+    public Inventory getInventory(Player player, String typeName, String itemName){
         this.typeName = typeName;
         this.itemName = itemName;
         this.rawSlot.clear();
@@ -171,53 +172,47 @@ public class EditLore {
 
         Inventory inventory = Bukkit.createInventory(null, 54 , MenuSet.getGuiTitle("EditLore"));
 
-        inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
+        inventory.setItem(4, CustomItem2.valueOf(player, null, typeName+"."+itemName, 1));
+        //inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
         inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.EditLore.ToEditItem", ""));
         inventory.setItem(8,  ButtomSet.getItemButtom("Buttom.EditLore.Exit", ""));
 
         List<String> itemLore = itemMenuConfig.getStringList(itemName+".Lore");
 
-        //if(itemLore.size() >= 0){
-            int i = 10;
-            for(int k = 0; k <= itemLore.size() ;k++){
-                if(i == 44){
-                    break;
-                }
-                if(i == 17 || i == 26 || i == 35){
-                    i+=2;
-                }
 
-
-                ItemStack itemStack = new ItemStack(Material.ACACIA_DOOR);
-                if(k < itemLore.size()) {
-                    this.rawSlot.put(i,i);
-                    this.order.put(i,k);
-                    if (itemLore.get(k).isEmpty()) {
-                        itemStack = MenuSet.getLoreButtom("Buttom", "EditLore","LoreDisplay", k,itemLore.get(k));
-                    } else {
-                        itemStack = MenuSet.getLoreButtom("Buttom", "EditLore","LoreDisplay", k, itemLore.get(k));
-                    }
-                }else {
-                    this.rawSlot2.put(i,i);
-                    this.lastOrder.put(i,k);
-                    itemStack = MenuSet.getLoreButtom("Buttom", "EditLore","LoreAdd", k, "");
-                }
-
-                inventory.setItem(i, itemStack);
-                if(k == itemLore.size()){
-                    break;
-                }
-                i++;
+        int i = 10;
+        for(int k = 0; k <= itemLore.size() ;k++){
+            if(i == 44){
+                break;
             }
-        //}
-//        inventory.setItem(10,  ButtomSet.getItemButtom("Buttom", "EditFlags","HideAttributes"));
-//        inventory.setItem(11,  ButtomSet.getItemButtom("Buttom", "EditFlags","HideDestroys"));
-//        inventory.setItem(12,  ButtomSet.getItemButtom("Buttom", "EditFlags","HideDye"));
-//        inventory.setItem(13,  ButtomSet.getItemButtom("Buttom", "EditFlags","HideEnchants"));
-//        inventory.setItem(14,  ButtomSet.getItemButtom("Buttom", "EditFlags","HidePlacedOn"));
-//        inventory.setItem(15,  ButtomSet.getItemButtom("Buttom", "EditFlags","HidePotionEffects"));
-//        inventory.setItem(16,  ButtomSet.getItemButtom("Buttom", "EditFlags","HideUnbreakable"));
+            if(i == 17 || i == 26 || i == 35){
+                i+=2;
+            }
+
+
+            ItemStack itemStack = new ItemStack(Material.ACACIA_DOOR);
+            if(k < itemLore.size()) {
+                this.rawSlot.put(i,i);
+                this.order.put(i,k);
+                if (itemLore.get(k).isEmpty()) {
+                    itemStack = ButtomSet.getItemButtom2("Buttom.EditLore.LoreDisplay", k, itemLore.get(k));
+                } else {
+                    itemStack = ButtomSet.getItemButtom2("Buttom.EditLore.LoreDisplay", k, itemLore.get(k));
+                }
+            }else {
+                this.rawSlot2.put(i,i);
+                this.lastOrder.put(i,k);
+                itemStack = ButtomSet.getItemButtom2("Buttom.EditLore.LoreAdd", k, "");
+            }
+
+            inventory.setItem(i, itemStack);
+            if(k == itemLore.size()){
+                break;
+            }
+            i++;
+        }
+
 
         return inventory;
     }

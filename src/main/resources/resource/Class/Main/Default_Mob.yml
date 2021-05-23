@@ -4,7 +4,23 @@ Default_Mob:
   Mob_Attribute: '無'
   Mob_Body: '小'
   Mob_Type: '普通魔物'
-  Attributes_Stats:
-  - 'Stats_Ro_Mob'
-  Melee_physics_formula: ''
-  Range_physics_formula: ''
+  #力量
+  Mob_Str: 1
+  #靈巧
+  Mob_Dex: 0
+  #敏捷
+  Mob_Agi: 0
+  #幸運
+  Mob_Luk: 0
+  #物理攻擊
+  Mob_Physical_Attack: 0
+  #物理防禦
+  Mob_Physical_Defense: 0
+  #魔法攻擊
+  Mob_Magic_Attack: 0
+  #魔法防禦
+  Mob_Magic_Defense: 0
+  #命中
+  Mob_Hit_Rate: 0
+  #閃避
+  Mob_Dodge_Rate: 0

@@ -1,0 +1,102 @@
+Title: '技能綁定區'
+
+SkillBind: true
+
+Sort:
+- 'Class_Default|PlayerTotal.1.2.3.4.5.6.7.Class_Default|Close'
+- '9.10.11.12.13.14.15.16.17'
+- '18.19.20.21.22.23.24.25.26'
+- '27.28.29.30.31.32.33.34.35'
+- '36.37.38.39.40.41.42.43.44'
+- 'Bind1.Bind2.Bind3.Bind4.Bind5.Bind6.Bind7.Bind8.53'
+#
+Buttons:
+
+  Bind1:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind1'
+    Lore:
+    - '左鍵'
+
+  Bind2:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind2'
+    Lore:
+    - ''
+
+  Bind3:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind3'
+    Lore:
+    - ''
+
+  Bind4:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind4'
+    Lore:
+    - ''
+
+  Bind5:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind5'
+    Lore:
+    - ''
+
+  Bind6:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind6'
+    Lore:
+    - ''
+
+  Bind7:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind7'
+    Lore:
+    - ''
+
+  Bind8:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§eBind8'
+    Lore:
+    - ''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,6 +16,7 @@ Stats_Ro_Novice:
   #手上道具類型
   Class_Weapon_Type:
     formula: '&self_Eq_Class_Weapon_Type&'
+
 #基礎屬性
 #-------------------------------------------#
   #HP

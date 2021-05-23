@@ -44,7 +44,7 @@ public class CustomItem {
 
                 String itemType = itemArray[0];
                 String itemID = itemArray[1];
-                cd.getLogger().info(itemType+" : "+itemID);
+                //cd.getLogger().info(itemType+" : "+itemID);
                 if(ConfigMapManager.getFileConfigurationMap().get("Items_item_"+itemType+".yml") != null){
                     FileConfiguration itemConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+itemType+".yml");
 

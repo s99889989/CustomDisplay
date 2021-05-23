@@ -1,0 +1,24 @@
+Archer_Anklesnare:
+  Material: 'COAL'
+  CustomModelData: 18
+  Name: '§e定位陷阱(&self_class_skill_Archer_Anklesnare_now&/&self_class_skill_Archer_Anklesnare_max&)'
+  Lore:
+  - ''
+  - '§6指定區域佈置陷阱，觸發後敵方單體被持'
+  - '§6續定身&self_class_skill_Archer_Anklesnare_gui&秒（定身效果不可被萬能藥解除'
+  - '§6），最多可同時佈置2個，被清除定位效'
+  - '§6果的目標在接下來1.5秒內不會再次被定'
+  - '§6位'
+  - ''
+  - '§6施法距離 : 5.0m'
+  - '§6技能延遲 : 0.5秒'
+  - '§6SP消耗 : 12'
+  BarName: '䃀'
+  NeedTarget: false
+  TargetDistance: 1
+  CoolDown: 2
+  CastTime: 1
+  CastDelay: 0
+  Mana: 1
+  Action:
+  - Action[a=Archer_Anklesnare]

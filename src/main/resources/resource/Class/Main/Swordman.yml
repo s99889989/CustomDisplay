@@ -1,0 +1,23 @@
+Swordman:
+  Class_Name: '劍士'
+  Action:
+  - 'Default'
+  - 'Class'
+  - 'Swordman'
+  Level:
+  - 'base'
+  - 'job'
+  - 'job1'
+  Point:
+  - 'base'
+  - 'job'
+  - 'job1'
+  Attributes_Point:
+  - 'Point_Novice'
+  Attributes_Stats:
+  - 'Stats_Ro_Novice'
+  Equipment_Stats:
+  - 'Stats_Equipment'
+  Skills:
+  - Novice
+  - Swordman

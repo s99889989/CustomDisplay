@@ -3,10 +3,15 @@ package com.daxton.customdisplay.task.action2.player;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.item.CustomItem;
+import com.daxton.customdisplay.api.item.CustomItem2;
+import com.daxton.customdisplay.api.item.PlayerEquipment2;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 import java.util.Map;
@@ -27,30 +32,37 @@ public class GiveItem3 {
         //獲得物品的數量
         int amount = actionMapHandle.getInt(new String[]{"amount","a"},1);
 
+        boolean remove = actionMapHandle.getBoolean(new String[]{"remove"},false);
+
         int cmd = actionMapHandle.getInt(new String[]{"custommodeldata","cmd"},0);
 
         List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListSelf();
 
-        if(cmd != 0){
-            if(self instanceof Player){
-                Player player2 = (Player) self;
-                ItemStack itemStack = player2.getInventory().getItemInMainHand();
-
-                ItemMeta itemMeta = itemStack.getItemMeta();
-                itemMeta.setCustomModelData(cmd);
-
-                itemStack.setItemMeta(itemMeta);
-                player2.getInventory().setItemInMainHand(itemStack);
-
-            }
-
-        }
+//        if(cmd != 0){
+//            if(self instanceof Player){
+//                Player player2 = (Player) self;
+//                ItemStack itemStack = player2.getInventory().getItemInMainHand();
+//
+//                ItemMeta itemMeta = itemStack.getItemMeta();
+//                itemMeta.setCustomModelData(cmd);
+//
+//                itemStack.setItemMeta(itemMeta);
+//                player2.getInventory().setItemInMainHand(itemStack);
+//
+//            }
+//
+//        }
 
         livingEntityList.forEach(livingEntity -> {
             if(livingEntity instanceof Player){
                 Player player = (Player) livingEntity;
                 if(itemID != null){
-                    giveItem(player, target, itemID, amount);
+                    if(remove){
+                        removeItem(player, target, itemID, amount);
+                    }else {
+                        giveItem(player, target, itemID, amount);
+                    }
+
                 }
             }
         });
@@ -59,9 +71,17 @@ public class GiveItem3 {
 
     }
 
+    public static void removeItem(Player player, LivingEntity target,String inputItemID,int amount){
+        Inventory inventory = player.getInventory();
+
+        ItemStack itemStack = CustomItem2.valueOf(player, target, inputItemID,amount);
+        inventory.removeItem(itemStack);
+        PlayerEquipment2.itemList(player);
+    }
+
     public static void giveItem(Player player, LivingEntity target,String itemID,int amount){
 
-        ItemStack itemStack = CustomItem.valueOf(player, target, itemID,amount);
+        ItemStack itemStack = CustomItem2.valueOf(player, target, itemID,amount);
 
         player.getInventory().addItem(itemStack);
 

@@ -81,7 +81,7 @@ public class Loop3 extends BukkitRunnable {
             String judgMent = actionMapHandle.getString(new String[]{"actiontype"}, "");
 
             if(judgMent.toLowerCase().contains("break")){
-                if(!new Break(this.self, this.target, stringStringMap, this.taskID).isResult()){
+                if(!Break.valueOf(this.self, this.target, stringStringMap, this.taskID)){
                     return;
                 }
             }
@@ -118,7 +118,7 @@ public class Loop3 extends BukkitRunnable {
                 String judgMent = actionMapHandle.getString(new String[]{"actiontype"}, "");
 
                 if(judgMent.toLowerCase().contains("break")){
-                    if(!new Break(this.self, this.target, stringStringMap, this.taskID).isResult()){
+                    if(!Break.valueOf(this.self, this.target, stringStringMap, this.taskID)){
                         return;
                     }
                 }
@@ -157,7 +157,7 @@ public class Loop3 extends BukkitRunnable {
                 String judgMent = actionMapHandle.getString(new String[]{"actiontype"}, "");
 
                 if(judgMent.toLowerCase().contains("break")){
-                    if(!new Break(this.self, this.target, stringStringMap, this.taskID).isResult()){
+                    if(!Break.valueOf(this.self, this.target, stringStringMap, this.taskID)){
                         return;
                     }
                 }

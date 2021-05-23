@@ -10,6 +10,7 @@ import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -31,15 +32,16 @@ public class SetLight {
 
         int lightLevel = actionMapHandle.getInt(new String[]{"lightlevel","ll"},0);
 
-        String lightType = actionMapHandle.getString(new String[]{"lighttype","lt"},"");
-
         //顯示的時間
         int duration = actionMapHandle.getInt(new String[]{"duration","dt"},-1);
 
         Location location = actionMapHandle.getLocation(null);
-        int x = (int) location.getX();
-        int y = (int) location.getY();
-        int z = (int) location.getZ();
+
+//        if(self instanceof Player){
+//            Player player = (Player) self;
+//
+//            sendLight(player);
+//        }
 
         if(location != null){
 
@@ -63,7 +65,9 @@ public class SetLight {
 
         }
 
-
+//        int x = (int) location.getX();
+//        int y = (int) location.getY();
+//        int z = (int) location.getZ();
 
         //setRawLightLevel(location.getWorld(), lightType, x, y, z, lightLevel);
 
@@ -105,14 +109,25 @@ public class SetLight {
 //        }
 //    }
 
+    public static void sendLight(Player player){
+
+        World world = player.getWorld();
+        Chunk chunk = ((CraftWorld) world).getHandle().getChunkAt(player.getLocation().getChunk().getX(), player.getLocation().getChunk().getZ());
+        PacketPlayOutLightUpdate packet = new PacketPlayOutLightUpdate(chunk.getPos(), chunk.e(), true);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+
+    }
+
     public static void sendPacket(Player player, int x, int y ,int z) {
 
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.LIGHT_UPDATE);
 
+        packet.getIntegers().write(player.getLocation().getChunk().getX(), x);
+        packet.getIntegers().write(player.getLocation().getChunk().getZ(), y);
+
         packet.getBooleans().write(0, true);
 
-        packet.getIntegers().write(0, x);
-        packet.getIntegers().write(1, y);
+
         packet.getIntegers().write(2, z);
         packet.getIntegers().write(3, x);
         packet.getIntegers().write(4, y);

@@ -40,6 +40,7 @@ public class OrbitalAction3 extends BukkitRunnable{
     private boolean targetDead = true;
     private int setHitCount;
     private int hitCount;
+    private boolean hitStop;
 
     private LivingEntity self;
 
@@ -119,6 +120,8 @@ public class OrbitalAction3 extends BukkitRunnable{
         //命中次數
         setHitCount = actionMapHandle.getInt(new String[]{"hitcount","hc"},0);
 
+        hitStop = actionMapHandle.getBoolean(new String[]{"hitstop","hs"},false);
+
         //起始座標偏移
         String[] startlocadds = actionMapHandle.getStringList(new String[]{"startlocadd","sla"},new String[]{"true","true","0","0","0","0"},"\\|",6);
         boolean startTargetPitch = Boolean.parseBoolean(startlocadds[0]);
@@ -192,7 +195,6 @@ public class OrbitalAction3 extends BukkitRunnable{
             if(onEndList.size() > 0){
                 actionRun(onEndList,targetLocation,target);
             }
-
             cancel();
             return;
         }
@@ -203,6 +205,7 @@ public class OrbitalAction3 extends BukkitRunnable{
             double c = Math.min(1.0D, (double) j / speed);
             Location location = fLocation.apply(startLocation.add(targetLocation.clone().subtract(startLocation).toVector().normalize().multiply(c).add(vec.multiply(1.0D - c))));
             if(onTimeList.size() > 0){
+
                 actionRun(onTimeList,location,target);
             }
 
@@ -217,7 +220,9 @@ public class OrbitalAction3 extends BukkitRunnable{
                             hitCount++;
                             actionRun(onTimeHitList,targetLocation,livingEntity);
                         }else {
-                            cancel();
+                            if(hitStop){
+                                cancel();
+                            }
                         }
                     }else {
                         actionRun(onTimeHitList,targetLocation,livingEntity);
@@ -242,10 +247,8 @@ public class OrbitalAction3 extends BukkitRunnable{
 
             }
         }else {
-            //cd.getLogger().info(j+" : "+duration);
             if(j > duration || startLocation.distanceSquared(targetLocation) < hitRange){
                 if(onEndList.size() > 0){
-                    //cd.getLogger().info("時間到結束");
                     actionRun(onEndList,targetLocation,target);
                 }
                 cancel();
@@ -267,7 +270,7 @@ public class OrbitalAction3 extends BukkitRunnable{
                 String judgMent = actionMapHandle.getString(new String[]{"actiontype"}, "");
 
                 if(judgMent.toLowerCase().contains("break")){
-                    if(!new Break(this.self, livingTarget, stringStringMap, this.taskID).isResult()){
+                    if(!Break.valueOf(this.self, livingTarget, stringStringMap, this.taskID)){
                         return;
                     }
                 }
@@ -281,7 +284,7 @@ public class OrbitalAction3 extends BukkitRunnable{
                     BukkitRunnable bukkitRunnable = new BukkitRunnable() {
                         @Override
                         public void run() {
-                            new JudgmentLocAction2().execute(self, livingTarget, stringStringMap, location, taskID);
+                            new JudgmentLocAction2().execute(self, livingTarget, stringStringMap, location.clone(), taskID);
 
                         }
                     };

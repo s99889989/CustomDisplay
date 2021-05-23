@@ -63,7 +63,7 @@ public class ResourcePackSend {
                         try {
                             player.setResourcePack(rpRUL , rpHash);
                         }catch (NoSuchMethodError exception){
-                            exception.printStackTrace();
+                            player.setResourcePack(rpRUL);
                         }
                     }
                 };

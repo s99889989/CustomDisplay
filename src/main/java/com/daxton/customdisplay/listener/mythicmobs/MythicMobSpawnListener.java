@@ -1,9 +1,8 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.mob.MobConfig;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
+import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobLootDropEvent;
@@ -16,23 +15,30 @@ import org.bukkit.event.Listener;
 
 public class MythicMobSpawnListener implements Listener {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
 
 
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
-        ActiveMob activeMob = event.getMob();
-        double mobLevel = event.getMobLevel();
-        if(activeMob != null){
-            try {
-                MobConfig.setMod(activeMob, mobLevel);
-            }catch (NullPointerException exception){
 
+        try {
+            ActiveMob activeMob = event.getMob();
+            double mobLevel = event.getMobLevel();
+            if(activeMob != null){
+
+                String mobID = activeMob.getMobType();
+                String uuidString = activeMob.getUniqueId().toString();
+
+                //用UUID字串儲存MMID
+                MobManager.mythicMobs_mobID_Map.put(uuidString, mobID);
+                //用UUID字串儲存MM等級
+                MobManager.mythicMobs_Level_Map.put(uuidString, String.valueOf(mobLevel));
+                //用UUID字串儲存MMID
+                MobManager.mythicMobs_ActiveMob_Map.put(uuidString, activeMob);
             }
+        }catch (NoSuchMethodError error){
+            //
         }
-
-
     }
 
     @EventHandler
@@ -41,7 +47,7 @@ public class MythicMobSpawnListener implements Listener {
         LivingEntity target = (LivingEntity) event.getEntity();
         LivingEntity killer = event.getKiller();
 
-        Player player = null;
+        Player player;
         player = Convert.convertKillerPlayer(killer);
         try {
             if(player != null){
@@ -51,13 +57,13 @@ public class MythicMobSpawnListener implements Listener {
                     item = "";
                     for(int i = 0;i < event.getDrops().size();i++){
                         if(i == 0){
-                            if(event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty() == false){
+                            if(!event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty()){
                                 item = event.getDrops().get(i).getItemMeta().getDisplayName();
                             }else {
                                 item = event.getDrops().get(i).getI18NDisplayName();
                             }
                         }else {
-                            if(event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty() == false){
+                            if(!event.getDrops().get(i).getItemMeta().getDisplayName().isEmpty()){
                                 item = item + "," + event.getDrops().get(i).getItemMeta().getDisplayName();
                             }else {
                                 item = item + "," + event.getDrops().get(i).getI18NDisplayName();
@@ -77,7 +83,7 @@ public class MythicMobSpawnListener implements Listener {
                 }
             }
         }catch (NoSuchMethodError error){
-
+            //
         }
 
 

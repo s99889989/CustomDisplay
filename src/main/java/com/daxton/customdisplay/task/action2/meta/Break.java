@@ -17,7 +17,7 @@ public class Break {
 
     public Break(){}
 
-    public Break(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
+    public static boolean valueOf(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID){
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
         boolean mode = actionMapHandle.getBoolean(new String[]{"Mode","m"}, false);
@@ -25,17 +25,17 @@ public class Break {
         String conditionType = actionMapHandle.getString(new String[]{"ConditionType","ct"}, "");
 
         String conditionContent = actionMapHandle.getString(new String[]{"ConditionContent","cp"}, "");
-
-
+        //CustomDisplay.getCustomDisplay().getLogger().info(conditionContent);
+        boolean result = false;
         switch (conditionType.toLowerCase()){
             case "compare":
-                result = new Compare2(self, target, conditionContent, taskID).isResult();
+                result = Compare2.valueOf(self, target, conditionContent, taskID);
                 break;
             case "contains":
-                result = new Contains2(self, target, conditionContent, taskID).isResult();
+                result = Contains2.valueOf(self, target, conditionContent, taskID);
                 break;
             case "equals":
-                result = new Equals2(self, target, conditionContent, taskID).isResult();
+                result = Equals2.valueOf(self, target, conditionContent, taskID);
                 break;
             case "healthchange":
                 if(ActionManager.condition_HealthChange_Map.get(taskID) == null){
@@ -57,7 +57,7 @@ public class Break {
             }
         }
 
-
+        return result;
     }
 
     public boolean isResult() {

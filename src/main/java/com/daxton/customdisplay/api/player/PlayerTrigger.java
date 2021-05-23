@@ -2,13 +2,11 @@ package com.daxton.customdisplay.api.player;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
-import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.task.ClearAction;
 import com.daxton.customdisplay.task.JudgmentAction2;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -18,50 +16,41 @@ public class PlayerTrigger {
 
     private final CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-//    private LivingEntity self = null;
-//    private LivingEntity target = null;
-//
-//
-//    /**觸發的動作列表**/
-//    private static List<Map<String, String>> player_Action_List_Map = new ArrayList<>();
-//    private static List<Map<String, String>> player_Item_Action_List_Map = new ArrayList<>();
+
 
     public PlayerTrigger(){
 
     }
 
-//    public PlayerTrigger(Player player){
-//        UUID playerUUID = player.getUniqueId();
-//        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
-//
-//        if(playerData != null){
-//
-//            player_Action_List_Map = playerData.getPlayer_Action_List_Map();
-//            player_Item_Action_List_Map = playerData.player_Item_Action_List_Map;
-//        }
-//    }
-
     //玩家觸發動作
     public static void onPlayer(Player player,LivingEntity target, String triggerName){
-        UUID playerUUID = player.getUniqueId();
-        PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
 
-        if(playerData != null){
-            List<Map<String, String>> player_Action_List_Map = playerData.getPlayer_Action_List_Map();
-            List<Map<String, String>> player_Item_Action_List_Map = playerData.player_Item_Action_List_Map;
+        String uuidString = player.getUniqueId().toString();
 
+        PlayerData2 playerData2 = PlayerManager.player_Data_Map.get(uuidString);
+        //CustomDisplay.getCustomDisplay().getLogger().info(triggerName);
+
+        if(playerData2 != null){
+            List<Map<String, String>> player_Action_List_Map = playerData2.player_Action_List_Map;
             player_Action_List_Map.forEach(stringStringMap -> {
                 if(stringStringMap.get("triggerkey") != null && stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
                     runExecute(stringStringMap, player, target);
                 }
             });
 
+            List<Map<String, String>> player_Item_Action_List_Map = playerData2.player_Item_Action_List_Map;
             player_Item_Action_List_Map.forEach(stringStringMap2 -> {
                 if(stringStringMap2.get("triggerkey") != null && stringStringMap2.get("triggerkey").toLowerCase().equals(triggerName)){
                     runExecute(stringStringMap2, player, target);
                 }
             });
 
+            playerData2.player_Skill_Action_List_Map.forEach(stringStringMap3 -> {
+                if(stringStringMap3.get("triggerkey") != null && stringStringMap3.get("triggerkey").toLowerCase().equals(triggerName)){
+                    //CustomDisplay.getCustomDisplay().getLogger().info("技能觸發"+stringStringMap3.get("triggerkey"));
+                    runExecute(stringStringMap3, player, target);
+                }
+            });
 
             ActionManager.permission_Action_Map.forEach((s, maps) -> {
                 if(player.hasPermission("customdisplay.permission."+s.toLowerCase())){
@@ -74,43 +63,11 @@ public class PlayerTrigger {
             });
 
         }
+
     }
 
-//    /**觸發動作**/
-//    public void onTwo(LivingEntity self,LivingEntity target, String triggerName){
-//        this.self = self;
-//        this.target = target;
-//
-//        this.player_Action_List_Map.forEach(stringStringMap -> {
-//            if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
-//                runExecute(stringStringMap, self, target);
-//            }
-//        });
-//
-//        this.player_Item_Action_List_Map.forEach(stringStringMap -> {
-//            if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
-//                runExecute(stringStringMap, self, target);
-//            }
-//        });
-//
-//        if(self instanceof Player){
-//            Player player = (Player) self;
-//            ActionManager.permission_Action_Map.forEach((s, maps) -> {
-//                if(player.hasPermission("customdisplay.permission."+s.toLowerCase())){
-//                        maps.forEach(stringStringMap -> {
-//                            if(stringStringMap.get("triggerkey").toLowerCase().equals(triggerName)){
-//                                runExecute(stringStringMap, self, target);
-//                            }
-//                        });
-//                }
-//            });
-//        }
-//
-//
-//    }
-
-    /**直接使用動作列表**/
-    public static void onSkill(LivingEntity self,LivingEntity target,List<Map<String, String>> action){
+    //直接使用動作列表
+    public static void onSkillList(LivingEntity self, LivingEntity target, List<Map<String, String>> action){
         if(action.size() > 0){
             for(Map<String, String> actionString : action){
                 runExecute(actionString, self, target);
@@ -126,17 +83,17 @@ public class PlayerTrigger {
 
         boolean stop = actionMapHandle.getBoolean(new String[]{"stop","s"}, false);
 
-        if(stop){
-            new ClearAction().taskID2(taskID);
-        }else{
-            new ClearAction().taskID2(taskID);
+        new ClearAction().taskID2(taskID);
 
+        if(!stop){
             ActionManager.trigger_Judgment_Map2.put(taskID,new JudgmentAction2());
 
             ActionManager.trigger_Judgment_Map2.get(taskID).execute(self, target, action_Map, taskID);
-
-
         }
+
+
+
+
 
     }
 

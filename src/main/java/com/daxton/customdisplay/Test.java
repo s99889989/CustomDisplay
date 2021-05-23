@@ -18,22 +18,11 @@ public class Test {
 
 
     public static void main(String[] args) {
-        String content = "&bsb_target_nowhealth&~0.0";
-        if(content.contains(">")){
-            String stringLeft = content.substring(0, content.indexOf(">"));
-            String stringRight = content.substring(content.indexOf(">")+1);
-        }else if(content.contains("<")){
-            String stringLeft = content.substring(0, content.indexOf("<"));
-            String stringRight = content.substring(content.indexOf("<")+1);
-
-        }else if(content.contains("~")){
-            String stringLeft = content.substring(0, content.indexOf("~"));
-            String stringRight = content.substring(content.indexOf("~")+1);
-            System.out.println(stringLeft);
-            System.out.println(stringRight);
-        }
+        String content = "123.321";
 
 
+
+        System.out.println(content.substring(0, content.indexOf(".")));
 
     }
 

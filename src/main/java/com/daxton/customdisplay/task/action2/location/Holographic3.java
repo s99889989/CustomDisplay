@@ -2,6 +2,7 @@ package com.daxton.customdisplay.task.action2.location;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem2;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -124,7 +125,7 @@ public class Holographic3 {
 
     /**增加物品訊息**/
     public Hologram addItemHD(Hologram hologram, String itemID){
-        ItemStack itemStack = MenuItem2.valueOf(itemID);
+        ItemStack itemStack = CustomItem2.valueOf(null, null,itemID, 1);
         if(itemStack != null){
             hologram.appendItemLine(itemStack);
         }

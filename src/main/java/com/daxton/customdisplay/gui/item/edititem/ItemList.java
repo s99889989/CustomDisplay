@@ -1,9 +1,10 @@
 package com.daxton.customdisplay.gui.item.edititem;
 
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
@@ -45,12 +46,12 @@ public class ItemList {
 
         String uuidString = player.getUniqueId().toString();
         if(EditorGUIManager.menu_ItemList_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_ItemList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, itemCount));
+            EditorGUIManager.menu_ItemList_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, itemCount));
             Inventory inventory = EditorGUIManager.menu_ItemList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }else{
             EditorGUIManager.menu_ItemList_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_ItemList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, itemCount));
+            EditorGUIManager.menu_ItemList_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, itemCount));
             Inventory inventory = EditorGUIManager.menu_ItemList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }
@@ -117,7 +118,7 @@ public class ItemList {
     }
 
 
-    public Inventory getInventory(String typeName, String itemName, int itemCount){
+    public Inventory getInventory(Player player, String typeName, String itemName, int itemCount){
         this.typeName = typeName;
         this.itemName = itemName;
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_"+typeName+".yml");
@@ -155,7 +156,8 @@ public class ItemList {
             inventory.setItem(53, ButtomSet.getItemButtom("Buttom.ActionList.NextPage", ""));
         }
 
-        inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
+        inventory.setItem(4, CustomItem2.valueOf(player, null, typeName+"."+itemName, 1));
+        //inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
         inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.ActionList.ToEditItem", ""));
         inventory.setItem(8, ButtomSet.getItemButtom("Buttom.ActionList.Exit", ""));

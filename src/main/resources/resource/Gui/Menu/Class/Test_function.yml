@@ -1,0 +1,132 @@
+Title: '測試功能區'
+
+Sort:
+- 'Class_Default|PlayerTotal.1.2.3.4.5.6.7.Class_Default|Close'
+- '9.Item1.Item2.Item3.Item4.Item5.Item6.16.17'
+- '18.19.20.21.22.23.24.25.26'
+- '27.BaseExp.JobExp0.JobExp1.31.32.33.34.35'
+- '36.37.38.39.40.41.42.43.44'
+#- '45.46.47.48.49.50.51.52.53'
+#
+Buttons:
+
+  Item1:
+    Move: false
+    Material: 'Glowstone_Dust'
+    CustomModelData: 2
+    RemoveItemFlags: true
+    Name: '§e新手弓'
+    Lore:
+    - ''
+    - '§7武器類型 : 武器-弓'
+    - '§7物理攻擊 : 10'
+    Left:
+    - Action[a=GiveItem1]
+
+  Item2:
+    Move: false
+    Material: 'Coal'
+    CustomModelData: 398
+    RemoveItemFlags: true
+    Name: '§eArrow'
+    Lore:
+    - ''
+    - '*16 arrows'
+    Left:
+    - Action[a=GiveItem2]
+
+  Item3:
+    Move: false
+    Material: 'Glowstone_Dust'
+    CustomModelData: 55
+    RemoveItemFlags: true
+    Name: '§e法杖'
+    Lore:
+    - ''
+    - '§7武器類型 : 武器-法杖'
+    - '§7魔法攻擊 : 10'
+    Left:
+    - Action[a=GiveItem3]
+
+  Item4:
+    Move: false
+    Material: 'Glowstone_Dust'
+    CustomModelData: 101
+    RemoveItemFlags: true
+    Name: '§e無屬性武器'
+    Lore:
+    - ''
+    - '§7武器類型 : 武器-長劍'
+    - '§7物理攻擊 : 10'
+    Left:
+    - Action[a=GiveItem4]
+
+  Item5:
+    Move: false
+    Material: 'Glowstone_Dust'
+    CustomModelData: 102
+    RemoveItemFlags: true
+    Name: '§e火之劍'
+    Lore:
+    - ''
+    - '§7武器類型 : 武器-長劍'
+    - '§7物理攻擊 : 10'
+    - '§7攻擊屬性 : 火'
+    Left:
+    - Action[a=GiveItem5]
+
+  Item6:
+    Move: false
+    Material: 'Glowstone_Dust'
+    CustomModelData: 103
+    RemoveItemFlags: true
+    Name: '§e水之劍'
+    Lore:
+    - ''
+    - '§7武器類型 : 武器-長劍'
+    - '§7物理攻擊 : 10'
+    - '§7攻擊屬性 : 水'
+    Left:
+    - Action[a=GiveItem6]
+
+  BaseExp:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e獲得Base等級經驗值'
+    Lore:
+    - '§f每次獲得[10000]Base等級經驗值'
+    Left:
+    - Action[a=GetBaseExp-2]
+
+  JobExp0:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e獲得0轉Job職業經驗值'
+    Lore:
+    - '§f每次獲得[10000]0轉Job職業經驗值'
+    Left:
+    - Action[a=Get0JobExp-2]
+
+  JobExp1:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e獲得1轉Job職業經驗值'
+    Lore:
+    - '§f每次獲得[10000]1轉Job職業經驗值'
+    Left:
+    - Action[a=Get1JobExp-2]
+
+
+
+
+
+
+
+
+

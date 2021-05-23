@@ -33,6 +33,14 @@ Language:
       - '§7關閉伺服器時'
       - '§7也會儲存物品資料'
       
+      LoadDM: Map:0
+      Load: '§e讀取修改的物品資料'
+      LoadInfo:
+      - ''
+      - '§7手動修改文件檔案時'
+      - '§7可以使用此按鈕讀取'
+      - '§7修改的設定'
+      
     SelectItems:
     
       ToItemCategorySelectionDM: Arrow:0

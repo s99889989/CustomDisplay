@@ -2,4 +2,20 @@ Menu:
   Material: BOOK
   DisplayName: §eItem editing interface
   Action:
-  - '§enull:Action[Action=ItemEditMenu;Count=1;CountPeriod=10;Stop=false] ~RightClickAir '
+  - 'null:Action[Action=ItemEditMenu;Count=1;CountPeriod=10;Stop=false] ~RightClickAir '
+  - 'null:Action[Action=ItemEditMenu;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock '
+Personal_Information_Novice:
+  Material: COAL
+  CustomModelData: 300
+  DisplayName: §ePersonal information
+  Action:
+  - 'null:SwitchAction[cc=&self_class_name&;ct=equals;c=初心者|弓箭手|劍士|魔法師;a=Open_Gui_Player_Total_0|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1]
+    ~RightClickAir '
+  - 'null:SwitchAction[cc=&self_class_name&;ct=equals;c=初心者|弓箭手|劍士|魔法師;a=Open_Gui_Player_Total_0|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1]
+    ~RightClickBlock '
+expgui:
+  Material: BOOK
+  DisplayName: Open the sample GUI
+  Action:
+  - 'null:Action[Action=OpenExpGui2;Count=1;CountPeriod=10;Stop=false] ~RightClickAir '
+  - 'null:Action[Action=OpenExpGui2;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock '

@@ -5,12 +5,18 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.entity.PacketEntity;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,7 +30,7 @@ public class LocGuise3 {
 
     }
 
-    public void setItemEntity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID, Location location){
+    public void setItemEntity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID, Location inputLocation){
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
@@ -35,7 +41,7 @@ public class LocGuise3 {
         String entityName = actionMapHandle.getString(new String[]{"entityname","en"},null);
 
         /**實體是否看的見**/
-        boolean visible = actionMapHandle.getBoolean(new String[]{"visible"},true);
+        boolean visible = actionMapHandle.getBoolean(new String[]{"visible"},false);
 
         /**獲得物品的ID**/
         String itemID = actionMapHandle.getString(new String[]{"itemid"},null);
@@ -43,127 +49,81 @@ public class LocGuise3 {
         /**要裝備的部位**/
         String equipmentSlot = actionMapHandle.getString(new String[]{"equipmentslot","es"},"HEAD");
 
-        /**座標要加上自己還是目標**/
-        String locTarget = actionMapHandle.getString(new String[]{"loctarget","lt"},null);
-
         /**顯示的時間**/
         int duration = actionMapHandle.getInt(new String[]{"duration","dt"},-1);
 
-        /**對目標增加座標量**/
-        double x = 0;
-        double y = 0;
-        double z = 0;
-        String[] locAdds = actionMapHandle.getStringList(new String[]{"locadd","la"},new String[]{"0","0","0"},"\\|",3);
-        if(locAdds.length == 3){
+        //是否要移動
+        boolean teleport = actionMapHandle.getBoolean(new String[]{"teleport","tp"}, false);
 
-            try {
-                x = Double.parseDouble(locAdds[0]);
-                y = Double.parseDouble(locAdds[1]);
-                z = Double.parseDouble(locAdds[2]);
-            }catch (NumberFormatException exception){
-                x = 0;
-                y = 0;
-                z = 0;
-            }
-        }
-        Location setLocation = null;
-        if(locTarget != null){
-            if(locTarget.toLowerCase().contains("self")){
+        Location location = actionMapHandle.getLocation2(inputLocation);
+        //cd.getLogger().info(inputLocation.getY()+" : "+location.getY());
+        List<Entity> entityList = Arrays.asList(self.getChunk().getEntities());
+        entityList.forEach(entity -> {
+            if(entity instanceof Player){
 
-                setLocation = self.getLocation();
+                Player player = (Player) entity;
+                //Location location2 = location.add(0,-getEntityHight(entityType),0);
+                if(this.packetEntity == null){
 
-            }
-            if(locTarget.toLowerCase().contains("target")){
-                if(target != null){
-                    setLocation = target.getLocation();
+                    this.packetEntity = new PacketEntity().createPacketEntity(entityType, player, location);
+
+                }else {
+                    if(teleport){
+                        this.packetEntity.teleport(location, player);
+                    }
                 }
-            }
-        }
+                if(this.packetEntity != null){
 
-        if(location != null){
-            if(setLocation == null){
-                setLocation = location.clone().add(x,y,z);
-            }
+                    if(duration < 0){
+                        packetEntity.delete();
+                        return;
+                    }
 
-            if(setLocation != null){
-                runItemEntity(self, target, action_Map, entityType, setLocation, visible, itemID, entityName, equipmentSlot, duration);
+                    String ent = this.packetEntity.getEntityTypeName();
+
+                    if(ent.equals("ARMOR_STAND")){
+
+                        setArmorStand(self ,target , action_Map, location);
+                    }
+
+                    if(!visible){
+                        this.packetEntity.setVisible();
+                    }
+
+                    if(itemID != null){
+                        this.packetEntity.appendItem(itemID,equipmentSlot);
+                    }
+
+                    if(entityName != null){
+                        packetEntity.appendTextLine(entityName);
+                    }
+
+                    if(duration > 0){
+                        BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                packetEntity.delete();
+
+                            }
+                        };
+                        bukkitRunnable.runTaskLater(cd,duration);
+                    }
+
+                }
+
             }
-        }
+        });
 
     }
 
-    public void runItemEntity(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String entityType, Location location, boolean visible, String itemID, String entityName, String equipmentSlot, int duration){
-        if(self instanceof Player){
-
-            Player player = ((Player) self).getPlayer();
-
-            if(this.packetEntity == null){
-
-                this.packetEntity = new PacketEntity().createPacketEntity(entityType, player, location);
-
-
-//                Vector vector = location.getDirection();
-//                this.packetEntity.velocity(vector);
-
-
-            }
-            if(this.packetEntity != null){
-
-                if(duration < 0){
-                    packetEntity.delete();
-                    return;
-                }
-
-                this.packetEntity.teleport(location, player);
-
-                String ent = this.packetEntity.getEntityTypeName();
-                if(ent.equals("ARMOR_STAND")){
-
-                    setArmorStand(self ,target , action_Map, location);
-                }
-
-                if(!visible){
-                    this.packetEntity.setVisible();
-                }
-
-                if(itemID != null){
-                    this.packetEntity.appendItem(itemID,equipmentSlot);
-                }
-
-                if(entityName != null){
-                    packetEntity.appendTextLine(entityName);
-                }
-
-                if(duration > 0){
-                    BukkitRunnable bukkitRunnable = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            packetEntity.delete();
-
-                        }
-                    };
-                    bukkitRunnable.runTaskLater(cd,duration);
-                }
-
-            }
-
-
-
-            //DRAGON_FIREBALL ARMOR_STAND
-
-            //packetEntity.velocity(moveEntity(player));
-
-
-        }
-    }
 
     public void setArmorStand(LivingEntity self, LivingEntity target, Map<String, String> action_Map, Location location){
-//                    double pitch = ((player.getLocation().getPitch() + 90) * Math.PI) / 180;
-//                    double yaw  = ((player.getLocation().getYaw() + 90)  * Math.PI) / 180;
-
-        //player.sendMessage("左右轉: "+player.getLocation().getYaw()+" 上下轉: "+player.getLocation().getPitch());
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
+
+        String[] HeadAddLoc = actionMapHandle.getStringList(new String[]{"HeadAddLoc","hal"},new String[]{"false","false"},"\\|",2);
+        boolean headPitch = Boolean.parseBoolean(HeadAddLoc[0]);
+        boolean headYaw = Boolean.parseBoolean(HeadAddLoc[1]);
 
         /**頭的角度**/
         float headX = 0;
@@ -176,21 +136,27 @@ public class LocGuise3 {
                 headX = Float.parseFloat(headAngle[0]);
                 headY = Float.parseFloat(headAngle[1]);
                 headZ = Float.parseFloat(headAngle[2]);
-                if(location != null){
-                    headX = headX+location.getPitch();
-                    //headY = headX+location.getYaw();
-                }
+
             }catch (NumberFormatException exception){
                 headX = 0;
                 headY = 0;
                 headZ = 0;
-                if(location != null){
-                    headX = headX+location.getPitch();
-                   // headY = headX+location.getYaw();
-                }
+
             }
         }
-        //cd.getLogger().info("head: "+headX+" : "+headY+" : "+headZ);
+        if(location != null){
+
+            if(headPitch){
+                //cd.getLogger().info(" Pitch: "+location.getPitch());
+                headX += location.getPitch();
+            }
+            if(headYaw){
+                //cd.getLogger().info(" Yaw: "+location.getYaw());
+                headY += location.getYaw();
+            }
+
+        }
+
         this.packetEntity.setArmorStandAngle("head",headX,headY,headZ);
         /**身體的角度**/
         float bodyX = 0;
@@ -284,25 +250,21 @@ public class LocGuise3 {
         this.packetEntity.setArmorStandAngle("rightleg",rightLegX,rightLegY,rightLegZ);
     }
 
+    public double getEntityHight(String entityType){
+        World world = Bukkit.getWorlds().get(0);
+        double hight = 0.5;
+        try {
+            EntityType entityType1 = Enum.valueOf(EntityType.class ,entityType.toUpperCase());
+            Entity entity = (Entity) world.spawnEntity(new Location(world, 0, 0, 0), entityType1);
+            hight += entity.getHeight();
+            entity.remove();
+        }catch (NullPointerException exception){
 
-    /**給向量移動**/
-    public Vector moveEntity(Player player){
-
-
-        double angle = 180;
-        double hight = 1;
-
-        double pitch = ((player.getLocation().getPitch() + 90) * Math.PI) / 180;
-        double yaw  = ((player.getLocation().getYaw() + 90+angle)  * Math.PI) / 180;
-        double x = Math.sin(pitch) * Math.cos(yaw);
-        double z = Math.sin(pitch) * Math.sin(yaw);
-
-        Vector vector = new Vector(x, 0, z);
-        Vector vector1 = new Vector(0,hight,0);
-        Vector vector2 = vector.add(vector1);
-
-
-        return vector2;
+            Entity entity = (Entity) world.spawnEntity(new Location(world, 0, 0, 0), EntityType.ARMOR_STAND);
+            hight += entity.getHeight();
+            entity.remove();
+        }
+        return hight;
     }
 
     public PacketEntity getPacketEntity() {

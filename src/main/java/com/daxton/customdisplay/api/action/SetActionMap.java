@@ -1,8 +1,6 @@
 package com.daxton.customdisplay.api.action;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.Config;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
 import com.daxton.customdisplay.manager.ActionManager;
@@ -14,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SetActionMap {
-
-    CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public SetActionMap(){
 
@@ -64,18 +60,24 @@ public class SetActionMap {
         configTypeMap.forEach((typeString, fileConfiguration) -> {
 
             //在動作Config裡面抓取ActionListString
-            fileConfiguration.getConfigurationSection("").getKeys(false).forEach(actionKey -> {
-                List<String> actionList = fileConfiguration.getStringList(actionKey+".Action");
+            try {
+                fileConfiguration.getConfigurationSection("").getKeys(false).forEach(actionKey -> {
+                    List<String> actionList = fileConfiguration.getStringList(actionKey+".Action");
 
-                List<Map<String, String>> actionMapList = new ArrayList<>();
-                actionList.forEach(s -> {
-                    //cd.getLogger().info(s);
-                    actionMapList.add(setClassAction(s));
+                    List<Map<String, String>> actionMapList = new ArrayList<>();
+                    actionList.forEach(s -> {
+                        //cd.getLogger().info(s);
+                        actionMapList.add(setClassAction(s));
+                    });
+
+                    ActionManager.action_SubAction_Map.put(actionKey, actionMapList);
+
                 });
+            }catch (NullPointerException exception){
+                //
+            }
 
-                ActionManager.action_SubAction_Map.put(actionKey, actionMapList);
 
-            });
 
 
         });
@@ -104,7 +106,7 @@ public class SetActionMap {
             if (num1 == 1 && num2 == 1) {
                 //設定動作類型
                 String actionType = inputString.substring(0, inputString.indexOf("[")).trim();
-                actionMap.put("actiontype",actionType);
+                actionMap.put("actiontype",actionType.toLowerCase().trim());
                 //cd.getLogger().info("ActionType"+" : "+actionType);
 
                 //從]往後的字串

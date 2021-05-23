@@ -1,0 +1,16 @@
+Swordman:
+  Swordman_Endure:
+    base: 0
+  Swordman_MagnumBreak:
+    base: 0
+  Swordman_Provoke:
+    base: 0
+  Swordman_Bash:
+    base: 0
+  Swordman_IncreaseRecuperativePower:
+    base: 0
+  Swordman_SwordMastery:
+    base: 0
+
+
+

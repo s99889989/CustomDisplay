@@ -1,5 +1,5 @@
 Default_Player:
-  Class_Name: '初心者'
+  Class_Name: 'Human'
   Action:
   - 'Default'
   Level:
@@ -14,6 +14,3 @@ Default_Player:
   - 'Stats_Default'
   Equipment_Stats:
   - 'Stats_Equipment'
-  #Skills:
-  #- Novice
-  #- Swordman

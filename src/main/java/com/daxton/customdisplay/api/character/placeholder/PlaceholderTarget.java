@@ -33,6 +33,7 @@ public class PlaceholderTarget {
                 outputString = PlaceholderAttributes.valueOf(entity, key);
             }
         }else {
+
             if(key.toLowerCase().contains("<cd_base_")){
                 outputString = PlaceholderBase.valueOf(entity,null,key);
             }
@@ -45,6 +46,9 @@ public class PlaceholderTarget {
             if(key.toLowerCase().contains("<cd_attribute_")){
                 outputString = PlaceholderAttributes.valueOf(entity, key);
             }
+
+
+
         }
         return outputString;
     }

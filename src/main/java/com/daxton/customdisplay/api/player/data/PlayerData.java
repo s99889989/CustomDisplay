@@ -75,7 +75,7 @@ public class PlayerData {
         FileConfiguration config = ConfigMapManager.getFileConfigurationMap().get("config.yml");
 
         new PlayerConfig2(player);
-        playerConfig = new LoadConfig().getPlayerConfig(player);
+        playerConfig = LoadConfig.getPlayerConfig(player);
         /**是否使用屬性**/
         String attackCore = config.getString("AttackCore");
         if(attackCore.toLowerCase().contains("customcore")){

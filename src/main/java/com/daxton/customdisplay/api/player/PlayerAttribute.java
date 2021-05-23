@@ -64,7 +64,7 @@ public class PlayerAttribute {
                         String operation = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".operation");
                         if(inherit != null && operation !=null){
 
-                            new PlayerBukkitAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
+                            new PlayerBukkitAttribute().removeAddAttribute(player,inherit,operation,statsNumber,attrStats);
                         }else if(coreattr != null){
                             PlayerManager.getCore_Attribute_Map().get(playerUUIDString).setAttribute(coreattr,operation,statsNumber);
                         }

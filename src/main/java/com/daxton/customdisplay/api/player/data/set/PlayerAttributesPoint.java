@@ -29,26 +29,7 @@ public class PlayerAttributesPoint {
         }
 
     }
-    /**設定單個屬性點**/
-    public void setOneMap(Player player,String attrName,int amount){
 
-
-        UUID uuid = player.getUniqueId();
-        PlayerData playerData = PlayerManager.getPlayerDataMap().get(uuid);
-        if(playerData != null){
-            Map<String,String> point_Map = playerData.attributes_Point_Map;
-            if(!(point_Map.isEmpty()) && point_Map.size() > 0){
-                int nowValue = Integer.valueOf(point_Map.get(attrName));
-                int newValue = nowValue + amount;
-                if(newValue >= 0){
-                    point_Map.put(attrName,String.valueOf(newValue));
-                }
-            }
-
-        }
-
-
-    }
 
 
 }

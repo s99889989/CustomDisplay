@@ -1,5 +1,6 @@
 #攻擊顯示傷害(向上)
 #Attack display damage (up)
+#-------------------------------------------------------------------------#
 AttackDisplayUp:
   Action:
   - Loop[onStart=AttackDisplayUp-Start;onTime=AttackDisplayUp-Time;onEnd=AttackDisplayUp-End;period=3;duration=20]
@@ -15,6 +16,7 @@ AttackDisplayUp-End:
   
 #攻擊顯示傷害(向上)(爆擊)Crit
 #Attack display damage (up)(Critical)
+#-------------------------------------------------------------------------#
 AttackDisplayUpCrit:
   Action:
   - Loop[onStart=AttackDisplayUpCrit-Start;onTime=AttackDisplayUpCrit-Time;onEnd=AttackDisplayUpCrit-End;period=3;duration=20]
@@ -30,6 +32,7 @@ AttackDisplayUpCrit-End:
 
 #攻擊顯示傷害(向上)(失敗)
 #Attack display damage (up)(Miss)
+#-------------------------------------------------------------------------#
 AttackDisplayUpMiss:
   Action:
   - Loop[onStart=AttackDisplayUpMiss-Start;onTime=AttackDisplayUpMiss-Time;onEnd=AttackDisplayUpMiss-End;period=3;duration=20]
@@ -43,10 +46,33 @@ AttackDisplayUpMiss-End:
   Action:
   - Hologram[deleteAll=true]
 
-####################################################################################
 
+#打開範例介面
+#Open the sample Gui
+#-------------------------------------------------------------------------#
+OpenExpGui:
+  Action:
+  - Break[ConditionType=Equals;ConditionContent=&self_class_command&~expgui]
+  - Inventory[fc=close]
+  - Inventory[fc=gui;GuiID=Example]
+OpenExpGui2:
+  Action:
+  - Inventory[fc=gui;GuiID=Example]
 
+#關閉GUI
+#Close the GUI.
+#-------------------------------------------------------------------------#
+Close_Gui:
+  Action:
+  - Inventory[fc=close]
 
+#打開職業列表
+#Open the Class list.
+#-------------------------------------------------------------------------#
+Open_Gui_Class_Table_Example:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_Table_Example]
 
+#-------------------------------------------------------------------------#
 
 

@@ -1,0 +1,17 @@
+Magician:
+  Magician_ColdBolt:
+    base: 0
+  Magician_RingOfFlame:
+    base: 0
+  Magician_SoulStrike:
+    base: 0
+  Magician_FrostDiver:
+    base: 0
+  Magician_FireBolt:
+    base: 0
+  Magician_LightningBolt:
+    base: 0
+  Magician_IncreaseSpiritualPower:
+    base: 0
+
+

@@ -126,11 +126,11 @@ public class SendParticles3 {
 
         }else if(function.toLowerCase().contains("img")){
             JavaImageIO(self, target, action_Map, location);
+        }else {
+            if(location != null){
+                sendParticle(self, putParticle, location, count, xOffset, yOffset, zOffset, extra, color, blockData, itemData);
+            }
         }
-
-
-
-
 
 
     }
@@ -366,10 +366,10 @@ public class SendParticles3 {
             }
         }
         particles.forEach((location1, rgb) -> {
-            //location1.getWorld().spawnParticle(REDSTONE, location1, count, xOffset, yOffset, zOffset, extra, new DustOptions(fromRGB(rgb), 1));
+
             location1.getWorld().spawnParticle(REDSTONE, location1, 1, 0, 0, 0, 0, new DustOptions(fromRGB(rgb), 1));
         });
-        //self.getWorld().spawnParticle(putParticle, location, count, xOffset, yOffset, zOffset, extra,color);
+
     }
 
 

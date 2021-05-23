@@ -1,0 +1,464 @@
+Title: '個人資訊'
+
+Sort:
+- 'Stats0.Stats1.Stats2. .TestItem. .Stats. .Class_Default|Close'
+- 'Stats3.Stats4.Stats5.Stats6. .Str.Agi.Vit. '
+- 'Stats7.Stats8. .. .Int.Dex.Luk. '
+- 'Stats9.Stats10. . .ClassTable. . . . '
+- 'Stats11.Stats12. . .SkillAdventure. . . . '
+- 'Stats13. . . .SkillBind. . . . '
+
+Buttons:
+
+#人物基礎
+#------------------------------------------------#
+  Stats:
+    Move: false
+    Material: 'PLAYER_HEAD'
+    HeadValue: '&self_name&'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e&self_name&'
+    Lore:
+    - ''
+    - '§7職業: §9&self_class_name&'
+    - '§7種族: §9&self_Class_Race&'
+    - '§7體型: §9&self_Class_Body&'
+    - '§7攻擊屬性: §9&self_Eq_Class_Attributes_Attack&'
+    - '§7防禦屬性: §9&self_Eq_Class_Attributes_Defense&'
+    - '§7武器類型: §9&self_Eq_Class_Weapon_Type&'
+    - ''
+    - '§7Base等級: §e&self_base_level_now& / &self_base_level_max&'
+    - '§7Bas經驗值: §e&self_base_exp_now& / &self_base_exp_max&'
+    - '§7Job等級: §e&self_job_level_now& / &self_job_level_max&'
+    - '§7Job經驗值: §e&self_job_exp_now& / &self_job_exp_max&'
+    - ''
+    - '§7屬性點: §6&self_base_last& / &self_base_max&'
+    - '§7技能點: §6&self_job_last& / &self_job_max&'
+    Left:
+    - Action[a=EmojiHelpHD2;mark=&self_name&]
+    Right:
+    - Action[a=EmojiHelpHD2;mark=&self_name&]
+
+  Close:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e關閉視窗'
+    Lore:
+    - ''
+    Left:
+    - Action[a=Close_Gui]
+
+  Str:
+    Move: false
+    Material: 'RED_DYE'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e力量'
+    Lore:
+    - ''
+    - '目前力量: §9§l&self_attr_Str& + &self_eqm_Eq_Str&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
+    Left:
+    - Action[a=add_Attributes_Str]
+    - Action[a=Open_Gui_Player_Total]
+    Right:
+    - Action[a=cut_Attributes_Str]
+    - Action[a=Open_Gui_Player_Total]
+    
+  Agi:
+    Move: false
+    Material: 'LEATHER_BOOTS'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e敏捷'
+    Lore:
+    - ''
+    - '目前敏捷: §9§l&self_attr_Agi& + &self_eqm_Eq_Agi&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
+    Left:
+    - Action[a=add_Attributes_Agi]
+    - Action[a=Open_Gui_Player_Total]
+    Right:
+    - Action[a=cut_Attributes_Agi]
+    - Action[a=Open_Gui_Player_Total]
+
+  Vit:
+    Move: false
+    Material: 'DIAMOND_CHESTPLATE'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e體質'
+    Lore:
+    - ''
+    - '目前體質: §9§l&self_attr_Vit& + &self_eqm_Eq_Vit&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
+    Left:
+    - Action[a=add_Attributes_Vit]
+    - Action[a=Open_Gui_Player_Total]
+    Right:
+    - Action[a=cut_Attributes_Vit]
+    - Action[a=Open_Gui_Player_Total]
+
+  Int:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e智力'
+    Lore:
+    - ''
+    - '目前智力: §9§l&self_attr_Int& + &self_eqm_Eq_Int&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
+    Left:
+    - Action[a=add_Attributes_Int]
+    - Action[a=Open_Gui_Player_Total]
+    Right:
+    - Action[a=cut_Attributes_Int]
+    - Action[a=Open_Gui_Player_Total]
+
+  Dex:
+    Move: false
+    Material: 'ARROW'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e靈巧'
+    Lore:
+    - ''
+    - '目前靈巧: §9§l&self_attr_Dex& + &self_eqm_Eq_Dex&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
+    Left:
+    - Action[a=add_Attributes_Dex]
+    - Action[a=Open_Gui_Player_Total]
+    Right:
+    - Action[a=cut_Attributes_Dex]
+    - Action[a=Open_Gui_Player_Total]
+
+  Luk:
+    Move: false
+    Material: 'NETHER_STAR'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e幸運'
+    Lore:
+    - ''
+    - '目前幸運: §9§l&self_attr_Luk& + &self_eqm_Eq_Luk&'
+    - ''
+    - '§e左擊加點'
+    - '§e右擊減點'
+    Left:
+    - Action[a=add_Attributes_Luk]
+    - Action[a=Open_Gui_Player_Total]
+    Right:
+    - Action[a=cut_Attributes_Luk]
+    - Action[a=Open_Gui_Player_Total]
+
+#技能相關
+#------------------------------------------------#
+  ClassTable:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 300
+    RemoveItemFlags: true
+    Name: '§e職業列表'
+    Lore:
+    - ''
+    - '§e點擊打開職業列表'
+    Left:
+    - Action[a=Open_Gui_Class_Table]
+  
+  SkillAdventure:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e冒險技能'
+    Lore:
+    - ''
+    - '§e點擊打開冒險技能選項'
+    Left:
+    - Action[a=Open_Gui_Skill_Adventure]
+  
+  SkillBind:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e技能綁定'
+    Lore:
+    - ''
+    - '§e點擊打開技能綁定選項'
+    Left:
+    - Action[a=Open_Gui_Skill_Bind]
+
+
+#其他
+#------------------------------------------------#
+  TestItem:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e測試功能區'
+    Lore:
+    - ''
+    - '§e點擊打開測試功能區'
+    Left:
+    - Action[a=Open_Gui_Test_Function]
+
+#各項屬性值
+#----------------------------------------------------#
+  Stats0:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e基礎屬性總攬'
+    Lore:
+    - ''
+    - '§7HP: §9&self_health_now&/&self_health_max&'
+    - '§7HP恢復: §9&self_attr_Hp_Regeneration&'
+    - '§7物理攻擊: §9&self_attr_Melee_Physical_Attack&'
+    - '§7物理防禦: §9&self_attr_Physical_Defense&'
+    - '§7命中: §9&self_attr_Hit_Rate&'
+    - '§7閃避: §9&self_attr_Dodge_Rate&'
+  Stats1:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e基礎屬性總攬'
+    Lore:
+    - ''
+    - '§7SP: §9&self_attr_Sp&/&self_attr_Sp&'
+    - '§7SP恢復: §9&self_attr_Sp_Regeneration&'
+    - '§7魔法攻擊: §9&self_attr_Magic_Attack&'
+    - '§7魔法防禦: §9&self_attr_Magic_Defense&'
+    - '§7移動速度: §9&self_attr_Moving_Speed_Gui& §7%'
+    - '§7攻擊速度: §9&self_attr_Attack_Speed_Core& §7%'
+
+  Stats2:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e穿透、暴擊、吟唱'
+    Lore:
+    - ''
+    - '§7物理穿透: §9&self_attr_Physical_Penetration%& §7%'
+    - '§7暴擊率: §9&self_attr_Critical_Strike_Chance%& §7%'
+    - '§7暴擊傷害: §9&self_attr_Critical_Strike_Power%& §7%'
+    - '§7暴擊防護: §9&self_attr_Critical_Strike_Protection%& §7%'
+    - '§7暴傷減免: §9&self_attr_Critical_Strike_Reduction%& §7%'
+    - '§7吟唱減免: §9&self_attr_Cooldown_Reduction&'
+    - '§7受治療加成: §9&self_attr_Receive_Healing_Bonus%& §7%'
+    - '§7治療加成: §9&self_attr_Healing_Bonus%& §7%'
+
+  Stats3:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e物理屬性'
+    Lore:
+    - ''
+    - '§7物理攻擊%: §9&self_attr_Physical_Attack%& §7%'
+    - '§7物理防禦%: §9&self_attr_Physical_Defense%& §7%'
+    - '§7物傷加成%: §9&self_attr_Physical_Damage_Bonus%& §7%'
+    - '§7忽視物防%: §9&self_attr_Ignore_Physical_Defense%& §7%'
+    - '§7物傷減免%: §9&self_attr_Physical_Injury_Reduction%& §7%'
+    - '§7精煉物攻: §9&self_attr_Refined_Physical_Attack&'
+    - '§7精煉物免%: §9&self_attr_Refined_Material_Free%& §7%'
+
+  Stats4:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e魔法屬性'
+    Lore:
+    - ''
+    - '§7魔法攻擊%: §9&self_attr_Magic_Attack%& §7%'
+    - '§7魔法防禦%: §9&self_attr_Magic_Defense%& §7%'
+    - '§7魔傷加成%: §9&self_attr_Magic_Injury_Bonus%& §7%'
+    - '§7忽視魔防%: §9&self_attr_Ignore_Magic_Defense%& §7%'
+    - '§7魔傷減免%: §9&self_attr_Magic_Injury_Reduction%& §7%'
+    - '§7精煉魔攻: §9&self_attr_Refining_Magic_Attack&'
+    - '§7精煉魔免%: §9&self_attr_Refining_Magic_Free%& §7%'
+
+
+  Stats5:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e狀態抵抗和攻擊'
+    Lore:
+    - '§e受異常狀態時，減少影響機率和時長'
+    - '§e添加異常狀態時，提高生效率和時長'
+    - ''
+    - '§7中毒抵抗%: §9&self_attr_Poisoning_Resistance%& §7%'
+    - '§7流血抵抗%: §9&self_attr_Bleeding_Resistance%& §7%'
+    - '§7灼燒抵抗%: §9&self_attr_Burning_Resistance%& §7%'
+    - '§7暈眩抵抗%: §9&self_attr_Dizziness_Resistance%& §7%'
+    - '§7冰凍抵抗%: §9&self_attr_Freezing_Resistance%& §7%'
+    - '§7石化抵抗%: §9&self_attr_Petrochemical_Resistance%& §7%'
+    - '§7睡眠抵抗%: §9&self_attr_Sleep_Resistance%& §7%'
+    - '§7恐懼抵抗%: §9&self_attr_Fear_Resistance%& §7%'
+    - '§7定身抵抗%: §9&self_attr_Fixed_Resistance%& §7%'
+    - '§7沉默抵抗%: §9&self_attr_Silent_Resistance%& §7%'
+    - '§7詛咒抵抗%: §9&self_attr_Curse_Resistance%& §7%'
+    - '§7黑暗抵抗%: §9&self_attr_Dark_Resistance%& §7%'
+
+  Stats6:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e屬性-技能增強'
+    Lore:
+    - '§e增強自身屬性技能的攻擊強度'
+    - ''
+    - '§7無屬性攻擊%: §9&self_attr_No_Attribute_Attack%& §7%'
+    - '§7火屬性攻擊%: §9&self_attr_Fire_Attribute_Attack%& §7%'
+    - '§7地屬性攻擊%: §9&self_attr_Earth_Attribute_Attack%& §7%'
+    - '§7水屬性攻擊%: §9&self_attr_Water_Attribute_Attack%& §7%'
+    - '§7風屬性攻擊%: §9&self_attr_Wind_Attribute_Attack%& §7%'
+    - '§7毒屬性攻擊%: §9&self_attr_Poison_Attribute_Attack%& §7%'
+    - '§7不死屬性攻擊%: §9&self_attr_Immortality_Attribute_Attack%& §7%'
+    - '§7暗屬性攻擊%: §9&self_attr_Dark_Attribute_Attack%& §7%'
+    - '§7聖屬性攻擊%: §9&self_attr_Holy_Attribute_Attack%& §7%'
+    - '§7念屬性攻擊%: §9&self_attr_Sense_Attribute_Attack%& §7%'
+
+  Stats7:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e屬性-攻擊增加'
+    Lore:
+    - '§e攻擊對應屬性的目標時，提高對此屬性生物的傷害'
+    - ''
+    - '§7對無屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Non_Attribute_monsters%& §7%'
+    - '§7對火屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Fire_Attribute_monsters%& §7%'
+    - '§7對地屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Earth_Attribute_monsters%& §7%'
+    - '§7對水屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Water_Attribute_monsters%& §7%'
+    - '§7對風屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Wind_Attribute_monsters%& §7%'
+    - '§7對毒屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Poisonous_Attribute_monsters%& §7%'
+    - '§7對不死屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Undead_Attribute_monsters%& §7%'
+    - '§7對暗屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Dark_Attribute_monsters%& §7%'
+    - '§7對聖屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Holy_Attribute_monsters%& §7%'
+    - '§7對念屬性魔物增傷%: §9&self_attr_Increase_Damage_To_Mind_Attribute_monsters%& §7%'
+
+  Stats8:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e屬性-傷害減免'
+    Lore:
+    - '§e受到屬性傷害時，降低受到此屬性的傷害'
+    - ''
+    - '§7對無屬性傷害減免%: §9&self_attr_No_Attribute_Damage_Reduction%& §7%'
+    - '§7對火屬性傷害減免%: §9&self_attr_Fire_Attribute_Damage_Reduction%& §7%'
+    - '§7對地屬性傷害減免%: §9&self_attr_Earth_Attribute_Damage_Reduction%& §7%'
+    - '§7對水屬性傷害減免%: §9&self_attr_Water_Attribute_Damage_Reduction%& §7%'
+    - '§7對風屬性傷害減免%: §9&self_attr_Wind_Attribute_Damage_Reduction%& §7%'
+    - '§7對毒屬性傷害減免%: §9&self_attr_Poison_Attribute_Damage_Reduction%& §7%'
+    - '§7對不死屬性傷害減免%: §9&self_attr_Undead_Attribute_Damage_Reduction%& §7%'
+    - '§7對暗屬性傷害減免%: §9&self_attr_Dark_Attribute_Damage_Reduction%& §7%'
+    - '§7對聖屬性傷害減免%: §9&self_attr_Holy_Attribute_Damage_Reduction%& §7%'
+    - '§7對念屬性傷害減免%: §9&self_attr_Mind_Attribute_Damage_Reduction%& §7%'
+
+
+  Stats9:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e種族-攻擊增加'
+    Lore:
+    - '§e對特定種族的目標攻擊時，提高對此種族的傷害效果'
+    - ''
+    - '§7對無形增傷%: §9&self_attr_Increases_Damage_To_Invisible%& §7%'
+    - '§7對植物增傷%: §9&self_attr_Increases_Damage_To_Plant%& §7%'
+    - '§7對昆蟲增傷%: §9&self_attr_Increases_Damage_To_Insect%& §7%'
+    - '§7對動物增傷%: §9&self_attr_Increases_Damage_To_Animal%& §7%'
+    - '§7對魚貝增傷%: §9&self_attr_Increases_Damage_To_Fish%& §7%'
+    - '§7對人形增傷%: §9&self_attr_Increases_Damage_To_Human%& §7%'
+    - '§7對不死增傷%: §9&self_attr_Increases_Damage_To_Immortal%& §7%'
+    - '§7對龍族增傷%: §9&self_attr_Increases_Damage_To_Dragon%& §7%'
+    - '§7對天使增傷%: §9&self_attr_Increases_Damage_To_Angel%& §7%'
+    - '§7對惡魔增傷%: §9&self_attr_Increases_Damage_To_Demon%& §7%'
+
+
+  Stats10:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e種族-傷害減免'
+    Lore:
+    - '§e受到特定種族的目標攻擊時，降低受到此種族目標的傷害'
+    - ''
+    - '§7對無形減傷%: §9&self_attr_Reduce_Damage_To_Invisible%& §7%'
+    - '§7對植物減傷%: §9&self_attr_Reduce_Damage_To_Plant%& §7%'
+    - '§7對昆蟲減傷%: §9&self_attr_Reduce_Damage_To_Insect%& §7%'
+    - '§7對動物減傷%: §9&self_attr_Reduce_Damage_To_Animal%& §7%'
+    - '§7對魚貝減傷%: §9&self_attr_Reduce_Damage_To_Fish%& §7%'
+    - '§7對人形減傷%: §9&self_attr_Reduce_Damage_To_Human%& §7%'
+    - '§7對不死減傷%: §9&self_attr_Reduce_Damage_To_Immortal%& §7%'
+    - '§7對龍族減傷%: §9&self_attr_Reduce_Damage_To_Dragon%& §7%'
+    - '§7對天使減傷%: §9&self_attr_Reduce_Damage_To_Angel%& §7%'
+    - '§7對惡魔減傷%: §9&self_attr_Reduce_Damage_To_Demon%& §7%'
+
+
+  Stats11:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e體型-攻擊增強'
+    Lore:
+    - '§e攻擊特定體型目標時，提高造成的傷害'
+    - ''
+    - '§7對小型魔物傷害增加%: §9&self_attr_Increases_Damage_To_Small_Body%& §7%'
+    - '§7對中型魔物傷害增加%: §9&self_attr_Increases_Damage_To_Mid_Body%& §7%'
+    - '§7對大型魔物傷害增加%: §9&self_attr_Increases_Damage_To_Big_Body%& §7%'
+
+  Stats12:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e體型-傷害減免'
+    Lore:
+    - '§e受到特定體型的目標攻擊時，降低受到此體型目標的傷害'
+    - ''
+    - '§7受到小型魔物減傷%: §9&self_attr_Reduce_Damage_To_Small_Body%& §7%'
+    - '§7受到中型魔物減傷%: §9&self_attr_Reduce_Damage_To_Mid_Body%& §7%'
+    - '§7受到大型魔物減傷%: §9&self_attr_Reduce_Damage_To_Big_Body%& §7%'
+
+  Stats13:
+    Move: false
+    Material: 'BOOK'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e類型-攻擊增強'
+    Lore:
+    - '§e攻擊特定類型目標時，提高造成的傷害'
+    - ''
+    - '§7對MineBoss傷害增加%: §9&self_attr_Increases_Damage_To_MINI%& §7%'
+    - '§7對MVPBoss傷害增加%: §9&self_attr_Increases_Damage_To_MVP%& §7%'

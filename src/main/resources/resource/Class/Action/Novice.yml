@@ -1,0 +1,12 @@
+Action:
+#殺死怪物獲得0轉Job經驗。
+#Kill monsters to gain 0 job experience.
+#-------------------------------------------------------------------------#
+- Action[a=Get0JobExp] ~onMMobDeath
+
+#0轉Job等級上升獲得0轉Job點數。
+#Increase the level of 0-revolution job to earn 0-revolution job points.
+#-------------------------------------------------------------------------#
+- Action[a=Get0JobPoint] ~onLevelUp
+
+

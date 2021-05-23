@@ -1,9 +1,10 @@
 package com.daxton.customdisplay.gui.item.edititem;
 
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
 import com.daxton.customdisplay.gui.item.ItemSet;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
@@ -115,13 +116,13 @@ public class EditEnchantment {
         String uuidString = player.getUniqueId().toString();
 
         if(EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(typeName, itemName, page));
+            EditorGUIManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, page));
             Inventory inventory = EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
         }else {
             EditorGUIManager.menu_EditEnchantment_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(typeName, itemName, page));
+            EditorGUIManager.menu_EditEnchantment_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, page));
             Inventory inventory = EditorGUIManager.menu_EditEnchantment_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
 
@@ -129,14 +130,15 @@ public class EditEnchantment {
 
     }
 
-    public Inventory getInventory(String typeName, String itemName, int page) {
+    public Inventory getInventory(Player player, String typeName, String itemName, int page) {
         this.typeName = typeName;
         this.itemID = itemName;
         this.page = page;
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_item_" + typeName + ".yml");
         Inventory inventory = Bukkit.createInventory(null, 54, MenuSet.getGuiTitle("EditEnchantment"));
 
-        inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
+        inventory.setItem(4, CustomItem2.valueOf(player, null, typeName+"."+itemName, 1));
+        //inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
         int i = 10;
         Enchantment[] enchantments = Enchantment.values();

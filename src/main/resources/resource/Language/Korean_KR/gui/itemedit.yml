@@ -33,6 +33,14 @@ Language:
       - '§7 When the server is turned off'
       - '§7 also store item information'
       
+      LoadDM: Map:0
+      Load: '§eRead the modified item data'
+      LoadInfo:
+      - ''
+      - '§7When manually modifying a document file'
+      - '§7Can use this button to read'
+      - '§7Modified settings'
+      
     SelectItems:
       
       ToItemCategorySelectionDM: Arrow:0

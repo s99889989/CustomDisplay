@@ -1,12 +1,13 @@
 package com.daxton.customdisplay.api.player.profession;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
+import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.entity.LookTarget;
 import com.daxton.customdisplay.api.item.CustomItem;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.location.DirectionLocation;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -32,15 +33,27 @@ public class UseSkill {
 
     }
 
-    public void use(Player player,int key){
+    //綁案件轉為綁定順序
+    public static int getUseKey(int key, int okey){
+        int usekey = 1;
+        if(key > okey){
+            usekey = key;
+        }
+        if(key < okey){
+            usekey = key + 1;
+        }
+        return usekey;
+    }
+
+    public void use(Player player,int key, int okey){
         String uuidString = player.getUniqueId().toString();
-        int useKey = key+1;
-        PlayerData playerData = PlayerManager.getPlayerDataMap().get(player.getUniqueId());
+        int useKey = getUseKey(key, okey);
 
-        String skillName = playerData.skill_Name_Map.get(uuidString+"."+useKey);
-        List<Map<String, String>> actionCustom = playerData.skill_Custom_Map.get(uuidString+"."+useKey);
+        PlayerData2 playerData = PlayerManager.player_Data_Map.get(uuidString);
 
-        if(skillName != null && actionCustom != null && actionCustom.size() > 0){
+        String skillName = playerData.getBindName(String.valueOf(useKey));
+
+        if(!skillName.equals("null") && ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillName+".yml") != null){
             /**技能設定檔**/
             FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+skillName+".yml");
             /**技能是否需要目標**/
@@ -49,28 +62,36 @@ public class UseSkill {
             int targetDistance = skillConfig.getInt(skillName+".TargetDistance");
             /**需要魔量**/
             double needMand = skillConfig.getDouble(skillName+".Mana");
-            double nowMans = 0;
-            if(PlayerManager.player_nowMana.get(uuidString) != null){
-                nowMans = PlayerManager.player_nowMana.get(uuidString);
-            }
+            //動作列表
+            List<String> actionStringList = skillConfig.getStringList(skillName+".Action");
 
-            LivingEntity target = LookTarget.getLivingTarget(player, targetDistance);
+            List<Map<String, String>> actionCustom = SetActionMap.setClassActionList(actionStringList);
+
+            double nowMans = playerData.getMana();
+
+            if(actionCustom.size() > 0){
+                LivingEntity target = LookTarget.getLivingTarget(player, targetDistance);
+
                 if(needTarget){
                     if(target != null){
+
                         if(nowMans >= needMand) {
                             nowMans = nowMans - needMand;
-                            PlayerManager.player_nowMana.put(uuidString, nowMans);
-                            runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
+                            playerData.setMana(nowMans);
+                            runSKill(player, target, uuidString, useKey, okey, targetDistance, skillName, actionCustom);
                         }
 
                     }
                 }else {
+
                     if(nowMans >= needMand) {
                         nowMans = nowMans - needMand;
-                        PlayerManager.player_nowMana.put(uuidString, nowMans);
-                        runSKill(player, target, uuidString, useKey, targetDistance, skillName, actionCustom);
+                        playerData.setMana(nowMans);
+                        runSKill(player, target, uuidString, useKey , okey, targetDistance, skillName, actionCustom);
                     }
                 }
+            }
+
 
 
 
@@ -79,17 +100,13 @@ public class UseSkill {
 
     }
 
-    public void runSKill(Player player,LivingEntity target, String uuidString, int key, int targetDistance, String skillName, List<Map<String, String>> actionCustom){
+    public void runSKill(Player player,LivingEntity target, String uuidString, int key, int mainKey, int targetDistance, String skillName, List<Map<String, String>> actionCustom){
 
-        /**技能獨立延遲初始化**/
-        if(PlayerManager.skill_Cool_Down_Boolean_Map.get(uuidString+"."+key) == null){
-            PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
-        }
+        //技能獨立延遲初始化
+        PlayerManager.skill_Cool_Down_Boolean_Map.putIfAbsent(uuidString+"."+key,true);
 
-        /**技能動作延遲初始化**/
-        if(PlayerManager.cost_Delay_Boolean_Map.get(uuidString) == null){
-            PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
-        }
+        //技能動作延遲初始化
+        PlayerManager.cost_Delay_Boolean_Map.putIfAbsent(uuidString,true);
 
         /**技能動作延遲**/
 
@@ -102,7 +119,7 @@ public class UseSkill {
                 PlayerManager.cost_Delay_Boolean_Map.put(uuidString,false);
                 PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,false);
                 setCost(player,target, skillName, actionCustom, targetDistance);
-                skillCD(player, uuidString, skillName, key);
+                skillCD(player, uuidString, skillName, key, mainKey);
             }
         }
     }
@@ -139,12 +156,12 @@ public class UseSkill {
     public void castTime0(Player player, String uuidString, int castDelay, LivingEntity inputTarget, List<Map<String, String>> customLineConfigList){
         if(castDelay == 0){
 
-            PlayerTrigger.onSkill(player,inputTarget,customLineConfigList);
+            PlayerTrigger.onSkillList(player,inputTarget,customLineConfigList);
 
             PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
         }else {
 
-            PlayerTrigger.onSkill(player,inputTarget,customLineConfigList);
+            PlayerTrigger.onSkillList(player,inputTarget,customLineConfigList);
 
             new BossBarSkill().setSkillBarProgress(1);
             PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
@@ -191,7 +208,7 @@ public class UseSkill {
             hologram = HologramsAPI.createHologram(cd, inputTarget.getLocation().add(0,cast_Hight,0));
 
             if(item_Enable){
-                ItemStack newItemStack = CustomItem.valueOf(player,inputTarget, cast_Item, 1);
+                ItemStack newItemStack = CustomItem2.valueOf(player,inputTarget, cast_Item, 1);
                 hologram.appendItemLine(newItemStack);
             }
             if(line_Enable){
@@ -217,7 +234,7 @@ public class UseSkill {
 //                        }else {
 //                            new PlayerTrigger2(player).onSkill(player,inputTarget,customLineConfigList);
 //                        }
-                        PlayerTrigger.onSkill(player,target,customLineConfigList);
+                        PlayerTrigger.onSkillList(player,target,customLineConfigList);
                         bossBarSkill2.setSkillBar2Progress(0);
                         PlayerManager.cost_Delay_Boolean_Map.put(uuidString,true);
                     }else {
@@ -227,7 +244,7 @@ public class UseSkill {
                         }
 
                         //if(inputTarget != null && target == inputTarget){
-                        PlayerTrigger.onSkill(player,target,customLineConfigList);
+                        PlayerTrigger.onSkillList(player,target,customLineConfigList);
                         //}
                         PlayerManager.cost_Time_Map.put(uuidString, new BukkitRunnable() {
                             double costCount = 1.0;
@@ -266,7 +283,7 @@ public class UseSkill {
     }
 
     /**技能CD**/
-    public void skillCD(Player player, String uuidString,String skillName, int key){
+    public void skillCD(Player player, String uuidString,String skillName, int key, int mainKey){
 
         if(PlayerManager.keyF_BossBarSkill_Map.get(uuidString) != null){
             FileConfiguration skillStatusConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Status.yml");
@@ -293,8 +310,12 @@ public class UseSkill {
             /**技能顯示**/
             String[] skillBarShow2 = PlayerManager.keyF_BossBarSkill_Map.get(uuidString).getSkillBarShow2();
             BossBarSkill2 bossBarSkill2 = PlayerManager.keyF_BossBarSkill_Map.get(uuidString);
+
+            int bossKey = getBossKey(key, mainKey);
+
             if(PlayerManager.skill_Cool_Down_Run_Map.get(uuidString+"."+key) == null){
                 PlayerManager.skill_Cool_Down_Run_Map.put(uuidString+"."+key, new BukkitRunnable() {
+
                     int costCount = 12;
                     @Override
                     public void run() {
@@ -302,53 +323,53 @@ public class UseSkill {
 
                         if(costCount == 12){
 
-                            skillBarShow2[key-1] = cover12;
+                            skillBarShow2[bossKey] = cover12;
 
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 11){
-                            skillBarShow2[key-1] = cover11;
+                            skillBarShow2[bossKey] = cover11;
 
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 10){
-                            skillBarShow2[key-1] = cover10;
+                            skillBarShow2[bossKey] = cover10;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 9){
-                            skillBarShow2[key-1] = cover9;
+                            skillBarShow2[bossKey] = cover9;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 8){
-                            skillBarShow2[key-1] = cover8;
+                            skillBarShow2[bossKey] = cover8;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 7){
-                            skillBarShow2[key-1] = cover7;
+                            skillBarShow2[bossKey] = cover7;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 6){
-                            skillBarShow2[key-1] = cover6;
+                            skillBarShow2[bossKey] = cover6;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 5){
-                            skillBarShow2[key-1] = cover5;
+                            skillBarShow2[bossKey] = cover5;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 4){
-                            skillBarShow2[key-1] = cover4;
+                            skillBarShow2[bossKey] = cover4;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 3){
-                            skillBarShow2[key-1] = cover3;
+                            skillBarShow2[bossKey] = cover3;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 2){
-                            skillBarShow2[key-1] = cover2;
+                            skillBarShow2[bossKey] = cover2;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                         }
                         if(costCount == 1){
-                            skillBarShow2[key-1] = cover1;
+                            skillBarShow2[bossKey] = cover1;
                             bossBarSkill2.setSkillBar2Message(skillBarShow2, bossBar2_Blank);
                             PlayerManager.skill_Cool_Down_Boolean_Map.put(uuidString+"."+key,true);
                             cancel();
@@ -367,6 +388,17 @@ public class UseSkill {
 
 
 
+    }
+
+    public static int getBossKey(int key, int mainKey){
+        int bossKey;
+        if(key <= mainKey){
+            bossKey = key - 1;
+        }else {
+            bossKey = key;
+        }
+
+        return bossKey;
     }
 
 }

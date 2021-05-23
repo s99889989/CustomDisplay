@@ -32,7 +32,7 @@ public class Message3 {
 
 
 
-        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListTarget();
+        List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListSelf();
 
         livingEntityList.forEach(livingEntity -> {
 

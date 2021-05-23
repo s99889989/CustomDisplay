@@ -1,0 +1,19 @@
+Magician_IncreaseSpiritualPower:
+  Material: 'COAL'
+  CustomModelData: 30
+  Name: '§e禪心(&self_class_skill_Magician_IncreaseSpiritualPower_now&/&self_class_skill_Magician_IncreaseSpiritualPower_max&)'
+  Lore:
+  - ''
+  - '§6每10秒自然恢復（&self_class_skill_Magician_IncreaseSpiritualPower_gui1&+&self_class_skill_Magician_IncreaseSpiritualPower_gui2&%魔法上限）點'
+  - '§6的SP，同時增加&self_class_skill_Magician_IncreaseSpiritualPower_gui3&%的道具魔法恢復量'
+  BarName: '䃌'
+  NeedTarget: false
+  PassiveSkill: true
+  TargetDistance: 2
+  CoolDown: 2
+  CastTime: 1
+  CastDelay: 0
+  Mana: 10
+  Action:
+  - Action[a=Magician_IncreaseSpiritualPower;mark=&self_name&Magician_IncreaseSpiritualPower] ~onJoin
+  - Action[mark=&self_name&Magician_IncreaseSpiritualPower;stop=true] ~onQuit

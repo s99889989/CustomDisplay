@@ -21,7 +21,7 @@ public class AutoConfig2 {
 
     public AutoConfig2(){
 
-        File testFile = new File("plugins/CustomDisplay-1.16.7.jar");
+        File testFile = new File("plugins/CustomDisplay-1.16.9.jar");
         try {
             List<String> testList = readZipFile(testFile.toString());
 
@@ -46,24 +46,24 @@ public class AutoConfig2 {
                 for(String fileName2 : fileNameList2){
                     if(fileName2.contains(".yml")){
                         String fileMap = fileName1+"_"+fileName2;
-                        //if(ConfigMapManager.getFileConfigurationNameMap().get(fileMap) == null){
-                            File saveFilePatch2 = new File(cd.getDataFolder(),fileName1+"/"+fileName2);
-                            FileConfiguration saveFileConfig2 = YamlConfiguration.loadConfiguration(saveFilePatch2);
-                            ConfigMapManager.getFileConfigurationMap().put(fileMap, saveFileConfig2);
-                            ConfigMapManager.getFileConfigurationNameMap().put(fileMap,fileMap);
-                        //}
-                    }else if(fileName2.contains(".") != true){
+
+                        File saveFilePatch2 = new File(cd.getDataFolder(),fileName1+"/"+fileName2);
+                        FileConfiguration saveFileConfig2 = YamlConfiguration.loadConfiguration(saveFilePatch2);
+                        ConfigMapManager.getFileConfigurationMap().put(fileMap, saveFileConfig2);
+                        ConfigMapManager.getFileConfigurationNameMap().put(fileMap,fileMap);
+
+                    }else if(!fileName2.contains(".")){
                         File patch3 = new File(cd.getDataFolder(),fileName1+"/"+fileName2);
                         String[] fileNameList3 = patch3.list();
                         for(String fileName3 : fileNameList3){
                             if(fileName3.contains(".yml")){
                                 String fileMap3 = fileName1+"_"+fileName2+"_"+fileName3;
-                                //if(ConfigMapManager.getFileConfigurationNameMap().get(fileMap3) == null){
+
                                 File saveFilePatch3 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3);
                                 FileConfiguration saveFileConfig3 = YamlConfiguration.loadConfiguration(saveFilePatch3);
                                 ConfigMapManager.getFileConfigurationMap().put(fileMap3, saveFileConfig3);
                                 ConfigMapManager.getFileConfigurationNameMap().put(fileMap3,fileMap3);
-                                //}
+
 
                             }else if(!(fileName3.contains("."))){
 
@@ -73,14 +73,25 @@ public class AutoConfig2 {
 
                                     if(fileName4.contains(".yml")){
                                         String fileMap4 = fileName1+"_"+fileName2+"_"+fileName3+"_"+fileName4;
-                                        //if(ConfigMapManager.getFileConfigurationNameMap().get(fileMap4) == null){
+
                                         File saveFilePatch4 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3+"/"+fileName4);
                                         FileConfiguration saveFileConfig4 = YamlConfiguration.loadConfiguration(saveFilePatch4);
                                         ConfigMapManager.getFileConfigurationMap().put(fileMap4, saveFileConfig4);
                                         ConfigMapManager.getFileConfigurationNameMap().put(fileMap4,fileMap4);
 
-                                        // }
+                                    }else if(!(fileName4.contains("."))){
+                                        File patch5 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3+"/"+fileName4);
+                                        String[] fileNameList5 = patch5.list();
+                                        for(String fileName5 : fileNameList5){
+                                            if(fileName5.contains(".yml")){
+                                                String fileMap5 = fileName1+"_"+fileName2+"_"+fileName3+"_"+fileName4+"_"+fileName5;
 
+                                                File saveFilePatch5 = new File(cd.getDataFolder(),fileName1+"/"+fileName2+"/"+fileName3+"/"+fileName4+"/"+fileName5);
+                                                FileConfiguration saveFileConfig5 = YamlConfiguration.loadConfiguration(saveFilePatch5);
+                                                ConfigMapManager.getFileConfigurationMap().put(fileMap5, saveFileConfig5);
+                                                ConfigMapManager.getFileConfigurationNameMap().put(fileMap5,fileMap5);
+                                            }
+                                        }
 
 
                                     }

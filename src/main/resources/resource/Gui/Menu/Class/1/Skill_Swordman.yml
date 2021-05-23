@@ -1,0 +1,268 @@
+Title: '劍士技能'
+
+Sort:
+- 'PlayerTotal.1.2.3.Stats.5.6.7.Close'
+- '9.10.Swordman_Bash.line.Swordman_Swordman_MagnumBreak.14.15.16.17'
+- 'Description.19.20.21.Swordman_Provoke.line.Swordman_Endure.25.26'
+- '27.28.Swordman_Swordman_SwordMastery.30.31.32.33.34.35'
+- '36.37.38.39.Swordman_IncreaseRecuperativePower.41.42.43.44'
+- '45.46.47.48.49.50.51.52.53'
+#
+Buttons:
+
+  PlayerTotal:
+    RawSlot: 0
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e回到總覽'
+    Lore:
+    - ''
+    Left:
+    - Action[a=Open_Gui_Player_Total]
+
+
+  Stats:
+    RawSlot: 4
+    Move: false
+    Material: 'PLAYER_HEAD'
+    HeadValue: '&self_name&'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e&self_name&'
+    Lore:
+    - ''
+    - '§7一轉職業: §9劍士'
+    - ''
+    - '§7一轉Job等級: §e&self_job1_level_now& / &self_job1_level_max&'
+    - '§7一轉Job經驗值: §e&self_job1_exp_now& / &self_job1_exp_max&'
+    - ''
+    - '§7一轉技能點: §6&self_job1_last& / &self_job1_max&'
+
+
+  #狂擊
+  Swordman_Bash:
+    RawSlot: 11
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 14
+    RemoveItemFlags: true
+    Name: '§e狂擊(&self_class_skill_Swordman_Bash_max&/10)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Swordman_Bash_now&/&self_class_skill_Swordman_Bash_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6對敵方單體造成（物理攻擊&self_class_skill_Swordman_Bash_gui&%）物理傷'
+    - '§6害，技能等級達到5級以上時有30%眩'
+    - '§6目標'
+    - ''
+    - '§6施法距離 : 2.0m'
+    - '§6技能延遲: 1.0秒'
+    - '§6消耗SP: &self_class_skill_Swordman_Bash_Sp&'
+    Left:
+    - Action[a=up_use_Swordman_Bash]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right:
+    - Action[a=down_use_Swordman_Bash]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Left_Shift:
+    - Action[a=up_level_Swordman_Bash]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right_Shift:
+    - Action[a=down_use_Swordman_Bash]
+    - Action[a=down_level_Swordman_Bash]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    
+  #怒爆
+  Swordman_Swordman_MagnumBreak:
+    RawSlot: 13
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 12
+    RemoveItemFlags: true
+    Name: '§e怒爆(&self_class_skill_Swordman_MagnumBreak_max&/10)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Swordman_MagnumBreak_now&/&self_class_skill_Swordman_MagnumBreak_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6擊退自身周圍所有敵對目標並造成（物理'
+    - '§6攻擊&self_class_skill_Swordman_MagnumBreak_gui&%）火屬性物理傷害。施放後普攻'
+    - '§6轉變為火屬性並獲得20%的物理攻擊傷害'
+    - '§6加成，效果持續10秒'
+    - ''
+    - '§6施法距離 : 1.5m'
+    - '§6技能延遲 : 2.0秒'
+    - '§6SP消耗 : 30'
+    Left:
+    - Action[a=up_use_Swordman_MagnumBreak]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right:
+    - Action[a=down_use_Swordman_MagnumBreak]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Left_Shift:
+    - Action[a=up_level_Swordman_MagnumBreak]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right_Shift:
+    - Action[a=down_use_Swordman_MagnumBreak]
+    - Action[a=down_level_Swordman_MagnumBreak]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    
+  #挑釁
+  Swordman_Provoke:
+    RawSlot: 22
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 13
+    RemoveItemFlags: true
+    Name: '§e挑釁(&self_class_skill_Swordman_Provoke_max&/10)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Swordman_Provoke_now&/&self_class_skill_Swordman_Provoke_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6挑釁敵方單位，使小範圍內魔物強制攻擊'
+    - '§6自己&self_class_skill_Swordman_Provoke_gui1&秒，並提升敵方攻擊&self_class_skill_Swordman_Provoke_gui2&%，降低敵'
+    - '§6方防禦&self_class_skill_Swordman_Provoke_gui3&%，強制攻擊對玩家無效'
+    - ''
+    - '§6施法距離 : 1.0m'
+    - '§6技能冷卻 : &self_class_skill_Swordman_Provoke_CD&秒'
+    - '§6技能延遲 : 1.0秒'
+    - '§6SP消耗 : &self_class_skill_Swordman_Provoke_Sp&'
+    Left:
+    - Action[a=up_use_Swordman_Provoke]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right:
+    - Action[a=down_use_Swordman_Provoke]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Left_Shift:
+    - Action[a=up_level_Swordman_Provoke]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right_Shift:
+    - Action[a=down_use_Swordman_Provoke]
+    - Action[a=down_level_Swordman_Provoke]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    
+  #霸體
+  Swordman_Endure:
+    RawSlot: 24
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 11
+    RemoveItemFlags: true
+    Name: '§e霸體(&self_class_skill_Swordman_Endure_max&/10)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Swordman_Endure_now&/&self_class_skill_Swordman_Endure_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6使自身在受擊時不會有所停頓且不會被擊'
+    - '§6退，並提升&self_class_skill_Swordman_Endure_gui1&點魔法防禦，霸體狀態可'
+    - '§6持續&self_class_skill_Swordman_Endure_gui2&秒，在受擊&self_class_skill_Swordman_Endure_gui3&次後會立即解除狀態'
+    - ''
+    - '§6施法距離 : 1.0m'
+    - '§6技能冷卻 : 10.0秒'
+    - '§6技能延遲 : 1.0秒'
+    - '§6SP消耗 : 10'
+    Left:
+    - Action[a=up_use_Swordman_Endure]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right:
+    - Action[a=down_use_Swordman_Endure]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Left_Shift:
+    - Action[a=up_level_Swordman_Endure]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right_Shift:
+    - Action[a=down_use_Swordman_Endure]
+    - Action[a=down_level_Swordman_Endure]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    
+  #劍術修煉
+  Swordman_Swordman_SwordMastery:
+    RawSlot: 29
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 16
+    RemoveItemFlags: true
+    Name: '§e劍術修煉(&self_class_skill_Swordman_SwordMastery_max&/10)'
+    Lore:
+    #- '§e使用等級 : &self_class_skill_Swordman_SwordMastery_now&/&self_class_skill_Swordman_SwordMastery_max&'
+    - ''
+    - '被動技能'
+    - ''
+    - '§6使用長劍類武器時物理攻擊增加&self_class_skill_Swordman_SwordMastery_gui1&，普攻'
+    - '§6攻擊力增加&self_class_skill_Swordman_SwordMastery_gui2&'
+    #Left:
+    #- Action[a=up_use_Swordman_SwordMastery]
+    #Right:
+    #- Action[a=down_use_Swordman_SwordMastery]
+    Left_Shift:
+    - Action[a=up_level_Swordman_SwordMastery]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right_Shift:
+    - Action[a=down_level_Swordman_SwordMastery]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    
+  #快速回復
+  Swordman_IncreaseRecuperativePower:
+    RawSlot: 40
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 15
+    RemoveItemFlags: true
+    Name: '§e快速回復(&self_class_skill_Swordman_IncreaseRecuperativePower_max&/10)'
+    Lore:
+    #- '§e使用等級 : &self_class_skill_Swordman_IncreaseRecuperativePower_now&/&self_class_skill_Swordman_IncreaseRecuperativePower_max&'
+    - ''
+    - '被動技能'
+    - ''
+    - '§6永久提升HP自然恢復速度，每10秒恢復('
+    - '§6MaxHP*&self_class_skill_Swordman_IncreaseRecuperativePower_gui1&%+&self_class_skill_Swordman_IncreaseRecuperativePower_gui2&)，並且在使用HP恢復'
+    - '§6類道具時效果提升&self_class_skill_Swordman_IncreaseRecuperativePower_gui3&%'
+    #Left:
+    #- Action[a=up_use_Swordman_IncreaseRecuperativePower]
+    #Right:
+    #- Action[a=down_use_Swordman_IncreaseRecuperativePower]
+    Left_Shift:
+    - Action[a=up_level_Swordman_IncreaseRecuperativePower]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+    Right_Shift:
+    - Action[a=down_level_Swordman_IncreaseRecuperativePower]
+    - Action[a=Open_Gui_Skill_1_Swordman]
+  
+  #說明
+  Description:
+    RawSlot: 18
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e說明'
+    Lore:
+    - ''
+    - '§eShift+左鍵升級'
+    - '§eShift+右鍵降級'
+    - '§e左鍵升級使用等級'
+    - '§e左鍵降級用等級'
+  #線
+  line:
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 500
+    RemoveItemFlags: true
+    Name: ' '
+    
+  Close:
+    RawSlot: 8
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e關閉視窗'
+    Lore:
+    - ''
+    Left:
+    - Action[a=Close_Gui]

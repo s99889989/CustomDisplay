@@ -1,0 +1,346 @@
+#顯示ActionBar狀態欄
+#Show ActionBar status bar
+#-------------------------------------------------------------------------#
+Class_ActionBarDisplay:
+  Action:
+  - Loop[onTime=Class_ActionBarDisplay-Time;period=40;duration=0]
+Class_ActionBarDisplay-Time:
+  Action:
+  - ActionBar[remove=true;m=&self_health_now&/&self_health_max&&class_self_health_proportion_10&&self_Sp_now&/&self_Sp_max&&class_self_Sp_proportion_10&]
+
+NameDisplayMonster:
+  Action:
+  #- Condition[entityTypeList=Monster] @Target
+  - Loop[onStart=NameDisplayMonster-Start;onTime=NameDisplayMonster-Time;onEnd=NameDisplayMonster-End;period=20;duration=300]
+NameDisplayMonster-Start:
+  Action:
+  - Name[m=&nd_target_nowhealth&/&nd_target_maxhealth&-&target_Mob_Race&-&target_Mob_Attribute&-&target_Mob_Body&;Always=true] #&nd_target_name&-
+NameDisplayMonster-Time:
+  Action:
+  - Name[m=&nd_target_nowhealth&/&nd_target_maxhealth&-&target_Mob_Race&-&target_Mob_Attribute&-&target_Mob_Body&;Always=true] #&nd_target_name&-
+NameDisplayMonster-End:
+  Action:
+  - Name[m=;Always=true]
+
+###########################################################################
+###########################################################################
+
+#殺死怪物獲得Base經驗。
+#Kill monsters to gain Base experience.
+#-------------------------------------------------------------------------#
+GetBaseExp:
+  Action:
+  #- Break[ConditionType=Equals;ConditionContent=&self_kill_mob_type&~HUSK]
+  - Exp[type=base;a=100]
+GetBaseExp-2:
+  Action:
+  - Exp[type=base;a=10000]
+
+#殺死怪物獲得0轉Job經驗。
+#Kill monsters to gain 0 job experience.
+#-------------------------------------------------------------------------#
+Get0JobExp:
+  Action:
+  - Exp[type=job;a=1000]
+Get0JobExp-2:
+  Action:
+  - Exp[type=job;a=10000]
+
+#殺死怪物獲得1轉Job經驗。
+#Kill monsters to gain 0 job experience.
+#-------------------------------------------------------------------------#
+Get1JobExp:
+  Action:
+  - Exp[type=job1;a=1000]
+Get1JobExp-2:
+  Action:
+  - Exp[type=job1;a=10000]
+
+#Base等級上升獲得Base點數。
+#Increase your Base level to earn Base points.
+#-------------------------------------------------------------------------#
+GetBasePoint:
+  Action:
+  - Break[ConditionType=Equals;ConditionContent=&self_up_level_type&~base]
+  - Message[m=Base升級]
+  - Sound[sound=levelup;pitch=1;volume=1;category=PLAYERS]
+  - CustomPoint[type=base_max;a=1]
+  - CustomPoint[type=base_last;a=1]
+
+#0轉Job等級上升獲得0轉Job點數。
+#Increase the level of 0-revolution job to earn 0-revolution job points.
+#-------------------------------------------------------------------------#
+Get0JobPoint:
+  Action:
+  - Break[ConditionType=Equals;ConditionContent=&self_up_level_type&~job]
+  - Message[m=Job升級]
+  - CustomPoint[type=job_max;a=1]
+  - CustomPoint[type=job_last;a=1]
+  - Condition[Compare=&self_job_level_now&>9]
+  - Message[m=目前JOB等級為10，可以進行一轉的職業轉職。]
+
+#1轉Job等級上升獲得1轉Job點數。
+#Increase the level of 0-revolution job to earn 0-revolution job points.
+#-------------------------------------------------------------------------#
+Get1JobPoint:
+  Action:
+  - Break[ConditionType=Equals;ConditionContent=&self_up_level_type&~job1]
+  - Message[m=一轉Job升級]
+  - CustomPoint[type=job1_max;a=1]
+  - CustomPoint[type=job1_last;a=1]
+
+###########################################################################
+###########################################################################
+
+#轉生為預設職業
+#
+#-------------------------------------------------------------------------#
+rebirth_Class:
+  Action:
+  - Command[m=cd rebirth &self_name& Default_Player]
+  - Sound[sound=levelup;pitch=1;volume=1;category=PLAYERS]
+  - Message[m=轉生為預設]
+  - Inventory[fc=close]
+
+#轉生為初心者
+#
+#-------------------------------------------------------------------------#
+rebirth_Novice:
+  Action:
+  - Command[m=cd rebirth &self_name& Novice]
+  - Sound[sound=levelup;pitch=1;volume=1;category=PLAYERS]
+  - Message[m=轉生為初心者]
+  - Inventory[fc=close]
+
+#轉職為弓箭手
+#
+#-------------------------------------------------------------------------#
+changeclass_Archer:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job_level_now&>9]
+  - Break[ConditionType=Equals;ConditionContent=&self_class_name&~初心者]
+  - Command[m=cd changeclass &self_name& Archer]
+  - Inventory[fc=close]
+  - Sound[sound=levelup;pitch=1;volume=1;category=PLAYERS]
+  - Item[ItemID=Personal_Information_Archer;a=1]
+  - Item[ItemID=Bow1;a=1]
+  - Message[m=轉職為弓箭手]
+
+#轉職為魔法師
+#
+#-------------------------------------------------------------------------#
+changeclass_Magician:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job_level_now&>9]
+  - Break[ConditionType=Equals;ConditionContent=&self_class_name&~初心者]
+  - Command[m=cd changeclass &self_name& Magician]
+  - Inventory[fc=close]
+  - Sound[sound=levelup;pitch=1;volume=1;category=PLAYERS]
+  - Item[ItemID=Personal_Information_Magician;a=1]
+  - Message[m=轉職為魔法師]
+
+#轉職為劍士
+#
+#-------------------------------------------------------------------------#
+changeclass_Swordman:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_job_level_now&>9]
+  - Break[ConditionType=Equals;ConditionContent=&self_class_name&~初心者]
+  - Command[m=cd changeclass &self_name& Swordman]
+  - Inventory[fc=close]
+  - Sound[sound=levelup;pitch=1;volume=1;category=PLAYERS]
+  - Item[ItemID=Personal_Information_Swordman;a=1]
+  - Message[m=轉職為劍士]
+
+###########################################################################
+###########################################################################
+
+
+#測試功能區
+Open_Gui_Test_Function:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_Test_Function]
+#打開玩家資訊
+Open_Gui_Player_Total:
+  Action:
+  - SwitchAction[cc=&self_class_name&;ct=equals;c=初心者|弓箭手|劍士|魔法師;a=Open_Gui_Player_Total_0|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1]
+#0轉玩家資訊
+Open_Gui_Player_Total_0:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_Player_Total_0]
+Open_Gui_Player_Total_0_C:
+  Action:
+  - Break[ConditionType=Equals;ConditionContent=&self_class_command&~classgui]
+  - Inventory[fc=gui;GuiID=Class_Player_Total_0]
+#1轉玩家資訊
+Open_Gui_Player_Total_1:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_Player_Total_1]
+Open_Gui_Player_Total_1_C:
+  Action:
+  - Break[ConditionType=Equals;ConditionContent=&self_class_command&~classgui]
+  - Inventory[fc=gui;GuiID=Class_Player_Total_1]
+#職業列表
+Open_Gui_Class_Table:
+  Action:
+  #- Inventory[fc=close]
+  - Inventory[fc=gui;GuiID=Class_Class_Table_Class]
+#冒險技能
+Open_Gui_Skill_Adventure:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_Skill_Adventure]
+#打開玩家資訊
+Open_Gui_Skill_1:
+  Action:
+  - SwitchAction[cc=&self_class_name&;ct=equals;c=弓箭手|劍士|魔法師;a=Open_Gui_Skill_1_Archer|Open_Gui_Skill_1_Swordman|Open_Gui_Skill_1_Magician]
+#弓箭手技能
+Open_Gui_Skill_1_Archer:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_1_Skill_Archer]
+#魔法師技能
+Open_Gui_Skill_1_Magician:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_1_Skill_Magician]
+#劍士技能
+Open_Gui_Skill_1_Swordman:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_1_Skill_Swordman]
+#技能綁定
+Open_Gui_Skill_Bind:
+  Action:
+  - Inventory[fc=gui;GuiID=Class_Skill_Bind]
+
+###########################################################################
+###########################################################################
+
+#增加力量點數
+add_Attributes_Str:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_base_last&>0]
+  - CustomPoint[type=base_last;a=-1]
+  - AttributePoint[type=Str;amount=1]
+#減少力量點數
+cut_Attributes_Str:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_attr_Str&>1]
+  - AttributePoint[type=Str;amount=-1]
+  - CustomPoint[type=base_last;a=+1]
+
+#增加敏捷點數
+add_Attributes_Agi:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_base_last&>0]
+  - CustomPoint[type=base_last;a=-1]
+  - AttributePoint[type=Agi;amount=1]
+
+#減少敏捷點數
+cut_Attributes_Agi:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_attr_Agi&>1]
+  - CustomPoint[type=base_last;a=+1]
+  - AttributePoint[type=Agi;amount=-1]
+
+#增加體質點數
+add_Attributes_Vit:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_base_last&>0]
+  - CustomPoint[type=base_last;a=-1]
+  - AttributePoint[type=Vit;amount=1]
+  - Inventory[fc=gui;GuiID=Player_Total_Novice;m=個人資訊;amount=54]
+#減少體質點數
+cut_Attributes_Vit:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_attr_Vit&>1]
+  - CustomPoint[type=base_last;a=+1]
+  - AttributePoint[type=Vit;amount=-1]
+
+#增加智力點數
+add_Attributes_Int:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_base_last&>0]
+  - CustomPoint[type=base_last;a=-1]
+  - AttributePoint[type=Int;amount=1]
+#減少智力點數
+cut_Attributes_Int:
+  Action:
+  #- Condition[Compare=&self_attr_Int&>1]
+  - Break[ConditionType=Compare;ConditionContent=&self_attr_Int&>1]
+  - CustomPoint[type=base_last;a=+1]
+  - AttributePoint[type=Int;amount=-1]
+
+#增加靈巧點數
+add_Attributes_Dex:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_base_last&>0]
+  - CustomPoint[type=base_last;a=-1]
+  - AttributePoint[type=Dex;amount=1]
+#減少靈巧點數
+cut_Attributes_Dex:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_attr_Dex&>1]
+  - CustomPoint[type=base_last;a=+1]
+  - AttributePoint[type=Dex;amount=-1]
+
+#增加幸運點數
+add_Attributes_Luk:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_base_last&>0]
+  - CustomPoint[type=base_last;a=-1]
+  - AttributePoint[type=Luk;amount=1]
+#減少幸運點數
+cut_Attributes_Luk:
+  Action:
+  - Break[ConditionType=Compare;ConditionContent=&self_attr_Luk&>1]
+  - CustomPoint[type=base_last;a=+1]
+  - AttributePoint[type=Luk;amount=-1]
+
+
+###########################################################################
+###########################################################################
+
+#拿取物品
+#-------------------------------------------------------------------------#
+GiveItem1:
+  Action:
+  - Item[ItemID=Weapon.Archer_Bow;a=1]
+GiveItem2:
+  Action:
+  - Item[ItemID=SkillEffect.Arrow1;a=16]
+GiveItem3:
+  Action:
+  - Item[ItemID=Weapon.Magician_ROD;a=1]
+GiveItem4:
+  Action:
+  - Item[ItemID=Weapon.TestWeapon;a=1]
+GiveItem5:
+  Action:
+  - Item[ItemID=Weapon.TestWeapon_Fire;a=1]
+GiveItem6:
+  Action:
+  - Item[ItemID=Weapon.TestWeapon_Water;a=1]
+Give_Personal_Information_Novice:
+  Action:
+  - Item[ItemID=Personal_Information_Novice;a=1]
+Give_Personal_Information_Novice2:
+  Action:
+  - Condition[Equals=&self_class_command&=class]
+  - Item[ItemID=Personal_Information_Novice;a=1]
+Give_Personal_Information_Archer:
+  Action:
+  - Item[ItemID=Personal_Information_Archer;a=1]
+Give_Personal_Information_Magician:
+  Action:
+  - Item[ItemID=Personal_Information_Magician;a=1]
+Give_Personal_Information_Swordman:
+  Action:
+  - Item[ItemID=Personal_Information_Swordman;a=1]
+
+###########################################################################
+###########################################################################
+#移除傷害愛心效果
+Particle-Remove:
+  Action:
+  - Particle[Function=remove;particle=DAMAGE_INDICATOR] @Self
+
+
+

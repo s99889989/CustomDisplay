@@ -3,8 +3,10 @@ package com.daxton.customdisplay.config;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.AutoConfig;
 import com.daxton.customdisplay.api.config.AutoConfig2;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.config.LoadMobConfig;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -63,8 +65,11 @@ public class ConfigManager {
                 ConfigMapManager.getFileConfigurationNameMap().put(patchString2,patchString2);
             }
         }
-
-
+        //設置MM資料
+        if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
+            LoadMobConfig.setMob();
+            LoadMobConfig.setMobData();
+        }
         //ConfigMapManager.getFileConfigurationNameMap().forEach((s, s2) -> cd.getLogger().info(s));
 
     }

@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.api.other;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.bukkit.Color.fromRGB;
 
@@ -31,6 +34,14 @@ public class StringConversion {
         String output = content;
         output = ConversionMain.valueOf(self, target, output);
         return output;
+    }
+
+    public static List<String> getStringList(LivingEntity self, LivingEntity target, List<String> content){
+        List<String> outList = new ArrayList<>();
+        content.forEach(s -> {
+            outList.add(getString(self, target, s));
+        });
+        return outList;
     }
 
     public static boolean getBoolean(LivingEntity self, LivingEntity target, boolean defaultKey, String content){
@@ -60,6 +71,9 @@ public class StringConversion {
 
         String inputString = getString(self, target, content);
         if(inputString != null){
+            if(inputString.contains(".")){
+                inputString = inputString.substring(0, inputString.indexOf("."));
+            }
             try {
                 output = Integer.parseInt(inputString);
             }catch (NumberFormatException exception){

@@ -1,0 +1,24 @@
+Swordman_Provoke:
+  Material: 'COAL'
+  CustomModelData: 13
+  Name: '§e挑釁(&self_class_skill_Swordman_Provoke_now&/&self_class_skill_Swordman_Provoke_max&)'
+  Lore:
+  - ''
+  - '§6挑釁敵方單位，使小範圍內魔物強制攻擊'
+  - '§6自己&self_class_skill_Swordman_Provoke_gui1&秒，並提升敵方攻擊&self_class_skill_Swordman_Provoke_gui2&%，降低敵'
+  - '§6方防禦&self_class_skill_Swordman_Provoke_gui3&%，強制攻擊對玩家無效'
+  - ''
+  - '§6施法距離 : 1.0m'
+  - '§6技能冷卻 : &self_class_skill_Swordman_Provoke_CD&秒'
+  - '§6技能延遲 : 1.0秒'
+  - '§6SP消耗 : &self_class_skill_Swordman_Provoke_Sp&'
+  BarName: '䂻'
+  NeedTarget: false
+  TargetDistance: 3
+  CoolDown: 2
+  CastTime: 0
+  CastDelay: 0
+  Mana: 1
+  Action:
+  - Action[a=Swordman_Provoke]
+  - Action[a=Swordman_Provoke2] @SelfRadius{R=3}

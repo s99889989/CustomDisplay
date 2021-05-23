@@ -1,0 +1,17 @@
+Archer:
+  Archer_DoubleStrafing:
+    base: 0
+  Archer_Anklesnare:
+    base: 0
+  Archer_OwlsEye:
+    base: 0
+  Archer_ArrowShower:
+    base: 0
+  Archer_ChargeArrow:
+    base: 0
+  Archer_ElementArrow:
+    base: 0
+  Archer_VulturesEye:
+    base: 0
+
+

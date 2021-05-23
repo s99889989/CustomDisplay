@@ -284,7 +284,7 @@ public class PlayerConfig {
                         String operation = attrStatsConfig.getString(attrStatsFileName+"."+attrStats+".operation");
                         if(inherit != null && operation !=null){
 
-                            new PlayerBukkitAttribute().addAttribute(player,inherit,operation,statsNumber,attrStats);
+                            new PlayerBukkitAttribute().removeAddAttribute(player,inherit,operation,statsNumber,attrStats);
                         }
                     }
                 }

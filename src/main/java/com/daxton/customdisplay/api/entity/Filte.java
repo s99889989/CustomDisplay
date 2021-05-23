@@ -35,26 +35,26 @@ public class Filte {
 
             /**篩選掉派系目標**/
             if(filteKey.toLowerCase().contains("factions")){
-                if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
-                    String[] filteKey1 = filteKey.split("=");
-                    if(filteKey1.length == 3){
-                        String uuidString = livingEntity.getUniqueId().toString();
-                        String faction = MobManager.mythicMobs_Faction_Map.get(uuidString);
-                        if(filteKey1[0].toLowerCase().equals("remove")){
-                            b = true;
-                            if(filteKey1[2].equals(faction)){
-                                b = false;
-                            }
-                        }
-                        if(filteKey1[0].toLowerCase().equals("add")){
-                            b = false;
-                            if(filteKey1[2].equals(faction)){
-                                b = true;
-                            }
-                        }
-                        return b;
-                    }
-                }
+//                if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
+//                    String[] filteKey1 = filteKey.split("=");
+//                    if(filteKey1.length == 3){
+//                        String uuidString = livingEntity.getUniqueId().toString();
+//                        String faction = MobManager.mythicMobs_Faction_Map.get(uuidString);
+//                        if(filteKey1[0].toLowerCase().equals("remove")){
+//                            b = true;
+//                            if(filteKey1[2].equals(faction)){
+//                                b = false;
+//                            }
+//                        }
+//                        if(filteKey1[0].toLowerCase().equals("add")){
+//                            b = false;
+//                            if(filteKey1[2].equals(faction)){
+//                                b = true;
+//                            }
+//                        }
+//                        return b;
+//                    }
+//                }
 
             }
             /**篩選生物類別目標**/

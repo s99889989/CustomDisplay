@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,18 +20,18 @@ public class AimsLocation {
     }
 
     public List<Location> valueOf(LivingEntity self, LivingEntity target, String firstString, double x, double y, double z){
-        /**目標**/
+        //目標
         String aims = new StringFind().getAimsValue(firstString,"aims","self");
 
-        /**距離**/
-        double radius = 2;
+        //距離
+        double radius;
         try {
-            radius = Double.valueOf(new StringFind().getAimsValue(firstString,"r","1"));
+            radius = Double.parseDouble(new StringFind().getAimsValue(firstString,"r","1"));
         }catch (NumberFormatException exception){
             radius = 2;
         }
 
-        /**瞄準目標**/
+        //瞄準目標
         String filters = new StringFind().getAimsValue(firstString,"filters","null");
 
 
@@ -128,13 +127,13 @@ public class AimsLocation {
         }
 
         //座標向量偏移
-        String[] vecAdds = targetMapHandle.getStringList(new String[]{"VectorAdd","va"},new String[]{"self","true","true","0","0","0"},"\\|",6);
+        String[] vecAdds = targetMapHandle.getStringList(new String[]{"VectorAdd","va"},new String[]{"null","true","true","0","0","0"},"\\|",6);
         String directionT = vecAdds[0];
         boolean targetPitch = Boolean.parseBoolean(vecAdds[1]);
         boolean targetYaw = Boolean.parseBoolean(vecAdds[2]);
-        double addPitch = 0;
-        double addYaw = 0;
-        double addDistance = 0;
+        double addPitch;
+        double addYaw;
+        double addDistance;
         try {
             addPitch = Double.parseDouble(vecAdds[3]);
             addYaw = Double.parseDouble(vecAdds[4]);
@@ -147,9 +146,9 @@ public class AimsLocation {
 
         //座標偏移
         String[] locAdds = targetMapHandle.getStringList(new String[]{"LocationAdd","la"},new String[]{"0","0","0"},"\\|",3);
-        double addX = 0;
-        double addY = 0;
-        double addZ = 0;
+        double addX;
+        double addY;
+        double addZ;
         try {
             addX = Double.parseDouble(locAdds[0]);
             addY = Double.parseDouble(locAdds[1]);
@@ -162,11 +161,9 @@ public class AimsLocation {
 
         boolean onblock = targetMapHandle.getBoolean(new String[]{"onblock","ob"}, false);
 
-
-
         switch (targetKey){
             case "locself":
-                if(target != null && directionT.toLowerCase().contains("target")){
+                if(directionT.toLowerCase().contains("target") && target != null){
                     location = DirectionLocation.getDirectionLoction(self.getLocation(), target.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
                 }else {
                     location = DirectionLocation.getDirectionLoction(self.getLocation(), self.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
@@ -183,10 +180,12 @@ public class AimsLocation {
                 break;
             case "locadd":
                 if(inputLocation != null){
-                    if(target != null && directionT.toLowerCase().contains("target")){
+                    if(directionT.toLowerCase().contains("target") && target != null){
                         location = DirectionLocation.getDirectionLoction(inputLocation, target.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
-                    }else {
+                    }else if(directionT.toLowerCase().contains("self")){
                         location = DirectionLocation.getDirectionLoction(inputLocation, self.getLocation(), targetPitch, targetYaw, addPitch, addYaw, addDistance).add(addX, addY, addZ);
+                    }else {
+                        location = inputLocation.add(addX, addY, addZ);
                     }
                 }
                 break;

@@ -7,6 +7,7 @@ import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.item.CustomItem;
 
 
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem2;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.nms.NMSVersion;
@@ -88,8 +89,8 @@ public class PacketEntity {
 //        packet.getIntegers().write(2,(int)(MathHelper.a(player1.getLocation().getDirection().getY(), -3.9D, 3.9D) * 8000.0D));
 //        packet.getIntegers().write(3,(int)(MathHelper.a(player1.getLocation().getDirection().getZ(), -3.9D, 3.9D) * 8000.0D));
 
-        packet.getIntegers().write(4, MathHelper.d(location.getPitch() * 256.0F / 360.0F));
-        packet.getIntegers().write(5, MathHelper.d(location.getYaw() * 256.0F / 360.0F));
+        //packet.getIntegers().write(4, MathHelper.d(location.getPitch() * 256.0F / 360.0F));
+        //packet.getIntegers().write(5, MathHelper.d(location.getYaw() * 256.0F / 360.0F));
 
         PacketEntity packetEntity = new PacketEntity(entityID,entityType);
 
@@ -101,8 +102,6 @@ public class PacketEntity {
 
         return packetEntity;
     }
-
-
 
     /**傳送目標生物**/
     public void teleport(Location location, Player player1){
@@ -119,8 +118,8 @@ public class PacketEntity {
 //        packet.getBytes().write(0, (byte) (player1.getLocation().getPitch()*256F / 360F));
 //        packet.getBytes().write(1, (byte) (player1.getLocation().getYaw()*256F / 360F));
 
-        packet.getBytes().write(0, (byte)((int)(location.getYaw() * 256.0F / 360.0F)));
-        packet.getBytes().write(1, (byte)((int)(location.getPitch() * 256.0F / 360.0F)));
+        //packet.getBytes().write(0, (byte)((int)(location.getYaw() * 256.0F / 360.0F)));
+        //packet.getBytes().write(1, (byte)((int)(location.getPitch() * 256.0F / 360.0F)));
 
         playerList.forEach(player -> {
             sendPack(player, packet);
@@ -174,7 +173,7 @@ public class PacketEntity {
     /**裝備目標生物16以上**/
     public void appendItem16(String itemID, String itemSlot){
 
-        ItemStack itemStack = MenuItem2.valueOf(itemID);
+        ItemStack itemStack = CustomItem2.valueOf(null, null, itemID, 1);
         ItemStack itemStack2 = new ItemStack(Material.STONE);
         EnumWrappers.ItemSlot itemSlot1 = Enum.valueOf(EnumWrappers.ItemSlot.class,itemSlot);
         if(itemStack != null){
@@ -194,7 +193,7 @@ public class PacketEntity {
     }
     /**裝備目標生物15以下**/
     public void appendItem15(String itemID, String itemSlot){
-        ItemStack itemStack = CustomItem.valueOf(null, null, itemID, 1);
+        ItemStack itemStack = CustomItem2.valueOf(null, null, itemID, 1);
         EnumWrappers.ItemSlot slot = Enum.valueOf(EnumWrappers.ItemSlot.class,itemSlot);
 
         if(itemStack != null){

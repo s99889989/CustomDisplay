@@ -17,7 +17,8 @@ public class LoadConfig {
     }
 
     /**丟入玩家，讀取玩家設定檔**/
-    public FileConfiguration getPlayerConfig(Player player){
+    public static FileConfiguration getPlayerConfig(Player player){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
         String uuidString = player.getUniqueId().toString();
         File playerFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
         FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
@@ -27,9 +28,11 @@ public class LoadConfig {
         return playerConfig;
     }
     /**讀取職業設定**/
-    public FileConfiguration getClassConfig(String className){
-        File defaultFilePatch = new File(cd.getDataFolder(),"Class/Main/"+className+".yml");
-        FileConfiguration classConfig = YamlConfiguration.loadConfiguration(defaultFilePatch);
+    public static FileConfiguration getClassConfig(String className){
+        FileConfiguration classConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Main_Default_Player.yml");
+        if(ConfigMapManager.getFileConfigurationMap().get("Class_Main_"+className+".yml") != null){
+            classConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Main_"+className+".yml");
+        }
         return classConfig;
     }
 

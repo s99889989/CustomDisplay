@@ -38,8 +38,8 @@ public class ClassCommand {
             if(args[0].equalsIgnoreCase("changeclass")) {
                 if(onLineplayerNameList.contains(args[1])){
                     if(classNameList.contains(args[2])){
-                        new SaveConfig().setConfig(player);
-                        new PlayerChangeClass().changeClass(playerMap.get(args[1]),args[2]);
+                        //new SaveConfig().setConfig(player);
+                        PlayerChangeClass.changeClass(playerMap.get(args[1]),args[2]);
                         return true;
                     }
                 }
@@ -48,7 +48,7 @@ public class ClassCommand {
             if(args[0].equalsIgnoreCase("rebirth")) {
                 if(onLineplayerNameList.contains(args[1])){
                     if(classNameList.contains(args[2])){
-                        new PlayerRebirth().rebirth(playerMap.get(args[1]),args[2]);
+                        PlayerRebirth.rebirth(playerMap.get(args[1]),args[2]);
                         return true;
                     }
                 }

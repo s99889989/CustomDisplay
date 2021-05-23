@@ -1,20 +1,11 @@
 package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
-import io.lumine.xikage.mythicmobs.utils.config.file.FileConfiguration;
-import io.lumine.xikage.mythicmobs.utils.config.file.YamlConfiguration;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-
-import java.io.File;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH;
-import static org.bukkit.attribute.Attribute.GENERIC_MOVEMENT_SPEED;
 
 public class PlayerBukkitAttribute {
 
@@ -24,59 +15,85 @@ public class PlayerBukkitAttribute {
 
     }
 
-    public void addAttribute(LivingEntity player, String inherit, String operation, double addNumber, String attributeName){
+    //增加原有屬性再
+    public static void addAttribute(LivingEntity player, String inherit, String operation, double addNumber, String attributeName){
+        try {
+            AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
 
+            AttributeModifier healthModifier = new AttributeModifier("customdisplay"+attributeName, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
+            attributeInstance.addModifier(healthModifier);
+        }catch (IllegalArgumentException exception){
 
-        AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
-
-
-        removeAttribute(player,inherit);
-
-        AttributeModifier healthModifier = new AttributeModifier("customdisplay"+attributeName, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
-        attributeInstance.addModifier(healthModifier);
-
-
-        //player.sendMessage("值: "+attributeInstance.getValue());
-//        if(inherit.contains("GENERIC_ATTACK_SPEED")){
-//            player.sendMessage("攻擊速度"+attributeInstance.getValue());
-//        }
-
-//        player.saveData();
-//        if(inherit.contains("GENERIC_MAX_HEALTH")){
-//            for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
-//
-//                player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
-//            }
-//            //double maxHealth = player.getAttribute(GENERIC_MAX_HEALTH).getValue();
-//            //player.setHealth(maxHealth);
-//        }
-    }
-
-    /**清除屬性**/
-    public void removeAttribute(LivingEntity player,String inherit){
-        AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
-        if(attributeInstance != null){
-            for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
-                if(attributeModifier.toString().contains("customdisplay")){
-                    //player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
-                    attributeInstance.removeModifier(attributeModifier);
-                }
-            }
         }
     }
 
+    //移除原有屬性再增加
+    public static void removeAddAttribute(LivingEntity player, String inherit, String operation, double addNumber, String label){
+
+        try {
+            AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
+
+            //移除指定標籤屬性
+            removeAttribute(player,inherit, label);
+
+            AttributeModifier healthModifier = new AttributeModifier("customdisplay"+label, addNumber, Enum.valueOf(AttributeModifier.Operation.class,operation));
+            attributeInstance.addModifier(healthModifier);
+        }catch (IllegalArgumentException exception){
+
+        }
+
+    }
+
+    //清除指定標籤屬性
+    public static void removeAttribute(LivingEntity player, String inherit, String label){
+        try {
+            AttributeInstance attributeInstance = player.getAttribute(Enum.valueOf(Attribute.class,inherit));
+            if(attributeInstance != null){
+                for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
+                    if(attributeModifier.toString().contains("customdisplay"+label)){
+                        //player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
+                        attributeInstance.removeModifier(attributeModifier);
+                    }
+                }
+            }
+        }catch (IllegalArgumentException exception){
+
+        }
+
+
+    }
+
+    //清除某項屬性
+    public static void removeTypeAttribute(LivingEntity livingEntity, String inherit){
+        try {
+            AttributeInstance attributeInstance = livingEntity.getAttribute(Enum.valueOf(Attribute.class,inherit));
+            if(attributeInstance != null){
+                for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
+                    CustomDisplay.getCustomDisplay().getLogger().info("包含: "+attributeModifier.toString());
+                    if(attributeModifier.toString().contains("customdisplay")){
+                        //player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
+                        attributeInstance.removeModifier(attributeModifier);
+                    }
+                }
+            }
+        }catch (IllegalArgumentException exception){
+
+        }
+
+    }
+
     public void removeAllAttribute(Player player){
-        removeAttribute(player,"GENERIC_MAX_HEALTH");
+        removeTypeAttribute(player,"GENERIC_MAX_HEALTH");
         //removeAttribute(player,"GENERIC_FOLLOW_RANGE");
-        removeAttribute(player,"GENERIC_KNOCKBACK_RESISTANCE");
-        removeAttribute(player,"GENERIC_MOVEMENT_SPEED");
+        removeTypeAttribute(player,"GENERIC_KNOCKBACK_RESISTANCE");
+        removeTypeAttribute(player,"GENERIC_MOVEMENT_SPEED");
         //removeAttribute(player,"GENERIC_FLYING_SPEED");
-        removeAttribute(player,"GENERIC_ATTACK_DAMAGE");
+        removeTypeAttribute(player,"GENERIC_ATTACK_DAMAGE");
         //removeAttribute(player,"GENERIC_ATTACK_KNOCKBACK");
-        removeAttribute(player,"GENERIC_ATTACK_SPEED");
-        removeAttribute(player,"GENERIC_ARMOR");
-        removeAttribute(player,"GENERIC_ARMOR_TOUGHNESS");
-        removeAttribute(player,"GENERIC_LUCK");
+        removeTypeAttribute(player,"GENERIC_ATTACK_SPEED");
+        removeTypeAttribute(player,"GENERIC_ARMOR");
+        removeTypeAttribute(player,"GENERIC_ARMOR_TOUGHNESS");
+        removeTypeAttribute(player,"GENERIC_LUCK");
         //removeAttribute(player,"HORSE_JUMP_STRENGTH");
         //removeAttribute(player,"ZOMBIE_SPAWN_REINFORCEMENTS");
     }

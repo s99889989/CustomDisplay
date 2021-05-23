@@ -3,7 +3,8 @@ package com.daxton.customdisplay.manager.player;
 import com.daxton.customdisplay.gui.item.*;
 import com.daxton.customdisplay.gui.item.edititem.*;
 import com.daxton.customdisplay.gui.item.edititem.editaction.*;
-import com.daxton.customdisplay.task.action2.player.OpenInventory3;
+import com.daxton.customdisplay.task.action2.player.CustomInventory3;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
@@ -11,8 +12,12 @@ import java.util.Map;
 
 public class EditorGUIManager {
 
-    public static Map<String , Inventory> open_Inventory_Map = new HashMap<>();
-    public static Map<String , OpenInventory3> menu_OpenInventory_Map = new HashMap<>();
+    public static Map<String, FileConfiguration> custom_Inventory_Name_Map = new HashMap<>();
+    public static Map<String, FileConfiguration> custom_Inventory_Buttom_Map = new HashMap<>();
+    public static Map<String, Boolean> custom_Inventory_Boolean_Map = new HashMap<>();
+    public static Map<String, String> custom_Inventory_GuiID_Map = new HashMap<>();
+    public static Map<String, Inventory> custom_Inventory_Map = new HashMap<>();
+    public static Map<String, CustomInventory3> menu_CustomInventory_Map = new HashMap<>();
 
     //------------------------------------------------------------------------------------------------------
     //物品主Menu

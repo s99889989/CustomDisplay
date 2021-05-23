@@ -7,10 +7,6 @@ Bow1:
   Action:
   - Launch an arrow:Action[a=Bow1_Shooting] ~RightClickAir
   - null:Action[a=Bow1_Shooting] ~RightClickBlock
-Arrow1:
-  Material: Coal
-  CustomModelData: 398
-  DisplayName: §eArrow
 test1:
   Material: DIAMOND_SWORD
   CoolDown:
@@ -21,7 +17,7 @@ test1:
 explode:
   Material: SLIME_BALL
   CoolDown:
-    RightClick: 10
+    RightClick: 40
   Action:
   - 爆光:Action[Action=Explode;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
   - null:Action[Action=Explode;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
@@ -30,44 +26,174 @@ light2:
   DisplayName: 閃光2
   CustomModelData: 498
   CoolDown:
-    RightClick: 10
+    RightClick: 40
   Action:
-  - 閃光:Action[Action=Explode2;Count=1;CountPeriod=10;Stop=false] @SelfRadius{Filters=null;R=10.0}  ~RightClickAir
-  - null:Action[Action=Explode2;Count=1;CountPeriod=10;Stop=false] @SelfRadius{Filters=null;R=10.0}  ~RightClickBlock
+  - null:Action[Action=Explode1;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
+  - null:Action[Action=Explode1;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+  - 閃光:Action[Action=Explode2;Count=1;CountPeriod=10;Stop=false] @SelfRadius{Filters=null;R=10.0}
+    ~RightClickAir
+  - null:Action[Action=Explode2;Count=1;CountPeriod=10;Stop=false] @SelfRadius{Filters=null;R=10.0}
+    ~RightClickBlock
 Collapse:
-  Material: GUNPOWDER
+  Material: GLOWSTONE_DUST
   CoolDown:
-    RightClick: 10
+    RightClick: 40
   Action:
   - Collapse:Action[Action=Collapse;Count=1;CountPeriod=10;Stop=false] @Self{Filters=null;R=1.0}  ~RightClickAir
   - null:Action[Action=Collapse;Count=1;CountPeriod=10;Stop=false] @Self{Filters=null;R=1.0}  ~RightClickBlock
+  CustomModelData: 50
+  DisplayName: 地刺
 Frisbee:
-  Material: GUNPOWDER
+  Material: GLOWSTONE_DUST
   DisplayName: 發射光盤
   CoolDown:
-    RightClick: 10
+    RightClick: 40
   Action:
   - 光盤:Action[Action=Frisbee;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
   - null:Action[Action=Frisbee;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+  CustomModelData: 51
 Tornado:
-  Material: STRING
+  Material: GLOWSTONE_DUST
   DisplayName: 捲風
   CoolDown:
-    RightClick: 10
+    RightClick: 40
   Action:
   - 捲風:Action[Action=Tornado;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
   - null:Action[Action=Tornado;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+  CustomModelData: 52
 TornadoLine:
-  Material: SCUTE
+  Material: GLOWSTONE_DUST
   CoolDown:
-    RightClick: 10
+    RightClick: 40
   Action:
   - 直向龍捲風:Action[Action=TornadoLine;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
   - null:Action[Action=TornadoLine;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+  CustomModelData: 56
+  DisplayName: 吹拂
 ModelAttack:
-  Material: SLIME_BALL
+  Material: GLOWSTONE_DUST
   CoolDown:
-    RightClick: 10
+    RightClick: 40
   Action:
   - 模型攻擊:Action[Action=ModelAttack;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
   - null:Action[Action=ModelAttack;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
+  CustomModelData: 53
+  DisplayName: 生命召喚
+LaserBeam:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 54
+  DisplayName: 射線
+  CoolDown:
+    RightClick: 40
+  Action:
+  - '射線:Action[Action=LaserBeam;Count=1;CountPeriod=10;Stop=false] ~RightClickAir '
+  - 'null:Action[Action=LaserBeam;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock '
+TestWeapon:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 101
+  DisplayName: §e無屬性武器
+  Lore:
+  - ''
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+TestWeapon_Fire:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 102
+  DisplayName: §e火之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 火'
+  - '§7暴擊率% : 30'
+TestWeapon_Earth:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 103
+  DisplayName: §e地之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 地'
+TestWeapon_Water:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 104
+  DisplayName: §e水之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 水'
+TestWeapon_Wind:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 105
+  DisplayName: §e風之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 風'
+TestWeapon_Poison:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 106
+  DisplayName: §e毒之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 毒'
+TestWeapon_Immortality:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 107
+  DisplayName: §e不死之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 不死'
+TestWeapon_Dark:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 108
+  DisplayName: §e暗之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 暗'
+TestWeapon_Holy:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 109
+  DisplayName: §e聖之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 聖'
+TestWeapon_Sense:
+  Material: GLOWSTONE_DUST
+  CustomModelData: 110
+  DisplayName: §e念之劍
+  CustomAttrs:
+  - '§7武器類型 : 武器-長劍'
+  - '§7物理攻擊 : 10'
+  - '§7攻擊屬性 : 念'
+Archer_Bow:
+  Material: Glowstone_Dust
+  CustomModelData: 2
+  DisplayName: §e新手弓
+  CustomAttrs:
+  - '§7武器類型 : 武器-弓'
+  - '§7物理攻擊 : 10'
+  - '§7暴擊率% : 30'
+  DisableAttack: true
+  CoolDown:
+    LeftClick: '&self_attr_Attack_Speed_Core&'
+  Action:
+  - null:Action[Action=Archer_Shooting] ~LeftClickAir
+  - null:Action[Action=Archer_Shooting] ~LeftClickBlock
+Magician_ROD:
+  Material: Glowstone_Dust
+  CustomModelData: 55
+  DisplayName: §e法杖
+  CustomAttrs:
+  - '§7武器類型 : 武器-法杖'
+  - '§7魔法攻擊 : 10'
+  DisableAttack: true
+  CoolDown:
+    LeftClick: '&self_attr_Attack_Speed_Core&'
+  Action:
+  - null:Action[Action=Magician_Shooting] ~LeftClickAir
+  - null:Action[Action=Magician_Shooting] ~LeftClickBlock

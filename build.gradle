@@ -85,7 +85,7 @@ dependencies {
 
 
     group = 'com.daxton'
-    version = '1.16.7'
+    version = '1.16.9'
     description = 'CustomDisplay'
     sourceCompatibility = '1.8'
 
@@ -115,6 +115,6 @@ shadowJar {
     classifier = null
     relocate 'io.netty', 'com.daxton.discord4j.shaded.io.netty'
 }
-build.dependsOn shadowJar
+//build.dependsOn shadowJar
 
 

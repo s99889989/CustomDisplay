@@ -3,16 +3,17 @@ package com.daxton.customdisplay;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.config.SaveConfig;
-import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.gui.SetGui;
+import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
 import com.daxton.customdisplay.command.MainCommand;
 import com.daxton.customdisplay.command.TabCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
+import com.daxton.customdisplay.listener.customcore.*;
 import com.daxton.customdisplay.listener.mmolib.CDMMOLibListener;
 import com.daxton.customdisplay.listener.crackshot.CrackShotListener;
-import com.daxton.customdisplay.listener.customdisplay.*;
 import com.daxton.customdisplay.listener.mmolib.MMOCoreListener;
 import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
 import com.daxton.customdisplay.listener.mythicmobs.ModelEngineListener;
@@ -29,6 +30,7 @@ import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.otherfunctions.CreatJson;
 import com.daxton.customdisplay.task.ClearAction;
+import com.daxton.customdisplay.task.RunTask;
 import discord4j.core.DiscordClientBuilder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -43,7 +45,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import java.util.logging.Level;
 
 public final class CustomDisplay extends JavaPlugin implements Listener {
@@ -118,7 +119,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         configManager = new ConfigManager(customDisplay);
         Bukkit.getPluginCommand("customdisplay").setExecutor(new MainCommand());
         Bukkit.getPluginCommand("customdisplay").setTabCompleter(new TabCommand());
-        /**傷害判斷的核心插件.**/
+        //傷害判斷的核心插件
         AttackCore();
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
@@ -130,26 +131,34 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
         //設定動作
         new SetActionMap();
+        //設定GUI名稱
+        SetGui.setGuiName();
+        SetGui.setButtomMap();
 
         String attackCore = fileConfig.getString("AttackCore");
-        if(attackCore.toLowerCase().contains("customcore")){
-            /**設置核心公式字串**/
+        if(attackCore != null && attackCore.toLowerCase().contains("customcore")){
+            //設置核心公式字串
             new PlayerAttributeCore().setFormula();
         }
 
         boolean discordEnable = fileConfig.getBoolean("Discord.enable");
         if(discordEnable){
             String token = fileConfig.getString("Discord.token");
-            DiscordManager.client = DiscordClientBuilder.create(token)
-                    .build()
-                    .login()
-                    .block();
+            if(token != null){
+                DiscordManager.client = DiscordClientBuilder.create(token)
+                        .build()
+                        .login()
+                        .block();
+            }
+
 
         }
 
         //建立Json檔案
         CreatJson.createMain();
         CreatJson.createAll();
+
+        RunTask.run20(customDisplay);
 
     }
 
@@ -256,12 +265,11 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
                 }
                 break;
             case "customcore":
-                Bukkit.getPluginManager().registerEvents(new MainListener(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new MeleePhysicalAttack(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new RangePhysicalAttack(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new DamagerNumberListener(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new EquipmentListener(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new MainAttack(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new NumberAttack(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new MeleeAttack(),customDisplay);
                 Bukkit.getPluginManager().registerEvents(new MagicAttack(),customDisplay);
+                Bukkit.getPluginManager().registerEvents(new RangeAttack(),customDisplay);
                 getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CustomCore");
                 break;
             case "default":
@@ -285,53 +293,44 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         CreatJson.createMain();
         CreatJson.createAll();
 
-        /**設置核心公式字串**/
+        //設置核心公式字串
         new PlayerAttributeCore().setFormula();
 
-        /**清除所有動作**/
+        //清除所有動作
         new ClearAction().all();
         new ClearAction().all2();
 
         //設定動作
         new SetActionMap();
+        //設定GUI名稱
+        SetGui.setGuiName();
+        SetGui.setButtomMap();
 
-        /**重新讀取玩家資料**/
+        //重新讀取玩家資料
         for(Player player : Bukkit.getOnlinePlayers()){
-
-            UUID playerUUID = player.getUniqueId();
-            PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
-            if(playerData != null){
-                /**玩家資料**/
-                String attackCore = getConfigManager().config.getString("AttackCore");
-                if(attackCore.toLowerCase().contains("customcore")){
-                    playerData.getBukkitRunnable().cancel();
-                }
-                /**儲存人物資料**/
-                new SaveConfig().setConfig(player);
-                PlayerManager.getPlayerDataMap().remove(playerUUID);
+            String uuidString = player.getUniqueId().toString();
+            if(PlayerManager.player_Data_Map.get(uuidString) != null){
+                PlayerManager.player_Data_Map.get(uuidString).savePlayerFile();
             }
 
-            if(PlayerManager.getPlayerDataMap().get(playerUUID) == null){
-                /**玩家資料**/
-                PlayerManager.getPlayerDataMap().put(playerUUID,new PlayerData(player));
-            }
-
+            PlayerManager.player_Data_Map.put(uuidString, new PlayerData2(player));
         }
+
 
     }
 
     @Override
     public void onDisable() {
+
+        //儲存人物資料
         for(Player player : Bukkit.getOnlinePlayers()){
-            UUID playerUUID = player.getUniqueId();
-            PlayerData playerData = PlayerManager.getPlayerDataMap().get(playerUUID);
-            if(playerData != null){
-                /**儲存人物資料**/
-                new SaveConfig().setConfig(player);
-                //PlayerDataMap.getPlayerDataMap().get(playerUUID).removeAttribute(player);
-                PlayerManager.getPlayerDataMap().remove(playerUUID);
+            String uuidString = player.getUniqueId().toString();
+            if(PlayerManager.player_Data_Map.get(uuidString) != null){
+                PlayerManager.player_Data_Map.get(uuidString).savePlayerFile();
+                PlayerManager.player_Data_Map.remove(uuidString);
             }
         }
+
         //儲存物品資訊
         SaveConfig.saveItemFile();
 
@@ -352,7 +351,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
         InputStream in = getResource(resourcePath);
 
-        /****/
+        //****
         if (in == null) {
             throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + super.getFile());
         }

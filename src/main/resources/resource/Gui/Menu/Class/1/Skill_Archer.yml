@@ -1,0 +1,283 @@
+Title: '弓箭手技能'
+
+Sort:
+- 'PlayerTotal.1.2.3.Stats.5.6.7.Close'
+- '9.10.Archer_DoubleStrafing.12.Archer_VulturesEye.14.15.16.17'
+- 'Description.19.20.21.Archer_ArrowShower.23.Archer_ChargeArrow.25.26'
+- '27.28.29.30.31.32.33.34.35'
+- '36.37.Archer_OwlsEye.39.40.41.Archer_ElementArrow.43.44'
+- '45.46.47.48.Anklesnare.50.51.52.53'
+#
+Buttons:
+
+  PlayerTotal:
+    RawSlot: 0
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e回到總覽'
+    Lore:
+    - ''
+    Left:
+    - Action[a=Open_Gui_Player_Total]
+
+
+  Stats:
+    RawSlot: 4
+    Move: false
+    Material: 'PLAYER_HEAD'
+    HeadValue: '&self_name&'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e&self_name&'
+    Lore:
+    - ''
+    - '§7一轉職業: §9弓箭手'
+    - ''
+    - '§7一轉Job等級: §e&self_job1_level_now& / &self_job1_level_max&'
+    - '§7一轉Job經驗值: §e&self_job1_exp_now& / &self_job1_exp_max&'
+    - ''
+    - '§7一轉技能點: §6&self_job1_last& / &self_job1_max&'
+
+
+  #二連矢
+  Archer_DoubleStrafing:
+    RawSlot: 11
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 17
+    RemoveItemFlags: true
+    Name: '§e二連矢(&self_class_skill_Archer_DoubleStrafing_max&/10)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Archer_DoubleStrafing_now&/&self_class_skill_Archer_DoubleStrafing_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6同時射出2箭，對敵方單體造成雙倍（物'
+    - '§6理攻擊&self_class_skill_Archer_DoubleStrafing_gui&%）物理傷害。施放技能時必'
+    - '§6須裝備弓類武器'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能延遲: 1.0秒'
+    - '§6消耗SP: 15'
+    Left:
+    - Action[a=up_use_Archer_DoubleStrafing]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right:
+    - Action[a=down_use_Archer_DoubleStrafing]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Left_Shift:
+    - Action[a=up_level_Archer_DoubleStrafing]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right_Shift:
+    - Action[a=down_use_Archer_DoubleStrafing]
+    - Action[a=down_level_Archer_DoubleStrafing]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    
+  #蒼鷹之眼
+  Archer_VulturesEye:
+    RawSlot: 13
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 23
+    RemoveItemFlags: true
+    Name: '§e蒼鷹之眼(&self_class_skill_Archer_VulturesEye_max&/10)'
+    Lore:
+    #- '§e使用等級 : &self_class_skill_Archer_VulturesEye_now&/&self_class_skill_Archer_VulturesEye_max&'
+    - ''
+    - '被動技能'
+    - ''
+    - '§6永久提升射程&self_class_skill_Archer_VulturesEye_gui1&%，命中&self_class_skill_Archer_VulturesEye_gui2&'
+    #Left:
+    #- Action[a=up_use_Archer_VulturesEye]
+    #Right:
+    #- Action[a=down_use_Archer_VulturesEye]
+    Left_Shift:
+    - Action[a=up_level_Archer_VulturesEye]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right_Shift:
+    - Action[a=down_level_Archer_VulturesEye]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    
+  #箭雨
+  Archer_ArrowShower:
+    RawSlot: 22
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 20
+    RemoveItemFlags: true
+    Name: '§e箭雨(&self_class_skill_Archer_ArrowShower_max&/10)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Archer_ArrowShower_now&/&self_class_skill_Archer_ArrowShower_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6朝指定範圍射出4波箭矢，每次造成物理'
+    - '§6攻擊&self_class_skill_Archer_ArrowShower_gui&%物理傷害，範圍內每波最多傷'
+    - '§6害8個敵方單位'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能延遲 : 2.0秒'
+    - '§6SP消耗 : &self_class_skill_Archer_ArrowShower_Sp&'
+    Left:
+    - Action[a=up_use_Archer_ArrowShower]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right:
+    - Action[a=down_use_Archer_ArrowShower]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Left_Shift:
+    - Action[a=up_level_Archer_ArrowShower]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right_Shift:
+    - Action[a=down_use_Archer_ArrowShower]
+    - Action[a=down_level_Archer_ArrowShower]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    
+  #衝鋒箭
+  Archer_ChargeArrow:
+    RawSlot: 24
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 21
+    RemoveItemFlags: true
+    Name: '§e衝鋒箭(&self_class_skill_Archer_ChargeArrow_max&/5)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Archer_ChargeArrow_now&/&self_class_skill_Archer_ChargeArrow_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6發射強力箭矢，對敵方單體造成物理攻擊'
+    - '§6&self_class_skill_Archer_ChargeArrow_gui&%的物理傷害，並擊退一段距離'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能冷卻 : &self_class_skill_Archer_ChargeArrow_CD&秒'
+    - '§6技能延遲 : 1.5秒'
+    - '§6SP消耗 : 15'
+    Left:
+    - Action[a=up_use_Archer_ChargeArrow]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right:
+    - Action[a=down_use_Archer_ChargeArrow]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Left_Shift:
+    - Action[a=up_level_Archer_ChargeArrow]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right_Shift:
+    - Action[a=down_use_Archer_ChargeArrow]
+    - Action[a=down_level_Archer_ChargeArrow]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    
+  #鶚梟之眼
+  Archer_OwlsEye:
+    RawSlot: 38
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 19
+    RemoveItemFlags: true
+    Name: '§e鶚梟之眼(&self_class_skill_Archer_OwlsEye_max&/10)'
+    Lore:
+    #- '§e使用等級 : &self_class_skill_Archer_OwlsEye_now&/&self_class_skill_Archer_OwlsEye_max&'
+    - ''
+    - '被動技能'
+    - ''
+    - '§6永久提升靈巧&self_class_skill_Archer_OwlsEye_gui&'
+    #Left:
+    #- Action[a=up_use_Archer_OwlsEye]
+    #Right:
+    #- Action[a=down_use_Archer_OwlsEye]
+    Left_Shift:
+    - Action[a=up_level_Archer_OwlsEye]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right_Shift:
+    - Action[a=down_level_Archer_OwlsEye]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    
+  #元素箭矢
+  Archer_ElementArrow:
+    RawSlot: 42
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 22
+    RemoveItemFlags: true
+    Name: '§e元素箭矢(&self_class_skill_Archer_ElementArrow_max&/10)'
+    Lore:
+    - ''
+    - '被動技能'
+    - ''
+    - '§6使用弓類、鞭子類、樂器類武器時物理攻'
+    - '§6擊提升&self_class_skill_Archer_ElementArrow_gui1&，普攻攻擊力提升&self_class_skill_Archer_ElementArrow_gui2&'
+    #Left:
+    #- Action[a=up_use_Archer_ElementArrow]
+    #Right:
+    #- Action[a=down_use_Archer_ElementArrow]
+    Left_Shift:
+    - Action[a=up_level_Archer_ElementArrow]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right_Shift:
+    - Action[a=down_level_Archer_ElementArrow]
+    - Action[a=Open_Gui_Skill_1_Archer]
+
+  #定位陷阱
+  Anklesnare:
+    RawSlot: 49
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 18
+    RemoveItemFlags: true
+    Name: '§e定位陷阱(&self_class_skill_Archer_Anklesnare_max&/5)'
+    Lore:
+    - '§e使用等級 : &self_class_skill_Archer_Anklesnare_now&/&self_class_skill_Archer_Anklesnare_max&'
+    - ''
+    - '主動技能'
+    - ''
+    - '§6指定區域佈置陷阱，觸發後敵方單體被持'
+    - '§6續定身&self_class_skill_Archer_Anklesnare_gui&秒（定身效果不可被萬能藥解除'
+    - '§6），最多可同時佈置2個，被清除定位效'
+    - '§6果的目標在接下來1.5秒內不會再次被定'
+    - '§6位'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能延遲 : 0.5秒'
+    - '§6SP消耗 : 12'
+    Left:
+    - Action[a=up_use_Archer_Anklesnare]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right:
+    - Action[a=down_use_Archer_Anklesnare]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Left_Shift:
+    - Action[a=up_level_Archer_Anklesnare]
+    - Action[a=Open_Gui_Skill_1_Archer]
+    Right_Shift:
+    - Action[a=down_use_Archer_Anklesnare]
+    - Action[a=down_level_Archer_Anklesnare]
+    - Action[a=Open_Gui_Skill_1_Archer]
+
+
+  #說明
+  Description:
+    RawSlot: 18
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e說明'
+    Lore:
+    - ''
+    - '§eShift+左鍵升級'
+    - '§eShift+右鍵降級'
+    - '§e左鍵升級使用等級'
+    - '§e左鍵降級用等級'
+    
+  Close:
+    RawSlot: 8
+    Move: false
+    Material: 'COAL'
+    CustomModelData: 0
+    RemoveItemFlags: true
+    Name: '§e關閉視窗'
+    Lore:
+    - ''
+    Left:
+    - Action[a=Close_Gui]

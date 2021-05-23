@@ -2,6 +2,7 @@ package com.daxton.customdisplay.api.player.data.set;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -20,19 +21,26 @@ public class PlayerAttributesStats {
 
     }
 
-    public void setMap(Player player, Map<String,String> attributes_Stats_Map,FileConfiguration playerConfig){
-        String uuidString = player.getUniqueId().toString();
-        UUID playerUUID = player.getUniqueId();
 
+    public static void setMap(Player player, Map<String,String> attributes_Stats_Map,FileConfiguration playerConfig){
+        String uuidString = player.getUniqueId().toString();
         List<String> attrStatsList = playerConfig.getStringList(uuidString+".Attributes_Stats");
         if(attrStatsList.size() > 0){
             for(String attrName : attrStatsList){
-                File attrFile = new File(cd.getDataFolder(),"Class/Attributes/EntityStats/"+attrName+".yml");
-                FileConfiguration attrConfig = YamlConfiguration.loadConfiguration(attrFile);
-                List<String> attrStatsNameList = new ArrayList<>(attrConfig.getConfigurationSection(attrName).getKeys(false));
-                for(String attrName2 : attrStatsNameList){
-                    attributes_Stats_Map.put(attrName2,"0");
+
+                if(ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EntityStats_"+attrName+".yml") != null){
+                    FileConfiguration attrConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EntityStats_"+attrName+".yml");
+                    List<String> attrStatsNameList = new ArrayList<>(attrConfig.getConfigurationSection(attrName).getKeys(false));
+                    for(String attrName2 : attrStatsNameList){
+                        String value = "0";
+                        if(attrConfig.contains(attrName+"."+attrName2+".formula")){
+                            value = attrConfig.getString(attrName+"."+attrName2+".formula");
+                        }
+                        attributes_Stats_Map.put(attrName2, value);
+
+                    }
                 }
+
 
             }
 

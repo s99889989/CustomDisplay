@@ -2,6 +2,7 @@ package com.daxton.customdisplay.gui.item.edititem.editaction;
 
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.action.SetActionMap;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem;
 import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -208,7 +209,8 @@ public class ItemActionSet {
     //給物品
     public void giveItem(){
 
-        ItemStack itemStack = MenuItem.valueOf(this.itemConfig, this.itemID);
+        //ItemStack itemStack = MenuItem.valueOf(this.itemConfig, this.itemID);
+        ItemStack itemStack = CustomItem2.valueOf(this.player, null, this.typeName+"."+this.itemID, 1);
         this.player.getInventory().addItem(itemStack);
     }
 

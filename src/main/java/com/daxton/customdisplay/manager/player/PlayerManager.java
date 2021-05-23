@@ -1,8 +1,10 @@
 package com.daxton.customdisplay.manager.player;
 
 
+import com.daxton.customdisplay.api.MobData;
 import com.daxton.customdisplay.api.player.CoreAttribute;
 import com.daxton.customdisplay.api.player.data.PlayerData;
+import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
 
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,8 +16,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerManager {
-    /**玩家動作資料**/
+    //玩家資料
     private static Map<UUID, PlayerData> playerDataMap = new HashMap<>();
+    public static Map<String, PlayerData2> player_Data_Map = new HashMap<>();
 
     /**目前魔量**/
     public static Map<String, Double> player_nowMana = new HashMap<>();
@@ -32,9 +35,11 @@ public class PlayerManager {
     public static Map<String, Boolean> shield_Delay_Boolean_Map = new HashMap<>();
     public static Map<String, BukkitRunnable> shield_Delay_Run_Map = new HashMap<>();
 
-    //物品延遲
-    public static Map<String, Boolean> item_Delay_Boolean_Map = new HashMap<>();
-    public static Map<String, BukkitRunnable> item_Delay_Run_Map = new HashMap<>();
+    //物品CD
+    public static Map<String, Boolean> item_Delay_Right_Boolean_Map = new HashMap<>();
+    public static Map<String, BukkitRunnable> item_Delay_Right_Run_Map = new HashMap<>();
+    public static Map<String, Boolean> item_Delay_Left_Boolean_Map = new HashMap<>();
+    public static Map<String, BukkitRunnable> item_Delay_Left_Run_Map = new HashMap<>();
 
     /**攻擊速度計時**/
     public static Map<String, BukkitRunnable> attack_Speed_Map = new HashMap<>();

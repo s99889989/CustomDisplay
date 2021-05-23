@@ -50,9 +50,11 @@ public class ActionMapHandle {
         for(String ss : key){
             if(this.action_Map.get(ss.toLowerCase()) != null){
                 output = this.action_Map.get(ss.toLowerCase());
+                //CustomDisplay.getCustomDisplay().getLogger().info("Action: "+output);
                 if(output.contains("&")){
                     output = ConversionMain.valueOf(this.self,this.target,output);
                 }
+
                 return output;
             }
         }
@@ -70,6 +72,16 @@ public class ActionMapHandle {
             }
         }
         return def;
+    }
+
+    //不限長度的字串陣列
+    public String[] getStringListLong(String[] key, String split){
+        String[] output = null;
+        String inputString = getString(key,null);
+        if(inputString != null){
+            output = inputString.split(split);
+        }
+        return output;
     }
 
     public boolean getBoolean(String[] key, boolean def){
@@ -100,6 +112,9 @@ public class ActionMapHandle {
 
         String inputString = getString(key,null);
         if(inputString != null){
+            if(inputString.contains(".")){
+                inputString = inputString.substring(0, inputString.indexOf("."));
+            }
             try {
                 output = Integer.parseInt(inputString);
             }catch (NumberFormatException exception){
@@ -303,6 +318,7 @@ public class ActionMapHandle {
         String inputString = getString(key,def);
 
         if(inputString != null){
+            //CustomDisplay.getCustomDisplay().getLogger().info("Action: "+inputString);
             if(ActionManager.action_SubAction_Map.get(inputString) != null){
                 customLineConfigList = ActionManager.action_SubAction_Map.get(inputString);
             }
@@ -319,6 +335,7 @@ public class ActionMapHandle {
     }
 
     public Location getLocation2(Location inputLocation){
+
         Location location = AimsLocation.getOneLocation(this.self, this.target, this.action_Map.get("targetkey"),"", inputLocation);
         return location;
     }

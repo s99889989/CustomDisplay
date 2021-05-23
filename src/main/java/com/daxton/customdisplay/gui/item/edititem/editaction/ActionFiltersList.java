@@ -1,9 +1,10 @@
 package com.daxton.customdisplay.gui.item.edititem.editaction;
 
 import com.daxton.customdisplay.api.config.Config;
+import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.api.item.MenuItem;
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.gui.item.ItemSet;
 import com.daxton.customdisplay.gui.item.OpenMenuGUI;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -120,19 +121,19 @@ public class ActionFiltersList {
 
         String uuidString = player.getUniqueId().toString();
         if(EditorGUIManager.menu_ActionFiltersList_Inventory_Map.get(uuidString) == null){
-            EditorGUIManager.menu_ActionFiltersList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, itemCount, actionOrder, editType));
+            EditorGUIManager.menu_ActionFiltersList_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, itemCount, actionOrder, editType));
             Inventory inventory = EditorGUIManager.menu_ActionFiltersList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }else{
             EditorGUIManager.menu_ActionFiltersList_Inventory_Map.remove(uuidString);
-            EditorGUIManager.menu_ActionFiltersList_Inventory_Map.put(uuidString, getInventory(typeName, itemName, itemCount, actionOrder, editType));
+            EditorGUIManager.menu_ActionFiltersList_Inventory_Map.put(uuidString, getInventory(player, typeName, itemName, itemCount, actionOrder, editType));
             Inventory inventory = EditorGUIManager.menu_ActionFiltersList_Inventory_Map.get(uuidString);
             player.openInventory(inventory);
         }
 
     }
 
-    public Inventory getInventory(String typeName, String itemName, int itemCount, int actionOrder, String editType){
+    public Inventory getInventory(Player player, String typeName, String itemName, int itemCount, int actionOrder, String editType){
         this.typeName = typeName;
         this.itemName = itemName;
         this.actionOrder = actionOrder;
@@ -179,7 +180,8 @@ public class ActionFiltersList {
             inventory.setItem(53, ButtomSet.getItemButtom("Buttom.ActionTriggerList.NextPage", ""));
         }
 
-        inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
+        inventory.setItem(4, CustomItem2.valueOf(player, null, typeName+"."+itemName, 1));
+        //inventory.setItem(4, MenuItem.valueOf(itemMenuConfig, itemName));
 
         inventory.setItem(0,  ButtomSet.getItemButtom("Buttom.ActionTriggerList.ToEditItem", ""));
         inventory.setItem(8, ButtomSet.getItemButtom("Buttom.ActionTriggerList.Exit", ""));

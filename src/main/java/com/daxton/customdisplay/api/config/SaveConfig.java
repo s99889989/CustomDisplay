@@ -1,11 +1,12 @@
 package com.daxton.customdisplay.api.config;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -21,17 +22,21 @@ public class SaveConfig {
     }
 
     /**儲存玩家設定檔**/
-    public void savePlayerConfig(Player player, FileConfiguration config){
+    public static void savePlayerConfig(Player player){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
         String uuidString = player.getUniqueId().toString();
+        FileConfiguration playerConfig = ConfigMapManager.getFileConfigurationMap().get("Players_"+uuidString+".yml");
         File playerFile = new File(cd.getDataFolder(),"Players/"+uuidString+".yml");
         try {
-            config.save(playerFile);
+            playerConfig.save(playerFile);
         }catch (Exception exception){
             exception.printStackTrace();
         }
-
+        String fileName = "Players_"+uuidString+".yml";
+        ConfigMapManager.getFileConfigurationMap().put(fileName, playerConfig);
+        ConfigMapManager.getFileConfigurationNameMap().put(fileName, fileName);
     }
-
+    //儲存物品資訊
     public static void saveItemFile(){
         String[] strings = MenuSet.getItemMenuButtomNameArray();
         if(strings != null){
@@ -46,6 +51,18 @@ public class SaveConfig {
             }
         }
 
+    }
+    //讀取物品設定
+    public static void loadItemFile(){
+        String[] strings = MenuSet.getItemMenuButtomNameArray();
+        if(strings != null){
+            for(String name : strings){
+                File itemPatch = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Items/item/"+ name +".yml");
+                FileConfiguration itemConfig = YamlConfiguration.loadConfiguration(itemPatch);
+                String patchName = "Items_item_"+ name +".yml";
+                ConfigMapManager.getFileConfigurationMap().put(patchName, itemConfig);
+            }
+        }
     }
 
     /**把玩家記憶體資料存到yml設定檔**/
@@ -114,7 +131,7 @@ public class SaveConfig {
 
             }
 
-            new SaveConfig().savePlayerConfig(player,playerConfig);
+            //new SaveConfig().savePlayerConfig(player,playerConfig);
 
         }
 

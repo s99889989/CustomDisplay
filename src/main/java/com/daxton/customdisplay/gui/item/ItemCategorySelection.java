@@ -2,8 +2,8 @@ package com.daxton.customdisplay.gui.item;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.SaveConfig;
-import com.daxton.customdisplay.api.item.gui.ButtomSet;
-import com.daxton.customdisplay.api.item.gui.MenuSet;
+import com.daxton.customdisplay.api.gui.ButtomSet;
+import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.manager.player.EditorGUIManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -53,7 +53,7 @@ public class ItemCategorySelection {
                 this.RawSlot.put(i,i);
                 this.typeName.put(i,key);
 
-                inventory.setItem(i,MenuSet.getItemTypeButtom("Items", "Type", key));
+                inventory.setItem(i,MenuSet.getItemTypeButtom("Items.Type."+key));
                 i++;
             }
         }
@@ -61,6 +61,7 @@ public class ItemCategorySelection {
 
         inventory.setItem(8, ButtomSet.getItemButtom("Buttom.ItemCategorySelection.Exit",""));
         inventory.setItem(49, ButtomSet.getItemButtom("Buttom.ItemCategorySelection.Save",""));
+        inventory.setItem(51, ButtomSet.getItemButtom("Buttom.ItemCategorySelection.Load",""));
 
         return inventory;
     }
@@ -87,6 +88,10 @@ public class ItemCategorySelection {
             if(i == 49){
                 //儲存物品資訊
                 SaveConfig.saveItemFile();
+            }
+            if(i == 51){
+                //讀取物品資訊
+                SaveConfig.loadItemFile();
             }
         }
 
