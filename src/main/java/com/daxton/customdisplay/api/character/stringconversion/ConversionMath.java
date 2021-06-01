@@ -17,7 +17,7 @@ public class ConversionMath {
     public static String valueOf(String inputString,String changeString){
         String outputString = "";
         String function = null;
-        String message = "#";
+        String message = "";
         for(String string : new StringFind().getBlockList(changeString,";")){
 
             if(string.toLowerCase().contains("function=") || string.toLowerCase().contains("fc=")){

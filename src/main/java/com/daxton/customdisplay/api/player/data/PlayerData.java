@@ -86,7 +86,7 @@ public class PlayerData {
         if(skill){
 
             /**清除所有屬性**/
-            new PlayerBukkitAttribute().removeAllAttribute(player);
+            PlayerBukkitAttribute.removeAllAttribute(player);
 
             /**先設預設值**/
             new PlayerBinds().setMap(player,binds_Map,playerConfig);
@@ -101,7 +101,7 @@ public class PlayerData {
             new PlayerAttributesStats().setFormula(player,attributes_Stats_Map,playerConfig);
 
             /**核心屬性設置**/
-            new PlayerAttributeCore().setBukkitAttribute(player);
+            PlayerAttributeCore.setBukkitAttribute(player);
             /**設置回血**/
             health_Regeneration(player);
         }

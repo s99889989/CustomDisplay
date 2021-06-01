@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -15,13 +14,14 @@ import java.util.zip.ZipInputStream;
 
 public class AutoConfig2 {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-
 
     public AutoConfig2(){
 
-        File testFile = new File("plugins/CustomDisplay-1.16.9.jar");
+
+    }
+
+    public static void config(){
+        File testFile = new File("plugins/CustomDisplay-1.16.11.jar");
         try {
             List<String> testList = readZipFile(testFile.toString());
 
@@ -31,12 +31,13 @@ public class AutoConfig2 {
 
             }
         }catch (Exception exception){
-
+            //
         }
         autoNewConfig();
     }
 
-    public void autoNewConfig(){
+    public static void autoNewConfig(){
+        CustomDisplay cd = CustomDisplay.getCustomDisplay();
         File patch1 = new File(cd.getDataFolder(),"");
         String[] fileNameList1 = patch1.list();
         for(String fileName1 : fileNameList1){

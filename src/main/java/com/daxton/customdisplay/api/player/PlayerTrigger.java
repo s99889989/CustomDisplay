@@ -5,8 +5,7 @@ import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
-import com.daxton.customdisplay.task.ClearAction;
-import com.daxton.customdisplay.task.JudgmentAction2;
+import com.daxton.customdisplay.task.JudgmentAction;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -77,23 +76,7 @@ public class PlayerTrigger {
 
     public static void runExecute(Map<String, String> action_Map, LivingEntity self, LivingEntity target){
 
-        ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
-
-        String taskID = actionMapHandle.getString(new String[]{"mark","m"}, String.valueOf((int)(Math.random()*100000)));
-
-        boolean stop = actionMapHandle.getBoolean(new String[]{"stop","s"}, false);
-
-        new ClearAction().taskID2(taskID);
-
-        if(!stop){
-            ActionManager.trigger_Judgment_Map2.put(taskID,new JudgmentAction2());
-
-            ActionManager.trigger_Judgment_Map2.get(taskID).execute(self, target, action_Map, taskID);
-        }
-
-
-
-
+        JudgmentAction.execute(self, target, action_Map, String.valueOf((int)(Math.random()*100000)), null);
 
     }
 

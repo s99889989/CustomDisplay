@@ -1,0 +1,294 @@
+#(無)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Non:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Non&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Non:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Non&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Non:
+  message:
+  - content[無<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(火)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Fire:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Fire&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Fire:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Fire&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Fire:
+  message:
+  - content[火<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(水)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Water:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Water&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Water:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Water&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Water:
+  message:
+  - content[水<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(風)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Wind:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Wind&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Wind:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Wind&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Wind:
+  message:
+  - content[風<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(地)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Earth:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Earth&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Earth:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Earth&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Earth:
+  message:
+  - content[地<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(毒)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Poison:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Poison&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Poison:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Poison&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Poison:
+  message:
+  - content[毒<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(聖)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Holy:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Holy&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Holy:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Holy&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Holy:
+  message:
+  - content[聖<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(暗)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Dark:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Dark&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Dark:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Dark&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Dark:
+  message:
+  - content[暗<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(念)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Sense:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Sense&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Sense:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Sense&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Sense:
+  message:
+  - content[念<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+#(不死)
+#--------------------------------------------------------------------#
+#魔法攻擊(針對怪物)
+Player_Mob_Final_Damage_Magic_Immortality:
+  message:
+  - content[(&Player_Mob_Base_Damage_Magic_Immortality&)*(1+(&Player_Mob_Attr_Add&/100))]
+  - math[fc=Arith]
+#基礎傷害(魔法)(針對怪物)
+Player_Mob_Base_Damage_Magic_Immortality:
+  message:
+  - content[(((&Player_Mob_Final_Attack_Magic&) * (&Player_Mob_Magic_Defense_Multiplier&) + (<cd_self_class_eqm_stats_Eq_Refining_Magic_Attack>)) * (1+(<cd_self_class_eqm_stats_Eq_Magic_Injury_Bonus%>/100)) * (1+(&Player_Mob_Attr_Rest_Immortality&)))]
+  - math[fc=Arith]
+#屬性克制(針對怪物)
+Player_Mob_Attr_Rest_Immortality:
+  message:
+  - content[不死<cd_target_mythic_class_stats_Mob_Attribute>]
+  - Conver[function=ContainAll;m=無無>0,無火>0,無水>0,無風>0,無地>0,無毒>0,無聖>0,無暗>0,無念>-0.75,無不死>0]
+  - Conver[function=ContainAll;m=火無>0,火火>-0.75,火水>-0.5,火風>0,火地>1,火毒>-0.25,火聖>-0.25,火暗>0,火念>0,火不死>1]
+  - Conver[function=ContainAll;m=水無>0,水火>1,水水>-0.75,水風>-0.5,水地>0,水毒>-0.25,水聖>-0.25,水暗>0,水念>0,水不死>0.5]
+  - Conver[function=ContainAll;m=風無>0,風火>0,風水>1,風風>-0.75,風地>-0.5,風毒>-0.25,風聖>-0.25,風暗>0,風念>0,風不死>0]
+  - Conver[function=ContainAll;m=地無>0,地火>-0.5,地水>0,地風>1,地地>-0.75,地毒>-0.25,地聖>-0.25,地暗>0,地念>0,地不死>0]
+  - Conver[function=ContainAll;m=毒無>0,毒火>0.25,毒水>0,毒風>0.25,毒地>0.25,毒毒>-0.75,毒聖>-0.5,毒暗>-0.75,毒念>-0.5,毒不死>-0.75]
+  - Conver[function=ContainAll;m=聖無>0,聖火>0,聖水>0,聖風>0,聖地>0,聖毒>0.25,聖聖>-0.75,聖暗>1,聖念>0,聖不死>1]
+  - Conver[function=ContainAll;m=暗無>0,暗火>0,暗水>0,暗風>0,暗地>0,暗毒>-0.75,暗聖>1,暗暗>-0.75,暗念>0,暗不死>-0.75]
+  - Conver[function=ContainAll;m=念無>-0.75,念火>0,念水>0,念風>0,念地>0,念毒>-0.25,念聖>-0.25,念暗>-0.25,念念>1,念不死>0.75]
+  - Conver[function=ContainAll;m=不死無>0,不死火>-0.5,不死水>-0.5,不死風>-0.5,不死地>-0.5,不死毒>-0.75,不死聖>0.75,不死暗>-0.75,不死念>0,不死不死>-0.75]
+  - math[function=decimal;message=#.#]
+#--------------------------------------------------------------------#
+
+
+
+
+
+
+
+
+
+
+
+
+
+

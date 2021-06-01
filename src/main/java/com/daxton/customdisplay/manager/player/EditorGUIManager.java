@@ -3,7 +3,7 @@ package com.daxton.customdisplay.manager.player;
 import com.daxton.customdisplay.gui.item.*;
 import com.daxton.customdisplay.gui.item.edititem.*;
 import com.daxton.customdisplay.gui.item.edititem.editaction.*;
-import com.daxton.customdisplay.task.action2.player.CustomInventory3;
+import com.daxton.customdisplay.task.action.player.CustomInventory3;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 

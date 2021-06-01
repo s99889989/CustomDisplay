@@ -1,12 +1,12 @@
 package com.daxton.customdisplay.api.character.stringconversion;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.other.ConfigFind;
+import com.daxton.customdisplay.api.config.Config;
 import com.daxton.customdisplay.api.other.StringFind;
-import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConversionCustom {
@@ -21,7 +21,7 @@ public class ConversionCustom {
 
         String outputString = "";
         inputString = inputString.replace(" ","").replace("&","");
-        List<String> stringList = new ConfigFind().getCharacterMessageList("Character",inputString);
+        List<String> stringList = getCharacterMessageList("Character",inputString);
         for(int i = 0 ; i < stringList.size() ; i++){
             String stringMessage = stringList.get(i);
             String headKey = new StringFind().getAction(stringMessage);
@@ -77,6 +77,27 @@ public class ConversionCustom {
 
 
         return outputString;
+    }
+
+    public static List<String> getCharacterMessageList(String folderName, String searchKey){
+        List<String> stringList = new ArrayList<>();
+        for(FileConfiguration fileConfiguration : Config.getTypeConfigList(folderName)){
+            if(fileConfiguration.getKeys(false).contains(searchKey)){
+                stringList = fileConfiguration.getStringList(searchKey+".message");
+                return stringList;
+            }
+        }
+//        for(String configName : ConfigMapManager.getFileConfigurationNameMap().values()){
+//            if(configName.startsWith(folderName)){
+//
+//                FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get(configName);
+//                if(fileConfiguration.getKeys(false).contains(searchKey)){
+//                    stringList = fileConfiguration.getStringList(searchKey+".message");
+//                }
+//
+//            }
+//        }
+        return stringList;
     }
 
 }

@@ -10,7 +10,7 @@ AttackCore: Default
 #血量壓縮率.
 #HP compression rate.
 HealthScale:
-  enable: true
+  enable: false
   scale: 20
 
 #更改聊天(暫無)
@@ -23,7 +23,7 @@ Message:
 #Discord function setting
 Discord:
   enable: false
-  Token: ''
+  token: ''
 
 CMDJosonCreate:
   enable: false

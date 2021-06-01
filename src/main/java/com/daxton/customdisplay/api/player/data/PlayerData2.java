@@ -1,12 +1,11 @@
 package com.daxton.customdisplay.api.player.data;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.action.SetActionMap;
-import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.other.StringConversion;
 import com.daxton.customdisplay.api.player.config.PlayerConfig2;
 import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
 import com.daxton.customdisplay.api.player.data.set.PlayerAttributesStats;
+import com.daxton.customdisplay.api.player.data.set.PlayerBukkitAttribute;
 import com.daxton.customdisplay.api.player.data.set.PlayerEquipmentStats;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
@@ -44,11 +43,9 @@ public class PlayerData2{
     public List<Map<String, String>> player_Skill_Action_List_Map = new ArrayList<>();
     //玩家自訂屬性
     public Map<String,String> attributes_Stats_Map = new HashMap<>();
-    public Map<String,String> attributes_Stats_Map2 = new HashMap<>();
     public Map<String,Map<String,String>> attributes_Stats_Map3 = new HashMap<>();
     //玩家裝備屬性
     public Map<String,String> equipment_Stats_Map = new HashMap<>();
-    public Map<String,String> equipment_Stats_Map2 = new HashMap<>();
     public Map<String,Map<String,String>> equipment_Stats_Map3 = new HashMap<>();
     public Map<String,String> name_Equipment_Map = new HashMap<>();
     //屬性點數
@@ -87,18 +84,29 @@ public class PlayerData2{
         setPlayerActionList();
         //設定技能動作
         setSkillActionList();
-        BukkitRunnable bukkitRunnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                //設置血量
-                PlayerAttributeCore.setBukkitAttribute(player);
-                //設置初始魔量、回魔量
-                setMana(PlayerDataMethod.setDefaultMana(player));
-                setMaxMana(PlayerDataMethod.setDefaultMana(player));
-                setMana_Regeneration(PlayerDataMethod.setDefaultManaReg(player));
-            }
-        };
-        bukkitRunnable.runTaskLater(cd,20);
+
+        //增加屬性
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        String skill = fileConfiguration.getString("AttackCore");
+        if(skill != null && skill.toLowerCase().contains("customcore")){
+
+            BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    //設置血量
+                    PlayerAttributeCore.setBukkitAttribute(player);
+                    //設置初始魔量、回魔量
+                    setMana(PlayerDataMethod.setDefaultMana(player));
+                    setMaxMana(PlayerDataMethod.setDefaultMana(player));
+                    setMana_Regeneration(PlayerDataMethod.setDefaultManaReg(player));
+                }
+            };
+            bukkitRunnable.runTaskLater(cd,20);
+
+        }else {
+            //清除所有屬性
+            PlayerBukkitAttribute.removeAllAttribute(player);
+        }
 
     }
     //------------------------------------------------------------------------//
@@ -344,7 +352,7 @@ public class PlayerData2{
         if(this.playerConfig.contains(this.uuidString+".Skills."+skillName+".level")){
             for(int i = 1 ; i < 9 ; i++){
                 String key = this.playerConfig.getString(this.uuidString+".Binds."+i+".SkillName");
-                if(key.equals(skillName)){
+                if(key != null && key.equals(skillName)){
                     return false;
                 }
                 //player.sendMessage(i+" : "+key);
@@ -378,7 +386,7 @@ public class PlayerData2{
         try {
             this.playerConfig.save(file);
         }catch (IOException exception){
-
+            //
         }
         String fileName = "Players_"+uuidString+".yml";
         ConfigMapManager.getFileConfigurationMap().put(fileName, this.playerConfig);

@@ -2,13 +2,10 @@ package com.daxton.customdisplay.listener.bukkit;
 
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
-import com.daxton.customdisplay.api.event.PhysicalDamageEvent;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

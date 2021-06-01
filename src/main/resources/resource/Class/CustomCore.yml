@@ -2,7 +2,7 @@ CoreAttribute:
   #原版血量
   #Minecraft HP
   Health:
-    enable: true
+    enable: false
     formula: '&self_attr_Hp&'
 
   #原版移動速度

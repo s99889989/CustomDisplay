@@ -36,6 +36,19 @@ attack_number_miss:
   - Conver[function=Contain;m=Miss>䀿]
 
 
+#玩家名稱
+gui_self_name:
+  message:
+  - content[<cd_self_base_name>]
+
+gui_self_base_nowhealth:
+  message:
+  - content[<cd_self_base_nowhealth>]
+  - math[fc=Dec;m=0.0]
+
+gui_self_base_maxhealth:
+  message:
+  - content[<cd_self_base_maxhealth>]
 
 
-
+######################################

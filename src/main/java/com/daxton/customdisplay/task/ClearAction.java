@@ -1,74 +1,72 @@
 package com.daxton.customdisplay.task;
 
-import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.entity.GuiseEntity;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 
 
-import com.daxton.customdisplay.task.action2.meta.Loop3;
-import com.daxton.customdisplay.task.action2.location.Guise3;
-import com.daxton.customdisplay.task.action2.location.Holographic3;
-import com.daxton.customdisplay.task.action2.orbital.LocGuise3;
-import com.daxton.customdisplay.task.action2.orbital.LocHolographic3;
-import com.daxton.customdisplay.task.action2.player.SendBossBar3;
+import com.daxton.customdisplay.task.action.meta.run.FixedPoint3;
+import com.daxton.customdisplay.task.action.meta.run.LocPng3;
+import com.daxton.customdisplay.task.action.meta.run.Loop3;
+import com.daxton.customdisplay.task.action.meta.run.OrbitalAction3;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import org.bukkit.Bukkit;
+import org.bukkit.boss.BossBar;
+
+import org.bukkit.entity.Entity;
 
 public class ClearAction {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public ClearAction(){
 
 
-
-
     }
 
-    public void all2(){
-        /***************************新********************************/
+    public static void all(){
+        //***************************新********************************/
 
-
+        //清除Loop
         for(Loop3 loop3 : ActionManager.judgment_Loop_Map2.values()){
             if(!loop3.isCancelled()){
                 loop3.cancel();
             }
         }
         ActionManager.judgment_Loop_Map2.clear();
-
-        for(Holographic3 holographic2 : ActionManager.judgment_Holographic_Map2.values()){
-            if(holographic2.getHologram_Map() != null){
-                holographic2.getHologram_Map().forEach((s, hologram) -> {
-                    hologram.delete();
-                });
+        //清除OrbitalAction
+        for(OrbitalAction3 orbitalAction3 : ActionManager.judgment_OrbitalAction_Map2.values()){
+            if(!orbitalAction3.isCancelled()){
+                orbitalAction3.cancel();
             }
         }
-        ActionManager.judgment_Holographic_Map2.clear();
-
-        for(SendBossBar3 bossBar2 : ActionManager.judgment_SendBossBar_Map2.values()){
-            if(!bossBar2.getBossBar_Map().isEmpty()){
-                bossBar2.getBossBar_Map().forEach((s, bossBar) -> bossBar.removeAll());
-                bossBar2.getBossBar_Map().clear();
+        ActionManager.judgment_OrbitalAction_Map2.clear();
+        //清除FixedPoint
+        for(FixedPoint3 fixedPoint3 : ActionManager.judgment_FixedPoint_Map2.values()){
+            if(!fixedPoint3.isCancelled()){
+                fixedPoint3.cancel();
             }
         }
-        ActionManager.judgment_SendBossBar_Map2.clear();
-
-
-        ActionManager.judgment_Inventory_Map2.clear();
-
-        for(Guise3 guise : ActionManager.judgment_Guise_Map2.values()){
-            if(guise.getPacketEntity() != null){
-                guise.getPacketEntity().delete();
+        ActionManager.judgment_FixedPoint_Map2.clear();
+        //清除LocPng
+        for(LocPng3 locPng3 : ActionManager.judgment_LocPng_Map2.values()){
+            if(!locPng3.isCancelled()){
+                locPng3.cancel();
             }
         }
-        ActionManager.judgment_Guise_Map2.clear();
+        ActionManager.judgment_LocPng_Map2.clear();
+
+        //清除Hologram
+        ActionManager.hologram_Map.values().forEach(Hologram::delete);
+        ActionManager.hologram_Map.clear();
+        //清除BossBar
+        ActionManager.bossBar_Map.values().forEach(BossBar::removeAll);
+        ActionManager.bossBar_Map.clear();
+        //清除GuiseEntity
+        ActionManager.guise_Map.values().forEach(GuiseEntity::delete);
+        ActionManager.guise_Map.clear();
 
 
-        /**---------------------------------------------------------------**/
-
-        ActionManager.trigger_Judgment_Map2.clear();
-
-        ActionManager.loop_Judgment_Map2.clear();
-
-        /**---------------------------------------------------------------**/
+        //**---------------------------------------------------------------**/
 
         ActionManager.action_Condition_Map.clear();
 
@@ -76,135 +74,83 @@ public class ClearAction {
 
         ActionManager.orbital_Condition_Map.clear();
 
-        /**---------------------------------------------------------------**/
-
-        ActionManager.playerUUID_taskID_Map.clear();
+        //**---------------------------------------------------------------**/
 
         ActionManager.taskID_Inventory_Map.clear();
 
-        /**---------------------------------------------------------------**/
+        //**---------------------------------------------------------------**/
 
-        for(LocHolographic3 holographic2 : ActionManager.judgment_LocHolographic_Map2.values()){
-            if(holographic2.getHologram_Map() != null){
-                holographic2.getHologram_Map().forEach((s, hologram) -> {
-                    hologram.delete();
-                });
-            }
-        }
-        ActionManager.judgment_LocHolographic_Map2.clear();
+        //***************************舊********************************/
 
-        for(LocGuise3 locGuise : ActionManager.judgment_LocItemEntity_Map2.values()){
-            if(locGuise.getPacketEntity() != null){
-                locGuise.getPacketEntity().delete();
-            }
-        }
-        ActionManager.judgment_LocItemEntity_Map2.clear();
-
-
-        /***************************舊********************************/
-
-
+        //Particles的function
         if(!(PlaceholderManager.particles_function.isEmpty())){
             PlaceholderManager.particles_function.clear();
         }
     }
 
-    public void all(){
-        /***************************新********************************/
-
-
-
-
-
-
-
-
-        /**---------------------------------------------------------------**/
-
-
-        /**---------------------------------------------------------------**/
-
-        ActionManager.action_Condition_Map.clear();
-
-        ActionManager.loop_Condition_Map.clear();
-
-        ActionManager.orbital_Condition_Map.clear();
-
-        /**---------------------------------------------------------------**/
-
-        ActionManager.playerUUID_taskID_Map.clear();
-
-        ActionManager.taskID_Inventory_Map.clear();
-
-        /**---------------------------------------------------------------**/
-
-
-
-
-        /***************************舊********************************/
-
-
-        if(!(PlaceholderManager.particles_function.isEmpty())){
-            PlaceholderManager.particles_function.clear();
-        }
-    }
-
-    public void taskID2(String taskID){
+    public static void taskID(String taskID){
+        //清除Loop
         if(ActionManager.judgment_Loop_Map2.get(taskID) != null){
-            if(!ActionManager.judgment_Loop_Map2.get(taskID).isCancelled()){
-
-                ActionManager.judgment_Loop_Map2.get(taskID).cancel();
-            }
+            ActionManager.judgment_Loop_Map2.get(taskID).cancel();
             ActionManager.judgment_Loop_Map2.remove(taskID);
         }
-
-        if(ActionManager.judgment_Holographic_Map2.get(taskID) != null){
-            if(ActionManager.judgment_Holographic_Map2.get(taskID).getHologram_Map() != null){
-                ActionManager.judgment_Holographic_Map2.get(taskID).getHologram_Map().forEach((s, hologram) -> {
-                    hologram.delete();
-                });
+        //清除OrbitalAction
+        if(ActionManager.judgment_OrbitalAction_Map2.get(taskID) != null){
+            ActionManager.judgment_OrbitalAction_Map2.get(taskID).cancel();
+            ActionManager.judgment_OrbitalAction_Map2.remove(taskID);
+        }
+        //清除FixedPoint
+        if(ActionManager.judgment_FixedPoint_Map2.get(taskID) != null){
+            ActionManager.judgment_FixedPoint_Map2.get(taskID).cancel();
+            ActionManager.judgment_FixedPoint_Map2.remove(taskID);
+        }
+        //清除LocPng
+        if(ActionManager.judgment_LocPng_Map2.get(taskID) != null){
+            ActionManager.judgment_LocPng_Map2.get(taskID).cancel();
+            ActionManager.judgment_LocPng_Map2.remove(taskID);
+        }
+        //清除Hologram
+        for(String s : ActionManager.hologram_Map.keySet()){
+            if(s.contains(taskID)){
+                ActionManager.hologram_Map.get(s).delete();
+                ActionManager.hologram_Map.remove(s);
             }
-            ActionManager.judgment_Holographic_Map2.remove(taskID);
         }
 
-        if(ActionManager.judgment_Guise_Map2.get(taskID) != null){
-            if(ActionManager.judgment_Guise_Map2.get(taskID).getPacketEntity() != null){
-                ActionManager.judgment_Guise_Map2.get(taskID).getPacketEntity().delete();
-                ActionManager.judgment_Guise_Map2.get(taskID).setPacketEntity(null);
+        //清除GuiseEntity
+        for(String s : ActionManager.guise_Map.keySet()){
+            if(s.contains(taskID)){
+                ActionManager.guise_Map.get(s).delete();
+                ActionManager.guise_Map.remove(s);
             }
-            ActionManager.judgment_Guise_Map2.remove(taskID);
         }
+        //清除ModelEntity
+        if (Bukkit.getServer().getPluginManager().getPlugin("ModelEngine") != null){
+            for(String s : ActionManager.modelEngine_Map.keySet()){
+                if(s.contains(taskID)){
 
-        if(ActionManager.judgment_SendBossBar_Map2.get(taskID) != null){
-            if(!ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar_Map().isEmpty()){
-                ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar_Map().forEach((s, bossBar) -> bossBar.removeAll());
-                ActionManager.judgment_SendBossBar_Map2.get(taskID).getBossBar_Map().clear();
+                    ActionManager.modelEngine_Map.remove(s);
+                    Entity entity = ActionManager.modelEngine_Entity_Map.get(s);
+                    entity.remove();
+                    ActionManager.modelEngine_Entity_Map.remove(s);
+                    ActionManager.modelEngine_Modelid_Map.remove(s);
+                    ActionManager.modelEngine_Stateid_Map.remove(s);
+                    ActionManager.modelEngine_Location_Map.remove(s);
+
+                }
             }
-            ActionManager.judgment_SendBossBar_Map2.remove(taskID);
+        }
+        //清除BossBar
+        for(String s : ActionManager.bossBar_Map.keySet()){
+            if(s.contains(taskID)){
+                ActionManager.bossBar_Map.get(s).removeAll();
+                if(ActionManager.bossBar_Map.get(s) != null){
+                    ActionManager.bossBar_Map.remove(s);
+                }
+            }
         }
 
-
-        /**--------------------------------------------------------------**/
-
-        if(ActionManager.trigger_Judgment_Map2.get(taskID) != null){
-            ActionManager.trigger_Judgment_Map2.remove(taskID);
-        }
-
-        if(ActionManager.loop_Judgment_Map2.get(taskID) != null){
-            ActionManager.loop_Judgment_Map2.remove(taskID);
-        }
 
     }
-
-    public void taskID(String taskID){
-
-
-
-        /**--------------------------------------------------------------**/
-
-
-
-    }
-
 
 }

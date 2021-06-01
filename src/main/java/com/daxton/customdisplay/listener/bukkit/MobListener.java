@@ -89,7 +89,7 @@ public class MobListener implements Listener {
     /**無攻擊者的被攻擊傷害**/
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDamaged(EntityDamageEvent event){
-        FileConfiguration configuration = ConfigMapManager.getFileConfigurationMap().get("Character_System_NoDamagerDamage.yml");
+        FileConfiguration configuration = ConfigMapManager.getFileConfigurationMap().get("Other_NoDamagerDamage.yml");
         boolean bb = configuration.getBoolean("NoDamagerDamage.enable");
 
         if(bb && event.getCause().toString().contains("CUSTOM")){

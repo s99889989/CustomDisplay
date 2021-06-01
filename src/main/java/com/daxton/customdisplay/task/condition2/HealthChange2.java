@@ -42,15 +42,17 @@ public class HealthChange2 {
                 this.healthMap.put(targetUUID,nowHealth);
             }
         }else {
-            UUID targetUUID = this.target.getUniqueId();
-            double maxHealth = this.target.getAttribute(GENERIC_MAX_HEALTH).getValue();
-            double nowHealth = this.target.getHealth();
-            if(this.healthMap.get(targetUUID) == null){
-                this.healthMap.put(targetUUID,maxHealth);
-            }
-            if(this.healthMap.get(targetUUID) != null && this.healthMap.get(targetUUID) != nowHealth){
-                this.result = true;
-                this.healthMap.put(targetUUID,nowHealth);
+            if(this.target != null){
+                UUID targetUUID = this.target.getUniqueId();
+                double maxHealth = this.target.getAttribute(GENERIC_MAX_HEALTH).getValue();
+                double nowHealth = this.target.getHealth();
+                if(this.healthMap.get(targetUUID) == null){
+                    this.healthMap.put(targetUUID,maxHealth);
+                }
+                if(this.healthMap.get(targetUUID) != null && this.healthMap.get(targetUUID) != nowHealth){
+                    this.result = true;
+                    this.healthMap.put(targetUUID,nowHealth);
+                }
             }
 
         }

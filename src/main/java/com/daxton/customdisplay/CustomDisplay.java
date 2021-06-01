@@ -5,27 +5,12 @@ import com.daxton.customdisplay.api.action.SetActionMap;
 import com.daxton.customdisplay.api.config.SaveConfig;
 import com.daxton.customdisplay.api.gui.SetGui;
 import com.daxton.customdisplay.api.player.data.PlayerData2;
-import com.daxton.customdisplay.api.player.data.set.PlayerAttributeCore;
 import com.daxton.customdisplay.command.MainCommand;
 import com.daxton.customdisplay.command.TabCommand;
 import com.daxton.customdisplay.config.ConfigManager;
-import com.daxton.customdisplay.listener.attributeplus.*;
 import com.daxton.customdisplay.listener.bukkit.*;
-import com.daxton.customdisplay.listener.customcore.*;
-import com.daxton.customdisplay.listener.mmolib.CDMMOLibListener;
-import com.daxton.customdisplay.listener.crackshot.CrackShotListener;
-import com.daxton.customdisplay.listener.mmolib.MMOCoreListener;
-import com.daxton.customdisplay.listener.mmolib.MMOLibListener;
-import com.daxton.customdisplay.listener.mythicmobs.ModelEngineListener;
-import com.daxton.customdisplay.listener.mythicLib.CDMythicLibListener;
-import com.daxton.customdisplay.listener.mythicLib.MythicLibListener;
-import com.daxton.customdisplay.listener.mythicLib.MythicLib_MMOCore_Listener;
-import com.daxton.customdisplay.listener.mythicLib.MythicLib_SkillAPI_Listener;
-import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
-import com.daxton.customdisplay.listener.protocollib.PackListener;
-import com.daxton.customdisplay.listener.skillapi.SkillAPIListener;
-import com.daxton.customdisplay.listener.mmolib.SkillAPI_MMOLib_Listener;
 import com.daxton.customdisplay.manager.ActionManager;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.otherfunctions.CreatJson;
@@ -35,7 +20,6 @@ import discord4j.core.DiscordClientBuilder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -61,90 +45,46 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
 
+        customDisplay = this;
 
+        if(!LoadOtherPlugin.load(customDisplay)){
+            this.setEnabled(false);
+            return;
+        }
+        //模組控制通道
         getServer().getMessenger().registerIncomingPluginChannel(this, channel,
                 (channel, player, message) ->
                         System.out.println("awsl " + read(message)));
         getServer().getMessenger().registerOutgoingPluginChannel(this, channel);
-
-
-
-
-        customDisplay = this;
-
-        if (Bukkit.getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
-            getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
-            getLogger().severe("*** CustomDisplay will be disabled. ***");
-            getLogger().severe("*** HolographicDisplays未安裝或未啟用。 ***");
-            getLogger().severe("*** CustomDisplay將被卸載。 ***");
-            this.setEnabled(false);
-            return;
-        }else {
-            getLogger().info(ChatColor.GREEN+"Loaded HolographicDisplays");
-        }
-
-        if (Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null){
-            getLogger().severe("*** PlaceholderAPI is not installed or not enabled. ***");
-            getLogger().severe("*** CustomDisplay will be disabled. ***");
-            getLogger().severe("*** PlaceholderAPI未安裝或未啟用。 ***");
-            getLogger().severe("*** CustomDisplay將被卸載。 ***");
-            this.setEnabled(false);
-            return;
-        }else {
-            getLogger().info(ChatColor.GREEN+"Loaded PlaceholderAPI");
-        }
-        if (Bukkit.getServer().getPluginManager().getPlugin("ProtocolLib") != null){
-            getLogger().info(ChatColor.GREEN+"Loaded ProtocolLib");
-            Bukkit.getPluginManager().registerEvents(new PackListener(),customDisplay);
-        }else {
-            getLogger().severe("*** ProtocolLib is not installed or not enabled. ***");
-            getLogger().severe("*** CustomDisplay will be disabled. ***");
-            getLogger().severe("*** ProtocolLib未安裝或未啟用。 ***");
-            getLogger().severe("*** ProtocolLib將被卸載。 ***");
-            this.setEnabled(false);
-            return;
-        }
-
-        if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null){
-            Bukkit.getPluginManager().registerEvents(new MythicMobSpawnListener(),customDisplay);
-            getLogger().info(ChatColor.GREEN+"Loaded MythicMobs");
-            if (Bukkit.getServer().getPluginManager().getPlugin("ModelEngine") != null){
-                Bukkit.getPluginManager().registerEvents(new ModelEngineListener(),customDisplay);
-                getLogger().info(ChatColor.GREEN+"Loaded ModelEngine");
-            }
-        }
-
-
+        //ProtocolLib
         ActionManager.protocolManager = ProtocolLibrary.getProtocolManager();
+        //設定檔
         configManager = new ConfigManager(customDisplay);
+        //指令
         Bukkit.getPluginCommand("customdisplay").setExecutor(new MainCommand());
         Bukkit.getPluginCommand("customdisplay").setTabCompleter(new TabCommand());
         //傷害判斷的核心插件
-        AttackCore();
+        AttackCore.setCore(configManager);
+        //基礎監聽
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
 
 
 
-        FileConfiguration fileConfig = getConfigManager().config;
-
         //設定動作
         new SetActionMap();
         //設定GUI名稱
         SetGui.setGuiName();
         SetGui.setButtomMap();
-
-        String attackCore = fileConfig.getString("AttackCore");
-        if(attackCore != null && attackCore.toLowerCase().contains("customcore")){
-            //設置核心公式字串
-            new PlayerAttributeCore().setFormula();
-        }
-
+        //設定DC連接
+        FileConfiguration fileConfig = ConfigMapManager.getFileConfigurationMap().get("config.yml");
         boolean discordEnable = fileConfig.getBoolean("Discord.enable");
         if(discordEnable){
+
             String token = fileConfig.getString("Discord.token");
             if(token != null){
+
                 DiscordManager.client = DiscordClientBuilder.create(token)
                         .build()
                         .login()
@@ -157,126 +97,13 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         //建立Json檔案
         CreatJson.createMain();
         CreatJson.createAll();
-
-        RunTask.run20(customDisplay);
-
-    }
-
-    public void AttackCore(){
-        String attackCore = configManager.config.getString("AttackCore");
-        switch (attackCore.toLowerCase()){
-            case "mmolib":
-                if(Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new MMOLibListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOLib");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "mythiclib":
-                if(Bukkit.getServer().getPluginManager().getPlugin("MythicLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new MythicLibListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MythicLib");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "skillapi_mmolib":
-                if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null && Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new SkillAPI_MMOLib_Listener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI_MMOLib");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "mythiclib_mmolib":
-                if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null && Bukkit.getServer().getPluginManager().getPlugin("MythicLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new MythicLib_SkillAPI_Listener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MythicLib_SkillAPI");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "mmocore":
-                if(Bukkit.getServer().getPluginManager().getPlugin("MMOCore") != null && Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new MMOCoreListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MMOCore");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "mythiclib_mmocore":
-                if(Bukkit.getServer().getPluginManager().getPlugin("MMOCore") != null && Bukkit.getServer().getPluginManager().getPlugin("MythicLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new MythicLib_MMOCore_Listener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: MythicLib_MMOCore");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "cdmmolib":
-                if(Bukkit.getServer().getPluginManager().getPlugin("MMOLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new CDMMOLibListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CDMMOLib");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "cdmythiclib":
-                if(Bukkit.getServer().getPluginManager().getPlugin("MythicLib") != null){
-                    Bukkit.getPluginManager().registerEvents(new CDMythicLibListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CDMythicLib");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "attributeplus":
-                if(Bukkit.getServer().getPluginManager().getPlugin("AttributePlus") != null){
-                    Bukkit.getPluginManager().registerEvents(new AttributePlusListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: AttributePlus");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "skillapi":
-                if(Bukkit.getServer().getPluginManager().getPlugin("SkillAPI") != null){
-                    Bukkit.getPluginManager().registerEvents(new SkillAPIListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: SkillAPI");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "crackshot":
-                if(Bukkit.getServer().getPluginManager().getPlugin("CrackShot") != null){
-                    Bukkit.getPluginManager().registerEvents(new CrackShotListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CrackShot");
-                }else {
-                    Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                    getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
-                }
-                break;
-            case "customcore":
-                Bukkit.getPluginManager().registerEvents(new MainAttack(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new NumberAttack(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new MeleeAttack(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new MagicAttack(),customDisplay);
-                Bukkit.getPluginManager().registerEvents(new RangeAttack(),customDisplay);
-                getLogger().info(ChatColor.GREEN+"Loaded AttackCore: CustomCore");
-                break;
-            case "default":
-            default:
-                Bukkit.getPluginManager().registerEvents(new AttackListener(),customDisplay);
-                getLogger().info(ChatColor.GREEN+"Loaded AttackCore: Default");
+        //持續執行的動作  例如回魔
+        FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
+        String skill = fileConfiguration.getString("AttackCore");
+        if(skill != null && skill.toLowerCase().contains("customcore")){
+            RunTask.run20(customDisplay);
         }
+
 
     }
 
@@ -293,12 +120,8 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         CreatJson.createMain();
         CreatJson.createAll();
 
-        //設置核心公式字串
-        new PlayerAttributeCore().setFormula();
-
         //清除所有動作
-        new ClearAction().all();
-        new ClearAction().all2();
+        ClearAction.all();
 
         //設定動作
         new SetActionMap();

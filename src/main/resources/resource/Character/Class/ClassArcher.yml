@@ -1,0 +1,16 @@
+
+#狀態屬性
+#-------------------------------------------#
+#物理攻擊
+self_Class_Archer_Physical_Attack:
+  message:
+  - content[<cd_self_class_attr_stats_Class_Physical_Attack>]
+#弓箭普通攻擊
+self_Class_Archer_Range_Physical_Attack:
+  message:
+  - content[<cd_self_class_attr_stats_Class_Range_Physical_Attack>+1]
+  - math[fc=arith]
+#箭矢數量
+self_Class_Archer_SkillEffect_Arrow_Amount:
+  message:
+  - content[<cd_self_player_item_amount_SkillEffect.Arrow1>]

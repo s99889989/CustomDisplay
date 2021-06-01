@@ -44,7 +44,8 @@ public class ConfigManager {
         if(!png_file.exists()){
             png_file.mkdir();
         }
-        new AutoConfig2();
+
+        AutoConfig2.config();
 
         FileConfiguration itemMenuConfig = ConfigMapManager.getFileConfigurationMap().get("Items_ItemMenu.yml");
         String[] strings = MenuSet.getItemMenuButtomNameArray();

@@ -69,8 +69,9 @@ public class PlayerBukkitAttribute {
             AttributeInstance attributeInstance = livingEntity.getAttribute(Enum.valueOf(Attribute.class,inherit));
             if(attributeInstance != null){
                 for(AttributeModifier attributeModifier : attributeInstance.getModifiers()){
-                    CustomDisplay.getCustomDisplay().getLogger().info("包含: "+attributeModifier.toString());
-                    if(attributeModifier.toString().contains("customdisplay")){
+                    String attrName = attributeModifier.getName();
+                    //CustomDisplay.getCustomDisplay().getLogger().info("包含: "+attrName);
+                    if(attrName.contains("customdisplay")){
                         //player.sendMessage(attributeModifier.getName()+" : "+attributeModifier.getAmount());
                         attributeInstance.removeModifier(attributeModifier);
                     }
@@ -82,7 +83,7 @@ public class PlayerBukkitAttribute {
 
     }
 
-    public void removeAllAttribute(Player player){
+    public static void removeAllAttribute(Player player){
         removeTypeAttribute(player,"GENERIC_MAX_HEALTH");
         //removeAttribute(player,"GENERIC_FOLLOW_RANGE");
         removeTypeAttribute(player,"GENERIC_KNOCKBACK_RESISTANCE");

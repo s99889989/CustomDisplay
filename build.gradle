@@ -41,7 +41,7 @@ repositories {
     maven {
         url = uri('https://oss.sonatype.org/content/groups/public/')
     }
-
+    maven { url 'https://jitpack.io' }
     mavenCentral()
 
 }
@@ -58,6 +58,7 @@ dependencies {
     compileOnly 'io.github.qveshn:LightAPI-fork:3.4.6-SNAPSHOT'
     //compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
     compileOnly 'com.github.Archy-x:AureliumSkills:Alpha1.5.2'
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     compileOnly fileTree(dir: 'libs', include: ['MMOLib-1.7.4.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MythicLib-1.0.0.jar'])
     compileOnly fileTree(dir: 'lib', include: ['MMOCore-1.6.2-305.jar'])
@@ -85,7 +86,7 @@ dependencies {
 
 
     group = 'com.daxton'
-    version = '1.16.9'
+    version = '1.16.11'
     description = 'CustomDisplay'
     sourceCompatibility = '1.8'
 
@@ -115,6 +116,6 @@ shadowJar {
     classifier = null
     relocate 'io.netty', 'com.daxton.discord4j.shaded.io.netty'
 }
-//build.dependsOn shadowJar
+build.dependsOn shadowJar
 
 

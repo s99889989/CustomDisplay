@@ -110,7 +110,7 @@ public class Aims {
         double distance = targetMapHandle.getDouble(new String[]{"distance","d"},0);
 
         //篩選目標
-        String filters = targetMapHandle.getString(new String[]{"filters"},"null");
+        String filters = targetMapHandle.getString(new String[]{"filters","f"},"null");
         LivingEntity target = inputTarget;
         if(target == null && distance > 0){
             target = LookTarget.getLivingTarget(self,distance);

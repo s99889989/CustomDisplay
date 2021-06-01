@@ -10,7 +10,7 @@ public class PlaceholderManager {
     /**AcionBar的function**/
     private static Map<String,Boolean> actionBar_function = new HashMap<>();
 
-    /**Particles的function**/
+    //Particles的function
     public static Map<String,String> particles_function = new HashMap<>();
 
     /**佔位符訊息**/

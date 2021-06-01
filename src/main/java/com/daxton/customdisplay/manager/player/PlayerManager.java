@@ -7,6 +7,7 @@ import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.api.player.profession.BossBarSkill2;
 
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -19,6 +20,8 @@ public class PlayerManager {
     //玩家資料
     private static Map<UUID, PlayerData> playerDataMap = new HashMap<>();
     public static Map<String, PlayerData2> player_Data_Map = new HashMap<>();
+
+    public static Economy econ;
 
     /**目前魔量**/
     public static Map<String, Double> player_nowMana = new HashMap<>();

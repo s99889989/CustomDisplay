@@ -330,7 +330,12 @@ public class ActionMapHandle {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     //獲取座標
     public Location getLocation(Location inputLocation){
-        Location location = AimsLocation.getOneLocation(this.self, this.target, this.action_Map.get("targetkey"),"@LocSelf", inputLocation);
+        Location location;
+        if(inputLocation != null){
+            location = AimsLocation.getOneLocation(this.self, this.target, this.action_Map.get("targetkey"),"", inputLocation);
+        }else {
+            location = AimsLocation.getOneLocation(this.self, this.target, this.action_Map.get("targetkey"),"@LocSelf", inputLocation);
+        }
         return location;
     }
 
