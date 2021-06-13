@@ -1,14 +1,12 @@
 package com.daxton.customdisplay.api.character.placeholder;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.manager.PlaceholderManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.Map;
-import java.util.UUID;
 
 public class PlaceholderPlayer {
 

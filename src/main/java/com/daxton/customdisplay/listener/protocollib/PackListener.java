@@ -5,14 +5,13 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.injector.GamePhase;
-import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import com.daxton.customdisplay.CustomDisplay;
 
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -33,7 +32,7 @@ import static com.comphenix.protocol.wrappers.EnumWrappers.ChatType.GAME_INFO;
 
 public class PackListener implements Listener{
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+    private final CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
     public ProtocolManager pm;
 
@@ -210,6 +209,38 @@ public class PackListener implements Listener{
 //
 //
 //                        player.sendMessage("收到光"+b+":"+x0+" : "+x1+" : "+x2+" : "+x3+" : "+x4+" : "+x5);
+//
+//                    }
+
+//                    if(packetType.equals(PacketType.Play.Server.ENTITY_METADATA)){
+//                        List<WrappedWatchableObject> wrappedWatchableObjectList = packet.getWatchableCollectionModifier().read(0);
+//                        wrappedWatchableObjectList.forEach(wrappedWatchableObject -> {
+//                            int i = wrappedWatchableObject.getIndex();
+//                            if(i == 2){
+//
+//                                Object value = wrappedWatchableObject.getValue();
+//                                if(!value.toString().equals("Optional.empty")){
+//
+//                                    Optional<?> opt = (Optional<?>) value;
+//                                    String oo = opt.toString();
+//                                    int start = oo.indexOf("s=[TextComponent{text='")+23;
+//                                    int end = oo.indexOf("',", start);
+//                                    String name = oo.substring(start, end);
+//                                    //cd.getLogger().info(name);
+//                                    if(name.startsWith("CustomDisplay")){
+//                                        name = name.replace("CustomDisplay","");
+//                                        player.sendMessage(name);
+//                                    }else {
+//                                        event.setCancelled(true);
+//
+//                                    }
+//
+//                                }
+//
+//
+//                            }
+//
+//                        });
 //
 //                    }
 

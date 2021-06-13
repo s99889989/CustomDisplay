@@ -1,6 +1,6 @@
 package com.daxton.customdisplay.command;
 
-import com.daxton.customdisplay.api.config.SaveConfig;
+
 import com.daxton.customdisplay.api.player.config.PlayerChangeClass;
 import com.daxton.customdisplay.api.player.config.PlayerRebirth;
 import org.bukkit.command.Command;
@@ -25,16 +25,16 @@ public class ClassCommand {
         Player player = (Player) sender;
         String uuidString = player.getUniqueId().toString();
         if(args.length == 3){
-            /**所有線上玩家名單**/
+            //所有線上玩家名單
             List<String> onLineplayerNameList = TabCommand.getPlayerNameList();
 
-            /**所有線上玩家**/
+            //所有線上玩家
             Map<String,Player> playerMap = TabCommand.getPlayerNameMap();
 
-            /**所有職業名單**/
+            //所有職業名單
             List<String> classNameList = TabCommand.getClassNameList();
 
-            /**轉職指令**/
+            //轉職指令
             if(args[0].equalsIgnoreCase("changeclass")) {
                 if(onLineplayerNameList.contains(args[1])){
                     if(classNameList.contains(args[2])){
@@ -44,7 +44,7 @@ public class ClassCommand {
                     }
                 }
             }
-            /**轉生指令**/
+            //轉生指令
             if(args[0].equalsIgnoreCase("rebirth")) {
                 if(onLineplayerNameList.contains(args[1])){
                     if(classNameList.contains(args[2])){

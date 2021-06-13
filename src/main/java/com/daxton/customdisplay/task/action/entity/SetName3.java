@@ -38,7 +38,7 @@ public class SetName3 {
                 livingEntityList.forEach(livingEntity -> {
                     ActionMapHandle actionMapHandle2 = new ActionMapHandle(action_Map, self, livingEntity);
                     //獲得內容
-                    String message = actionMapHandle2.getString(new String[]{"message","m"},"");
+                    String message = actionMapHandle2.getString(new String[]{"message","m"},""); //"CustomDisplay"+
 
                     sendMetadataPacket(player, livingEntity, message, always);
                     if (Bukkit.getServer().getPluginManager().getPlugin("ModelEngine") != null){
@@ -55,26 +55,7 @@ public class SetName3 {
     }
 
 
-
-
-//    public static void updateEntity(Player player, LivingEntity livingEntity) {
-//
-//        PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
-//        packet.getIntegers().write(0, livingEntity.getEntityId());
-//        packet.getWatchableCollectionModifier().write(0, WrappedDataWatcher.getEntityWatcher(livingEntity).getWatchableObjects());
-//        if (player.getWorld().equals(livingEntity.getWorld())) {
-//            try {
-//                ActionManager.protocolManager.sendServerPacket(player, packet);
-//            } catch (InvocationTargetException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        //sendMetadataPacket();
-//    }
-
     public static void sendMetadataPacket(Player player, LivingEntity livingEntity, String message, Boolean always) {
-
-        //message = new ConversionMain().valueOf(self,target,message);
 
         PacketContainer packet = ActionManager.protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, livingEntity.getEntityId());

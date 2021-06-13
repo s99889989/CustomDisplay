@@ -1,14 +1,11 @@
 package com.daxton.customdisplay.api.player.data.set;
 
-import com.daxton.customdisplay.api.player.data.PlayerData;
-import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class PlayerAttributesPoint {
 

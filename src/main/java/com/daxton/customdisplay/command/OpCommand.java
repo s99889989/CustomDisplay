@@ -1,7 +1,6 @@
 package com.daxton.customdisplay.command;
 
 import com.daxton.customdisplay.CustomDisplay;
-import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,7 +17,7 @@ public class OpCommand {
     /**不限使用者**/
     public static boolean commandAll(CommandSender sender, Command cmd, String label, String[] args){
         CustomDisplay cd = CustomDisplay.getCustomDisplay();
-        ConfigManager configManager = cd.getConfigManager();
+
 
         String nowLanguage = cd.getConfigManager().config.getString("Language");
         FileConfiguration commandConfig = ConfigMapManager.getFileConfigurationMap().get("Language_"+nowLanguage+"_command.yml");
@@ -31,11 +30,15 @@ public class OpCommand {
             if(args[0].equalsIgnoreCase("reload")){
 
                 cd.load();
-                sender.sendMessage(reload);
+                if(reload != null){
+                    sender.sendMessage(reload);
+                }
                 return true;
             }
             if(args[0].equalsIgnoreCase("help")) {
-                sender.sendMessage(helpDescription);
+                if(helpDescription != null){
+                    sender.sendMessage(helpDescription);
+                }
                 for(String msg : helpInfo){
                     sender.sendMessage(msg);
                 }

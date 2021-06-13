@@ -2,11 +2,9 @@ package com.daxton.customdisplay.command;
 
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.PlaceholderManager;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class PlayerCommand {
 
@@ -22,12 +20,12 @@ public class PlayerCommand {
 
             if(args[0].equalsIgnoreCase("cast")) {
                 if(!(args[1].isEmpty())){
-                    if(sender instanceof Player){
 
-                        new PlaceholderManager().getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
 
-                        PlayerTrigger.onPlayer(player, null, "~oncommand");
-                    }
+                    PlaceholderManager.getCd_Placeholder_Map().put(uuidString+"<cd_cast_command>",args[1]);
+
+                    PlayerTrigger.onPlayer(player, null, "~oncommand");
+
                     return true;
                 }
             }

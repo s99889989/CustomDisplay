@@ -57,6 +57,12 @@ public class JudgmentAction {
         }
 
         //BossBar的相關判斷
+        if(judgMent.equals("block")){
+            setBlock.go(self, target, action_Map, taskID, inputLocation);
+            return;
+        }
+
+        //BossBar的相關判斷
         if(judgMent.equals("bossbar")){
             SendBossBar4.setBossBar(self, target, action_Map, taskID);
             return;

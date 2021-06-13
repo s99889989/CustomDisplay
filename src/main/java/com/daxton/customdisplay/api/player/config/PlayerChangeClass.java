@@ -1,21 +1,12 @@
 package com.daxton.customdisplay.api.player.config;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.config.LoadConfig;
-import com.daxton.customdisplay.api.config.SaveConfig;
-import com.daxton.customdisplay.api.player.PlayerReload;
-import com.daxton.customdisplay.api.player.data.PlayerData;
 import com.daxton.customdisplay.api.player.data.PlayerData2;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
-import com.daxton.customdisplay.task.ClearAction;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerChangeClass {

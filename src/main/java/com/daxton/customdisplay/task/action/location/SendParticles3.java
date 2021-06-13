@@ -201,7 +201,7 @@ public class SendParticles3 {
         }
     }
 
-    /**發送圖片粒子**/
+    //發送圖片粒子
     public static void sendPic2(LivingEntity livingEntity, Location location, double imgSize, BufferedImage bi, boolean targetPitch, boolean targetYaw, double addX, double addY, double addZ){
         CustomDisplay cd = CustomDisplay.getCustomDisplay();
 

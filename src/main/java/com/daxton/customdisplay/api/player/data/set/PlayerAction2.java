@@ -31,9 +31,7 @@ public class PlayerAction2 {
         return action_Trigger_Map;
     }
 
-    public Map<String, List<CustomLineConfig>> getAction_Trigger_Map() {
-        return action_Trigger_Map;
-    }
+
 
     public void setAction(String actionString){
 

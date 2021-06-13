@@ -118,17 +118,20 @@ public class PlayerConfig2 {
         }
         //設定點數屬性
         for(String attr : classConfig.getStringList(className+".Attributes_Point")){
-            FileConfiguration attrPointConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Point_"+attr+".yml");
-            ConfigurationSection attrPointList = attrPointConfig.getConfigurationSection(attr);
-            try {
-                for(String sttrPoint : attrPointList.getKeys(false)){
-                    int base = attrPointConfig.getInt(attr+"."+sttrPoint+".base");
-                    if(!playerConfig.contains(uuidString+".Attributes_Point."+sttrPoint)){
-                        playerConfig.set(uuidString+".Attributes_Point."+sttrPoint,base);
-                    }
-                }
-            }catch (Exception exception){
 
+            if(ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Point_"+attr+".yml") != null){
+                FileConfiguration attrPointConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_Point_"+attr+".yml");
+                ConfigurationSection attrPointList = attrPointConfig.getConfigurationSection(attr);
+                try {
+                    for(String sttrPoint : attrPointList.getKeys(false)){
+                        int base = attrPointConfig.getInt(attr+"."+sttrPoint+".base");
+                        if(!playerConfig.contains(uuidString+".Attributes_Point."+sttrPoint)){
+                            playerConfig.set(uuidString+".Attributes_Point."+sttrPoint,base);
+                        }
+                    }
+                }catch (Exception exception){
+
+                }
             }
 
         }
@@ -145,18 +148,21 @@ public class PlayerConfig2 {
         //設定技能
         List<String> skillPatchList = classConfig.getStringList(className+".Skills");
         skillPatchList.forEach((fileName)->{
-            FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_"+fileName+".yml");
-            ConfigurationSection skillSec = skillConfig.getConfigurationSection(fileName);
-            skillSec.getKeys(false).forEach((key)->{
-                //player.sendMessage(key);
-                if(!playerConfig.contains(uuidString+".Skills."+key+".level")){
-                    playerConfig.set(uuidString+".Skills."+key+".level", 0);
-                }
-                if(!playerConfig.contains(uuidString+".Skills."+key+".use")){
-                    playerConfig.set(uuidString+".Skills."+key+".use", 0);
-                }
-            });
+            FileConfiguration skillConfig = LoadConfig.getConfig("Class_Skill_Main_", fileName);
+            if(skillConfig != null){
+                if(skillConfig.getConfigurationSection("Skills") != null){
+                    skillConfig.getConfigurationSection("Skills").getKeys(false).forEach((key)->{
 
+                        if(!playerConfig.contains(uuidString+".Skills."+key+".level")){
+                            playerConfig.set(uuidString+".Skills."+key+".level", 0);
+                        }
+                        if(!playerConfig.contains(uuidString+".Skills."+key+".use")){
+                            playerConfig.set(uuidString+".Skills."+key+".use", 0);
+                        }
+                    });
+                }
+
+            }
         });
         //設定綁定技能
         if(!(playerConfig.contains(uuidString+".Binds"))){

@@ -49,13 +49,11 @@ public class Guise4 {
         if(ActionManager.guise_Map.get(taskID+mark) == null){
            // cd.getLogger().info("創建");
             Location location;
-            if(inputLocation != null){
-                location = actionMapHandle.getLocation(inputLocation);
-            }else {
-                location = actionMapHandle.getLocation(null);
-            }
+            location = actionMapHandle.getLocation(inputLocation);
             if(location != null){
-                location = location.add(0,-getEntityHight(entityType),0);
+                if(inputLocation == null){
+                    location = location.add(0,-getEntityHight(entityType),0);
+                }
                 GuiseEntity guiseEntity = new GuiseEntity().createPacketEntity(entityType, location);
                 if(guiseEntity != null){
                     ActionManager.guise_Map.put(taskID+mark, guiseEntity);
@@ -64,7 +62,6 @@ public class Guise4 {
                         BukkitRunnable bukkitRunnable = new BukkitRunnable() {
                             @Override
                             public void run() {
-                                //cd.getLogger().info("刪除");
                                 guiseEntity.delete();
                                 ActionManager.guise_Map.remove(taskID+mark);
                             }
@@ -76,7 +73,7 @@ public class Guise4 {
             }
 
         }else {
-           // cd.getLogger().info("移動");
+
             GuiseEntity guiseEntity = ActionManager.guise_Map.get(taskID+mark);
             if(teleport){
                 Location location;

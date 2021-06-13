@@ -1,6 +1,7 @@
 package com.daxton.customdisplay.command;
 
 import com.daxton.customdisplay.CustomDisplay;
+import com.daxton.customdisplay.api.config.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -62,7 +63,7 @@ public class TabCommand implements TabCompleter {
 
         List<String> playerNameList = new ArrayList<>();
 
-        Bukkit.getOnlinePlayers().forEach(player -> { playerNameList.add(player.getName()); });
+        Bukkit.getOnlinePlayers().forEach(player ->  playerNameList.add(player.getName()));
 
         playerNameArray = playerNameList.toArray(new String[playerNameList.size()]);
 
@@ -74,7 +75,7 @@ public class TabCommand implements TabCompleter {
 
         List<String> playerNameList = new ArrayList<>();
 
-        Bukkit.getOnlinePlayers().forEach(player -> { playerNameList.add(player.getName()); });
+        Bukkit.getOnlinePlayers().forEach(player ->  playerNameList.add(player.getName()));
 
         return playerNameList;
     }
@@ -83,9 +84,7 @@ public class TabCommand implements TabCompleter {
     public static Map<String, Player> getPlayerNameMap(){
 
         Map<String,Player> playerMap = new HashMap<>();
-        Bukkit.getOnlinePlayers().forEach(player2 -> {
-            playerMap.put(player2.getName(),player2);
-        });
+        Bukkit.getOnlinePlayers().forEach(player2 -> playerMap.put(player2.getName(),player2));
 
         return playerMap;
     }
@@ -93,12 +92,9 @@ public class TabCommand implements TabCompleter {
     //獲取職業名稱陣列
     public static String[] getClassNameArray(){
         String[] classNameArray;
-        File file = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Class/Main");
 
-        List<String> stringList = new ArrayList<>();
-        for(String s : file.list()){
-            stringList.add(s.replace(".yml",""));
-        }
+        List<String> stringList = Config.getFileNameList("Class/Main");
+
         classNameArray = stringList.toArray(new String[stringList.size()]);
 
         return classNameArray;
@@ -106,13 +102,8 @@ public class TabCommand implements TabCompleter {
 
     //獲取職業名稱List
     public static List<String> getClassNameList(){
+        List<String> stringList = Config.getFileNameList("Class/Main");
 
-        File file = new File(CustomDisplay.getCustomDisplay().getDataFolder(),"Class/Main");
-
-        List<String> stringList = new ArrayList<>();
-        for(String s : file.list()){
-            stringList.add(s.replace(".yml",""));
-        }
 
         return stringList;
     }

@@ -158,8 +158,10 @@ public class AimsLocation {
             addY = 0;
             addZ = 0;
         }
-
+        //定點是否要在方塊上。
         boolean onblock = targetMapHandle.getBoolean(new String[]{"onblock","ob"}, false);
+
+        String worldName = targetMapHandle.getString(new String[]{"wn","worldname"},"self");
 
         switch (targetKey){
             case "locself":
@@ -189,6 +191,13 @@ public class AimsLocation {
                     }
                 }
                 break;
+            case "locworld":
+                if(worldName.equals("self")){
+                    location = new Location(self.getWorld(), addX, addY, addZ);
+                }else {
+                    location = new Location(Bukkit.getWorld(worldName), addX, addY, addZ);
+                }
+
         }
 
         if(onblock && location != null){

@@ -30,15 +30,18 @@ public class PlayerAttributesStats {
 
                 if(ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EntityStats_"+attrName+".yml") != null){
                     FileConfiguration attrConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Attributes_EntityStats_"+attrName+".yml");
-                    List<String> attrStatsNameList = new ArrayList<>(attrConfig.getConfigurationSection(attrName).getKeys(false));
-                    for(String attrName2 : attrStatsNameList){
-                        String value = "0";
-                        if(attrConfig.contains(attrName+"."+attrName2+".formula")){
-                            value = attrConfig.getString(attrName+"."+attrName2+".formula");
-                        }
-                        attributes_Stats_Map.put(attrName2, value);
+                    if(attrConfig.getConfigurationSection(attrName) != null){
+                        List<String> attrStatsNameList = new ArrayList<>(attrConfig.getConfigurationSection(attrName).getKeys(false));
+                        for(String attrName2 : attrStatsNameList){
+                            String value = "0";
+                            if(attrConfig.contains(attrName+"."+attrName2+".formula")){
+                                value = attrConfig.getString(attrName+"."+attrName2+".formula");
+                            }
+                            attributes_Stats_Map.put(attrName2, value);
 
+                        }
                     }
+
                 }
 
 

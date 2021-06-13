@@ -545,12 +545,12 @@ public class PlayerListener implements Listener {
     public void onRespawn(PlayerRespawnEvent event){
         Player player = event.getPlayer();
 
-        UUID playerUUID = player.getUniqueId();
+
         String uuidString = player.getUniqueId().toString();
-        if(PlayerManager.getPlayerDataMap().get(playerUUID) != null){
-            PlayerTrigger.onPlayer(player, null, "~onkeyfoff");
-            ListenerManager.getCast_On_Stop().put(uuidString,false);
-        }
+
+        PlayerTrigger.onPlayer(player, null, "~onkeyfoff");
+        ListenerManager.getCast_On_Stop().put(uuidString,false);
+
 
     }
 

@@ -1,24 +1,24 @@
 package com.daxton.customdisplay.api.character.stringconversion;
 
-import com.daxton.customdisplay.CustomDisplay;
+
 import com.daxton.customdisplay.api.other.Arithmetic;
 import com.daxton.customdisplay.api.other.NumberUtil;
 import com.daxton.customdisplay.api.other.StringFind;
-import org.bukkit.ChatColor;
+
 
 public class ConversionMath {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
+
 
     public ConversionMath(){
 
     }
 
     public static String valueOf(String inputString,String changeString){
-        String outputString = "";
+        String outputString;
         String function = null;
         String message = "";
-        for(String string : new StringFind().getBlockList(changeString,";")){
+        for(String string : StringFind.getBlockList(changeString,";")){
 
             if(string.toLowerCase().contains("function=") || string.toLowerCase().contains("fc=")){
                 String[] strings = string.split("=");
@@ -66,7 +66,7 @@ public class ConversionMath {
             if(strings.length == 2){
                 try{
                     int count = 0;
-                    for(int i = Integer.valueOf(strings[0]) ; i <= Integer.valueOf(strings[1]) ; i++){
+                    for(int i = Integer.parseInt(strings[0]) ; i <= Integer.parseInt(strings[1]) ; i++){
                         count = count + i;
                     }
                     outputString = String.valueOf(count);
@@ -74,22 +74,23 @@ public class ConversionMath {
                     outputString =  "0";
                 }
             }
+            return outputString;
         }
         if(function.toLowerCase().contains("decimal") || function.toLowerCase().contains("dec")){
             try{
-                double number = Double.valueOf(inputString);
+                double number = Double.parseDouble(inputString);
                 outputString = new NumberUtil(number,message).getDecimalString();
             }catch (NumberFormatException exception){
                 outputString =  "0";
             }
-
+            return outputString;
         }
         if(function.toLowerCase().contains("greater")){
 
             String[] strings = message.split(">");
             if(strings.length == 2){
                 try{
-                    if(Double.valueOf(inputString) > Double.valueOf(strings[0])){
+                    if(Double.parseDouble(inputString) > Double.parseDouble(strings[0])){
                         outputString = strings[1];
                     }else {
                         outputString = inputString;
@@ -100,13 +101,13 @@ public class ConversionMath {
             }else {
                 outputString = inputString;
             }
-
+            return outputString;
         }
         if(function.toLowerCase().contains("less")){
             String[] strings = message.split(">");
             if(strings.length == 2){
                 try{
-                    if(Double.valueOf(inputString) < Double.valueOf(strings[0])){
+                    if(Double.parseDouble(inputString) < Double.parseDouble(strings[0])){
                         outputString = strings[1];
                     }else {
                         outputString = inputString;
@@ -115,6 +116,15 @@ public class ConversionMath {
                     outputString = inputString;
                 }
             }else {
+                outputString = inputString;
+            }
+            return outputString;
+        }
+        if(function.toLowerCase().contains("format")){
+            try {
+                double number = Double.parseDouble(inputString);
+                outputString = String.valueOf(NumberUtil.format(number));
+            }catch (Exception exception){
                 outputString = inputString;
             }
         }

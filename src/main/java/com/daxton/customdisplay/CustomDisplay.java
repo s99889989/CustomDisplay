@@ -9,21 +9,28 @@ import com.daxton.customdisplay.command.MainCommand;
 import com.daxton.customdisplay.command.TabCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.bukkit.*;
+import com.daxton.customdisplay.listener.mythicmobs.ModelEngineListener;
+import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
+import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import com.daxton.customdisplay.otherfunctions.CreatJson;
+import com.daxton.customdisplay.otherfunctions.CreateFontJson;
 import com.daxton.customdisplay.task.ClearAction;
 import com.daxton.customdisplay.task.RunTask;
 import discord4j.core.DiscordClientBuilder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -41,7 +48,6 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
     public static final String channel = "msgtutor:test";
 
 
-
     @Override
     public void onEnable() {
 
@@ -51,6 +57,8 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
             this.setEnabled(false);
             return;
         }
+
+        //////////////////////////////////////////////
         //模組控制通道
         getServer().getMessenger().registerIncomingPluginChannel(this, channel,
                 (channel, player, message) ->
@@ -69,8 +77,6 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
-
-
 
         //設定動作
         new SetActionMap();
@@ -107,11 +113,16 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
     }
 
+    public void setCore(){
+
+    }
+
+
     public void load(){
         //儲存物品資訊
         SaveConfig.saveItemFile();
         configManager = new ConfigManager(customDisplay);
-
+        //CreateFontJson.createMain();
         mapReload();
     }
     public void mapReload(){

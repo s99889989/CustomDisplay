@@ -3,12 +3,13 @@ package com.daxton.customdisplay.api.entity;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
-import com.daxton.customdisplay.CustomDisplay;
+
 
 
 import com.daxton.customdisplay.api.item.CustomItem2;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.nms.NMSVersion;
+
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,8 +61,6 @@ public class GuiseEntity {
             return null;
         }
 
-        this.entityTypeName = entityType;
-
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SPAWN_ENTITY);
         packet.getModifier().writeDefaults();
         int entityID = (int)(Math.random() * Integer.MAX_VALUE);
@@ -70,6 +69,11 @@ public class GuiseEntity {
         try {
             EntityType entityType1 = Enum.valueOf(EntityType.class ,entityType.toUpperCase());
             packet.getEntityTypeModifier().write(0, entityType1);
+
+            if(!entityType.equalsIgnoreCase("ARMOR_STAND")){
+                packet.getIntegers().write(4, (int) (inputLocation.getPitch() * 256.0F / 360.0F));
+                packet.getIntegers().write(5, (int) (inputLocation.getYaw() * 256.0F / 360.0F));
+            }
         }catch (NullPointerException exception){
             packet.getEntityTypeModifier().write(0, EntityType.ARMOR_STAND);
 
@@ -96,9 +100,7 @@ public class GuiseEntity {
 
         Collection onlinePlayers = Bukkit.getOnlinePlayers();
         List<Player> playerList = new ArrayList<>(onlinePlayers);
-        playerList.forEach(player -> {
-            sendPack(player, packet);
-        });
+        playerList.forEach(player -> sendPack(player, packet));
 
         return packetEntity;
     }
@@ -117,17 +119,16 @@ public class GuiseEntity {
 
 //        packet.getBytes().write(0, (byte) (player1.getLocation().getPitch()*256F / 360F));
 //        packet.getBytes().write(1, (byte) (player1.getLocation().getYaw()*256F / 360F));
+        if(!this.entityTypeName.equalsIgnoreCase("ARMOR_STAND")){
+            packet.getBytes().write(0, (byte)((int)(location.getYaw() * 256.0F / 360.0F)));
+            packet.getBytes().write(1, (byte)((int)(location.getPitch() * 256.0F / 360.0F)));
+        }
 
-        //packet.getBytes().write(0, (byte)((int)(location.getYaw() * 256.0F / 360.0F)));
-        //packet.getBytes().write(1, (byte)((int)(location.getPitch() * 256.0F / 360.0F)));
-
-        playerList.forEach(player -> {
-            sendPack(player, packet);
-        });
+        playerList.forEach(player -> sendPack(player, packet));
 
     }
 
-    /**調整盔甲架角度**/
+    //調整盔甲架角度
     public void setArmorStandAngle(String type, float x, float y, float z){
         PacketContainer packet = null;
         String nmsVersion = NMSVersion.getNMSVersion();
@@ -163,7 +164,7 @@ public class GuiseEntity {
     }
 
 
-    /**裝備目標生物**/
+    //裝備目標生物
     public void appendItem(String itemID, String itemSlot){
         String minecraftVersion = NMSVersion.getMinecraftVersion();
         if(minecraftVersion.equals("1.16.5")){
@@ -172,7 +173,7 @@ public class GuiseEntity {
             appendItem15(itemID, itemSlot);
         }
     }
-    /**裝備目標生物16以上**/
+    //裝備目標生物16以上
     public void appendItem16(String itemID, String itemSlot){
 
         ItemStack itemStack = CustomItem2.valueOf(null, null, itemID, 1);
@@ -187,9 +188,7 @@ public class GuiseEntity {
 
             pairList.add(new Pair<>(itemSlot1, itemStack));
             packet.getSlotStackPairLists().write(0, pairList);
-            playerList.forEach(player -> {
-                sendPack(player, packet);
-            });
+            playerList.forEach(player -> sendPack(player, packet));
         }
 
     }
@@ -204,9 +203,7 @@ public class GuiseEntity {
             packet.getItemSlots().write(0, slot);
             packet.getItemModifier().write(0, itemStack);
 
-            playerList.forEach(player -> {
-                sendPack(player, packet);
-            });
+            playerList.forEach(player -> sendPack(player, packet));
         }
 
     }
@@ -218,13 +215,12 @@ public class GuiseEntity {
 
         WrappedDataWatcher metadata = new WrappedDataWatcher();
         Optional<?> opt = Optional.of(WrappedChatComponent.fromChatMessage(text)[0].getHandle());
+
         metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true)), opt);
         metadata.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)), true);
 
         packet.getWatchableCollectionModifier().write(0, metadata.getWatchableObjects());
-        playerList.forEach(player -> {
-            sendPack(player, packet);
-        });
+        playerList.forEach(player -> sendPack(player, packet));
     }
 
 
@@ -237,9 +233,7 @@ public class GuiseEntity {
         packet.getIntegers().write(1, (int) (vector.getX() * 8000.0));
         packet.getIntegers().write(2, (int) (vector.getY() * 8000.0));
         packet.getIntegers().write(3, (int) (vector.getZ() * 8000.0));
-        playerList.forEach(player -> {
-            sendPack(player, packet);
-        });
+        playerList.forEach(player -> sendPack(player, packet));
     }
 
     //設置目標生物是否可見
@@ -262,9 +256,7 @@ public class GuiseEntity {
 //        dataWatcher.setObject(nameVisible, true);
 
         packet.getWatchableCollectionModifier().write(0, dataWatcher.getWatchableObjects());
-        playerList.forEach(player -> {
-            sendPack(player, packet);
-        });
+        playerList.forEach(player -> sendPack(player, packet));
     }
 
     //刪除目標生物
@@ -273,9 +265,7 @@ public class GuiseEntity {
             dead = true;
             PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_DESTROY);
             packet.getIntegerArrays().write(0, new int[]{ entityID });
-            playerList.forEach(player -> {
-                sendPack(player, packet);
-            });
+            playerList.forEach(player -> sendPack(player, packet));
         }
     }
 
@@ -380,7 +370,7 @@ public class GuiseEntity {
         return visible;
     }
 
-    /**反射**/
+    //反射
 //    public void setArmorStandAngle2(String type, float x, float y, float z){
 //        PacketContainer packet = null;
 //
