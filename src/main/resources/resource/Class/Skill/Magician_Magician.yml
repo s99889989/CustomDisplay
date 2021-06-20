@@ -1,0 +1,174 @@
+Skills:
+  Magician_ColdBolt:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 24
+    Name: '§e冰箭術(&self_class_skill_Magician_ColdBolt_now&/&self_class_skill_Magician_ColdBolt_max&)'
+    Lore:
+    - ''
+    - '§6從天空中降落冰箭攻擊敵方單體，使其受'
+    - '§6到魔法攻擊&self_class_skill_Magician_ColdBolt_gui&%水屬性魔法傷害'
+    - ''
+    - '§6施法距離 : 6.0m'
+    - '§6吟唱時間 : &self_class_skill_Magician_ColdBolt_castTime&秒'
+    - '§6技能延遲: &self_class_skill_Magician_ColdBolt_castDelay&秒'
+    - '§6消耗SP: &self_class_skill_Magician_ColdBolt_Sp&'
+    BarName: '䃆'
+    NeedTarget: true
+    TargetDistance: 10
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Magician_ColdBolt;Count=&self_class_skill_Magician_ColdBolt_now&;CountPeriod=5] @Target
+    
+  Magician_RingOfFlame:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 25
+    Name: '§e火焰之環(&self_class_skill_Magician_RingOfFlame_now&/&self_class_skill_Magician_RingOfFlame_max&)'
+    Lore:
+    - ''
+    - '§6築起圓形火牆來阻擋敵方單位前進，使試'
+    - '§6圖穿過的敵方單位受到魔法攻擊50%火屬'
+    - '§6性魔法傷害，持續15秒，火環最多可阻擋'
+    - '§6&self_class_skill_Magician_RingOfFlame_gui&次'
+    - ''
+    - '§6施法距離 : 6.0m'
+    - '§6吟唱時間 : &self_class_skill_Magician_RingOfFlame_castTime&秒'
+    - '§6技能延遲: 1.5秒'
+    - '§6消耗SP: &self_class_skill_Magician_RingOfFlame_Sp&'
+    BarName: '䃇'
+    NeedTarget: false
+    TargetDistance: 1
+    CoolDown: 1
+    CastTime: 1
+    CastDelay: 1
+    Mana: 10
+    Action:
+    - Action[a=Magician_RingOfFlame]
+    
+  Magician_SoulStrike:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 26
+    Name: '§e聖靈召喚(&self_class_skill_Magician_SoulStrike_now&/&self_class_skill_Magician_SoulStrike_max&)'
+    Lore:
+    - ''
+    - '§6召喚聖靈進行攻擊，對敵方單體造成魔法'
+    - '§6攻擊&self_class_skill_Magician_SoulStrike_gui&%無屬性魔法傷害，攻擊不死系'
+    - '§6時額外增加&self_class_skill_Magician_SoulStrike_gui2&%傷害'
+    - ''
+    - '§6施法距離 : 6.0m'
+    - '§6吟唱時間 : 0.5秒'
+    - '§6技能冷卻: 2.0秒'
+    - '§6技能延遲: 3.0秒'
+    - '§6消耗SP: &self_class_skill_Magician_SoulStrike_Sp&'
+    BarName: '䃈'
+    NeedTarget: true
+    TargetDistance: 10
+    CoolDown: 1
+    CastTime: 1
+    CastDelay: 0
+    Mana: 10
+    Action:
+    - Action[a=Magician_SoulStrike;Count=&self_class_skill_Magician_SoulStrike_now&;CountPeriod=5] @Target
+    
+  Magician_FrostDiver:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 27
+    Name: '§e冰凍術(&self_class_skill_Magician_FrostDiver_now&/&self_class_skill_Magician_FrostDiver_max&)'
+    Lore:
+    - ''
+    - '§6對敵方單體造成魔法攻擊&self_class_skill_Magician_FrostDiver_gui1&%水屬性魔法'
+    - '§6傷害，並有&self_class_skill_Magician_FrostDiver_gui2&%機率使敵人陷入冰凍狀態'
+    - '§6，持續&self_class_skill_Magician_FrostDiver_gui3&秒'
+    - ''
+    - '§6施法距離 : 6.0m'
+    - '§6吟唱時間 : 0.8秒'
+    - '§6技能延遲: 1.0秒'
+    - '§6消耗SP: &self_class_skill_Magician_FrostDiver_Sp&'
+    BarName: '䃉'
+    NeedTarget: true
+    TargetDistance: 10
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 10
+    Action:
+    - Action[a=Magician_FrostDiver] @Target
+    
+  Magician_FireBolt:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 28
+    Name: '§e火箭術(&self_class_skill_Magician_FireBolt_now&/&self_class_skill_Magician_FireBolt_max&)'
+    Lore:
+    - ''
+    - '§6從天空中降落火箭攻擊敵方單體，使其受'
+    - '§6到魔法攻擊&self_class_skill_Magician_FireBolt_gui&%火屬性魔法傷害和少量'
+    - '§6真實魔法傷害'
+    - ''
+    - '§6施法距離 : 6.0m'
+    - '§6吟唱時間 : &self_class_skill_Magician_FireBolt_castTime&秒'
+    - '§6技能延遲: &self_class_skill_Magician_FireBolt_castDelay&秒'
+    - '§6消耗SP: &self_class_skill_Magician_FireBolt_Sp&'
+    BarName: '䃊'
+    NeedTarget: true
+    TargetDistance: 10
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 10
+    Action:
+    - Action[a=Magician_FireBolt;Count=&self_class_skill_Magician_FireBolt_now&;CountPeriod=5] @Target
+    
+  Magician_LightningBolt:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 29
+    Name: '§e雷擊術(&self_class_skill_Magician_LightningBolt_now&/&self_class_skill_Magician_LightningBolt_max&)'
+    Lore:
+    - ''
+    - '§6對敵方單體造成魔法攻擊&self_class_skill_Magician_LightningBolt_gui&%風屬性魔'
+    - '§6法傷害'
+    - ''
+    - '§6施法距離 : 6.0m'
+    - '§6吟唱時間 : &self_class_skill_Magician_LightningBolt_castTime&秒'
+    - '§6技能延遲: &self_class_skill_Magician_LightningBolt_castDelay&秒'
+    - '§6消耗SP: &self_class_skill_Magician_LightningBolt_Sp&'
+    BarName: '䃋'
+    NeedTarget: true
+    TargetDistance: 10
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 10
+    Action:
+    - Action[a=Magician_LightningBolt;Count=&self_class_skill_Magician_LightningBolt_now&;CountPeriod=6] @Target
+    
+  Magician_IncreaseSpiritualPower:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 30
+    Name: '§e禪心(&self_class_skill_Magician_IncreaseSpiritualPower_now&/&self_class_skill_Magician_IncreaseSpiritualPower_max&)'
+    Lore:
+    - ''
+    - '§6每10秒自然恢復（&self_class_skill_Magician_IncreaseSpiritualPower_gui1&+&self_class_skill_Magician_IncreaseSpiritualPower_gui2&%魔法上限）點'
+    - '§6的SP，同時增加&self_class_skill_Magician_IncreaseSpiritualPower_gui3&%的道具魔法恢復量'
+    BarName: '䃌'
+    NeedTarget: false
+    PassiveSkill: true
+    TargetDistance: 2
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 10
+    Action:
+    - Action[a=Magician_IncreaseSpiritualPower;mark=&self_name&Magician_IncreaseSpiritualPower] ~onJoin
+    - Action[mark=&self_name&Magician_IncreaseSpiritualPower;stop=true] ~onQuit
+    
+
+

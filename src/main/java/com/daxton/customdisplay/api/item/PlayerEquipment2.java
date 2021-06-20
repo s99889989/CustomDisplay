@@ -147,37 +147,42 @@ public class PlayerEquipment2 {
         PlayerData2 playerData = PlayerManager.player_Data_Map.get(player.getUniqueId().toString());
         CustomDisplay cd = CustomDisplay.getCustomDisplay();
         playerData.inventory_Item_Amount.clear();
-        for(ItemStack itemStack : player.getInventory().getContents()){
-            if(itemStack != null){
-                String itemID = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "itemID"), PersistentDataType.STRING);
-                if(itemID != null){
-                    if(playerData.inventory_Item_Amount.containsKey(itemID)){
-                        int nowAmount = playerData.inventory_Item_Amount.get(itemID);
-                        int addAmount = itemStack.getAmount();
-                        playerData.inventory_Item_Amount.put(itemID, nowAmount+addAmount);
-                    }else {
-                        playerData.inventory_Item_Amount.put(itemID, itemStack.getAmount());
-                    }
+        try {
+            for(ItemStack itemStack : player.getInventory().getContents()){
+                if(itemStack != null){
+                    String itemID = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "itemID"), PersistentDataType.STRING);
+                    if(itemID != null){
+                        if(playerData.inventory_Item_Amount.containsKey(itemID)){
+                            int nowAmount = playerData.inventory_Item_Amount.get(itemID);
+                            int addAmount = itemStack.getAmount();
+                            playerData.inventory_Item_Amount.put(itemID, nowAmount+addAmount);
+                        }else {
+                            playerData.inventory_Item_Amount.put(itemID, itemStack.getAmount());
+                        }
 
-                    //player.sendMessage(itemID+" : "+itemStack.getAmount());
+                        //player.sendMessage(itemID+" : "+itemStack.getAmount());
 
-                }
-            }
-        }
-        for(ItemStack itemStack : player.getInventory().getArmorContents()){
-            if(itemStack != null){
-                String itemID = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "itemID"), PersistentDataType.STRING);
-                if(itemID != null){
-                    if(playerData.inventory_Item_Amount.containsKey(itemID)){
-                        int nowAmount = playerData.inventory_Item_Amount.get(itemID);
-                        int addAmount = itemStack.getAmount();
-                        playerData.inventory_Item_Amount.put(itemID, nowAmount+addAmount);
-                    }else {
-                        playerData.inventory_Item_Amount.put(itemID, itemStack.getAmount());
                     }
                 }
             }
+            for(ItemStack itemStack : player.getInventory().getArmorContents()){
+                if(itemStack != null){
+                    String itemID = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "itemID"), PersistentDataType.STRING);
+                    if(itemID != null){
+                        if(playerData.inventory_Item_Amount.containsKey(itemID)){
+                            int nowAmount = playerData.inventory_Item_Amount.get(itemID);
+                            int addAmount = itemStack.getAmount();
+                            playerData.inventory_Item_Amount.put(itemID, nowAmount+addAmount);
+                        }else {
+                            playerData.inventory_Item_Amount.put(itemID, itemStack.getAmount());
+                        }
+                    }
+                }
+            }
+        }catch (NoSuchMethodError exception){
+            //
         }
+
 
     }
 

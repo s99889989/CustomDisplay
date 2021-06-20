@@ -170,7 +170,7 @@ public class StringConversion {
         return output;
     }
 
-    /**材質副值**/
+    //材質副值
     public static BlockData getBlockData(LivingEntity self, LivingEntity target, String defaultKey, String content){
         BlockData output = Enum.valueOf(Material.class ,defaultKey).createBlockData();
         String inputString = getString(self, target, content);

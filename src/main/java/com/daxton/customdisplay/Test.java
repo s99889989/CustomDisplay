@@ -20,12 +20,13 @@ public class Test {
     private static int MAX_LENGTH = 4;
 
     public static void main(String[] args) {
-        String test = "Optional[TextComponent{text='', siblings=[TextComponent{text='ME', siblings=[], style=Style{ color=null, bold=null, italic=null, underlined=null, strikethrough=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null, font=minecraft:default}}], style=Style{ color=null, bold=null, italic=null, underlined=null, strikethrough=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null, font=minecraft:default}}]";
-        int start = test.indexOf("s=[TextComponent{text='")+23;
-        int end = test.indexOf("',", start);
+        String test = "CraftBlockData{minecraft:lever[face=wall,facing=north,powered=false]}";
+        int start = test.indexOf("powered=")+8;
+        int end = test.indexOf("]", start);
         String name = test.substring(start, end);
         System.out.println(test);
         System.out.println(name);
+        System.out.println(test.length()+" : "+start);
     }
 
 

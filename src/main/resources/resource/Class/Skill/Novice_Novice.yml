@@ -1,0 +1,44 @@
+Skills:
+  Novice_FirstAid:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 1
+    Name: '§e緊急治療(&self_class_skill_Novice_FirstAid_now&/&self_class_skill_Novice_FirstAid_max&)'
+    Lore:
+    - ''
+    - '§6快速恢復自身&self_class_skill_Novice_FirstAid_amount&點生命值'
+    - ''
+    - '§6施法距離 : 1.0m'
+    - '§6技能冷卻 : 10.0秒'
+    BarName: '䂷'
+    NeedTarget: false
+    TargetDistance: 2
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Novice_FirstAid]
+  Novice_Slam:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 2
+    Name: '§e重擊(&self_class_skill_Novice_Slam_now&/&self_class_skill_Novice_Slam_max&)'
+    Lore:
+    - ''
+    - '§6對敵方單體造成(物理攻擊&self_class_skill_Novice_Slam_gui&%)物理傷害'
+    - ''
+    - '§6施法距離 : 1.0m'
+    - '§6吟唱時間 : 0.5秒 '
+    - '§6技能冷卻 : 10.0秒'
+    - '§6技能延遲 : 1.0秒'
+    - '§6SP消耗 : 1'
+    BarName: '䂸'
+    NeedTarget: true
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Novice_Slam] @Target

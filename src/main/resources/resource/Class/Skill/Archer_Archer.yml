@@ -1,0 +1,156 @@
+Skills:
+  Archer_DoubleStrafing:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 17
+    Name: '§e二連矢(&self_class_skill_Archer_DoubleStrafing_now&/&self_class_skill_Archer_DoubleStrafing_max&)'
+    Lore:
+    - ''
+    - '§6同時射出2箭，對敵方單體造成雙倍（物'
+    - '§6理攻擊&self_class_skill_Archer_DoubleStrafing_gui&%）物理傷害。施放技能時必'
+    - '§6須裝備弓類武器'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能延遲: 1.0秒'
+    - '§6消耗SP: 15'
+    BarName: '䂿'
+    NeedTarget: false
+    TargetDistance: 10
+    CoolDown: 2
+    CastTime: 0
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Archer_DoubleStrafing]
+
+  Archer_Anklesnare:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 18
+    Name: '§e定位陷阱(&self_class_skill_Archer_Anklesnare_now&/&self_class_skill_Archer_Anklesnare_max&)'
+    Lore:
+    - ''
+    - '§6指定區域佈置陷阱，觸發後敵方單體被持'
+    - '§6續定身&self_class_skill_Archer_Anklesnare_gui&秒（定身效果不可被萬能藥解除'
+    - '§6），最多可同時佈置2個，被清除定位效'
+    - '§6果的目標在接下來1.5秒內不會再次被定'
+    - '§6位'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能延遲 : 0.5秒'
+    - '§6SP消耗 : 12'
+    BarName: '䃀'
+    NeedTarget: false
+    TargetDistance: 1
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Archer_Anklesnare]
+    
+  Archer_OwlsEye:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 19
+    Name: '§e鶚梟之眼(&self_class_skill_Archer_OwlsEye_now&/&self_class_skill_Archer_OwlsEye_max&)'
+    Lore:
+    - ''
+    - '§6永久提升靈巧&self_class_skill_Archer_OwlsEye_gui&'
+    BarName: '䃁'
+    PassiveSkill: true
+    NeedTarget: true
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Archer_OwlsEye] ~onJoin
+    
+  Archer_ArrowShower:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 20
+    Name: '§e箭雨(&self_class_skill_Archer_ArrowShower_now&/&self_class_skill_Archer_ArrowShower_max&)'
+    Lore:
+    - ''
+    - '§6朝指定範圍射出4波箭矢，每次造成物理'
+    - '§6攻擊&self_class_skill_Archer_ArrowShower_gui&%物理傷害，範圍內每波最多傷'
+    - '§6害8個敵方單位'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能延遲 : 2.0秒'
+    - '§6SP消耗 : &self_class_skill_Archer_ArrowShower_Sp&'
+    BarName: '䃂'
+    NeedTarget: false
+    TargetDistance: 1
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Archer_ArrowShower]
+    - Action[a=Archer_ArrowShower2]
+    
+  Archer_ChargeArrow:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 21
+    Name: '§e衝鋒箭(&self_class_skill_Archer_ChargeArrow_now&/&self_class_skill_Archer_ChargeArrow_max&)'
+    Lore:
+    - ''
+    - '§6發射強力箭矢，對敵方單體造成物理攻擊'
+    - '§6&self_class_skill_Archer_ChargeArrow_gui&%的物理傷害，並擊退一段距離'
+    - ''
+    - '§6施法距離 : 5.0m'
+    - '§6技能冷卻 : &self_class_skill_Archer_ChargeArrow_CD&秒'
+    - '§6技能延遲 : 1.5秒'
+    - '§6SP消耗 : 15'
+    BarName: '䃃'
+    NeedTarget: false
+    TargetDistance: 10
+    CoolDown: 2
+    CastTime: 0
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Archer_ChargeArrow]
+    
+  Archer_ElementArrow:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 22
+    Name: '§e元素箭矢(&self_class_skill_Archer_ElementArrow_now&/&self_class_skill_Archer_ElementArrow_max&)'
+    Lore:
+    - ''
+    - '§6擊提升&self_class_skill_Archer_ElementArrow_gui1&，普攻攻擊力提升&self_class_skill_Archer_ElementArrow_gui2&'
+    BarName: '䃄'
+    PassiveSkill: true
+    NeedTarget: true
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Archer_ElementArrow] ~EqmCheck
+    
+  Archer_VulturesEye:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 23
+    Name: '§e蒼鷹之眼(&self_class_skill_Archer_VulturesEye_now&/&self_class_skill_Archer_VulturesEye_max&)'
+    Lore:
+    - ''
+    - '§6永久提升射程&self_class_skill_Archer_VulturesEye_gui1&%，命中&self_class_skill_Archer_VulturesEye_gui2&'
+    BarName: '䃅'
+    NeedTarget: true
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Archer_VulturesEye]
+    

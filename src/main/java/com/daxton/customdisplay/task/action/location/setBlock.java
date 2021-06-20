@@ -3,12 +3,12 @@ package com.daxton.customdisplay.task.action.location;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import com.daxton.customdisplay.api.location.ThreeDLocation;
+import com.daxton.customdisplay.api.other.StringConversion;
+import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,7 +21,7 @@ public class setBlock {
 
     public static void go(LivingEntity self, LivingEntity target, Map<String, String> action_Map, String taskID, Location inputLocation){
         CustomDisplay cd = CustomDisplay.getCustomDisplay();
-        cd.getLogger().info("改變方塊");
+        //cd.getLogger().info("改變方塊");
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
         //粒子的方塊材質
@@ -32,34 +32,36 @@ public class setBlock {
 
         Location location = actionMapHandle.getLocation(inputLocation);
 
-        BlockData oblock = location.getBlock().getBlockData();
-        if(img != null){
-            Map<Integer, Location> runLocation_Map = setLocationMap(self, target, location, action_Map);
+        //BlockData oblock = location.getBlock().getBlockData();
 
-            runLocation_Map.forEach((integer, location1) -> {
-                location1.getBlock().setBlockData(blockData);
+
+        if(img != null){
+
+
+
+            Map<Location, Integer> runLocation_Map = setLocationMap(self, target, location, action_Map);
+
+
+
+            runLocation_Map.forEach((location1, integer) -> {
+                StringBuilder kkk = new StringBuilder(Integer.toHexString(integer));
+                while (kkk.length() < 6){
+                    kkk.insert(0, "0");
+                }
+                //cd.getLogger().info(kkk.toString());
+                FileConfiguration colorFile = ConfigMapManager.getFileConfigurationMap().get("Other_BlockColor.yml");
+                String colorString = colorFile.getString(kkk.toString());
+                BlockData colorBlock = StringConversion.getBlockData(self, target, "STONE", colorString);
+                location1.getBlock().setBlockData(colorBlock);
+
             });
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    runLocation_Map.forEach((integer, location1) -> {
-                        location1.getBlock().setBlockData(oblock);
-                    });
-                }
-            }.runTaskLater(cd, 40);
 
 
 
         }else {
             location.getBlock().setBlockData(blockData);
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    location.getBlock().setBlockData(oblock);
-                }
-            }.runTaskLater(cd, 40);
         }
 
 
@@ -68,17 +70,18 @@ public class setBlock {
     }
 
     //圖片位置設定
-    public static Map<Integer, Location> setLocationMap(LivingEntity self, LivingEntity livingEntity, Location location, Map<String, String> action_Map){
+    public static Map<Location, Integer> setLocationMap(LivingEntity self, LivingEntity livingEntity, Location location, Map<String, String> action_Map){
         CustomDisplay cd = CustomDisplay.getCustomDisplay();
 
-        Map<Integer, Location> setLocationMap  = new ConcurrentHashMap<>();
+
+
+
+
+        Map<Location, Integer> setLocationMap  = new ConcurrentHashMap<>();
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, livingEntity);
 
         //要使用的圖片名稱
         String img = actionMapHandle.getString(new String[]{"img"},"");
-
-        //圖片的縮放
-        double imgSize = actionMapHandle.getDouble(new String[]{"is","imgsize"},1);
 
         //要使用的圖片角度
         String[] pngRotAngles = actionMapHandle.getStringList(new String[]{"ira","imgrotangle"},new String[]{"Self","true","true","0","0","0"},"\\|",6);
@@ -98,7 +101,6 @@ public class setBlock {
             imgAddZ = 0;
         }
 
-
         try{
             BufferedImage bufferedImage = ImageIO.read(new File(cd.getDataFolder(),"Png/"+ img+".png"));
 
@@ -112,53 +114,49 @@ public class setBlock {
 
             int width = bufferedImage.getWidth();
 
-            double widthHalf = (double)width/2;
-
             int height = bufferedImage.getHeight();
 
-            double heightHalf = (double)height/2;
-            int count = 1;
-            for(int i=0 ; i < height ; i++) {
 
-                for (int j = 0; j < width ; j++) {
+            int widthMid = width/2;
+            int heightMid = height/2;
 
-                    int color = bufferedImage.getRGB(j, i);
-                    //int blue = color & 0xff;
-                    //int green = (color & 0xff00) >> 8;
-                    //int red = (color & 0xff0000) >> 16;
+
+            int oX = (int) location.getX();
+            int oY = (int) location.getY();
+            int oZ = (int) location.getZ();
+            Location location2 = location.clone().set(oX - widthMid, oY - heightMid, oZ);
+            location.set(oX, oY, oZ);
+
+           // cd.getLogger().info(widthMid+" : "+heightMid);
+            int ii = height;
+
+            for(int i = 0 ; i < height ; i++) {
+                ii--;
+                int jj = width;
+                for (int j = 0 ; j < width ; j++) {
+                    jj--;
+                    int color = bufferedImage.getRGB(jj, ii);
+                    int blue = color & 0xff;
+                    int green = (color & 0xff00) >> 8;
+                    int red = (color & 0xff0000) >> 16;
                     int alpha = (color & 0xff000000) >>> 24;
-                    //int rgb = ( (red*65536) + (green*256) +blue );
+                    int rgb = ( (red*65536) + (green*256) +blue );
 
                     if(alpha != 0){
-                        //把高度置中
-                        double addHeight;
-                        if(i == (heightHalf-0.5)){
-                            addHeight = -0.5;
-                        }else if(i >= heightHalf){
-                            addHeight = (i-heightHalf)*-1;
-                        }else {
-                            addHeight = (heightHalf-(i));
-                        }
-                        addHeight = addHeight * imgSize;
-                        //把寬度置中
-                        double addWidth;
-                        if(j == (widthHalf-0.5)){
-                            addWidth = -0.5;
-                        }else if(j >= widthHalf){
-                            addWidth = (j-widthHalf);
-                        }else {
-                            addWidth = (widthHalf-(j))*-1;
-                        }
-                        addWidth = addWidth * imgSize;
 
-                        Location useLocation = location.clone().add(addWidth, addHeight, 0);
+                        Location useLocation = location2.clone().add(j, i, 0);
 
                         useLocation = ThreeDLocation.getPngLocationX(useLocation.clone(), location.clone(), inputDouble);
                         useLocation = ThreeDLocation.getPngLocationY(useLocation.clone(), location.clone(), inputDouble);
                         useLocation = ThreeDLocation.getPngLocationZ(useLocation.clone(), location.clone(), inputDouble);
+                        //String kkk = Integer.toHexString(rgb);
+                        //cd.getLogger().info(i+" : "+ii+" : "+j+" : "+jj+" : "+kkk);
+                        //cd.getLogger().info(useLocation.getX()+" : "+useLocation.getY()+" : "+useLocation.getZ());
+                        //if(String.valueOf(useLocation.getX()).endsWith(".0") && String.valueOf(useLocation.getY()).endsWith(".0") && String.valueOf(useLocation.getZ()).endsWith(".0")){
+                            setLocationMap.put(useLocation, rgb);
+                        //}
 
-                        setLocationMap.put(count, useLocation);
-                        count++;
+
 
                     }
 

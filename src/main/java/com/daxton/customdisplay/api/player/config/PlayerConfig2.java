@@ -148,16 +148,19 @@ public class PlayerConfig2 {
         //設定技能
         List<String> skillPatchList = classConfig.getStringList(className+".Skills");
         skillPatchList.forEach((fileName)->{
-            FileConfiguration skillConfig = LoadConfig.getConfig("Class_Skill_Main_", fileName);
+
+            FileConfiguration skillConfig = LoadConfig.getConfig("Class_Skill_", fileName);
             if(skillConfig != null){
+
                 if(skillConfig.getConfigurationSection("Skills") != null){
                     skillConfig.getConfigurationSection("Skills").getKeys(false).forEach((key)->{
 
-                        if(!playerConfig.contains(uuidString+".Skills."+key+".level")){
-                            playerConfig.set(uuidString+".Skills."+key+".level", 0);
+                        int base = skillConfig.getInt("Skills."+key+".Base");
+                        if(!playerConfig.contains(uuidString+".Skills."+fileName+"|"+key+".level")){
+                            playerConfig.set(uuidString+".Skills."+fileName+"|"+key+".level", base);
                         }
-                        if(!playerConfig.contains(uuidString+".Skills."+key+".use")){
-                            playerConfig.set(uuidString+".Skills."+key+".use", 0);
+                        if(!playerConfig.contains(uuidString+".Skills."+fileName+"|"+key+".use")){
+                            playerConfig.set(uuidString+".Skills."+fileName+"|"+key+".use", base);
                         }
                     });
                 }

@@ -1,0 +1,20 @@
+Novice:
+  Class_Name: '初心者'
+  Action:
+  - 'Default'
+  - 'Class'
+  - 'Class0'
+  Level:
+  - 'base'
+  - 'job'
+  Point:
+  - 'base'
+  - 'job'
+  Attributes_Point:
+  - 'Point_Novice'
+  Attributes_Stats:
+  - 'Stats_Ro_Novice'
+  Equipment_Stats:
+  - 'Stats_Equipment'
+  Skills:
+  - Novice_Novice

@@ -50,7 +50,8 @@ dependencies {
     shadow localGroovy()
     shadow gradleApi()
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.3-R0.1-SNAPSHOT'
-    compileOnly 'com.comphenix.protocol:ProtocolLib:4.6.0'
+    compileOnly 'com.comphenix.protocol:ProtocolLib:4.7.0-SNAPSHOT'
+    //compileOnly 'com.comphenix.protocol:ProtocolLib:4.6.0'
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.6'
     compileOnly 'org.serverct.ersha.jd:AttributePlus:2.2.5'
@@ -75,7 +76,7 @@ dependencies {
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.1-D.jar'])
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.3-D.jar'])
     compileOnly fileTree(dir: 'lib', include: ['spigot-1.16.5-D.jar'])
-
+    compileOnly fileTree(dir: 'lib', include: ['spigot-1.17-D.jar'])
 
     implementation 'com.discord4j:discord4j-core:3.1.5'
 
@@ -86,7 +87,7 @@ dependencies {
 
 
     group = 'com.daxton'
-    version = '1.16.11.2'
+    version = '1.16.13.2'
     description = 'CustomDisplay'
     sourceCompatibility = '1.8'
 

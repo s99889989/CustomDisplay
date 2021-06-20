@@ -39,7 +39,7 @@ public class PackListener implements Listener{
     public PackListener(){
 
             pm = ProtocolLibrary.getProtocolManager();
-            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE, PacketType.Play.Client.FLYING,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.CHAT, PacketType.Play.Server.ANIMATION, PacketType.Play.Server.LIGHT_UPDATE)) {
+            pm.addPacketListener(new PacketAdapter(PacketAdapter.params().plugin(cd).clientSide().serverSide().listenerPriority(ListenerPriority.NORMAL).gamePhase(GamePhase.PLAYING).optionAsync().options(ListenerOptions.SKIP_PLUGIN_VERIFIER).types(PacketType.Play.Server.TITLE ,PacketType.Play.Server.WORLD_PARTICLES,PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.CHAT, PacketType.Play.Server.ANIMATION, PacketType.Play.Server.LIGHT_UPDATE)) {
                 @Override
                 public void onPacketReceiving(PacketEvent event) {
                     PacketContainer packet = event.getPacket();

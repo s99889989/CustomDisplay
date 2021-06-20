@@ -1,0 +1,146 @@
+Skills:
+  Swordman_Endure:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 11
+    Name: '§e霸體(&self_class_skill_Swordman_Endure_now&/&self_class_skill_Swordman_Endure_max&)'
+    Lore:
+    - ''
+    - '§6使自身在受擊時不會有所停頓且不會被擊'
+    - '§6退，並提升&self_class_skill_Swordman_Endure_gui1&點魔法防禦，霸體狀態可'
+    - '§6持續&self_class_skill_Swordman_Endure_gui2&秒，在受擊&self_class_skill_Swordman_Endure_gui3&次後會立即解除狀態'
+    - ''
+    - '§6施法距離 : 1.0m'
+    - '§6技能冷卻 : 10.0秒'
+    - '§6技能延遲 : 1.0秒'
+    - '§6SP消耗 : 10'
+    BarName: '䂹'
+    NeedTarget: false
+    TargetDistance: 1
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Swordman_Endure]
+    
+  Swordman_MagnumBreak:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 12
+    Name: '§e怒爆(&self_class_skill_Swordman_MagnumBreak_now&/&self_class_skill_Swordman_MagnumBreak_max&)'
+    Lore:
+    - ''
+    - '§6擊退自身周圍所有敵對目標並造成（物理'
+    - '§6攻擊&self_class_skill_Swordman_MagnumBreak_gui&%）火屬性物理傷害。施放後普攻'
+    - '§6轉變為火屬性並獲得20%的物理攻擊傷害'
+    - '§6加成，效果持續10秒'
+    - ''
+    - '§6施法距離 : 1.5m'
+    - '§6技能延遲 : 2.0秒'
+    - '§6SP消耗 : 30'
+    BarName: '䂺'
+    NeedTarget: false
+    TargetDistance: 3
+    CoolDown: 4
+    CastTime: 0
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Swordman_MagnumBreak]
+    
+  Swordman_Provoke:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 13
+    Name: '§e挑釁(&self_class_skill_Swordman_Provoke_now&/&self_class_skill_Swordman_Provoke_max&)'
+    Lore:
+    - ''
+    - '§6挑釁敵方單位，使小範圍內魔物強制攻擊'
+    - '§6自己&self_class_skill_Swordman_Provoke_gui1&秒，並提升敵方攻擊&self_class_skill_Swordman_Provoke_gui2&%，降低敵'
+    - '§6方防禦&self_class_skill_Swordman_Provoke_gui3&%，強制攻擊對玩家無效'
+    - ''
+    - '§6施法距離 : 1.0m'
+    - '§6技能冷卻 : &self_class_skill_Swordman_Provoke_CD&秒'
+    - '§6技能延遲 : 1.0秒'
+    - '§6SP消耗 : &self_class_skill_Swordman_Provoke_Sp&'
+    BarName: '䂻'
+    NeedTarget: false
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 0
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Swordman_Provoke]
+    - Action[a=Swordman_Provoke2] @SelfRadius{R=3}
+    
+  Swordman_Bash:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 14
+    Name: '§e狂擊(&self_class_skill_Swordman_Bash_now&/&self_class_skill_Swordman_Bash_max&)'
+    Lore:
+    - ''
+    - '§6對敵方單體造成（物理攻擊&self_class_skill_Swordman_Bash_gui&%）物理傷'
+    - '§6害，技能等級達到5級以上時有30%眩'
+    - '§6目標'
+    - ''
+    - '§6施法距離 : 2.0m'
+    - '§6技能延遲: 1.0秒'
+    - '§6消耗SP: &self_class_skill_Swordman_Bash_Sp&'
+    BarName: '䂼'
+    NeedTarget: true
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 0
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Swordman_Bash] @Target
+    
+  Swordman_IncreaseRecuperativePower:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 15
+    Name: '§e快速回復(&self_class_skill_Swordman_Increase_Recuperative_Power_now&/&self_class_skill_Swordman_Increase_Recuperative_Power_max&)'
+    Lore:
+    - ''
+    - '§6永久提升HP自然恢復速度，每10秒恢復('
+    - '§6MaxHP*&self_class_skill_Swordman_IncreaseRecuperativePower_gui1&%+&self_class_skill_Swordman_IncreaseRecuperativePower_gui2&)，並且在使用HP恢復'
+    - '§6類道具時效果提升&self_class_skill_Swordman_IncreaseRecuperativePower_gui3&%'
+    BarName: '䂽'
+    PassiveSkill: true
+    NeedTarget: true
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Swordman_IncreaseRecuperativePower;mark=&self_name&Swordman_IncreaseRecuperativePower] ~onJoin
+    - Action[mark=&self_name&Swordman_IncreaseRecuperativePower;stop=true] ~onQuit
+    
+  Swordman_SwordMastery:
+    Base: 0
+    Material: 'COAL'
+    CustomModelData: 16
+    Name: '§e劍術修煉(&self_class_skill_Swordman_SwordMastery_now&/&self_class_skill_Swordman_SwordMastery_max&)'
+    Lore:
+    - ''
+    - '§6使用長劍類武器時物理攻擊增加&self_class_skill_Swordman_SwordMastery_gui1&，普攻'
+    - '§6攻擊力增加&self_class_skill_Swordman_SwordMastery_gui2&'
+    BarName: '䂾'
+    PassiveSkill: true
+    NeedTarget: true
+    TargetDistance: 3
+    CoolDown: 2
+    CastTime: 1
+    CastDelay: 0
+    Mana: 1
+    Action:
+    - Action[a=Swordman_SwordMastery] ~EqmCheck
+    
+
+
+

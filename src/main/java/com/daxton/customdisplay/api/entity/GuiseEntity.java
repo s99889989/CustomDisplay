@@ -154,6 +154,9 @@ public class GuiseEntity {
             case "v1_16_R3":
                 packet = com.daxton.customdisplay.nms.v1_16_R3.packet.ArmorStand.setArmorStandAngle(this.entityID, type, x, y, z);
                 break;
+            case "v1_17_R1":
+                packet = com.daxton.customdisplay.nms.v1_17_R1.packet.ArmorStand.setArmorStandAngle(this.entityID, type, x, y, z);
+                break;
         }
 
         if(packet != null){

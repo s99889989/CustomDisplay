@@ -21,6 +21,7 @@ import com.daxton.customdisplay.manager.player.EditorGUIManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -221,7 +222,7 @@ public class PlayerListener implements Listener {
 
     }
 
-    /**當玩家點擊時**/
+    //當玩家點擊時
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
 
@@ -229,6 +230,7 @@ public class PlayerListener implements Listener {
 
         Player player = event.getPlayer();
         Action action = event.getAction();
+        Block block = event.getClickedBlock();
 
         if(action == Action.LEFT_CLICK_AIR){
             if(getItemLeftCoodDown(player)){
@@ -256,6 +258,44 @@ public class PlayerListener implements Listener {
                 //CustomDisplay.getCustomDisplay().getLogger().info(equipmentSlot.toString()+"~rightclickair");
             }
             if(action == Action.RIGHT_CLICK_BLOCK){
+
+                if (block != null) {
+                    if(block.getType().toString().endsWith("_BUTTON")){
+                        String worldName = block.getWorld().getName();
+
+                        int x = (int) block.getLocation().getX();
+                        int y = (int) block.getLocation().getY();
+                        int z = (int) block.getLocation().getZ();
+
+                        PlayerTrigger.onPlayer(player, null, "~onbutton"+worldName+x+y+z);
+                    }
+
+                    if(block.getType() == Material.LEVER){
+                        String worldName = block.getWorld().getName();
+
+                        int x = (int) block.getLocation().getX();
+                        int y = (int) block.getLocation().getY();
+                        int z = (int) block.getLocation().getZ();
+
+                        String test = block.getBlockData().toString();
+                        int start = test.indexOf("powered=")+8;
+                        int end = test.indexOf("]", start);
+                        String name = test.substring(start, end);
+                        boolean bb = Boolean.parseBoolean(name);
+
+                        if(bb){
+                            //cd.getLogger().info("~onleveron"+worldName+x+y+z);
+                            PlayerTrigger.onPlayer(player, null, "~onleveron"+worldName+x+y+z);
+                        }else {
+                            //cd.getLogger().info("~onleveroff"+worldName+x+y+z);
+                            PlayerTrigger.onPlayer(player, null, "~onleveroff"+worldName+x+y+z);
+                        }
+                        //cd.getLogger().info(worldName);
+                        // player.sendMessage("拉感: "+name+" : "+x+" : "+y+" : "+z);
+                    }
+
+                }
+
                 if(getItemRightCoodDown(player)){
                     event.setCancelled(true);
                     return;
@@ -266,8 +306,23 @@ public class PlayerListener implements Listener {
         }
 
 
+
         if(action == Action.PHYSICAL){
-            PlayerTrigger.onPlayer(player, null, "~pressureplate");
+
+            if (block != null) {
+                if(block.getType().toString().endsWith("_PRESSURE_PLATE")){
+                    String worldName = block.getWorld().getName();
+
+                    int x = (int) block.getLocation().getX();
+                    int y = (int) block.getLocation().getY();
+                    int z = (int) block.getLocation().getZ();
+                    //cd.getLogger().info("~pressureplate"+worldName+x+y+z);
+                    PlayerTrigger.onPlayer(player, null, "~pressureplate"+worldName+x+y+z);
+                }
+
+
+            }
+
         }
 
 
@@ -275,87 +330,95 @@ public class PlayerListener implements Listener {
     //左鍵CD
     public boolean getItemLeftCoodDown(Player player){
         boolean coodB = false;
+        try {
+            String uuidString = player.getUniqueId().toString();
+            ItemStack itemStack = player.getInventory().getItemInMainHand();
+            if(itemStack.getType() != Material.AIR){
+                String coolDownString = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "CoolDownLeftClick"), PersistentDataType.STRING);
 
-        String uuidString = player.getUniqueId().toString();
-        ItemStack itemStack = player.getInventory().getItemInMainHand();
-        if(itemStack.getType() != Material.AIR){
-            String coolDownString = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "CoolDownLeftClick"), PersistentDataType.STRING);
+                if(coolDownString != null){
+                    int coolDown = StringConversion.getInt(player, null, 0, coolDownString);
+                    //player.sendMessage("左CD: "+coolDown);
 
-            if(coolDownString != null){
-                int coolDown = StringConversion.getInt(player, null, 0, coolDownString);
-                //player.sendMessage("左CD: "+coolDown);
-
-                if(PlayerManager.item_Delay_Left_Boolean_Map.get(uuidString) != null){
-                    coodB = PlayerManager.item_Delay_Left_Boolean_Map.get(uuidString);
-                }
-                if(coolDown > 0){
-
-                    if(PlayerManager.item_Delay_Left_Run_Map.get(uuidString) == null){
-                        player.setCooldown(itemStack.getType(),coolDown);
-                        PlayerManager.item_Delay_Left_Boolean_Map.put(uuidString, true);
-
-                        PlayerManager.item_Delay_Left_Run_Map.put(uuidString, new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                cancel();
-                                PlayerManager.item_Delay_Left_Run_Map.remove(uuidString);
-                                PlayerManager.item_Delay_Left_Boolean_Map.put(uuidString, false);
-                            }
-                        });
-
-                        PlayerManager.item_Delay_Left_Run_Map.get(uuidString).runTaskLater(cd, coolDown);
+                    if(PlayerManager.item_Delay_Left_Boolean_Map.get(uuidString) != null){
+                        coodB = PlayerManager.item_Delay_Left_Boolean_Map.get(uuidString);
                     }
+                    if(coolDown > 0){
 
+                        if(PlayerManager.item_Delay_Left_Run_Map.get(uuidString) == null){
+                            player.setCooldown(itemStack.getType(),coolDown);
+                            PlayerManager.item_Delay_Left_Boolean_Map.put(uuidString, true);
+
+                            PlayerManager.item_Delay_Left_Run_Map.put(uuidString, new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    cancel();
+                                    PlayerManager.item_Delay_Left_Run_Map.remove(uuidString);
+                                    PlayerManager.item_Delay_Left_Boolean_Map.put(uuidString, false);
+                                }
+                            });
+
+                            PlayerManager.item_Delay_Left_Run_Map.get(uuidString).runTaskLater(cd, coolDown);
+                        }
+
+                    }
                 }
-            }
 
+            }
+        }catch (NoSuchMethodError exception){
+            //
         }
+
 
         return coodB;
     }
     //右鍵CD
     public boolean getItemRightCoodDown(Player player){
         boolean coodB = false;
+        try {
+            String uuidString = player.getUniqueId().toString();
+            ItemStack itemStack = player.getInventory().getItemInMainHand();
+            if(itemStack.getType() != Material.AIR){
+                String coolDownString = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "CoolDownRightClick"), PersistentDataType.STRING);
 
-        String uuidString = player.getUniqueId().toString();
-        ItemStack itemStack = player.getInventory().getItemInMainHand();
-        if(itemStack.getType() != Material.AIR){
-            String coolDownString = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(cd, "CoolDownRightClick"), PersistentDataType.STRING);
+                if(coolDownString != null){
+                    int coolDown = StringConversion.getInt(player, null, 0, coolDownString);
+                    //player.sendMessage("右CD: "+coolDown);
 
-            if(coolDownString != null){
-                int coolDown = StringConversion.getInt(player, null, 0, coolDownString);
-                //player.sendMessage("右CD: "+coolDown);
-
-                if(PlayerManager.item_Delay_Right_Boolean_Map.get(uuidString) != null){
-                    coodB = PlayerManager.item_Delay_Right_Boolean_Map.get(uuidString);
-                }
-                if(coolDown > 0){
-
-                    if(PlayerManager.item_Delay_Right_Run_Map.get(uuidString) == null){
-                        player.setCooldown(itemStack.getType(),coolDown);
-                        PlayerManager.item_Delay_Right_Boolean_Map.put(uuidString, true);
-
-                        PlayerManager.item_Delay_Right_Run_Map.put(uuidString, new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                cancel();
-                                PlayerManager.item_Delay_Right_Run_Map.remove(uuidString);
-                                PlayerManager.item_Delay_Right_Boolean_Map.put(uuidString, false);
-                            }
-                        });
-
-                        PlayerManager.item_Delay_Right_Run_Map.get(uuidString).runTaskLater(cd, coolDown);
+                    if(PlayerManager.item_Delay_Right_Boolean_Map.get(uuidString) != null){
+                        coodB = PlayerManager.item_Delay_Right_Boolean_Map.get(uuidString);
                     }
+                    if(coolDown > 0){
 
+                        if(PlayerManager.item_Delay_Right_Run_Map.get(uuidString) == null){
+                            player.setCooldown(itemStack.getType(),coolDown);
+                            PlayerManager.item_Delay_Right_Boolean_Map.put(uuidString, true);
+
+                            PlayerManager.item_Delay_Right_Run_Map.put(uuidString, new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    cancel();
+                                    PlayerManager.item_Delay_Right_Run_Map.remove(uuidString);
+                                    PlayerManager.item_Delay_Right_Boolean_Map.put(uuidString, false);
+                                }
+                            });
+
+                            PlayerManager.item_Delay_Right_Run_Map.get(uuidString).runTaskLater(cd, coolDown);
+                        }
+
+                    }
                 }
-            }
 
+            }
+        }catch (NoSuchMethodError exception){
+            //
         }
+
 
         return coodB;
     }
 
-    /**當經驗值改變時**/
+    //當經驗值改變時
     @EventHandler
     public void onExpChange(PlayerExpChangeEvent event){
         Player player = event.getPlayer();
@@ -367,7 +430,7 @@ public class PlayerListener implements Listener {
         PlayerTrigger.onPlayer(player, null, "~onexpup");
     }
 
-    /**當等級改變時**/
+    //當等級改變時
     @EventHandler
     public void onLevelChange(PlayerLevelChangeEvent event){
         Player player = event.getPlayer();
@@ -386,7 +449,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    /**當玩家聊天**/
+    //當玩家聊天
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
@@ -483,7 +546,7 @@ public class PlayerListener implements Listener {
     }
 
 
-    /**當玩家回血**/
+    //當玩家回血
     @EventHandler
     public void onRegainHealth(EntityRegainHealthEvent event){
         Entity entity = event.getEntity();
@@ -493,7 +556,7 @@ public class PlayerListener implements Listener {
         }
 
     }
-    /**當玩移動**/
+    //當玩移動
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
 
@@ -503,7 +566,7 @@ public class PlayerListener implements Listener {
 
 
     }
-    /**當玩家死亡**/
+    //當玩家死亡
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event){
         Player player = event.getEntity().getPlayer();
@@ -527,7 +590,7 @@ public class PlayerListener implements Listener {
 
 
     }
-    /**當蹲下時**/
+    //當蹲下時
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event){
         Player player = event.getPlayer();
@@ -540,7 +603,7 @@ public class PlayerListener implements Listener {
 
     }
 
-    /**當重生時**/
+    //當重生時
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event){
         Player player = event.getPlayer();
@@ -599,7 +662,7 @@ public class PlayerListener implements Listener {
 
 
 
-    /**當按下切換1~9時**/
+    //當按下切換1~9時
     @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event){
         Player player = event.getPlayer();

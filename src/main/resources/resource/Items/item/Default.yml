@@ -6,7 +6,7 @@ Menu:
   - 'null:Action[Action=ItemEditMenu;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock '
 Personal_Information_Novice:
   Material: COAL
-  CustomModelData: 300
+  CustomModelData: 7
   DisplayName: §ePersonal information
   Action:
   - 'null:SwitchAction[cc=&self_class_name&;ct=equals;c=初心者|弓箭手|劍士|魔法師;a=Open_Gui_Player_Total_0|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1|Open_Gui_Player_Total_1]

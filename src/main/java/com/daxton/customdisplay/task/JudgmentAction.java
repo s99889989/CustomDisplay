@@ -279,11 +279,16 @@ public class JudgmentAction {
 
         //OrbitalAttack的相關判斷
         if(judgMent.equals("orbital")){
+
             if(ActionManager.judgment_OrbitalAction_Map2.get(taskID) == null){
                 ActionManager.judgment_OrbitalAction_Map2.put(taskID, new OrbitalAction3());
                 ActionManager.judgment_OrbitalAction_Map2.get(taskID).setParabolicAttack(self,target,action_Map,taskID);
             }else {
-                ActionManager.judgment_OrbitalAction_Map2.get(taskID).cancel();
+                try {
+                    ActionManager.judgment_OrbitalAction_Map2.get(taskID).cancel();
+                }catch (IllegalStateException exception){
+                    //
+                }
                 ActionManager.judgment_OrbitalAction_Map2.remove(taskID);
 
                 ActionManager.judgment_OrbitalAction_Map2.put(taskID, new OrbitalAction3());

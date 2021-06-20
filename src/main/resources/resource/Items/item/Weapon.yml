@@ -22,7 +22,7 @@ explode:
   - 爆光:Action[Action=Explode;Count=1;CountPeriod=10;Stop=false] ~RightClickAir
   - null:Action[Action=Explode;Count=1;CountPeriod=10;Stop=false] ~RightClickBlock
 light2:
-  Material: COAL
+  Material: feather
   DisplayName: 閃光2
   CustomModelData: 498
   CoolDown:

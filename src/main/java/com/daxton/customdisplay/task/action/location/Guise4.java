@@ -115,6 +115,16 @@ public class Guise4 {
                 guiseEntity.delete();
                 ActionManager.guise_Map.remove(taskID+mark);
             }
+            if (duration > 0) {
+                BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        guiseEntity.delete();
+                        ActionManager.guise_Map.remove(taskID+mark);
+                    }
+                };
+                bukkitRunnable.runTaskLater(cd, duration);
+            }
 
         }
 

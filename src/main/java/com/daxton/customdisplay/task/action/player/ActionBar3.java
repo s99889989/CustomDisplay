@@ -51,11 +51,15 @@ public class ActionBar3 {
 
 
     public static void sendActionBar(Player player,String message){
-
-        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
+        try {
             sendPacket(player, message, ACTIONBAR, 1, 1, 1);
-        }else {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+        }catch (IllegalArgumentException exception){
+            try {
+                player.sendActionBar(message);
+            }catch (NoSuchMethodError exception2){
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+            }
+
         }
 
     }

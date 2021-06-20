@@ -56,7 +56,7 @@ public class Action3 {
                                 //String uuidString = livingEntity.getUniqueId().toString();
                                 ActionMapHandle actionMapHandle2 = new ActionMapHandle(action_Map, self, livingEntity);
                                 //動作標記
-                                String taskID = actionMapHandle2.getString(new String[]{"m","mark"}, inTaskID);
+                                String taskID = actionMapHandle2.getString(new String[]{"m","mark"}, String.valueOf((int)(Math.random()*100000)));
                                 startAction(action_Map_List, taskID, self, livingEntity, stop); //+uuidString+(int)(Math.random()*1000)
 
                             }
@@ -78,7 +78,7 @@ public class Action3 {
                     //String uuidString = livingEntity.getUniqueId().toString();
                     ActionMapHandle actionMapHandle2 = new ActionMapHandle(action_Map, self, livingEntity);
                     //動作標記
-                    String taskID2 = actionMapHandle2.getString(new String[]{"m","mark"}, inTaskID);
+                    String taskID2 = actionMapHandle2.getString(new String[]{"m","mark"}, String.valueOf((int)(Math.random()*100000)));
                     startAction(action_Map_List, taskID2, self, livingEntity, stop);
                 }
             }else {

@@ -23,26 +23,57 @@ import java.util.UUID;
 public class CustomButtomSet {
 
     public static ItemStack setSkillButtom(LivingEntity self, LivingEntity target, String key){
-        ItemStack customItem;
-        FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_Skills_"+key+".yml");
+        ItemStack customItem = null;
+        String[] keyArray = key.split("\\|");
 
-        String itemMaterial = skillConfig.getString(key+".Material");
-        int cmd = skillConfig.getInt(key+".CustomModelData");
-        String itemName = skillConfig.getString(key+".Name");
-        itemName = ConversionMain.valueOf(self, target, itemName);
-        List<String> itemLore = skillConfig.getStringList(key+".Lore");
-        List<String> itemLore2 = new ArrayList<>();
-        itemLore.forEach(s -> {
-            itemLore2.add(ConversionMain.valueOf(self, target, s));
-        });
-        Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+        if(keyArray.length == 2){
 
-        customItem = new ItemStack(material);
-        ItemMeta im = customItem.getItemMeta();
-        im.setDisplayName(itemName);
-        im.setCustomModelData(cmd);
-        im.setLore(itemLore2);
-        customItem.setItemMeta(im);
+            String fileName = keyArray[0];
+            FileConfiguration skillConfig = ConfigMapManager.getFileConfigurationMap().get("Class_Skill_"+fileName+".yml");
+            if(skillConfig != null){
+
+                String skilName = keyArray[1];
+
+                String itemMaterial = skillConfig.getString("Skills."+skilName+".Material");
+                if(itemMaterial != null){
+                    try {
+                        Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+                        customItem = new ItemStack(material);
+                    }catch (Exception exception){
+                        customItem = new ItemStack(Material.STONE);
+                    }
+                }
+
+
+                int cmd = skillConfig.getInt("Skills."+skilName+".CustomModelData");
+
+                String itemName = skillConfig.getString("Skills."+skilName+".Name");
+
+                itemName = ConversionMain.valueOf(self, target, itemName);
+
+                List<String> itemLore = skillConfig.getStringList("Skills."+skilName+".Lore");
+
+                List<String> itemLore2 = new ArrayList<>();
+
+                itemLore.forEach(s -> itemLore2.add(ConversionMain.valueOf(self, target, s)));
+
+                if(customItem != null){
+                    ItemMeta im = customItem.getItemMeta();
+
+                    im.setDisplayName(itemName);
+
+                    im.setCustomModelData(cmd);
+
+                    im.setLore(itemLore2);
+
+                    customItem.setItemMeta(im);
+                }
+
+
+            }
+
+        }
+
 
         return customItem;
     }
@@ -83,35 +114,38 @@ public class CustomButtomSet {
 
         List<String> itemLore = itemConfig.getStringList("Buttons."+key+".Lore");
         List<String> nextItemLore = new ArrayList<>();
-        itemLore.forEach((line) -> {
-            nextItemLore.add(ChatColor.GRAY + line);
-        });
+        itemLore.forEach((line) -> nextItemLore.add(ChatColor.GRAY + line));
         List<String> lastItemLore = new ArrayList<>();
-        nextItemLore.forEach((line) -> {
-            lastItemLore.add(ChatColor.GRAY + ConversionMain.valueOf(self, target, line));
-        });
+        nextItemLore.forEach((line) -> lastItemLore.add(ChatColor.GRAY + ConversionMain.valueOf(self, target, line)));
 
-        Material material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+        Material material = Material.STONE;
+        if (itemMaterial != null) {
+            try {
+                material = Enum.valueOf(Material.class,itemMaterial.replace(" ","").toUpperCase());
+            }catch (Exception exception){
+                //
+            }
+
+        }
 
         customItem = new ItemStack(material);
 
-
-        if(itemMaterial.contains("PLAYER_HEAD")){
+        if (itemMaterial != null && itemMaterial.contains("PLAYER_HEAD")) {
             SkullMeta skullMeta = (SkullMeta) customItem.getItemMeta();
-            String headValue = itemConfig.getString("Buttons."+key+".HeadValue");
-            if(headValue != null){
-                if(headValue.length() < 50){
+            String headValue = itemConfig.getString("Buttons." + key + ".HeadValue");
+            if (headValue != null) {
+                if (headValue.length() < 50) {
                     headValue = ConversionMain.valueOf(self, target, headValue);
                     OfflinePlayer targetPlayer = self.getServer().getOfflinePlayer(headValue);
                     skullMeta.setOwningPlayer(targetPlayer);
                     customItem.setItemMeta(skullMeta);
-                }else {
+                } else {
                     try {
                         PlayerProfile playerProfile = Bukkit.createProfile(UUID.randomUUID(), null);
                         playerProfile.getProperties().add(new ProfileProperty("textures", headValue));
                         skullMeta.setPlayerProfile(playerProfile);
                         customItem.setItemMeta(skullMeta);
-                    }catch (Exception exception){
+                    } catch (Exception exception) {
                         cd.getLogger().info("頭的值只能在paper伺服器使用。");
                         cd.getLogger().info("The value of the header can only be used on the paper server.");
                     }
