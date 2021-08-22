@@ -5,6 +5,7 @@ import com.daxton.customdisplay.api.MobData;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.MobManager;
 import com.daxton.customdisplay.manager.PlaceholderManager;
+import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 
@@ -35,7 +36,9 @@ public class PlaceholderMythic {
             //獲取MM魔物等級
             if(inputString.toLowerCase().contains("<cd_mythic_level")){
                 if(MobManager.mythicMobs_Level_Map.get(uuidString) != null){
-                    outputString = MobManager.mythicMobs_Level_Map.get(uuidString);
+                    ActiveMob activeMob = MobManager.mythicMobs_ActiveMob_Map.get(uuidString);
+                    outputString = String.valueOf(activeMob.getLevel());
+                    //outputString = MobManager.mythicMobs_Level_Map.get(uuidString);
                 }
             }
             //獲取MM魔物派系

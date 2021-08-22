@@ -1,6 +1,5 @@
 package com.daxton.customdisplay.task.action.entity;
 
-import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.action.ActionMapHandle;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.skills.Skill;
@@ -23,39 +22,24 @@ public class MythicAction3 {
         if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") == null){
             return;
         }
-
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
-
         String skillName = actionMapHandle.getString(new String[]{"skill","s"},"SmashAttack");
-
         List<LivingEntity> targetList = actionMapHandle.getLivingEntityListTarget();
-
         setOther(self, targetList, skillName);
     }
 
     public static void setOther(LivingEntity self,List<LivingEntity> targetList,String skillName){
-
-
         Optional<Skill> opt = MythicMobs.inst().getSkillManager().getSkill(skillName);
-
         if(!(opt.isPresent())){
             return;
         }
-
         Skill skill = opt.get();
-
         useMythicAction(self,skill,targetList);
     }
 
-
     public static void useMythicAction(LivingEntity self,Skill skill,List<LivingEntity> targetList){
-        List<Entity> entityList = new ArrayList<>();
-        targetList.forEach(livingEntity -> entityList.add(livingEntity));
-
+        List<Entity> entityList = new ArrayList<>(targetList);
         MythicMobs.inst().getAPIHelper().castSkill(self, skill.getInternalName(), self, self.getOrigin(), entityList, null, 1.0F);
-
     }
-
-
 
 }

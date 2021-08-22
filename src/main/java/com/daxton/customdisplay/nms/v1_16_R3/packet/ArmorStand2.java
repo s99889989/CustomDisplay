@@ -4,12 +4,13 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.daxton.customdisplay.nms.v1_16_R3.unit.Vector3;
-import net.minecraft.server.v1_16_R3.Vector3f;
+import com.daxton.customdisplay.api.other.Vector3f;
+import com.daxton.customdisplay.nms.v1_16_R3.unit.Vector32;
 import org.bukkit.util.EulerAngle;
 
-public class ArmorStand {
+public class ArmorStand2 {
 
-    public ArmorStand(){
+    public ArmorStand2(){
 
     }
 
@@ -24,7 +25,7 @@ public class ArmorStand {
 
         EulerAngle eulerAngle = new EulerAngle(Math.toRadians(x), Math.toRadians(y), Math.toRadians(z));
 
-        Vector3f vector3f = Vector3.getVector3f(eulerAngle);
+        Vector3f vector3f = Vector32.getVector3f(eulerAngle);
 
         switch (type.toLowerCase()){
             case "head":

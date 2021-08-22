@@ -8,9 +8,13 @@ import com.daxton.customdisplay.api.gui.MenuSet;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigManager {
 
@@ -26,9 +30,18 @@ public class ConfigManager {
 
 //        MythicLineConfig mythicLineConfig = null;
 //        mythicLineConfig.getString(new String[]{"auranme"},null, new String[0]);
-
-
+        List<String> worldName = new ArrayList<>();
+        Bukkit.getServer().getWorlds().forEach(world -> worldName.add(world.getName()));
         config = new AutoConfig("resource/config.yml","config.yml").get();
+        config.set("World.List", worldName);
+        //cd.saveConfig();
+
+        try {
+            config.save(new File(cd.getDataFolder(),"config.yml"));
+        }catch (IOException exception){
+            exception.printStackTrace();
+        }
+
 
         //language = new AutoConfig("resource/Language/"+config.getString("Language")+".yml","Language/"+config.getString("Language")+".yml").get();
 

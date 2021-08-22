@@ -28,31 +28,6 @@ import static org.bukkit.Particle.*;
 
 public class SendParticles3 {
 
-    private CustomDisplay cd = CustomDisplay.getCustomDisplay();
-
-    private String taskID = "";
-    private LivingEntity self = null;
-    private LivingEntity target = null;
-    private Map<String, String> action_Map;
-
-
-    private String function = "";
-    private Particle putParticle;
-    private BlockData blockData;
-    private ItemStack itemData;
-
-    private DustOptions color = new DustOptions(fromRGB(0xFF0000), 1);
-    private Location location = new Location(Bukkit.getWorld("world"),0,0,0);
-    private double extra = 0;
-    private int count = 10;
-    private double x = 0;
-    private double y = 0;
-    private double z = 0;
-    private double xOffset = 0;
-    private double yOffset = 0;
-    private double zOffset = 0;
-
-
     public SendParticles3(){
 
 

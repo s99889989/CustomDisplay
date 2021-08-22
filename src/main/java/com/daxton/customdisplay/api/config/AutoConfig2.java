@@ -21,7 +21,12 @@ public class AutoConfig2 {
     }
 
     public static void config(){
-        File testFile = new File("plugins/CustomDisplay-1.16.13.2.jar");
+        String name = CustomDisplay.getCustomDisplay().getClass().getResource("").getPath();
+        name = name.substring(name.indexOf("plugins/"),name.indexOf(".jar!"));
+
+        //CustomDisplay.getCustomDisplay().getLogger().info("路徑 "+name+".jar");
+        File testFile = new File(name+".jar");
+        //File testFile = new File("plugins/CustomDisplay-1.16.13.2.jar");
         try {
             List<String> testList = readZipFile(testFile.toString());
 
@@ -54,6 +59,7 @@ public class AutoConfig2 {
                                 FileConfiguration saveFileConfig2 = YamlConfiguration.loadConfiguration(saveFilePatch2);
                                 ConfigMapManager.getFileConfigurationMap().put(fileMap, saveFileConfig2);
                                 ConfigMapManager.getFileConfigurationNameMap().put(fileMap,fileMap);
+
 
                             }else if(!fileName2.contains(".")){
                                 File patch3 = new File(cd.getDataFolder(),fileName1+"/"+fileName2);

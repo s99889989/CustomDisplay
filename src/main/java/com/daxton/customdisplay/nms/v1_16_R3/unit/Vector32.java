@@ -1,11 +1,11 @@
-package com.daxton.customdisplay.nms.v1_17_R1.unit;
+package com.daxton.customdisplay.nms.v1_16_R3.unit;
 
-import net.minecraft.core.Vector3f;
+import com.daxton.customdisplay.api.other.Vector3f;
 import org.bukkit.util.EulerAngle;
 
-public class Vector3 {
+public class Vector32 {
 
-    public Vector3(){
+    public Vector32(){
 
     }
 

@@ -148,6 +148,7 @@ public class ItemList {
             inventory.setItem(i, new ItemStack(stringArray[k]));
             i++;
             this.nextPageCount++;
+
         }
 
         this.haveNext = false;

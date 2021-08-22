@@ -1,5 +1,6 @@
 package com.daxton.customdisplay.listener.mythicmobs;
 
+import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.entity.Convert;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
 import com.daxton.customdisplay.manager.MobManager;
@@ -8,6 +9,7 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobLootDropEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import io.lumine.xikage.mythicmobs.spawning.random.RandomSpawner;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,14 +18,14 @@ import org.bukkit.event.Listener;
 public class MythicMobSpawnListener implements Listener {
 
 
-
-
     @EventHandler
     public void onMythicMobSpawn(MythicMobSpawnEvent event){
 
         try {
             ActiveMob activeMob = event.getMob();
             double mobLevel = event.getMobLevel();
+
+            //CustomDisplay.getCustomDisplay().getLogger().info("LEVLE:"+event.getMobLevel()+" : "+activeMob.getLevel());
             if(activeMob != null){
 
                 String mobID = activeMob.getMobType();

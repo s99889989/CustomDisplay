@@ -9,29 +9,23 @@ import com.daxton.customdisplay.command.MainCommand;
 import com.daxton.customdisplay.command.TabCommand;
 import com.daxton.customdisplay.config.ConfigManager;
 import com.daxton.customdisplay.listener.bukkit.*;
-import com.daxton.customdisplay.listener.mythicmobs.ModelEngineListener;
-import com.daxton.customdisplay.listener.mythicmobs.MythicMobSpawnListener;
-import com.daxton.customdisplay.listener.protocollib.PackListener;
 import com.daxton.customdisplay.manager.ActionManager;
 import com.daxton.customdisplay.manager.ConfigMapManager;
 import com.daxton.customdisplay.manager.DiscordManager;
 import com.daxton.customdisplay.manager.player.PlayerManager;
-import com.daxton.customdisplay.otherfunctions.CreatJson;
-import com.daxton.customdisplay.otherfunctions.CreateFontJson;
+import com.daxton.customdisplay.otherfunctions.*;
 import com.daxton.customdisplay.task.ClearAction;
 import com.daxton.customdisplay.task.RunTask;
 import discord4j.core.DiscordClientBuilder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -47,6 +41,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
     public static final int IDX = 233;
     public static final String channel = "msgtutor:test";
 
+    public static BaseSocketClient cc;
 
     @Override
     public void onEnable() {
@@ -55,6 +50,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
         if(!LoadOtherPlugin.load(customDisplay)){
             this.setEnabled(false);
+            //this.onDisable();
             return;
         }
 
@@ -76,6 +72,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
         //基礎監聽
         Bukkit.getPluginManager().registerEvents(new AttackedListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(),customDisplay);
+        Bukkit.getPluginManager().registerEvents(new EquipmentListener(),customDisplay);
         Bukkit.getPluginManager().registerEvents(new MobListener(),customDisplay);
 
         //設定動作
@@ -100,9 +97,11 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
         }
 
+
         //建立Json檔案
-        CreatJson.createMain();
-        CreatJson.createAll();
+        //CreatJson.createMain();
+        //CreatJson.createAll();
+        //CreateFile.create();
         //持續執行的動作  例如回魔
         FileConfiguration fileConfiguration = ConfigMapManager.getFileConfigurationMap().get("config.yml");
         String skill = fileConfiguration.getString("AttackCore");
@@ -110,10 +109,41 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
             RunTask.run20(customDisplay);
         }
 
+        BukkitRunnable bukkitRunnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                cc = new BaseSocketClient("127.0.0.1", 9799);
+                try {
+                    cc.connetServer();
+                    cc.send("Connect");
+                }catch (IOException e) {
+                    customDisplay.getLogger().info("Non use editor");
+                }
+            }
+        };
+        bukkitRunnable.run();
+
+
+//        BukkitRunnable bukkitRunnable2 = new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//                sendMessage("Test");
+//            }
+//        };
+//        bukkitRunnable2.runTaskTimer(this, 0 ,20);
+
 
     }
 
-    public void setCore(){
+
+    public static void sendMessage(String message){
+        if(cc != null && !BaseSocketClient.disconnected){
+            try {
+                cc.send(message);
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -174,6 +204,7 @@ public final class CustomDisplay extends JavaPlugin implements Listener {
 
 
     /**複寫saveResource的存檔位置，因為位置是讀取jar內的，所以要去除resource/**/
+
     public void saveResource(String resourcePath,String savePath, boolean replace) {
         if (resourcePath == null || resourcePath.equals("")) {
             throw new IllegalArgumentException("ResourcePath cannot be null or empty");

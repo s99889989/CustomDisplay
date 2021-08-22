@@ -4,8 +4,8 @@ package com.daxton.customdisplay.listener.bukkit;
 import com.daxton.customdisplay.CustomDisplay;
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
 import com.daxton.customdisplay.api.config.SaveConfig;
+import com.daxton.customdisplay.api.entity.GuiseEntity;
 import com.daxton.customdisplay.api.gui.CustomGuiSet;
-import com.daxton.customdisplay.api.item.*;
 import com.daxton.customdisplay.api.other.ResourcePackSend;
 import com.daxton.customdisplay.api.other.StringConversion;
 import com.daxton.customdisplay.api.player.PlayerTrigger;
@@ -39,9 +39,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-
 import java.util.*;
-
 
 public class PlayerListener implements Listener {
 
@@ -49,13 +47,20 @@ public class PlayerListener implements Listener {
 
     private final ConfigManager configManager = cd.getConfigManager();
 
-    /**登入時**/
+    //登入時
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
 
         Player player = event.getPlayer();
         String uuidString = player.getUniqueId().toString();
 
+
+        CustomDisplay.sendMessage("PlayerJoinEvent;"+player.getName());
+//        try {
+//            CustomDisplay.cc.send("PlayerJoinEvent;"+player.getName());
+//        }catch (IOException exception){
+//            exception.printStackTrace();
+//        }
 
         //設定玩家血量顯示愛心數
         if(configManager.config.getBoolean("HealthScale.enable")){
@@ -68,15 +73,22 @@ public class PlayerListener implements Listener {
         ResourcePackSend.send(player,null);
         //設定按鍵F
         ListenerManager.getCast_On_Stop().put(uuidString,false);
-        //讀取物品屬性
-        PlayerEquipment2.reloadEquipment(player,10);
         //登入觸發動作
         PlayerTrigger.onPlayer(player, null, "~onjoin");
     }
+
+
+
     //登出時
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
+        CustomDisplay.sendMessage("PlayerQuitEvent;"+player.getName());
+//        try {
+//            CustomDisplay.cc.send("PlayerQuitEvent;"+player.getName());
+//        }catch (IOException exception){
+//            exception.printStackTrace();
+//        }
         UUID playerUUID = player.getUniqueId();
         String uuidString = playerUUID.toString();
         EditorGUIManager.custom_Inventory_Boolean_Map.put(uuidString, false);
@@ -715,36 +727,19 @@ public class PlayerListener implements Listener {
             }
         }
 
-
-        //讀取屬性
-        boolean fOn = ListenerManager.getCast_On_Stop().get(uuidString);
-        if(!fOn){
-            if(key != key2){
-                PlayerEquipment2.reloadEquipment(player,key);
-            }
-        }
-
     }
 
-    /**關閉背包**/
+    //關閉背包
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
         Player player = (Player) event.getPlayer();
         String uuidString = player.getUniqueId().toString();
         EditorGUIManager.custom_Inventory_Boolean_Map.put(uuidString, false);
         EditorGUIManager.custom_Inventory_GuiID_Map.remove(uuidString);
-        //讀取屬性
-        if(ListenerManager.getCast_On_Stop().get(uuidString) != null){
-            boolean fOn = ListenerManager.getCast_On_Stop().get(uuidString);
-            if(!fOn){
-                PlayerEquipment2.reloadEquipment(player,10);
-            }
-        }
-
 
     }
 
-    /**材質包狀態**/
+    //材質包狀態
     @EventHandler
     public void onResourcePack(PlayerResourcePackStatusEvent event){
         Player player = event.getPlayer();

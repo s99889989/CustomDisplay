@@ -118,7 +118,6 @@ public class DirectionLocation {
             yaw  = (90 + (angle)  * Math.PI) / 180;
         }
 
-
         double x = Math.sin(pitch) * Math.cos(yaw);
         double y = Math.cos(pitch);
         double z = Math.sin(pitch) * Math.sin(yaw);

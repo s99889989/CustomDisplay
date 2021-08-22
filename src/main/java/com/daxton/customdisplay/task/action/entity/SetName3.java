@@ -27,7 +27,7 @@ public class SetName3 {
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        boolean always = actionMapHandle.getBoolean(new String[]{"always"}, false);
+        boolean always = actionMapHandle.getBoolean(new String[]{"a","always"}, false);
 
         List<LivingEntity> livingEntityList = actionMapHandle.getLivingEntityListTarget();
 

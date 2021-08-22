@@ -166,11 +166,10 @@ public class GuiseEntity {
         }
     }
 
-
     //裝備目標生物
     public void appendItem(String itemID, String itemSlot){
         String minecraftVersion = NMSVersion.getMinecraftVersion();
-        if(minecraftVersion.equals("1.16.5")){
+        if(minecraftVersion.equals("1.16.5") || minecraftVersion.equals("1.17")){
             appendItem16(itemID, itemSlot);
         }else {
             appendItem15(itemID, itemSlot);
@@ -242,33 +241,28 @@ public class GuiseEntity {
     //設置目標生物是否可見
     public void setVisible(boolean b){
         this.visible = b;
-        PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
-        packet.getModifier().writeDefaults();
-        packet.getIntegers().write(0, entityID);
-        WrappedDataWatcher dataWatcher = new WrappedDataWatcher(packet.getWatchableCollectionModifier().read(0));
-
-        WrappedDataWatcher.WrappedDataWatcherObject isInvisibleIndex = new WrappedDataWatcher.WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class));
-        if(!b){
-            dataWatcher.setObject(isInvisibleIndex, (byte) 0x20);
-        }else {
-            dataWatcher.setObject(isInvisibleIndex, (byte) 0x00);
-        }
-//        WrappedDataWatcher.WrappedDataWatcherObject nameValue = new WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.get(String.class));
-//        WrappedDataWatcher.WrappedDataWatcherObject nameVisible = new WrappedDataWatcher.WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class));
-//        dataWatcher.setObject(nameValue, "§aHello, " + player.getName() + "!");
-//        dataWatcher.setObject(nameVisible, true);
-
-        packet.getWatchableCollectionModifier().write(0, dataWatcher.getWatchableObjects());
-        playerList.forEach(player -> sendPack(player, packet));
+        PackEntity.entityInvisible(this.entityID);
+//        PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+//        packet.getModifier().writeDefaults();
+//        packet.getIntegers().write(0, entityID);
+//        WrappedDataWatcher dataWatcher = new WrappedDataWatcher(packet.getWatchableCollectionModifier().read(0));
+//
+//        WrappedDataWatcher.WrappedDataWatcherObject isInvisibleIndex = new WrappedDataWatcher.WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class));
+//        if(!b){
+//            dataWatcher.setObject(isInvisibleIndex, (byte) 0x20);
+//        }else {
+//            dataWatcher.setObject(isInvisibleIndex, (byte) 0x00);
+//        }
+//
+//        packet.getWatchableCollectionModifier().write(0, dataWatcher.getWatchableObjects());
+//        playerList.forEach(player -> sendPack(player, packet));
     }
 
     //刪除目標生物
     public void delete(){
         if(!dead){
             dead = true;
-            PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_DESTROY);
-            packet.getIntegerArrays().write(0, new int[]{ entityID });
-            playerList.forEach(player -> sendPack(player, packet));
+            PackEntity.delete(this.entityID);
         }
     }
 

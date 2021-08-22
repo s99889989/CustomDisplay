@@ -22,7 +22,7 @@ public class Level3 {
 
         String type = actionMapHandle.getString(new String[]{"type"},"minecraft");
 
-        String function = actionMapHandle.getString(new String[]{"function","fc"},"minecraft");
+        String function = actionMapHandle.getString(new String[]{"function","fc"},"add");
 
 
 

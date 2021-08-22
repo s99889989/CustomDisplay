@@ -1,18 +1,15 @@
 package com.daxton.customdisplay.api.action;
 
-import com.daxton.customdisplay.CustomDisplay;
+
 import com.daxton.customdisplay.api.character.stringconversion.ConversionMain;
-import com.daxton.customdisplay.api.config.CustomLineConfig;
 import com.daxton.customdisplay.api.entity.Aims;
 import com.daxton.customdisplay.api.location.AimsLocation;
 import com.daxton.customdisplay.manager.ActionManager;
-import com.daxton.customdisplay.manager.ConfigMapManager;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -63,7 +60,7 @@ public class ActionMapHandle {
     }
 
     public String[] getStringList(String[] key, String[] def, String split, int amount){
-        String[] output = null;
+        String[] output;
         String inputString = getString(key,null);
         if(inputString != null){
             output = inputString.split(split);
@@ -150,7 +147,7 @@ public class ActionMapHandle {
         return output;
     }
 
-    /**BossBarFlag**/
+    //BossBarFlag
     public BarFlag getBarFlag(String[] key){
         BarFlag output = null;
         String inputString = getString(key,null);
@@ -166,7 +163,7 @@ public class ActionMapHandle {
     }
 
 
-    /**BossBar顏色**/
+    //BossBar顏色
     public BarColor getBarColor(String[] key, String defaultKey){
         //BarColor output = Enum.valueOf(BarColor.class ,defaultKey);
         BarColor output = null;
@@ -181,7 +178,7 @@ public class ActionMapHandle {
         return output;
     }
 
-    /**BossBar樣式**/
+    //BossBar樣式
     public BarStyle getBarStyle(String[] key, String defaultKey){
         //BarStyle output = Enum.valueOf(BarStyle.class ,defaultKey);
         BarStyle output = null;
@@ -196,7 +193,7 @@ public class ActionMapHandle {
         return output;
     }
 
-    /**粒子**/
+    //粒子
     public Particle getParticle(String[] key, String defaultKey){
         Particle output = Enum.valueOf(Particle.class ,defaultKey);
         String inputString = getString(key,null);
@@ -211,7 +208,7 @@ public class ActionMapHandle {
         return output;
     }
 
-    /**材質副值**/
+    //材質副值
     public BlockData getBlockData(String[] key, String defaultKey){
         BlockData output = Enum.valueOf(Material.class ,defaultKey).createBlockData();
         String inputString = getString(key,null);
@@ -226,7 +223,7 @@ public class ActionMapHandle {
         return output;
     }
 
-    /**物品**/
+    //物品
     public ItemStack getItemStack(String[] key, String defaultKey){
         ItemStack output = new ItemStack(Enum.valueOf(Material.class ,defaultKey));
         String inputString = getString(key,null);
@@ -292,7 +289,7 @@ public class ActionMapHandle {
         return output;
     }
 
-    /**藥水的類型**/
+    //藥水的類型**/
     public PotionEffectType getPotionEffectType(String[] key, PotionEffectType defaultKey){
         PotionEffectType output = PotionEffectType.INCREASE_DAMAGE;
 

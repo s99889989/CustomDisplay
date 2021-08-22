@@ -96,7 +96,7 @@ public class SetActionMap {
         }
         return customLineConfigList;
     }
-
+    //把一條動作轉成Map
     public static Map<String, String> setClassAction(String inputString){
         Map<String, String> actionMap = new HashMap<>();
         if (inputString.contains("[") && inputString.contains("]")) {
@@ -140,7 +140,7 @@ public class SetActionMap {
 
         return actionMap;
     }
-
+    //把目標字串轉成，目標Map
     public static Map<String, String> setTargetMap(String inputString){
         Map<String, String> targetMap = new HashMap<>();
         if (inputString.contains("{") && inputString.contains("}")) {

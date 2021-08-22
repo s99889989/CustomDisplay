@@ -25,15 +25,15 @@ public class SendBossBar4 {
 
         String mark = actionMapHandle.getString(new String[]{"mark","mk"},"0");
 
-        BarStyle style = actionMapHandle.getBarStyle(new String[]{"style"},"SOLID");
+        BarStyle style = actionMapHandle.getBarStyle(new String[]{"s", "style"},"SOLID");
 
-        BarColor color = actionMapHandle.getBarColor(new String[]{"color"},"BLUE");
+        BarColor color = actionMapHandle.getBarColor(new String[]{"c", "color"},"BLUE");
 
-        BarFlag flag = actionMapHandle.getBarFlag(new String[]{"flag"});
+        BarFlag flag = actionMapHandle.getBarFlag(new String[]{"f", "flag"});
 
-        double progress = actionMapHandle.getDouble(new String[]{"progress"},-1);
+        double progress = actionMapHandle.getDouble(new String[]{"p", "progress"},-1);
 
-        boolean delete = actionMapHandle.getBoolean(new String[]{"delete","deleteAll","d"},false);
+        boolean delete = actionMapHandle.getBoolean(new String[]{"d","delete","deleteAll"},false);
 
         String message = actionMapHandle.getString(new String[]{"message","m"}, null);
 

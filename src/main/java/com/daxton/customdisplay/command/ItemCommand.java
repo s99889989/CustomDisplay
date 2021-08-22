@@ -17,7 +17,7 @@ public class ItemCommand {
             if(sender instanceof Player){
                 Player player = (Player) sender;
                 //打開物品清單
-                if(args[1].equalsIgnoreCase("edit")){
+                if(args.length == 2 && args[1].equalsIgnoreCase("edit")){
                     OpenMenuGUI.ItemCategorySelection(player);
                 }
             }

@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -76,6 +77,7 @@ public class MainCommand implements CommandExecutor {
         }else {
 
             if(args.length > 0){
+
                 //重新讀取 幫助 指令
                 if(args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("help")){
                     return OpCommand.commandAll(sender, cmd, label, args);

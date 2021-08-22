@@ -30,6 +30,10 @@ CMDJosonCreate:
   item: glowstone_dust
   amount: 1000
 
+World:
+  List:
+  - world
+
 #材質包設定
 #Texture Pack Settings
 ResourcePack:

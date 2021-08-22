@@ -28,6 +28,16 @@ public class PlayerEquipment2 {
 
     }
 
+    public static void unLoadAllEq(Player player){
+        String uuidString = player.getUniqueId().toString();
+        PlayerData2 playerData = PlayerManager.player_Data_Map.get(uuidString);
+        if(playerData != null){
+            List<Map<String, String>> player_Item_Action_List_Map  = playerData.player_Item_Action_List_Map;
+
+            player_Item_Action_List_Map.clear();
+        }
+    }
+
     public static void loadAllEq2(Player player, int key){
 
 
@@ -40,7 +50,6 @@ public class PlayerEquipment2 {
             Map<String, Integer> equipment_Enchants_Map = playerData.equipment_Enchants_Map;
 
             List<Map<String, String>> player_Item_Action_List_Map  = playerData.player_Item_Action_List_Map;
-
             player_Item_Action_List_Map.clear();
 
             itemList(player);

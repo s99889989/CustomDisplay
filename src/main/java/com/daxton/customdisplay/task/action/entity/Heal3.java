@@ -18,7 +18,7 @@ public class Heal3 {
 
         ActionMapHandle actionMapHandle = new ActionMapHandle(action_Map, self, target);
 
-        /**補量**/
+        //補量
         double amount = actionMapHandle.getDouble(new String[]{"amount","a"},10);
 
         List<LivingEntity> targetList = actionMapHandle.getLivingEntityListSelf();
